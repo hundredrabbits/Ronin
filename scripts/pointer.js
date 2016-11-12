@@ -16,6 +16,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     context.lineWidth = this.thickness();
     context.strokeStyle = "rgba("+this.color.rgb().r+","+this.color.rgb().g+","+this.color.rgb().b+","+1+")";
     context.stroke();
+    context.closePath();
     
     this.position_prev = this.position();
   }

@@ -18,8 +18,6 @@ function Keyboard()
   {
     if(this.is_locked === true){ return; }
     
-    commander.passive();
-    
     switch (event.keyCode)
     {
       case  9: this.key_tab(); break;
@@ -32,6 +30,8 @@ function Keyboard()
       case 186: this.key_colon(); break;
       case  27: this.key_escape(); break;
     }
+    
+    commander.passive();
   };
 
   this.key_tab = function()

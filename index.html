@@ -2,17 +2,22 @@
   <head>
     <link rel="stylesheet" type="text/css" href="links/main.css"/>
     <script type="text/javascript" src="scripts/position.js"></script>
+    <script type="text/javascript" src="scripts/rect.js"></script>
     <script type="text/javascript" src="scripts/color.js"></script>
     <script type="text/javascript" src="scripts/pointer.js"></script>
     <script type="text/javascript" src="scripts/brush.js"></script>
     <script type="text/javascript" src="scripts/keyboard.js"></script>
     <script type="text/javascript" src="scripts/commander.js"></script>
+    <script type="text/javascript" src="scripts/guide.js"></script>
     <script type="text/javascript" src="scripts/ronin.js"></script>
   </head>
   <body>
-    <canvas id="myCanvas" width="1280" height="800" style="background:#efefef"></canvas>
-    <div id ='commander'>
-      <input id='commander_input'/>
+    <div id='ronin'>
+      <canvas id='guides' width="1280" height="800"></canvas>
+      <canvas id="myCanvas" width="1280" height="800" style="background:#efefef"></canvas>
+      <div id ='commander'>
+        <input id='commander_input'/>
+      </div>
     </div>
     <script type="text/javascript" src="scripts/main.js"></script>
   </body>

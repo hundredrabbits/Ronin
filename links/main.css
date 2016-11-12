@@ -2,6 +2,8 @@ body { margin:0px; padding:0px; overflow:hidden;}
 
 canvas:hover { cursor: crosshair;}
 
+#guides { position:fixed; z-index:1000;}
+
 #commander { display:none; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }

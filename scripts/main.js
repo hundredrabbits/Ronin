@@ -1,4 +1,7 @@
 var ronin = new Ronin();
+ronin.element = document.getElementById('ronin');
+ronin.guides_element = document.getElementById('guides');
+ronin.guides_context = ronin.guides_element.getContext('2d');
 
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
@@ -6,21 +9,21 @@ var brush = new Brush();
 
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
 
-canvas.addEventListener('mousemove', function(e) {
+document.addEventListener('mousemove', function(e) {
   brush.draw(e);
 }, false);
 
-canvas.addEventListener('mousedown', function(e) {
+document.addEventListener('mousedown', function(e) {
   if(e.which != 1){ return; }
   brush.draw_start(e);
 }, false);
 
-canvas.addEventListener('mouseup', function(e) {
+document.addEventListener('mouseup', function(e) {
   brush.draw_stop(e);
 }, false);
 
 var keyboard = new Keyboard();
-document.onkeydown = function myFunction(){ keyboard.listen(event); };
+document.onkeyup = function myFunction(){ keyboard.listen(event); };
 
 /* brush experiments
 

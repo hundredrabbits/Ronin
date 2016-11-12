@@ -20,30 +20,30 @@ function Commander(element,element_input)
     var parts = this.element_input.value.split(" ");
     
     // Canvas
-    if(parts[0] == ":@"){
+    if(parts[0] == "@"){
       canvas.setAttribute('width',parts[1]+"px");
       canvas.setAttribute('height',parts[2]+"px");
     }
     
     // Brush
-    if(parts[0] == ":+"){
+    if(parts[0] == "+"){
       parts.shift();
       brush.add(parts);
     }
-    if(parts[0] == ":-"){
+    if(parts[0] == "-"){
       parts.shift();
       brush.remove(parts);
     }
     
     // Save
-    if(parts[0] == ":$"){
+    if(parts[0] == "$"){
       var d=canvas.toDataURL("image/png");
       var w=window.open('about:blank','image from canvas');
       w.document.write("<title>"+parts[1]+"</title><img src='"+d+"' alt='from canvas'/>");
     }
     
     // Load
-    if(parts[0] == ":/"){
+    if(parts[0] == "/"){
       base_image = new Image();
       base_image.src = 'img/base.png';
       base_image.onload = function(){
@@ -52,8 +52,9 @@ function Commander(element,element_input)
     }
     
     // Guides
-    if(parts[0] == ":|"){
-      console.log("!!");
+    if(parts[0] == "|"){
+      parts.shift();
+      ronin.add_guide(parts);
     }
     this.hide();
   }
@@ -63,12 +64,13 @@ function Commander(element,element_input)
     var parts = this.element_input.value.split(" ");
     
     // Guides
-    if(parts[0] == ":|"){
-      console.log("!!");
+    if(parts[0] == "|"){
+      parts.shift();
+      ronin.guide(parts);
     }
     
     // Draw
-    if(parts[0] == ":/"){
+    if(parts[0] == "/"){
       base_image = new Image();
       base_image.src = 'img/base.png';
       base_image.onload = function(){
