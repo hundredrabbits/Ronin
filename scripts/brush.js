@@ -7,9 +7,17 @@ function Brush()
   
   this.command = function(p)
   {
-    var position = new Position(parseInt(p[0]),parseInt(p[1]));
-    var pointer = new Pointer(position);
-    brush.add_pointer(pointer);
+    if(p.length > 1){
+      var position = new Position(parseInt(p[0]),parseInt(p[1]));
+      var pointer = new Pointer(position);
+    }
+    
+    if(p.length > 2){
+      var color = new Color(p[2]);
+      pointer = new Pointer(position,color);
+    }
+    
+    this.add_pointer(pointer);
   }
   
   // Pointers

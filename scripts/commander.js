@@ -27,7 +27,8 @@ function Commander(element,element_input)
     
     // Brush
     if(parts[0] == ":+"){
-      brush.command(parts.shift());
+      parts.shift();
+      brush.command(parts);
     }
     
     this.hide();

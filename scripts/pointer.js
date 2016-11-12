@@ -1,4 +1,4 @@
-function Pointer(offset = new Position(), color = new Color())
+function Pointer(offset = new Position(), color = new Color('000000'))
 {
   this.offset = offset;
   this.color = color;
@@ -9,26 +9,22 @@ function Pointer(offset = new Position(), color = new Color())
   {
     if(!this.position_prev){this.position_prev = this.position(); }
     
-    /* Verteces
-    var id = context.createImageData(1,1);
-    var d  = id.data;
-    d[0]   = 0;
-    d[1]   = 0;
-    d[2]   = 0;
-    d[3]   = 255;
-    context.putImageData(id,this.position().x,this.position().y);
-    */
-    
     context.beginPath();
     context.moveTo(this.position_prev.x,this.position_prev.y);
     context.lineTo(this.position().x,this.position().y);
     context.lineCap="round";
-    var thick = 100 - ((this.position().distance_to(this.position_prev)));
-    context.lineWidth = thick/20;
-    context.strokeStyle = this.color.hex();
+    context.lineWidth = this.thickness();
+    context.strokeStyle = "rgba("+this.color.rgb().r+","+this.color.rgb().g+","+this.color.rgb().b+","+1+")";
     context.stroke();
     
     this.position_prev = this.position();
+  }
+  
+  this.thickness = function()
+  {
+    var v = 100 - ((this.position().distance_to(this.position_prev)));
+    var t = v/20;
+    return t < 1 ? 1 : t;
   }
   
   this.position = function()
