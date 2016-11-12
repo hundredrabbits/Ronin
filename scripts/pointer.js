@@ -3,7 +3,7 @@ function Pointer()
   this.position = new Position();
   this.can_draw = false;
   
-  this.draw = function()
+  this.draw = function(e)
   {
     if(this.can_draw === false){return;}
     
@@ -13,6 +13,12 @@ function Pointer()
     d[1]   = 0;
     d[2]   = 0;
     d[3]   = 255;
-    context.putImageData(id,this.position.x,this.position.y);
+    context.putImageData(id,e.clientX,e.clientY);
+  }
+  
+  this.position = function()
+  {
+    var rect = canvas.getBoundingClientRect();
+    return new Position(evt.clientX - rect.left,evt.clientY - rect.top);
   }
 }
