@@ -12,7 +12,7 @@
 
   Layers
 # 1
-> Next Layer
+>
 < Prev Laye
 
   Files
@@ -20,13 +20,24 @@ $ new_name.jpg
 / file_name.jpg
 
   Brushes
-+ 10 0
++ 10 0 ff00000 s10
 - 10 0
 
   Cursors
-= 10
-] += 1
-[ -= 1
+= 10                              ; Set cursors to 10
+] += 1                            ; Increase cursors by 1
+[ -= 1                            ; Decrease cursors by 1
 
   Formatting
-; Split into multiple commands
+;                                 ; Split into multiple commands
+
+  Guides
+| 10 10 100 100                   ; Draw a guide
+
+
+
+  Zoom
+
+  Eraser
+
+  Right click should not draw

@@ -23,7 +23,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.thickness = function()
   {
     var v = 100 - ((this.position().distance_to(this.position_prev)));
-    var t = v/20;
+    var t = v/40;
     return t < 1 ? 1 : t;
   }
   
