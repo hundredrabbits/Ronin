@@ -28,7 +28,11 @@ function Commander(element,element_input)
     // Brush
     if(parts[0] == ":+"){
       parts.shift();
-      brush.command(parts);
+      brush.add(parts);
+    }
+    if(parts[0] == ":-"){
+      parts.shift();
+      brush.remove(parts);
     }
     
     this.hide();

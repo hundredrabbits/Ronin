@@ -20,10 +20,12 @@ canvas.addEventListener('mouseup', function(e) {
 var keyboard = new Keyboard();
 document.onkeydown = function myFunction(){ keyboard.listen(event); };
 
-/* brush experiments
 var mirror_test = new Pointer();
-mirror_test.mirror = new Position(200,0);
+mirror_test.mirror = new Position(200,10);
 brush.add_pointer(mirror_test);
+
+/* brush experiments
+
 
 var mirror_test2 = new Pointer(new Position(0,10));
 mirror_test2.mirror = new Position(200,0);

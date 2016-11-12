@@ -5,7 +5,7 @@ function Brush()
   
   // Commander
   
-  this.command = function(p)
+  this.add = function(p)
   {
     if(p.length > 1){
       var position = new Position(parseInt(p[0]),parseInt(p[1]));
@@ -20,6 +20,11 @@ function Brush()
     this.add_pointer(pointer);
   }
   
+  this.remove = function(p)
+  {
+    this.remove_pointer(new Position(p[0],p[1]));
+  }
+  
   // Pointers
   
   this.pointers = [new Pointer(new Position(0,0))];
@@ -27,6 +32,16 @@ function Brush()
   this.add_pointer = function(pointer)
   {
     this.pointers.push(pointer);
+  }
+  
+  this.remove_pointer = function(target_position)
+  {
+    for (i = 0; i < this.pointers.length; i++) {
+      if(this.pointers[i].offset.is_equal(target_position)){
+        this.pointers.splice(i, 1);
+        break;
+      }
+    }
   }
   
   // Draw
