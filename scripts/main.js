@@ -1,15 +1,26 @@
-var pointer = new Pointer();
+
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
+var brush = new Brush();
 
 canvas.addEventListener('mousemove', function(e) {
-  pointer.draw(e);
+  brush.draw(e);
 }, false);
 
 canvas.addEventListener('mousedown', function(e) {
-  pointer.can_draw = true;
+  brush.draw_start(e);
 }, false);
 
 canvas.addEventListener('mouseup', function(e) {
-  pointer.can_draw = false;
+  brush.draw_stop(e);
 }, false);
+
+var mirror_test = new Pointer();
+mirror_test.mirror = new Position(200,0);
+brush.add_pointer(mirror_test);
+
+var mirror_test2 = new Pointer(new Position(0,10));
+mirror_test2.mirror = new Position(200,0);
+brush.add_pointer(mirror_test2);
+
+brush.add_pointer(new Pointer(new Position(0,10)));
