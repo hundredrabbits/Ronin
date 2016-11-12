@@ -73,5 +73,6 @@ function Keyboard()
   this.key_escape = function()
   {
     commander.hide();
+    ronin.draw_guides();
   }
 }

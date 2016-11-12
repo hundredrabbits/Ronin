@@ -11,4 +11,9 @@ function Color(val = '000000')
         b: parseInt(result[3], 16)
     } : null;
   }
+  
+  this.rgba = function()
+  {
+    return "rgba("+this.rgb().r+","+this.rgb().g+","+this.rgb().b+",1)";
+  }
 }
