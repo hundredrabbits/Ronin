@@ -27,3 +27,6 @@ $ new_name.jpg
 = 10
 ] += 1
 [ -= 1
+
+  Formatting
+; Split into multiple commands

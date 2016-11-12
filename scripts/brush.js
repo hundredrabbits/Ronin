@@ -3,6 +3,15 @@ function Brush()
   this.position = new Position();
   this.is_drawing = false;
   
+  // Commander
+  
+  this.command = function(p)
+  {
+    var position = new Position(parseInt(p[0]),parseInt(p[1]));
+    var pointer = new Pointer(position);
+    brush.add_pointer(pointer);
+  }
+  
   // Pointers
   
   this.pointers = [new Pointer(new Position(0,0))];

@@ -19,9 +19,15 @@ function Commander(element,element_input)
   {
     var parts = this.element_input.value.split(" ");
     
+    // Canvas
     if(parts[0] == ":@"){
       canvas.style.width = parts[1]+"px";
       canvas.style.height = parts[2]+"px";
+    }
+    
+    // Brush
+    if(parts[0] == ":+"){
+      brush.command(parts.shift());
     }
     
     this.hide();

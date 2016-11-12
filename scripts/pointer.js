@@ -1,6 +1,7 @@
-function Pointer(offset = new Position())
+function Pointer(offset = new Position(), color = new Color())
 {
   this.offset = offset;
+  this.color = color;
   this.mirror = null;
   this.position_prev = null;
   
@@ -21,6 +22,10 @@ function Pointer(offset = new Position())
     context.beginPath();
     context.moveTo(this.position_prev.x,this.position_prev.y);
     context.lineTo(this.position().x,this.position().y);
+    context.lineCap="round";
+    var thick = 100 - ((this.position().distance_to(this.position_prev)));
+    context.lineWidth = thick/20;
+    context.strokeStyle = this.color.hex();
     context.stroke();
     
     this.position_prev = this.position();
