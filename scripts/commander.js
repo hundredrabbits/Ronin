@@ -12,10 +12,22 @@ function Commander(element,element_input)
   this.hide = function()
   {
     this.element.setAttribute('class','hidden');
+    this.element_input.value = "";
   }
   
   this.validate = function()
   {
-    console.log(this.element_input.value);
+    var parts = this.element_input.value.split(" ");
+    
+    if(parts[0] == ":@"){
+      canvas.style.width = parts[1]+"px";
+      canvas.style.height = parts[2]+"px";
+    }
+    
+    this.hide();
+  }
+  
+  this.passive = function()
+  {
   }
 }

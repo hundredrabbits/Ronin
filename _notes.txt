@@ -1,0 +1,29 @@
+  
+  Rhonin
+
+  Graphics
+% image.png 15 -15 100 100
+
+  Canvas
+@ 100 100
+
+  Scale
+~ 100 100
+
+  Layers
+# 1
+> Next Layer
+< Prev Laye
+
+  Files
+$ new_name.jpg
+/ file_name.jpg
+
+  Brushes
++ 10 0
+- 10 0
+
+  Cursors
+= 10
+] += 1
+[ -= 1

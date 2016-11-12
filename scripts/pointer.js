@@ -8,6 +8,7 @@ function Pointer(offset = new Position())
   {
     if(!this.position_prev){this.position_prev = this.position(); }
     
+    /* Verteces
     var id = context.createImageData(1,1);
     var d  = id.data;
     d[0]   = 0;
@@ -15,6 +16,7 @@ function Pointer(offset = new Position())
     d[2]   = 0;
     d[3]   = 255;
     context.putImageData(id,this.position().x,this.position().y);
+    */
     
     context.beginPath();
     context.moveTo(this.position_prev.x,this.position_prev.y);
