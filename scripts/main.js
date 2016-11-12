@@ -2,6 +2,7 @@
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 var brush = new Brush();
+var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
 
 canvas.addEventListener('mousemove', function(e) {
   brush.draw(e);
@@ -24,3 +25,6 @@ mirror_test2.mirror = new Position(200,0);
 brush.add_pointer(mirror_test2);
 
 brush.add_pointer(new Pointer(new Position(0,10)));
+
+var keyboard = new Keyboard();
+document.onkeydown = function myFunction(){ keyboard.listen(event); };

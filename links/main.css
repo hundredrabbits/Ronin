@@ -1,3 +1,6 @@
 body { margin:0px; padding:0px; overflow:hidden;}
 canvas:hover { cursor: crosshair;}
-#commander { background:black; padding:15px; position:fixed; bottom:30; color:white; left:30px; border:0; width:calc(100vw - 60px); font-family:courier; cursor:pointer;}
+#commander { display:none; }
+#commander.visible { display:block; }
+#commander.hidden { display:none; }
+#commander input { background:black; padding:15px; position:fixed; bottom:0; color:white; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}

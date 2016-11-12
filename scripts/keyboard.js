@@ -17,19 +17,30 @@ function Keyboard()
   this.listen = function(event)
   {
     if(this.is_locked === true){ return; }
+    
+    console.log(event.keyCode);
     switch (event.keyCode)
     {
+      case  9: this.key_tab(); break;
       case 13: this.key_enter(); break;
       case 32: this.key_space(); break;
       case 38: this.key_arrow_up(); break;
       case 40: this.key_arrow_down(); break;
       case 37: this.key_arrow_left(); break;
       case 39: this.key_arrow_right(); break;
+      case 186: this.key_colon(); break;
+      case  27: this.key_escape(); break;
     }
   };
 
+  this.key_tab = function()
+  {
+    return;
+  }
+
   this.key_enter = function()
   {
+    commander.validate();
   }
 
   this.key_space = function()
@@ -50,5 +61,15 @@ function Keyboard()
 
   this.key_arrow_right = function()
   {
+  }
+  
+  this.key_colon = function()
+  {
+    commander.show();
+  }
+  
+  this.key_escape = function()
+  {
+    commander.hide();
   }
 }
