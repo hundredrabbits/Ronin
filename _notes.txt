@@ -2,28 +2,24 @@
   Ronin
 
   Canvas
-@ 100 100
-
-  Scale
-~ 100 100
+@ 100 100                         ; New canvas of size
 
   Layers
-# 1
-> Next Layer
-< Prev Layer
+# 1                               ; ?
 
   Background Fill
 * ff00ff                          ; Fill background with color
 
   Save File
-$ new_name.jpg
+$ new_name.jpg                    ; Create a new file with name
 
   Load File
-/ file_name.jpg
+/ file_name.jpg 10 10 100 100     ; Load image into canvas, at position 10,10
 
   Brush
-& 10                              ; Size
-& 1 ff0000 0                      ; Eraser
+& 10 1                            ; Size 10
+& 1 0                             ; Eraser, Size 1
+& 4 1 ff0000                      ; Red brush, Size 4
 
   Pointers
 + 10 0                            ; Add pointer at pos
@@ -34,8 +30,10 @@ $ new_name.jpg
   Zoom
 = 100                             ; Zoom factor
 
-  Formatting
-;                                 ; Split into multiple commands
-
   Guides
 | 10 10 100 100                   ; Draw a guide
+
+  Formatting
+;                                 ; Split into multiple commands
+!                                 ; Variable with name
+?                                 ; Unknown.
