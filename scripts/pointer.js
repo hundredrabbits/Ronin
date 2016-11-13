@@ -30,8 +30,11 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   
   this.position = function()
   {
-    if(this.mirror){
-      return new Position(500 - (brush.position.x + this.offset.x), brush.position.y + this.offset.y);
+    if(this.mirror && this.mirror.x > 0){
+      return new Position(this.mirror.x - (brush.position.x + this.offset.x), 0 + (brush.position.y + this.offset.y));
+    }
+    else if(this.mirror && this.mirror.y > 0){
+      return new Position((brush.position.x + this.offset.x), this.mirror.y - (brush.position.y + this.offset.y));
     }
     return new Position(brush.position.x + this.offset.x, brush.position.y + this.offset.y);
   }

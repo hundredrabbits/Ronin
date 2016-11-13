@@ -16,14 +16,14 @@ function Brush()
   
   this.add = function(p)
   {
-    if(p.length > 1){
+    if(p.length >= 2){
       var position = new Position(parseInt(p[0]),parseInt(p[1]));
       var pointer = new Pointer(position);
     }
     
-    if(p.length > 2){
-      var color = new Color(p[2]);
-      pointer = new Pointer(position,color);
+    if(p.length >= 4){
+      var mirror = new Position(parseInt(p[2]),parseInt(p[3]));
+      pointer.mirror = mirror;
     }
     
     this.add_pointer(pointer);
