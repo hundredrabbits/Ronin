@@ -3,12 +3,15 @@
 
   Canvas
 @ 100 100                         ; New canvas of size
+@ ?                               ; Clear canvas
 
   Layers
-# 1                               ; ?
+# 3                               ; Layer 3
+# ?                               ; Layer 1
 
   Background Fill
 * ff00ff                          ; Fill background with color
+* ?                               ; Remove background
 
   Save File
 $ new_name.jpg                    ; Create a new file with name
@@ -20,20 +23,23 @@ $ new_name.jpg                    ; Create a new file with name
 & 10 1                            ; Size 10
 & 1 0                             ; Eraser, Size 1
 & 4 1 ff0000                      ; Red brush, Size 4
+& ?                               ; Size 1, black
 
   Pointers
-+ 10 0                            ; Add pointer at pos
-- 10 0                            ; Remove pointer at pos
-+ 0 0 400 0                       ; Mirror X, at 400px
-+ 0 !S                            ; Speed is y offset
+> 10 0                            ; Add pointer at pos
+> 10 0                            ; Remove pointer at pos
+> 0 0 400 0                       ; Mirror X, at 400px
+> 0 _S                            ; Speed is y offset
+> ?                               ; Remove pointers
 
   Zoom
-= 100                             ; Zoom factor
+= 75                              ; Zoom factor
+= ?                               ; Zoom 100%
 
   Guides
 | 10 10 100 100                   ; Draw a guide
+| ?                               ; Remove guides
 
   Formatting
 ;                                 ; Split into multiple commands
-!                                 ; Variable with name
-?                                 ; Unknown.
+_                                 ; Variable with name
