@@ -15,6 +15,9 @@
 >
 < Prev Laye
 
+  Background
+* ff00ff                          ; Fill background with color
+
   Files
 $ new_name.jpg
 / file_name.jpg
@@ -41,3 +44,9 @@ $ new_name.jpg
   Eraser
 
   Right click should not draw
+
+  Fill background
+
+  Image
+
+  Eraser

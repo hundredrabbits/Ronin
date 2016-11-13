@@ -44,11 +44,14 @@ function Commander(element,element_input)
     
     // Load
     if(parts[0] == "/"){
-      base_image = new Image();
-      base_image.src = 'img/base.png';
-      base_image.onload = function(){
-        context.drawImage(base_image, 100, 100);
-      }
+      parts.shift();
+      ronin.load_image(parts);
+    }
+    
+    // Fill
+    if(parts[0] == "*"){
+      parts.shift();
+      ronin.fill(parts);
     }
     
     // Guides
@@ -71,11 +74,9 @@ function Commander(element,element_input)
     
     // Draw
     if(parts[0] == "/"){
-      base_image = new Image();
-      base_image.src = 'img/base.png';
-      base_image.onload = function(){
-        context.drawImage(base_image, 100, 100);
-      }
+      parts.shift();
+      parts.shift();
+      ronin.guide(parts);
     }
   }
 }
