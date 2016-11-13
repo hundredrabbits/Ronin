@@ -1,4 +1,5 @@
 body { margin:0px; padding:0px; overflow:hidden;}
+*:focus {outline: none; }
 
 canvas:hover { cursor: crosshair;}
 
