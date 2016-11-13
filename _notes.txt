@@ -38,6 +38,7 @@ $ new_name.jpg                    ; Create a new file with name
 
   Guides
 | 10 10 100 100                   ; Draw a guide
+| -100                            ; Draw a grid at every 100px
 | ?                               ; Remove guides
 
   Formatting

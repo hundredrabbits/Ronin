@@ -25,6 +25,8 @@ document.addEventListener('mouseup', function(e) {
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen(event); };
 
+ronin.guides_context.imageSmoothingEnabled= false
+
 /* brush experiments
 
 var mirror_test = new Pointer();
