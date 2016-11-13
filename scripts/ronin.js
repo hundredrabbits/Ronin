@@ -7,7 +7,16 @@ function Ronin()
     base_image = new Image();
     base_image.src = p[0]; // media/logo.png
     base_image.onload = function(){
-      context.drawImage(base_image, parseFloat(p[1]), parseFloat(p[2]), parseFloat(p[3]), parseFloat(p[4]));
+      
+      var rec_w = parseFloat(p[3]);
+      var rec_h = parseFloat(p[4]);
+      var pos_x = parseFloat(p[1]);
+      var pos_y = parseFloat(p[2]);
+      
+      pos_x = pos_x < 0 ? canvas.width - Math.abs(pos_x) - rec_w : pos_x;
+      pos_y = pos_y < 0 ? canvas.height - Math.abs(pos_y) - rec_h : pos_y;
+
+      context.drawImage(base_image, pos_x, pos_y, rec_w, rec_h);
     }
     this.draw_guides();
   }
@@ -75,17 +84,17 @@ function Ronin()
     else{
       var g = new Guide(new Position(x,y), new Rect(w,h), new Color('ff0000'));
       g.draw(this.guides_context);
+      return g;
     }
-    
   }
   
   this.add_guide = function(p)
   {
+    if(p[0] == "?"){ this.guides = []; this.draw_guides(); return; }
     var x = p[0] ? p[0] : 0 ;
     var y = p[1] ? p[1] : 0 ;
     var w = p[2] ? p[2] : 0 ;
     var h = p[3] ? p[3] : 0 ;
-    
     
     if(x < -10 && w === 0 && h === 0){
       x = Math.abs(x);

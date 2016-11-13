@@ -11,7 +11,6 @@ function Guide(position = new Position(),rect = new Rect(),color = new Color())
     if((this.position.x < 0 || this.position.y < 0) && (this.rect.w > 0 || this.rect.h > 0)){
       var new_x = this.position.x < 0 ? canvas.width - Math.abs(this.position.x) - this.rect.w : this.position.x;
       var new_y = this.position.y < 0 ? canvas.height - Math.abs(this.position.y) - this.rect.h : this.position.y;
-      console.log(new_y);
       context.moveTo(new_x,new_y);
       context.lineTo(new_x + this.rect.w,new_y);
       context.lineTo(new_x + this.rect.w,new_y + this.rect.h);
