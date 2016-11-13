@@ -4,7 +4,7 @@ canvas:hover { cursor: crosshair;}
 
 #guides { position:fixed; z-index:1000;}
 
-#commander { display:none; }
+#commander { display:none; z-index: 2000; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }
 #commander input { background:black; padding:15px; position:fixed; bottom:0; color:white; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}

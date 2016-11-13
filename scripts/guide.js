@@ -8,7 +8,17 @@ function Guide(position = new Position(),rect = new Rect(),color = new Color())
   {
     context.beginPath();
     
-    if(this.position.x > 0 && this.position.y > 0 && (this.rect.w > 0 || this.rect.h > 0)){
+    if((this.position.x < 0 || this.position.y < 0) && (this.rect.w > 0 || this.rect.h > 0)){
+      var new_x = this.position.x < 0 ? canvas.width - Math.abs(this.position.x) - this.rect.w : this.position.x;
+      var new_y = this.position.y < 0 ? canvas.height - Math.abs(this.position.y) - this.rect.h : this.position.y;
+      console.log(new_y);
+      context.moveTo(new_x,new_y);
+      context.lineTo(new_x + this.rect.w,new_y);
+      context.lineTo(new_x + this.rect.w,new_y + this.rect.h);
+      context.lineTo(new_x,new_y + this.rect.h);
+      context.lineTo(new_x,new_y);
+    }
+    else if(this.position.x > 0 && this.position.y > 0 && (this.rect.w > 0 || this.rect.h > 0)){
       context.moveTo(this.position.x,this.position.y);
       context.lineTo(this.position.x + this.rect.w,this.position.y);
       context.lineTo(this.position.x + this.rect.w,this.position.y + this.rect.h);

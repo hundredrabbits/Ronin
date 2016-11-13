@@ -58,24 +58,25 @@ function Ronin()
     var w = p[2] ? p[2] : 0 ;
     var h = p[3] ? p[3] : 0 ;
     
-    if(x < -10){
+    if(x < -10 && w === 0 && h === 0){
       x = Math.abs(x);
       for (i = 0; i < canvas.width/x; i++) {
-        var g = new Guide(new Position(x * i,y), new Rect(w,h), new Color('000000'));
+        var g = new Guide(new Position(x * i,y), new Rect(w,h), new Color('ff0000'));
         g.draw(this.guides_context);
       }
     }
-    else if(y < -10){
+    else if(y < -10 && w === 0 && h === 0){
       y = Math.abs(y);
       for (i = 0; i < canvas.width/y; i++) {
-        var g = new Guide(new Position(x,y* i), new Rect(w,h), new Color('000000'));
+        var g = new Guide(new Position(x,y* i), new Rect(w,h), new Color('ff0000'));
         g.draw(this.guides_context);
       }
     }
     else{
-      var g = new Guide(new Position(x,y), new Rect(w,h), new Color('000000'));
+      var g = new Guide(new Position(x,y), new Rect(w,h), new Color('ff0000'));
       g.draw(this.guides_context);
     }
+    
   }
   
   this.add_guide = function(p)
@@ -85,14 +86,15 @@ function Ronin()
     var w = p[2] ? p[2] : 0 ;
     var h = p[3] ? p[3] : 0 ;
     
-    if(x < -10){
+    
+    if(x < -10 && w === 0 && h === 0){
       x = Math.abs(x);
       for (i = 0; i < canvas.width/x; i++) {
         var g = new Guide(new Position(x * i,y), new Rect(w,h), new Color('000000'));
         this.guides.push(g);
       }
     }
-    else if(y < -10){
+    else if(y < -10 && w === 0 && h === 0){
       y = Math.abs(y);
       for (i = 0; i < canvas.width/y; i++) {
         var g = new Guide(new Position(x,y* i), new Rect(w,h), new Color('000000'));
