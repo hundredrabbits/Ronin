@@ -2,8 +2,17 @@ function Brush()
 {
   this.position = new Position();
   this.is_drawing = false;
+  this.size = 1;
+  this.opacity = 1;
   
   // Commander
+  
+  this.settings = function(p)
+  {
+    if(p[0]){ this.size = parseInt(p[0]); }
+    if(p[1]){ this.opacity = parseFloat(p[1]); }
+    if(p[2]){ this.color = new Color(p[2]); }
+  }
   
   this.add = function(p)
   {

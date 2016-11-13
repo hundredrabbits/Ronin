@@ -41,7 +41,18 @@ function Keyboard()
 
   this.key_enter = function()
   {
-    commander.validate();
+    var cmd = commander.element_input.value;
+    
+    if(cmd.indexOf(";") > 0){
+      var cmds = cmd.split(";");
+      for (i = 0; i < cmds.length; i++) {
+        cmd = cmds[i].replace(/^\s+|\s+$/g, '');
+        commander.validate(cmd.split(" "));
+      }
+    }
+    else{
+      commander.validate(cmd.split(" "));
+    }
   }
 
   this.key_space = function()

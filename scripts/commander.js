@@ -15,24 +15,28 @@ function Commander(element,element_input)
     this.element_input.value = "";
   }
   
-  this.validate = function()
+  this.validate = function(command)
   {
-    var parts = this.element_input.value.split(" ");
+    var parts = command;
     
     // Canvas
     if(parts[0] == "@"){
       canvas.setAttribute('width',parts[1]+"px");
       canvas.setAttribute('height',parts[2]+"px");
+      ronin.guides_element.setAttribute('width',parts[1]+"px");
+      ronin.guides_element.setAttribute('height',parts[2]+"px");
     }
     
     // Brush
-    if(parts[0] == "+"){
+    if(parts[0] == "&"){
+      parts.shift();
+      brush.settings(parts);
+    }
+    
+    // Pointers
+    if(parts[0] == ">"){
       parts.shift();
       brush.add(parts);
-    }
-    if(parts[0] == "-"){
-      parts.shift();
-      brush.remove(parts);
     }
     
     // Save
