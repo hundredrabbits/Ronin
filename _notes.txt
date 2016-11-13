@@ -1,8 +1,5 @@
   
-  Rhonin
-
-  Graphics
-% image.png 15 -15 100 100
+  Ronin
 
   Canvas
 @ 100 100
@@ -12,41 +9,33 @@
 
   Layers
 # 1
->
-< Prev Laye
+> Next Layer
+< Prev Layer
 
-  Background
+  Background Fill
 * ff00ff                          ; Fill background with color
 
-  Files
+  Save File
 $ new_name.jpg
+
+  Load File
 / file_name.jpg
 
-  Brushes
-+ 10 0 ff00000 s10
-- 10 0
+  Brush
+& 10                              ; Size
+& 1 ff0000 0                      ; Eraser
 
-  Cursors
-= 10                              ; Set cursors to 10
-] += 1                            ; Increase cursors by 1
-[ -= 1                            ; Decrease cursors by 1
+  Pointers
++ 10 0                            ; Add pointer at pos
+- 10 0                            ; Remove pointer at pos
++ 0 0 400 0                       ; Mirror X, at 400px
++ 0 !S                            ; Speed is y offset
+
+  Zoom
+= 100                             ; Zoom factor
 
   Formatting
 ;                                 ; Split into multiple commands
 
   Guides
 | 10 10 100 100                   ; Draw a guide
-
-
-
-  Zoom
-
-  Eraser
-
-  Right click should not draw
-
-  Fill background
-
-  Image
-
-  Eraser
