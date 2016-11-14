@@ -26,8 +26,8 @@ $ new_name.jpg                    ; Create a new file with name
 ##Brush
 ``` 
 & 10                              ; Size 10
-& -1                              ; Eraser, Size 1
-& 4 1 ff0000                      ; Red brush, Size 4
+& -4                              ; Eraser, Size 4
+& 4 ff0000                        ; Red brush, Size 4
 & ?                               ; Size 1, black
 ``` 
 
