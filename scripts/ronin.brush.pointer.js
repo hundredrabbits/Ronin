@@ -1,7 +1,6 @@
 function Pointer(offset = new Position(), color = new Color('000000'))
 {
   this.offset = offset;
-  this.color = color;
   this.mirror = null;
   this.position_prev = null;
   
@@ -23,9 +22,9 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   
   this.thickness = function()
   {
-    var v = 100 - ((this.position().distance_to(this.position_prev)));
-    var t = v/40;
-    return t < 1 ? 1 : t;
+    var ratio = 10/this.position().distance_to(this.position_prev);
+    ratio = ratio > 1 ? 1 : ratio;
+    return ronin.brush.size * ratio;
   }
   
   this.position = function()

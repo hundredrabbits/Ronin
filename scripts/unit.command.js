@@ -33,4 +33,13 @@ function Command(cmd_array)
     }
     return null;
   }
+  
+  this.value = function()
+  {
+    for (i = 0; i < this.cmd_array.length; i++) {
+      var test = /[^$\-\d]/.test(this.cmd_array[i]);
+      if(!test){ return parseFloat(this.cmd_array[i]); }
+    }
+    return null;
+  }
 }

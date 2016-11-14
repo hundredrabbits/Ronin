@@ -19,11 +19,13 @@ function Brush()
     if(cmd.color()){
       this.color = cmd.color();
     }
+    if(cmd.value()){
+      this.size = cmd.value();
+    }
   }
   
   this.passive = function(cmd)
   {
-    console.log("Nothing to do.");
   }
   
   // Commander
