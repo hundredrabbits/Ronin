@@ -75,3 +75,12 @@ $ new_name.jpg                    ; Create a new file with name
 # 3                               ; Layer 3
 # ?                               ; Layer 1
 ``` 
+
+#Units
+``` 
+5                                 ; 5px
+5w                                ; 5% of canvas width
+7h                                ; 7% of canvas height
+5s                                ; Brush speed
+{5h - 5s}                         ; 5% of canvas width, minus brush speed
+``` 
