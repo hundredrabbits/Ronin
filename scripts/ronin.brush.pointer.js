@@ -36,7 +36,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     else if(this.mirror && this.mirror.y > 0){
       return new Position((brush.position.x + this.offset.x), this.mirror.y - (brush.position.y + this.offset.y));
     }
-    return new Position(brush.position.x + this.offset.x, brush.position.y + this.offset.y);
+    return new Position(ronin.brush.position.x + this.offset.x, ronin.brush.position.y + this.offset.y);
   }
   
   this.start = function()
