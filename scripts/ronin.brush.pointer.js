@@ -7,6 +7,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.draw = function()
   {
     if(!this.position_prev){this.position_prev = this.position(); }
+    if(ronin.brush.size < 0){ this.erase(); return; }
     
     context.beginPath();
     context.moveTo(this.position_prev.x,this.position_prev.y);
@@ -18,6 +19,11 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     context.closePath();
     
     this.position_prev = this.position();
+  }
+  
+  this.erase = function()
+  {
+    context.clearRect(this.position().x - (ronin.brush.size/2), this.position().y - (ronin.brush.size/2), ronin.brush.size, ronin.brush.size);
   }
   
   this.thickness = function()
