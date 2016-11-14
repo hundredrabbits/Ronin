@@ -26,6 +26,14 @@ function Canvas(element)
     }
   }
   
+  this.hint = function(cmd)
+  {
+    var hint_rect = (cmd.rect() ? "Resize to "+cmd.rect().width+"px by "+cmd.rect().height+"px " : "");
+    var hint_color = (cmd.color() ? "Fill with color "+cmd.color().hex+" " : "");
+    
+    return "Canvas: "+hint_rect+hint_color;
+  }
+  
   //
   
   this.resize = function(rect)

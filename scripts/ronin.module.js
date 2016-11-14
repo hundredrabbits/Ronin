@@ -1,12 +1,17 @@
 function Module()
 {
-  this.active = function()
+  this.active = function(cmd)
   {
     console.log("Nothing to do.");
   }
   
-  this.passive = function()
+  this.passive = function(cmd)
   {
     console.log("Nothing to do.");
+  }
+  
+  this.hint = function(cmd)
+  {
+    return "unknown";
   }
 }

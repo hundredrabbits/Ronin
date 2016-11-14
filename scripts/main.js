@@ -7,6 +7,9 @@ ronin.canvas.element = canvas;
 ronin.overlay.element = document.getElementById('overlay');
 ronin.overlay.context().imageSmoothingEnabled = false;
 
+
+ronin.hint.element = document.getElementById('commander_hint');
+
 ronin.element = document.getElementById('ronin');
 
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));

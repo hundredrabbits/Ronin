@@ -5,6 +5,7 @@ function Ronin()
   this.overlay = new Overlay();
   this.brush   = new Brush();
   this.file   = new File();
+  this.hint   = new Hint();
   
   this.fill = function(p)
   {

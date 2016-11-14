@@ -62,6 +62,8 @@ function Keyboard()
     else{
       commander.passive(cmd.split(" "));
     }
+    
+    ronin.hint.update();
   };
 
   this.key_tab = function()

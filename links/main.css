@@ -8,4 +8,6 @@ canvas:hover { cursor: crosshair;}
 #commander { display:none; z-index: 2000; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }
-#commander input { background:black; padding:15px; position:fixed; bottom:0; color:white; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}
+#commander input { background:black; padding:15px; position:fixed; bottom:0; color:white; font-size:14px; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}
+
+#commander_hint {     background: black;position: absolute;bottom: 47px;padding: 15px 15px 0 15px;line-height: 17px;font-family: courier;font-size: 14px;width: 100vw;color: #999;}

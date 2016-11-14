@@ -28,6 +28,15 @@ function Brush()
   {
   }
   
+  this.hint = function(cmd)
+  {
+    var hint_value = (cmd.value() ? "Size "+cmd.value()+" " : "");
+    var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
+    var hint_color = (cmd.color() ? "Color "+cmd.color().hex+" " : "");
+    
+    return "Brush: "+hint_value+hint_position+hint_color;
+  }
+  
   // Commander
   
   this.settings = function(p)

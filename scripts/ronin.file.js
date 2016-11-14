@@ -33,6 +33,15 @@ function File()
     }
   }
   
+  this.hint = function(cmd)
+  {
+    var hint_path = (cmd.path() ? "Path "+cmd.path()+" " : "");
+    var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
+    var hint_rect = (cmd.rect() ? "Size "+cmd.rect().width+"px by "+cmd.rect().height+"px " : "");
+    
+    return "File: "+hint_path+hint_position+hint_rect;
+  }
+  
   this.save = function(cmd)
   {
     var d=canvas.toDataURL("image/png");

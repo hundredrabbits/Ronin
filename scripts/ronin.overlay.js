@@ -16,6 +16,14 @@ function Overlay(element)
     
   }
   
+  this.hint = function(cmd)
+  {
+    var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
+    var hint_rect = (cmd.rect() ? "Size "+cmd.rect().width+"px by "+cmd.rect().height+"px " : "");
+    
+    return "Overlay: "+hint_position+hint_rect;
+  }
+  
   // draw
   
   this.draw = function(position,rect)
