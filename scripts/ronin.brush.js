@@ -6,6 +6,7 @@ function Brush()
   this.is_drawing = false;
   this.size = 1;
   this.opacity = 1;
+  this.color = new Color();
   
   // Module
   
@@ -14,6 +15,9 @@ function Brush()
     if(cmd.position()){
       var pointer = new Pointer(cmd.position());
       this.add_pointer(pointer);
+    }
+    if(cmd.color()){
+      this.color = cmd.color();
     }
   }
   

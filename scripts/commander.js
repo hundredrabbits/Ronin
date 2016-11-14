@@ -29,16 +29,13 @@ function Commander(element,element_input)
         ronin.history.active(cmd);
         break;
       case "$":
-        ronin.save.active(cmd);
+        ronin.file.save(cmd);
         break;
       case "/":
-        ronin.load.active(cmd);
-        break;
-      case "&":
-        ronin.brush.active(cmd);
+        ronin.file.active(cmd);
         break;
       case ">":
-        ronin.pointer.active(cmd);
+        ronin.brush.active(cmd);
         break;
       case "|":
         ronin.overlay.active(cmd);
@@ -116,13 +113,10 @@ function Commander(element,element_input)
         ronin.history.passive(cmd);
         break;
       case "/":
-        ronin.load.passive(cmd);
-        break;
-      case "&":
-        ronin.brush.passive(cmd);
+        ronin.file.passive(cmd);
         break;
       case ">":
-        ronin.pointer.passive(cmd);
+        ronin.brush.passive(cmd);
         break;
       case "|":
         ronin.overlay.passive(cmd);
@@ -142,11 +136,6 @@ function Commander(element,element_input)
     }
     
     /*
-    // Guides
-    if(parts[0] == "|"){
-      parts.shift();
-      ronin.guide(parts);
-    }
     
     // Draw
     if(parts[0] == "/"){

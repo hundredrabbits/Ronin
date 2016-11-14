@@ -8,27 +8,34 @@ function Overlay(element)
   
   this.passive = function(cmd)
   {
-    this.clear();
-    
-    if(!cmd.position()){ return; }
-    
-    if(cmd.rect()){
-      this.draw_rect(cmd.position(),cmd.rect());
-    }
-    else if(cmd.position().x > 0 && cmd.position().y > 0){
-      this.draw_pointer(cmd.position());
-    }
-    else if(cmd.position().x > 0 ){
-      this.draw_vertical_line(cmd.position());
-    }
-    else if(cmd.position().y > 0 ){
-      this.draw_horizontal_line(cmd.position());
-    }
+    this.draw(cmd.position(),cmd.rect());
   }
   
   this.active = function(cmd)
   {
     
+  }
+  
+  // draw
+  
+  this.draw = function(position,rect)
+  {
+    this.clear();
+    
+    if(!position){ return; }
+    
+    if(rect){
+      this.draw_rect(position,rect);
+    }
+    else if(position.x > 0 && position.y > 0){
+      this.draw_pointer(position);
+    }
+    else if(position.x > 0 ){
+      this.draw_vertical_line(position);
+    }
+    else if(position.y > 0 ){
+      this.draw_horizontal_line(position);
+    }
   }
   
   this.draw_rect = function(position,rect)

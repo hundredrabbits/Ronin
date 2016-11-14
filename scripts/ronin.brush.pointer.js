@@ -14,7 +14,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     context.lineTo(this.position().x,this.position().y);
     context.lineCap="round";
     context.lineWidth = this.thickness();
-    context.strokeStyle = "rgba("+this.color.rgb().r+","+this.color.rgb().g+","+this.color.rgb().b+","+1+")";
+    context.strokeStyle = ronin.brush.color.rgba();
     context.stroke();
     context.closePath();
     

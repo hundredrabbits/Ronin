@@ -25,4 +25,12 @@ function Command(cmd_array)
     }
     return null;
   }
+  
+  this.path = function()
+  {
+    for (i = 0; i < this.cmd_array.length; i++) {
+      if(this.cmd_array[i].indexOf("/") >= 0){ return this.cmd_array[i]; }
+    }
+    return null;
+  }
 }
