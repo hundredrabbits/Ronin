@@ -13,7 +13,7 @@
 * ?                               ; Remove background
 ``` 
 
-##History
+##History*
 ``` 
 ~                                 ; Keep image progress
 ~ 3                               ; Keep image progress into temporary memory with id 3
@@ -56,27 +56,25 @@ $ new_name.jpg                    ; Create a new file with name
 | ?                               ; Remove guides
 ``` 
 
-##Translate
+##Translate*
 ``` 
 + 0 10                            ; Translate 10px vertically
 - 20 20                           ; Translate 20px leftward and downward
 ``` 
 
-#Upcoming Features
-
-##Zoom
+##Zoom*
 ``` 
 = 75                              ; Zoom factor
 = ?                               ; Zoom 100%
 ``` 
 
-##Layers
+##Layers*
 ``` 
 # 3                               ; Layer 3
 # ?                               ; Layer 1
 ``` 
 
-#Units
+#Units*
 ``` 
 5                                 ; 5px
 5w                                ; 5% of canvas width
