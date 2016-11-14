@@ -19,8 +19,8 @@ $ new_name.jpg                    ; Create a new file with name
 
 ##Load File
 ``` 
-/ dir/file_name.jpg 10 10 100 100 ; Load image into canvas, at position 10,10, with size of 100x100
-/ dir/file_name.jpg 10 10 100     ; Load image into canvas, at position 10,10, with size of 100w and auto height
+/ dir/file_name.jpg 10 10 100 100 ; Load image, at 10,10 with size 100x100
+/ dir/file_name.jpg 10 10 100     ; Load image, at 10,10 with size 100w and auto height
 ``` 
 
 ##Brush
