@@ -22,4 +22,14 @@ function Position(position_str = "0,0",y = null)
     if(!target){ return 0; }
     return Math.sqrt( (this.x-target.x)*(this.x-target.x) + (this.y-target.y)*(this.y-target.y) );
   }
+  
+  this.normalize = function(rect)
+  {
+    if(this.x < 0){
+      this.x = ronin.canvas.element.width - rect.width - Math.abs(this.x);
+    }
+    if(this.y < 0){
+      this.y = ronin.canvas.element.height - rect.height - Math.abs(this.y);
+    }
+  }
 }

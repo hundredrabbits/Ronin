@@ -4,7 +4,6 @@ function File()
   
   this.active = function()
   {
-    console.log("Nothing to do.");
     ronin.overlay.clear();
   }
   
