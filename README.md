@@ -27,19 +27,14 @@ $ new_name.jpg                    ; Create a new file with name
 / 3                               ; Load history id
 ```
 
-##Brush
+##Brush(Pointers)
 ```
-& 10                              ; Size 10
-& -4                              ; Eraser, Size 4
-& 4 #ff0000                       ; Red brush, Size 4
-& ?                               ; Size 1, black
-```
-
-##Pointers
-```
+> 10                              ; Size 10
+> -4                              ; Eraser, Size 4
 > 10,0                            ; Add pointer at pos
-> 0,0 400,0                       ; Mirror X, at 400px
-> ?                               ; Remove pointers
+> -400,0                          ; Add mirror pointer, at 400x
+> 4 #ff0000                       ; Red brush, Size 4
+> ?                               ; Remove last pointer
 ```
 
 ##Guides

@@ -1,9 +1,26 @@
 function Brush()
 {
+  Module.call(this);
+  
   this.position = new Position();
   this.is_drawing = false;
   this.size = 1;
   this.opacity = 1;
+  
+  // Module
+  
+  this.active = function(cmd)
+  {
+    if(cmd.position()){
+      var pointer = new Pointer(cmd.position());
+      this.add_pointer(pointer);
+    }
+  }
+  
+  this.passive = function(cmd)
+  {
+    console.log("Nothing to do.");
+  }
   
   // Commander
   
