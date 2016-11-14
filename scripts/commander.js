@@ -55,48 +55,6 @@ function Commander(element,element_input)
     }
     
     this.hide();
-    
-    /*
-    var parts = command;
-    
-    // Brush
-    if(parts[0] == "&"){
-      parts.shift();
-      brush.settings(parts);
-    }
-    
-    // Pointers
-    if(parts[0] == ">"){
-      parts.shift();
-      brush.add(parts);
-    }
-    
-    // Save
-    if(parts[0] == "$"){
-      var d=canvas.toDataURL("image/png");
-      var w=window.open('about:blank','image from canvas');
-      w.document.write("<title>"+parts[1]+"</title><img src='"+d+"' alt='from canvas'/>");
-    }
-    
-    // Load
-    if(parts[0] == "/"){
-      parts.shift();
-      ronin.load_image(parts);
-    }
-    
-    // Fill
-    if(parts[0] == "*"){
-      parts.shift();
-      ronin.fill(parts);
-    }
-    
-    // Guides
-    if(parts[0] == "|"){
-      parts.shift();
-      ronin.add_guide(parts);
-    }
-    
-    */
   }
   
   this.passive = function(cmd_array)
@@ -134,15 +92,5 @@ function Commander(element,element_input)
         ronin.filter.passive(cmd);
         break;
     }
-    
-    /*
-    
-    // Draw
-    if(parts[0] == "/"){
-      parts.shift();
-      parts.shift();
-      ronin.guide(parts);
-    }
-    */
   }
 }
