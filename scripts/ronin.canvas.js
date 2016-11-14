@@ -4,28 +4,27 @@ function Canvas(element)
   
   this.element = element;
   
-  this.active = function(p)
+  this.active = function(cmd)
   {
-    if(p[0].indexOf("x") >= 0){
-      var rect = new Rect(p[0]);
-      this.resize(rect);
-      ronin.overlay.resize(rect);
+    if(cmd.rect()){
+      this.resize(cmd.rect());
+      ronin.overlay.resize(cmd.rect());
     }
     
-    if(p.length > 1 && p[1].indexOf("#") >= 0){
-      var color = new Color(p[1]);
-      console.log(color);
-      
+    if(cmd.color()){
+      console.log(cmd.color());
       this.element.getContext('2d').beginPath();
       this.element.getContext('2d').rect(0, 0, canvas.width, canvas.height);
-      this.element.getContext('2d').fillStyle = color.hex;
+      this.element.getContext('2d').fillStyle = cmd.color().hex;
       this.element.getContext('2d').fill();
     }
   }
   
-  this.passive = function(p)
+  this.passive = function(cmd)
   {
-    console.log("TODO: Show guide");
+    if(cmd.rect()){
+      ronin.overlay.show_guide(null,cmd.rect());
+    }
   }
   
   //

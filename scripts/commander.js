@@ -15,16 +15,15 @@ function Commander(element,element_input)
     this.element_input.value = "";
   }
   
-  this.active = function(command)
+  this.active = function(cmd_array)
   {
-    var parts = command;
-    var key = parts[0];
-    parts.shift();
-    var params = parts;
+    var key = cmd_array[0];
+    cmd_array.shift();
+    var cmd = new Command(cmd_array);
     
     switch(key) {
       case "@":
-        ronin.canvas.active(params);
+        ronin.canvas.active(cmd);
         break;
       case "~":
         ronin.history.active(params);
@@ -42,7 +41,7 @@ function Commander(element,element_input)
         ronin.pointer.active(params);
         break;
       case "|":
-        ronin.guide.active(params);
+        ronin.overlay.active(params);
         break;
       case "^":
         ronin.translate.active(params);
@@ -111,16 +110,15 @@ function Commander(element,element_input)
     */
   }
   
-  this.passive = function(command)
+  this.passive = function(cmd_array)
   {
-    var parts = command;
-    var key = parts[0];
-    parts.shift();
-    var params = parts;
+    var key = cmd_array[0];
+    cmd_array.shift();
+    var cmd = new Command(cmd_array);
     
     switch(key) {
       case "@":
-        ronin.canvas.passive(params);
+        ronin.canvas.passive(cmd);
         break;
       case "~":
         ronin.history.passive(params);
@@ -135,7 +133,7 @@ function Commander(element,element_input)
         ronin.pointer.passive(params);
         break;
       case "|":
-        ronin.guide.passive(params);
+        ronin.overlay.passive(params);
         break;
       case "^":
         ronin.translate.passive(params);
