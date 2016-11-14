@@ -1,7 +1,9 @@
-function Position(x = 0,y = 0)
+function Position(position_str)
 {
-  this.x = parseFloat(x);
-  this.y = parseFloat(y);
+  this.position_str = position_str;
+  
+  this.x = parseFloat(this.position_str.split(",")[0]);
+  this.y = parseFloat(this.position_str.split(",")[1]);
   
   this.is_equal = function(target)
   {

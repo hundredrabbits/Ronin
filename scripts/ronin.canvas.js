@@ -12,7 +12,6 @@ function Canvas(element)
     }
     
     if(cmd.color()){
-      console.log(cmd.color());
       this.element.getContext('2d').beginPath();
       this.element.getContext('2d').rect(0, 0, canvas.width, canvas.height);
       this.element.getContext('2d').fillStyle = cmd.color().hex;

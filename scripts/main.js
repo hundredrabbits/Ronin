@@ -3,7 +3,8 @@ var context = canvas.getContext('2d');
 
 var ronin = new Ronin();
 ronin.canvas.element = canvas;
-ronin.overlay.element = canvas;
+ronin.overlay.element = document.getElementById('overlay');
+ronin.overlay.context().imageSmoothingEnabled = false;
 
 
 
@@ -12,11 +13,9 @@ ronin.overlay.element = canvas;
 
 
 ronin.element = document.getElementById('ronin');
-ronin.guides_element = document.getElementById('guides');
-ronin.guides_context = ronin.guides_element.getContext('2d');
 
 
-var brush = new Brush();
+// var brush = new Brush();
 
 
 
@@ -24,22 +23,20 @@ var brush = new Brush();
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
 
 document.addEventListener('mousemove', function(e) {
-  brush.draw(e);
+  // brush.draw(e);
 }, false);
 
 document.addEventListener('mousedown', function(e) {
   if(e.which != 1){ return; }
-  brush.draw_start(e);
+  // brush.draw_start(e);
 }, false);
 
 document.addEventListener('mouseup', function(e) {
-  brush.draw_stop(e);
+  // brush.draw_stop(e);
 }, false);
 
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen(event); };
-
-ronin.guides_context.imageSmoothingEnabled= false
 
 /* brush experiments
 

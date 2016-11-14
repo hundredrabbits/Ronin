@@ -26,34 +26,34 @@ function Commander(element,element_input)
         ronin.canvas.active(cmd);
         break;
       case "~":
-        ronin.history.active(params);
+        ronin.history.active(cmd);
         break;
       case "$":
-        ronin.save.active(params);
+        ronin.save.active(cmd);
         break;
       case "/":
-        ronin.load.active(params);
+        ronin.load.active(cmd);
         break;
       case "&":
-        ronin.brush.active(params);
+        ronin.brush.active(cmd);
         break;
       case ">":
-        ronin.pointer.active(params);
+        ronin.pointer.active(cmd);
         break;
       case "|":
-        ronin.overlay.active(params);
+        ronin.overlay.active(cmd);
         break;
       case "^":
-        ronin.translate.active(params);
+        ronin.translate.active(cmd);
         break;
       case "=":
-        ronin.zoom.active(params);
+        ronin.zoom.active(cmd);
         break;
       case "#":
-        ronin.layers.active(params);
+        ronin.layers.active(cmd);
         break;
       case ":":
-        ronin.filter.active(params);
+        ronin.filter.active(cmd);
         break;
     }
     
@@ -61,14 +61,6 @@ function Commander(element,element_input)
     
     /*
     var parts = command;
-    
-    // Canvas
-    if(parts[0] == "@"){
-      canvas.setAttribute('width',parts[1]+"px");
-      canvas.setAttribute('height',parts[2]+"px");
-      ronin.guides_element.setAttribute('width',parts[1]+"px");
-      ronin.guides_element.setAttribute('height',parts[2]+"px");
-    }
     
     // Brush
     if(parts[0] == "&"){
@@ -121,31 +113,31 @@ function Commander(element,element_input)
         ronin.canvas.passive(cmd);
         break;
       case "~":
-        ronin.history.passive(params);
+        ronin.history.passive(cmd);
         break;
       case "/":
-        ronin.load.passive(params);
+        ronin.load.passive(cmd);
         break;
       case "&":
-        ronin.brush.passive(params);
+        ronin.brush.passive(cmd);
         break;
       case ">":
-        ronin.pointer.passive(params);
+        ronin.pointer.passive(cmd);
         break;
       case "|":
-        ronin.overlay.passive(params);
+        ronin.overlay.passive(cmd);
         break;
       case "^":
-        ronin.translate.passive(params);
+        ronin.translate.passive(cmd);
         break;
       case "=":
-        ronin.zoom.passive(params);
+        ronin.zoom.passive(cmd);
         break;
       case "#":
-        ronin.layers.passive(params);
+        ronin.layers.passive(cmd);
         break;
       case ":":
-        ronin.filter.passive(params);
+        ronin.filter.passive(cmd);
         break;
     }
     

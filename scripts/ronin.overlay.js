@@ -6,8 +6,90 @@ function Overlay(element)
   
   // Module
   
-  this.passive = function(p)
+  this.passive = function(cmd)
   {
+    this.clear();
+    
+    if(!cmd.position()){ return; }
+    
+    if(cmd.rect()){
+      this.draw_rect(cmd.position(),cmd.rect());
+    }
+    else if(cmd.position().x > 0 && cmd.position().y > 0){
+      this.draw_pointer(cmd.position());
+    }
+    else if(cmd.position().x > 0 ){
+      this.draw_vertical_line(cmd.position());
+    }
+    else if(cmd.position().y > 0 ){
+      this.draw_horizontal_line(cmd.position());
+    }
+  }
+  
+  this.active = function(cmd)
+  {
+    
+  }
+  
+  this.draw_rect = function(position,rect)
+  {
+    this.context().beginPath();
+    
+    this.context().moveTo(position.x,position.y);
+    this.context().lineTo(position.x + rect.width,position.y);
+    this.context().lineTo(position.x + rect.width,position.y + rect.height);
+    this.context().lineTo(position.x,position.y + rect.height);
+    this.context().lineTo(position.x,position.y);
+    
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = "#ff0000";
+    this.context().stroke();
+    this.context().closePath();
+  }
+  
+  this.draw_pointer = function(position)
+  {
+    this.context().beginPath();
+    
+    this.context().moveTo(position.x,position.y);
+    this.context().lineTo(position.x + 10,position.y);
+    this.context().lineTo(position.x,position.y + 10);
+    this.context().lineTo(position.x,position.y);
+    
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = "#ff0000";
+    this.context().stroke();
+    this.context().closePath();
+  }
+  
+  this.draw_vertical_line = function(position)
+  {
+    this.context().beginPath();
+    
+    this.context().moveTo(position.x,0);
+    this.context().lineTo(position.x,this.element.height);
+    
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = "#ff0000";
+    this.context().stroke();
+    this.context().closePath();
+  }
+  
+  this.draw_horizontal_line = function(position)
+  {
+    this.context().beginPath();
+    
+    this.context().moveTo(position.x,0);
+    this.context().lineTo(position.x,this.element.height);
+    
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = "#ff0000";
+    this.context().stroke();
+    this.context().closePath();
   }
   
   this.resize = function(rect)
@@ -19,7 +101,7 @@ function Overlay(element)
   this.show_guide = function(position,rect)
   {
     this.clear();
-    context.beginPath();
+    this.context().beginPath();
     
     this.context().moveTo(0,0);
     this.context().lineTo(rect.width,0);
@@ -27,11 +109,11 @@ function Overlay(element)
     this.context().lineTo(0,rect.height);
     this.context().lineTo(0,0);
     
-    context.lineCap="round";
-    context.lineWidth = 1;
-    context.strokeStyle = "#ff0000";
-    context.stroke();
-    context.closePath();
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = "#ff0000";
+    this.context().stroke();
+    this.context().closePath();
   }
   
   this.context = function()

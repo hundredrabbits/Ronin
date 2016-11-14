@@ -3,7 +3,7 @@ body { margin:0px; padding:0px; overflow:hidden;}
 
 canvas:hover { cursor: crosshair;}
 
-#guides { position:fixed; z-index:1000;}
+#overlay { position:fixed; z-index:1000;}
 
 #commander { display:none; z-index: 2000; }
 #commander.visible { display:block; }

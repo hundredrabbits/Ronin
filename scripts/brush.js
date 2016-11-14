@@ -36,7 +36,7 @@ function Brush()
   
   // Pointers
   
-  this.pointers = [new Pointer(new Position(0,0))];
+  this.pointers = [new Pointer(new Position())];
   
   this.add_pointer = function(pointer)
   {
