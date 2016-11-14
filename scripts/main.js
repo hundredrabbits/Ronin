@@ -1,11 +1,25 @@
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+
 var ronin = new Ronin();
+ronin.canvas.element = canvas;
+ronin.overlay.element = canvas;
+
+
+
+
+
+
+
 ronin.element = document.getElementById('ronin');
 ronin.guides_element = document.getElementById('guides');
 ronin.guides_context = ronin.guides_element.getContext('2d');
 
-var canvas = document.getElementById('myCanvas');
-var context = canvas.getContext('2d');
+
 var brush = new Brush();
+
+
+
 
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
 

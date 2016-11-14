@@ -1,7 +1,25 @@
 function Keyboard()
 {
   this.is_locked = false;
-
+  
+  this.cmd = function()
+  {
+    var val = commander.element_input.value;
+    
+    if(val.indexOf(";") > 0){
+      var cmds = val.split(";");
+      var vals = [];
+      for (i = 0; i < cmds.length; i++) {
+        val = cmds[i].replace(/^\s+|\s+$/g, '');
+        vals.push(val.split(" "));
+      }
+      return vals;
+    }
+    else{
+      return [val.split(" ")];
+    }
+  }
+  
   this.lock = function()
   {
     this.is_locked = true;
@@ -31,7 +49,19 @@ function Keyboard()
       case  27: this.key_escape(); break;
     }
     
-    commander.passive();
+    // Passive
+    var cmd = commander.element_input.value;
+    
+    if(cmd.indexOf(";") > 0){
+      var cmds = cmd.split(";");
+      for (i = 0; i < cmds.length; i++) {
+        cmd = cmds[i].replace(/^\s+|\s+$/g, '');
+        commander.passive(cmd.split(" "));
+      }
+    }
+    else{
+      commander.passive(cmd.split(" "));
+    }
   };
 
   this.key_tab = function()
@@ -47,11 +77,11 @@ function Keyboard()
       var cmds = cmd.split(";");
       for (i = 0; i < cmds.length; i++) {
         cmd = cmds[i].replace(/^\s+|\s+$/g, '');
-        commander.validate(cmd.split(" "));
+        commander.active(cmd.split(" "));
       }
     }
     else{
-      commander.validate(cmd.split(" "));
+      commander.active(cmd.split(" "));
     }
   }
 

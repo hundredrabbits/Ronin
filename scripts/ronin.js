@@ -1,6 +1,8 @@
 function Ronin()
 {
   this.element = null;
+  this.canvas  = new Canvas();
+  this.overlay = new Overlay();
   
   this.load_image = function(p)
   {

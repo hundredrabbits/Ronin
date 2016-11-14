@@ -15,8 +15,52 @@ function Commander(element,element_input)
     this.element_input.value = "";
   }
   
-  this.validate = function(command)
+  this.active = function(command)
   {
+    var parts = command;
+    var key = parts[0];
+    parts.shift();
+    var params = parts;
+    
+    switch(key) {
+      case "@":
+        ronin.canvas.active(params);
+        break;
+      case "~":
+        ronin.history.active(params);
+        break;
+      case "$":
+        ronin.save.active(params);
+        break;
+      case "/":
+        ronin.load.active(params);
+        break;
+      case "&":
+        ronin.brush.active(params);
+        break;
+      case ">":
+        ronin.pointer.active(params);
+        break;
+      case "|":
+        ronin.guide.active(params);
+        break;
+      case "^":
+        ronin.translate.active(params);
+        break;
+      case "=":
+        ronin.zoom.active(params);
+        break;
+      case "#":
+        ronin.layers.active(params);
+        break;
+      case ":":
+        ronin.filter.active(params);
+        break;
+    }
+    
+    this.hide();
+    
+    /*
     var parts = command;
     
     // Canvas
@@ -63,13 +107,51 @@ function Commander(element,element_input)
       parts.shift();
       ronin.add_guide(parts);
     }
-    this.hide();
+    
+    */
   }
   
-  this.passive = function()
+  this.passive = function(command)
   {
-    var parts = this.element_input.value.split(" ");
+    var parts = command;
+    var key = parts[0];
+    parts.shift();
+    var params = parts;
     
+    switch(key) {
+      case "@":
+        ronin.canvas.passive(params);
+        break;
+      case "~":
+        ronin.history.passive(params);
+        break;
+      case "/":
+        ronin.load.passive(params);
+        break;
+      case "&":
+        ronin.brush.passive(params);
+        break;
+      case ">":
+        ronin.pointer.passive(params);
+        break;
+      case "|":
+        ronin.guide.passive(params);
+        break;
+      case "^":
+        ronin.translate.passive(params);
+        break;
+      case "=":
+        ronin.zoom.passive(params);
+        break;
+      case "#":
+        ronin.layers.passive(params);
+        break;
+      case ":":
+        ronin.filter.passive(params);
+        break;
+    }
+    
+    /*
     // Guides
     if(parts[0] == "|"){
       parts.shift();
@@ -82,5 +164,6 @@ function Commander(element,element_input)
       parts.shift();
       ronin.guide(parts);
     }
+    */
   }
 }
