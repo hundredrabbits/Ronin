@@ -14,7 +14,12 @@ function Canvas(element)
     
     if(p.length > 1 && p[1].indexOf("#") >= 0){
       var color = new Color(p[1]);
-      console.log("TODO: Fill with color");
+      console.log(color);
+      
+      this.element.getContext('2d').beginPath();
+      this.element.getContext('2d').rect(0, 0, canvas.width, canvas.height);
+      this.element.getContext('2d').fillStyle = color.hex;
+      this.element.getContext('2d').fill();
     }
   }
   

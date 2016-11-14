@@ -1,10 +1,10 @@
-function Color(val = '000000')
+function Color(hex = '#000000')
 {
-  this.val = val;
+  this.hex = hex;
 
   this.rgb = function()
   {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.val);
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.hex);
     return result ? {
         r: parseInt(result[1], 16),
         g: parseInt(result[2], 16),
