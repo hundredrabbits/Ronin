@@ -16,11 +16,11 @@ function Commander(element,element_input)
     this.element_input.value = "";
   }
   
-  this.active = function(cmd_array)
+  this.active = function(content)
   {
-    var key = cmd_array[0];
-    cmd_array.shift();
-    var cmd = new Command(cmd_array);
+    var key = content[0];
+    content.shift();
+    var cmd = new Command(content);
     
     switch(key) {
       case "@":
@@ -55,11 +55,11 @@ function Commander(element,element_input)
     this.hide();
   }
   
-  this.passive = function(cmd_array)
+  this.passive = function(content)
   {
-    var key = cmd_array[0];
-    cmd_array.shift();
-    this.cmd = new Command(cmd_array);
+    var key = content[0];
+    content.shift();
+    this.cmd = new Command(content);
     
     switch(key) {
       case "@":

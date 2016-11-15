@@ -6,7 +6,7 @@ function Canvas(element)
   
   this.active = function(cmd)
   {
-    if(cmd.bang()){ this.context().clearRect(0, 0, this.element.width, this.element.height); }
+    if(cmd.bang()){ clear(); }
     
     if(cmd.rect()){
       this.resize(cmd.rect());
@@ -49,5 +49,10 @@ function Canvas(element)
   this.context = function()
   {
     return this.element.getContext('2d');
+  }
+  
+  this.clear = function()
+  {
+    this.context().clearRect(0, 0, this.element.width, this.element.height);
   }
 }
