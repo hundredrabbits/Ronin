@@ -6,7 +6,7 @@ function Canvas(element)
   
   this.active = function(cmd)
   {
-    if(cmd.bang()){ clear(); }
+    if(cmd.bang()){ this.clear(); }
     
     if(cmd.rect()){
       this.resize(cmd.rect());
