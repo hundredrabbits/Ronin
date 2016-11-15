@@ -37,52 +37,11 @@ function Brush()
     return "Brush: "+hint_value+hint_position+hint_color;
   }
   
-  // Commander
-  
-  this.settings = function(p)
-  {
-    if(p[0]){ this.size = parseInt(p[0]); }
-    if(p[1]){ this.opacity = parseFloat(p[1]); }
-    if(p[2]){ this.color = new Color(p[2]); }
-  }
-  
-  this.add = function(p)
-  {
-    if(p.length >= 2){
-      var position = new Position(parseInt(p[0]),parseInt(p[1]));
-      var pointer = new Pointer(position);
-    }
-    
-    if(p.length >= 4){
-      var mirror = new Position(parseInt(p[2]),parseInt(p[3]));
-      pointer.mirror = mirror;
-    }
-    
-    this.add_pointer(pointer);
-  }
-  
-  this.remove = function(p)
-  {
-    this.remove_pointer(new Position(p[0],p[1]));
-  }
-  
-  // Pointers
-  
   this.pointers = [new Pointer(new Position())];
   
   this.add_pointer = function(pointer)
   {
     this.pointers.push(pointer);
-  }
-  
-  this.remove_pointer = function(target_position)
-  {
-    for (i = 0; i < this.pointers.length; i++) {
-      if(this.pointers[i].offset.is_equal(target_position)){
-        this.pointers.splice(i, 1);
-        break;
-      }
-    }
   }
   
   // Draw

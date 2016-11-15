@@ -7,24 +7,17 @@
 @ ?                               ; Clear canvas
 ```
 
-##History*
-```
-~                                 ; Keep image progress
-~ 3                               ; Keep image progress into temporary memory with id 3
-~ ?                               ; Clear history
-```
-
 ##Save File
 ```
-$ new_name.jpg                    ; Create a new file with name
+$ new_name                        ; Create a new file with name
+$ 3                               ; Save to temporary storage, accessible with Load
 ```
 
 ##Load File
 ```
 / dir/file_name.jpg 10,10 100x100 ; Load image, at 10,10 with size 100x100
 / dir/file_name.jpg 10,10 100x    ; Load image, at 10,10 with size 100w and auto height
-/ ~                               ; Load last history id
-/ 3                               ; Load history id
+/ 3                               ; Load temporary storage id
 ```
 
 ##Brush(Pointers)

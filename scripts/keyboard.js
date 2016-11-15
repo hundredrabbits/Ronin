@@ -51,24 +51,12 @@ function Keyboard()
     
     // Passive
     var cmd = commander.element_input.value;
-    
-    if(cmd.indexOf(";") > 0){
-      var cmds = cmd.split(";");
-      for (i = 0; i < cmds.length; i++) {
-        cmd = cmds[i].replace(/^\s+|\s+$/g, '');
-        commander.passive(cmd.split(" "));
-      }
-    }
-    else{
-      commander.passive(cmd.split(" "));
-    }
-    
+    commander.passive(cmd.split(" "));
     ronin.hint.update();
   };
 
   this.key_tab = function()
   {
-    return;
   }
 
   this.key_enter = function()
@@ -76,11 +64,11 @@ function Keyboard()
     var cmd = commander.element_input.value;
     
     if(cmd.indexOf(";") > 0){
-      var cmds = cmd.split(";");
-      for (i = 0; i < cmds.length; i++) {
-        cmd = cmds[i].replace(/^\s+|\s+$/g, '');
-        commander.active(cmd.split(" "));
-      }
+      var multi = cmd.split(";");
+      if(multi[0]){commander.active(multi[0].split(" "));}
+      if(multi[1]){commander.active(multi[1].split(" "));}
+      if(multi[2]){commander.active(multi[2].split(" "));}
+      if(multi[3]){commander.active(multi[3].split(" "));}
     }
     else{
       commander.active(cmd.split(" "));
