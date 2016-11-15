@@ -28,6 +28,7 @@ $ !                               ; Clear temporary storage
 > 10,0                            ; Add pointer at pos
 > 400x0                           ; Add mirror pointer, at 400x
 > 4 #ff0000                       ; Red brush, Size 4
+> 100,100 45'                     ; Radial brush from position x,y and 45 degrees
 > !                               ; Remove all pointers
 ```
 

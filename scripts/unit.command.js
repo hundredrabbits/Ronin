@@ -58,4 +58,12 @@ function Command(content)
     }
     return null;
   }
+  
+  this.angle = function()
+  {
+    for (i = 0; i < this.content.length; i++) {
+      if(this.content[i].indexOf("'") >= 0){ return parseFloat(this.content[i].replace('\'','')); }
+    }
+    return null;
+  }
 }

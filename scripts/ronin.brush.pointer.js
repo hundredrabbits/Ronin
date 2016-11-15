@@ -4,6 +4,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.mirror = null;
   this.noise  = null;
   this.position_prev = null;
+  this.angle = null;
   
   this.draw = function()
   {
@@ -43,7 +44,18 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   
   this.position = function()
   {
-    if(this.mirror && this.mirror.width > 0){
+    if(this.angle){
+      
+      var deltaX = ronin.brush.position.x - this.offset.x;
+      var deltaY = ronin.brush.position.y - this.offset.y;
+      var t = Math.atan2(deltaY, deltaX);
+      var radius = 45;
+      var x = Math.cos(t) * radius;
+      var y = Math.sin(t) * radius;
+      
+      return new Position(x + this.offset.x,y + this.offset.y);
+    }
+    else if(this.mirror && this.mirror.width > 0){
       return new Position(this.mirror.width - (ronin.brush.position.x + this.offset.x), 0 + (ronin.brush.position.y + this.offset.y));
     }
     else if(this.mirror && this.mirror.height > 0){

@@ -19,7 +19,7 @@ function Brush()
     var pointer = new Pointer();
     
     if(cmd.position()){
-      pointer.position = cmd.position();
+      pointer.offset = cmd.position();
     }
     if(cmd.rect()){
       pointer.mirror = cmd.rect();
@@ -27,7 +27,10 @@ function Brush()
     if(cmd.noise()){
       pointer.noise = cmd.noise();
     }
-    if(cmd.rect() || cmd.position() || cmd.noise()){
+    if(cmd.angle()){
+      pointer.angle = cmd.angle();
+    }
+    if(cmd.rect() || cmd.position() || cmd.noise() || cmd.angle()){
       this.add_pointer(pointer);
     }
     if(cmd.color()){
