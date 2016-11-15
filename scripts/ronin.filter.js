@@ -12,7 +12,7 @@ function Filter(element)
     
     switch(filter_name) {
       case "saturation":
-        this.filter_saturation(p);
+        this.filter_saturation(this.pixels(),p);
         break;
     }
   }
@@ -28,20 +28,20 @@ function Filter(element)
   
   // Filters
   
-  this.filter_saturation = function()
+  this.filter_saturation = function(pixels = this.pixels(),p = null)
   {
-    var imgPixels = this.pixels();
-    for(var y = 0; y < imgPixels.height; y++){
-  		for(var x = 0; x < imgPixels.width; x++){
-  			var i = (y * 4) * imgPixels.width + x * 4;
-  			var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
-  			imgPixels.data[i] = avg;
-  			imgPixels.data[i + 1] = avg;
-  			imgPixels.data[i + 2] = avg;
-  		}
-  	}
+    var d = pixels.data;
+    for (var i=0; i<d.length; i+=4) {
+      var r = d[i];
+      var g = d[i+1];
+      var b = d[i+2];
+      // CIE luminance for the RGB
+      // The human eye is bad at seeing red and blue, so we de-emphasize them.
+      var v = 0.2126*r + 0.7152*g + 0.0722*b;
+      d[i] = d[i+1] = d[i+2] = v
+    }
   	ronin.canvas.clear();
-  	ronin.canvas.context().putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+  	ronin.canvas.context().putImageData(pixels, 0, 0, 0, 0, pixels.width, pixels.height);
   }
   
   //
