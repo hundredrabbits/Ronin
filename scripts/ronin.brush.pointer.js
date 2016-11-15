@@ -35,11 +35,11 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   
   this.position = function()
   {
-    if(this.mirror && this.mirror.x > 0){
-      return new Position(this.mirror.x - (brush.position.x + this.offset.x), 0 + (brush.position.y + this.offset.y));
+    if(this.mirror && this.mirror.width > 0){
+      return new Position(this.mirror.width - (ronin.brush.position.x + this.offset.x), 0 + (ronin.brush.position.y + this.offset.y));
     }
-    else if(this.mirror && this.mirror.y > 0){
-      return new Position((brush.position.x + this.offset.x), this.mirror.y - (brush.position.y + this.offset.y));
+    else if(this.mirror && this.mirror.height > 0){
+      return new Position((ronin.brush.position.x + this.offset.x), this.mirror.height - (ronin.brush.position.y + this.offset.y));
     }
     return new Position(ronin.brush.position.x + this.offset.x, ronin.brush.position.y + this.offset.y);
   }

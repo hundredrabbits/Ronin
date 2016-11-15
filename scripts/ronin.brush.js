@@ -12,8 +12,15 @@ function Brush()
   
   this.active = function(cmd)
   {
+    var pointer = new Pointer();
+    
     if(cmd.position()){
-      var pointer = new Pointer(cmd.position());
+      pointer.position = cmd.position();
+    }
+    if(cmd.rect()){
+      pointer.mirror = cmd.rect();
+    }
+    if(cmd.rect() || cmd.position()){
       this.add_pointer(pointer);
     }
     if(cmd.color()){
@@ -33,8 +40,9 @@ function Brush()
     var hint_value = (cmd.value() ? "Size "+cmd.value()+" " : "");
     var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
     var hint_color = (cmd.color() ? "Color "+cmd.color().hex+" " : "");
+    var hint_rect = (cmd.rect() ? "Mirror "+cmd.rect().width+"/"+cmd.rect().height+" " : "");
     
-    return "Brush: "+hint_value+hint_position+hint_color;
+    return "Brush: "+hint_value+hint_position+hint_color+hint_rect;
   }
   
   this.pointers = [new Pointer(new Position())];

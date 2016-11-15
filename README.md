@@ -25,7 +25,7 @@ $ 3                               ; Save to temporary storage, accessible with L
 > 10                              ; Size 10
 > -4                              ; Eraser, Size 4
 > 10,0                            ; Add pointer at pos
-> -400,0                          ; Add mirror pointer, at 400x
+> 400x0                           ; Add mirror pointer, at 400x
 > 4 #ff0000                       ; Red brush, Size 4
 > ?                               ; Remove last pointer
 ```
@@ -57,8 +57,13 @@ $ 3                               ; Save to temporary storage, accessible with L
 
 #Units*
 ```
-5                                 ; 5px
-5,7                               ; 5x 7y
-7x9                               ; 7w 9h
-{5h - 5s}                         ; 5% of canvas width, minus brush speed
+5                                 ; value:    5
+5,7                               ; position: 5x 7y
+7x9                               ; rect:     7w 9h
+#ff0000                           ; color:    red
 ```
+
+- Mirror
+- Filter
+- Noise
+-
