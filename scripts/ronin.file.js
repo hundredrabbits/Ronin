@@ -24,6 +24,10 @@ function File()
         height = cmd.rect().height;
         position.normalize(cmd.rect());
       }
+      // Scale with only 1 unit
+      width  = isNaN(width) && height > 0 ? (height*base_image.naturalWidth)/base_image.naturalHeight : width;
+      height = isNaN(height) && width > 0 ? (width*base_image.naturalHeight)/base_image.naturalWidth : height;
+      
       ronin.canvas.context().drawImage(base_image, position.x, position.y, width, height);
     }
   }
@@ -46,7 +50,7 @@ function File()
   {
     var hint_path = (cmd.path() ? "Path "+cmd.path()+" " : "");
     var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
-    var hint_rect = (cmd.rect() ? "Size "+cmd.rect().width+"px by "+cmd.rect().height+"px " : "");
+    var hint_rect = (cmd.rect() ? "Size "+cmd.rect().width+" by "+cmd.rect().height+" " : "");
     
     return "File: "+hint_path+hint_position+hint_rect;
   }
