@@ -5,12 +5,6 @@ function Position(position_str = "0,0",y = null)
   this.x = y ? position_str : parseFloat(this.position_str.split(",")[0]);
   this.y = y ? y : parseFloat(this.position_str.split(",")[1]);
   
-  this.update = function(x,y)
-  {
-    this.x = x;
-    this.y = y;
-  }
-  
   this.is_equal = function(target)
   {
     if(target.x == this.x && target.y == this.y){ return true; }

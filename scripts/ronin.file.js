@@ -6,6 +6,8 @@ function File()
   
   this.active = function(cmd)
   {
+    if(cmd.bang()){ this.storage = []; }
+    
     ronin.overlay.clear();
     
     if(!cmd.position()){ return; }

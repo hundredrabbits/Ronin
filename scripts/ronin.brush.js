@@ -2,6 +2,8 @@ function Brush()
 {
   Module.call(this);
   
+  this.pointers = [new Pointer(new Position())];
+  
   this.position = new Position();
   this.is_drawing = false;
   this.size = 1;
@@ -12,6 +14,8 @@ function Brush()
   
   this.active = function(cmd)
   {
+    if(cmd.bang()){ this.pointers = []; }
+    
     var pointer = new Pointer();
     
     if(cmd.position()){
@@ -20,7 +24,10 @@ function Brush()
     if(cmd.rect()){
       pointer.mirror = cmd.rect();
     }
-    if(cmd.rect() || cmd.position()){
+    if(cmd.noise()){
+      pointer.noise = cmd.noise();
+    }
+    if(cmd.rect() || cmd.position() || cmd.noise()){
       this.add_pointer(pointer);
     }
     if(cmd.color()){
@@ -37,15 +44,16 @@ function Brush()
   
   this.hint = function(cmd)
   {
+    if(cmd.bang()){ return "Brush: Erase all pointers"; }
+    
     var hint_value = (cmd.value() ? "Size "+cmd.value()+" " : "");
     var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
     var hint_color = (cmd.color() ? "Color "+cmd.color().hex+" " : "");
     var hint_rect = (cmd.rect() ? "Mirror "+cmd.rect().width+"/"+cmd.rect().height+" " : "");
+    var hint_noise = (cmd.noise() ? "Noise 0.."+cmd.noise()+" " : "");
     
-    return "Brush: "+hint_value+hint_position+hint_color+hint_rect;
+    return "Brush: "+hint_value+hint_position+hint_color+hint_rect+hint_noise;
   }
-  
-  this.pointers = [new Pointer(new Position())];
   
   this.add_pointer = function(pointer)
   {

@@ -42,4 +42,20 @@ function Command(cmd_array)
     }
     return null;
   }
+  
+  this.noise = function()
+  {
+    for (i = 0; i < this.cmd_array.length; i++) {
+      if(this.cmd_array[i].indexOf("?") >= 0){ return parseInt(this.cmd_array[i][1]); }
+    }
+    return null;
+  }
+  
+  this.bang = function()
+  {
+    for (i = 0; i < this.cmd_array.length; i++) {
+      if(this.cmd_array[i].indexOf("!") >= 0){ return true; }
+    }
+    return null;
+  }
 }

@@ -26,9 +26,6 @@ function Commander(element,element_input)
       case "@":
         ronin.canvas.active(cmd);
         break;
-      case "~": // TODO
-        ronin.memory.active(cmd);
-        break;
       case "$":
         ronin.file.save(cmd);
         break;
@@ -68,10 +65,6 @@ function Commander(element,element_input)
       case "@":
         ronin.canvas.passive(this.cmd);
         ronin.module = ronin.canvas;
-        break;
-      case "~":
-        ronin.memory.passive(this.cmd);
-        ronin.module = ronin.memory;
         break;
       case "/":
         ronin.file.passive(this.cmd);

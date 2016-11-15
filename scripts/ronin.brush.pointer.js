@@ -2,6 +2,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 {
   this.offset = offset;
   this.mirror = null;
+  this.noise  = null;
   this.position_prev = null;
   
   this.draw = function()
@@ -9,16 +10,23 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     if(!this.position_prev){this.position_prev = this.position(); }
     if(ronin.brush.size < 0){ this.erase(); return; }
     
+    var position = this.position();
+    
+    if(this.noise){
+      position.x += (Math.random() * this.noise) - (this.noise/2);
+      position.y += (Math.random() * this.noise) - (this.noise/2);
+    }
+    
     context.beginPath();
     context.moveTo(this.position_prev.x,this.position_prev.y);
-    context.lineTo(this.position().x,this.position().y);
+    context.lineTo(position.x,position.y);
     context.lineCap="round";
     context.lineWidth = this.thickness();
     context.strokeStyle = ronin.brush.color.rgba();
     context.stroke();
     context.closePath();
     
-    this.position_prev = this.position();
+    this.position_prev = position;
   }
   
   this.erase = function()
