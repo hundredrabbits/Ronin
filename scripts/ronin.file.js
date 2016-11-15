@@ -10,8 +10,6 @@ function File()
     
     ronin.overlay.clear();
     
-    if(!cmd.position()){ return; }
-    if(!cmd.rect()){ return; }
     if(!cmd.path() && !cmd.value()){ return; }
     
     var position = cmd.position() ? cmd.position() : new Position();
@@ -19,8 +17,14 @@ function File()
     base_image = new Image();
     base_image.src = cmd.value() && this.storage[cmd.value()] ? this.storage[cmd.value()] : cmd.path();
     base_image.onload = function(){
-      position.normalize(cmd.rect());
-      ronin.canvas.context().drawImage(base_image, position.x, position.y, cmd.rect().width, cmd.rect().height);
+      var width = base_image.naturalWidth;
+      var height = base_image.naturalHeight;
+      if(cmd.rect()){
+        width = cmd.rect().width;
+        height = cmd.rect().height;
+        position.normalize(cmd.rect());
+      }
+      ronin.canvas.context().drawImage(base_image, position.x, position.y, width, height);
     }
   }
   
