@@ -20,7 +20,7 @@ function File()
     base_image.src = cmd.value() && this.storage[cmd.value()] ? this.storage[cmd.value()] : cmd.path();
     base_image.onload = function(){
       position.normalize(cmd.rect());
-      context.drawImage(base_image, position.x, position.y, cmd.rect().width, cmd.rect().height);
+      ronin.canvas.context().drawImage(base_image, position.x, position.y, cmd.rect().width, cmd.rect().height);
     }
   }
   
@@ -50,11 +50,11 @@ function File()
   this.save = function(cmd)
   {
     if(cmd.value() > 0){
-      this.storage[cmd.value()] = canvas.toDataURL("image/png");
+      this.storage[cmd.value()] = ronin.canvas.element.toDataURL("image/png");
     }
     else{
-      var d=canvas.toDataURL("image/png");
-      var w=window.open('about:blank','image from canvas');
+      var d = ronin.canvas.element.toDataURL("image/png");
+      var w = window.open('about:blank','image from canvas');
       w.document.write("<title>"+(cmd.cmd_array[0] ? cmd.cmd_array[0] : "Untitled")+"</title><img src='"+d+"' alt='from canvas'/>");
     }
   }

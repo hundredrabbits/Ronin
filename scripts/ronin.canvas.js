@@ -6,7 +6,7 @@ function Canvas(element)
   
   this.active = function(cmd)
   {
-    if(cmd.bang()){ this.context().clearRect(0, 0, canvas.width, canvas.height); }
+    if(cmd.bang()){ this.context().clearRect(0, 0, this.element.width, this.element.height); }
     
     if(cmd.rect()){
       this.resize(cmd.rect());
@@ -15,7 +15,7 @@ function Canvas(element)
     
     if(cmd.color()){
       this.context().beginPath();
-      this.context().rect(0, 0, canvas.width, canvas.height);
+      this.context().rect(0, 0, this.element.width, this.element.height);
       this.context().fillStyle = cmd.color().hex;
       this.context().fill();
     }

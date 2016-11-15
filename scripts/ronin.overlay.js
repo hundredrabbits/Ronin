@@ -37,13 +37,13 @@ function Overlay(element)
     if(rect){
       this.draw_rect(position,rect);
     }
-    else if(position.x != 0 && position.y != 0){
+    else if(position.x !== 0 && position.y !== 0){
       this.draw_pointer(position);
     }
-    else if(position.x != 0 ){
+    else if(position.x !== 0 ){
       this.draw_vertical_line(position);
     }
-    else if(position.y != 0 ){
+    else if(position.y !== 0 ){
       this.draw_horizontal_line(position);
     }
   }
@@ -142,6 +142,6 @@ function Overlay(element)
   
   this.clear = function()
   {
-    this.context().clearRect(0, 0, canvas.width, canvas.height);
+    this.context().clearRect(0, 0, ronin.canvas.element.width, ronin.canvas.element.height);
   }
 }

@@ -86,6 +86,9 @@ function Commander(element,element_input)
         ronin.zoom.passive(this.cmd);
         ronin.module = ronin.zoom;
         break;
+      case "$":
+        ronin.module = ronin.file;
+        break;
       case ":":
         ronin.filter.passive(this.cmd);
         ronin.module = ronin.filter;

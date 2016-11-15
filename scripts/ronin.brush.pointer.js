@@ -17,21 +17,21 @@ function Pointer(offset = new Position(), color = new Color('000000'))
       position.y += (Math.random() * this.noise) - (this.noise/2);
     }
     
-    context.beginPath();
-    context.moveTo(this.position_prev.x,this.position_prev.y);
-    context.lineTo(position.x,position.y);
-    context.lineCap="round";
-    context.lineWidth = this.thickness();
-    context.strokeStyle = ronin.brush.color.rgba();
-    context.stroke();
-    context.closePath();
+    ronin.canvas.context().beginPath();
+    ronin.canvas.context().moveTo(this.position_prev.x,this.position_prev.y);
+    ronin.canvas.context().lineTo(position.x,position.y);
+    ronin.canvas.context().lineCap="round";
+    ronin.canvas.context().lineWidth = this.thickness();
+    ronin.canvas.context().strokeStyle = ronin.brush.color.rgba();
+    ronin.canvas.context().stroke();
+    ronin.canvas.context().closePath();
     
     this.position_prev = position;
   }
   
   this.erase = function()
   {
-    context.clearRect(this.position().x - (ronin.brush.size/2), this.position().y - (ronin.brush.size/2), ronin.brush.size, ronin.brush.size);
+    ronin.canvas.context().clearRect(this.position().x - (ronin.brush.size/2), this.position().y - (ronin.brush.size/2), ronin.brush.size, ronin.brush.size);
   }
   
   this.thickness = function()
