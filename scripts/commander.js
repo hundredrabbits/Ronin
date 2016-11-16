@@ -53,6 +53,9 @@ function Commander(element,element_input)
       case ":":
         ronin.filter.active(cmd);
         break;
+      case "+":
+        ronin.vector.active(cmd);
+        break;
     }
     
     this.hide();
@@ -95,6 +98,10 @@ function Commander(element,element_input)
       case ":":
         ronin.filter.passive(this.cmd);
         ronin.module = ronin.filter;
+        break;
+      case "+":
+        ronin.vector.passive(this.cmd);
+        ronin.module = ronin.vector;
         break;
     }
   }
