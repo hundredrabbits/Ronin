@@ -10,7 +10,13 @@ function Vector()
   
   this.active = function(cmd)
   {
-    var path = new Path2D('M 100,100 h 50 v 50 h 50');
+    var path = new Path2D(cmd.content.join(" "));
+    
+    console.log(ronin.size);
+    
+    ronin.canvas.context().lineCap="round";
+    ronin.canvas.context().lineWidth = ronin.brush.size;
+    ronin.canvas.context().strokeStyle = ronin.brush.color.rgba();
     ronin.canvas.context().stroke(path);
   }
   
@@ -18,4 +24,7 @@ function Vector()
   {
     return "Vector: "
   }
+  
+  // Demo:
+  // > 5 #ff0000;+ M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80
 }

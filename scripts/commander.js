@@ -3,6 +3,7 @@ function Commander(element,element_input)
   this.element = element;
   this.element_input = element_input;
   this.cmd = null;
+  this.storage = [];
   
   this.show = function()
   {
@@ -57,7 +58,7 @@ function Commander(element,element_input)
         ronin.vector.active(cmd);
         break;
     }
-    
+    this.storage.push(content);
     this.hide();
   }
   
