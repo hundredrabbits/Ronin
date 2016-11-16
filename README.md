@@ -105,12 +105,6 @@ rate:10                           ; variable: rate = 10
 > 1,1;> 2,2;> 3,3;> 4,4
 # Hard
 > 2,2;> 4,4;> 6,6;> 8,8
-# Horizontal Noise
-> 0,10 ?1;> 0,5 ?1;> 0,-5 ?1;> 0,-10 ?1
-```
-
-##Noise Brush
-```
-# Tight
-> 4;> osc_rate:10 osc_scale:10;> osc_rate:15 osc_scale:12;> osc_rate:10 osc_scale:14
+# Symmetric Light
+> 1,1 600x;> 2,2 600x;> 3,3 600x;> 4,4 600x
 ```

@@ -1,6 +1,3 @@
-
-// Juchecore
-
 var ronin = new Ronin();
 ronin.canvas.element = document.getElementById('workspace');
 ronin.overlay.element = document.getElementById('overlay');
@@ -16,5 +13,3 @@ document.addEventListener('mouseup',   function(e)  { ronin.brush.draw_stop(e); 
 
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen(event); };
-
-// Done.
