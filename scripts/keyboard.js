@@ -65,14 +65,12 @@ function Keyboard()
     
     if(cmd.indexOf(";") > 0){
       var multi = cmd.split(";");
-      if(multi[0]){commander.active(multi[0].split(" "));}
-      if(multi[1]){commander.active(multi[1].split(" "));}
-      if(multi[2]){commander.active(multi[2].split(" "));}
-      if(multi[3]){commander.active(multi[3].split(" "));}
-      if(multi[4]){commander.active(multi[4].split(" "));}
-      if(multi[5]){commander.active(multi[5].split(" "));}
-      if(multi[6]){commander.active(multi[6].split(" "));}
-      if(multi[7]){commander.active(multi[7].split(" "));}
+      var i = 0;
+      while(i < 100){
+        if(multi[i]){commander.active(multi[i].split(" "));}
+        else{ break; }
+        i += 1;
+      }
     }
     else{
       commander.active(cmd.split(" "));
