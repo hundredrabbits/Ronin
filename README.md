@@ -1,5 +1,7 @@
 #Ronin
 
+Ronin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. Headings with a star are features in development.
+
 ##Canvas
 ```
 @ 600x400                         ; New canvas of size 600w and 400h
@@ -86,9 +88,9 @@ rate:10                           ; variable: rate = 10
 ##Radial Brush
 ```
 # 8 strands
-> 600,400 45' 3;> 600,400 90' 3;> 600,400 135' 3;> 600,400 180' 3;> 600,400 225' 3;> 600,400 270' 3;> 600,400 315' 3
+> 600,400 45';> 600,400 90';> 600,400 135';> 600,400 180';> 600,400 225';> 600,400 270';> 600,400 315'
 # 6 strands
-> 600,400 60' 3;> 600,400 120' 3;> 600,400 180' 3;> 600,400 240' 3;> 600,400 300' 3
+> 600,400 60';> 600,400 120';> 600,400 180';> 600,400 240';> 600,400 300'
 ```
 
 ##Symmetry Brush
@@ -110,5 +112,5 @@ rate:10                           ; variable: rate = 10
 ##Noise Brush
 ```
 # Tight
-> 4;> osc_rate:10 osc_scale:10;> osc_rate:15 osc_scale:12;> osc_rate:10 osc_scale:14;> osc_rate:10 osc_scale:10;
+> 4;> osc_rate:10 osc_scale:10;> osc_rate:15 osc_scale:12;> osc_rate:10 osc_scale:14
 ```
