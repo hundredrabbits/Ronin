@@ -55,10 +55,10 @@ function Pointer(offset = new Position(), color = new Color('000000'))
       return new Position(x + this.offset.x,y + this.offset.y);
     }
     else if(this.mirror && this.mirror.width > 0){
-      return new Position(this.mirror.width - (ronin.brush.position.x + this.offset.x), 0 + (ronin.brush.position.y + this.offset.y));
+      return new Position((2 * this.mirror.width) - (ronin.brush.position.x + this.offset.x), 0 + (ronin.brush.position.y + this.offset.y));
     }
     else if(this.mirror && this.mirror.height > 0){
-      return new Position((ronin.brush.position.x + this.offset.x), this.mirror.height - (ronin.brush.position.y + this.offset.y));
+      return new Position((ronin.brush.position.x + this.offset.x), (2 * this.mirror.height) - (ronin.brush.position.y + this.offset.y));
     }
     return new Position(ronin.brush.position.x + this.offset.x, ronin.brush.position.y + this.offset.y);
   }

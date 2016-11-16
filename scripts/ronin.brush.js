@@ -43,6 +43,15 @@ function Brush()
   
   this.passive = function(cmd)
   {
+    if(cmd.rect()){
+      var x = isNaN(cmd.rect().width) ? 0 : cmd.rect().width;
+      var y = isNaN(cmd.rect().height) ? 0 : cmd.rect().height;
+      var pos = new Position(x+","+y);
+      ronin.overlay.draw(pos);
+    }
+    if(cmd.angle() && cmd.position()){
+      ronin.overlay.draw(cmd.position());
+    }
   }
   
   this.hint = function(cmd)

@@ -101,8 +101,8 @@ function Overlay(element)
   {
     this.context().beginPath();
     
-    this.context().moveTo(position.x,0);
-    this.context().lineTo(position.x,this.element.height);
+    this.context().moveTo(0,position.y);
+    this.context().lineTo(this.element.width,position.y);
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
