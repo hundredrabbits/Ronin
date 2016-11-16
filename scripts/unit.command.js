@@ -46,7 +46,7 @@ function Command(content)
   this.noise = function()
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("?") >= 0){ return parseInt(this.content[i][1]); }
+      if(this.content[i].indexOf("?") >= 0){ return parseInt(this.content[i].replace('?','')); }
     }
     return null;
   }

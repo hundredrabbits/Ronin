@@ -5,6 +5,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.noise  = null;
   this.position_prev = null;
   this.angle = null;
+  this.distance = 0;
   
   this.draw = function()
   {
@@ -13,9 +14,11 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     
     var position = this.position();
     
+    this.distance += position.distance_to(this.position_prev);
+    
     if(this.noise){
-      position.x += (Math.random() * this.noise) - (this.noise/2);
-      position.y += (Math.random() * this.noise) - (this.noise/2);
+      position.x += (Math.sin(this.distance/100) * this.noise) - (this.noise/2);
+      position.y += (Math.sin(this.distance/100) * this.noise) - (this.noise/2);
     }
     
     ronin.canvas.context().beginPath();
