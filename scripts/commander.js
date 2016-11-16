@@ -4,6 +4,7 @@ function Commander(element,element_input)
   this.element_input = element_input;
   this.cmd = null;
   this.storage = [];
+  this.storage_index = 0;
   
   this.show = function()
   {
@@ -17,8 +18,28 @@ function Commander(element,element_input)
     this.element_input.value = "";
   }
   
+  this.clear = function()
+  {
+    this.element_input.value = "";
+  }
+  
+  this.next_cmd = function()
+  {
+    this.storage_index += this.storage_index < this.storage.length ? 1 : 0;
+    this.element_input.value = this.storage[this.storage_index] ? this.storage[this.storage_index] : "";
+  }
+  
+  this.prev_cmd = function()
+  {
+    this.storage_index -= this.storage_index < 1 ? 0 : 1;
+    this.element_input.value = this.storage[this.storage_index];
+  }
+  
   this.active = function(content)
   {
+    this.storage.push(content.join(" "));
+    this.storage_index = this.storage.length;
+    
     var key = content[0];
     content.shift();
     var cmd = new Command(content);
@@ -58,7 +79,6 @@ function Commander(element,element_input)
         ronin.vector.active(cmd);
         break;
     }
-    this.storage.push(content);
     this.hide();
   }
   

@@ -13,7 +13,5 @@ function Hint(element)
     else{
       this.element.style.display = "none";
     }
-    
-    console.log(ronin.module);
   }
 }

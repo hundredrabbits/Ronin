@@ -41,10 +41,10 @@ $ !                               ; Clear temporary storage
 | !                               ; Remove all guides
 ```
 
-##Vector(SVG Path)
+##Vector(SVG)
 ```
-+ M10 10 h 80 v 80 h -80 Z        ; Draw a square outline
-+ M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80 ; Draw a bezier
++ M10 10 h 80 v 80 h -80 Z                                     ; Draw a square outline
++ M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80               ; Draw a bezier
 + M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0 ; Draw a circle
 ```
 
@@ -74,13 +74,7 @@ $ !                               ; Clear temporary storage
 = !                               ; Zoom 100%
 ```
 
-##Layers*
-```
-# 3                               ; Layer 3
-# !                               ; Layer 1
-```
-
-#Units*
+#Units
 ```
 5                                 ; value:    5
 5,7                               ; position: 5x 7y

@@ -85,10 +85,12 @@ function Keyboard()
 
   this.key_arrow_up = function()
   {
+    commander.prev_cmd();
   }
 
   this.key_arrow_down = function()
   {
+    commander.next_cmd();
   }
 
   this.key_arrow_left = function()
