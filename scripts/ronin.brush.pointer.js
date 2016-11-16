@@ -2,10 +2,12 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 {
   this.offset = offset;
   this.mirror = null;
-  this.noise  = null;
   this.position_prev = null;
   this.angle = null;
   this.distance = 0;
+  
+  this.osc_scale = null;
+  this.osc_rate = null;
   
   this.draw = function()
   {
@@ -16,9 +18,10 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     
     this.distance += position.distance_to(this.position_prev);
     
-    if(this.noise){
-      position.x += (Math.sin(this.distance/100) * this.noise) - (this.noise/2);
-      position.y += (Math.sin(this.distance/100) * this.noise) - (this.noise/2);
+    // Osc experiment
+    if(this.osc_rate && this.osc_scale){
+      // position.x += (Math.sin(this.distance/(25 * this.osc_rate)) * this.osc_scale) - (this.osc_scale/2);
+      position.y += (Math.sin(this.distance/(25 * this.osc_rate)) * this.osc_scale) - (this.osc_scale/2);
     }
     
     ronin.canvas.context().beginPath();

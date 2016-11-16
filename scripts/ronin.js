@@ -6,4 +6,5 @@ function Ronin()
   this.file     = new File();
   this.hint     = new Hint();
   this.filter   = new Filter();
+  this.stroke   = new Stroke();
 }

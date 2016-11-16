@@ -43,10 +43,10 @@ function Command(content)
     return null;
   }
   
-  this.noise = function()
+  this.random = function()
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("?") >= 0){ return parseInt(this.content[i].replace('?','')); }
+      if(this.content[i].indexOf("..") >= 0){ (Math.random() * this.content[i].split("..")[1]) + this.content[i].split("..")[0]; }
     }
     return null;
   }
@@ -63,6 +63,14 @@ function Command(content)
   {
     for (i = 0; i < this.content.length; i++) {
       if(this.content[i].indexOf("'") >= 0){ return parseFloat(this.content[i].replace('\'','')); }
+    }
+    return null;
+  }
+  
+  this.variable = function(name)
+  {
+    for (i = 0; i < this.content.length; i++) {
+      if(this.content[i].indexOf(name+":") >= 0){ return this.content[i].split(":")[1]; }
     }
     return null;
   }

@@ -39,6 +39,11 @@ $ !                               ; Clear temporary storage
 | !                               ; Remove all guides
 ```
 
+##Stroke*
+```
+- 0,0 0,10 10,10 10,0 0,0         ; Draw a square
+```
+
 ##Filters*
 ```
 : saturation 0.5                  ; Set image saturation to 0.5
@@ -72,8 +77,9 @@ $ !                               ; Clear temporary storage
 5,7                               ; position: 5x 7y
 7x9                               ; rect:     7w 9h
 #ff0000                           ; color:    red
-?5                                ; random:   0..5
+0..5                              ; random:   0.0-5.0
 45'                               ; degree:   45/365
+rate:10                           ; variable: rate = 10
 ```
 
 #Presets
@@ -104,7 +110,5 @@ $ !                               ; Clear temporary storage
 ##Noise Brush
 ```
 # Tight
-> 0,0.1 ?5;> 0,-0.1 ?5;> 0.1,0 ?5;> -0.1,0 ?5
-# Glitch
-> ?10;> ?10;> ?10;> ?10;> ?10;> ?10;> ?10;> ?10;
+> 4;> osc_rate:10 osc_scale:10;> osc_rate:15 osc_scale:12;> osc_rate:10 osc_scale:14;> osc_rate:10 osc_scale:10;
 ```

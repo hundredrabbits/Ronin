@@ -38,6 +38,9 @@ function Commander(element,element_input)
       case "|":
         ronin.overlay.active(cmd);
         break;
+      case "-":
+        ronin.stroke.active(cmd);
+        break;
       case "^": // TODO
         ronin.translate.active(cmd);
         break;

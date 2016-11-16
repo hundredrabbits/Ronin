@@ -24,13 +24,14 @@ function Brush()
     if(cmd.rect()){
       pointer.mirror = cmd.rect();
     }
-    if(cmd.noise()){
-      pointer.noise = cmd.noise();
+    if(cmd.variable("osc_scale") && cmd.variable("osc_rate")){
+      pointer.osc_rate  = parseFloat(cmd.variable("osc_rate"));
+      pointer.osc_scale = parseFloat(cmd.variable("osc_scale"));
     }
     if(cmd.angle()){
       pointer.angle = cmd.angle();
     }
-    if(cmd.rect() || cmd.position() || cmd.noise() || cmd.angle()){
+    if(cmd.rect() || cmd.position() || cmd.variable("osc_rate") || cmd.angle()){
       this.add_pointer(pointer);
     }
     if(cmd.color()){
@@ -62,9 +63,9 @@ function Brush()
     var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
     var hint_color = (cmd.color() ? "Color "+cmd.color().hex+" " : "");
     var hint_rect = (cmd.rect() ? "Mirror "+cmd.rect().width+"/"+cmd.rect().height+" " : "");
-    var hint_noise = (cmd.noise() ? "Noise 0.."+cmd.noise()+" " : "");
+    var hint_random = (cmd.random() ? "Random 0.."+cmd.random()+" " : "");
     
-    return "Brush: "+hint_value+hint_position+hint_color+hint_rect+hint_noise;
+    return "Brush: "+hint_value+hint_position+hint_color+hint_rect+hint_random;
   }
   
   this.add_pointer = function(pointer)
