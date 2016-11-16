@@ -67,6 +67,7 @@ function Commander(element,element_input)
     var key = content[0];
     content.shift();
     this.cmd = new Command(content);
+    ronin.module = null;
     
     switch(key) {
       case "@":

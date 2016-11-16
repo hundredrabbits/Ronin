@@ -24,7 +24,4 @@ function Vector()
   {
     return "Vector: "
   }
-  
-  // Demo:
-  // > 5 #ff0000;+ M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80
 }

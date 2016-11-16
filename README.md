@@ -45,6 +45,7 @@ $ !                               ; Clear temporary storage
 ```
 + M10 10 h 80 v 80 h -80 Z        ; Draw a square outline
 + M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80 ; Draw a bezier
++ M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0 ; Draw a circle
 ```
 
 ##Stroke*

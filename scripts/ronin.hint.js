@@ -6,6 +6,14 @@ function Hint(element)
   
   this.update = function()
   {
-    this.element.innerHTML = !ronin.module ? "Missing" : ronin.module.hint(commander.cmd);
+    if(ronin.module){
+      this.element.innerHTML = ronin.module.hint(commander.cmd);
+      this.element.style.display = "block";
+    }
+    else{
+      this.element.style.display = "none";
+    }
+    
+    console.log(ronin.module);
   }
 }
