@@ -97,7 +97,9 @@ rate:10                           ; variable: rate = 10
 ##Symmetry Brush
 ```
 # XY
-> 600,400 45' 3
+> 400x 3
+# Angular brushes
+> 400x 1,1;> 400x 2,2;> 400x 3,3; > 1,1;> 2,2;> 3,3;
 ```
 
 ##Angular Brush
