@@ -2,6 +2,8 @@ function Filter(element)
 {
   Module.call(this);
   
+  this.parameters = [Text,Value];
+  
   this.active = function(cmd)
   {
     if(cmd.content.length < 1){ return; }
@@ -19,11 +21,6 @@ function Filter(element)
   
   this.passive = function(cmd)
   {
-  }
-  
-  this.hint = function(cmd)
-  {
-    return "Filter: ";
   }
   
   // Filters

@@ -2,6 +2,8 @@ function Stroke(element)
 {
   Module.call(this);
   
+  this.parameters = [Any];
+  
   // Module
   
   this.passive = function(cmd)
@@ -27,10 +29,6 @@ function Stroke(element)
     
     ronin.brush.draw(e);
     ronin.brush.is_drawing = false;
-  }
-  
-  this.hint = function(cmd)
-  {
   }
   
 }

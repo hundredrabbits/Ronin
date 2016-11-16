@@ -2,6 +2,12 @@ function Command(content)
 {
   this.content = content;
   
+  this.any = function()
+  {
+    if(this.content.join() === ""){ return null; }
+    return new Any(this.content);
+  }
+  
   this.rect = function()
   {
     for (i = 0; i < this.content.length; i++) {
@@ -26,10 +32,10 @@ function Command(content)
     return null;
   }
   
-  this.path = function()
+  this.filepath = function()
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("/") >= 0){ return this.content[i]; }
+      if(this.content[i].indexOf("/") >= 0){ return new Filepath(this.content[i]); }
     }
     return null;
   }
@@ -38,15 +44,15 @@ function Command(content)
   {
     for (i = 0; i < this.content.length; i++) {
       var test = /[^$\-\d]/.test(this.content[i]);
-      if(!test){ return parseFloat(this.content[i]); }
+      if(!test && this.content[i] !== ""){ return new Value(this.content[i]); }
     }
     return null;
   }
   
-  this.random = function()
+  this.range = function()
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("..") >= 0){ (Math.random() * this.content[i].split("..")[1]) + this.content[i].split("..")[0]; }
+      if(this.content[i].indexOf("..") >= 0){ return new Range(this.content[i]); }
     }
     return null;
   }
@@ -54,7 +60,7 @@ function Command(content)
   this.bang = function()
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("!") >= 0){ return true; }
+      if(this.content[i].indexOf("!") >= 0){ return new Bang(); }
     }
     return null;
   }
@@ -62,7 +68,7 @@ function Command(content)
   this.angle = function()
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("'") >= 0){ return parseFloat(this.content[i].replace('\'','')); }
+      if(this.content[i].indexOf("'") >= 0){ return new Angle(this.content[i]); }
     }
     return null;
   }
@@ -70,7 +76,7 @@ function Command(content)
   this.variable = function(name)
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf(name+":") >= 0){ return this.content[i].split(":")[1]; }
+      if(this.content[i].indexOf(name+":") >= 0){ return Variable(this.content[i]); }
     }
     return null;
   }

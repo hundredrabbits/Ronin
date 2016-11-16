@@ -83,6 +83,8 @@ $ !                               ; Clear temporary storage
 0..5                              ; random:   0.0-5.0
 45'                               ; degree:   45/365
 rate:10                           ; variable: rate = 10
+"foo"                             ; string:   foo
+{40w}                             ; dynamic:  120px, 40% canvas width
 ```
 
 #Presets

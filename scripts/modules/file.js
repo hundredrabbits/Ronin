@@ -2,6 +2,7 @@ function File()
 {
   Module.call(this);
   
+  this.parameters = [Filepath,Position,Rect,Bang];
   this.storage = [];
   
   this.active = function(cmd)
@@ -10,12 +11,12 @@ function File()
     
     ronin.overlay.clear();
     
-    if(!cmd.path() && !cmd.value()){ return; }
+    if(!cmd.filepath() && !cmd.value()){ return; }
     
     var position = cmd.position() ? cmd.position() : new Position();
     
     base_image = new Image();
-    base_image.src = cmd.value() && this.storage[cmd.value()] ? this.storage[cmd.value()] : cmd.path();
+    base_image.src = cmd.value() && this.storage[cmd.value().int] ? this.storage[cmd.value().int] : cmd.filepath().path;
     base_image.src += '?' + new Date().getTime();
     base_image.crossOrigin = "Anonymous";
     
@@ -37,7 +38,7 @@ function File()
   
   this.passive = function(cmd)
   {
-    if(!cmd.path() && !cmd.value()){ return; }
+    if(!cmd.filepath() && !cmd.value()){ return; }
     
     var position = cmd.position() ? cmd.position() : new Position();
     
@@ -49,19 +50,10 @@ function File()
     }
   }
   
-  this.hint = function(cmd)
-  {
-    var hint_path = (cmd.path() ? "Path "+cmd.path()+" " : "");
-    var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
-    var hint_rect = (cmd.rect() ? "Size "+cmd.rect().width+" by "+cmd.rect().height+" " : "");
-    
-    return "File: "+hint_path+hint_position+hint_rect;
-  }
-  
   this.save = function(cmd)
   {
-    if(cmd.value() > 0){
-      this.storage[cmd.value()] = ronin.canvas.element.toDataURL("image/png");
+    if(cmd.value() && cmd.value().int > 0){
+      this.storage[cmd.value().int] = ronin.canvas.element.toDataURL("image/png");
     }
     else{
       var d = ronin.canvas.element.toDataURL("image/png");

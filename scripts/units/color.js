@@ -1,5 +1,7 @@
 function Color(hex = '#000000')
 {
+  Unit.call(this);
+  
   this.hex = hex;
 
   this.rgb = function()
@@ -15,5 +17,10 @@ function Color(hex = '#000000')
   this.rgba = function()
   {
     return "rgba("+this.rgb().r+","+this.rgb().g+","+this.rgb().b+",1)";
+  }
+  
+  this.render = function()
+  {
+    return this.hex;
   }
 }

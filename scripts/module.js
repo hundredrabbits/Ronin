@@ -1,5 +1,7 @@
 function Module()
 {
+  this.parameters = [];
+  
   this.active = function(cmd)
   {
     console.log("Nothing to do.");

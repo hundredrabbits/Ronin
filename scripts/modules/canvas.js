@@ -1,7 +1,8 @@
 function Canvas(element)
 {
   Module.call(this);
-  
+
+  this.parameters = [Rect,Color,Bang];
   this.element = element;
   
   this.active = function(cmd)
@@ -26,16 +27,6 @@ function Canvas(element)
     if(cmd.rect()){
       ronin.overlay.show_guide(null,cmd.rect());
     }
-  }
-  
-  this.hint = function(cmd)
-  {
-    if(cmd.bang()){ return "Canvas: Clear"; }
-    
-    var hint_rect = (cmd.rect() ? "Resize to "+cmd.rect().width+"px by "+cmd.rect().height+"px " : "");
-    var hint_color = (cmd.color() ? "Fill with color "+cmd.color().hex+" " : "");
-    
-    return "Canvas: "+hint_rect+hint_color;
   }
   
   //

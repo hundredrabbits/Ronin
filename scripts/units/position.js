@@ -1,5 +1,7 @@
 function Position(position_str = "0,0",y = null)
 {
+  Unit.call(this);
+  
   this.position_str = position_str;
   
   this.x = y ? position_str : parseFloat(this.position_str.split(",")[0]);
@@ -25,5 +27,10 @@ function Position(position_str = "0,0",y = null)
     if(this.y < 0){
       this.y = ronin.canvas.element.height - rect.height - Math.abs(this.y);
     }
+  }
+  
+  this.render = function()
+  {
+    return (isNaN(this.x) ? 0 : this.x)+","+(isNaN(this.y) ? 0 : this.y);
   }
 }

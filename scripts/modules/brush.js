@@ -2,6 +2,7 @@ function Brush()
 {
   Module.call(this);
   
+  this.parameters = [Position,Rect,Angle,Color,Value,Bang];
   this.pointers = [new Pointer(new Position())];
   
   this.position = new Position();
@@ -38,7 +39,7 @@ function Brush()
       this.color = cmd.color();
     }
     if(cmd.value()){
-      this.size = cmd.value();
+      this.size = cmd.value().float;
     }
   }
   
@@ -53,19 +54,6 @@ function Brush()
     if(cmd.angle() && cmd.position()){
       ronin.overlay.draw(cmd.position());
     }
-  }
-  
-  this.hint = function(cmd)
-  {
-    if(cmd.bang()){ return "Brush: Erase all pointers"; }
-    
-    var hint_value = (cmd.value() ? "Size "+cmd.value()+" " : "");
-    var hint_position = (cmd.position() ? "Position "+cmd.position().x+","+cmd.position().y+" " : "");
-    var hint_color = (cmd.color() ? "Color "+cmd.color().hex+" " : "");
-    var hint_rect = (cmd.rect() ? "Mirror "+cmd.rect().width+"/"+cmd.rect().height+" " : "");
-    var hint_random = (cmd.random() ? "Random 0.."+cmd.random()+" " : "");
-    
-    return "Brush: "+hint_value+hint_position+hint_color+hint_rect+hint_random;
   }
   
   this.add_pointer = function(pointer)

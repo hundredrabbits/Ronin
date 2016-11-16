@@ -5,9 +5,16 @@ canvas:hover { cursor: crosshair;}
 
 #overlay { position:fixed; z-index:1000;}
 
-#commander { display:none; z-index: 2000; }
+#commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }
-#commander input { background:black; padding:15px; position:fixed; bottom:0; color:white; font-size:14px; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}
+#commander input { background:black; padding:5px 15px; position:fixed; bottom:0; color:white; font-size:14px; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}
 
-#commander_hint {     background: black;position: absolute;bottom: 47px;padding: 15px 15px 0 15px;line-height: 17px;font-family: courier;font-size: 14px;width: 100vw;color: #999;}
+#commander_hint { background: black;position: fixed;bottom: 27px;padding: 5px 15px 0 15px;line-height: 17px;font-family: courier;font-size: 14px;width: 100vw;color: #999;}
+#commander_hint .module { color:#ffffff; display:inline-block; margin-right:10px;}
+#commander_hint .param { font-style: italic;}
+#commander_hint .param:after { content:", "; }
+#commander_hint .param:last-child:after { content:"";}
+#commander_hint .value { color:#ff0000;}
+#commander_hint .value:after { content:", "; color:#999; }
+#commander_hint .value:last-child:after { content:"";}

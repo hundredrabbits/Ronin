@@ -51,7 +51,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.position = function()
   {
     if(this.angle){
-      var angle_radian = this.angle * Math.PI / 180;
+      var angle_radian = this.angle.degrees * Math.PI / 180;
       var deltaX = ronin.brush.position.x - this.offset.x;
       var deltaY = ronin.brush.position.y - this.offset.y;
       var t = Math.atan2(deltaY, deltaX) + angle_radian;
