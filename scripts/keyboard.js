@@ -46,6 +46,7 @@ function Keyboard()
       case 37: this.key_arrow_left(); break;
       case 39: this.key_arrow_right(); break;
       case 186: this.key_colon(); break;
+      case 190: if (event.shiftKey) this.key_colon(); break;
       case  27: this.key_escape(); break;
     }
     
