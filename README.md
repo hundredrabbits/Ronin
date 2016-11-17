@@ -84,7 +84,13 @@ $ !                               ; Clear temporary storage
 45'                               ; degree:   45/365
 rate:10                           ; variable: rate = 10
 "foo"                             ; string:   foo
-{40w}                             ; dynamic:  120px, 40% canvas width
+{40w}                             ; constant: 120px, 40% canvas width
+```
+
+#Constants
+```
+w                                 ; percentage of canvas width
+h                                 ; percentage of canvas height
 ```
 
 #Presets

@@ -2,6 +2,7 @@ function Overlay(element)
 {
   Module.call(this);
   
+  this.parameters = [Position,Rect];
   this.element = element;
   
   // Module
