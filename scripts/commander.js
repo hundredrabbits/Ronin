@@ -5,16 +5,23 @@ function Commander(element,element_input)
   this.cmd = null;
   this.storage = [];
   this.storage_index = 0;
+  this.always_show = false;
   
   this.show = function()
   {
     this.element.setAttribute('class','visible');
     this.element_input.focus();
   }
+
+  this.always = function() {
+      this.always_show = !this.always_show;
+  }
   
   this.hide = function()
   {
-    this.element.setAttribute('class','hidden');
+    if (!this.always_show) {
+        this.element.setAttribute('class','hidden');
+    }
     this.element_input.value = "";
   }
   
@@ -45,6 +52,9 @@ function Commander(element,element_input)
     var cmd = new Command(content);
     
     switch(key) {
+      case "~":
+          this.always();
+          break;
       case "@":
         ronin.canvas.active(cmd);
         break;
