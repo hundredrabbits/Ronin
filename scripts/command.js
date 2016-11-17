@@ -1,6 +1,30 @@
 function Command(content)
 {
-  this.content = content;
+  this.content = raster(content);
+  
+  // Raster
+  
+  function raster(array) // @ {50w}x100
+  {
+    var str = array.join(" ");
+    
+    var m = str.replace(/(\{(.*)\})/g, function(a) {
+      var parts = a.split(/[{}]/);
+      for(var e = 0; e < parts.length; e++) {
+        if(str.indexOf("{"+parts[e]+"}") == -1){ continue; }
+        str = str.replace("{"+parts[e]+"}",converter(parts[e]));
+      }
+    });
+    return str.split(" ");
+  }
+  
+  function converter(str)
+  {
+    if(str == "50w"){ return "123"; }
+    return str;
+  }
+  
+  // Parser
   
   this.any = function()
   {
