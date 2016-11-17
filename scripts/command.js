@@ -20,7 +20,18 @@ function Command(content)
   
   function converter(str)
   {
-    if(str == "50w"){ return "123"; }
+    var unit  = str.charAt(str.length - 1);
+    var value = parseFloat(str.replace(unit,''));
+    
+    switch(unit) {
+      case "w":
+        return ronin.canvas.element.width * (value/100);
+        break;
+      case "h":
+        return ronin.canvas.element.height * (value/100);
+        break;
+    }
+    
     return str;
   }
   
