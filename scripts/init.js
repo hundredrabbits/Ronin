@@ -7,9 +7,11 @@ var commander = new Commander(document.getElementById("commander"),document.getE
 
 // Interactive
 
-document.addEventListener('mousemove', function(e)  { ronin.brush.draw(e); }, false);
-document.addEventListener('mousedown', function(e)  { if(e.which != 1){ return; } ronin.brush.draw_start(e); }, false);
-document.addEventListener('mouseup',   function(e)  { ronin.brush.draw_stop(e); }, false);
+document.addEventListener('mousemove', function(e)  { ronin.brush.draw(e); ;
+}, false);
+document.addEventListener('mousedown', function(e)  { if(e.which != 1){ return; } ronin.brush.draw_start(e); ronin.brush.draw(e) }, false);
+document.addEventListener('mouseup',   function(e)  { ronin.brush.draw_stop(e); document.getElementById("commander_input").focus();}, false);
+
 
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen(event); };
