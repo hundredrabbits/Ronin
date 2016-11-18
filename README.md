@@ -1,7 +1,16 @@
 #Ronin
 
+<img src="media/demo.jpg" width="700">
+
+#Starting
+
 Ronin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. Headings with a star are features in development.
 
+```
+:
+```
+
+#Modules
 ##Canvas
 ```
 @ 600x400                         ; New canvas of size 600w and 400h
