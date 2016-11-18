@@ -26,12 +26,9 @@ function Command(content)
     switch(unit) {
       case "w":
         return ronin.canvas.element.width * (value/100);
-        break;
       case "h":
         return ronin.canvas.element.height * (value/100);
-        break;
     }
-    
     return str;
   }
   
@@ -46,7 +43,7 @@ function Command(content)
   this.rect = function()
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("x") >= 0){ return new Rect(this.content[i]); }
+      if(this.content[i].indexOf("x") >= 0 && this.content[i].indexOf("/") < 0){ return new Rect(this.content[i]); }
     }
     return null;
   }
