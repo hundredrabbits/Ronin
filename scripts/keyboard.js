@@ -1,11 +1,11 @@
 function Keyboard()
 {
   this.is_locked = false;
-  
+
   this.cmd = function()
   {
     var val = commander.element_input.value;
-    
+
     if(val.indexOf(";") > 0){
       var cmds = val.split(";");
       var vals = [];
@@ -19,7 +19,7 @@ function Keyboard()
       return [val.split(" ")];
     }
   }
-  
+
   this.lock = function()
   {
     this.is_locked = true;
@@ -35,21 +35,21 @@ function Keyboard()
   this.listen = function(event)
   {
     if(this.is_locked === true){ return; }
-    
-    switch (event.keyCode)
-    {
-      case  9: this.key_tab(); break;
-      case 13: this.key_enter(); break;
-      case 32: this.key_space(); break;
-      case 38: this.key_arrow_up(); break;
-      case 40: this.key_arrow_down(); break;
-      case 37: this.key_arrow_left(); break;
-      case 39: this.key_arrow_right(); break;
-      case 186: this.key_colon(); break;
-      case 190: if (event.shiftKey) this.key_colon(); break;
-      case  27: this.key_escape(); break;
+  
+    if(event.keyCode == 9) this.key_tab();
+    switch (event.key) {
+      case "Enter": this.key_enter(); break;
+      case " " : this.key_space(); break;
+      case "ArrowUp": this.key_arrow_up(); break;
+      case "ArrowDown": this.key_arrow_down(); break;
+      case "ArrowLeft": this.key_arrow_left(); break;
+      case "ArrowRight": this.key_arrow_right(); break;
+      case ":": this.key_colon(); break;
+      //not sure if this one needed anymore
+      case ";": if (event.shiftKey) this.key_colon(); break;
+      case "Escape": this.key_escape(); break;
     }
-    
+
     // Passive
     var cmd = commander.element_input.value;
     commander.passive(cmd.split(" "));
@@ -63,7 +63,7 @@ function Keyboard()
   this.key_enter = function()
   {
     var cmd = commander.element_input.value;
-    
+
     if(cmd.indexOf(";") > 0){
       var multi = cmd.split(";");
       var i = 0;
@@ -99,13 +99,13 @@ function Keyboard()
   this.key_arrow_right = function()
   {
   }
-  
+
   this.key_colon = function()
   {
     commander.show();
     return false;
   }
-  
+
   this.key_escape = function()
   {
     commander.hide();
