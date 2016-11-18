@@ -10,13 +10,11 @@ Ronin is a web based drawing application and visual language. Launch index.html 
 :
 ```
 
-#Save/Load
 Loading files requires you to run Ronin through localhost. Navigate to the Ronin folder, and run the simple http server.
 ```
 cd /path/to/ronin/                ; Navigate to Ronin through the terminal
 python -m SimpleHTTPServer 8000   ; Start localhost
 http://localhost:8000/            ; Enjoy Ronin
-
 ```
 
 #Modules
