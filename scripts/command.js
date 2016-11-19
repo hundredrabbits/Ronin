@@ -6,6 +6,7 @@ function Command(content)
   
   function raster(array) // @ {50w}x100
   {
+    return array;
     var str = array.join(" ");
     
     var m = str.replace(/(\{(.*)\})/g, function(a) {

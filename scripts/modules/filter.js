@@ -19,6 +19,9 @@ function Filter(element)
       case "chromatic":
         this.filter_chromatic(this.pixels(),p);
         break;
+      case "eval":
+        this.filter_eval(this.pixels(),p);
+        break;
     }
   }
   
