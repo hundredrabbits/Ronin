@@ -19,8 +19,9 @@ function Filter(element)
       case "chromatic":
         this.filter_chromatic(this.pixels(),p);
         break;
-      case "invert":
-        this.filter_invert(this.pixels(),p);
+      case "offset":
+        this.filter_offset(this.pixels(),p);
+        break;
       case "eval":
         this.filter_eval(this.pixels(),p);
         break;
