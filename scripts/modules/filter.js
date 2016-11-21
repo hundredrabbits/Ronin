@@ -21,6 +21,11 @@ function Filter(element)
         break;
       case "invert":
         this.filter_invert(this.pixels(),p);
+      case "eval":
+        this.filter_eval(this.pixels(),p);
+        break;
+      case "balance":
+        this.filter_balance(this.pixels(),p);
         break;
     }
   }
