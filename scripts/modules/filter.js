@@ -19,6 +19,9 @@ function Filter(element)
       case "chromatic":
         this.filter_chromatic(this.pixels(),p);
         break;
+      case "invert":
+        this.filter_invert(this.pixels(),p);
+        break;
     }
   }
   
