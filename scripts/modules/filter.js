@@ -22,6 +22,9 @@ function Filter(element)
       case "eval":
         this.filter_eval(this.pixels(),p);
         break;
+      case "balance":
+        this.filter_balance(this.pixels(),p);
+        break;
     }
   }
   
