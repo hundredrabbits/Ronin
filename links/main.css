@@ -3,12 +3,16 @@ body { margin:0px; padding:0px; overflow:hidden;}
 
 canvas:hover { cursor: crosshair;}
 
+#ronin { width:100vw; height:100vh; overflow:hidden; background:#000; background-image:url(../media/grid_20.png);}
+
 #overlay { position:fixed; z-index:1000;}
+#workspace { position:fixed; background:#efefef; border-radius:3px;}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }
 #commander input { background:black; padding:5px 15px; position:fixed; bottom:0; color:white; font-size:14px; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}
+#commander input:before { content:"input"; color:red;}
 
 #commander_hint { background: black;position: fixed;bottom: 27px;padding: 5px 15px 0 15px;line-height: 17px;font-family: courier;font-size: 14px;width: 100vw;color: #999;}
 #commander_hint .module { color:#ffffff; display:inline-block; margin-right:10px;}

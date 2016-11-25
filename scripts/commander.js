@@ -47,8 +47,8 @@ function Commander(element,element_input)
     this.storage.push(content.join(" "));
     this.storage_index = this.storage.length;
     
-    var key = content[0];
-    content.shift();
+    var key = content[0][0];
+    content[0] = content[0].slice(1);
     var cmd = new Command(content);
     
     switch(key) {
@@ -94,8 +94,8 @@ function Commander(element,element_input)
   
   this.passive = function(content)
   {
-    var key = content[0];
-    content.shift();
+    var key = content[0][0];
+    content[0] = content[0].slice(1);
     this.cmd = new Command(content);
     ronin.module = null;
     

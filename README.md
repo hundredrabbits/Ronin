@@ -4,7 +4,7 @@
 
 #Starting
 
-Ronin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. Headings with a star are features in development.
+Ronin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. Headings with a star are features in development. Mouse2 is used to drag the canvas around.
 
 ```
 :
@@ -74,9 +74,8 @@ $ !                               ; Clear temporary storage
 : saturation 0.5                  ; Set image saturation to 0.5
 : chromatic 10                    ; Shifts, from center, pixels red value by 10, green by 5, blue by 0
 : chromatic 8 0 16                ; Shifts, from center, pixels red value by 8, green by 0, blue by 16
+: balance 0.9 0.4 0.7             ; Set color balance to R0.9 G0.4 B0.7
 
-: balance red 0.9 0.4 0.7         ; Set color balance red to 0.9 0.4 0.7
-: balance white 0.7 0.7 0.7       ; Set color balance white to 0.7 0.7 0.7
 : sharpen 0.5                     ; Sharpen image to 50%
 ```
 

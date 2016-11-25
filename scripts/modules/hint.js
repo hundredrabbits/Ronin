@@ -11,7 +11,8 @@ function Hint(element)
       this.element.style.display = "block";
     }
     else{
-      this.element.style.display = "none";
+      this.element.innerHTML = this.default();
+      this.element.style.display = "block";
     }
   }
   
@@ -25,6 +26,17 @@ function Hint(element)
       var param_name = module.parameters[e].name;
       s += cmd[param_name.toLowerCase()]() ? "<span class='value'>"+cmd[param_name.toLowerCase()]().render()+"</span>" : "<span class='param'>"+param_name+"</span>";
       e += 1;
+    }
+    
+    return s;
+  }
+  
+  this.default = function()
+  {
+    var s = "<span class='module'>Modules</span>";
+    
+    for (var key in ronin.modules){
+      s += "<span class='param'>"+ronin.modules[key].constructor.name+"<span> <span class='value'>"+key+"</span> ";
     }
     
     return s;

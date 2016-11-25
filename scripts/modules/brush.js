@@ -67,7 +67,7 @@ function Brush()
   {
     if(this.is_drawing === false){return;}
     
-    this.position = new Position(e.clientX,e.clientY);
+    this.position = new Position(e.clientX - parseFloat(ronin.canvas.element.style.left),e.clientY- parseFloat(ronin.canvas.element.style.top));
     
     for (i = 0; i < this.pointers.length; i++) {
       this.pointers[i].draw();

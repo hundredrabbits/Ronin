@@ -13,10 +13,10 @@ Filter.prototype.filter_eval = function(pixels = this.pixels(),p = null)
     
     var q = (x % parseInt(p[0]) === 0 && y % parseInt(p[1]) === 0);
     
-    if(q === true){
-      data[i]     = 255;     // red
-      data[i + 1] = 0; // green
-      data[i + 2] = 0; // blue
+    if(x % 20 == 0 && y % 20 == 0){
+      data[i]     = 50;     // red
+      data[i + 1] = 50; // green
+      data[i + 2] = 50; // blue
       data[i + 3] = 255; // alpha?
     }
   }
