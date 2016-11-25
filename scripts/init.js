@@ -2,6 +2,8 @@ var ronin = new Ronin();
 ronin.canvas.element = document.getElementById('workspace');
 ronin.overlay.element = document.getElementById('overlay');
 ronin.hint.element = document.getElementById('commander_hint');
+ronin.surface = document.getElementById('surface');
+ronin.widget.element = document.getElementById('widget');
 
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
 
@@ -9,15 +11,15 @@ var commander = new Commander(document.getElementById("commander"),document.getE
 
 document.addEventListener('mousemove', function(e)  {
   if(e.which == 1){ ronin.brush.draw(e); }
-  if(e.which == 2){ ronin.canvas.drag(e); ronin.overlay.drag(e); }
+  if(e.which == 2){ ronin.drag(e); }
 }, false);
 document.addEventListener('mousedown', function(e)  {
   if(e.which == 1){ ronin.brush.draw_start(e); ronin.brush.draw(e); }
-  if(e.which == 2){ ronin.canvas.drag_start(e); ronin.canvas.drag(e); ronin.overlay.drag_start(e); ronin.overlay.drag(e); }
+  if(e.which == 2){ ronin.drag_start(e); ronin.drag(e); }
 }, false);
 document.addEventListener('mouseup',   function(e)  {
   if(e.which == 1){ ronin.brush.draw_stop(e); }
-  if(e.which == 2){ ronin.canvas.drag_stop(e); ronin.overlay.drag_stop(e);  }
+  if(e.which == 2){ ronin.drag_stop(e) }
   document.getElementById("commander_input").focus();
 }, false);
 

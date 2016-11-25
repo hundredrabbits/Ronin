@@ -1,12 +1,13 @@
-body { margin:0px; padding:0px; overflow:hidden;}
+body { margin:0px; padding:0px; overflow:hidden; font-family:courier,monospace;}
 *:focus {outline: none; }
 
 canvas:hover { cursor: crosshair;}
 
 #ronin { width:100vw; height:100vh; overflow:hidden; background:#000; background-image:url(../media/grid_20.png);}
-
-#overlay { position:fixed; z-index:1000;}
-#workspace { position:fixed; background:#efefef; border-radius:3px;}
+#surface { width:100vw; height:100vh; overflow:hidden; position:fixed; left:0px; top:0px;}
+#overlay { position:absolute; z-index:1000;}
+#workspace { position:absolute; background:#efefef; border-radius:3px;}
+#widget { color:#efefef; position:absolute; font-size:11px; line-height:30px;}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }

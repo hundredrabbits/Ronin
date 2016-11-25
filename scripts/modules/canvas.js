@@ -37,6 +37,11 @@ function Canvas(element)
     this.element.setAttribute('height',rect.height+"px");
     this.element.style.left = (window.innerWidth/2)-(rect.width/2);
     this.element.style.top = (window.innerHeight/2)-(rect.height/2);
+    
+    ronin.widget.element.style.left = (window.innerWidth/2)-(rect.width/2);
+    ronin.widget.element.style.top = (window.innerHeight/2)+(rect.height/2);
+    
+    ronin.widget.update();
   }
   
   this.context = function()
@@ -49,28 +54,8 @@ function Canvas(element)
     this.context().clearRect(0, 0, this.element.width, this.element.height);
   }
   
-  // Drag
-  
-  this.drag_from = null;
-  
-  this.drag_start = function(e)
+  this.widget = function()
   {
-    this.drag_from = new Position(e.clientX,e.clientY);
-  }
-  
-  this.drag = function(e)
-  {
-    if(e.which != 2){ return; }
-    
-    var offset_x = this.drag_from.x - e.clientX;
-    this.element.style.left = parseInt(this.element.style.left) - offset_x;
-    var offset_y = this.drag_from.y - e.clientY;
-    this.element.style.top = parseInt(this.element.style.top) - offset_y;
-    this.drag_from = new Position(e.clientX,e.clientY);
-  }
-  
-  this.drag_stop = function(e)
-  {
-    this.drag_from = null;
+    return "@ "+this.element.width+"x"+this.element.height+" ";
   }
 }

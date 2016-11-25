@@ -16,4 +16,9 @@ function Module()
   {
     return "unknown";
   }
+  
+  this.widget = function()
+  {
+    return "";
+  }
 }

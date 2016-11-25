@@ -41,6 +41,7 @@ function Brush()
     if(cmd.value()){
       this.size = cmd.value().float;
     }
+    ronin.widget.update();
   }
   
   this.passive = function(cmd)
@@ -67,7 +68,7 @@ function Brush()
   {
     if(this.is_drawing === false){return;}
     
-    this.position = new Position(e.clientX - parseFloat(ronin.canvas.element.style.left),e.clientY- parseFloat(ronin.canvas.element.style.top));
+    this.position = new Position(e.clientX - parseFloat(ronin.surface.style.left) - parseFloat(ronin.canvas.element.style.left),e.clientY- parseFloat(ronin.surface.style.top) - parseFloat(ronin.canvas.element.style.top));
     
     for (i = 0; i < this.pointers.length; i++) {
       this.pointers[i].draw();
@@ -92,4 +93,8 @@ function Brush()
     }
   }
   
+  this.widget = function()
+  {
+    return "> "+this.size+" <span style='color:"+this.color.render()+"'>"+this.color.render()+"</span> ";
+  }
 }

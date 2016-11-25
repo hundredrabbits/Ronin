@@ -137,29 +137,4 @@ function Overlay(element)
   {
     this.context().clearRect(0, 0, ronin.canvas.element.width, ronin.canvas.element.height);
   }
-  
-  // Drag
-  
-  this.drag_from = null;
-  
-  this.drag_start = function(e)
-  {
-    this.drag_from = new Position(e.clientX,e.clientY);
-  }
-  
-  this.drag = function(e)
-  {
-    if(e.which != 2){ return; }
-    
-    var offset_x = this.drag_from.x - e.clientX;
-    this.element.style.left = parseInt(this.element.style.left) - offset_x;
-    var offset_y = this.drag_from.y - e.clientY;
-    this.element.style.top = parseInt(this.element.style.top) - offset_y;
-    this.drag_from = new Position(e.clientX,e.clientY);
-  }
-  
-  this.drag_stop = function(e)
-  {
-    this.drag_from = null;
-  }
 }
