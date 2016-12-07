@@ -23,7 +23,7 @@ function Overlay(element)
   {
     this.clear();
     
-    if(!position){ return; }
+    if(!position){ position = new Position("0,0"); }
     
     if(rect){
       this.draw_rect(position,rect);
@@ -108,24 +108,6 @@ function Overlay(element)
     this.element.setAttribute('height',rect.height+"px");
     this.element.style.left = (window.innerWidth/2)-(rect.width/2);
     this.element.style.top = (window.innerHeight/2)-(rect.height/2);
-  }
-  
-  this.show_guide = function(position,rect)
-  {
-    this.clear();
-    this.context().beginPath();
-    
-    this.context().moveTo(0,0);
-    this.context().lineTo(rect.width,0);
-    this.context().lineTo(rect.width,rect.height);
-    this.context().lineTo(0,rect.height);
-    this.context().lineTo(0,0);
-    
-    this.context().lineCap="round";
-    this.context().lineWidth = 1;
-    this.context().strokeStyle = "#ff0000";
-    this.context().stroke();
-    this.context().closePath();
   }
   
   this.context = function()

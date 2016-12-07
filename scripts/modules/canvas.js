@@ -2,7 +2,7 @@ function Canvas(element)
 {
   Module.call(this);
 
-  this.parameters = [Rect,Color,Bang];
+  this.parameters = [Rect,Position,Color,Bang];
   this.element = element;
   
   this.active = function(cmd)
@@ -10,7 +10,7 @@ function Canvas(element)
     if(cmd.bang()){ this.clear(); }
     
     if(cmd.rect()){
-      this.resize(cmd.rect());
+      this.resize(cmd.rect(),cmd.position());
       ronin.overlay.resize(cmd.rect());
     }
     
@@ -25,14 +25,17 @@ function Canvas(element)
   this.passive = function(cmd)
   {
     if(cmd.rect()){
-      ronin.overlay.show_guide(null,cmd.rect());
+      ronin.overlay.draw(cmd.position(),cmd.rect());
     }
   }
   
   //
   
-  this.resize = function(rect)
+  this.resize = function(rect, position = null)
   {
+    var canvas_pixels = ronin.canvas.element.toDataURL("image/png");
+    var pixels_rect   = new Rect(this.element.width+"x"+this.element.height);
+    
     this.element.setAttribute('width',rect.width+"px");
     this.element.setAttribute('height',rect.height+"px");
     this.element.style.left = (window.innerWidth/2)-(rect.width/2);
@@ -42,6 +45,12 @@ function Canvas(element)
     ronin.widget.element.style.top = (window.innerHeight/2)+(rect.height/2);
     
     ronin.widget.update();
+    
+    base_image = new Image();
+    base_image.src = canvas_pixels;
+    
+    if(!position){ position = new Position("0,0");}
+    ronin.canvas.context().drawImage(base_image, -position.x, -position.y, pixels_rect.width, pixels_rect.height);
   }
   
   this.context = function()

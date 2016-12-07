@@ -2,6 +2,6 @@ function Unit()
 {
   this.render = function()
   {
-    return "HEY!";
+    return "[MISSING]";
   }
 }
