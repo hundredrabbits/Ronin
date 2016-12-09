@@ -1,37 +1,6 @@
 function Command(content)
 {
-  this.content = raster(content);
-  
-  // Raster
-  
-  function raster(array) // @ {50w}x100
-  {
-    return array;
-    var str = array.join(" ");
-    
-    var m = str.replace(/(\{(.*)\})/g, function(a) {
-      var parts = a.split(/[{}]/);
-      for(var e = 0; e < parts.length; e++) {
-        if(str.indexOf("{"+parts[e]+"}") == -1){ continue; }
-        str = str.replace("{"+parts[e]+"}",converter(parts[e]));
-      }
-    });
-    return str.split(" ");
-  }
-  
-  function converter(str)
-  {
-    var unit  = str.charAt(str.length - 1);
-    var value = parseFloat(str.replace(unit,''));
-    
-    switch(unit) {
-      case "w":
-        return ronin.canvas.element.width * (value/100);
-      case "h":
-        return ronin.canvas.element.height * (value/100);
-    }
-    return str;
-  }
+  this.content = content;
   
   // Parser
   
@@ -109,7 +78,12 @@ function Command(content)
   this.variable = function(name)
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf(name+":") >= 0){ return Variable(this.content[i]); }
+      if(this.content[i].indexOf("=") >= 0){
+        var parts = this.content[i].split("=");
+        if(parts[0] == name){
+          return new Variable(parts[0],parts[1]);
+        }
+      }
     }
     return null;
   }

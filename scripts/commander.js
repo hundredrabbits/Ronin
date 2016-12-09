@@ -14,13 +14,13 @@ function Commander(element,element_input)
   }
 
   this.always = function() {
-      this.always_show = !this.always_show;
+    this.always_show = !this.always_show;
   }
   
   this.hide = function()
   {
     if (!this.always_show) {
-        this.element.setAttribute('class','hidden');
+      this.element.setAttribute('class','hidden');
     }
     this.element_input.value = "";
   }
@@ -51,42 +51,13 @@ function Commander(element,element_input)
     content[0] = content[0].slice(1);
     var cmd = new Command(content);
     
+    if(ronin.modules[key]){
+      ronin.modules[key].active(this.cmd);
+    }
+    
     switch(key) {
       case "~":
-          this.always();
-          break;
-      case "@":
-        ronin.canvas.active(cmd);
-        break;
-      case "$":
-        ronin.file.save(cmd);
-        break;
-      case "/":
-        ronin.file.active(cmd);
-        break;
-      case ">":
-        ronin.brush.active(cmd);
-        break;
-      case "|":
-        ronin.overlay.active(cmd);
-        break;
-      case "-":
-        ronin.stroke.active(cmd);
-        break;
-      case "^": // TODO
-        ronin.translate.active(cmd);
-        break;
-      case "=": // TODO
-        ronin.zoom.active(cmd);
-        break;
-      case "#": // TODO
-        ronin.layers.active(cmd);
-        break;
-      case ":":
-        ronin.filter.active(cmd);
-        break;
-      case "+":
-        ronin.vector.active(cmd);
+        this.always();
         break;
     }
     this.hide();
@@ -99,42 +70,9 @@ function Commander(element,element_input)
     this.cmd = new Command(content);
     ronin.module = null;
     
-    switch(key) {
-      case "@":
-        ronin.canvas.passive(this.cmd);
-        ronin.module = ronin.canvas;
-        break;
-      case "/":
-        ronin.file.passive(this.cmd);
-        ronin.module = ronin.file;
-        break;
-      case ">":
-        ronin.brush.passive(this.cmd);
-        ronin.module = ronin.brush;
-        break;
-      case "|":
-        ronin.overlay.passive(this.cmd);
-        ronin.module = ronin.overlay;
-        break;
-      case "^": // TODO
-        ronin.translate.passive(this.cmd);
-        ronin.module = ronin.translate;
-        break;
-      case "=": // TODO
-        ronin.zoom.passive(this.cmd);
-        ronin.module = ronin.zoom;
-        break;
-      case "$":
-        ronin.module = ronin.file;
-        break;
-      case ":":
-        ronin.filter.passive(this.cmd);
-        ronin.module = ronin.filter;
-        break;
-      case "+":
-        ronin.vector.passive(this.cmd);
-        ronin.module = ronin.vector;
-        break;
+    if(ronin.modules[key]){
+      ronin.modules[key].passive(this.cmd);
+      ronin.module = ronin.modules[key];
     }
   }
 }

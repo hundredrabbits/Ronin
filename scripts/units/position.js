@@ -2,6 +2,7 @@ function Position(position_str = "0,0",y = null)
 {
   Unit.call(this);
   
+  this.example = "100,150";
   this.position_str = position_str;
   
   this.x = y ? position_str : parseFloat(this.position_str.split(",")[0]);

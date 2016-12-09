@@ -17,6 +17,13 @@ python -m SimpleHTTPServer 8000   ; Start localhost
 http://localhost:8000/            ; Enjoy Ronin
 ```
 
+#Controls
+```
+CTRL+MOUSE1                       ; Draw guide
+SHIFT+MOUSE1                      ; Draw line
+MOUSE2                            ; Drag canvas
+```
+
 #Modules
 ##Canvas
 ```
@@ -27,16 +34,13 @@ http://localhost:8000/            ; Enjoy Ronin
 
 ##Save File
 ```
-$ new_name                        ; Create a new file with name
-$ 3                               ; Save to temporary storage, accessible with Load
-$ !                               ; Clear temporary storage
+$ new_name.jpg                    ; Create a new file with name
 ```
 
 ##Load File
 ```
 / dir/file_name.jpg 10,10 100x100 ; Load image, at 10,10 with size 100x100
 / dir/file_name.jpg 10,10 100x    ; Load image, at 10,10 with size 100w and auto height
-/ 3                               ; Load temporary storage id
 ```
 
 ##Brush(Pointers)
@@ -51,6 +55,7 @@ $ !                               ; Clear temporary storage
 ```
 
 ##Guides
+Hold the Control key to draw guides with the mouse.
 ```
 | 10,10 100x100                   ; Draw a guide
 | -100,0                          ; Draw a grid at every 100px
@@ -66,7 +71,7 @@ $ !                               ; Clear temporary storage
 
 ##Stroke*
 ```
-- 0,0 0,10 10,10 10,0 0,0         ; Draw a square
+_ 0,0 0,10 10,10 10,0 0,0         ; Draw a square
 ```
 
 ##Filters*
@@ -79,19 +84,6 @@ $ !                               ; Clear temporary storage
 : sharpen 0.5                     ; Sharpen image to 50%
 ```
 
-##Translate*
-```
-^ 0,10                            ; Translate 10px vertically
-^ 20,20 100x100 40,40             ; Translate a specific portion to a specific location
-^ -1280x800                       ; Flip image horizontally
-```
-
-##Zoom*
-```
-= 75                              ; Zoom factor of 75%
-= !                               ; Zoom 100%
-```
-
 #Units
 ```
 5                                 ; value:    5
@@ -100,15 +92,7 @@ $ !                               ; Clear temporary storage
 #ff0000                           ; color:    red
 0..5                              ; random:   0.0-5.0
 45'                               ; degree:   45/365
-rate:10                           ; variable: rate = 10
-"foo"                             ; string:   foo
-{40w}                             ; constant: 120px, 40% canvas width
-```
-
-#Constants
-```
-w                                 ; percentage of canvas width
-h                                 ; percentage of canvas height
+rate=10                           ; variable: rate = 10
 ```
 
 #Presets

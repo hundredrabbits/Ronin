@@ -1,9 +1,8 @@
-function File()
+function FileLoad(rune)
 {
-  Module.call(this);
+  Module.call(this,rune);
   
   this.parameters = [Filepath,Position,Rect,Bang];
-  this.storage = [];
   
   this.active = function(cmd)
   {
@@ -16,7 +15,7 @@ function File()
     var position = cmd.position() ? cmd.position() : new Position();
     
     base_image = new Image();
-    base_image.src = cmd.value() && this.storage[cmd.value().int] ? this.storage[cmd.value().int] : cmd.filepath().path;
+    base_image.src = cmd.filepath().path;
     base_image.src += '?' + new Date().getTime();
     base_image.crossOrigin = "Anonymous";
     
@@ -47,18 +46,6 @@ function File()
     }
     else if(position){
       ronin.overlay.draw(position);
-    }
-  }
-  
-  this.save = function(cmd)
-  {
-    if(cmd.value() && cmd.value().int > 0){
-      this.storage[cmd.value().int] = ronin.canvas.element.toDataURL("image/png");
-    }
-    else{
-      var d = ronin.canvas.element.toDataURL("image/png");
-      var w = window.open('about:blank','image from canvas');
-      w.document.write("<title>"+(cmd.content[0] ? cmd.content[0] : "Untitled")+"</title><img src='"+d+"' alt='from canvas'/>");
     }
   }
 }

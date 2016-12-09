@@ -1,6 +1,6 @@
-function Filter(element)
+function Filter(rune)
 {
-  Module.call(this);
+  Module.call(this,rune);
   
   this.parameters = [Any];
   

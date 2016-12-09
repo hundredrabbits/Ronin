@@ -1,6 +1,6 @@
-function Stroke(element)
+function Stroke(rune)
 {
-  Module.call(this);
+  Module.call(this,rune);
   
   this.parameters = [Any];
   

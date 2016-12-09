@@ -9,17 +9,21 @@ var commander = new Commander(document.getElementById("commander"),document.getE
 
 // Interactive
 
-document.addEventListener('mousemove', function(e)  {
-  if(e.which == 1){ ronin.brush.draw(e); }
-  if(e.which == 2){ ronin.drag(e); }
-}, false);
 document.addEventListener('mousedown', function(e)  {
-  if(e.which == 1){ ronin.brush.draw_start(e); ronin.brush.draw(e); }
-  if(e.which == 2){ ronin.drag_start(e); ronin.drag(e); }
+  // Canvas Live Draw
+  if(e.which == 1 && e.ctrlKey === true){ ronin.overlay.live_draw_start(e); }
+  else if(e.which == 1){ ronin.brush.draw_start(e); ronin.brush.draw(e); }
+  else if(e.which == 2){ ronin.drag_start(e); ronin.drag(e); }
+}, false);
+document.addEventListener('mousemove', function(e)  {
+  // Canvas Live Draw
+  if(e.which == 1 && e.ctrlKey === true){ ronin.overlay.live_draw(e); }
+  else if(e.which == 1){ ronin.brush.draw(e); }
+  else if(e.which == 2){ ronin.drag(e); }
 }, false);
 document.addEventListener('mouseup',   function(e)  {
   if(e.which == 1){ ronin.brush.draw_stop(e); }
-  if(e.which == 2){ ronin.drag_stop(e) }
+  else if(e.which == 2){ ronin.drag_stop(e) }
   document.getElementById("commander_input").focus();
 }, false);
 

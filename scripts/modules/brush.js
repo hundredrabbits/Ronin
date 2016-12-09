@@ -1,6 +1,6 @@
-function Brush()
+function Brush(rune)
 {
-  Module.call(this);
+  Module.call(this,rune);
   
   this.parameters = [Position,Rect,Angle,Color,Value,Bang];
   this.pointers = [new Pointer(new Position())];

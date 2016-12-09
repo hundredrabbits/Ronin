@@ -2,6 +2,7 @@ function Color(hex = '#000000')
 {
   Unit.call(this);
   
+  this.example = "#ff0000";
   this.hex = hex;
 
   this.rgb = function()

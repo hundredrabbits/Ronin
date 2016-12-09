@@ -1,9 +1,8 @@
-function Canvas(element)
+function Canvas(rune)
 {
-  Module.call(this);
-
+  Module.call(this,rune);
+  
   this.parameters = [Rect,Position,Color,Bang];
-  this.element = element;
   
   this.active = function(cmd)
   {

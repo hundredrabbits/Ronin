@@ -1,6 +1,9 @@
-function Module()
+function Module(rune)
 {
+  this.rune = rune;
+  this.element = null;
   this.parameters = [];
+  this.variables  = [];
   
   this.active = function(cmd)
   {
