@@ -32,15 +32,15 @@ MOUSE2                            ; Drag canvas
 @ !                               ; Clear canvas
 ```
 
-##Save File
-```
-$ new_name.jpg                    ; Create a new file with name
-```
-
 ##Load File
 ```
 / dir/file_name.jpg 10,10 100x100 ; Load image, at 10,10 with size 100x100
 / dir/file_name.jpg 10,10 100x    ; Load image, at 10,10 with size 100w and auto height
+```
+
+##Save File
+```
+$ new_name.jpg                    ; Create a new file with name
 ```
 
 ##Brush(Pointers)

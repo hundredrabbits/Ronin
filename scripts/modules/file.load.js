@@ -2,12 +2,10 @@ function FileLoad(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Filepath,Position,Rect,Bang];
+  this.parameters = [Filepath,Position,Rect];
   
   this.active = function(cmd)
   {
-    if(cmd.bang()){ this.storage = []; }
-    
     ronin.overlay.clear();
     
     if(!cmd.filepath() && !cmd.value()){ return; }
