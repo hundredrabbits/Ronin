@@ -2,10 +2,51 @@ function Commander(element,element_input)
 {
   this.element = element;
   this.element_input = element_input;
-  this.cmd = null;
   this.storage = [];
   this.storage_index = 0;
   this.always_show = false;
+  
+  this.query = function(input_str)
+  {
+    if(input_str.indexOf(";") > 0){
+      var multi = input_str.split(";");
+      for (i = 0; i < multi.length; i++) {
+        this.query(multi[i]);
+      }
+    }
+    else{
+      this.active(input_str);
+    }
+  }
+  
+  this.active = function(content)
+  {
+    var key = content[0];
+    var cmd = new Command(content.substring(1).split(" "));
+    
+    if(ronin.modules[key]){
+      ronin.modules[key].active(cmd);
+    }
+    
+    this.hide();
+    
+    ronin.history.add(content);
+  }
+  
+  this.passive = function(content)
+  {
+    var key = content[0];
+    var cmd = new Command(content.substring(1).split(" "));
+    
+    ronin.module = null;
+    
+    if(ronin.modules[key]){
+      ronin.modules[key].passive(cmd);
+      ronin.module = ronin.modules[key];
+    }
+  }
+  
+  //
   
   this.show = function()
   {
@@ -42,39 +83,5 @@ function Commander(element,element_input)
     this.element_input.value = this.storage[this.storage_index];
   }
   
-  this.active = function(content)
-  {
-    this.storage.push(content.join(" "));
-    this.storage_index = this.storage.length;
-    
-    var key = content[0][0];
-    content[0] = content[0].slice(1);
-    var cmd = new Command(content);
-    
-    if(ronin.modules[key]){
-      ronin.modules[key].active(this.cmd);
-    }
-    
-    switch(key) {
-      case "~":
-        this.always();
-        break;
-    }
-    this.hide();
-    
-    ronin.history.add(content.join(" "));
-  }
   
-  this.passive = function(content)
-  {
-    var key = content[0][0];
-    content[0] = content[0].slice(1);
-    this.cmd = new Command(content);
-    ronin.module = null;
-    
-    if(ronin.modules[key]){
-      ronin.modules[key].passive(this.cmd);
-      ronin.module = ronin.modules[key];
-    }
-  }
 }

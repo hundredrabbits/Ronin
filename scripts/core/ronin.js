@@ -15,7 +15,7 @@ function Ronin()
   this.stroke   = new Stroke("_");
   this.vector   = new Vector("+");
   this.help     = new Help("?");
-  this.history  = new History(";");
+  this.history  = new History("^");
   
   this.cursor   = new Cursor();
   

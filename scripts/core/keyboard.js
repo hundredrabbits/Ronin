@@ -51,8 +51,7 @@ function Keyboard()
     }
 
     // Passive
-    var cmd = commander.element_input.value;
-    commander.passive(cmd.split(" "));
+    commander.passive(commander.element_input.value);
     ronin.hint.update();
     
     ronin.cursor.set_mode(new Mode_Paint());
@@ -70,20 +69,7 @@ function Keyboard()
 
   this.key_enter = function()
   {
-    var cmd = commander.element_input.value;
-
-    if(cmd.indexOf(";") > 0){
-      var multi = cmd.split(";");
-      var i = 0;
-      while(i < 100){
-        if(multi[i]){commander.active(multi[i].split(" "));}
-        else{ break; }
-        i += 1;
-      }
-    }
-    else{
-      commander.active(cmd.split(" "));
-    }
+    commander.query(commander.element_input.value);
   }
 
   this.key_space = function()

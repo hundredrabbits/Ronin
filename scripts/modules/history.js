@@ -17,6 +17,6 @@ function History(rune)
   this.widget = function()
   {
     if(this.lines.length === 0){ return "";}
-    return "; "+this.lines.length+" ";
+    return "^ "+this.lines.length+" ";
   }
 }

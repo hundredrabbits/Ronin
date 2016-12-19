@@ -23,5 +23,8 @@ var starting_canvas = new Rect();
 starting_canvas.width = window.innerWidth - 200;
 starting_canvas.height = window.innerHeight - 200;
 
+
 ronin.canvas.resize(starting_canvas);
 ronin.overlay.resize(starting_canvas);
+
+commander.query("@ 200x200");
