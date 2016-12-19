@@ -85,5 +85,4 @@ function Commander(element,element_input)
     this.element_input.value = this.storage[this.storage_index];
   }
   
-  
 }

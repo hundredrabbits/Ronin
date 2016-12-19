@@ -13,10 +13,10 @@ function Cursor()
   
   this.set_mode = function(mode)
   {
-    // if(this.mode.constructor.name == mode.constructor.name){ return; }
+    if(this.mode == mode){ return; }
     this.mode = mode;
     document.body.setAttribute("class",this.mode.constructor.name);
-    // ronin.widget.update();
+    ronin.widget.update();
   }
   
   this.mouse_down = function(position)

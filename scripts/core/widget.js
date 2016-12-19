@@ -10,7 +10,7 @@ function Widget()
       s += ronin.modules[key].widget();
     }
   
-    // s += "<span class='cursor'>"+ronin.cursor.mode.widget()+"</span>";
+    s += "<span class='cursor'>"+ronin.cursor.mode.constructor.name+"</span>";
     
     this.element.innerHTML = s;
   }
