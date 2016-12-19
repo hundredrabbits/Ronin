@@ -101,33 +101,6 @@ function Overlay(rune)
     this.context().closePath();
   }
   
-  // Live Draw(Ctrl)
-  
-  this.live_draw_from = null;
-  
-  this.live_draw_start = function(e)
-  {
-    this.clear();
-    
-    this.draw_pointer(ronin.position_in_canvas(e));
-    this.live_draw_from = ronin.position_in_canvas(e);
-    commander.show();
-    commander.element_input.focus();
-    commander.element_input.value = "| "+this.live_draw_from.render();
-  }
-  
-  this.live_draw = function(e)
-  {
-    this.clear();
-    
-    var rect = new Rect();
-    rect.width = ronin.position_in_canvas(e).x - this.live_draw_from.x;
-    rect.height = ronin.position_in_canvas(e).y - this.live_draw_from.y;
-  
-    this.draw_rect(this.live_draw_from,rect);
-    commander.element_input.value = "| "+this.live_draw_from.render()+" "+rect.render();
-  }
-  
   this.resize = function(rect)
   {
     this.element.setAttribute('width',rect.width+"px");

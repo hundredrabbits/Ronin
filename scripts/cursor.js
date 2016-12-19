@@ -14,6 +14,7 @@ function Cursor()
   {
     if(this.mode.name == mode.name){ return; }
     this.mode = mode;
+    document.body.setAttribute("class",this.mode.name);
     ronin.widget.update();
   }
   

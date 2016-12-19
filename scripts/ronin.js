@@ -32,29 +32,4 @@ function Ronin()
   {
     return new Position(e.clientX - parseFloat(ronin.surface.style.left) - parseFloat(ronin.canvas.element.style.left),e.clientY- parseFloat(ronin.surface.style.top) - parseFloat(ronin.canvas.element.style.top));
   }
-  
-  // Drag
-  
-  this.drag_from = null;
-  
-  this.drag_start = function(e)
-  {
-    this.drag_from = new Position(e.clientX,e.clientY);
-  }
-  
-  this.drag = function(e)
-  {
-    if(e.which != 2){ return; }
-    
-    var offset_x = this.drag_from.x - e.clientX;
-    this.surface.style.left = this.surface.style.left ? parseInt(this.surface.style.left) - offset_x : offset_x;
-    var offset_y = this.drag_from.y - e.clientY;
-    this.surface.style.top = this.surface.style.top ? parseInt(this.surface.style.top) - offset_y : offset_y;
-    this.drag_from = position_in_canvas(e);
-  }
-  
-  this.drag_stop = function(e)
-  {
-    this.drag_from = null;
-  }
 }

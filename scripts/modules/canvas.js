@@ -42,6 +42,7 @@ function Canvas(rune)
     
     ronin.widget.element.style.left = (window.innerWidth/2)-(rect.width/2);
     ronin.widget.element.style.top = (window.innerHeight/2)+(rect.height/2);
+    ronin.widget.element.style.width = rect.width+"px";
     
     ronin.widget.update();
     

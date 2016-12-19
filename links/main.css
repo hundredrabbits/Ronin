@@ -8,6 +8,7 @@ canvas:hover { cursor: crosshair;}
 #overlay { position:absolute; z-index:1000;}
 #workspace { position:absolute; background:#efefef; border-radius:3px;}
 #widget { color:#efefef; position:absolute; font-size:11px; line-height:30px;}
+#widget .cursor { float:right;}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
