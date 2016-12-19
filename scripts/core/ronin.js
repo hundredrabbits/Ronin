@@ -2,7 +2,6 @@ function Ronin()
 {
   this.modules  = {};
   
-  this.hint     = new Hint();
   this.widget   = new Widget();
   this.surface  = null;
   
@@ -34,7 +33,9 @@ function Ronin()
   
   this.position_in_canvas = function(e)
   {
-    return new Position(e.clientX - parseFloat(ronin.surface.style.left) - parseFloat(ronin.canvas.element.style.left),e.clientY- parseFloat(ronin.surface.style.top) - parseFloat(ronin.canvas.element.style.top));
+    var x = e.clientX - parseFloat(ronin.surface.style.left) - parseFloat(ronin.canvas.element.style.left);
+    var y = e.clientY- parseFloat(ronin.surface.style.top) - parseFloat(ronin.canvas.element.style.top);
+    return new Position(x+","+y);
   }
   
   this.position_in_window = function(p)

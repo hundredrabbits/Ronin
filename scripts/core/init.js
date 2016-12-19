@@ -1,11 +1,12 @@
 var ronin = new Ronin();
 ronin.canvas.element = document.getElementById('workspace');
 ronin.overlay.element = document.getElementById('overlay');
-ronin.hint.element = document.getElementById('commander_hint');
 ronin.surface = document.getElementById('surface');
 ronin.widget.element = document.getElementById('widget');
+ronin.cursor.mode = ronin.brush;
 
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
+commander.hint.element = document.getElementById('commander_hint');
 
 // Cursor
 document.addEventListener('mousedown', function(e){ ronin.cursor.mouse_down(ronin.position_in_canvas(e));}, false);

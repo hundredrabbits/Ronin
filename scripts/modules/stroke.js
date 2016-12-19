@@ -24,8 +24,8 @@ function Stroke(rune)
     for (i = 0; i < this.positions.length; i++) {
       s += this.positions[i].render()+" ";
     }
+    if(this.positions.length > 0){ ronin.history.add(s); }
     this.positions = null;
-    ronin.history.add(s);
   }
   
   // Module

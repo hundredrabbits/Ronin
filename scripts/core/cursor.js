@@ -1,22 +1,22 @@
 function Cursor()
 {
-  this.mode = new Mode_Paint();
+  this.mode = null;
   this.position = new Position();
   
   this.update = function(event)
   {
-    if(event.ctrlKey === true){ this.set_mode(new Mode_Guide()); }
-    else if(event.altKey === true){ this.set_mode(new Mode_Drag()); }
-    else if(event.shiftKey === true){ this.set_mode(new Mode_Paint()); }
-    else{ this.set_mode(new Mode_Paint()); }
+    if(event.ctrlKey === true){ this.set_mode(ronin.overlay); }
+    else if(event.altKey === true){ this.set_mode(ronin.canvas); }
+    else if(event.shiftKey === true){ this.set_mode(ronin.brush);  }
+    else{ this.set_mode(ronin.brush); }
   }
   
   this.set_mode = function(mode)
   {
-    if(this.mode.name == mode.name){ return; }
+    // if(this.mode.constructor.name == mode.constructor.name){ return; }
     this.mode = mode;
-    document.body.setAttribute("class",this.mode.name);
-    ronin.widget.update();
+    document.body.setAttribute("class",this.mode.constructor.name);
+    // ronin.widget.update();
   }
   
   this.mouse_down = function(position)

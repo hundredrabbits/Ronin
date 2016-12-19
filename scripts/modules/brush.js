@@ -5,7 +5,6 @@ function Brush(rune)
   this.parameters = [Position,Rect,Angle,Color,Value,Bang];
   this.pointers = [new Pointer(new Position())];
   
-  this.position = new Position();
   this.size = 1;
   this.opacity = 1;
   this.color = new Color();
@@ -63,6 +62,43 @@ function Brush(rune)
 
   this.widget = function()
   {
-    return "> "+this.size+" <span style='color:"+this.color.render()+"'>"+this.color.render()+"</span> ";
+    return "> "+this.size+" <span>"+this.color.render()+"</span> ";
+  }
+  
+  // Cursor
+
+  this.is_drawing = false;
+  
+  this.mouse_down = function(position)
+  {
+    this.is_drawing = true;
+    
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      ronin.brush.pointers[i].start();
+    }
+    
+    ronin.stroke.new_stroke();
+  }
+  
+  this.mouse_move = function(position)
+  {
+    if(this.is_drawing === false){ return; }
+  
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      ronin.brush.pointers[i].draw();
+    }
+    
+    ronin.stroke.append_stroke(position);
+  }
+  
+  this.mouse_up = function(position)
+  {
+    this.is_drawing = false;
+    
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      ronin.brush.pointers[i].stop();
+    }
+    
+    ronin.stroke.save_stroke();
   }
 }

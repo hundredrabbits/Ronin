@@ -2,6 +2,7 @@ function Commander(element,element_input)
 {
   this.element = element;
   this.element_input = element_input;
+  this.hint = new Hint();
   this.storage = [];
   this.storage_index = 0;
   this.always_show = false;
@@ -44,6 +45,7 @@ function Commander(element,element_input)
       ronin.modules[key].passive(cmd);
       ronin.module = ronin.modules[key];
     }
+    this.hint.update(ronin.module,cmd);
   }
   
   //

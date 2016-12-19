@@ -4,12 +4,10 @@ function Hint(element)
   
   this.element = element;
   
-  this.update = function()
+  this.update = function(module,cmd)
   {
-    return; // TODO
-    
-    if(ronin.module){
-      this.element.innerHTML = this.message(ronin.module,commander.cmd);
+    if(module){
+      this.element.innerHTML = this.message(module,cmd);
       this.element.style.display = "block";
     }
     else{

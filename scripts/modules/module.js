@@ -24,4 +24,17 @@ function Module(rune)
   {
     return "";
   }
+  
+  
+  this.mouse_down = function(position)
+  {
+  }
+  
+  this.mouse_move = function(position)
+  {
+  }
+  
+  this.mouse_up = function(position)
+  {
+  }
 }
