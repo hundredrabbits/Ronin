@@ -6,6 +6,8 @@ function Hint(element)
   
   this.update = function()
   {
+    return; // TODO
+    
     if(ronin.module){
       this.element.innerHTML = this.message(ronin.module,commander.cmd);
       this.element.style.display = "block";

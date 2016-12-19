@@ -5,10 +5,10 @@ function Cursor()
   
   this.update = function(event)
   {
-    // if(event.ctrlKey === true){ this.set_mode(new Mode_Guide()); }
-    // else if(event.altKey === true){ this.set_mode(new Mode_Drag()); }
-    // else if(event.shiftKey === true){ this.set_mode(new Mode_Paint()); }
-    // else{ this.set_mode(new Mode_Paint()); }
+    if(event.ctrlKey === true){ this.set_mode(new Mode_Guide()); }
+    else if(event.altKey === true){ this.set_mode(new Mode_Drag()); }
+    else if(event.shiftKey === true){ this.set_mode(new Mode_Paint()); }
+    else{ this.set_mode(new Mode_Paint()); }
   }
   
   this.set_mode = function(mode)

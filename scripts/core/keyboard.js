@@ -2,24 +2,6 @@ function Keyboard()
 {
   this.is_locked = false;
 
-  this.cmd = function()
-  {
-    var val = commander.element_input.value;
-
-    if(val.indexOf(";") > 0){
-      var cmds = val.split(";");
-      var vals = [];
-      for (i = 0; i < cmds.length; i++) {
-        val = cmds[i].replace(/^\s+|\s+$/g, '');
-        vals.push(val.split(" "));
-      }
-      return vals;
-    }
-    else{
-      return [val.split(" ")];
-    }
-  }
-
   this.lock = function()
   {
     this.is_locked = true;
