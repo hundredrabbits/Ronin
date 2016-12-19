@@ -23,6 +23,7 @@ function Cursor()
   {
     this.position = position;
     this.mode.mouse_down(position);
+    ronin.widget.update();
   }
   
   this.mouse_move = function(position)
@@ -35,5 +36,6 @@ function Cursor()
   {
     this.position = position;
     this.mode.mouse_up(position);
+    ronin.widget.update();
   }
 }

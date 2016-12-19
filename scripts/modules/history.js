@@ -2,21 +2,29 @@ function History(rune)
 {
   Module.call(this,rune);
   
-  this.lines = [];
+  this.cmds = [];
   
   this.active = function(cmd)
   {
-    console.log(this.lines);
+    var w = window.open('about:blank','source');
+    var html = "";
+    
+    for (i = 0; i < this.cmds.length; i++) {
+      if(this.cmds[i][0] == this.rune){ continue; }
+      html += this.cmds[i]+"<br />";
+    }
+    w.document.write("<title>Source</title><style>body { font-family:courier}</style>"+html+"");
   }
   
   this.add = function(content)
   {
-    this.lines.push(content);
+    this.cmds.push(content);
   }
   
   this.widget = function()
   {
-    if(this.lines.length === 0){ return "";}
-    return "^ "+this.lines.length+" ";
+    if(this.cmds.length === 0){ return "";}
+  
+    return "^ "+this.cmds.length+" ";
   }
 }

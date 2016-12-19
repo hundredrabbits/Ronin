@@ -23,4 +23,5 @@ var starting_canvas = new Rect();
 starting_canvas.width = window.innerWidth - 200;
 starting_canvas.height = window.innerHeight - 200;
 
+commander.query("~ "+ronin.timestamp());
 commander.query("@ "+starting_canvas.render());

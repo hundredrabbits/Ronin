@@ -41,4 +41,11 @@ function Ronin()
   {
     return new Position(p.x + parseFloat(ronin.surface.style.left) + parseFloat(ronin.canvas.element.style.left),p.y + parseFloat(ronin.surface.style.top) + parseFloat(ronin.canvas.element.style.top));
   }
+  
+  this.timestamp = function()
+  {
+    var currentdate = new Date();
+    var date = currentdate.getFullYear()+""+(currentdate.getMonth()+1)+""+currentdate.getDate();
+    return date+" "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
+  }
 }
