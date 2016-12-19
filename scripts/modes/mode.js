@@ -9,7 +9,7 @@ function Mode()
   
   this.mouse_down = function(event)
   {
-    
+    console.log("??");
   }
   
   this.mouse_move = function(event)

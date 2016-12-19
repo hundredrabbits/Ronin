@@ -5,10 +5,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.position_prev = null;
   this.angle = null;
   this.distance = 0;
-  
-  this.osc_scale = null;
-  this.osc_rate = null;
-  
+
   this.draw = function()
   {
     if(!this.position_prev){this.position_prev = this.position(); }
@@ -17,12 +14,6 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     var position = this.position();
     
     this.distance += position.distance_to(this.position_prev);
-    
-    // Osc experiment
-    if(this.osc_rate && this.osc_scale){
-      // position.x += (Math.sin(this.distance/(25 * this.osc_rate)) * this.osc_scale) - (this.osc_scale/2);
-      position.y += (Math.sin(this.distance/(25 * this.osc_rate)) * this.osc_scale) - (this.osc_scale/2);
-    }
     
     ronin.canvas.context().beginPath();
     ronin.canvas.context().moveTo(this.position_prev.x,this.position_prev.y);
@@ -50,6 +41,8 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   
   this.position = function()
   {
+    return ronin.cursor.position;
+    
     if(this.angle){
       var angle_radian = this.angle.degrees * Math.PI / 180;
       var deltaX = ronin.brush.position.x - this.offset.x;
@@ -66,6 +59,10 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     else if(this.mirror && this.mirror.height > 0){
       return new Position((ronin.brush.position.x + this.offset.x), (2 * this.mirror.height) - (ronin.brush.position.y + this.offset.y));
     }
+    
+    console.log(ronin.brush.position);
+    console.log(this.offset);
+    return;
     return new Position(ronin.brush.position.x + this.offset.x, ronin.brush.position.y + this.offset.y);
   }
   

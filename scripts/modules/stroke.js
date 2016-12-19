@@ -4,6 +4,30 @@ function Stroke(rune)
   
   this.parameters = [Any];
   
+  // Create a stroke
+  
+  this.positions = null;
+  
+  this.new_stroke = function()
+  {
+    this.positions = [];
+  }
+  
+  this.append_stroke = function(p)
+  {
+    this.positions.push(p);
+  }
+  
+  this.save_stroke = function()
+  {
+    s = "_ ";
+    for (i = 0; i < this.positions.length; i++) {
+      s += this.positions[i].render()+" ";
+    }
+    this.positions = null;
+    ronin.history.add(s);
+  }
+  
   // Module
   
   this.passive = function(cmd)
@@ -12,23 +36,26 @@ function Stroke(rune)
   
   this.active = function(cmd)
   {
-    // TODO
-    
-    var origin = new Position(cmd.content[0]);
-    var destination = new Position(cmd.content[1]);
-    
-    var e = {};
-    e.clientX = origin.x;
-    e.clientY = origin.y;
-    
-    ronin.brush.is_drawing = true;
-    ronin.brush.draw(e);
-    
-    e.clientX = destination.x;
-    e.clientY = destination.y;
-    
-    ronin.brush.draw(e);
-    ronin.brush.is_drawing = false;
+    var prev = null
+    for (i = 1; i < cmd.content.length; i++) {
+      var p = new Position(cmd.content[i]);
+      if(prev){
+        this.draw(prev,p);
+      }
+      prev = p;
+    }
+  }
+  
+  this.draw = function(pos1,pos2)
+  {
+    ronin.canvas.context().beginPath();
+    ronin.canvas.context().moveTo(pos1.x,pos1.y);
+    ronin.canvas.context().lineTo(pos2.x,pos2.y);
+    ronin.canvas.context().lineCap="round";
+    ronin.canvas.context().lineWidth = 1;
+    ronin.canvas.context().strokeStyle = new Color("#ff0000").rgba();
+    ronin.canvas.context().stroke();
+    ronin.canvas.context().closePath();
   }
   
 }

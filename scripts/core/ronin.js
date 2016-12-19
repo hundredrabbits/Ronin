@@ -15,6 +15,7 @@ function Ronin()
   this.stroke   = new Stroke("_");
   this.vector   = new Vector("+");
   this.help     = new Help("?");
+  this.history  = new History(";");
   
   this.cursor   = new Cursor();
   
@@ -27,6 +28,9 @@ function Ronin()
   this.modules[this.stroke.rune] = this.stroke;
   this.modules[this.vector.rune] = this.vector;
   this.modules[this.help.rune] = this.help;
+  this.modules[this.history.rune] = this.history;
+  
+  this.cursors = [];
   
   this.position_in_canvas = function(e)
   {

@@ -32,6 +32,7 @@ function Mode_Guide()
   
   this.mouse_up = function(event)
   {
+    this.live_draw_from = null;
     commander.element_input.focus();
   }
 }

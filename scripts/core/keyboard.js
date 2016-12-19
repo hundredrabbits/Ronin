@@ -56,6 +56,7 @@ function Keyboard()
     ronin.hint.update();
     
     ronin.cursor.set_mode(new Mode_Paint());
+    ronin.widget.update();
   };
   
   this.listen_onkeydown = function(event)

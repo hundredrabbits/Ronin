@@ -8,9 +8,9 @@ ronin.widget.element = document.getElementById('widget');
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
 
 // Cursor
-document.addEventListener('mousedown', function(e){ ronin.cursor.mode.mouse_down(e);}, false);
-document.addEventListener('mousemove', function(e){ ronin.cursor.mode.mouse_move(e);}, false);
-document.addEventListener('mouseup', function(e){ ronin.cursor.mode.mouse_up(e);}, false);
+document.addEventListener('mousedown', function(e){ ronin.cursor.mouse_down(ronin.position_in_canvas(e));}, false);
+document.addEventListener('mousemove', function(e){ ronin.cursor.mouse_move(ronin.position_in_canvas(e));}, false);
+document.addEventListener('mouseup', function(e){ ronin.cursor.mouse_up(ronin.position_in_canvas(e));}, false);
 document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
 
 // Keyboard

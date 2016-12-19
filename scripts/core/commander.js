@@ -61,6 +61,8 @@ function Commander(element,element_input)
         break;
     }
     this.hide();
+    
+    ronin.history.add(content.join(" "));
   }
   
   this.passive = function(content)
