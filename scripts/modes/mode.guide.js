@@ -18,7 +18,7 @@ function Mode_Guide()
   
   this.mouse_move = function(position)
   {
-    if(this.live_draw_from == null){ return; }
+    if(this.live_draw_from === null){ return; }
     
     ronin.overlay.clear();
     

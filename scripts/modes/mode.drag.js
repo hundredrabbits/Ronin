@@ -8,14 +8,14 @@ function Mode_Drag()
 
   this.mouse_down = function(position)
   {
-    this.drag_from = position;
+    this.drag_from = ronin.position_in_window(position);
   }
   
   this.mouse_move = function(position)
   {
-    console.log(position);
-    return;
     if(this.drag_from === null){ return; }
+    
+    position = ronin.position_in_window(position);
     
     var offset_x = this.drag_from.x - position.x;
     var offset_y = this.drag_from.y - position.y;

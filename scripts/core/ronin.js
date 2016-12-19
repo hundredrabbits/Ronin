@@ -36,4 +36,9 @@ function Ronin()
   {
     return new Position(e.clientX - parseFloat(ronin.surface.style.left) - parseFloat(ronin.canvas.element.style.left),e.clientY- parseFloat(ronin.surface.style.top) - parseFloat(ronin.canvas.element.style.top));
   }
+  
+  this.position_in_window = function(p)
+  {
+    return new Position(p.x + parseFloat(ronin.surface.style.left) + parseFloat(ronin.canvas.element.style.left),p.y + parseFloat(ronin.surface.style.top) + parseFloat(ronin.canvas.element.style.top));
+  }
 }
