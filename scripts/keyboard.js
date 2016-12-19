@@ -32,7 +32,7 @@ function Keyboard()
     interface.actions_panel.style.color = "black";
   }
 
-  this.listen = function(event)
+  this.listen_onkeyup = function(event)
   {
     if(this.is_locked === true){ return; }
   
@@ -54,7 +54,14 @@ function Keyboard()
     var cmd = commander.element_input.value;
     commander.passive(cmd.split(" "));
     ronin.hint.update();
+    
+    ronin.cursor.set_mode(new Mode_Paint());
   };
+  
+  this.listen_onkeydown = function(event)
+  {
+    ronin.cursor.update(event);
+  }
 
   this.key_tab = function()
   {

@@ -16,6 +16,8 @@ function Ronin()
   this.vector   = new Vector("+");
   this.help     = new Help("?");
   
+  this.cursor   = new Cursor();
+  
   this.modules[this.canvas.rune] = this.canvas;
   this.modules[this.overlay.rune] = this.overlay;
   this.modules[this.brush.rune] = this.brush;

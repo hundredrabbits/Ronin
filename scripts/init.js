@@ -7,29 +7,18 @@ ronin.widget.element = document.getElementById('widget');
 
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
 
-// Interactive
+// Cursor
+document.addEventListener('mousedown', function(e){ ronin.cursor.mode.mouse_down(e);}, false);
+document.addEventListener('mousemove', function(e){ ronin.cursor.mode.mouse_move(e);}, false);
+document.addEventListener('mouseup', function(e){ ronin.cursor.mode.mouse_up(e);}, false);
+document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
 
-document.addEventListener('mousedown', function(e)  {
-  // Canvas Live Draw
-  if(e.which == 1 && e.ctrlKey === true){ ronin.overlay.live_draw_start(e); }
-  else if(e.which == 1){ ronin.brush.draw_start(e); ronin.brush.draw(e); }
-  else if(e.which == 2){ ronin.drag_start(e); ronin.drag(e); }
-}, false);
-document.addEventListener('mousemove', function(e)  {
-  // Canvas Live Draw
-  if(e.which == 1 && e.ctrlKey === true){ ronin.overlay.live_draw(e); }
-  else if(e.which == 1){ ronin.brush.draw(e); }
-  else if(e.which == 2){ ronin.drag(e); }
-}, false);
-document.addEventListener('mouseup',   function(e)  {
-  if(e.which == 1){ ronin.brush.draw_stop(e); }
-  else if(e.which == 2){ ronin.drag_stop(e) }
-  document.getElementById("commander_input").focus();
-}, false);
-
+// Keyboard
 var keyboard = new Keyboard();
-document.onkeyup = function myFunction(){ keyboard.listen(event); };
+document.onkeyup = function myFunction(){ keyboard.listen_onkeyup(event); };
+document.onkeydown = function myFunction(){ keyboard.listen_onkeydown(event); };
 
+// Canvas
 var starting_canvas = new Rect();
 starting_canvas.width = window.innerWidth - 200;
 starting_canvas.height = window.innerHeight - 200;
