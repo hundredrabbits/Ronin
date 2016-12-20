@@ -4,7 +4,10 @@ function Variable(key,value)
   
   this.candidates = [];
   this.key = key;
-  this.value = value;
+  
+  if(value == "true"){ this.value = true; }
+  else if(value == "false"){ this.value = false; }
+  else{ this.value = value; }
   
   this.render = function()
   {

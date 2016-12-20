@@ -26,3 +26,7 @@ starting_canvas.height = window.innerHeight - 200;
 
 commander.query("~ "+ronin.timestamp());
 commander.query("@ "+starting_canvas.render());
+commander.query("> 1 0,0 #000000");
+commander.query("> banking=true");
+commander.query("> natural=true");
+commander.query("> -5,0");

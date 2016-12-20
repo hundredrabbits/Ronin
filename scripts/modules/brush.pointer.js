@@ -5,11 +5,21 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.position_prev = null;
   this.angle = null;
   this.distance = 0;
+  
+  // Parameters
+  
+  this.thickness = function()
+  {
+    var ratio = 10/this.position().distance_to(this.position_prev);
+    ratio = ratio > 1 ? 1 : ratio;
+    return ronin.brush.size * ratio;
+  }
+  
+  //
 
   this.draw = function()
   {
     if(!this.position_prev){this.position_prev = this.position(); }
-    if(ronin.brush.size < 0){ this.erase(); return; }
     
     var position = this.position();
     
@@ -29,22 +39,8 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     this.position_prev = position;
   }
   
-  this.erase = function()
-  {
-    ronin.canvas.context().clearRect(this.position().x - (ronin.brush.size/2), this.position().y - (ronin.brush.size/2), ronin.brush.size, ronin.brush.size);
-  }
-  
-  this.thickness = function()
-  {
-    var ratio = 10/this.position().distance_to(this.position_prev);
-    ratio = ratio > 1 ? 1 : ratio;
-    return ronin.brush.size * ratio;
-  }
-  
   this.position = function()
   {
-    return ronin.cursor.position;
-    
     if(this.angle){
       var angle_radian = this.angle.degrees * Math.PI / 180;
       var deltaX = ronin.brush.position.x - this.offset.x;
@@ -62,10 +58,14 @@ function Pointer(offset = new Position(), color = new Color('000000'))
       return new Position((ronin.brush.position.x + this.offset.x), (2 * this.mirror.height) - (ronin.brush.position.y + this.offset.y));
     }
     
-    console.log(ronin.brush.position);
-    console.log(this.offset);
-    return;
-    return new Position(ronin.brush.position.x + this.offset.x, ronin.brush.position.y + this.offset.y);
+    return this.position_default();
+  }
+  
+  // Effects
+  
+  this.position_default = function()
+  {
+    return ronin.cursor.position.add(this.offset);
   }
   
   this.start = function()

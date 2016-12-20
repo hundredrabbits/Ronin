@@ -74,6 +74,6 @@ function Eraser(rune)
     this.is_drawing = false;
     this.position_prev = null;
     
-    ronin.stroke.save_stroke();
+    ronin.stroke.save_stroke("eraser");
   }
 }

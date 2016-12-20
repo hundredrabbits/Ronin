@@ -3,7 +3,7 @@ function Module(rune)
   this.rune = rune;
   this.element = null;
   this.parameters = [];
-  this.variables  = [];
+  this.variables  = {};
   
   this.active = function(cmd)
   {
@@ -13,6 +13,15 @@ function Module(rune)
   this.passive = function(cmd)
   {
     console.log("Nothing to do.");
+  }
+  
+  this.update_variables = function(cmd)
+  {
+    for (var key in this.variables){
+      if(!cmd.variable(key)){ continue; }
+      this.variables[key] = cmd.variable(key).value;
+    }
+    console.log(this.variables);
   }
   
   this.hint = function(cmd)

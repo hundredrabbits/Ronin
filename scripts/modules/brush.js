@@ -3,7 +3,8 @@ function Brush(rune)
   Module.call(this,rune);
   
   this.parameters = [Position,Rect,Angle,Color,Value,Bang];
-  this.pointers = [new Pointer(new Position())];
+  this.variables  = {"natural" : false,"banking" : false};
+  this.pointers = [];
   
   this.size = 1;
   this.opacity = 1;
@@ -15,31 +16,20 @@ function Brush(rune)
   {
     if(cmd.bang()){ this.pointers = []; }
     
-    var pointer = new Pointer();
+    // Pointer
+    if(cmd.rect() || cmd.position() || cmd.angle()){
+      this.add_pointer(cmd);
+    }
     
-    if(cmd.position()){
-      pointer.offset = cmd.position();
-    }
-    if(cmd.rect()){
-      pointer.mirror = cmd.rect();
-    }
-    if(cmd.variable("osc_scale") && cmd.variable("osc_rate")){
-      pointer.osc_rate  = parseFloat(cmd.variable("osc_rate"));
-      pointer.osc_scale = parseFloat(cmd.variable("osc_scale"));
-    }
-    if(cmd.angle()){
-      pointer.angle = cmd.angle();
-    }
-    if(cmd.rect() || cmd.position() || cmd.variable("osc_rate") || cmd.angle()){
-      this.add_pointer(pointer);
-    }
+    // Global
     if(cmd.color()){
       this.color = cmd.color();
     }
     if(cmd.value()){
       this.size = cmd.value().float;
     }
-    ronin.widget.update();
+    
+    this.update_variables(cmd);
   }
   
   this.passive = function(cmd)
@@ -55,19 +45,26 @@ function Brush(rune)
     }
   }
   
-  this.add_pointer = function(pointer)
+  this.add_pointer = function(cmd)
   {
+    var pointer = new Pointer();
+    
+    if(cmd.position()){
+      pointer.offset = cmd.position();
+    }
+    if(cmd.rect()){
+      pointer.mirror = cmd.rect();
+    }
+    if(cmd.angle()){
+      pointer.angle = cmd.angle();
+    }
+    
     this.pointers.push(pointer);
-  }
-
-  this.widget = function()
-  {
-    return "> "+this.size+" <span>"+this.color.render()+"</span> ";
   }
   
   this.widget_cursor = function()
   {
-    return "Brush "+this.size;
+    return "Brush "+this.size+", "+this.pointers.length+" pointers";
   }
   
   // Cursor
@@ -104,6 +101,6 @@ function Brush(rune)
       ronin.brush.pointers[i].stop();
     }
     
-    ronin.stroke.save_stroke();
+    ronin.stroke.save_stroke("brush");
   }
 }

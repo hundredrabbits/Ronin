@@ -24,3 +24,5 @@ canvas:hover { cursor: crosshair;}
 #commander_hint .value { color:#ff0000;}
 #commander_hint .value:after { content:", "; color:#999; }
 #commander_hint .value:last-child:after { content:"";}
+#commander_hint .variable_key { color:#ccc; font-weight:bold;}
+#commander_hint .variable_value { color:#ccc;}

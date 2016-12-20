@@ -28,6 +28,23 @@ function Hint(element)
       e += 1;
     }
     
+    s += " ";
+    
+    s += this.print_variables(module);
+    
+    return s;
+  }
+  
+  this.print_variables = function(module)
+  {
+    if(module.variables.length < 1){ return "";}
+    
+    var s = "";
+    
+    for (var key in module.variables){
+      s += "<span class='variable_key'>"+key+"</span>=<span class='variable_value'>"+module.variables[key]+"</span> ";
+    }
+    
     return s;
   }
   

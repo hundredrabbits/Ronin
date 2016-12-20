@@ -18,9 +18,9 @@ function Stroke(rune)
     this.positions.push(p);
   }
   
-  this.save_stroke = function()
+  this.save_stroke = function(mode)
   {
-    s = "_ ";
+    s = "_ mode:"+mode+" ";
     for (i = 0; i < this.positions.length; i++) {
       s += this.positions[i].render()+" ";
     }
