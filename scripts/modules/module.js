@@ -21,7 +21,6 @@ function Module(rune)
       if(!cmd.variable(key)){ continue; }
       this.variables[key] = cmd.variable(key).value;
     }
-    console.log(this.variables);
   }
   
   this.hint = function(cmd)

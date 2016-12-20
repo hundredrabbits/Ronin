@@ -7,7 +7,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.distance = 0;
   
   // Parameters
-  
+
   this.thickness = function()
   {
     var ratio = 10/this.position().distance_to(this.position_prev);
@@ -41,23 +41,15 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   
   this.position = function()
   {
-    if(this.angle){
-      var angle_radian = this.angle.degrees * Math.PI / 180;
-      var deltaX = ronin.brush.position.x - this.offset.x;
-      var deltaY = ronin.brush.position.y - this.offset.y;
-      var t = Math.atan2(deltaY, deltaX) + angle_radian;
-      var radius = ronin.brush.position.distance_to(this.offset);
-      var x = Math.cos(t) * radius;
-      var y = Math.sin(t) * radius;
-      return new Position(x + this.offset.x,y + this.offset.y);
+    if(this.angle && this.offset){
+      return this.position_rotation();
     }
     else if(this.mirror && this.mirror.width > 0){
-      return new Position((2 * this.mirror.width) - (ronin.brush.position.x + this.offset.x), 0 + (ronin.brush.position.y + this.offset.y));
+      return this.position_mirror_x();
     }
     else if(this.mirror && this.mirror.height > 0){
-      return new Position((ronin.brush.position.x + this.offset.x), (2 * this.mirror.height) - (ronin.brush.position.y + this.offset.y));
+      return this.position_mirror_y();
     }
-    
     return this.position_default();
   }
   
@@ -66,6 +58,28 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.position_default = function()
   {
     return ronin.cursor.position.add(this.offset);
+  }
+  
+  this.position_mirror_x = function()
+  {
+    return new Position((2 * this.mirror.width) - (ronin.cursor.position.x + this.offset.x), 0 + (ronin.cursor.position.y + this.offset.y));
+  }
+  
+  this.position_mirror_y = function()
+  {
+    return new Position((ronin.cursor.position.x + this.offset.x), (2 * this.mirror.height) - (ronin.cursor.position.y + this.offset.y));
+  }
+  
+  this.position_rotation = function()
+  {
+    var angle_radian = this.angle.degrees * Math.PI / 180;
+    var deltaX = ronin.cursor.position.x - this.offset.x;
+    var deltaY = ronin.cursor.position.y - this.offset.y;
+    var t = Math.atan2(deltaY, deltaX) + angle_radian;
+    var radius = ronin.cursor.position.distance_to(this.offset);
+    var x = Math.cos(t) * radius;
+    var y = Math.sin(t) * radius;
+    return new Position(x + this.offset.x,y + this.offset.y);
   }
   
   this.start = function()
