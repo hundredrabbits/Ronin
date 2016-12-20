@@ -16,6 +16,8 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     this.distance += position.distance_to(this.position_prev);
     
     ronin.canvas.context().beginPath();
+    
+    ronin.canvas.context().globalCompositeOperation="source-over";
     ronin.canvas.context().moveTo(this.position_prev.x,this.position_prev.y);
     ronin.canvas.context().lineTo(position.x,position.y);
     ronin.canvas.context().lineCap="round";

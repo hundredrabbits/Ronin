@@ -152,4 +152,11 @@ function Overlay(rune)
     this.live_draw_from = null;
     commander.element_input.focus();
   }
+  
+  // Widget
+  
+  this.widget_cursor = function()
+  {
+    return "Guide";
+  }
 }

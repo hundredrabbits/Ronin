@@ -25,6 +25,10 @@ function Module(rune)
     return "";
   }
   
+  this.widget_cursor = function()
+  {
+    return "Missing";
+  }
   
   this.mouse_down = function(position)
   {

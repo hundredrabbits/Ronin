@@ -68,6 +68,11 @@ function Canvas(rune)
     return "@ "+this.element.width+"x"+this.element.height+" ";
   }
   
+  this.widget_cursor = function()
+  {
+    return "Drag";
+  }
+  
   // Cursor
   
   this.drag_from = null;

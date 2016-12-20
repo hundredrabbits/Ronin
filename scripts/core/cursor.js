@@ -7,7 +7,7 @@ function Cursor()
   {
     if(event.ctrlKey === true){ this.set_mode(ronin.overlay); }
     else if(event.altKey === true){ this.set_mode(ronin.canvas); }
-    else if(event.shiftKey === true){ this.set_mode(ronin.brush);  }
+    else if(event.shiftKey === true){ this.set_mode(ronin.eraser);  }
     else{ this.set_mode(ronin.brush); }
   }
   

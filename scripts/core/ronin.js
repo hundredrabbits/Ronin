@@ -15,6 +15,7 @@ function Ronin()
   this.vector   = new Vector("+");
   this.help     = new Help("?");
   this.history  = new History("^");
+  this.eraser   = new Eraser(".");
   
   this.cursor   = new Cursor();
   
@@ -28,6 +29,7 @@ function Ronin()
   this.modules[this.vector.rune] = this.vector;
   this.modules[this.help.rune] = this.help;
   this.modules[this.history.rune] = this.history;
+  this.modules[this.eraser.rune] = this.eraser;
   
   this.cursors = [];
   

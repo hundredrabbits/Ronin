@@ -65,6 +65,11 @@ function Brush(rune)
     return "> "+this.size+" <span>"+this.color.render()+"</span> ";
   }
   
+  this.widget_cursor = function()
+  {
+    return "Brush "+this.size;
+  }
+  
   // Cursor
 
   this.is_drawing = false;
