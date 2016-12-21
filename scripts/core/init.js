@@ -1,7 +1,7 @@
 var ronin = new Ronin();
 ronin.canvas.element = document.getElementById('workspace');
 ronin.overlay.element = document.getElementById('overlay');
-ronin.surface = document.getElementById('surface');
+ronin.surface.element = document.getElementById('surface');
 ronin.widget.element = document.getElementById('widget');
 ronin.cursor.mode = ronin.brush;
 

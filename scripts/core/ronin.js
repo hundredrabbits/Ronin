@@ -3,7 +3,6 @@ function Ronin()
   this.modules  = {};
   
   this.widget   = new Widget();
-  this.surface  = null;
   
   this.canvas   = new Canvas("@");
   this.overlay  = new Overlay("|");
@@ -16,6 +15,8 @@ function Ronin()
   this.help     = new Help("?");
   this.history  = new History("^");
   this.eraser   = new Eraser(".");
+  this.planner  = new Planner("*");
+  this.surface  = new Surface("#");
   
   this.cursor   = new Cursor();
   
@@ -30,19 +31,21 @@ function Ronin()
   this.modules[this.help.rune] = this.help;
   this.modules[this.history.rune] = this.history;
   this.modules[this.eraser.rune] = this.eraser;
+  this.modules[this.planner.rune] = this.planner;
+  this.modules[this.surface.rune] = this.surface;
   
   this.cursors = [];
   
   this.position_in_canvas = function(e)
   {
-    var x = e.clientX - parseFloat(ronin.surface.style.left) - parseFloat(ronin.canvas.element.style.left);
-    var y = e.clientY- parseFloat(ronin.surface.style.top) - parseFloat(ronin.canvas.element.style.top);
+    var x = e.clientX - parseFloat(ronin.surface.element.style.left) - parseFloat(ronin.canvas.element.style.left);
+    var y = e.clientY- parseFloat(ronin.surface.element.style.top) - parseFloat(ronin.canvas.element.style.top);
     return new Position(x+","+y);
   }
   
   this.position_in_window = function(p)
   {
-    return new Position(p.x + parseFloat(ronin.surface.style.left) + parseFloat(ronin.canvas.element.style.left),p.y + parseFloat(ronin.surface.style.top) + parseFloat(ronin.canvas.element.style.top));
+    return new Position(p.x + parseFloat(ronin.surface.element.style.left) + parseFloat(ronin.canvas.element.style.left),p.y + parseFloat(ronin.surface.element.style.top) + parseFloat(ronin.canvas.element.style.top));
   }
   
   this.timestamp = function()
