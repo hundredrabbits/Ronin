@@ -24,4 +24,9 @@ function Color(hex = '#000000')
   {
     return this.hex;
   }
+  
+  this.rgb_to_hex = function(rgb)
+  {
+    return "#"+("0" + parseInt(rgb[0],10).toString(16)).slice(-2)+("0" + parseInt(rgb[1],10).toString(16)).slice(-2)+("0" + parseInt(rgb[2],10).toString(16)).slice(-2);
+  }
 }

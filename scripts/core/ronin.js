@@ -15,8 +15,8 @@ function Ronin()
   this.help     = new Help("?");
   this.history  = new History("^");
   this.eraser   = new Eraser(".");
-  this.planner  = new Planner("*");
   this.surface  = new Surface("#");
+  this.eye      = new Eye("*");
   
   this.cursor   = new Cursor();
   
@@ -31,8 +31,8 @@ function Ronin()
   this.modules[this.help.rune] = this.help;
   this.modules[this.history.rune] = this.history;
   this.modules[this.eraser.rune] = this.eraser;
-  this.modules[this.planner.rune] = this.planner;
   this.modules[this.surface.rune] = this.surface;
+  this.modules[this.eye.rune] = this.eye;
   
   this.cursors = [];
   

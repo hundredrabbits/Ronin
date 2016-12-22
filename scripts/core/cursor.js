@@ -6,9 +6,9 @@ function Cursor()
   this.update = function(event)
   {
     if(event.ctrltKey === true && event.altKey === true && event.shiftKey === true){ /* */  }
-    else if(event.shiftKey === true && event.ctrlKey === true){ this.set_mode(ronin.planner);  }
-    else if(event.shiftKey === true && event.altKey === true){ this.set_mode(ronin.canvas);  }
-    else if(event.ctrltKey === true && event.altKey === true){ /* */  }
+    else if(event.shiftKey === true && event.ctrlKey === true){ this.set_mode(ronin.eye); }
+    else if(event.shiftKey === true && event.altKey === true){ this.set_mode(ronin.canvas); }
+    else if(event.ctrltKey === true && event.altKey === true){ this.set_mode(ronin.eye);  }
     else if(event.ctrlKey === true){ this.set_mode(ronin.overlay); }
     else if(event.altKey === true){ this.set_mode(ronin.surface); }
     else if(event.shiftKey === true){ this.set_mode(ronin.eraser); }
