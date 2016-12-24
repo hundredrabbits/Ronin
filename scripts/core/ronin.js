@@ -4,7 +4,6 @@ function Ronin()
   
   this.widget   = new Widget();
   
-  this.canvas   = new Canvas("@");
   this.overlay  = new Overlay("|");
   this.brush    = new Brush(">");
   this.fileload = new FileLoad("/");
@@ -20,7 +19,6 @@ function Ronin()
   
   this.cursor   = new Cursor();
   
-  this.modules[this.canvas.rune] = this.canvas;
   this.modules[this.overlay.rune] = this.overlay;
   this.modules[this.brush.rune] = this.brush;
   this.modules[this.fileload.rune] = this.fileload;
@@ -45,7 +43,7 @@ function Ronin()
   
   this.position_in_window = function(p)
   {
-    return new Position(p.x + parseFloat(ronin.surface.element.style.left) + parseFloat(ronin.canvas.element.style.left),p.y + parseFloat(ronin.surface.element.style.top) + parseFloat(ronin.canvas.element.style.top));
+    return new Position(p.x + parseFloat(ronin.surface.element.style.left),p.y + parseFloat(ronin.surface.element.style.top));
   }
   
   this.timestamp = function()
