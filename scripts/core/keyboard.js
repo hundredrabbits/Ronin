@@ -1,24 +1,8 @@
 function Keyboard()
 {
-  this.is_locked = false;
-
-  this.lock = function()
-  {
-    this.is_locked = true;
-    interface.actions_panel.style.color = "red";
-  }
-
-  this.unlock = function()
-  {
-    this.is_locked = false;
-    interface.actions_panel.style.color = "black";
-  }
-
   this.listen_onkeyup = function(event)
   {
-    if(this.is_locked === true){ return; }
-  
-    if(event.keyCode == 9) this.key_tab();
+    console.log(event.which);
     switch (event.key) {
       case "Enter": this.key_enter(); break;
       case " " : this.key_space(); break;
@@ -30,6 +14,12 @@ function Keyboard()
       //not sure if this one needed anymore
       case ";": if (event.shiftKey) this.key_colon(); break;
       case "Escape": this.key_escape(); break;
+    }
+    
+    switch(event.which)
+    {
+      case 13:  this.key_enter(); break;
+      case 186: this.key_colon(); break;
     }
 
     // Passive

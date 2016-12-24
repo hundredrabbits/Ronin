@@ -1,4 +1,4 @@
-body { margin:0px; padding:0px; overflow:hidden; font-family:courier,monospace;}
+body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace;}
 *:focus {outline: none; }
 
 canvas:hover { cursor: crosshair;}
@@ -7,16 +7,16 @@ canvas:hover { cursor: crosshair;}
 #surface { width:100vw; height:100vh; overflow:hidden; position:fixed; left:0px; top:0px;}
 #overlay { position:absolute; z-index:1000;}
 #workspace { position:absolute; background:#efefef; border-radius:3px;}
-#widget { color:#efefef; position:absolute; font-size:11px; line-height:30px;}
+#widget { color:#efefef; position:absolute; font-size:10px; line-height:30px;}
 #widget .cursor { float:right;}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }
-#commander input { background:black; padding:5px 15px; position:fixed; bottom:0; color:white; font-size:14px; left:0; border:0; width:calc(100vw); font-family:courier; cursor:pointer; display:block;}
+#commander input { background:black; padding:5px 15px; position:fixed; bottom:0; color:white; font-size:12px; left:0; border:0; width:calc(100vw); cursor:pointer; display:block;}
 #commander input:before { content:"input"; color:red;}
 
-#commander_hint { background: black;position: fixed;bottom: 27px;padding: 5px 15px 0 15px;line-height: 17px;font-family: courier;font-size: 14px;width: 100vw;color: #999;}
+#commander_hint { background: black;position: fixed;bottom: 27px;padding: 5px 15px 0 15px;line-height: 17px;font-size: 12px;width: 100vw;color: #999;}
 #commander_hint .module { color:#ffffff; display:inline-block; margin-right:10px;}
 #commander_hint .param { font-style: italic;}
 #commander_hint .param:after { content:", "; }

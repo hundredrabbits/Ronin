@@ -35,10 +35,12 @@ function Canvas(rune)
     var canvas_pixels = ronin.canvas.element.toDataURL("image/png");
     var pixels_rect   = new Rect(this.element.width+"x"+this.element.height);
     
-    this.element.setAttribute('width',rect.width+"px");
-    this.element.setAttribute('height',rect.height+"px");
+    this.element.width = rect.width * 2;
+    this.element.height = rect.height * 2;
     this.element.style.left = (window.innerWidth/2)-(rect.width/2);
     this.element.style.top = (window.innerHeight/2)-(rect.height/2);
+    this.element.style.width = rect.width+"px";
+    this.element.style.height = rect.height+"px";
     
     ronin.widget.element.style.left = (window.innerWidth/2)-(rect.width/2);
     ronin.widget.element.style.top = (window.innerHeight/2)+(rect.height/2);
@@ -51,6 +53,7 @@ function Canvas(rune)
     
     if(!position){ position = new Position("0,0");}
     ronin.canvas.context().drawImage(base_image, -position.x, -position.y, pixels_rect.width, pixels_rect.height);
+    ronin.canvas.context().scale(2,2);
   }
   
   this.context = function()
