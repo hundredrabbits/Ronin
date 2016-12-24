@@ -2,24 +2,22 @@ function Keyboard()
 {
   this.listen_onkeyup = function(event)
   {
-    console.log(event.which);
     switch (event.key) {
       case "Enter": this.key_enter(); break;
-      case " " : this.key_space(); break;
       case "ArrowUp": this.key_arrow_up(); break;
       case "ArrowDown": this.key_arrow_down(); break;
       case "ArrowLeft": this.key_arrow_left(); break;
       case "ArrowRight": this.key_arrow_right(); break;
       case ":": this.key_colon(); break;
-      //not sure if this one needed anymore
       case ";": if (event.shiftKey) this.key_colon(); break;
       case "Escape": this.key_escape(); break;
     }
-    
+
     switch(event.which)
     {
-      case 13:  this.key_enter(); break;
-      case 186: this.key_colon(); break;
+      case 13:  this.key_enter();  break;
+      case 186: this.key_colon();  break;
+      case 27:  this.key_escape(); break;
     }
 
     // Passive
