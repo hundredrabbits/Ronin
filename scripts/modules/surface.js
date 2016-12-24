@@ -79,7 +79,7 @@ function Surface(rune)
   
   this.widget_cursor = function()
   {
-    return "Move";
+    return "Drag";
   }
 
   // Layers
