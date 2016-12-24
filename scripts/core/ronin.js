@@ -38,8 +38,8 @@ function Ronin()
   
   this.position_in_canvas = function(e)
   {
-    var x = e.clientX - parseFloat(ronin.surface.element.style.left) - parseFloat(ronin.canvas.element.style.left);
-    var y = e.clientY- parseFloat(ronin.surface.element.style.top) - parseFloat(ronin.canvas.element.style.top);
+    var x = e.clientX - parseFloat(ronin.surface.element.style.left);
+    var y = e.clientY- parseFloat(ronin.surface.element.style.top);
     return new Position(x+","+y);
   }
   

@@ -64,7 +64,7 @@ function Brush(rune)
   
   this.widget_cursor = function()
   {
-    return "Brush "+this.size+", "+this.pointers.length+" pointers";
+    return this.pointers.length > 0 ? "Brush "+this.size+", "+this.pointers.length+" pointers" : "No Pointers";
   }
   
   // Cursor

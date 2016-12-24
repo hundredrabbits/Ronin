@@ -42,5 +42,5 @@ Filter.prototype.filter_balance = function(pixels = this.pixels(),p = null)
   }
   
 	ronin.canvas.clear();
-	ronin.canvas.context().putImageData(pixels, 0, 0, 0, 0, pixels.width, pixels.height);
+	ronin.surface.context().putImageData(pixels, 0, 0, 0, 0, pixels.width, pixels.height);
 }

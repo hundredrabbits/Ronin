@@ -68,6 +68,6 @@ function Filter(rune)
   
   this.pixels = function()
   {
-    return ronin.canvas.context().getImageData(0,0,ronin.canvas.element.width,ronin.canvas.element.height);
+    return ronin.surface.context().getImageData(0,0,ronin.canvas.element.width,ronin.canvas.element.height);
   }
 }

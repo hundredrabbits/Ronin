@@ -29,7 +29,7 @@ function FileLoad(rune)
       width  = isNaN(width) && height > 0 ? (height*base_image.naturalWidth)/base_image.naturalHeight : width;
       height = isNaN(height) && width > 0 ? (width*base_image.naturalHeight)/base_image.naturalWidth : height;
       
-      ronin.canvas.context().drawImage(base_image, position.x, position.y, width, height);
+      ronin.surface.context().drawImage(base_image, position.x, position.y, width, height);
     }
   }
   

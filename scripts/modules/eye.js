@@ -19,7 +19,7 @@ function Eye(rune)
   
   this.color_picker = function(position)
   {
-    var imgData = ronin.canvas.context().getImageData(position.x, position.y, 1, 1).data;
+    var imgData = ronin.surface.context().getImageData(position.x, position.y, 1, 1).data;
     var c = new Color();
     commander.show();
     commander.element_input.focus();

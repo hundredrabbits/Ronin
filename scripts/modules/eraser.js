@@ -18,15 +18,15 @@ function Eraser(rune)
     
     this.distance += position.distance_to(this.position_prev);
     
-    ronin.canvas.context().beginPath();
-    ronin.canvas.context().globalCompositeOperation="destination-out";
-    ronin.canvas.context().moveTo(this.position_prev.x,this.position_prev.y);
-    ronin.canvas.context().lineTo(position.x,position.y);
-    ronin.canvas.context().lineCap="round";
-    ronin.canvas.context().lineWidth = 10;
-    ronin.canvas.context().strokeStyle = new Color("#ff0000").rgba();
-    ronin.canvas.context().stroke();
-    ronin.canvas.context().closePath();
+    ronin.surface.context().beginPath();
+    ronin.surface.context().globalCompositeOperation="destination-out";
+    ronin.surface.context().moveTo(this.position_prev.x,this.position_prev.y);
+    ronin.surface.context().lineTo(position.x,position.y);
+    ronin.surface.context().lineCap="round";
+    ronin.surface.context().lineWidth = 10;
+    ronin.surface.context().strokeStyle = new Color("#ff0000").rgba();
+    ronin.surface.context().stroke();
+    ronin.surface.context().closePath();
     
     this.position_prev = position;
   }

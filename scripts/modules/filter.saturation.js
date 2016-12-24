@@ -11,5 +11,5 @@ Filter.prototype.filter_saturation = function(pixels = this.pixels(),p = null)
     d[i] = d[i+1] = d[i+2] = v
   }
 	ronin.canvas.clear();
-	ronin.canvas.context().putImageData(pixels, 0, 0, 0, 0, pixels.width, pixels.height);
+	ronin.surface.context().putImageData(pixels, 0, 0, 0, 0, pixels.width, pixels.height);
 }

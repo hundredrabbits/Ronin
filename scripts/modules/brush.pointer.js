@@ -25,16 +25,16 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     
     this.distance += position.distance_to(this.position_prev);
     
-    ronin.canvas.context().beginPath();
+    ronin.surface.context().beginPath();
     
-    ronin.canvas.context().globalCompositeOperation="source-over";
-    ronin.canvas.context().moveTo(this.position_prev.x,this.position_prev.y);
-    ronin.canvas.context().lineTo(position.x,position.y);
-    ronin.canvas.context().lineCap="round";
-    ronin.canvas.context().lineWidth = this.thickness();
-    ronin.canvas.context().strokeStyle = ronin.brush.color.rgba();
-    ronin.canvas.context().stroke();
-    ronin.canvas.context().closePath();
+    ronin.surface.context().globalCompositeOperation="source-over";
+    ronin.surface.context().moveTo(this.position_prev.x,this.position_prev.y);
+    ronin.surface.context().lineTo(position.x,position.y);
+    ronin.surface.context().lineCap="round";
+    ronin.surface.context().lineWidth = this.thickness();
+    ronin.surface.context().strokeStyle = ronin.brush.color.rgba();
+    ronin.surface.context().stroke();
+    ronin.surface.context().closePath();
     
     this.position_prev = position;
   }

@@ -11,7 +11,7 @@ function History(rune)
     
     for (i = 0; i < this.cmds.length; i++) {
       if(this.cmds[i][0] == this.rune){ continue; }
-      html += this.cmds[i]+"<br />";
+      html += this.cmds[i]+";<br />";
     }
     w.document.write("<title>Source</title><style>body { font-family:courier}</style>"+html+"");
   }

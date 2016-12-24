@@ -20,7 +20,7 @@ function Stroke(rune)
   
   this.save_stroke = function(mode)
   {
-    s = "_ mode:"+mode+" ";
+    s = "_ module="+mode+" ";
     for (i = 0; i < this.positions.length; i++) {
       s += this.positions[i].render()+" ";
     }
@@ -48,14 +48,14 @@ function Stroke(rune)
   
   this.draw = function(pos1,pos2)
   {
-    ronin.canvas.context().beginPath();
-    ronin.canvas.context().moveTo(pos1.x,pos1.y);
-    ronin.canvas.context().lineTo(pos2.x,pos2.y);
-    ronin.canvas.context().lineCap="round";
-    ronin.canvas.context().lineWidth = 1;
-    ronin.canvas.context().strokeStyle = new Color("#ff0000").rgba();
-    ronin.canvas.context().stroke();
-    ronin.canvas.context().closePath();
+    ronin.surface.context().beginPath();
+    ronin.surface.context().moveTo(pos1.x,pos1.y);
+    ronin.surface.context().lineTo(pos2.x,pos2.y);
+    ronin.surface.context().lineCap="round";
+    ronin.surface.context().lineWidth = 1;
+    ronin.surface.context().strokeStyle = new Color("#ff0000").rgba();
+    ronin.surface.context().stroke();
+    ronin.surface.context().closePath();
   }
   
 }

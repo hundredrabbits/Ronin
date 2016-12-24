@@ -12,7 +12,7 @@ commander.hint.element = document.getElementById('commander_hint');
 document.addEventListener('mousedown', function(e){ ronin.cursor.mouse_down(ronin.position_in_canvas(e));}, false);
 document.addEventListener('mousemove', function(e){ ronin.cursor.mouse_move(ronin.position_in_canvas(e));}, false);
 document.addEventListener('mouseup', function(e){ ronin.cursor.mouse_up(ronin.position_in_canvas(e));}, false);
-document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
+// document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
 
 // Keyboard
 var keyboard = new Keyboard();
@@ -25,8 +25,6 @@ starting_canvas.width = window.innerWidth - 200;
 starting_canvas.height = window.innerHeight - 200;
 
 commander.query("~ "+ronin.timestamp());
-commander.query("@ "+starting_canvas.render());
+commander.query("# "+starting_canvas.render());
+commander.query("# layer=main");
 commander.query("> 1 0,0 #000000");
-commander.query("> banking=true");
-commander.query("> natural=true");
-commander.query("> -5,0");

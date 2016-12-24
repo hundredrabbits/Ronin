@@ -34,5 +34,5 @@ Filter.prototype.filter_chromatic = function(pixels = this.pixels(),p = null)
 			}
   }
 	ronin.canvas.clear();
-	ronin.canvas.context().putImageData(output, 0, 0, 0, 0, pixels.width, pixels.height);
+	ronin.surface.context().putImageData(output, 0, 0, 0, 0, pixels.width, pixels.height);
 }
