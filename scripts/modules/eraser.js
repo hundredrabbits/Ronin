@@ -23,7 +23,7 @@ function Eraser(rune)
     ronin.surface.context().moveTo(this.position_prev.x,this.position_prev.y);
     ronin.surface.context().lineTo(position.x,position.y);
     ronin.surface.context().lineCap="round";
-    ronin.surface.context().lineWidth = 10;
+    ronin.surface.context().lineWidth = this.size;
     ronin.surface.context().strokeStyle = new Color("#ff0000").rgba();
     ronin.surface.context().stroke();
     ronin.surface.context().closePath();
@@ -45,7 +45,7 @@ function Eraser(rune)
 
   this.widget_cursor = function()
   {
-    return "Eraser "+this.size;
+    return ". "+this.size;
   }
   
   // Cursor
