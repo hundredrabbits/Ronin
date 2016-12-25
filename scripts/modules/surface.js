@@ -83,12 +83,12 @@ function Surface(rune)
   {
     if(!this.active_layer){ return ""; }
 
-    var s = "";
+    var s = "# "+this.size.render()+"<br />";
 
     Object.keys(ronin.surface.layers).forEach(function (key) {
       s += ronin.surface.layers[key].widget();
     });
-    return s; // "# "+this.active_layer.name;
+    return s;
   }
   
   this.widget_cursor = function()

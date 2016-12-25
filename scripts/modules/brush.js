@@ -64,6 +64,14 @@ function Brush(rune)
   
   this.widget_cursor = function()
   {
+
+    var s = "> "+this.size+"<br />";
+
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      s += ronin.brush.pointers[i].widget();
+    }
+    return s;
+
     return this.pointers.length > 0 ? "Brush "+this.size+", "+this.pointers.length+" pointers" : "No Pointers";
   }
   
