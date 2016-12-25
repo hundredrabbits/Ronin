@@ -73,7 +73,13 @@ function Surface(rune)
   this.widget = function()
   {
     if(!this.active_layer){ return ""; }
-    return "# "+this.active_layer.name;
+
+    var s = "";
+
+    Object.keys(ronin.surface.layers).forEach(function (key) {
+      s += "# "+key+"<br />";
+    });
+    return s; // "# "+this.active_layer.name;
   }
   
   this.widget_cursor = function()
@@ -86,6 +92,26 @@ function Surface(rune)
   this.context = function()
   {
     return this.active_layer.context();
+  }
+
+  this.merged = function()
+  {
+    var export_canvas = document.createElement("canvas");
+    export_canvas.width = this.size.width;
+    export_canvas.height = this.size.height;
+
+    Object.keys(ronin.surface.layers).forEach(function (key) {
+      var base_image = new Image();
+      base_image.src = ronin.surface.layers[key].element.toDataURL('image/png');
+      export_canvas.getContext('2d').drawImage(base_image,0,0);
+    });
+
+    return this.active_layer.element.toDataURL('image/png');
+
+    // this.context().globalCompositeOperation = "copy";
+    // this.context().drawImage(this.context().canvas, -offset_x, -offset_y);
+    // this.context().globalCompositeOperation = "source-over";
+
   }
   
   // Cursor

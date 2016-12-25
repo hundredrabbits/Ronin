@@ -7,10 +7,10 @@ function Widget()
     var s = "";
     
     for (var key in ronin.modules){
-      s += ronin.modules[key].widget();
+      s += ronin.modules[key].widget() ? "<div class='module'>"+ronin.modules[key].widget()+"</div>" : "";
     }
   
-    s += "<span class='cursor'>"+ronin.cursor.mode.widget_cursor()+"</span>";
+    s += "<div class='cursor'>"+ronin.cursor.mode.widget_cursor()+"</div>";
     
     this.element.innerHTML = s;
   }

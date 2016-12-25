@@ -6,9 +6,9 @@ function FileSave(rune)
   
   this.active = function(cmd)
   {
-    var n = cmd.any().string[1];
+    var n = "Ronin Export";
     var f = cmd.variable("format");
-    var d = ronin.canvas.element.toDataURL("image/png");
+    var d = ronin.surface.merged();
     var w = window.open('about:blank','image from canvas');
     w.document.write("<title>"+(n ? n : "Untitled")+"</title><img src='"+d+"'/>");
   }

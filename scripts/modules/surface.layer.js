@@ -9,7 +9,6 @@ function Layer(name)
   {
     console.log("Resize "+this.name+" to "+rect.render());
 
-    var canvas_pixels = this.element.toDataURL("image/png");
     var pixels_rect   = new Rect(this.element.width+"x"+this.element.height);
     
     this.element.width = rect.width * 2;
@@ -18,12 +17,6 @@ function Layer(name)
     this.element.style.height = rect.height+"px";
 
     this.context().scale(2,2);
-    
-    // base_image = new Image();
-    // base_image.src = canvas_pixels;
-    
-    // ronin.surface.context().drawImage(base_image, -position.x, -position.y, pixels_rect.width, pixels_rect.height);
-    // ronin.surface.context().scale(2,2);
   }
 
   this.clear = function()
@@ -61,7 +54,7 @@ function Layer(name)
     
     this.context().globalCompositeOperation = "copy";
     this.context().drawImage(this.context().canvas, -offset_x, -offset_y);
-    this.context().globalCompositeOperation = "source-over"
+    this.context().globalCompositeOperation = "source-over";
     
     this.move_from = new Position(position.x,position.y);
   }
