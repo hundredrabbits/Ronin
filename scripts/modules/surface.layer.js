@@ -29,6 +29,22 @@ function Layer(name)
     return this.element.getContext('2d');
   }
 
+  this.image = function()
+  {
+    return this.element.toDataURL('image/png');
+  }
+
+  this.merge = function()
+  {
+    console.log(ronin.surface.render_layer);
+    var ctx = ronin.surface.render_layer.context();
+    var img = new Image();
+    img.onload = function(){
+      ctx.drawImage(img,10,10);
+    };
+    img.src = this.element.toDataURL();
+  }
+
   //
 
   this.widget_cursor = function()

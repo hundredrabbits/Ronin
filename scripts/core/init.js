@@ -25,5 +25,6 @@ starting_canvas.height = window.innerHeight - 200;
 
 commander.query("~ "+ronin.timestamp());
 commander.query("# "+starting_canvas.render());
+commander.query("# layer=render");
 commander.query("# layer=main");
 commander.query("> 1 0,0 #000000");

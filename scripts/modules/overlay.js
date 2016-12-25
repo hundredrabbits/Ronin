@@ -105,8 +105,6 @@ function Overlay(rune)
   {
     this.element.width = rect.width * 2;
     this.element.height = rect.height * 2;
-    this.element.style.left = (window.innerWidth/2)-(rect.width/2);
-    this.element.style.top = (window.innerHeight/2)-(rect.height/2);
     this.element.style.width = rect.width+"px";
     this.element.style.height = rect.height+"px";
     this.context().scale(2,2);

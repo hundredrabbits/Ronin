@@ -8,6 +8,7 @@ function Surface(rune)
 
   this.layers = {};
   this.active_layer = null;
+  this.render_layer = null;
 
   this.size = null;
   
@@ -24,22 +25,30 @@ function Surface(rune)
       this.context().fill();
     }
 
-    //
-
     if(cmd.variable("layer")){
-      var layer_name = cmd.variable("layer").value;
-      if(this.layers[layer_name]){
-        console.log("Selecting layer:"+layer_name);
-        this.active_layer = this.layers[layer_name];
+      var name = cmd.variable("layer").value;
+      if(!this.layers[name]){
+        this.add_layer(new Layer(name,this.size));
       }
-      else{
-        console.log("Creating layer:"+layer_name); 
-        this.layers[layer_name] = new Layer(layer_name,this.size);
-        this.active_layer = this.layers[layer_name];
-        this.element.appendChild(this.active_layer.element);
-        this.active_layer.resize(this.size);
-      }
+      this.select_layer(this.layers[name]);
     }
+
+  }
+
+  this.select_layer = function(layer)
+  {
+    console.log("Selecting layer:"+layer.name);
+    this.active_layer = layer;
+  }
+
+  this.add_layer = function(layer)
+  {
+    console.log("Creating layer:"+layer.name); 
+
+    this.layers[layer.name] = layer;
+    this.active_layer = layer;
+    this.element.appendChild(layer.element);
+    this.active_layer.resize(this.size);
   }
   
   this.passive = function(cmd)
@@ -94,24 +103,20 @@ function Surface(rune)
     return this.active_layer.context();
   }
 
-  this.merged = function()
+  this.merge = function()
   {
-    var export_canvas = document.createElement("canvas");
-    export_canvas.width = this.size.width;
-    export_canvas.height = this.size.height;
-
+    this.render_layer = this.layers["render"];
+    
+    var a = [];
     Object.keys(ronin.surface.layers).forEach(function (key) {
-      var base_image = new Image();
-      base_image.src = ronin.surface.layers[key].element.toDataURL('image/png');
-      export_canvas.getContext('2d').drawImage(base_image,0,0);
+      if(key != "render"){
+        a.push(ronin.surface.layers[key]);
+      }
     });
-
-    return this.active_layer.element.toDataURL('image/png');
-
-    // this.context().globalCompositeOperation = "copy";
-    // this.context().drawImage(this.context().canvas, -offset_x, -offset_y);
-    // this.context().globalCompositeOperation = "source-over";
-
+    for (i = a.length; i > 0 ; i--) {
+      ronin.surface.render_layer.context().drawImage(a[i-1].context().canvas,10,10);
+    }
+    return this.render_layer;
   }
   
   // Cursor
