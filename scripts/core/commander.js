@@ -54,6 +54,7 @@ function Commander(element,element_input)
   {
     this.element.setAttribute('class','visible');
     this.element_input.focus();
+    this.element_input.value = "";
   }
 
   this.always = function() {

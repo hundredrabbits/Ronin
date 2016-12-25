@@ -13,16 +13,18 @@ canvas:hover { cursor: crosshair;}
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }
-#commander input { background:black; padding:5px 15px; position:fixed; bottom:0; color:white; font-size:12px; left:0; border:0; width:calc(100vw); cursor:pointer; display:block;}
+#commander input { background:none; padding:10px; position:fixed; bottom:0; color:white; font-size:11px; left:0; border:0; width:calc(100vw); cursor:pointer; display:block; color:RGBA(0,0,0,0); height:35px;}
 #commander input:before { content:"input"; color:red;}
 
-#commander_hint { background: black;position: fixed;bottom: 27px;padding: 5px 15px 0 15px;line-height: 17px;font-size: 10px;width: 100vw;color: #999;}
-#commander_hint .module { color:#ffffff; display:inline-block; margin-right:10px;}
+#commander_hint { background: #333;position: fixed;bottom: 0px;left:0px;padding: 10px;font-size: 11px;width: calc(100vw - 20px);color: #999; height:15px;}
+#commander_hint .rune { color:#72dec2; display:inline-block; margin-right:10px;}
+#commander_hint .module { color:#ccc; display:inline-block; margin-right:10px;}
+#commander_hint .command { color:#fff; display:inline-block; margin-right:10px;}
 #commander_hint .param { font-style: italic;}
-#commander_hint .param:after { content:", "; }
+#commander_hint .param:after { content:" "; }
 #commander_hint .param:last-child:after { content:"";}
 #commander_hint .value { color:#ff0000;}
-#commander_hint .value:after { content:", "; color:#999; }
+#commander_hint .value:after { content:" "; color:#999; }
 #commander_hint .value:last-child:after { content:"";}
-#commander_hint .variable_key { color:#ccc; font-weight:bold;}
-#commander_hint .variable_value { color:#ccc;}
+#commander_hint .variable_key { color:#aaa; font-weight:bold;}
+#commander_hint .variable_value { color:#aaa;}

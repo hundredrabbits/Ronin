@@ -3,7 +3,8 @@ function Surface(rune)
   Module.call(this,rune);
   
   this.element = null;
-  this.parameters = [Rect,Color,Any];
+  this.parameters = [Rect,Color];
+  this.variables  = {"layer" : "main"};
 
   this.layers = {};
   this.active_layer = null;
@@ -39,8 +40,6 @@ function Surface(rune)
         this.active_layer.resize(this.size);
       }
     }
-
-    
   }
   
   this.passive = function(cmd)

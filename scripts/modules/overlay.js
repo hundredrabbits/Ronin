@@ -119,7 +119,7 @@ function Overlay(rune)
   
   this.clear = function()
   {
-    this.context().clearRect(0, 0, ronin.canvas.element.width, ronin.canvas.element.height);
+    this.context().clearRect(0, 0, ronin.surface.size.width, ronin.surface.size.height);
   }
   
   // Cursor
