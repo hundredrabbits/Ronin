@@ -1,4 +1,5 @@
 var ronin = new Ronin();
+ronin.element = document.getElementById('ronin');
 ronin.overlay.element = document.getElementById('overlay');
 ronin.surface.element = document.getElementById('surface');
 ronin.widget.element = document.getElementById('widget');
@@ -14,6 +15,7 @@ document.addEventListener('mouseup', function(e){ ronin.cursor.mouse_up(ronin.po
 // document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
 
 // Keyboard
+
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen_onkeyup(event); };
 document.onkeydown = function myFunction(){ keyboard.listen_onkeydown(event); };
@@ -22,6 +24,11 @@ document.onkeydown = function myFunction(){ keyboard.listen_onkeydown(event); };
 var starting_canvas = new Rect();
 starting_canvas.width = window.innerWidth - 200;
 starting_canvas.height = window.innerHeight - 200;
+
+// Clamp
+
+starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
+starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
 commander.query("~ "+ronin.timestamp());
 commander.query("# "+starting_canvas.render());

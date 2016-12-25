@@ -68,8 +68,8 @@ function Surface(rune)
     
     ronin.surface.element.width = rect.width * 2;
     ronin.surface.element.height = rect.height * 2;
-    ronin.surface.element.style.left = (window.innerWidth/2)-(rect.width/2);
-    ronin.surface.element.style.top = (window.innerHeight/2)-(rect.height/2);
+    ronin.surface.element.style.marginLeft = -(rect.width/2);
+    ronin.surface.element.style.marginTop = -(rect.height/2);
     ronin.surface.element.style.width = rect.width+"px";
     ronin.surface.element.style.height = rect.height+"px";
     ronin.widget.element.style.left = (window.innerWidth/2)-(rect.width/2);
@@ -86,7 +86,7 @@ function Surface(rune)
     var s = "";
 
     Object.keys(ronin.surface.layers).forEach(function (key) {
-      s += "# "+key+"<br />";
+      s += ronin.surface.layers[key].widget();
     });
     return s; // "# "+this.active_layer.name;
   }
@@ -114,7 +114,7 @@ function Surface(rune)
       }
     });
     for (i = a.length; i > 0 ; i--) {
-      ronin.surface.render_layer.context().drawImage(a[i-1].context().canvas,10,10);
+      ronin.surface.render_layer.context().drawImage(a[i-1].context().canvas,0,0,this.size.width/2,this.size.height/2);
     }
     return this.render_layer;
   }
@@ -122,6 +122,8 @@ function Surface(rune)
   // Cursor
   
   this.drag_from = null;
+  this.drag_offset_x = 0;
+  this.drag_offset_y = 0;
 
   this.mouse_down = function(position)
   {
@@ -136,10 +138,16 @@ function Surface(rune)
     
     var offset_x = this.drag_from.x - position.x;
     var offset_y = this.drag_from.y - position.y;
+    this.drag_offset_x -= offset_x;
+    this.drag_offset_y -= offset_y;
     
-    ronin.surface.element.style.left = ronin.surface.element.style.left ? parseInt(ronin.surface.element.style.left) - offset_x : offset_x;
-    ronin.surface.element.style.top = ronin.surface.element.style.top ? parseInt(ronin.surface.element.style.top) - offset_y : offset_y;
-    
+    ronin.surface.element.style.marginLeft = -(this.size.width/2) + this.drag_offset_x;
+    ronin.surface.element.style.marginTop = -(this.size.height/2) + this.drag_offset_y;
+
+    ronin.element.style.backgroundPosition = ((this.drag_offset_x/8))-(window.innerWidth % 20)+"px "+((this.drag_offset_y/8)-(window.innerWidth % 20))+"px";
+    ronin.widget.element.style.marginLeft = this.drag_offset_x;
+    ronin.widget.element.style.marginTop = this.drag_offset_y;
+
     this.drag_from = new Position(position.x,position.y);
   }
   

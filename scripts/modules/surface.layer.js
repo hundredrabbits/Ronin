@@ -1,6 +1,7 @@
-function Layer(name)
+function Layer(name,host = "user")
 {
   this.name = name;
+  this.host = host;
   this.element = document.createElement("canvas");
   this.element.setAttribute("id","_"+name);
   this.element.setAttribute("class","layer");
@@ -50,6 +51,11 @@ function Layer(name)
   this.widget_cursor = function()
   {
     return "Move";
+  }
+
+  this.widget = function()
+  {
+    return "# "+this.name+"<br />";
   }
 
   this.move_from = null;

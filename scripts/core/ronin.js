@@ -1,7 +1,7 @@
 function Ronin()
 {
   this.modules  = {};
-  
+  this.element  = null;  
   this.widget   = new Widget();
   
   this.overlay  = new Overlay("|");
@@ -36,14 +36,19 @@ function Ronin()
   
   this.position_in_canvas = function(e)
   {
-    var x = e.clientX - parseFloat(ronin.surface.element.style.left);
-    var y = e.clientY- parseFloat(ronin.surface.element.style.top);
-    return new Position(x+","+y);
+    var x = e.clientX;
+    x -= (window.innerWidth - this.surface.size.width)/2;
+    x -= parseInt(this.surface.element.style.marginLeft) + (this.surface.size.width/2);
+    var y = e.clientY;
+    y -= (window.innerHeight - this.surface.size.height)/2;
+    y -= parseInt(this.surface.element.style.marginTop) + (this.surface.size.height/2);
+    return new Position(x,y);
   }
   
   this.position_in_window = function(p)
   {
-    return new Position(p.x + parseFloat(ronin.surface.element.style.left),p.y + parseFloat(ronin.surface.element.style.top));
+    console.log(p.x);
+    return new Position(p.x + parseInt(this.surface.element.style.marginLeft),p.y + parseInt(this.surface.element.style.marginTop));
   }
   
   this.timestamp = function()
