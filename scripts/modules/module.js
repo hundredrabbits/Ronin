@@ -4,6 +4,8 @@ function Module(rune)
   this.element = null;
   this.parameters = [];
   this.variables  = {};
+
+  this.docs = "Missing documentation.";
   
   this.active = function(cmd)
   {

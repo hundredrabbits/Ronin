@@ -4,35 +4,35 @@ function Ronin()
   this.element  = null;  
   this.widget   = new Widget();
   
-  this.overlay  = new Overlay("|");
-  this.brush    = new Brush(">");
+  this.surface  = new Surface("#");
   this.fileload = new FileLoad("/");
   this.filesave = new FileSave("$");
+  this.history  = new History("^");
+  this.overlay  = new Overlay("|");
+  this.brush    = new Brush(">");
+  this.eraser   = new Eraser(".");
+  this.eye      = new Eye("*");
   this.filter   = new Filter("%");
   this.stroke   = new Stroke("_");
   this.vector   = new Vector("+");
   this.help     = new Help("?");
-  this.history  = new History("^");
-  this.eraser   = new Eraser(".");
-  this.surface  = new Surface("#");
-  this.eye      = new Eye("*");
   this.typo     = new Typographe("&");
   
   this.cursor   = new Cursor();
   
-  this.modules[this.overlay.rune] = this.overlay;
-  this.modules[this.brush.rune] = this.brush;
+  this.modules[this.surface.rune]  = this.surface;
   this.modules[this.fileload.rune] = this.fileload;
   this.modules[this.filesave.rune] = this.filesave;
-  this.modules[this.filter.rune] = this.filter;
-  this.modules[this.stroke.rune] = this.stroke;
-  this.modules[this.vector.rune] = this.vector;
-  this.modules[this.help.rune] = this.help;
-  this.modules[this.history.rune] = this.history;
-  this.modules[this.eraser.rune] = this.eraser;
-  this.modules[this.surface.rune] = this.surface;
-  this.modules[this.eye.rune] = this.eye;
-  this.modules[this.typo.rune] = this.typo;
+  this.modules[this.history.rune]  = this.history;
+  this.modules[this.overlay.rune]  = this.overlay;
+  this.modules[this.filter.rune]   = this.filter;
+  this.modules[this.brush.rune]    = this.brush;
+  this.modules[this.eraser.rune]   = this.eraser;
+  this.modules[this.eye.rune]      = this.eye;
+  this.modules[this.typo.rune]     = this.typo;
+  this.modules[this.stroke.rune]   = this.stroke;
+  this.modules[this.vector.rune]   = this.vector;
+  this.modules[this.help.rune]     = this.help;
   
   this.cursors = [];
   

@@ -52,12 +52,15 @@ function Layer(name,host = "user")
   this.mouse_down = function(position)
   {
     this.move_from = ronin.position_in_window(position);
+    ronin.stroke.new_stroke();
   }
   
   this.mouse_move = function(position)
   {
     if(this.move_from === null){ return; }
     
+    ronin.stroke.append_stroke(position); // Save to stroke
+
     position = ronin.position_in_window(position);
     
     var offset_x = this.move_from.x - position.x;
@@ -68,10 +71,12 @@ function Layer(name,host = "user")
     this.context().putImageData(imageData, -offset_x * 2, -offset_y * 2);
 
     this.move_from = new Position(position.x,position.y);
+    
   }
   
   this.mouse_up = function(event)
   {
     this.move_from = null;
+    ronin.stroke.save_stroke("move");
   }
 }
