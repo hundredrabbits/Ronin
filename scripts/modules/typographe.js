@@ -2,7 +2,7 @@ function Typographe(rune)
 {
   Module.call(this,rune);
 
-  this.parameters = [Position,Color];
+  this.parameters = [Position,Color,Value];
   this.variables  = {"text" : null};
 
   this.active = function(cmd)

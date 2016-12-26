@@ -35,17 +35,6 @@ function Layer(name,host = "user")
     return this.element.toDataURL('image/png');
   }
 
-  this.merge = function()
-  {
-    console.log(ronin.surface.render_layer);
-    var ctx = ronin.surface.render_layer.context();
-    var img = new Image();
-    img.onload = function(){
-      ctx.drawImage(img,10,10);
-    };
-    img.src = this.element.toDataURL();
-  }
-
   //
 
   this.widget_cursor = function()
@@ -74,12 +63,10 @@ function Layer(name,host = "user")
     var offset_x = this.move_from.x - position.x;
     var offset_y = this.move_from.y - position.y;
 
-    var content = this.context().canvas;
+    var imageData = this.context().getImageData(0, 0, ronin.surface.size.width * 2, ronin.surface.size.height * 2);
+    this.clear();
+    this.context().putImageData(imageData, -offset_x * 2, -offset_y * 2);
 
-    this.context().globalCompositeOperation = "copy";
-    this.context().globalCompositeOperation = "source-over";
-    this.context().drawImage(content,-offset_x,-offset_y,ronin.surface.size.width,ronin.surface.size.height);
-    
     this.move_from = new Position(position.x,position.y);
   }
   
