@@ -114,7 +114,7 @@ function Surface(rune)
       }
     });
     for (i = a.length; i > 0 ; i--) {
-      ronin.surface.render_layer.context().drawImage(a[i-1].context().canvas,0,0,this.size.width/2,this.size.height/2);
+      ronin.surface.render_layer.context().drawImage(a[i-1].context().canvas,0,0,this.size.width,this.size.height);
     }
     return this.render_layer;
   }
