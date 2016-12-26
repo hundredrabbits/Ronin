@@ -1,90 +1,143 @@
-#Ronin
-
-<img src="media/demo.jpg" width="700">
-
-#Starting
-
-Ronin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. Headings with a star are features in development. Mouse2 is used to drag the canvas around.
-
+# Ronin
+## Basics
+Ronin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. 
 ```
 :
 ```
-
-Loading files requires you to run Ronin through localhost. Navigate to the Ronin folder, and run the simple http server.
+### Loading/Saving
+Requires you to run Ronin through localhost. Navigate to the Ronin folder, and run the simple http server.
 ```
 cd /path/to/ronin/                ; Navigate to Ronin through the terminal
 python -m SimpleHTTPServer 8000   ; Start localhost
 http://localhost:8000/            ; Enjoy Ronin
 ```
-
-#Controls
+## Controls
 ```
-CTRL+MOUSE1                       ; Draw guide
-SHIFT+MOUSE1                      ; Draw line
-MOUSE2                            ; Drag canvas
+ctrl                              ; Draw Overlays
+alt                               ; Drag Surface
+shift                             ; Erase
+shift+ctrl                        ; Eyedrop
+shift+alt                         ; Move Layer
 ```
-
-#Modules
-##Canvas
+## Modules
+### Help(?)
+Missing documentation.
 ```
-@ 600x400                         ; New canvas of size 600w and 400h
-@ 100x100 #ff0000                 ; New canvas of size 100w and 100h with red background
-@ !                               ; Clear canvas
-```
-
-##Load File
-```
-/ dir/file_name.jpg 10,10 100x100 ; Load image, at 10,10 with size 100x100
-/ dir/file_name.jpg 10,10 100x    ; Load image, at 10,10 with size 100w and auto height
+// Parameters
+// Variables
 ```
 
-##Save File
+### Surface(#)
+Missing documentation.
 ```
-$ new_name.jpg                    ; Create a new file with name
-```
-
-##Brush(Pointers)
-```
-> 10                              ; Size 10
-> -4                              ; Eraser, Size 4
-> 10,0                            ; Add pointer at pos
-> 400x0                           ; Add mirror pointer, at 400x
-> 4 #ff0000                       ; Red brush, Size 4
-> 100,100 45'                     ; Radial brush from position x,y and 45 degrees
-> !                               ; Remove all pointers
+// Parameters
+- Rect(200x300)
+- Color(#ff0000)
+// Variables
+- layer
 ```
 
-##Guides
-Hold the Control key to draw guides with the mouse.
+### FileLoad(/)
+Missing documentation.
 ```
-| 10,10 100x100                   ; Draw a guide
-| -100,0                          ; Draw a grid at every 100px
-| !                               ; Remove all guides
-```
-
-##Vector(SVG)
-```
-+ M10 10 h 80 v 80 h -80 Z                                     ; Draw a square outline
-+ M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80               ; Draw a bezier
-+ M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0 ; Draw a circle
+// Parameters
+- Filepath(assets/demo.png)
+- Position(100,150)
+- Rect(200x300)
+// Variables
 ```
 
-##Stroke*
+### FileSave($)
+Missing documentation.
 ```
-_ 0,0 0,10 10,10 10,0 0,0         ; Draw a square
-```
-
-##Filters*
-```
-: saturation 0.5                  ; Set image saturation to 0.5
-: chromatic 10                    ; Shifts, from center, pixels red value by 10, green by 5, blue by 0
-: chromatic 8 0 16                ; Shifts, from center, pixels red value by 8, green by 0, blue by 16
-: balance 0.9 0.4 0.7             ; Set color balance to R0.9 G0.4 B0.7
-
-: sharpen 0.5                     ; Sharpen image to 50%
+// Parameters
+- Any()
+// Variables
 ```
 
-#Units
+### History(^)
+Missing documentation.
+```
+// Parameters
+// Variables
+```
+
+### Overlay(|)
+Missing documentation.
+```
+// Parameters
+- Position(100,150)
+- Rect(200x300)
+// Variables
+```
+
+### Filter(%)
+Missing documentation.
+```
+// Parameters
+- Any()
+// Variables
+```
+
+### Brush(>)
+Missing documentation.
+```
+// Parameters
+- Position(100,150)
+- Rect(200x300)
+- Angle(45')
+- Color(#ff0000)
+- Value(20)
+- Bang()
+// Variables
+- natural
+- banking
+```
+
+### Eraser(.)
+Missing documentation.
+```
+// Parameters
+- Value(20)
+// Variables
+```
+
+### Eye(*)
+Missing documentation.
+```
+// Parameters
+// Variables
+```
+
+### Typographe(&)
+Missing documentation.
+```
+// Parameters
+- Position(100,150)
+- Color(#ff0000)
+- Value(20)
+// Variables
+- text
+```
+
+### Stroke(_)
+Missing documentation.
+```
+// Parameters
+- Any()
+// Variables
+```
+
+### Vector(+)
+Missing documentation.
+```
+// Parameters
+- Any()
+- Position(100,150)
+// Variables
+```
+
+## Units
 ```
 5                                 ; value:    5
 5,7                               ; position: 5x 7y
@@ -94,25 +147,22 @@ _ 0,0 0,10 10,10 10,0 0,0         ; Draw a square
 45'                               ; degree:   45/365
 rate=10                           ; variable: rate = 10
 ```
-
-#Presets
-##Radial Brush
+## Presets
+### Radial Brush
 ```
 # 8 strands
 > 600,400 45';> 600,400 90';> 600,400 135';> 600,400 180';> 600,400 225';> 600,400 270';> 600,400 315'
 # 6 strands
 > 600,400 60';> 600,400 120';> 600,400 180';> 600,400 240';> 600,400 300'
 ```
-
-##Symmetry Brush
+### Symmetry Brush
 ```
 # XY
 > 400x 3
 # Angular brushes
 > 400x 1,1;> 400x 2,2;> 400x 3,3; > 1,1;> 2,2;> 3,3;
 ```
-
-##Angular Brush
+### Angular Brush
 ```
 # Light
 > 1,1;> 2,2;> 3,3;> 4,4
