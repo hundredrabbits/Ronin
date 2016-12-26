@@ -73,10 +73,12 @@ function Layer(name,host = "user")
     
     var offset_x = this.move_from.x - position.x;
     var offset_y = this.move_from.y - position.y;
-    
+
+    var content = this.context().canvas;
+
     this.context().globalCompositeOperation = "copy";
-    this.context().drawImage(this.context().canvas, -offset_x, -offset_y);
     this.context().globalCompositeOperation = "source-over";
+    this.context().drawImage(content,-offset_x,-offset_y,ronin.surface.size.width,ronin.surface.size.height);
     
     this.move_from = new Position(position.x,position.y);
   }
