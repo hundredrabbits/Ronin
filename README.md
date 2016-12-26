@@ -11,7 +11,7 @@ cd /path/to/ronin/                ; Navigate to Ronin through the terminal
 python -m SimpleHTTPServer 8000   ; Start localhost
 http://localhost:8000/            ; Enjoy Ronin
 ```
-## Controls
+### Controls
 ```
 ctrl                              ; Draw Overlays
 alt                               ; Drag Surface
@@ -20,122 +20,70 @@ shift+ctrl                        ; Eyedrop
 shift+alt                         ; Move Layer
 ```
 ## Modules
-### Help(?)
+### # Surface
 Missing documentation.
-```
-// Parameters
-// Variables
-```
+- Parameters: `Rect` `Color` 
+- Variables: `layer` 
 
-### Surface(#)
+### / FileLoad
 Missing documentation.
-```
-// Parameters
-- Rect(200x300)
-- Color(#ff0000)
-// Variables
-- layer
-```
+- Parameters: `Filepath` `Position` `Rect` 
+- Variables: 
 
-### FileLoad(/)
+### $ FileSave
 Missing documentation.
-```
-// Parameters
-- Filepath(assets/demo.png)
-- Position(100,150)
-- Rect(200x300)
-// Variables
-```
+- Parameters: `Any` 
+- Variables: 
 
-### FileSave($)
+### ^ History
 Missing documentation.
-```
-// Parameters
-- Any()
-// Variables
-```
+- Parameters: 
+- Variables: 
 
-### History(^)
+### | Overlay
 Missing documentation.
-```
-// Parameters
-// Variables
-```
+- Parameters: `Position` `Rect` 
+- Variables: 
 
-### Overlay(|)
+### % Filter
 Missing documentation.
-```
-// Parameters
-- Position(100,150)
-- Rect(200x300)
-// Variables
-```
+- Parameters: `Any` 
+- Variables: 
 
-### Filter(%)
+### > Brush
 Missing documentation.
-```
-// Parameters
-- Any()
-// Variables
-```
+- Parameters: `Position` `Rect` `Angle` `Color` `Value` `Bang` 
+- Variables: `natural` `banking` 
 
-### Brush(>)
+### . Eraser
 Missing documentation.
-```
-// Parameters
-- Position(100,150)
-- Rect(200x300)
-- Angle(45')
-- Color(#ff0000)
-- Value(20)
-- Bang()
-// Variables
-- natural
-- banking
-```
+- Parameters: `Value` 
+- Variables: 
 
-### Eraser(.)
+### * Eye
 Missing documentation.
-```
-// Parameters
-- Value(20)
-// Variables
-```
+- Parameters: 
+- Variables: 
 
-### Eye(*)
+### & Typographe
 Missing documentation.
-```
-// Parameters
-// Variables
-```
+- Parameters: `Position` `Color` `Value` 
+- Variables: `text` 
 
-### Typographe(&)
+### _ Stroke
 Missing documentation.
-```
-// Parameters
-- Position(100,150)
-- Color(#ff0000)
-- Value(20)
-// Variables
-- text
-```
+- Parameters: `Any` 
+- Variables: 
 
-### Stroke(_)
+### + Vector
 Missing documentation.
-```
-// Parameters
-- Any()
-// Variables
-```
+- Parameters: `Any` `Position` 
+- Variables: 
 
-### Vector(+)
+### ? Help
 Missing documentation.
-```
-// Parameters
-- Any()
-- Position(100,150)
-// Variables
-```
+- Parameters: 
+- Variables: 
 
 ## Units
 ```
