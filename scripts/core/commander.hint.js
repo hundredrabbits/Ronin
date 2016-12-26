@@ -52,7 +52,7 @@ function Hint(element)
     var s = "<span class='module'>Modules</span>";
     
     for (var key in ronin.modules){
-      s += "<span class='param'>"+ronin.modules[key].constructor.name.substr(0,2)+"<span> <span class='value'>"+key+"</span> ";
+      s += "<span> <span class='value'>"+key+"</span> <span class='param'>"+ronin.modules[key].constructor.name.substr(0,2)+" ";
     }
     
     return s;

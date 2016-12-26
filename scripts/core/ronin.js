@@ -16,6 +16,7 @@ function Ronin()
   this.eraser   = new Eraser(".");
   this.surface  = new Surface("#");
   this.eye      = new Eye("*");
+  this.typo     = new Typographe("&");
   
   this.cursor   = new Cursor();
   
@@ -31,6 +32,7 @@ function Ronin()
   this.modules[this.eraser.rune] = this.eraser;
   this.modules[this.surface.rune] = this.surface;
   this.modules[this.eye.rune] = this.eye;
+  this.modules[this.typo.rune] = this.typo;
   
   this.cursors = [];
   
@@ -47,7 +49,6 @@ function Ronin()
   
   this.position_in_window = function(p)
   {
-    console.log(p.x);
     return new Position(p.x + parseInt(this.surface.element.style.marginLeft),p.y + parseInt(this.surface.element.style.marginTop));
   }
   
