@@ -1,6 +1,7 @@
 function Filter_Stencil()
 {
   Filter.call(this);
+  this.parameters = [Angle];
 
   this.render = function(cmd)
   {

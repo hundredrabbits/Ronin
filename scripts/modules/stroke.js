@@ -52,8 +52,8 @@ function Stroke(rune)
     ronin.surface.context().moveTo(pos1.x,pos1.y);
     ronin.surface.context().lineTo(pos2.x,pos2.y);
     ronin.surface.context().lineCap="round";
-    ronin.surface.context().lineWidth = 1;
-    ronin.surface.context().strokeStyle = new Color("#ff0000").rgba();
+    ronin.surface.context().lineWidth = 10;
+    ronin.surface.context().strokeStyle = ronin.brush.color.rgba();
     ronin.surface.context().stroke();
     ronin.surface.context().closePath();
   }

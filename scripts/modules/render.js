@@ -6,14 +6,13 @@ function Render(rune)
   this.collection = {};
 
   this.collection["stencil"] = new Filter_Stencil();
+  this.collection["rotate"] = new Filter_Rotate();
   
   this.active = function(cmd)
   {
     var name = cmd.content[0];
 
-    if(!this.collection[name]){ console.log("Unknown filter:"+name); return; }
-
-    cmd.content.shift();
+    if(!this.collection[name]){ return; }
     
     return this.collection[name].render(cmd);
   }
@@ -21,11 +20,8 @@ function Render(rune)
   this.passive = function(cmd)
   {
     var name = cmd.content[0];
-    if(!this.collection[name]){ console.log("Unknown filter:"+name); return; }
+    if(!this.collection[name]){ return; }
 
-    cmd.content.shift();
-
-    console.log(name);
     return this.collection[name].preview(cmd);
   }
 	
