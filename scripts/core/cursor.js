@@ -8,7 +8,7 @@ function Cursor()
     if(event.ctrltKey === true && event.altKey === true && event.shiftKey === true){ /* */  }
     else if(event.shiftKey === true && event.ctrlKey === true){ this.set_mode(ronin.eye); }
     else if(event.shiftKey === true && event.altKey === true){ this.set_mode(ronin.surface.active_layer); }
-    else if(event.ctrltKey === true && event.altKey === true){ this.set_mode(ronin.eye);  }
+    else if(event.ctrltKey === true && event.altKey === true){ this.set_mode(ronin.overlay.compositor);  }
     else if(event.ctrlKey === true){ this.set_mode(ronin.overlay); }
     else if(event.altKey === true){ this.set_mode(ronin.surface); }
     else if(event.shiftKey === true){ this.set_mode(ronin.eraser); }
