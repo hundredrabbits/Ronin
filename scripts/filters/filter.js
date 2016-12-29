@@ -3,12 +3,12 @@ function Filter()
   this.name = "Unknown";
   this.parameters = [];
 
-  this.render = function(p)
+  this.render = function(cmd)
   {
     console.log("render: Nothing here.");
   }
 
-  this.preview = function(p)
+  this.preview = function(cmd)
   {
     console.log("render: Nothing here.");
   }
