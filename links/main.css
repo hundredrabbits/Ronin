@@ -15,7 +15,7 @@ canvas:hover { cursor: crosshair;}
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
 #commander.hidden { display:none; }
-#commander input { background:none; padding:10px; position:fixed; bottom:0; color:white; font-size:11px; left:0; border:0; width:calc(100vw); cursor:pointer; display:block; color:RGBA(0,0,0,0); height:35px;}
+#commander input { background:none; padding:10px; position:fixed; bottom:0; color:white; font-size:11px; left:0; border:0; width:calc(100vw); cursor:pointer; display:block; height:35px;}
 #commander input:before { content:"input"; color:e7fff8;}
 
 #commander_hint { background: #000;position: fixed;bottom: 0px;left:0px;padding: 10px;font-size: 11px;width: calc(100vw - 20px);color: #999; height:15px;}

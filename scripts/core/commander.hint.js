@@ -22,9 +22,9 @@ function Hint(element)
   
   this.message = function(module,cmd)
   {
-    var s = "<span class='rune'>"+module.rune+"</span><span class='module'>"+module.constructor.name+"</span>";
-    
-    s += cmd.content.join("") != "" ? "<span class='command'>"+cmd.content.join(" ")+"</span>" : "";
+    var s = this.pad(cmd.content.join(" "));
+
+    s += cmd.content.join(" ").length == 0 ? "<span class='module'>"+module.constructor.name+"</span>" : "";
 
     // Params
 
@@ -45,6 +45,16 @@ function Hint(element)
     }
     
     return s;
+  }
+
+  this.pad = function(input)
+  {
+    var s = "";
+    for (i = 0; i < input.length+2; i++){
+      s += "_";
+    }
+
+    return "<span style='color:#000'>"+s+"</span>";
   }
   
   this.default = function()
