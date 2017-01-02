@@ -13,6 +13,7 @@ document.addEventListener('mousedown', function(e){ ronin.cursor.mouse_down(roni
 document.addEventListener('mousemove', function(e){ ronin.cursor.mouse_move(ronin.position_in_canvas(e));}, false);
 document.addEventListener('mouseup', function(e){ ronin.cursor.mouse_up(ronin.position_in_canvas(e));}, false);
 // document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
+window.addEventListener('resize', function(){ ronin.on_resize(); }, true);
 
 // Keyboard
 

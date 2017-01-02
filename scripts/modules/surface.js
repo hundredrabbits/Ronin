@@ -68,15 +68,12 @@ function Surface(rune)
     
     ronin.surface.element.width = rect.width * 2;
     ronin.surface.element.height = rect.height * 2;
-    ronin.surface.element.style.marginLeft = -(rect.width/2);
-    ronin.surface.element.style.marginTop = -(rect.height/2);
     ronin.surface.element.style.width = rect.width+"px";
     ronin.surface.element.style.height = rect.height+"px";
-    ronin.widget.element.style.left = (window.innerWidth/2)-(rect.width/2);
-    ronin.widget.element.style.top = (window.innerHeight/2)+(rect.height/2);
-    ronin.widget.element.style.width = rect.width+"px";
-    
-    ronin.widget.update(); 
+    ronin.surface.element.style.marginLeft = -(rect.width/2);
+    ronin.surface.element.style.marginTop = -(rect.height/2);
+
+    ronin.on_resize();
   }
 
   this.widget = function()

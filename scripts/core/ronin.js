@@ -43,7 +43,7 @@ function Ronin()
     x -= parseInt(this.surface.element.style.marginLeft) + (this.surface.size.width/2);
     var y = e.clientY;
     y -= (window.innerHeight - this.surface.size.height)/2;
-    y -= parseInt(this.surface.element.style.marginTop) + (this.surface.size.height/2);
+    y -= parseInt(this.surface.element.style.marginTop) + parseInt(this.surface.size.height/2);
     return new Position(x,y);
   }
   
@@ -57,5 +57,10 @@ function Ronin()
     var currentdate = new Date();
     var date = currentdate.getFullYear()+""+(currentdate.getMonth()+1)+""+currentdate.getDate();
     return date+" "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
+  }
+
+  this.on_resize = function()
+  {
+    this.widget.on_resize();
   }
 }
