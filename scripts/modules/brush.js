@@ -74,6 +74,10 @@ function Brush(rune)
 
     return this.pointers.length > 0 ? "Brush "+this.size+", "+this.pointers.length+" pointers" : "No Pointers";
   }
+
+  // Commands
+
+  // this.
   
   // Cursor
 

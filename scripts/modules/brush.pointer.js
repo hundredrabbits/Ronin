@@ -20,8 +20,10 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   this.draw = function()
   {
     if(!this.position_prev){this.position_prev = this.position(); }
-    
+
     var position = this.position();
+
+    if(position.distance_to(this.position_prev) < 2){ return; } // Quickfix against stairs
     
     this.distance += position.distance_to(this.position_prev);
     

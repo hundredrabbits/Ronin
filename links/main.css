@@ -10,7 +10,7 @@ canvas:hover { cursor: crosshair;}
 #widget { color:#fff; position:absolute; font-size:10px; padding-top:10px;}
 #widget .module { float:left; margin-right:10px; }
 #widget .module .highlight { color:#e7fff8; }
-#widget .cursor { float:right;}
+#widget .cursor { float:right; text-align: right}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
