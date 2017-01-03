@@ -55,6 +55,6 @@ function Filter()
   
   this.pixels = function()
   {
-    return this.context().getImageData(0,0,ronin.surface.size.width,ronin.surface.size.height);
+    return ronin.surface.active_layer.context().getImageData(0,0,ronin.surface.size.width * 2,ronin.surface.size.height * 2);
   }
 }

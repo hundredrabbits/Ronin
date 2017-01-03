@@ -7,6 +7,7 @@ function Render(rune)
 
   this.collection["stencil"] = new Filter_Stencil();
   this.collection["rotate"] = new Filter_Rotate();
+  this.collection["invert"] = new Filter_Invert();
   
   this.active = function(cmd)
   {

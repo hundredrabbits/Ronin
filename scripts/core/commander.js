@@ -23,6 +23,7 @@ function Commander(element,element_input)
 
   function run()
   {
+    console.log("~ "+queue[0].trim());
     active(queue[0].trim());
 
     queue.shift();
@@ -34,7 +35,7 @@ function Commander(element,element_input)
   function active(content)
   {
     var key = content[0];
-    var cmd = new Command(content.substring(1).split(" "));
+    var cmd = new Command(content.substring(1).trim().split(" "));
     
     if(ronin.modules[key]){
       ronin.modules[key].active(cmd);

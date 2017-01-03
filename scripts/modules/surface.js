@@ -18,12 +18,14 @@ function Surface(rune)
       this.resize(cmd.rect(),cmd.position());
       ronin.overlay.resize(cmd.rect());
     }
+    
     if(cmd.color()){
       this.context().beginPath();
       this.context().rect(0, 0, this.active_layer.element.width, this.active_layer.element.height);
       this.context().fillStyle = cmd.color().hex;
       this.context().fill();
     }
+
     if(cmd.bang() && Object.keys(ronin.surface.layers).length > 1){
       delete this.layers[this.active_layer.name];
       this.select_any_layer();
