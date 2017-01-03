@@ -37,3 +37,5 @@ commander.query("# layer=background");
 commander.query("# #efefef");
 commander.query("# layer=main");
 commander.query("> 1 0,0 #000000");
+commander.query("> 1 1,0 #000000");
+commander.query("> 1 0,1 #000000");
