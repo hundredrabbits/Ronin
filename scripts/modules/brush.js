@@ -44,6 +44,18 @@ function Brush(rune)
       ronin.overlay.draw(cmd.position());
     }
   }
+
+  this.size_up = function()
+  {
+    this.size -= this.size > 1 ? 1 : 0;
+    ronin.widget.update();
+  }
+
+  this.size_down = function()
+  {
+     this.size += 1;
+     ronin.widget.update();
+  }
   
   this.add_pointer = function(cmd)
   {
@@ -74,10 +86,6 @@ function Brush(rune)
 
     return this.pointers.length > 0 ? "Brush "+this.size+", "+this.pointers.length+" pointers" : "No Pointers";
   }
-
-  // Commands
-
-  // this.
   
   // Cursor
 

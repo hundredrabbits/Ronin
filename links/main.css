@@ -11,6 +11,7 @@ canvas:hover { cursor: crosshair;}
 #widget .module { float:left; margin-right:10px; }
 #widget .module .highlight { color:#e7fff8; }
 #widget .cursor { float:right; text-align: right}
+#widget .layer:hover { cursor:pointer;}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }

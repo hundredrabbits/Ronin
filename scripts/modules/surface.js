@@ -80,17 +80,37 @@ function Surface(rune)
   {
     if(!this.active_layer){ return ""; }
 
-    var s = "# "+this.size.render()+"<br />";
+    var s = "";
 
     Object.keys(ronin.surface.layers).forEach(function (key) {
-      s += ronin.surface.layers[key].widget();
+      s = ronin.surface.layers[key].widget()+s;
     });
-    return s;
+    return "# "+this.size.render()+"<br />"+s;
   }
   
   this.widget_cursor = function()
   {
     return "Drag";
+  }
+
+  // Commands
+
+  this.layer_up = function()
+  {
+    var keys = Object.keys(ronin.surface.layers);
+    var loc = keys.indexOf(this.active_layer.name);
+
+    if(loc >= keys.length-1){ console.log("Reached end"); return false; }
+
+    if(keys[loc+1] != null){this.select_layer(ronin.surface.layers[keys[loc+1]]);}
+  }
+
+  this.layer_down = function()
+  {
+    var keys = Object.keys(ronin.surface.layers);
+    var loc = keys.indexOf(this.active_layer.name);
+
+    if(keys[loc-1] != null){this.select_layer(ronin.surface.layers[keys[loc-1]]);}
   }
 
   // Layers

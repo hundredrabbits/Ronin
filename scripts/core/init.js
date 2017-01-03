@@ -12,7 +12,7 @@ commander.hint.element = document.getElementById('commander_hint');
 document.addEventListener('mousedown', function(e){ ronin.cursor.mouse_down(ronin.position_in_canvas(e));}, false);
 document.addEventListener('mousemove', function(e){ ronin.cursor.mouse_move(ronin.position_in_canvas(e));}, false);
 document.addEventListener('mouseup', function(e){ ronin.cursor.mouse_up(ronin.position_in_canvas(e));}, false);
-// document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
+document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
 window.addEventListener('resize', function(){ ronin.on_resize(); }, true);
 
 // Keyboard
@@ -33,6 +33,7 @@ starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
 commander.query("~ "+ronin.timestamp());
 commander.query("# "+starting_canvas.render());
-commander.query("# layer=render");
+commander.query("# layer=background");
+commander.query("# #efefef");
 commander.query("# layer=main");
 commander.query("> 1 0,0 #000000");

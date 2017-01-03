@@ -18,8 +18,10 @@ function Keyboard()
       case 13:  this.key_enter();  break;
       case 186: this.key_colon();  break;
       case 27:  this.key_escape(); break;
-      case 219:  ronin.brush.size -= ronin.brush.size > 1 ? 1 : 0;ronin.widget.update(); break;
-      case 221:  ronin.brush.size += 1;ronin.widget.update(); break;
+      case 219:  ronin.brush.size_up(); break;
+      case 221:  ronin.brush.size_down(); break;
+      case 38:  ronin.surface.layer_up(); break;
+      case 40:  ronin.surface.layer_down(); break;
     }
 
     // Passive
