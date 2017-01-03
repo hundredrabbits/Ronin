@@ -8,15 +8,14 @@ function Keyboard()
       case "ArrowDown": this.key_arrow_down(); break;
       case "ArrowLeft": this.key_arrow_left(); break;
       case "ArrowRight": this.key_arrow_right(); break;
-      case ":": this.key_colon(); break;
-      case ";": if (event.shiftKey) this.key_colon(); break;
+      // case ":": this.key_colon(); break;
       case "Escape": this.key_escape(); break;
     }
 
     switch(event.which)
     {
       case 13:  this.key_enter();  break;
-      case 186: this.key_colon();  break;
+      case 186: if(event.shiftKey){this.key_colon();}  break;
       case 27:  this.key_escape(); break;
       case 219:  ronin.brush.size_up(); break;
       case 221:  ronin.brush.size_down(); break;

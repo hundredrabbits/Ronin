@@ -3,7 +3,7 @@ function Surface(rune)
   Module.call(this,rune);
   
   this.element = null;
-  this.parameters = [Rect,Color];
+  this.parameters = [Rect,Color,Bang];
   this.variables  = {"layer" : "main"};
 
   this.layers = {};
@@ -24,6 +24,11 @@ function Surface(rune)
       this.context().fillStyle = cmd.color().hex;
       this.context().fill();
     }
+    if(cmd.bang() && Object.keys(ronin.surface.layers).length > 1){
+      delete this.layers[this.active_layer.name];
+      this.select_any_layer();
+      ronin.widget.update();
+    }
 
     if(cmd.variable("layer")){
       var name = cmd.variable("layer").value;
@@ -32,13 +37,18 @@ function Surface(rune)
       }
       this.select_layer(this.layers[name]);
     }
-
   }
 
   this.select_layer = function(layer)
   {
     console.log("Selecting layer:"+layer.name);
     this.active_layer = layer;
+  }
+
+  this.select_any_layer = function()
+  {
+    var layer_name = Object.keys(ronin.surface.layers)[0];
+    this.select_layer(ronin.surface.layers[layer_name]);    
   }
 
   this.add_layer = function(layer)

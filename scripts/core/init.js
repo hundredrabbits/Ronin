@@ -9,6 +9,7 @@ var commander = new Commander(document.getElementById("commander"),document.getE
 commander.hint.element = document.getElementById('commander_hint');
 
 // Cursor
+
 document.addEventListener('mousedown', function(e){ ronin.cursor.mouse_down(ronin.position_in_canvas(e));}, false);
 document.addEventListener('mousemove', function(e){ ronin.cursor.mouse_move(ronin.position_in_canvas(e));}, false);
 document.addEventListener('mouseup', function(e){ ronin.cursor.mouse_up(ronin.position_in_canvas(e));}, false);

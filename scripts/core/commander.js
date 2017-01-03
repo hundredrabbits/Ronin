@@ -6,21 +6,32 @@ function Commander(element,element_input)
   this.storage = [];
   this.storage_index = 0;
   this.always_show = false;
+
+  var queue = [];
   
   this.query = function(input_str)
   {
     if(input_str.indexOf(";") > 0){
-      var multi = input_str.split(";");
-      for (i = 0; i < multi.length; i++) {
-        this.query(multi[i]);
-      }
+      queue = input_str.split(";");
     }
     else{
-      this.active(input_str);
+      queue.push(input_str)
+    }
+    run();
+    this.hide();
+  }
+
+  function run()
+  {
+    active(queue[0].trim());
+
+    queue.shift();
+    if(queue.length > 0){
+      setTimeout(function(){ run(); }, 100);
     }
   }
-  
-  this.active = function(content)
+
+  function active(content)
   {
     var key = content[0];
     var cmd = new Command(content.substring(1).split(" "));
@@ -28,8 +39,6 @@ function Commander(element,element_input)
     if(ronin.modules[key]){
       ronin.modules[key].active(cmd);
     }
-    
-    this.hide();
     
     ronin.history.add(content);
   }
