@@ -10,7 +10,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 
   this.thickness = function()
   {
-    var ratio = 10/this.position().distance_to(this.position_prev);
+    var ratio = 10/this.position().distance_to(this.position_prev[0]);
     ratio = ratio > 1 ? 1 : ratio;
     return ronin.brush.size * ratio;
   }
@@ -19,24 +19,49 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 
   this.draw = function()
   {
-    if(!this.position_prev){this.position_prev = this.position(); }
+    if(!this.position_prev){this.position_prev = [this.position()]; return; }
 
     var position = this.position();
-    
-    this.distance += position.distance_to(this.position_prev);
-    
+    var position_prev = this.position_prev[0];
+
+    //remove stale previous positions
+    if (this.position_prev.length > 3) this.position_prev.pop();
+
+    this.distance += position.distance_to(position_prev);
+
     ronin.surface.context().beginPath();
     
     ronin.surface.context().globalCompositeOperation="source-over";
-    ronin.surface.context().moveTo(this.position_prev.x,this.position_prev.y);
-    ronin.surface.context().lineTo(position.x,position.y);
+    ronin.surface.context().moveTo(position_prev.x,position_prev.y);
+
+    //Choose direct line or curve line based on how many samples available
+    if(this.position_prev.length > 1){
+
+      var d =
+      position.distance_to(position_prev)/
+      position_prev.distance_to(this.position_prev[1]);
+
+      //caluclate a control point for the quad curve
+      var ppx = position_prev.x - (this.position_prev[1].x - position_prev.x);
+      var ppy = position_prev.y - (this.position_prev[1].y - position_prev.y);
+      var px = (position.x + position_prev.x)/2;
+      var py = (position.y + position_prev.y)/2;
+      var tx = px + (ppx - px) * 0.2 * d;
+      var ty = py + (ppy - py) * 0.2 * d;
+
+      ronin.surface.context().quadraticCurveTo(tx,ty,position.x,position.y);
+    }
+    else {
+      ronin.surface.context().lineTo(position.x,position.y);
+    }
+
     ronin.surface.context().lineCap="round";
     ronin.surface.context().lineWidth = this.thickness();
     ronin.surface.context().strokeStyle = ronin.brush.color.rgba();
     ronin.surface.context().stroke();
     ronin.surface.context().closePath();
-    
-    this.position_prev = position;
+
+    this.position_prev.unshift(position);
   }
   
   this.position = function()
