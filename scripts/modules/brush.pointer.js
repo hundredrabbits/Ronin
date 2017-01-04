@@ -30,12 +30,12 @@ function Pointer(offset = new Position(), color = new Color('000000'))
     this.distance += position.distance_to(position_prev);
 
     ronin.surface.context().beginPath();
-    
+
     ronin.surface.context().globalCompositeOperation="source-over";
     ronin.surface.context().moveTo(position_prev.x,position_prev.y);
 
     //Choose direct line or curve line based on how many samples available
-    if(this.position_prev.length > 1){
+    if(this.position_prev.length > 1 && position.distance_to(position_prev) > 13){
 
       var d =
       position.distance_to(position_prev)/
