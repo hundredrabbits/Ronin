@@ -12,7 +12,7 @@ function FileSave(rune)
     d = ronin.surface.layers["render"].element.toDataURL('image/png');
     ronin.surface.layers["render"].clear();
     var w = window.open('about:blank','image from canvas');
-    w.document.write("<title>"+(n ? n : "Untitled")+"</title><img src='"+d+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/>");
+    w.document.write("<title>"+(n ? n : "Untitled")+"</title><body><img src='"+d+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/></body>");
   }
   
   this.passive = function(cmd)
