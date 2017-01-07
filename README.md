@@ -22,7 +22,7 @@ shift+alt                         ; Move Layer
 ## Modules
 ### # Surface
 Missing documentation.
-- Parameters: `Rect` `Color` 
+- Parameters: `Rect` `Color` `Bang` 
 - Variables: `layer` 
 
 ### / FileLoad
@@ -45,7 +45,7 @@ Missing documentation.
 - Parameters: `Position` `Rect` 
 - Variables: 
 
-### % Filter
+### % Render
 Missing documentation.
 - Parameters: `Any` 
 - Variables: 
