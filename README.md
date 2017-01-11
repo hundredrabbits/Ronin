@@ -119,3 +119,8 @@ rate=10                           ; variable: rate = 10
 # Symmetric Light
 > 1,1 600x;> 2,2 600x;> 3,3 600x;> 4,4 600x
 ```
+
+### Twitter export & Watermark
+```
+# 1280x800 ; / assets/photo.jpg 1280x 0,0 ; / assets/hundredrabbits.png 60x60 20,720
+```
