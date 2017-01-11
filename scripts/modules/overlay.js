@@ -1,9 +1,8 @@
-function Overlay(element)
+function Overlay(rune)
 {
-  Module.call(this);
+  Module.call(this,rune);
   
   this.parameters = [Position,Rect];
-  this.element = element;
   
   // Module
   
@@ -23,7 +22,7 @@ function Overlay(element)
   {
     this.clear();
     
-    if(!position){ return; }
+    if(!position){ position = new Position("0,0"); }
     
     if(rect){
       this.draw_rect(position,rect);
@@ -104,26 +103,11 @@ function Overlay(element)
   
   this.resize = function(rect)
   {
-    this.element.setAttribute('width',rect.width+"px");
-    this.element.setAttribute('height',rect.height+"px");
-  }
-  
-  this.show_guide = function(position,rect)
-  {
-    this.clear();
-    this.context().beginPath();
-    
-    this.context().moveTo(0,0);
-    this.context().lineTo(rect.width,0);
-    this.context().lineTo(rect.width,rect.height);
-    this.context().lineTo(0,rect.height);
-    this.context().lineTo(0,0);
-    
-    this.context().lineCap="round";
-    this.context().lineWidth = 1;
-    this.context().strokeStyle = "#ff0000";
-    this.context().stroke();
-    this.context().closePath();
+    this.element.width = rect.width * 2;
+    this.element.height = rect.height * 2;
+    this.element.style.width = rect.width+"px";
+    this.element.style.height = rect.height+"px";
+    this.context().scale(2,2);
   }
   
   this.context = function()
@@ -133,6 +117,47 @@ function Overlay(element)
   
   this.clear = function()
   {
-    this.context().clearRect(0, 0, ronin.canvas.element.width, ronin.canvas.element.height);
+    this.context().clearRect(0, 0, ronin.surface.size.width, ronin.surface.size.height);
+  }
+  
+  // Cursor
+  
+  this.live_draw_from = null;
+
+  this.mouse_down = function(position)
+  {
+    ronin.overlay.clear();
+    ronin.overlay.draw_pointer(position);
+    this.live_draw_from = position;
+    commander.show();
+    commander.element_input.focus();
+    commander.element_input.value = "| "+this.live_draw_from.render();
+  }
+  
+  this.mouse_move = function(position)
+  {
+    if(this.live_draw_from === null){ return; }
+    
+    ronin.overlay.clear();
+    
+    var rect = new Rect();
+    rect.width = position.x - this.live_draw_from.x;
+    rect.height = position.y - this.live_draw_from.y;
+  
+    ronin.overlay.draw_rect(this.live_draw_from,rect);
+    commander.element_input.value = "| "+this.live_draw_from.render()+" "+rect.render();
+  }
+  
+  this.mouse_up = function(position)
+  {
+    this.live_draw_from = null;
+    commander.element_input.focus();
+  }
+  
+  // Widget
+  
+  this.widget_cursor = function()
+  {
+    return "Guide";
   }
 }

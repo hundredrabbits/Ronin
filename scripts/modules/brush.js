@@ -1,12 +1,11 @@
-function Brush()
+function Brush(rune)
 {
-  Module.call(this);
+  Module.call(this,rune);
   
   this.parameters = [Position,Rect,Angle,Color,Value,Bang];
-  this.pointers = [new Pointer(new Position())];
+  this.variables  = {"natural" : false,"banking" : false};
+  this.pointers = [];
   
-  this.position = new Position();
-  this.is_drawing = false;
   this.size = 1;
   this.opacity = 1;
   this.color = new Color();
@@ -17,30 +16,20 @@ function Brush()
   {
     if(cmd.bang()){ this.pointers = []; }
     
-    var pointer = new Pointer();
+    // Pointer
+    if(cmd.rect() || cmd.position() || cmd.angle()){
+      this.add_pointer(cmd);
+    }
     
-    if(cmd.position()){
-      pointer.offset = cmd.position();
-    }
-    if(cmd.rect()){
-      pointer.mirror = cmd.rect();
-    }
-    if(cmd.variable("osc_scale") && cmd.variable("osc_rate")){
-      pointer.osc_rate  = parseFloat(cmd.variable("osc_rate"));
-      pointer.osc_scale = parseFloat(cmd.variable("osc_scale"));
-    }
-    if(cmd.angle()){
-      pointer.angle = cmd.angle();
-    }
-    if(cmd.rect() || cmd.position() || cmd.variable("osc_rate") || cmd.angle()){
-      this.add_pointer(pointer);
-    }
+    // Global
     if(cmd.color()){
       this.color = cmd.color();
     }
     if(cmd.value()){
       this.size = cmd.value().float;
     }
+    
+    this.update_variables(cmd);
   }
   
   this.passive = function(cmd)
@@ -55,41 +44,83 @@ function Brush()
       ronin.overlay.draw(cmd.position());
     }
   }
-  
-  this.add_pointer = function(pointer)
+
+  this.size_up = function()
   {
+    this.size -= this.size > 1 ? 1 : 0;
+    ronin.widget.update();
+  }
+
+  this.size_down = function()
+  {
+     this.size += 1;
+     ronin.widget.update();
+  }
+  
+  this.add_pointer = function(cmd)
+  {
+    var pointer = new Pointer();
+    
+    if(cmd.position()){
+      pointer.offset = cmd.position();
+    }
+    if(cmd.rect()){
+      pointer.mirror = cmd.rect();
+    }
+    if(cmd.angle()){
+      pointer.angle = cmd.angle();
+    }
+    
     this.pointers.push(pointer);
   }
   
-  // Draw
-  
-  this.draw = function(e)
+  this.widget_cursor = function()
   {
-    if(this.is_drawing === false){return;}
-    
-    this.position = new Position(e.clientX,e.clientY);
-    
-    for (i = 0; i < this.pointers.length; i++) {
-      this.pointers[i].draw();
+
+    var s = "> "+this.size+"<br />";
+
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      s += ronin.brush.pointers[i].widget();
     }
+    return s;
+
+    return this.pointers.length > 0 ? "Brush "+this.size+", "+this.pointers.length+" pointers" : "No Pointers";
   }
   
-  this.draw_start = function(e)
+  // Cursor
+
+  this.is_drawing = false;
+  
+  this.mouse_down = function(position)
   {
     this.is_drawing = true;
     
-    for (i = 0; i < this.pointers.length; i++) {
-      this.pointers[i].start();
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      ronin.brush.pointers[i].start();
     }
+    
+    ronin.stroke.new_stroke();
   }
   
-  this.draw_stop = function(e)
+  this.mouse_move = function(position)
+  {
+    if(this.is_drawing === false){ return; }
+  
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      ronin.brush.pointers[i].draw();
+    }
+    
+    ronin.stroke.append_stroke(position);
+  }
+  
+  this.mouse_up = function(position)
   {
     this.is_drawing = false;
     
-    for (i = 0; i < this.pointers.length; i++) {
-      this.pointers[i].stop();
+    for (i = 0; i < ronin.brush.pointers.length; i++) {
+      ronin.brush.pointers[i].stop();
     }
+    
+    ronin.stroke.save_stroke("brush");
   }
-  
 }

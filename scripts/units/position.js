@@ -2,10 +2,16 @@ function Position(position_str = "0,0",y = null)
 {
   Unit.call(this);
   
+  this.example = "100,150";
   this.position_str = position_str;
   
-  this.x = y ? position_str : parseFloat(this.position_str.split(",")[0]);
-  this.y = y ? y : parseFloat(this.position_str.split(",")[1]);
+  this.x = y != null ? position_str : parseFloat(this.position_str.split(",")[0]);
+  this.y = y != null ? y : parseFloat(this.position_str.split(",")[1]);
+  
+  this.add = function(position)
+  {
+    return new Position(this.x + position.x, this.y + position.y);
+  }
   
   this.is_equal = function(target)
   {

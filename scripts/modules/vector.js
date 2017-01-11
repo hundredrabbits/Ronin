@@ -1,6 +1,6 @@
-function Vector()
+function Vector(rune)
 {
-  Module.call(this);
+  Module.call(this,rune);
   
   this.parameters = [Any,Position];
   
@@ -18,10 +18,10 @@ function Vector()
   this.active = function(cmd)
   {
     ronin.overlay.clear();
-    ronin.canvas.context().lineCap="round";
-    ronin.canvas.context().lineWidth = ronin.brush.size;
-    ronin.canvas.context().strokeStyle = ronin.brush.color.rgba();
-    ronin.canvas.context().stroke(new Path2D(cmd.content.join(" ")));
+    ronin.surface.context().lineCap="round";
+    ronin.surface.context().lineWidth = ronin.brush.size;
+    ronin.surface.context().strokeStyle = ronin.brush.color.rgba();
+    ronin.surface.context().stroke(new Path2D(cmd.content.join(" ")));
   }
   
   // + M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0 ; Draw a circle

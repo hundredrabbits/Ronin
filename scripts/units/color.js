@@ -2,6 +2,7 @@ function Color(hex = '#000000')
 {
   Unit.call(this);
   
+  this.example = "#ff0000";
   this.hex = hex;
 
   this.rgb = function()
@@ -22,5 +23,10 @@ function Color(hex = '#000000')
   this.render = function()
   {
     return this.hex;
+  }
+  
+  this.rgb_to_hex = function(rgb)
+  {
+    return "#"+("0" + parseInt(rgb[0],10).toString(16)).slice(-2)+("0" + parseInt(rgb[1],10).toString(16)).slice(-2)+("0" + parseInt(rgb[2],10).toString(16)).slice(-2);
   }
 }
