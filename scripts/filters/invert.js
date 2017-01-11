@@ -22,5 +22,4 @@ function Filter_Invert()
     ronin.surface.active_layer.clear();
     context.putImageData(imageData, 0, 0);
   }
-  
 }
