@@ -1,6 +1,6 @@
 # Ronin
 ## Basics
-Ronin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. 
+Ronin is a web based drawing application and visual language. Launch Ronin and press **:**(colon) to display the command prompt. 
 ```
 :
 ```
@@ -111,4 +111,9 @@ rate=10                           ; variable: rate = 10
 > 2,2;> 4,4;> 6,6;> 8,8
 # Symmetric Light
 > 1,1 600x;> 2,2 600x;> 3,3 600x;> 4,4 600x
+```
+## Templates
+### Watermark
+```
+# 1280x800 ; / assets/photo.jpg 1280x 0,0 ; / assets/logo.png 60x60 20,720
 ```

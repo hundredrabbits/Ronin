@@ -61,6 +61,9 @@ function Help(rune)
     html += "```\n# XY\n> 400x 3\n# Angular brushes\n> 400x 1,1;> 400x 2,2;> 400x 3,3; > 1,1;> 2,2;> 3,3;\n```\n"
     html += "### Angular Brush\n";
     html += "```\n# Light\n> 1,1;> 2,2;> 3,3;> 4,4\n# Hard\n> 2,2;> 4,4;> 6,6;> 8,8\n# Symmetric Light\n> 1,1 600x;> 2,2 600x;> 3,3 600x;> 4,4 600x\n```\n";
+    html += "## Templates\n";
+    html += "### Watermark\n";
+    html += "```\n# 1280x800 ; / assets/photo.jpg 1280x 0,0 ; / assets/logo.png 60x60 20,720\n```\n";
 
     return html;
   }
