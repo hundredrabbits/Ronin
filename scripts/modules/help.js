@@ -38,7 +38,7 @@ function Help(rune)
       }
       html += "\n";
       html += "- Variables: ";
-      for (var key in ronin.modules[key].variables){
+      for(var key in ronin.modules[key].variables){
         html += "`"+key+"` ";
       }
       html += "\n\n";
