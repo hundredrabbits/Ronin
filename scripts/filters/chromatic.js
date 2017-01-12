@@ -2,42 +2,67 @@ function Filter_Chromatic()
 {
   Filter.call(this);
   
-  this.parameters = [];
+  this.parameters = [Value, Position];
+  //value is maximum distance pixels are shifted
+  //position is where the pixels are shifted from, defaults to half the image
 
-	// var pixels = this.pixels();
-	// var s;
-	// if(p.length === 0)
-	// 	s = {r:2,g:2,b:2};
-	// else if(p.length < 3)
-	// 	s = {r:parseFloat(p[0]), g:parseFloat(p[0])*.5, b:0};
-	// else
-	// 	s = {r:parseFloat(p[0]), g:parseFloat(p[1]), b:parseFloat(p[2])};
-	// var hw = pixels.width*.5;
-	// var hh = pixels.height*.5;
-	// var maxLength = Math.sqrt(hw*hw+hh*hh);
-	// var output = new ImageData(pixels.width, pixels.height);
- //  for (var i=0; i<pixels.width; i++) {
-	// 		for(var j=0; j<pixels.height; j++){
-	// 			var x = i-hw;
-	// 			var y = j-hh;
-	// 			var a = Math.atan2(y,x);
-	// 			var d = Math.sqrt(x*x+y*y);
-	// 			var f = (d-s.r*d/maxLength);
-	// 			x = Math.cos(a)*f+hw;
-	// 			y = Math.sin(a)*f+hh;
-	// 			var r = this.get_color_bilinear(pixels, x, y);
-	// 			f = (d-s.g*d/maxLength);
-	// 			x = Math.cos(a)*f+hw;
-	// 			y = Math.sin(a)*f+hh;
-	// 			var g = this.get_color_bilinear(pixels, x, y);
-	// 			f = (d-s.b*d/maxLength);
-	// 			x = Math.cos(a)*f+hw;
-	// 			y = Math.sin(a)*f+hh;
-	// 			var b = this.get_color_bilinear(pixels, x, y);
-	// 			var c = {r:r.r, g:g.g, b:b.b,a:Math.max(r.a, Math.max(g.a,b.a))};
-	// 			this.set_color(output, c, i,j);
-	// 		}
- //  }
-	// ronin.canvas.clear();
-	// ronin.surface.context().putImageData(output, 0, 0, 0, 0, pixels.width, pixels.height);
+  this.render = function(cmd)
+  {
+    var position = cmd.position() ? cmd.position() : new Position(ronin.surface.size.width,ronin.surface.size.height);
+    var value = cmd.value() ? cmd.value().float : 5;
+
+    ronin.overlay.clear();
+    this.draw(this.context(),value,position);
+    ronin.overlay.clear();
+  }
+
+  this.preview = function(cmd)
+  {
+    if(cmd.position()){
+      ronin.overlay.clear();
+      ronin.overlay.draw_pointer(cmd.position());
+    }
+  }
+
+  this.draw = function(context = this.context(), value, position)
+  {
+    var w = ronin.surface.size.width;
+    var h = ronin.surface.size.height;
+    
+    //no longer letting you set how far each chanel is shifted, not sure how to receive extra data any more
+		var s = {r:value,g:value*.5,b:0};
+			
+    var context = ronin.surface.active_layer.context();
+    
+    //now need two imagedatas to sample off of, for some reason I cant just dump the new pixels into an empty array :/
+    var originalData = context.getImageData(0, 0, w*2, h*2);
+    var imageData = context.getImageData(0, 0, w*2, h*2);
+    
+		var maxLength = Math.sqrt(w*w+h*h);    
+    for (var i=0; i<w*2; i++) {
+	 		for(var j=0; j<h*2; j++){
+	 			var x = i-position.x;
+				var y = j-position.y;
+	 			var a = Math.atan2(y,x);
+	 			var d = Math.sqrt(x*x+y*y);
+	 			var f = (d-s.r*d/maxLength);
+	 			x = Math.cos(a)*f+position.x;
+	 			y = Math.sin(a)*f+position.y;
+	 			var r = this.get_color_bilinear(originalData, x, y);
+	 			f = (d-s.g*d/maxLength);
+	 			x = Math.cos(a)*f+position.x;
+	 			y = Math.sin(a)*f+position.y;
+	 			var g = this.get_color_bilinear(originalData, x, y);
+	 			f = (d-s.b*d/maxLength);
+	 			x = Math.cos(a)*f+position.x;
+	 			y = Math.sin(a)*f+position.y;
+	 			var b = this.get_color_bilinear(originalData, x, y);
+	 			var c = {r:r.r, g:g.g, b:b.b,a:Math.max(r.a, Math.max(g.a,b.a))};
+	 			this.set_color(imageData, c, i,j);
+	 		}
+    }
+    ronin.surface.active_layer.clear();
+    context.putImageData(imageData, 0, 0);
+  }
+
 }
