@@ -17,10 +17,8 @@ function Help(rune)
 
   this.view_intro = function()
   {
-    var html = "# Ronin\n## Basics\nRonin is a web based drawing application and visual language. Launch index.html and press **:**(colon) to display the command prompt. Input the commands below to interface with the different tools. \n```\n:\n```\n";
+    var html = "# Ronin\n## Basics\nRonin is a web based drawing application and visual language. Launch Ronin and press **:**(colon) to display the command prompt. \n```\n:\n```\n";
 
-    html += "### Loading/Saving\nRequires you to run Ronin through localhost. Navigate to the Ronin folder, and run the simple http server.\n";
-    html += "```\ncd /path/to/ronin/                ; Navigate to Ronin through the terminal\npython -m SimpleHTTPServer 8000   ; Start localhost\nhttp://localhost:8000/            ; Enjoy Ronin\n```\n";
     html += "### Controls\n";
     html += "```\nctrl                              ; Draw Overlays\nalt                               ; Drag Surface\nshift                             ; Erase\nshift+ctrl                        ; Eyedrop\nshift+alt                         ; Move Layer\n```\n";
     return html;

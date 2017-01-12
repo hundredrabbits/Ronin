@@ -4,13 +4,6 @@ Ronin is a web based drawing application and visual language. Launch index.html 
 ```
 :
 ```
-### Loading/Saving
-Requires you to run Ronin through localhost. Navigate to the Ronin folder, and run the simple http server.
-```
-cd /path/to/ronin/                ; Navigate to Ronin through the terminal
-python -m SimpleHTTPServer 8000   ; Start localhost
-http://localhost:8000/            ; Enjoy Ronin
-```
 ### Controls
 ```
 ctrl                              ; Draw Overlays
@@ -118,9 +111,4 @@ rate=10                           ; variable: rate = 10
 > 2,2;> 4,4;> 6,6;> 8,8
 # Symmetric Light
 > 1,1 600x;> 2,2 600x;> 3,3 600x;> 4,4 600x
-```
-
-### Twitter export & Watermark
-```
-# 1280x800 ; / assets/photo.jpg 1280x 0,0 ; / assets/hundredrabbits.png 60x60 20,720
 ```
