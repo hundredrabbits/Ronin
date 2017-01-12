@@ -27,4 +27,22 @@ function Render(rune)
     return this.collection[name].preview(cmd);
   }
 	
+  this.hint = function(cmd)
+  {
+    var input = cmd.content.join(" ");
+    var s = this.pad(input);
+
+    if(this.collection[input]){
+      for (i = 0; i < this.collection[input].parameters.length; i++) {
+        s += this.collection[input].parameters[i].name+" ";
+      }
+    }
+    else{
+      for (var key in this.collection){
+        s += key+" ";
+      }  
+    }   
+
+    return s;
+  }
 }

@@ -1,17 +1,19 @@
 function Filter_Invert()
 {
   Filter.call(this);
-  this.parameters = [Angle];
+  this.parameters = [];
 
   this.render = function(cmd)
   {
     var imageObj = new Image();
     imageObj.src = ronin.surface.active_layer.element.toDataURL('image/png');
 
+    var w = ronin.surface.size.width;
+    var h = ronin.surface.size.height;
     var context = ronin.surface.active_layer.context();
 
-    var imageData = context.getImageData(0, 0, imageObj.width * 2, imageObj.height* 2);
-    var data = imageData.data;
+    var originalData = context.getImageData(0, 0, w*2, h*2);
+    var data = originalData.data;
 
     for(var i = 0; i < data.length; i += 4) {
       data[i] = 255 - data[i];
@@ -20,6 +22,6 @@ function Filter_Invert()
     }
 
     ronin.surface.active_layer.clear();
-    context.putImageData(imageData, 0, 0);
+    context.putImageData(originalData, 0, 0);
   }
 }
