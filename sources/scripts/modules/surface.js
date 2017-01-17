@@ -55,7 +55,7 @@ function Surface(rune)
 
   this.add_layer = function(layer)
   {
-    console.log("Creating layer:"+layer.name); 
+    console.log("Creating layer:"+layer.name+"("+(layer.manager ? layer.manager.constructor.name : "")+")"); 
 
     this.layers[layer.name] = layer;
     this.active_layer = layer;

@@ -9,7 +9,7 @@ function Module(rune)
   
   this.install = function()
   {
-    console.log(this.rune);
+    console.log("Installing "+ronin.modules[this.rune].constructor.name);
   }
 
   this.active = function(cmd)

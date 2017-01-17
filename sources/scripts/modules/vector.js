@@ -9,7 +9,7 @@ function Vector(rune)
 
   this.install = function()
   {
-    this.layer = new Layer("Preview",this);
+    this.layer = new Layer("PathPreview",this);
     this.layer.element.setAttribute("style","z-index:8000");
     ronin.surface.add_layer(this.layer);
   }
@@ -18,7 +18,6 @@ function Vector(rune)
   
   this.passive = function(cmd)
   {
-    console.log(cmd.variable("stroke_width"));
     this.layer.clear();
     this.layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "round";
     this.layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : ronin.brush.size;

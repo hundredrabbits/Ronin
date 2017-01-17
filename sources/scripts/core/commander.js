@@ -23,7 +23,8 @@ function Commander(element,element_input)
 
   function run()
   {
-    console.log("~ "+queue[0].trim());
+    if(!queue[0]){ return; }
+    
     active(queue[0].trim());
 
     queue.shift();

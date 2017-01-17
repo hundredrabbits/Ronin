@@ -53,7 +53,10 @@ function Layer(name,manager = null)
     if(ronin.surface.active_layer.name == this.name){ e_class += "highlight "; }
     if(this.manager != null){ e_class += "managed "; }
 
-    return "<span class='"+e_class+"'>- "+e_name+"</span><br />";
+    var e_icon = this.manager ? "~" : "-";
+
+
+    return "<span class='"+e_class+"'>"+e_icon+" "+e_name+"</span><br />";
   }
 
   this.move_from = null;
