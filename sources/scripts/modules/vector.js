@@ -2,33 +2,36 @@ function Vector(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Any,Position];
+  this.parameters = [Any];
+  this.variables  = {"fill_color" : "none","stroke_width" : 2,"stroke_color" : "#ffffff", "line_cap" : "square"};
+
+  this.layer = null;
+
+  this.install = function()
+  {
+    this.layer = new Layer("Preview",this);
+    this.layer.element.setAttribute("style","z-index:8000");
+    ronin.surface.add_layer(this.layer);
+  }
   
   // Module
   
   this.passive = function(cmd)
   {
-    ronin.overlay.clear();
-    ronin.overlay.context().lineCap="round";
-    ronin.overlay.context().lineWidth = ronin.brush.size;
-    ronin.overlay.context().strokeStyle = "red";
-    ronin.overlay.context().stroke(new Path2D(cmd.content.join(" ")));
+    console.log(cmd.variable("stroke_width"));
+    this.layer.clear();
+    this.layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "round";
+    this.layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : ronin.brush.size;
+    this.layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
+    this.layer.context().stroke(new Path2D(cmd.content.join(" ")));
   }
   
   this.active = function(cmd)
   {
-    ronin.overlay.clear();
-    ronin.surface.context().lineCap="round";
-    ronin.surface.context().lineWidth = ronin.brush.size;
-    ronin.surface.context().strokeStyle = ronin.brush.color.rgba();
-    ronin.surface.context().stroke(new Path2D(cmd.content.join(" ")));
+    this.layer.clear();
+    ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "round";
+    ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : ronin.brush.size;
+    ronin.surface.active_layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
+    ronin.surface.active_layer.context().stroke(new Path2D(cmd.content.join(" ")));
   }
-  
-  // + M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0 ; Draw a circle
-  // M100,100 h200 a20,20 0 0 1 20,20 v200 a20,20 0 0 1 -20,20 h-200 a20,20 0 0 1 -20,-20 v-200 a20,20 0 0 1 20,-20 z
-  
-  // Large 128
-  // @ 128x128;> 2 #ffffff;+ M 64, 64 m -50, 0 a 50,50 0 1,0 100,0 a 50,50 0 1,0 -100,0;+ M 64, 64 m -45, 0 a 45,45 0 1,0 90,0 a 45,45 0 1,0 -90,0;+ M 64, 64 m -40, 0 a 40,40 0 1,0 80,0 a 40,40 0 1,0 -80,0;+ M 64, 64 m -35, 0 a 35,35 0 1,0 70,0 a 35,35 0 1,0 -70,0;+ M 64, 64 m -30, 0 a 30,30 0 1,0 60,0 a 30,30 0 1,0 -60,0;+ M 64, 64 m -25, 0 a 25,25 0 1,0 50,0 a 25,25 0 1,0 -50,0;+ M 64, 64 m -20, 0 a 20,20 0 1,0 40,0 a 20,20 0 1,0 -40,0;+ M 64, 64 m -15, 0 a 15,15 0 1,0 30,0 a 15,15 0 1,0 -30,0;+ M 64, 64 m -10, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0;+ M 64, 64 m -5, 0 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0;$ logo
-  // Icon 128
-  // @ 128x128;> 4 #ffffff;+ M 64, 64 m -50, 0 a 50,50 0 1,0 100,0 a 50,50 0 1,0 -100,0;+ M 64, 64 m -40, 0 a 40,40 0 1,0 80,0 a 40,40 0 1,0 -80,0;+ M 64, 64 m -30, 0 a 30,30 0 1,0 60,0 a 30,30 0 1,0 -60,0;+ M 64, 64 m -20, 0 a 20,20 0 1,0 40,0 a 20,20 0 1,0 -40,0;+ M 64, 64 m -10, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0;$ logo
 }

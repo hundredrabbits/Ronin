@@ -20,12 +20,13 @@ function Stroke(rune)
   
   this.save_stroke = function(mode)
   {
-    s = "_ module="+mode+" ";
-    for (i = 0; i < this.positions.length; i++) {
-      s += this.positions[i].render()+" ";
-    }
-    if(this.positions.length > 0){ ronin.history.add(s); }
-    this.positions = null;
+    // TODO
+    // s = "_ module="+mode+" ";
+    // for (i = 0; i < this.positions.length; i++) {
+    //   s += this.positions[i].render()+" ";
+    // }
+    // if(this.positions.length > 0){ ronin.history.add(s); }
+    // this.positions = null;
   }
   
   // Module

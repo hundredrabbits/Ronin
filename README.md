@@ -35,7 +35,7 @@ Missing documentation.
 
 ### | Overlay
 Missing documentation.
-- Parameters: `Position` `Rect` 
+- Parameters: `Position` `Rect` `Color` 
 - Variables: 
 
 ### % Render
@@ -70,8 +70,8 @@ Missing documentation.
 
 ### + Vector
 Missing documentation.
-- Parameters: `Any` `Position` 
-- Variables: 
+- Parameters: `Any` 
+- Variables: `fill_color` `stroke_width` `stroke_color` `line_cap` 
 
 ### ? Help
 Missing documentation.
@@ -115,5 +115,18 @@ rate=10                           ; variable: rate = 10
 ## Templates
 ### Watermark
 ```
-# 1280x720 ; / ../assets/photo.jpg 1280x 0,0 ; / ../assets/logo.png 60x60 20,620
+# 1280x720 ; / ../assets/photo.jpg 1280x 0,0 ; / ../assets/logo.png 60x60 20,640
+```
+## vectors
+### Ronin Logo
+```
++ M150,53 A-96,97 0 0,0 246,150 M150,246 A97,-96 0 0,0 53,150 M53,101 A-48,-48 0 0,0 101,53 M246,101 A48,-48 0 0,1 198,53 M53,198 A-48,48 0 0,1 101,246 M246,198 A48,48 0 0,0 198,246 stroke_width=45 line_cap=square stroke_color=black
+```
+### A Circle
+```
++ M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0
+```
+### Many Circles
+```
++ M 64, 64 m -50, 0 a 50,50 0 1,0 100,0 a 50,50 0 1,0 -100,0;+ M 64, 64 m -45, 0 a 45,45 0 1,0 90,0 a 45,45 0 1,0 -90,0;+ M 64, 64 m -40, 0 a 40,40 0 1,0 80,0 a 40,40 0 1,0 -80,0;+ M 64, 64 m -35, 0 a 35,35 0 1,0 70,0 a 35,35 0 1,0 -70,0;+ M 64, 64 m -30, 0 a 30,30 0 1,0 60,0 a 30,30 0 1,0 -60,0;+ M 64, 64 m -25, 0 a 25,25 0 1,0 50,0 a 25,25 0 1,0 -50,0;+ M 64, 64 m -20, 0 a 20,20 0 1,0 40,0 a 20,20 0 1,0 -40,0;+ M 64, 64 m -15, 0 a 15,15 0 1,0 30,0 a 15,15 0 1,0 -30,0;+ M 64, 64 m -10, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0;+ M 64, 64 m -5, 0 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0
 ```

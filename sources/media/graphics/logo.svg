@@ -1,8 +1,3 @@
 <svg class="vector" width="300px" height="300px" xmlns="http://www.w3.org/2000/svg" baseProfile="full" version="1.1" style="width: 300px;height: 300px;stroke: #fff;stroke-width: 45px;fill: none;stroke-linecap: square;">
-  <path d="M150,53 A-96,97 0 0,0 246,150"></path>
-  <path d="M150,246 A97,-96 0 0,0 53,150"></path>
-  <path d="M53,101 A-48,-48 0 0,0 101,53"></path>
-  <path d="M246,101 A48,-48 0 0,1 198,53"></path>
-  <path d="M53,198 A-48,48 0 0,1 101,246"></path>
-  <path d="M246,198 A48,48 0 0,0 198,246"></path>
+  <path d="M150,53 A-96,97 0 0,0 246,150 M150,246 A97,-96 0 0,0 53,150 M53,101 A-48,-48 0 0,0 101,53 M246,101 A48,-48 0 0,1 198,53 M53,198 A-48,48 0 0,1 101,246 M246,198 A48,48 0 0,0 198,246"></path>
 </svg>
