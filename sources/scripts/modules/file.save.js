@@ -3,13 +3,15 @@ function FileSave(rune)
   Module.call(this,rune);
   
   this.parameters = [Any];
-  this.variables  = {"format" : "png"};
+  this.variables  = {"format" : "[png/jpg]"};
+
+  this.docs = "Creates a new window with a image of the resulting canvas in the specified format.";
   
   this.active = function(cmd)
   {
     var d = null;
 
-    if(cmd.variable("format").value == "jpg"){
+    if(cmd.variable("format") && cmd.variable("format").value == "jpg"){
       var d = ronin.surface.active_layer.element.toDataURL('image/jpeg');
     }
     else{

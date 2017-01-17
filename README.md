@@ -24,9 +24,9 @@ Missing documentation.
 - Variables: 
 
 ### $ FileSave
-Missing documentation.
+Creates a new window with a image of the resulting canvas in the specified format.
 - Parameters: `Any` 
-- Variables: 
+- Variables: `format` 
 
 ### ^ History
 Missing documentation.
@@ -115,5 +115,5 @@ rate=10                           ; variable: rate = 10
 ## Templates
 ### Watermark
 ```
-# 1280x720 ; / ../assets/photo.jpg 1280x 0,0 ; / ../assets/logo.png 60x60 20,660
+# 1280x720 ; / ../assets/photo.jpg 1280x 0,0 ; / ../assets/logo.png 60x60 20,620
 ```

@@ -76,8 +76,7 @@ function Brush(rune)
   
   this.widget_cursor = function()
   {
-
-    var s = "> "+this.size+"<br />";
+    var s = "> "+this.size+" "+this.color.hex+"<br />";
 
     for (i = 0; i < ronin.brush.pointers.length; i++) {
       s += ronin.brush.pointers[i].widget();
