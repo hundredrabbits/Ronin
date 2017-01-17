@@ -9,7 +9,8 @@ function Overlay(rune)
 
   this.install = function()
   {
-    this.layer = new Layer("Test",this);
+    this.layer = new Layer("Guide",this);
+    this.layer.element.setAttribute("style","z-index:9000");
     ronin.surface.add_layer(this.layer);
   }
 

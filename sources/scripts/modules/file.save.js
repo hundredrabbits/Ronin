@@ -7,6 +7,14 @@ function FileSave(rune)
 
   this.docs = "Creates a new window with a image of the resulting canvas in the specified format.";
   
+  this.layer = null;
+
+  this.install = function()
+  {
+    this.layer = new Layer("Export",this);
+    ronin.surface.add_layer(this.layer);
+  }
+
   this.active = function(cmd)
   {
     var d = null;

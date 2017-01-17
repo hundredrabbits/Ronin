@@ -44,7 +44,16 @@ function Layer(name,manager = null)
 
   this.widget = function()
   {
-    return (ronin.surface.active_layer.name == this.name) ? "<span class='highlight'>- "+(this.manager != null ? this.manager.constructor.name+"." : '')+this.name+"</span><br />" : "- "+(this.manager != null ? this.manager.constructor.name+"." : '')+this.name+"<br />";
+    var e_name = "";
+    if(this.manager != null){ e_name += this.manager.constructor.name+"."; }
+    e_name += this.name;
+
+    var e_class = "";
+    e_class += "layer ";
+    if(ronin.surface.active_layer.name == this.name){ e_class += "highlight "; }
+    if(this.manager != null){ e_class += "managed "; }
+
+    return "<span class='"+e_class+"'>- "+e_name+"</span><br />";
   }
 
   this.move_from = null;
