@@ -27,6 +27,7 @@ function Surface(rune)
     }
 
     if(cmd.bang() && Object.keys(ronin.surface.layers).length > 1){
+      // Remove element from DOM
       delete this.layers[this.active_layer.name];
       this.select_any_layer();
       ronin.widget.update();

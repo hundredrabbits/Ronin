@@ -115,5 +115,5 @@ rate=10                           ; variable: rate = 10
 ## Templates
 ### Watermark
 ```
-# 1280x800 ; / ../assets/photo.jpg 1280x 0,0 ; / assets/logo.png 60x60 20,720
+# 1280x720 ; / ../assets/photo.jpg 1280x 0,0 ; / ../assets/logo.png 60x60 20,660
 ```

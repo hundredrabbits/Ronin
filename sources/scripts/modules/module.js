@@ -7,6 +7,11 @@ function Module(rune)
 
   this.docs = "Missing documentation.";
   
+  this.install = function()
+  {
+    console.log(this.rune);
+  }
+
   this.active = function(cmd)
   {
     console.log("Nothing to do.");

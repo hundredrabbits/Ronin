@@ -3,13 +3,14 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 
 canvas:hover { cursor: crosshair;}
 
-#ronin { width:100%; height:100%; overflow:hidden; background:#ccc; background-image:url(../media/grid_20.png); background-position: center center; }
-#surface { width:50vw; height:50vh; overflow:hidden; position:fixed; left:50%; top:50%; background:#efefef; border-radius:3px;}
+#ronin { width:100%; height:100%; overflow:hidden; background:#111; background-image:url(../media/graphics/grid.svg); background-position: center center; }
+#surface { width:50vw; height:50vh; overflow:hidden; position:fixed; left:50%; top:50%; background:none; border-radius:3px;}
 #surface .layer { position:absolute; top:0px; left:0px; width:100%; height:100%;}
 #overlay { position:absolute; z-index:1000;}
-#widget { color:#fff; position:absolute; font-size:10px; padding-top:10px;}
-#widget .module { float:left; margin-right:10px; }
-#widget .module .highlight { color:#e7fff8; }
+#widget { color:#fff; position:absolute; font-size:10px; padding-top:10px; border-top:1px solid #333; background-image:url(../media/graphics/logo.svg); background-repeat:no-repeat; background-size:80px 80px; height:100px; background-position: -10px 10px}
+#widget .module:first-child { margin-left:80px; }
+#widget .module { float:left; margin-right:10px; margin-top:5px }
+#widget .module .highlight:after { content:"_"; color:red;}
 #widget .cursor { float:right; text-align: right}
 #widget .layer:hover { cursor:pointer;}
 

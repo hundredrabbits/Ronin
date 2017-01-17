@@ -44,7 +44,7 @@ function Layer(name,host = "user")
 
   this.widget = function()
   {
-    return (ronin.surface.active_layer.name == this.name) ? "<span class='highlight'>- ("+this.name+")</span><br />" : "- "+this.name+"<br />";
+    return (ronin.surface.active_layer.name == this.name) ? "<span class='highlight'>- "+this.name+"</span><br />" : "- "+this.name+"<br />";
   }
 
   this.move_from = null;

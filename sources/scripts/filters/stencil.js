@@ -39,11 +39,11 @@ function Filter_Stencil()
     this.circle(context,-w*0.4,h*0.25,w*0.05,0,0.5);
 
     context.font = "5px Arial";
-    context.fillStyle = "#000000"; 
+    context.fillStyle = "#999"; 
     context.fillText("GRID",(w*0.4)+10,10);
 
     context.font = "5px Arial";
-    context.fillStyle = "#000000"; 
+    context.fillStyle = "#999"; 
     context.fillText("GRID",(-w*0.4)-20,-10);
 
     context.rotate(-angle*Math.PI/180);
@@ -57,7 +57,7 @@ function Filter_Stencil()
     context.lineTo(y1,y2);
     context.lineCap="round";
     context.lineWidth = 0.5;
-    context.strokeStyle = "#000";
+    context.strokeStyle = "#999";
     context.stroke();
     context.closePath();
   }
@@ -68,7 +68,7 @@ function Filter_Stencil()
     context.arc(x,y,r,c1*Math.PI,c2*Math.PI);
     context.lineCap="round";
     context.lineWidth = 0.5;
-    context.strokeStyle = "#000";
+    context.strokeStyle = "#999";
     context.stroke();
     context.closePath();
   }
