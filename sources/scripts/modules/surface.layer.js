@@ -1,7 +1,7 @@
-function Layer(name,host = "user")
+function Layer(name,manager = null)
 {
   this.name = name;
-  this.host = host;
+  this.manager = manager;
   this.element = document.createElement("canvas");
   this.element.setAttribute("id","_"+name);
   this.element.setAttribute("class","layer");
@@ -44,7 +44,7 @@ function Layer(name,host = "user")
 
   this.widget = function()
   {
-    return (ronin.surface.active_layer.name == this.name) ? "<span class='highlight'>- "+this.name+"</span><br />" : "- "+this.name+"<br />";
+    return (ronin.surface.active_layer.name == this.name) ? "<span class='highlight'>- "+(this.manager != null ? this.manager.constructor.name+"." : '')+this.name+"</span><br />" : "- "+(this.manager != null ? this.manager.constructor.name+"." : '')+this.name+"<br />";
   }
 
   this.move_from = null;

@@ -1,6 +1,5 @@
 var ronin = new Ronin();
 ronin.element = document.getElementById('ronin');
-ronin.overlay.element = document.getElementById('overlay');
 ronin.surface.element = document.getElementById('surface');
 ronin.widget.element = document.getElementById('widget');
 ronin.cursor.mode = ronin.brush;
@@ -21,6 +20,8 @@ window.addEventListener('resize', function(){ ronin.on_resize(); }, true);
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen_onkeyup(event); };
 document.onkeydown = function myFunction(){ keyboard.listen_onkeydown(event); };
+
+ronin.install();
 
 // Canvas
 var starting_canvas = new Rect();

@@ -14,7 +14,7 @@ function FileLoad(rune)
     
     base_image = new Image();
     base_image.src = cmd.filepath().path;
-    base_image.src += '?' + new Date().getTime();
+    base_image.src += '?'+new Date().getTime();
     base_image.crossOrigin = "Anonymous";
     
     base_image.onload = function(){

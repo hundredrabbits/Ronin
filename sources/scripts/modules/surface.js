@@ -10,13 +10,12 @@ function Surface(rune)
   this.active_layer = null;
   this.render_layer = null;
 
-  this.size = null;
+  this.size = new Rect("200x200");
   
   this.active = function(cmd)
   {
     if(cmd.rect()){
       this.resize(cmd.rect(),cmd.position());
-      ronin.overlay.resize(cmd.rect());
     }
     
     if(cmd.color()){
@@ -27,7 +26,7 @@ function Surface(rune)
     }
 
     if(cmd.bang() && Object.keys(ronin.surface.layers).length > 1){
-      // Remove element from DOM
+      this.layers[this.active_layer.name].element.outerHTML = "";
       delete this.layers[this.active_layer.name];
       this.select_any_layer();
       ronin.widget.update();
@@ -36,7 +35,7 @@ function Surface(rune)
     if(cmd.variable("layer")){
       var name = cmd.variable("layer").value;
       if(!this.layers[name]){
-        this.add_layer(new Layer(name,this.size));
+        this.add_layer(new Layer(name));
       }
       this.select_layer(this.layers[name]);
     }

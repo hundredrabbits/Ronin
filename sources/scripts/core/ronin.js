@@ -34,13 +34,14 @@ function Ronin()
   this.modules[this.vector.rune]   = this.vector;
   this.modules[this.help.rune]     = this.help;
 
-  // Install
-
-  for(var key in this.modules){
-    this.modules[key].install();
-  }
-
   // 
+
+  this.install = function()
+  {
+    for(var key in this.modules){
+      this.modules[key].install();
+    }
+  }
   
   this.cursors = [];
   

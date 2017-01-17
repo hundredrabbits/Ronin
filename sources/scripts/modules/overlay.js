@@ -2,10 +2,17 @@ function Overlay(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Position,Rect];
+  this.parameters = [Position,Rect,Color];
   
-  // Module
-  
+  this.color = new Color("#ff00ff");
+  this.layer = null;
+
+  this.install = function()
+  {
+    this.layer = new Layer("Test",this);
+    ronin.surface.add_layer(this.layer);
+  }
+
   this.passive = function(cmd)
   {
     this.draw(cmd.position(),cmd.rect());
@@ -14,6 +21,7 @@ function Overlay(rune)
   this.active = function(cmd)
   {
     if(cmd.bang()){ this.guides = []; }
+    if(cmd.color()){ this.color = cmd.color(); }
   }
   
   // draw
@@ -52,7 +60,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = "#ff0000";
+    this.context().strokeStyle = this.color.hex;
     this.context().stroke();
     this.context().closePath();
   }
@@ -68,7 +76,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = "#ff0000";
+    this.context().strokeStyle = this.color.hex;
     this.context().stroke();
     this.context().closePath();
   }
@@ -82,7 +90,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = "#ff0000";
+    this.context().strokeStyle = this.color.hex;
     this.context().stroke();
     this.context().closePath();
   }
@@ -96,23 +104,14 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = "#ff0000";
+    this.context().strokeStyle = this.color.hex;
     this.context().stroke();
     this.context().closePath();
   }
   
-  this.resize = function(rect)
-  {
-    this.element.width = rect.width * 2;
-    this.element.height = rect.height * 2;
-    this.element.style.width = rect.width+"px";
-    this.element.style.height = rect.height+"px";
-    this.context().scale(2,2);
-  }
-  
   this.context = function()
   {
-    return this.element.getContext('2d');
+    return this.layer.context();
   }
   
   this.clear = function()
