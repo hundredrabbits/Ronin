@@ -131,22 +131,6 @@ function Surface(rune)
   {
     return this.active_layer.context();
   }
-
-  this.merge = function()
-  {
-    // this.render_layer = this.layers["render"];
-    
-    // var a = [];
-    // Object.keys(ronin.surface.layers).forEach(function (key) {
-    //   if(key != "render"){
-    //     a.push(ronin.surface.layers[key]);
-    //   }
-    // });
-    // for (i = a.length; i > 0 ; i--) {
-    //   ronin.surface.render_layer.context().drawImage(a[i-1].context().canvas,0,0,this.size.width,this.size.height);
-    // }
-    return this.context();
-  }
   
   // Cursor
   
