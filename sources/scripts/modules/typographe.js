@@ -9,7 +9,7 @@ function Typographe(rune)
 
   this.install = function()
   {
-    this.layer = new Layer("TextPreview",this);
+    this.layer = new Layer("Typographe.Preview",this);
     this.layer.element.setAttribute("style","z-index:7000");
     ronin.surface.add_layer(this.layer);
   }

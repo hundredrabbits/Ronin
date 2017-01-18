@@ -9,7 +9,7 @@ function Vector(rune)
 
   this.install = function()
   {
-    this.layer = new Layer("PathPreview",this);
+    this.layer = new Layer("Vector.Preview",this);
     this.layer.element.setAttribute("style","z-index:8000");
     ronin.surface.add_layer(this.layer);
   }

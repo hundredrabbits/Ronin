@@ -45,7 +45,6 @@ function Layer(name,manager = null)
   this.widget = function()
   {
     var e_name = "";
-    if(this.manager != null){ e_name += this.manager.constructor.name+"."; }
     e_name += this.name;
 
     var e_class = "";

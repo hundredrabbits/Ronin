@@ -11,7 +11,7 @@ function FileSave(rune)
 
   this.install = function()
   {
-    this.layer = new Layer("Export",this);
+    this.layer = new Layer("Save.Export",this);
     ronin.surface.add_layer(this.layer);
   }
 

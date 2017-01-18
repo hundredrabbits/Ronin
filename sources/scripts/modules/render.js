@@ -9,6 +9,15 @@ function Render(rune)
   this.collection["rotate"] = new Filter_Rotate();
   this.collection["invert"] = new Filter_Invert();
   this.collection["chromatic"] = new Filter_Chromatic();
+
+  this.layer = null;
+
+  this.install = function()
+  {
+    this.layer = new Layer("Render.Preview",this);
+    this.layer.element.setAttribute("style","z-index:9000");
+    ronin.surface.add_layer(this.layer);
+  }
   
   this.active = function(cmd)
   {
@@ -29,7 +38,7 @@ function Render(rune)
 	
   this.hint = function(cmd)
   {
-    var input = cmd.content.join(" ");
+    var input = cmd.content.join(" ").trim();
     var s = this.pad(input);
 
     if(this.collection[input]){
