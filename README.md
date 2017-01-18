@@ -61,7 +61,7 @@ Missing documentation.
 ### & Typographe
 Missing documentation.
 - Parameters: `Position` `Color` `Value` 
-- Variables: `text` 
+- Variables: `text` `font` 
 
 ### _ Stroke
 Missing documentation.
@@ -77,6 +77,13 @@ Missing documentation.
 Missing documentation.
 - Parameters: 
 - Variables: 
+
+## Filters
+### stencil
+### rotate
+### invert
+### chromatic
+
 
 ## Units
 ```
