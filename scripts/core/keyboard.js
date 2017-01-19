@@ -26,7 +26,7 @@ function Keyboard()
     // Passive
     commander.passive(commander.element_input.value);
     
-    ronin.cursor.set_mode(ronin.brush);
+    // ronin.cursor.set_mode(ronin.brush);
     ronin.widget.update();
   };
   

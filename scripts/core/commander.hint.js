@@ -4,8 +4,11 @@ function Hint(element)
   
   this.element = element;
   
-  this.update = function(module,cmd)
+  this.update = function()
   {
+    var module = ronin.module;
+    var cmd = commander.cmd();
+
     if(module){
       this.element.innerHTML = this.message(module,cmd);
       this.element.style.display = "block";

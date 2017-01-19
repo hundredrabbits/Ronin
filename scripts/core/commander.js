@@ -55,8 +55,20 @@ function Commander(element,element_input)
     if(ronin.modules[key]){
       ronin.modules[key].passive(cmd);
       ronin.module = ronin.modules[key];
+      ronin.cursor.set_mode(ronin.module);
     }
-    this.hint.update(ronin.module,cmd);
+    else{
+      ronin.cursor.set_mode(ronin.brush);
+    }
+    this.hint.update();
+  }
+
+  this.cmd = function()
+  {
+    var content = this.element_input.value.trim();
+    var key = content[0];
+    var cmd = new Command(content.substring(1).split(" "));
+    return cmd;
   }
   
   //
@@ -95,6 +107,5 @@ function Commander(element,element_input)
   {
     this.storage_index -= this.storage_index < 1 ? 0 : 1;
     this.element_input.value = this.storage[this.storage_index];
-  }
-  
+  } 
 }

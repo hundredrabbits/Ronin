@@ -46,4 +46,35 @@ function Typographe(rune)
     ctx.fillStyle = color.hex; 
     ctx.fillText(text,position.x,position.y);
   }
+
+  // Mouse
+
+  this.click = null;
+
+  this.widget_cursor = function()
+  {
+    return "&";
+  }
+
+  this.mouse_down = function(position)
+  {
+    this.click = true;
+    ronin.overlay.draw(position);
+    commander.element_input.value = "& "+position.render();
+    commander.hint.update();
+  }
+  
+  this.mouse_move = function(position)
+  {
+    if(!this.click){ return; }
+    ronin.overlay.draw(position);
+    commander.element_input.value = "& "+position.render();
+  }
+  
+  this.mouse_up = function(position)
+  {
+    this.click = null;
+    ronin.overlay.draw(position);
+    commander.element_input.value = "& "+position.render();
+  }
 }

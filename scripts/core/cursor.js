@@ -12,6 +12,7 @@ function Cursor()
     else if(event.ctrlKey === true){ this.set_mode(ronin.overlay); }
     else if(event.altKey === true){ this.set_mode(ronin.surface); }
     else if(event.shiftKey === true){ this.set_mode(ronin.eraser); }
+    else if(ronin.module){ this.set_mode(ronin.module); }
     else{ this.set_mode(ronin.brush); }
   }
   
@@ -28,6 +29,7 @@ function Cursor()
     this.position = position;
     this.mode.mouse_down(position);
     ronin.widget.update();
+    // console.log(this.mode);
   }
   
   this.mouse_move = function(position)
@@ -41,5 +43,6 @@ function Cursor()
     this.position = position;
     this.mode.mouse_up(position);
     ronin.widget.update();
+    commander.element_input.focus();
   }
 }

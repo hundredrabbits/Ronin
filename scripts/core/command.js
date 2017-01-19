@@ -1,6 +1,12 @@
 function Command(content)
 {
   this.content = content;
+
+  this.inject_position = function(injection)
+  {
+    console.log("> "+injection);
+    console.log("- "+content);
+  }
   
   // Parser
   
