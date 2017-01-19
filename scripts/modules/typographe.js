@@ -25,6 +25,7 @@ function Typographe(rune)
 
   this.passive = function(cmd)
   {
+    this.layer.clear();
     if(cmd.variable("text")){
       this.add_text(this.layer.context(),cmd);
     }
@@ -34,7 +35,7 @@ function Typographe(rune)
   {
     var ctx = context;
 
-    var text = cmd.variable("text").value;
+    var text = cmd.variable("text").value.replace("_"," ");
     var position = cmd.position() ? cmd.position() : new Position(20,40);
     var color = cmd.color() ? cmd.color() : new Color("#000000");
     var size = cmd.value() ? cmd.value().int : 40;
