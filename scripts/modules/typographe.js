@@ -52,7 +52,7 @@ function Typographe(rune)
 
   this.widget_cursor = function()
   {
-    return "&";
+    return "Typographe";
   }
 
   this.mouse_down = function(position)
