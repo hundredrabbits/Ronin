@@ -12,7 +12,7 @@ function Help(rune)
     html += this.view_filters();
     html += this.view_units();
     html += this.view_presets();
-    w.document.write("<title>Help</title><style>body { font-size:11px;background:#111; color:#fff; padding:20px} pre { font-family:Monaco,Courier} pre div{ border-left:5px solid #222; padding-left:20px;} pre div b { text-decoration:underline; color:#999; font-weight:normal} pre div i { font-style:normal; color:#72dec2}</style><pre>"+html+"</pre>");
+    w.document.write("<title>Help</title><style>body { font-size:11px;background:#111; color:#fff; padding:20px; overflow-x:hidden} pre { font-family:Monaco,Courier} pre div{ border-left:5px solid #222; padding-left:20px;} pre div b { text-decoration:underline; color:#999; font-weight:normal} pre div i { font-style:normal; color:#72dec2}</style><pre>"+html+"</pre>");
   }
   
   //

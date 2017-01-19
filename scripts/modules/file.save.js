@@ -2,7 +2,7 @@ function FileSave(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Any];
+  this.parameters = [];
   this.variables  = {"format" : "[png/jpg]"};
 
   this.docs = "Creates a new window with a image of the resulting canvas in the specified format.";
@@ -35,7 +35,9 @@ function FileSave(rune)
   {    
     var a = [];
     Object.keys(ronin.surface.layers).forEach(function (key) {
-      a.push(ronin.surface.layers[key]);
+      if(!ronin.surface.layers[key].manager){ 
+        a.push(ronin.surface.layers[key]);
+      } 
     });
     for (i = 0; i < a.length; i++) {
       this.layer.context().drawImage(a[i].context().canvas,0,0,ronin.surface.size.width,ronin.surface.size.height);

@@ -40,8 +40,8 @@ function Render(rune)
 	
   this.hint = function(cmd)
   {
-    var input = cmd.content.join(" ").trim();
-    var s = this.pad(input);
+    var input = cmd.content.join(" ").trim().split(" ")[0];
+    var s = this.pad(cmd.content.join(" "));
 
     if(this.collection[input]){
       for (i = 0; i < this.collection[input].parameters.length; i++) {

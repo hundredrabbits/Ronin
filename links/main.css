@@ -9,7 +9,7 @@ canvas:hover { cursor: crosshair;}
 #overlay { position:absolute; z-index:1000;}
 #widget { color:#fff; position:absolute; font-size:10px; padding-top:10px; border-top:1px solid #333; background-image:url(../media/graphics/logo.svg); background-repeat:no-repeat; background-size:80px 80px; height:100px; background-position: -10px 10px; line-height:20px;}
 #widget .module:first-child { margin-left:80px; }
-#widget .module { float:left; margin-right:10px; margin-top:5px; width: 20% }
+#widget .module { float:left; margin-right:10px; margin-top:5px; width: 25% }
 #widget .module .layer { color:#999; padding:2px 5px;}
 #widget .module .highlight { background:#fff; color:black;}
 #widget .module .highlight.managed { background:red; color:black; }
