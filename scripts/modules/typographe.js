@@ -60,7 +60,7 @@ function Typographe(rune)
   {
     this.click = true;
     ronin.overlay.draw(position);
-    commander.element_input.value = "& "+position.render();
+    commander.element_input.value = "& "+position.render()+" ";
     commander.hint.update();
   }
   
