@@ -26,7 +26,7 @@ ronin.install();
 // Canvas
 var starting_canvas = new Rect();
 starting_canvas.width = window.innerWidth - 200;
-starting_canvas.height = window.innerHeight - 200;
+starting_canvas.height = window.innerHeight - 300;
 
 // Clamp
 
