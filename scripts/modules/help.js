@@ -108,8 +108,8 @@ function Help(rune)
     html += pad("Darken",20)+"# 640x360 ; / ../assets/photo.jpg 640x 0,0 ; % balance #333333\n";
     html += pad("Desaturate",20)+"# 640x360 ; / ../assets/photo.jpg 640x 0,0 ; % saturation #333333\n";
 
-    html += "\nCanvases\n";
-    html += pad("Dot-Grid",20)+"# 300x300; # layer=background ; # #ff0000 ; . 15x15 4,4 ; # layer=main\n";
+    html += "\nCanvas\n";
+    html += pad("Dot-Grid",20)+"# 300x300; # layer=background ; # #A1A1A1 ; . 15x15 4,4 ; # layer=main\n";
     
     html += "</div>";
     return html;
