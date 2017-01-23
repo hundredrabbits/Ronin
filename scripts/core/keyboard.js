@@ -1,7 +1,20 @@
 function Keyboard()
 {
+  this.shift_held = false;
+
+  this.listen_onkeydown = function(event)
+  {
+    if(event.shiftKey == true){
+      this.shift_held = true;
+    }
+    ronin.cursor.update(event);
+    ronin.widget.update();
+  }
+
   this.listen_onkeyup = function(event)
   {
+    this.shift_held = false;
+
     switch (event.key) {
       case "Enter": this.key_enter(); break;
       case "ArrowUp": this.key_arrow_up(); break;
@@ -29,11 +42,6 @@ function Keyboard()
     // ronin.cursor.set_mode(ronin.brush);
     ronin.widget.update();
   };
-  
-  this.listen_onkeydown = function(event)
-  {
-    ronin.cursor.update(event);
-  }
 
   this.key_tab = function()
   {

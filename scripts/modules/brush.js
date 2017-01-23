@@ -76,14 +76,33 @@ function Brush(rune)
   
   this.widget_cursor = function()
   {
-    var s = "> "+this.size+" "+this.color.hex+"<br />";
-
-    for (i = 0; i < ronin.brush.pointers.length; i++) {
-      s += ronin.brush.pointers[i].widget();
+    if(keyboard.shift_held == true){
+      return "Eraser "+this.size;
     }
-    return s;
+    else{
+      return "Brush("+ronin.brush.pointers.length+") "+this.size+" "+this.color.hex+"<br />";  
+    }
+  }
 
-    return this.pointers.length > 0 ? "Brush "+this.size+", "+this.pointers.length+" pointers" : "No Pointers";
+  // Eraser
+
+  this.erase = function()
+  {
+    if(!this.position_prev){this.position_prev = ronin.cursor.position; }
+    
+    var position = ronin.cursor.position;
+    
+    ronin.surface.context().beginPath();
+    ronin.surface.context().globalCompositeOperation="destination-out";
+    ronin.surface.context().moveTo(this.position_prev.x,this.position_prev.y);
+    ronin.surface.context().lineTo(position.x,position.y);
+    ronin.surface.context().lineCap="round";
+    ronin.surface.context().lineWidth = this.size * 5;
+    ronin.surface.context().strokeStyle = new Color("#ff0000").rgba();
+    ronin.surface.context().stroke();
+    ronin.surface.context().closePath();
+    
+    this.position_prev = position;
   }
   
   // Cursor
@@ -93,33 +112,40 @@ function Brush(rune)
   this.mouse_down = function(position)
   {
     this.is_drawing = true;
+    this.position_prev = null;
     
-    for (i = 0; i < ronin.brush.pointers.length; i++) {
-      ronin.brush.pointers[i].start();
+    if(keyboard.shift_held == true){
+      this.erase();
+    }
+    else{
+      for (i = 0; i < ronin.brush.pointers.length; i++) {
+        ronin.brush.pointers[i].start();
+      }
     }
     
-    ronin.stroke.new_stroke();
   }
   
   this.mouse_move = function(position)
   {
     if(this.is_drawing === false){ return; }
-  
-    for (i = 0; i < ronin.brush.pointers.length; i++) {
-      ronin.brush.pointers[i].draw();
-    }
     
-    ronin.stroke.append_stroke(position);
+    if(keyboard.shift_held == true){
+      this.erase();
+    }
+    else{
+      for (i = 0; i < ronin.brush.pointers.length; i++) {
+        ronin.brush.pointers[i].draw();
+      }
+    }
   }
   
   this.mouse_up = function(position)
   {
     this.is_drawing = false;
+    this.position_prev = null;
     
     for (i = 0; i < ronin.brush.pointers.length; i++) {
       ronin.brush.pointers[i].stop();
     }
-    
-    ronin.stroke.save_stroke("brush");
   }
 }
