@@ -80,7 +80,7 @@ function Brush(rune)
       return "Eraser "+this.size;
     }
     else{
-      return "Brush("+ronin.brush.pointers.length+") "+this.size+" "+this.color.hex+"<br />";  
+      return "Brush "+ronin.brush.pointers.length+"x "+this.size+" <span style='color:"+this.color.hex+"'>&#9679;</span><br />";  
     }
   }
 

@@ -6,9 +6,11 @@ function Widget()
   {
     var s = "";
     
+    s += "<div class='module'>";
     for (var key in ronin.modules){
-      s += ronin.modules[key].widget() ? "<div class='module'>"+ronin.modules[key].widget()+"</div>" : "";
+      s += ronin.modules[key].widget() ? ronin.modules[key].widget()+"<br />" : "";
     }
+    s += "</div>";
   
     s += "<div class='cursor'>"+ronin.cursor.mode.widget_cursor()+"</div>";
     
