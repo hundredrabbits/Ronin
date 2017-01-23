@@ -1,11 +1,15 @@
 function Keyboard()
 {
   this.shift_held = false;
+  this.alt_held = false;
 
   this.listen_onkeydown = function(event)
   {
     if(event.shiftKey == true){
       this.shift_held = true;
+    }
+    if(event.altKey == true){
+      this.alt_held = true;
     }
     ronin.cursor.update(event);
     ronin.widget.update();
@@ -14,6 +18,7 @@ function Keyboard()
   this.listen_onkeyup = function(event)
   {
     this.shift_held = false;
+    this.alt_held = false;
 
     switch (event.key) {
       case "Enter": this.key_enter(); break;

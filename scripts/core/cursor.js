@@ -7,6 +7,8 @@ function Cursor(rune)
 
   this.mode = null;
   this.position = new Position();
+  this.magnetism = null;
+  this.grid = new Position(4,4);
 
   this.layer = null;
 
@@ -27,8 +29,20 @@ function Cursor(rune)
 
   this.active = function(cmd)
   {
-    if(!cmd.rect()){ return; }
-    this.draw(cmd.rect(),cmd.position());
+    this.layer.clear();
+
+    if(cmd.bang()){
+      this.magnetism = null;
+    }
+
+    if(cmd.position()){
+      this.grid = cmd.position();
+    }
+
+    if(cmd.rect()){
+      this.magnetism = cmd.rect();
+      this.draw(cmd.rect(),this.grid);
+    }
   }
 
   this.draw = function(rect,grid)
@@ -59,7 +73,10 @@ function Cursor(rune)
 
   this.update = function(event)
   {
-    if(event.altKey == true){
+    if(ronin.module){
+      this.set_mode(ronin.module);
+    }
+    else if(event.altKey == true){
       this.set_mode(ronin.surface);
     }
     else{
@@ -73,9 +90,25 @@ function Cursor(rune)
     this.mode = mode;
     document.body.setAttribute("class",this.mode.constructor.name);
   }
+
+  // 
+
+  this.magnetic_position = function(position)
+  {
+    var x = parseInt(position.x / 20) * 20;
+    var y = parseInt(position.y / 20) * 20;
+
+    return new Position(x,y);
+  }
+
+  //
   
   this.mouse_down = function(position)
   {
+    if(this.magnetism){
+      position = this.magnetic_position(position);
+    }
+
     this.position = position;
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_down(position);  
@@ -85,6 +118,10 @@ function Cursor(rune)
   
   this.mouse_move = function(position)
   {
+    if(this.magnetism){
+      position = this.magnetic_position(position);
+    }
+
     this.position = position;
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_move(position);  
@@ -93,6 +130,10 @@ function Cursor(rune)
   
   this.mouse_up = function(position)
   {
+    if(this.magnetism){
+      position = this.magnetic_position(position);
+    }
+
     this.position = position;
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_up(position);  
