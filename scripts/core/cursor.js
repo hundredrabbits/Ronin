@@ -98,8 +98,8 @@ function Cursor(rune)
 
   this.magnetic_position = function(position)
   {
-    var x = parseInt(position.x / 20) * 20;
-    var y = parseInt(position.y / 20) * 20;
+    var x = parseInt(position.x / this.magnetism.width) * this.magnetism.width;
+    var y = parseInt(position.y / this.magnetism.width) * this.magnetism.width;
 
     return new Position(x,y);
   }
