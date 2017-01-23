@@ -2,7 +2,7 @@ function Cursor(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Rect];
+  this.parameters = [Rect,Position,Bang];
   this.variables  = {};
 
   this.mode = null;
