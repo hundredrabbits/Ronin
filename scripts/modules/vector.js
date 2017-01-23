@@ -6,6 +6,7 @@ function Vector(rune)
   this.variables  = {"fill_color" : "none","stroke_width" : 5,"stroke_color" : "#ffffff", "line_cap" : "square"};
 
   this.layer = null;
+  this.coordinates = [];
 
   this.install = function()
   {
@@ -27,6 +28,7 @@ function Vector(rune)
   
   this.active = function(cmd)
   {
+    this.coordinates = [];
     this.layer.clear();
     ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "round";
     ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 5;
@@ -50,8 +52,6 @@ function Vector(rune)
       return "Vector(Line)";
     }
   }
-
-  this.coordinates = [];
 
   this.create_command = function()
   {

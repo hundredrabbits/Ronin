@@ -76,6 +76,9 @@ function Cursor(rune)
     if(ronin.module){
       this.set_mode(ronin.module);
     }
+    else if(event.altKey == true && event.shiftKey == true){
+      this.set_mode(ronin.surface.active_layer);
+    }
     else if(event.altKey == true){
       this.set_mode(ronin.surface);
     }
