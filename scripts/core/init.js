@@ -2,6 +2,7 @@ var ronin = new Ronin();
 ronin.element = document.getElementById('ronin');
 ronin.surface.element = document.getElementById('surface');
 ronin.widget.element = document.getElementById('widget');
+ronin.cursor.element = document.getElementById('cursor');
 ronin.cursor.mode = ronin.brush;
 
 var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));

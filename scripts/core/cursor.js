@@ -10,6 +10,8 @@ function Cursor(rune)
   this.magnetism = null;
   this.grid = new Position(4,4);
 
+  this.element = null;
+
   this.layer = null;
 
   this.install = function()
@@ -104,6 +106,22 @@ function Cursor(rune)
     return new Position(x,y);
   }
 
+  this.update_element = function(position)
+  {
+    position = ronin.position_in_window(position);
+
+    this.element.style.left = (position.x + window.innerWidth/2);
+    this.element.style.top = (position.y + window.innerHeight/2);
+
+    var radius = this.mode && this.mode.size ? this.mode.size : 5;
+    this.element.style.width = radius;
+    this.element.style.height = radius;
+    this.element.style.borderRadius = radius;
+    this.element.style.marginLeft = -radius/2;
+    this.element.style.marginTop = -radius/2;
+    this.element.style.borderColor = this.mode && this.mode.color ? this.mode.color.hex : "#ff0000";
+  }
+
   //
   
   this.mouse_down = function(position)
@@ -121,14 +139,18 @@ function Cursor(rune)
   
   this.mouse_move = function(position)
   {
+    this.update_element(position);
+
     if(this.magnetism){
       position = this.magnetic_position(position);
     }
 
     this.position = position;
+
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_move(position);  
     }
+
   }
   
   this.mouse_up = function(position)

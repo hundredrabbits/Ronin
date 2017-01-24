@@ -1,7 +1,7 @@
 body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace;}
 *:focus {outline: none; }
 
-canvas:hover { cursor: crosshair;}
+canvas:hover { cursor: none;}
 
 #ronin { width:100%; height:100%; overflow:hidden; background:#111; background-image:url(../media/graphics/grid.svg); background-position: center center; }
 #surface { width:50vw; height:50vh; overflow:hidden; position:fixed; left:50%; top:50%; background:none; border-radius:3px;}
@@ -15,6 +15,7 @@ canvas:hover { cursor: crosshair;}
 #widget .module .highlight.managed { background:red; color:black; }
 #widget .cursor { text-align: right;margin-top: 5px;position: absolute;right:0px}
 #widget .layer:hover { cursor:pointer;}
+#cursor { width:10px; height:10px; position:fixed;border:1px solid red; border-radius:10px; z-index:10000; pointer-events: none}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
