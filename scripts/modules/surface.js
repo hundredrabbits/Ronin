@@ -97,7 +97,7 @@ function Surface(rune)
     Object.keys(ronin.surface.layers).forEach(function (key) {
       s = ronin.surface.layers[key].widget()+s;
     });
-    return "# "+this.size.render()+"<br />"+s;
+    return this.rune+" "+this.size.render()+"<br />"+s;
   }
   
   this.widget_cursor = function()

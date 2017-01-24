@@ -34,9 +34,9 @@ starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
 starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
 commander.query("~ "+ronin.timestamp());
-commander.query("# "+starting_canvas.render());
-commander.query("# layer=Background");
-commander.query("# #a1a1a1");
-commander.query("# layer=Main");
+commander.query("@ "+starting_canvas.render());
+commander.query("@ layer=Background");
+commander.query("@ #a1a1a1");
+commander.query("@ layer=Main");
 commander.query("> 1 ; > 0,0 ; > 1,1 ; > #ffffff");
 commander.query("~ Ready.");

@@ -4,7 +4,7 @@ function Ronin()
   this.element  = null;  
   this.widget   = new Widget();
   
-  this.surface  = new Surface("#");
+  this.surface  = new Surface("@");
   this.fileload = new FileLoad("/");
   this.filesave = new FileSave("$");
   this.history  = new History("^");
