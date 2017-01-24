@@ -139,11 +139,10 @@ function Cursor(rune)
   
   this.mouse_move = function(position)
   {
-    this.update_element(position);
-
     if(this.magnetism){
       position = this.magnetic_position(position);
     }
+    this.update_element(position);
 
     this.position = position;
 
