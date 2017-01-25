@@ -8,6 +8,7 @@ function Vector(rune)
   this.layer = null;
   this.coordinates = [];
   this.last_pos = null;
+  this.paths = [];
 
   this.install = function()
   {
@@ -21,20 +22,49 @@ function Vector(rune)
   this.passive = function(cmd)
   {
     this.layer.clear();
-    this.layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "round";
-    this.layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 5;
+    this.layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
+    this.layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
     this.layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
     this.layer.context().stroke(new Path2D(cmd.content.join(" ")));
   }
   
   this.active = function(cmd)
   {
+    this.paths.push(this.create_path());
     this.coordinates = [];
     this.layer.clear();
-    ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "round";
-    ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 5;
+    ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
+    ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
     ronin.surface.active_layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
     ronin.surface.active_layer.context().stroke(new Path2D(cmd.content.join(" ")));
+  }
+
+  // Tools
+
+
+  this.create_path = function()
+  {
+    var command = "";
+
+    for (var i = 0; i < this.coordinates.length; i++) {
+      command += this.coordinates[i]+" ";
+    }
+    return command;
+  }
+
+  this.create_svg = function()
+  {
+    var s = "";
+
+    s += "<svg width='"+ronin.surface.size.width+"' height='"+ronin.surface.size.height+"' xmlns='http://www.w3.org/2000/svg' baseProfile='full' version='1.1' style='fill:none;stroke:red;stroke-width:2px'>";
+
+    for (var i = 0; i < this.paths.length; i++) {
+      s += "<path d='"+this.paths[i]+"' />";
+    }
+
+    s += "</svg>";
+    console.log(s);
+    return s;
   }
 
   // Mouse
@@ -57,21 +87,11 @@ function Vector(rune)
     }
   }
 
-  this.create_command = function()
-  {
-    var command = "+ ";
-
-    for (var i = 0; i < this.coordinates.length; i++) {
-      command += this.coordinates[i]+" ";
-    }
-    return command;
-  }
-
   this.mouse_down = function(position)
   {
     this.click = true;
 
-    commander.element_input.value = this.create_command();
+    commander.element_input.value = "+ "+this.create_path();
     commander.hint.update();
     this.passive(commander.cmd());
   }
@@ -79,7 +99,7 @@ function Vector(rune)
   this.mouse_move = function(position)
   {
     if(!this.click){ return; }
-    commander.element_input.value = this.create_command();
+    commander.element_input.value = "+ "+this.create_path();
     commander.element_input.value += "L"+position.render();
     commander.hint.update();
     this.passive(commander.cmd());
@@ -93,7 +113,7 @@ function Vector(rune)
       this.coordinates.push("M"+position.render());
     }
     else{
-      
+
       var offset = this.last_pos ? position.offset(this.last_pos) : position;
 
       if(keyboard.shift_held == true && keyboard.alt_held == true){
@@ -110,7 +130,7 @@ function Vector(rune)
       }
     }
 
-    commander.element_input.value = this.create_command();
+    commander.element_input.value = "+ "+this.create_path();
     commander.hint.update();
     this.passive(commander.cmd());
     this.last_pos = position;

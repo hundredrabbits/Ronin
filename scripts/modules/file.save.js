@@ -19,19 +19,18 @@ function FileSave(rune)
   {
     var d = null;
 
+    var w = window.open('about:blank','image from canvas');
+
     if(cmd.variable("format") && cmd.variable("format").value == "svg"){
-      // TODO
-      return;
+      w.document.write("<title>Untitled</title><body>"+ronin.vector.create_svg()+"</body>");
     }
     else if(cmd.variable("format") && cmd.variable("format").value == "jpg"){
-      var d = this.merge().element.toDataURL('image/jpeg');
+      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/jpeg')+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/></body>");
     }
     else{
-      var d = this.merge().element.toDataURL('image/png');
+      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/></body>");
     }
     
-    var w = window.open('about:blank','image from canvas');
-    w.document.write("<title>Untitled</title><body><img src='"+d+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/></body>");
     this.layer.clear();
   }
 
