@@ -117,8 +117,8 @@ function Cursor(rune)
     this.element.style.width = radius;
     this.element.style.height = radius;
     this.element.style.borderRadius = radius;
-    this.element.style.marginLeft = -radius/2;
-    this.element.style.marginTop = -radius/2;
+    this.element.style.marginLeft = -(radius/2)-1;
+    this.element.style.marginTop = -(radius/2)-1;
     this.element.style.borderColor = this.mode && this.mode.color ? this.mode.color.hex : "#ff0000";
   }
 

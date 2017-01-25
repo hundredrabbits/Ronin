@@ -42,7 +42,10 @@ function Vector(rune)
 
   this.widget_cursor = function()
   {
-    if(keyboard.shift_held == true){
+    if(keyboard.shift_held == true && keyboard.alt_held == true){
+      return "Vector(Origin)";
+    }
+    else if(keyboard.shift_held == true){
       return "Vector(Counterclock Arc)";
     }
     else if(keyboard.alt_held == true){
@@ -86,7 +89,10 @@ function Vector(rune)
     this.click = null;
 
     // Add the right thing
-    if(keyboard.shift_held == true){
+    if(keyboard.shift_held == true && keyboard.alt_held == true){
+      this.coordinates.push("M"+position.render());
+    }
+    else if(keyboard.shift_held == true){
       this.coordinates.push("A1,1 0 0,1 "+position.render());
     }
     else if(keyboard.alt_held == true){
