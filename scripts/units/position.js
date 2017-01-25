@@ -24,6 +24,11 @@ function Position(position_str = "0,0",y = null)
     if(!target){ return 0; }
     return Math.sqrt( (this.x-target.x)*(this.x-target.x) + (this.y-target.y)*(this.y-target.y) );
   }
+
+  this.offset = function(position = new Position(0,0))
+  {
+    return new Position(this.x - position.x,this.y - position.y);
+  }
   
   this.normalize = function(rect)
   {

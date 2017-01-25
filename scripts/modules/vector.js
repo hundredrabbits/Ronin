@@ -7,6 +7,7 @@ function Vector(rune)
 
   this.layer = null;
   this.coordinates = [];
+  this.last_pos = null;
 
   this.install = function()
   {
@@ -61,7 +62,7 @@ function Vector(rune)
     var command = "+ ";
 
     for (var i = 0; i < this.coordinates.length; i++) {
-      command += i == 0 ? "M"+this.coordinates[i]+" " : this.coordinates[i]+" ";
+      command += this.coordinates[i]+" ";
     }
     return command;
   }
@@ -88,22 +89,30 @@ function Vector(rune)
   {
     this.click = null;
 
-    // Add the right thing
-    if(keyboard.shift_held == true && keyboard.alt_held == true){
+    if(this.coordinates.length == 0){
       this.coordinates.push("M"+position.render());
     }
-    else if(keyboard.shift_held == true){
-      this.coordinates.push("A1,1 0 0,1 "+position.render());
-    }
-    else if(keyboard.alt_held == true){
-     this.coordinates.push("A1,1 0 0,0 "+position.render()); 
-    }
     else{
-      this.coordinates.push(position.render());
+      
+      var offset = this.last_pos ? position.offset(this.last_pos) : position;
+
+      if(keyboard.shift_held == true && keyboard.alt_held == true){
+        this.coordinates.push("M"+position.render());
+      }
+      else if(keyboard.shift_held == true){
+        this.coordinates.push("A1,1 0 0,1 "+position.render());
+      }
+      else if(keyboard.alt_held == true){
+       this.coordinates.push("A1,1 0 0,0 "+position.render()); 
+      }
+      else{
+        this.coordinates.push("l"+offset.render());
+      }
     }
-  
+
     commander.element_input.value = this.create_command();
     commander.hint.update();
     this.passive(commander.cmd());
+    this.last_pos = position;
   }
 }

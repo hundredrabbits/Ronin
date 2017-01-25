@@ -3,7 +3,7 @@ function FileSave(rune)
   Module.call(this,rune);
   
   this.parameters = [];
-  this.variables  = {"format" : "[png/jpg]"};
+  this.variables  = {"format" : "[png/jpg/svg]"};
 
   this.docs = "Creates a new window with a image of the resulting canvas in the specified format.";
   
@@ -19,7 +19,11 @@ function FileSave(rune)
   {
     var d = null;
 
-    if(cmd.variable("format") && cmd.variable("format").value == "jpg"){
+    if(cmd.variable("format") && cmd.variable("format").value == "svg"){
+      // TODO
+      return;
+    }
+    else if(cmd.variable("format") && cmd.variable("format").value == "jpg"){
       var d = this.merge().element.toDataURL('image/jpeg');
     }
     else{
