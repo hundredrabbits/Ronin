@@ -109,7 +109,6 @@ function Vector(rune)
       this.coordinates.push("M"+position.render());
     }
     else{
-
       var offset = this.last_pos ? position.offset(this.last_pos) : position;
 
       if(keyboard.shift_held == true && keyboard.alt_held == true){
@@ -130,5 +129,12 @@ function Vector(rune)
     commander.hint.update();
     this.passive(commander.cmd());
     this.last_pos = position;
+  }
+
+  this.key_escape = function()
+  {
+    if(this.layer){ this.layer.remove(this); }
+    this.coordinates = [];
+    this.last_pos = null;
   }
 }

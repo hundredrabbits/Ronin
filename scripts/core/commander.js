@@ -15,6 +15,7 @@ function Commander(element,element_input)
       queue = input_str.split(";");
     }
     else{
+      queue = [];
       queue.push(input_str)
     }
     run();
