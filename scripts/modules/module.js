@@ -4,12 +4,20 @@ function Module(rune)
   this.element = null;
   this.parameters = [];
   this.variables  = {};
+  this.layer = null;
 
   this.docs = "Missing documentation.";
   
   this.install = function()
   {
     console.log("Installing "+ronin.modules[this.rune].constructor.name);
+  }
+
+  this.create_layer = function()
+  {
+    this.layer = new Layer(this.constructor.name+".Preview",this);
+    this.layer.element.setAttribute("style","z-index:7000");
+    ronin.surface.add_layer(this.layer);
   }
 
   this.active = function(cmd)
@@ -87,5 +95,10 @@ function Module(rune)
   
   this.mouse_up = function(position)
   {
+  }
+
+  this.key_escape = function()
+  {
+    
   }
 }

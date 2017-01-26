@@ -6,17 +6,11 @@ function FileSave(rune)
   this.variables  = {"format" : "[png/jpg/svg]"};
 
   this.docs = "Creates a new window with a image of the resulting canvas in the specified format.";
-  
-  this.layer = null;
-
-  this.install = function()
-  {
-    this.layer = new Layer("Save.Export",this);
-    ronin.surface.add_layer(this.layer);
-  }
 
   this.active = function(cmd)
   {
+    if(!this.layer){ this.create_layer(); }
+
     var d = null;
 
     var w = window.open('about:blank','image from canvas');
@@ -31,11 +25,11 @@ function FileSave(rune)
       w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/></body>");
     }
     
-    this.layer.clear();
+    this.layer.remove(this);
   }
 
   this.merge = function()
-  {    
+  {
     var a = [];
     Object.keys(ronin.surface.layers).forEach(function (key) {
       if(!ronin.surface.layers[key].manager){ 

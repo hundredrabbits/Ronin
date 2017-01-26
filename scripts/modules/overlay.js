@@ -5,7 +5,6 @@ function Overlay(rune)
   this.parameters = [Position,Rect,Color];
   
   this.color = new Color("#ffffff");
-  this.layer = null;
 
   this.install = function()
   {

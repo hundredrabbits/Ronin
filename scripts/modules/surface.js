@@ -57,10 +57,9 @@ function Surface(rune)
   {
     console.log("Creating layer:"+layer.name+"("+(layer.manager ? layer.manager.constructor.name : "")+")"); 
 
+    layer.resize(this.size);
     this.layers[layer.name] = layer;
-    this.active_layer = layer;
     this.element.appendChild(layer.element);
-    this.active_layer.resize(this.size);
   }
   
   this.passive = function(cmd)

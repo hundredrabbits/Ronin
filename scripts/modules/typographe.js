@@ -5,19 +5,10 @@ function Typographe(rune)
   this.parameters = [Position,Color,Value];
   this.variables  = {"text" : null, "font" : "Georgia"};
 
-  this.layer = null;
-
-  this.install = function()
-  {
-    this.layer = new Layer("Typographe.Preview",this);
-    this.layer.element.setAttribute("style","z-index:7000;opacity:0.25");
-    ronin.surface.add_layer(this.layer);
-  }
-
   this.active = function(cmd)
   {
-    this.layer.clear();
-    ronin.overlay.clear();
+    if(this.layer){ this.layer.remove(this); }
+
     if(cmd.variable("text")){
       this.add_text(ronin.surface.active_layer.context(),cmd);
     }
@@ -25,7 +16,8 @@ function Typographe(rune)
 
   this.passive = function(cmd)
   {
-    this.layer.clear();
+    if(!this.layer){ this.create_layer(); }
+
     if(cmd.variable("text")){
       this.add_text(this.layer.context(),cmd);
     }

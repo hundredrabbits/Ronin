@@ -25,6 +25,13 @@ function Layer(name,manager = null)
     this.context().clearRect(0, 0, this.element.width, this.element.height);
   }
 
+  this.remove = function(manager)
+  {
+    manager.layer = null;
+    ronin.surface.layers[this.name].element.outerHTML = "";
+    delete ronin.surface.layers[this.name];
+  }
+
   this.context = function()
   {
     return this.element.getContext('2d');

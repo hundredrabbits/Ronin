@@ -11,18 +11,11 @@ function Render(rune)
   this.collection["stencil"] = new Filter_Stencil();
   this.collection["invert"] = new Filter_Invert();
   this.collection["chromatic"] = new Filter_Chromatic();
-
-  this.layer = null;
-
-  this.install = function()
-  {
-    this.layer = new Layer("Render.Preview",this);
-    this.layer.element.setAttribute("style","z-index:9000");
-    ronin.surface.add_layer(this.layer);
-  }
   
   this.active = function(cmd)
   {
+    if(!this.layer){ this.create_layer(); }
+
     var name = cmd.content[0];
 
     if(!this.collection[name]){ return; }
@@ -32,6 +25,8 @@ function Render(rune)
   
   this.passive = function(cmd)
   {
+    if(!this.layer){ this.create_layer(); }
+    
     var name = cmd.content[0];
     if(!this.collection[name]){ return; }
 

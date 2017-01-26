@@ -5,22 +5,16 @@ function Vector(rune)
   this.parameters = [Any];
   this.variables  = {"fill_color" : "none","stroke_width" : 5,"stroke_color" : "#ffffff", "line_cap" : "square"};
 
-  this.layer = null;
   this.coordinates = [];
   this.last_pos = null;
   this.paths = [];
-
-  this.install = function()
-  {
-    this.layer = new Layer("Vector.Preview",this);
-    this.layer.element.setAttribute("style","z-index:8000;opacity:0.75");
-    ronin.surface.add_layer(this.layer);
-  }
   
   // Module
   
   this.passive = function(cmd)
   {
+    if(!this.layer){ this.create_layer(); }
+
     this.layer.clear();
     this.layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
     this.layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
@@ -32,7 +26,9 @@ function Vector(rune)
   {
     this.paths.push(this.create_path());
     this.coordinates = [];
-    this.layer.clear();
+
+    this.layer.remove(this);
+
     ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
     ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
     ronin.surface.active_layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";

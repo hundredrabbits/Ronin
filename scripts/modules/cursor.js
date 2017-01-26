@@ -12,18 +12,11 @@ function Cursor(rune)
 
   this.element = null;
 
-  this.layer = null;
-
-  this.install = function()
-  {
-    this.layer = new Layer("Cursor.Magnet",this);
-    this.layer.element.setAttribute("style","z-index:9000");
-    ronin.surface.add_layer(this.layer);
-  }
-
   this.passive = function(cmd)
   {
     if(!cmd.rect()){ return; }
+
+    if(!this.layer){ this.create_layer(); }
 
     this.layer.clear();
     this.draw(cmd.rect(),cmd.position());
@@ -31,10 +24,13 @@ function Cursor(rune)
 
   this.active = function(cmd)
   {
+    if(!this.layer){ this.create_layer(); }
+
     this.layer.clear();
 
     if(cmd.bang()){
       this.magnetism = null;
+      this.layer.remove(this);
     }
 
     if(cmd.position()){
@@ -110,16 +106,9 @@ function Cursor(rune)
   {
     position = ronin.position_in_window(position);
 
-    this.element.style.left = (position.x + window.innerWidth/2);
-    this.element.style.top = (position.y + window.innerHeight/2);
-
     var radius = this.mode && this.mode.size ? this.mode.size : 5;
-    this.element.style.width = radius;
-    this.element.style.height = radius;
-    this.element.style.borderRadius = radius;
-    this.element.style.marginLeft = -(radius/2)-1;
-    this.element.style.marginTop = -(radius/2)-1;
-    this.element.style.borderColor = this.mode && this.mode.color ? this.mode.color.hex : "#ff0000";
+
+    this.element.setAttribute("style","left:"+(position.x + window.innerWidth/2)+"px;top:"+(position.y + window.innerHeight/2)+"px;width:"+radius+"px;height:"+radius+"px;margin-left:"+(-(radius/2)-1)+"px;margin-top:"+(-(radius/2)-1)+"px;border:1px solid "+(this.mode && this.mode.color ? this.mode.color.hex : ronin.brush.color.hex));
   }
 
   //

@@ -89,6 +89,10 @@ function Keyboard()
   {
     commander.hide();
 
+    Object.keys(ronin.modules).forEach(function (key){
+      ronin.modules[key].key_escape();
+    });
+
     // Clear managed layers
     Object.keys(ronin.surface.layers).forEach(function (key) {
       if(ronin.surface.layers[key].manager){ 
