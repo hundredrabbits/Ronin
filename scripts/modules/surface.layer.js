@@ -27,6 +27,7 @@ function Layer(name,manager = null)
 
   this.remove = function(manager)
   {
+    console.log("Removing layer "+this.name);
     manager.layer = null;
     ronin.surface.layers[this.name].element.outerHTML = "";
     delete ronin.surface.layers[this.name];

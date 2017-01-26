@@ -27,7 +27,7 @@ function Vector(rune)
     this.paths.push(this.create_path());
     this.coordinates = [];
 
-    this.layer.remove(this);
+    if(this.layer){ this.layer.remove(this); }
 
     ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
     ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;

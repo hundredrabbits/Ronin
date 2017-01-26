@@ -24,14 +24,17 @@ function Cursor(rune)
 
   this.active = function(cmd)
   {
+    console.log("!");
+    if(cmd.bang()){
+      console.log("??");
+      this.magnetism = null;
+      if(this.layer){ this.layer.remove(this); }
+      return;
+    }
+
     if(!this.layer){ this.create_layer(); }
 
     this.layer.clear();
-
-    if(cmd.bang()){
-      this.magnetism = null;
-      this.layer.remove(this);
-    }
 
     if(cmd.position()){
       this.grid = cmd.position();
