@@ -115,10 +115,10 @@ function Vector(rune)
         this.coordinates.push("M"+position.render());
       }
       else if(keyboard.shift_held == true){
-        this.coordinates.push("A1,1 0 0,1 "+position.render());
+        this.coordinates.push("a"+offset.render()+" 0 0,1 "+offset.render());
       }
       else if(keyboard.alt_held == true){
-       this.coordinates.push("A1,1 0 0,0 "+position.render()); 
+       this.coordinates.push("a"+offset.render()+" 0 0,0 "+offset.render()); 
       }
       else{
         this.coordinates.push("l"+offset.render());
