@@ -19,6 +19,7 @@ function Typographe(rune)
     if(!this.layer){ this.create_layer(); }
 
     if(cmd.variable("text")){
+      this.layer.clear();
       this.add_text(this.layer.context(),cmd);
     }
   }
@@ -67,5 +68,10 @@ function Typographe(rune)
     this.click = null;
     ronin.overlay.draw(position);
     commander.element_input.value = "& "+position.render();
+  }
+
+  this.key_escape = function()
+  {
+    if(this.layer){ this.layer.remove(this); }
   }
 }
