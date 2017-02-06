@@ -98,7 +98,10 @@ function Module(rune)
   }
 
   this.key_escape = function()
+  { 
+  }
+
+  this.key_delete = function()
   {
-    
   }
 }

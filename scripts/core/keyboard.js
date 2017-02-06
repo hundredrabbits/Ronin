@@ -26,7 +26,7 @@ function Keyboard()
       case "ArrowDown": this.key_arrow_down(); break;
       case "ArrowLeft": this.key_arrow_left(); break;
       case "ArrowRight": this.key_arrow_right(); break;
-      // case ":": this.key_colon(); break;
+      case ":": this.key_colon(); break;
       case "Escape": this.key_escape(); break;
     }
 
@@ -39,6 +39,7 @@ function Keyboard()
       case 221:  ronin.brush.size_down(); break;
       case 38:  ronin.surface.layer_up(); break;
       case 40:  ronin.surface.layer_down(); break;
+      case 8: this.key_delete(); break;
     }
 
     // Passive
@@ -89,8 +90,11 @@ function Keyboard()
   {
     commander.hide();
 
-    Object.keys(ronin.modules).forEach(function (key){
-      ronin.modules[key].key_escape();
-    });
+    if(ronin.module){ ronin.module.key_escape(); }
+  }
+
+  this.key_delete = function()
+  {
+    if(ronin.module){ ronin.module.key_delete(); }
   }
 }
