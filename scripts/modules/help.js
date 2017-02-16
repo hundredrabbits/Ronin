@@ -110,6 +110,7 @@ function Help(rune)
 
     html += "\nCanvas\n";
     html += pad("Dot-Grid",20)+"@ 300x300; @ layer=background ; @ #A1A1A1 ; . 15x15 4,4 ; @ layer=main\n";
+    html += pad("Dot-Grid Icon",20)+"@ 360x360; @ layer=background ; @ #000000 ; . 15x15 4,4 ; @ layer=main\n";
     
     html += "</div>";
     return html;
