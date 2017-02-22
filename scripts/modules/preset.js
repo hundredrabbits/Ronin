@@ -8,7 +8,7 @@ function Preset(rune)
   this.collection["grid"]["icon"] = "@ 360x360; @ layer=background ; @ #000000 ; . 15x15 4,4 ; @ layer=main";
 
   this.collection["watermark"] = {};
-  this.collection["watermark"]["default"] = "@ 720x405 ; / ../assets/todo.jpg 720x 0,0 ; % chromatic 5 ; / ../assets/logo.png 35x35 15,355";
+  this.collection["watermark"]["default"] = "@ 720x405 ; / ../assets/todo.jpg 720x 0,0 ; % chromatic 2 ; / ../assets/logo.png 35x35 15,355";
 
   this.collection["brush"] = {};
   this.collection["brush"]["radial6"] = "> 600,400 60';> 600,400 120';> 600,400 180';> 600,400 240';> 600,400 300'";
