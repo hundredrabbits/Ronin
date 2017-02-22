@@ -12,7 +12,7 @@ function Preset(rune)
   this.collection["custom"]["black"] = "@ 720x405 #ff0000 ; / ../assets/todo.jpg 720x 0,-30 ; % grey ; % sharpen ; % sharpen ; % chromatic 2 ; @ layer=icon ; / ../assets/logo.png 35x35 15,355 "; 
 
   this.collection["photo"] = {};
-  this.collection["photo"]["black"] = "@ 720x405 #ff0000 ; / ../assets/todo.jpg 720x 0,-30 ; % sharpen ; % grey % chromatic 2 ; % grey";
+  this.collection["photo"]["black"] = "@ 720x405 #ff0000 ; / ../assets/todo.jpg 720x 0,-30 ; % sharpen 0.2 ; % chromatic 2 ; % grey";
 
   this.collection["brush"] = {};
   this.collection["brush"]["radial6"] = "> 600,400 60';> 600,400 120';> 600,400 180';> 600,400 240';> 600,400 300'";

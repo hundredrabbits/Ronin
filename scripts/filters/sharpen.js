@@ -2,7 +2,7 @@ function Filter_Sharpen()
 {
   Filter.call(this);
   
-  this.parameters = [];
+  this.parameters = [Value];
 
   this.render = function(cmd)
   {
@@ -17,10 +17,12 @@ function Filter_Sharpen()
     var data = originalData.data;
     var newImage = context.getImageData(0, 0, w*2, h*2);
 
+    var strenght = cmd.value() ? cmd.value().float : 1;
+
     var weight_map = [ 
-       -2, 0,  -2,
-      0, 16, 0,
-       -2, 0,  -2
+       -2 * strenght, 0 * strenght,  -2 * strenght,
+      0 * strenght, 17 * strenght, 0 * strenght,
+       -2 * strenght, 0 * strenght,  -2 * strenght
     ];
 
     for(var i = 0; i < data.length; i += 4) {
