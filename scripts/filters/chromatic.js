@@ -64,5 +64,4 @@ function Filter_Chromatic()
     ronin.surface.active_layer.clear();
     context.putImageData(imageData, 0, 0);
   }
-
 }

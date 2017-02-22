@@ -13,6 +13,29 @@ function Filter()
     console.log("render: Nothing here.");
   }
 
+  this.get_neighbors = function(pixels,x,y)
+  {
+    return [
+      this.get_color(pixels,x-1,y-1),this.get_color(pixels,x,y-1),this.get_color(pixels,x+1,y-1),
+      this.get_color(pixels,x-1,y),this.get_color(pixels,x,y),this.get_color(pixels,x+1,y),
+      this.get_color(pixels,x-1,y+1),this.get_color(pixels,x,y+1),this.get_color(pixels,x+1,y+1),
+    ];
+  }
+
+  this.get_neighbors_average = function(pixels,x,y,weight_map = [1,1,1,1,1,1,1,1,1])
+  {
+    var n = this.get_neighbors(pixels,x,y);
+    var r = 0;
+    var g = 0;
+    var b = 0;
+    for (var i = 0; i < n.length; i++){
+      r += n[i].r * weight_map[i];
+      g += n[i].g * weight_map[i];
+      b += n[i].b * weight_map[i];
+    }
+    return {r:r/n.length,g:g/n.length,b:b/n.length}
+  }
+
   this.set_color = function(pixels, color, x, y)
   {
     x = Math.max(0,Math.min(x,pixels.width-1));

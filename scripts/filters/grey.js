@@ -1,4 +1,4 @@
-function Filter_Saturation()
+function Filter_Grey()
 {
   Filter.call(this);
 

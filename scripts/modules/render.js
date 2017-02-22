@@ -7,10 +7,11 @@ function Render(rune)
 
   this.collection["rotate"] = new Filter_Rotate();
   this.collection["balance"] = new Filter_Balance();
-  this.collection["saturation"] = new Filter_Saturation();
+  this.collection["grey"] = new Filter_Grey();
   this.collection["stencil"] = new Filter_Stencil();
   this.collection["invert"] = new Filter_Invert();
   this.collection["chromatic"] = new Filter_Chromatic();
+  this.collection["sharpen"] = new Filter_Sharpen();
   
   this.active = function(cmd)
   {
@@ -28,7 +29,8 @@ function Render(rune)
     if(!this.layer){ this.create_layer(); }
     
     var name = cmd.content[0];
-    if(!this.collection[name]){ return; }
+
+    if(!this.collection[name]){ console.log("unknown ",name); return; }
 
     return this.collection[name].preview(cmd);
   }
@@ -51,4 +53,5 @@ function Render(rune)
 
     return s;
   }
+
 }

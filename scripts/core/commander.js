@@ -7,35 +7,34 @@ function Commander(element,element_input)
   this.storage_index = 0;
   this.always_show = false;
 
-  var queue = [];
+  this.queue = [];
   
   this.query = function(input_str)
   {
     if(input_str.indexOf(";") > 0){
-      queue = input_str.split(";");
+      this.queue = input_str.split(";");
     }
     else{
-      queue = [];
-      queue.push(input_str)
+      this.queue = [];
+      this.queue.push(input_str)
     }
-    run();
+    this.run();
     this.hide();
   }
 
-  function run()
+  this.run = function()
   {
-    if(!queue[0]){ return; }
-    
-    active(queue[0].trim());
+    if(!commander.queue[0]){ console.log("Finished queue"); return; }
 
-    queue.shift();
-    if(queue.length > 0){
-      setTimeout(function(){ run(); }, 100);
-    }
+    active(commander.queue[0].trim());
+    commander.queue.shift();
+
+    setTimeout(function(){ commander.run(); }, 100);
   }
 
   function active(content)
   {
+    console.info(content);
     var key = content[0];
     var cmd = new Command(content.substring(1).trim().split(" "));
     
@@ -49,7 +48,7 @@ function Commander(element,element_input)
   this.passive = function(content)
   {
     var key = content[0];
-    var cmd = new Command(content.substring(1).split(" "));
+    var cmd = new Command(content.substring(1).trim().split(" "));
     
     ronin.module = null;
     
@@ -68,7 +67,7 @@ function Commander(element,element_input)
   {
     var content = this.element_input.value.trim();
     var key = content[0];
-    var cmd = new Command(content.substring(1).split(" "));
+    var cmd = new Command(content.substring(1).trim().split(" "));
     return cmd;
   }
   

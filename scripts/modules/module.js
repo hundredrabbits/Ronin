@@ -22,12 +22,10 @@ function Module(rune)
 
   this.active = function(cmd)
   {
-    console.log("Nothing to do.");
   }
   
   this.passive = function(cmd)
   {
-    console.log("Nothing to do.");
   }
   
   this.update_variables = function(cmd)

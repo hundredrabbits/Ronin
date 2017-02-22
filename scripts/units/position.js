@@ -32,10 +32,10 @@ function Position(position_str = "0,0",y = null)
   
   this.normalize = function(rect)
   {
-    if(this.x < 0){
+    if(this.x == null){
       this.x = ronin.canvas.element.width - rect.width - Math.abs(this.x);
     }
-    if(this.y < 0){
+    if(this.y == null){
       this.y = ronin.canvas.element.height - rect.height - Math.abs(this.y);
     }
   }
