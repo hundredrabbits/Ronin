@@ -15,7 +15,7 @@ canvas:hover { cursor: none;}
 #widget .module .highlight.managed { background:red; color:black; }
 #widget .cursor { text-align: right;margin-top: 5px;position: absolute;right:0px}
 #widget .layer:hover { cursor:pointer;}
-#cursor { width:10px; height:10px; position:fixed;border:1px solid red; border-radius:10px; z-index:10000; pointer-events: none}
+#cursor { width:10px; height:10px; position:fixed;border:1px solid red; border-radius:10px; z-index:8000; pointer-events: none}
 
 #commander { display:none; z-index: 2000; position:fixed; }
 #commander.visible { display:block; }
@@ -35,3 +35,16 @@ canvas:hover { cursor: none;}
 #commander_hint .value:last-child:after { content:"";}
 #commander_hint .variable_key { color:#aaa; font-weight:bold;}
 #commander_hint .variable_value { color:#aaa;}
+
+#help_view { background:white; position:fixed; top:0px; left:0px; height:100vh; width:100vw; display:none; font-size:11px; line-height:20px; z-index:9000;}
+#help_view .wrapper { padding:60px }
+#help_view .logo { width:90px; height:90px; display: block; margin-left:-10px; margin-bottom:40px;}
+#help_view h1 { font-family:"input_mono_regular",courier,monospace; font-size:20px; margin-bottom:20px; line-height:20px;}
+#help_view h2 { font-family:"input_mono_regular",courier,monospace; font-size:11px; line-height:20px; text-transform: uppercase;}
+#help_view b { display: inline-block; font-family:"input_mono_regular",courier,monospace; }
+#help_view a { text-decoration: underline; }
+#help_view div.cat { float:left; margin-right:40px; }
+#help_view div.cat ul { margin-bottom:20px; }
+#help_view ul li { line-height:20px; }
+#help_view a:hover { text-decoration: none; cursor: pointer }
+#help_view:hover { cursor: none; pointer-events: none}

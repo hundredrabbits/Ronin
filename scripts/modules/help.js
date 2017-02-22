@@ -1,120 +1,115 @@
 function Help(rune)
 {
   Module.call(this,rune);
+
+  this.view = document.createElement("div");
   
-  this.active = function(cmd)
+  this.install = function(cmd)
   {
-    var w = window.open('about:blank','image from canvas');
+    console.log("Installing "+ronin.modules[this.rune].constructor.name);
+
+    this.view.setAttribute("id","help_view");
     var html = "";
-    html += this.view_intro();
+    html += "<img src='media/graphics/logo.black.svg' class='logo'/>";
     html += this.view_controls();
     html += this.view_modules();
-    html += this.view_filters();
     html += this.view_units();
     html += this.view_presets();
-    w.document.write("<title>Help</title><style>body { font-size:11px;background:#111; color:#fff; padding:20px; overflow-x:hidden} pre { font-family:Monaco,Courier} pre div{ border-left:5px solid #222; padding-left:20px;} pre div b { text-decoration:underline; color:#999; font-weight:normal} pre div i { font-style:normal; color:#72dec2}</style><pre>"+html+"</pre>");
+    this.view.innerHTML = "<div class='wrapper'>"+html+"<hr/></div>";
+
+    ronin.element.appendChild(this.view);
+  }
+
+  this.on_resize = function()
+  {
+    this.view.style.left = (window.innerWidth/2)-(ronin.surface.size.width/2);
+    this.view.style.top = (window.innerHeight/2)+(ronin.surface.size.height/2)+20;
+  }
+
+  this.passive = function(cmd)
+  {
+    this.view.style.display = "block";
+    ronin.cursor.element.style.display = "none";
+  }
+
+  this.key_escape = function()
+  {
+    this.view.style.display = "none";
   }
   
   //
 
-  this.view_intro = function()
-  {
-    var html = "Ronin\n\n";
-    html += "<div>Ronin is a drawing application and visual language. \nLaunch Ronin and press <b>:</b> to display the command prompt.</div>\n";
-
-    return html;
-  }
-
   this.view_controls = function()
   {
-    html = "Controls\n\n";
-    html += "<div>";
-    html += pad("ctrl",20)+"Draw Overlays\n";
-    html += pad("alt",20)+"Drag Surface\n";
-    html += pad("shift",20)+"Erase\n";
-    html += pad("shift+ctrl",20)+"Eyedrop\n";
-    html += pad("shift+alt",20)+"Move Layer\n";
-    html += "</div>";
-    html += "\n";
-    return html;
+    html = "<h1>Controls</h1>";
+    html += "<ul>";
+    html += "<li><b>ctrl</b> Draw Overlays</li>\n";
+    html += "<li><b>alt</b> Drag Surface</li>\n";
+    html += "<li><b>shift</b> Erase</li>\n";
+    html += "<li><b>shift+ctrl</b> Eyedrop</li>\n";
+    html += "<li><b>shift+alt</b> Move Layer</li>\n";
+    html += "</ul>";
+    return "<div class='cat'>"+html+"</div>";
   }
   
   this.view_modules = function()
   {
-    html = "Modules\n\n";
-    html += "<div>";
+    html = "<h1>Modules</h1>";
+    html += "<ul>";
     Object.keys(ronin.modules).forEach(function (key) {
       var parameters = "";
-      html += pad("<i>"+key+"</i> "+ronin.modules[key].constructor.name,27);
+      html += "<li><i>"+key+"</i> "+ronin.modules[key].constructor.name+" ";
       for (i = 0; i < ronin.modules[key].parameters.length; i++) {
         html += "<b>"+ronin.modules[key].parameters[i].name+"</b> ";
       }
-      html += "\n";
+      html += "</li>\n";
     });
-    html += "</div>";
+    html += "</ul>";
     html += "\n";
     
-    return html;
-  }
-
-  this.view_filters = function()
-  {
-    html = "Filters\n\n";
-    html += "<div>";
-    for(var filter in ronin.modules["%"].collection){
-      html += pad(filter,20);
-      for (i = 0; i < ronin.modules["%"].collection[filter].parameters.length; i++) {
-        html += "<b>"+ronin.modules["%"].collection[filter].parameters[i].name+"</b> ";
-      }
-      html += "\n";
-    }
-    html += "</div>";
-    html += "\n";
-    return html
+    return "<div class='cat'>"+html+"</div>";
   }
 
   this.view_units = function()
   {
-    html = "Units\n\n";
-    html += "<div>";
-    html += pad("5",20)+"value: 5\n";
-    html += pad("5,7",20)+"position: 5x 7y\n";
-    html += pad("7x9",20)+"rect: 5w 7h\n";
-    html += pad("#ff0000",20)+"color: red\n";
-    html += pad("45'",20)+"degree: 45/365\n";
-    html += pad("rate=10",20)+"variable: rate=10\n";
-    html += "</div>";
+    html = "<h1>Units</h1>\n\n";
+    html += "<ul>";
+    html += "<li>5 value: 5</li>\n";
+    html += "<li>5,7 position: 5x 7y</li>\n";
+    html += "<li>7x9 rect: 5w 7h</li>\n";
+    html += "<li>#ff0000 color: red</li>\n";
+    html += "<li>45' degree: 45/365</li>\n";
+    html += "<li>rate=10 variable: rate=10</li>\n";
+    html += "</ul>";
     html += "\n";
-    return html;
+    html += "<h1>Filters</h1>\n\n";
+    html += "<ul>";
+    for(var filter in ronin.modules["%"].collection){
+      html += "<li>"+filter+" ";
+      for (i = 0; i < ronin.modules["%"].collection[filter].parameters.length; i++) {
+        html += "<b>"+ronin.modules["%"].collection[filter].parameters[i].name+"</b> ";
+      }
+      html += "</li>\n";
+    }
+    html += "</ul>";
+    html += "\n";
+    return "<div class='cat'>"+html+"</div>";
   }
 
   this.view_presets = function()
   {
-    html = "Presets\n\n";
-    html += "<div>";
-    html += "Brushes\n";
-    html += pad("Radial Brush(8)",20)+"> 600,400 45';> 600,400 90';> 600,400 135';> 600,400 180';> 600,400 225';> 600,400 270';> 600,400 315'\n";
-    html += pad("Radial Brush(6)",20)+"> 600,400 60';> 600,400 120';> 600,400 180';> 600,400 240';> 600,400 300'\n";
-    html += pad("Symmetric Brush(XY)",20)+"> 400x 3\n";
-    html += pad("Angular brush",20)+"> 400x 1,1;> 400x 2,2;> 400x 3,3; > 1,1;> 2,2;> 3,3;\n";
+    html = "<h1>Presets</h1>\n\n";
+    for(var key in ronin.modules["-"].collection){
+      html += "<h2>"+key+"</h2><ul>";
+      for(var name in ronin.modules["-"].collection[key]){
+        html += "<li>"+name+"</li>"
+      }
+      html += "</ul>\n";
+    }
 
-    html += "\nGraphics\n";
-    html += pad("Watermark",20)+"@ 720x405 ; / ../assets/todo.jpg 720x 0,0 ; % chromatic 5 ; / ../assets/logo.png 35x35 15,355\n";
-    html += pad("Ronin Logo",20)+"+ M150,53 A-96,97 0 0,0 246,150 M150,246 A97,-96 0 0,0 53,150 M53,101 A-48,-48 0 0,0 101,53 M246,101 A48,-48 0 0,1 198,53 M53,198 A-48,48 0 0,1 101,246 M246,198 A48,48 0 0,0 198,246 stroke_width=45 line_cap=square stroke_color=black\n";
-    html += pad("Circle",20)+"+ M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0\n";
-    html += pad("Multiple Circles",20)+"+ M 64, 64 m -50, 0 a 50,50 0 1,0 100,0 a 50,50 0 1,0 -100,0;+ M 64, 64 m -45, 0 a 45,45 0 1,0 90,0 a 45,45 0 1,0 -90,0;+ M 64, 64 m -40, 0 a 40,40 0 1,0 80,0 a 40,40 0 1,0 -80,0;+ M 64, 64 m -35, 0 a 35,35 0 1,0 70,0 a 35,35 0 1,0 -70,0;+ M 64, 64 m -30, 0 a 30,30 0 1,0 60,0 a 30,30 0 1,0 -60,0;+ M 64, 64 m -25, 0 a 25,25 0 1,0 50,0 a 25,25 0 1,0 -50,0;+ M 64, 64 m -20, 0 a 20,20 0 1,0 40,0 a 20,20 0 1,0 -40,0;+ M 64, 64 m -15, 0 a 15,15 0 1,0 30,0 a 15,15 0 1,0 -30,0;+ M 64, 64 m -10, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0;+ M 64, 64 m -5, 0 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0\n";
-
-    html += "\nFilters\n";
-    html += pad("Darken",20)+"@ 640x360 ; / ../assets/photo.jpg 640x 0,0 ; % balance #333333\n";
-    html += pad("Desaturate",20)+"@ 640x360 ; / ../assets/photo.jpg 640x 0,0 ; % saturation #333333\n";
-
-    html += "\nCanvas\n";
-    html += pad("Dot-Grid",20)+"@ 300x300; @ layer=background ; @ #A1A1A1 ; . 15x15 4,4 ; @ layer=main\n";
-    html += pad("Dot-Grid Icon",20)+"@ 360x360; @ layer=background ; @ #000000 ; . 15x15 4,4 ; @ layer=main\n";
-    
-    html += "</div>";
-    return html;
+    return "<div class='cat'>"+html+"</div>";
   }
+
   
   function pad(s,length)
   {

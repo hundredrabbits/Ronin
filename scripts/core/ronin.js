@@ -16,7 +16,7 @@ function Ronin()
   this.vector   = new Vector("+");
   this.help     = new Help("?");
   this.typo     = new Typographe("&");
-  
+  this.preset   = new Preset("-");
   this.cursor   = new Cursor(".");
   
   this.modules[this.surface.rune]  = this.surface;
@@ -30,6 +30,7 @@ function Ronin()
   this.modules[this.typo.rune]     = this.typo;
   this.modules[this.stroke.rune]   = this.stroke;
   this.modules[this.vector.rune]   = this.vector;
+  this.modules[this.preset.rune]   = this.preset;
   this.modules[this.help.rune]     = this.help;
 
   this.modules[this.cursor.rune]   = this.cursor;
