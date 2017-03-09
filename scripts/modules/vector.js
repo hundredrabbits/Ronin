@@ -87,18 +87,16 @@ function Vector(rune)
   {
     this.click = true;
 
-    commander.element_input.value = "+ "+this.create_path();
-    commander.hint.update();
-    this.passive(commander.cmd());
+    ronin.terminal.input_element.value = "+ "+this.create_path();
+    this.passive(ronin.terminal.cmd());
   }
   
   this.mouse_move = function(position)
   {
     if(!this.click){ return; }
-    commander.element_input.value = "+ "+this.create_path();
-    commander.element_input.value += "L"+position.render();
-    commander.hint.update();
-    this.passive(commander.cmd());
+    ronin.terminal.input_element.value = "+ "+this.create_path();
+    ronin.terminal.input_element.value += "L"+position.render();
+    this.passive(ronin.terminal.cmd());
   }
   
   this.mouse_up = function(position)
@@ -125,9 +123,8 @@ function Vector(rune)
       }
     }
 
-    commander.element_input.value = "+ "+this.create_path();
-    commander.hint.update();
-    this.passive(commander.cmd());
+    ronin.terminal.input_element.value = "+ "+this.create_path();
+    this.passive(ronin.terminal.cmd());
     this.last_pos = position;
   }
 

@@ -11,7 +11,14 @@ function Surface(rune)
   this.render_layer = null;
 
   this.size = new Rect("200x200");
+
+  this.widget_element = document.createElement("widget");
   
+  this.install = function()
+  {
+    this.element.appendChild(this.widget_element);
+  }
+
   this.active = function(cmd)
   {
     if(cmd.rect()){
@@ -23,13 +30,15 @@ function Surface(rune)
       this.context().rect(0, 0, this.active_layer.element.width, this.active_layer.element.height);
       this.context().fillStyle = cmd.color().hex;
       this.context().fill();
+      ronin.terminal.log(new Log(this,"Filled layer: "+cmd.color().hex)); 
+      this.element.style.border = "1px solid "+cmd.color().hex;
     }
 
     if(cmd.bang() && Object.keys(ronin.surface.layers).length > 1){
       this.layers[this.active_layer.name].element.outerHTML = "";
       delete this.layers[this.active_layer.name];
       this.select_any_layer();
-      ronin.widget.update();
+      ronin.surface.update_widget();
     }
 
     if(cmd.variable("layer")){
@@ -55,7 +64,7 @@ function Surface(rune)
 
   this.add_layer = function(layer)
   {
-    console.log("Creating layer:"+layer.name+"("+(layer.manager ? layer.manager.constructor.name : "")+")"); 
+    ronin.terminal.log(new Log(this,"Creating layer:"+layer.name+(layer.manager ? "["+layer.manager.constructor.name+"]" : ""))); 
 
     layer.resize(this.size);
     this.layers[layer.name] = layer;
@@ -85,23 +94,41 @@ function Surface(rune)
     ronin.surface.element.style.marginTop = -(rect.height/2);
 
     ronin.on_resize();
+    ronin.terminal.log(new Log(this,"Resized Surface to "+this.size.render()));
   }
 
   this.widget = function()
   {
     if(!this.active_layer){ return ""; }
 
-    var s = "";
-
-    Object.keys(ronin.surface.layers).forEach(function (key) {
-      s = ronin.surface.layers[key].widget()+s;
-    });
-    return this.rune+" "+this.size.render()+"<br />"+s;
+    return this.rune+" "+this.size.render();
   }
   
   this.widget_cursor = function()
   {
     return "Drag";
+  }
+
+  // Widget
+
+  this.update_widget = function()
+  {
+    var s = "";
+    
+    s += "<span class='module'>";
+    for (var key in ronin.modules){
+      s += ronin.modules[key].widget() ? ronin.modules[key].widget()+" " : "";
+    }
+    s += "</span>";
+  
+    s += "<span class='cursor'>"+ronin.cursor.mode.widget_cursor()+"</span>";
+    
+    var keys = Object.keys(ronin.surface.layers);
+    var loc = keys.indexOf(this.active_layer.name);
+
+    s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
+
+    this.widget_element.innerHTML = s;
   }
 
   // Commands
@@ -157,8 +184,6 @@ function Surface(rune)
     ronin.surface.element.style.marginTop = -(this.size.height/2) + this.drag_offset_y;
 
     ronin.element.style.backgroundPosition = ((this.drag_offset_x/8))-(window.innerWidth % 20)+"px "+((this.drag_offset_y/8)-(window.innerWidth % 20))+"px";
-    ronin.widget.element.style.marginLeft = this.drag_offset_x;
-    ronin.widget.element.style.marginTop = this.drag_offset_y;
 
     this.drag_from = new Position(position.x,position.y);
   }

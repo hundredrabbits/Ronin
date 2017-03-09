@@ -126,7 +126,7 @@ function Cursor(rune)
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_down(position);  
     }
-    ronin.widget.update();
+    ronin.surface.update_widget();
   }
   
   this.mouse_move = function(position)
@@ -154,7 +154,7 @@ function Cursor(rune)
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_up(position);  
     }
-    ronin.widget.update();
-    commander.element_input.focus();
+    ronin.surface.update_widget();
+    ronin.terminal.input_element.focus();
   }
 }

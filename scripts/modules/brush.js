@@ -48,13 +48,13 @@ function Brush(rune)
   this.size_up = function()
   {
     this.size -= this.size > 1 ? 1 : 0;
-    ronin.widget.update();
+    ronin.surface.update_widget();
   }
 
   this.size_down = function()
   {
      this.size += 1;
-     ronin.widget.update();
+     ronin.surface.update_widget();
   }
   
   this.add_pointer = function(cmd)
@@ -80,7 +80,7 @@ function Brush(rune)
       return "Eraser "+this.size;
     }
     else{
-      return "Brush "+ronin.brush.pointers.length+"x "+this.size+" <span style='color:"+this.color.hex+"'>&#9679;</span><br />";  
+      return "<i style='color:"+this.color.hex+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.size;  
     }
   }
 

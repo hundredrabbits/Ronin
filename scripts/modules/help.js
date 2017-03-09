@@ -4,71 +4,58 @@ function Help(rune)
 
   this.view = document.createElement("div");
   
-  this.install = function(cmd)
+  this.active = function(cmd)
   {
-    console.log("Installing "+ronin.modules[this.rune].constructor.name);
+    s = "hello";
 
-    this.view.setAttribute("id","help_view");
-    var html = "";
-    html += "<img src='media/graphics/logo.black.svg' class='logo'/>";
-    html += this.view_controls();
-    html += this.view_modules();
-    html += this.view_units();
-    html += this.view_presets();
-    this.view.innerHTML = "<div class='wrapper'>"+html+"<hr/></div>";
+    lines = [];
 
-    ronin.element.appendChild(this.view);
-  }
+    // Modules
+    // TODO: Have the modules return their own help string
+    lines.push("Modules: ");
+    Object.keys(ronin.modules).forEach(function (key) {
+      html = "";
+      var parameters = "";
+      html += "<i>"+key+"</i> "+ronin.modules[key].constructor.name+" ";
+      for (i = 0; i < ronin.modules[key].parameters.length; i++) {
+        html += "<b>"+ronin.modules[key].parameters[i].name+"</b> ";
+      }
+      lines.push(html);
+    });
 
-  this.on_resize = function()
-  {
-    this.view.style.left = (window.innerWidth/2)-(ronin.surface.size.width/2);
-    this.view.style.top = (window.innerHeight/2)+(ronin.surface.size.height/2)+20;
-  }
+    // Filters
+    lines.push("Filters: ");
+    for(var filter in ronin.modules["%"].collection){
+      html = filter+" ";
+      for (i = 0; i < ronin.modules["%"].collection[filter].parameters.length; i++) {
+        html += "<b>"+ronin.modules["%"].collection[filter].parameters[i].name+"</b> ";
+      }
+      lines.push(html);
+    }
 
-  this.passive = function(cmd)
-  {
-    this.view.style.display = "block";
-    ronin.cursor.element.style.display = "none";
-  }
+    // Controls
+    lines.push("Controls: ");
+    lines.push("<b>ctrl</b> Draw Overlays\n");
+    lines.push("<b>alt</b> Drag Surface\n");
+    lines.push("<b>shift</b> Erase\n");
+    lines.push("<b>shift+ctrl</b> Eyedrop\n");
+    lines.push("<b>shift+alt</b> Move Layer\n");
 
-  this.key_escape = function()
-  {
-    this.view.style.display = "none";
+    // Units
+    lines.push("Units: ");
+    var units = [new Value(), new Position(), new Rect(), new Color(), new Angle(), new Variable(), new Bang()]
+    for(key in units){
+      lines.push(units[key].render());
+    }
+
+    // Print
+    for(line in lines){
+      ronin.terminal.log(new Log(this,lines[line]));
+    }
   }
   
   //
 
-  this.view_controls = function()
-  {
-    html = "<h1>Controls</h1>";
-    html += "<ul>";
-    html += "<li><b>ctrl</b> Draw Overlays</li>\n";
-    html += "<li><b>alt</b> Drag Surface</li>\n";
-    html += "<li><b>shift</b> Erase</li>\n";
-    html += "<li><b>shift+ctrl</b> Eyedrop</li>\n";
-    html += "<li><b>shift+alt</b> Move Layer</li>\n";
-    html += "</ul>";
-    return "<div class='cat'>"+html+"</div>";
-  }
-  
-  this.view_modules = function()
-  {
-    html = "<h1>Modules</h1>";
-    html += "<ul>";
-    Object.keys(ronin.modules).forEach(function (key) {
-      var parameters = "";
-      html += "<li><i>"+key+"</i> "+ronin.modules[key].constructor.name+" ";
-      for (i = 0; i < ronin.modules[key].parameters.length; i++) {
-        html += "<b>"+ronin.modules[key].parameters[i].name+"</b> ";
-      }
-      html += "</li>\n";
-    });
-    html += "</ul>";
-    html += "\n";
-    
-    return "<div class='cat'>"+html+"</div>";
-  }
 
   this.view_units = function()
   {
@@ -82,16 +69,7 @@ function Help(rune)
     html += "<li>rate=10 variable: rate=10</li>\n";
     html += "</ul>";
     html += "\n";
-    html += "<h1>Filters</h1>\n\n";
-    html += "<ul>";
-    for(var filter in ronin.modules["%"].collection){
-      html += "<li>"+filter+" ";
-      for (i = 0; i < ronin.modules["%"].collection[filter].parameters.length; i++) {
-        html += "<b>"+ronin.modules["%"].collection[filter].parameters[i].name+"</b> ";
-      }
-      html += "</li>\n";
-    }
-    html += "</ul>";
+    
     html += "\n";
     return "<div class='cat'>"+html+"</div>";
   }

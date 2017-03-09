@@ -12,7 +12,7 @@ function Keyboard()
       this.alt_held = true;
     }
     ronin.cursor.update(event);
-    ronin.widget.update();
+    ronin.surface.update_widget();
   }
 
   this.listen_onkeyup = function(event)
@@ -43,10 +43,9 @@ function Keyboard()
     }
 
     // Passive
-    commander.passive(commander.element_input.value);
+    ronin.terminal.passive(ronin.terminal.input_element.value);
     
-    // ronin.cursor.set_mode(ronin.brush);
-    ronin.widget.update();
+    ronin.surface.update_widget();
   };
 
   this.key_tab = function()
@@ -55,7 +54,7 @@ function Keyboard()
 
   this.key_enter = function()
   {
-    commander.query(commander.element_input.value);
+    ronin.terminal.query(ronin.terminal.input_element.value);
   }
 
   this.key_space = function()
@@ -64,12 +63,10 @@ function Keyboard()
 
   this.key_arrow_up = function()
   {
-    commander.prev_cmd();
   }
 
   this.key_arrow_down = function()
   {
-    commander.next_cmd();
   }
 
   this.key_arrow_left = function()
@@ -82,14 +79,11 @@ function Keyboard()
 
   this.key_colon = function()
   {
-    commander.show();
     return false;
   }
 
   this.key_escape = function()
   {
-    commander.hide();
-
     if(ronin.module){ ronin.module.key_escape(); }
   }
 

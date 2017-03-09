@@ -2,22 +2,21 @@ function Ronin()
 {
   this.modules  = {};
   this.element  = null;  
-  this.widget   = new Widget();
   
   this.surface  = new Surface("@");
   this.fileload = new FileLoad("/");
   this.filesave = new FileSave("$");
   this.history  = new History("^");
   this.overlay  = new Overlay("|");
-  this.brush    = new Brush(">");
+  this.brush    = new Brush("-");
   this.eye      = new Eye("*");
   this.render   = new Render("%");
   this.stroke   = new Stroke("_");
   this.vector   = new Vector("+");
   this.help     = new Help("?");
   this.typo     = new Typographe("&");
-  this.preset   = new Preset("-");
   this.cursor   = new Cursor(".");
+  this.terminal = new Terminal(">");
   
   this.modules[this.surface.rune]  = this.surface;
   this.modules[this.fileload.rune] = this.fileload;
@@ -30,8 +29,8 @@ function Ronin()
   this.modules[this.typo.rune]     = this.typo;
   this.modules[this.stroke.rune]   = this.stroke;
   this.modules[this.vector.rune]   = this.vector;
-  this.modules[this.preset.rune]   = this.preset;
   this.modules[this.help.rune]     = this.help;
+  this.modules[this.terminal.rune] = this.terminal;
 
   this.modules[this.cursor.rune]   = this.cursor;
 
@@ -71,6 +70,5 @@ function Ronin()
 
   this.on_resize = function()
   {
-    this.widget.on_resize();
   }
 }
