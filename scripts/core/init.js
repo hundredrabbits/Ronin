@@ -37,7 +37,7 @@ ronin.terminal.query("@ layer=Main");
 ronin.terminal.query("- 0,0");
 ronin.terminal.query("- 1,1");
 ronin.terminal.query("- 2,2");
-ronin.terminal.query("- #ff0000");
+ronin.terminal.query("- #ff00ff");
 ronin.terminal.query("~ Ready.");
 
 ronin.terminal.input_element.focus();

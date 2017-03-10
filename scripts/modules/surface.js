@@ -126,8 +126,13 @@ function Surface(rune)
     var keys = Object.keys(ronin.surface.layers);
     var loc = keys.indexOf(this.active_layer.name);
 
-    s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
-
+    if(keys.length > 1){
+      s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
+    }
+    else{
+      s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"</span>";
+    }
+  
     this.widget_element.innerHTML = s;
   }
 

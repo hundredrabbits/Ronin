@@ -6,13 +6,6 @@ function Overlay(rune)
   
   this.color = new Color("#ffffff");
 
-  this.install = function()
-  {
-    this.layer = new Layer("Overlay.Guide",this);
-    this.layer.element.setAttribute("style","z-index:9000");
-    ronin.surface.add_layer(this.layer);
-  }
-
   this.passive = function(cmd)
   {
     this.draw(cmd.position(),cmd.rect());

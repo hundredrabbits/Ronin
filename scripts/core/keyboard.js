@@ -13,6 +13,7 @@ function Keyboard()
     }
     ronin.cursor.update(event);
     ronin.surface.update_widget();
+    ronin.terminal.update_hint();
   }
 
   this.listen_onkeyup = function(event)
@@ -45,6 +46,7 @@ function Keyboard()
     // Passive
     ronin.terminal.passive(ronin.terminal.input_element.value);
     ronin.surface.update_widget();
+    ronin.terminal.update_hint();
   };
 
   this.key_tab = function()

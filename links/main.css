@@ -13,7 +13,7 @@ canvas:hover { cursor: none;}
 #cursor { width:10px; height:10px; position:fixed;border:1px solid red; border-radius:10px; z-index:8000; pointer-events: none}
 
 #terminal { position: fixed; bottom:0px; left:0px; background:#000; width:100vw; height: 120px;overflow: hidden;}
-#terminal input { display: block; position:absolute; bottom:0px; width:100vw; padding:0px 5px; font-size:10px; line-height: 20px; background:none; z-index:900; color: #ff680a;}
+#terminal input { display: block; position:absolute; bottom:0px; width:100vw; padding:0px 5px; font-size:10px; line-height: 20px; background:none; z-index:900; color:white;}
 #terminal hint { background:#000; position:absolute; bottom:0px; line-height: 20px; padding:0px 5px; width:100vw; color:#777; font-size:10px; white-space: pre;}
 #terminal hint .name { font-family: "input_mono_regular"; color:#999; }
 #terminal logs { display: block;position: absolute;bottom:20px;width:100vw;color:white}

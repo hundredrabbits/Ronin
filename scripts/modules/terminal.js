@@ -15,6 +15,8 @@ function Terminal(rune)
     this.element.appendChild(this.logs_element);
 
     this.hint_element.innerHTML = "_";
+
+    this.update_log();
   }
 
   this.active = function(cmd)
@@ -92,9 +94,21 @@ function Terminal(rune)
 
   //
 
+  this.logs = [];
+
   this.log = function(log)
   {
-    this.logs_element.appendChild(log.element);
+    this.logs.push(log);
+  }
+
+  this.update_log = function()
+  {
+    if(ronin.terminal.logs[0]){
+      ronin.terminal.logs_element.appendChild(ronin.terminal.logs[0].element);
+      ronin.terminal.logs.shift();
+    }
+
+    setTimeout(function(){ ronin.terminal.update_log(); }, 200);
   }
 
   // Hint
@@ -109,15 +123,23 @@ function Terminal(rune)
     if(content.indexOf(";") > -1){
       var h = padding+" "+content.split(";").length+" commands";
     }
-    else{
+    else if(ronin.module){
       var h = padding+" <span class='name'>"+ronin.module.constructor.name+"</span> ";
       for(param in ronin.module.parameters){
         var name = new ronin.module.parameters[param]().constructor.name;
         h += name+" ";
       }
+      for(variable in ronin.module.variables){
+        h += variable+"="+ronin.module.variables[variable]+" ";
+      }
+    }
+    else{
+      var h = padding+" ";
     }
 
     this.hint_element.innerHTML = h;
+
+    ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
   }
 
 
