@@ -3,7 +3,7 @@ function Vector(rune)
   Module.call(this,rune);
   
   this.parameters = [Any];
-  this.variables  = {"fill_color" : "none","stroke_width" : 5,"stroke_color" : "#ffffff", "line_cap" : "square"};
+  this.variables  = {"fill_color" : null,"stroke_width" : 5,"stroke_color" : "#ffffff", "line_cap" : "square"};
 
   this.coordinates = [];
   this.last_pos = null;
@@ -13,13 +13,16 @@ function Vector(rune)
   
   this.passive = function(cmd)
   {
-    if(!this.layer){ this.create_layer(); }
+    if(!ronin.vector.layer){ ronin.vector.create_layer(); }
 
     this.layer.clear();
     this.layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
     this.layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
     this.layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
-    this.layer.context().stroke(new Path2D(cmd.content.join(" ")));
+    this.layer.context().fillStyle = cmd.variable("fill_color") ? cmd.variable("fill_color").value : "#ffffff";
+
+    if(cmd.variable("fill_color")){ronin.vector.layer.context().fill(new Path2D(cmd.content.join(" ")));}
+    ronin.vector.layer.context().stroke(new Path2D(cmd.content.join(" ")));
   }
   
   this.active = function(cmd)
@@ -32,12 +35,14 @@ function Vector(rune)
     ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
     ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
     ronin.surface.active_layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
+    ronin.surface.active_layer.context().fillStyle = cmd.variable("fill_color") ? cmd.variable("fill_color").value : "#ffffff";
+
+    if(cmd.variable("fill_color")){ronin.surface.active_layer.context().fill(new Path2D(cmd.content.join(" ")));}
     ronin.surface.active_layer.context().stroke(new Path2D(cmd.content.join(" ")));
   }
 
   // Tools
-
-
+  
   this.create_path = function()
   {
     var command = "";
