@@ -44,7 +44,6 @@ function Keyboard()
 
     // Passive
     ronin.terminal.passive(ronin.terminal.input_element.value);
-    
     ronin.surface.update_widget();
   };
 
@@ -84,7 +83,9 @@ function Keyboard()
 
   this.key_escape = function()
   {
-    if(ronin.module){ ronin.module.key_escape(); }
+    for(var key in ronin.modules){
+      ronin.modules[key].key_escape();
+    }
   }
 
   this.key_delete = function()

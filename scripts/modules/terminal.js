@@ -27,11 +27,13 @@ function Terminal(rune)
     var cmd = new Command(content.substring(1).trim().split(" "));
     
     ronin.module = null;
+    this.hint_element.innerHTML = "";
     
     if(ronin.modules[key]){
       ronin.modules[key].passive(cmd);
       ronin.module = ronin.modules[key];
       ronin.cursor.set_mode(ronin.module);
+      this.update_hint(content);
     }
     else{
       ronin.cursor.set_mode(ronin.brush);
@@ -45,6 +47,8 @@ function Terminal(rune)
     var cmd = new Command(content.substring(1).trim().split(" "));
     return cmd;
   }
+
+  // Queue
 
   this.queue = [];
   
@@ -86,9 +90,40 @@ function Terminal(rune)
     }    
   }
 
+  //
+
   this.log = function(log)
   {
     this.logs_element.appendChild(log.element);
+  }
+
+  // Hint
+
+  this.update_hint = function(content = this.input_element.value)
+  {
+    var padding = "";
+    for (var i = 0; i < this.input_element.value.length; i++) {
+      padding += " ";
+    }
+
+    if(content.indexOf(";") > -1){
+      var h = padding+" "+content.split(";").length+" commands";
+    }
+    else{
+      var h = padding+" <span class='name'>"+ronin.module.constructor.name+"</span> ";
+      for(param in ronin.module.parameters){
+        var name = new ronin.module.parameters[param]().constructor.name;
+        h += name+" ";
+      }
+    }
+
+    this.hint_element.innerHTML = h;
+  }
+
+
+  this.key_escape = function()
+  {
+    this.input_element.value = "";
   }
 }
 

@@ -89,6 +89,7 @@ function Vector(rune)
 
     ronin.terminal.input_element.value = "+ "+this.create_path();
     this.passive(ronin.terminal.cmd());
+    ronin.terminal.update_hint();
   }
   
   this.mouse_move = function(position)
@@ -97,6 +98,7 @@ function Vector(rune)
     ronin.terminal.input_element.value = "+ "+this.create_path();
     ronin.terminal.input_element.value += "L"+position.render();
     this.passive(ronin.terminal.cmd());
+    ronin.terminal.update_hint();
   }
   
   this.mouse_up = function(position)
@@ -126,6 +128,7 @@ function Vector(rune)
     ronin.terminal.input_element.value = "+ "+this.create_path();
     this.passive(ronin.terminal.cmd());
     this.last_pos = position;
+    ronin.terminal.update_hint();
   }
 
   this.key_escape = function()

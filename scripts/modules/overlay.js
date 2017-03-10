@@ -111,6 +111,7 @@ function Overlay(rune)
   
   this.context = function()
   {
+    if(!this.layer){ this.create_layer(); }
     return this.layer.context();
   }
   
@@ -128,9 +129,7 @@ function Overlay(rune)
     ronin.overlay.clear();
     ronin.overlay.draw_pointer(position);
     this.live_draw_from = position;
-    commander.show();
-    commander.element_input.focus();
-    commander.element_input.value = "| "+this.live_draw_from.render();
+    ronin.terminal.input_element.value = "| "+this.live_draw_from.render();
   }
   
   this.mouse_move = function(position)
@@ -144,13 +143,15 @@ function Overlay(rune)
     rect.height = position.y - this.live_draw_from.y;
   
     ronin.overlay.draw_rect(this.live_draw_from,rect);
-    commander.element_input.value = "| "+this.live_draw_from.render()+" "+rect.render();
+    ronin.terminal.input_element.value = "| "+this.live_draw_from.render()+" "+rect.render();
+
+    ronin.terminal.update_hint();
   }
   
   this.mouse_up = function(position)
   {
     this.live_draw_from = null;
-    commander.element_input.focus();
+    ronin.terminal.input_element.focus();
   }
   
   // Widget
@@ -158,5 +159,10 @@ function Overlay(rune)
   this.widget_cursor = function()
   {
     return "Guide";
+  }
+
+  this.key_escape = function()
+  {
+    if(this.layer){ this.layer.remove(this); }
   }
 }

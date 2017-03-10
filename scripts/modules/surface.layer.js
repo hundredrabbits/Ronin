@@ -1,5 +1,6 @@
 function Layer(name,manager = null)
 {
+  this.rune = "@";
   this.name = name;
   this.manager = manager;
   this.element = document.createElement("canvas");
@@ -8,7 +9,7 @@ function Layer(name,manager = null)
 
   this.resize = function(rect)
   {
-    console.log("Resize "+this.name+" to "+rect.render());
+    ronin.terminal.log(new Log(this,"Resize "+this.name+" to "+rect.render()));
 
     var pixels_rect   = new Rect(this.element.width+"x"+this.element.height);
     
@@ -27,7 +28,7 @@ function Layer(name,manager = null)
 
   this.remove = function(manager)
   {
-    console.log("Removing layer "+this.name);
+    ronin.terminal.log(new Log(this,"Removing layer "+this.name));
     manager.layer = null;
     ronin.surface.layers[this.name].element.outerHTML = "";
     delete ronin.surface.layers[this.name];
@@ -52,10 +53,9 @@ function Layer(name,manager = null)
 
   this.widget = function()
   {
-    var e_name = "";
-    e_name += this.name;
-
+    var e_name = this.name;
     var e_class = "";
+    
     if(ronin.surface.active_layer.name == this.name){ e_class += "highlight "; }
     if(this.manager != null){ e_class += "managed "; }
 

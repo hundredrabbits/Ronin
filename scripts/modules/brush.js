@@ -49,12 +49,14 @@ function Brush(rune)
   {
     this.size -= this.size > 1 ? 1 : 0;
     ronin.surface.update_widget();
+    ronin.terminal.log(new Log(this,"Increased pointer size to: "+this.size));
   }
 
   this.size_down = function()
   {
-     this.size += 1;
-     ronin.surface.update_widget();
+    this.size += 1;
+    ronin.surface.update_widget();
+    ronin.terminal.log(new Log(this,"Decreased pointer size to: "+this.size));
   }
   
   this.add_pointer = function(cmd)
