@@ -17,29 +17,48 @@ function Eye(rune)
     return "Eye";
   }
   
-  this.color_picker = function(position)
+  // TODO: If a rect is given, return the average color
+  this.color_picker = function(position,rect = null)
   {
-    var imgData = ronin.surface.context().getImageData(position.x, position.y, 1, 1).data;
+    var imgData = ronin.surface.context().getImageData(position.x*2, position.y*2, 1, 1).data;
     var c = new Color();
-    commander.show();
-    commander.element_input.focus();
-    commander.element_input.value = "> "+(c.rgb_to_hex(imgData));
+    ronin.terminal.input_element.value = "* "+(c.rgb_to_hex(imgData));
+    ronin.terminal.update_hint();
   }
   
   // Cursor
   
+  this.live_draw_from = null;
+
   this.mouse_down = function(position)
   {
+    this.click = true;
+    this.live_draw_from = position;
+    ronin.overlay.draw(position);
     this.color_picker(position);
   }
   
   this.mouse_move = function(position)
   {
-    this.color_picker(position);
+    if(!this.click){ return; }
+
+    var rect = new Rect();
+    rect.width = position.x - this.live_draw_from.x;
+    rect.height = position.y - this.live_draw_from.y;
+  
+    ronin.overlay.draw(this.live_draw_from,rect);
+
+    this.color_picker(position,rect);
   }
   
   this.mouse_up = function(position)
   {
-    this.color_picker(position);
+    this.click = null;
+
+    var rect = new Rect();
+    rect.width = position.x - this.live_draw_from.x;
+    rect.height = position.y - this.live_draw_from.y;
+
+    this.color_picker(position,rect);
   }
 }

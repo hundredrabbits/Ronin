@@ -6,6 +6,9 @@ function Terminal(rune)
   this.input_element = document.createElement("input");
   this.hint_element = document.createElement("hint");
   this.logs_element = document.createElement("logs");
+  this.menu_element = document.createElement("menu");
+
+  this.history = [];
 
   // Module
   this.install = function(cmd)
@@ -13,6 +16,7 @@ function Terminal(rune)
     this.element.appendChild(this.input_element);
     this.element.appendChild(this.hint_element);
     this.element.appendChild(this.logs_element);
+    this.element.appendChild(this.menu_element);
 
     this.hint_element.innerHTML = "_";
 
@@ -26,7 +30,7 @@ function Terminal(rune)
   this.passive = function(content)
   {
     var key = content[0];
-    var cmd = new Command(content.substring(1).trim().split(" "));
+    var cmd = this.cmd();
     
     ronin.module = null;
     this.hint_element.innerHTML = "";
@@ -85,7 +89,9 @@ function Terminal(rune)
 
     if(ronin.modules[key]){
       ronin.modules[key].active(cmd);
-      ronin.history.add(content);
+      ronin.terminal.history.push(content);
+      ronin.terminal.history_index = ronin.terminal.history.length-1;
+      ronin.terminal.update_menu();
     }
     else{
       ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+key));
@@ -134,7 +140,10 @@ function Terminal(rune)
       }
     }
     else{
-      var h = padding+" ";
+      var h = "";
+      for(module in ronin.modules){
+        h += module+" ";
+      }
     }
 
     this.hint_element.innerHTML = h;
@@ -142,10 +151,32 @@ function Terminal(rune)
     ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
   }
 
+  this.update_menu = function()
+  {
+    this.menu_element.innerHTML = ronin.terminal.history.length;
+  }
 
   this.key_escape = function()
   {
     this.input_element.value = "";
+  }
+
+  this.key_arrow_up = function()
+  { 
+    this.history_index -= 1;
+
+    if(this.history_index < 0){ this.history_index = 0; }
+    
+    ronin.terminal.input_element.value = "> "+ronin.terminal.history[this.history_index];
+  }
+
+  this.key_arrow_down = function()
+  { 
+    this.history_index += 1;
+
+    if(this.history_index >= this.history.length){ this.history_index = this.history.length-1; }
+
+    ronin.terminal.input_element.value = "> "+ronin.terminal.history[this.history_index];
   }
 }
 

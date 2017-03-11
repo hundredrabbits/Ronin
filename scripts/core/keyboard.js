@@ -38,8 +38,8 @@ function Keyboard()
       case 27:  this.key_escape(); break;
       case 219:  ronin.brush.size_up(); break;
       case 221:  ronin.brush.size_down(); break;
-      case 38:  ronin.surface.layer_up(); break;
-      case 40:  ronin.surface.layer_down(); break;
+      case 38:  this.key_arrow_up(); break;
+      case 40:  this.key_arrow_down(); break;
       case 8: this.key_delete(); break;
     }
 
@@ -64,18 +64,22 @@ function Keyboard()
 
   this.key_arrow_up = function()
   {
+    if(ronin.module){ ronin.module.key_arrow_up(); }
   }
 
   this.key_arrow_down = function()
   {
+    if(ronin.module){ ronin.module.key_arrow_down(); }
   }
 
   this.key_arrow_left = function()
   {
+    if(ronin.module){ ronin.module.key_arrow_left(); }
   }
 
   this.key_arrow_right = function()
   {
+    if(ronin.module){ ronin.module.key_arrow_right(); }
   }
 
   this.key_colon = function()

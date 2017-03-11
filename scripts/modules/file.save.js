@@ -3,7 +3,7 @@ function FileSave(rune)
   Module.call(this,rune);
   
   this.parameters = [];
-  this.variables  = {"format" : "[png/jpg/svg]"};
+  this.variables  = {"format" : "[png/jpg/svg/rin]"};
 
   this.docs = "Creates a new window with a image of the resulting canvas in the specified format.";
 
@@ -20,6 +20,12 @@ function FileSave(rune)
     }
     else if(cmd.variable("format") && cmd.variable("format").value == "jpg"){
       w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/jpeg')+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/></body>");
+    }
+    else if(cmd.variable("format") && cmd.variable("format").value == "rin"){
+      var w = window.open('about:blank','source');
+      var html = "";
+      for (i = 0; i < ronin.terminal.history.length; i++) { html += ronin.terminal.history[i]+";<br />"; }
+      w.document.write("<title>Source</title><pre>"+html+"</pre>");
     }
     else{
       w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.surface.size.width+"px' height='"+ronin.surface.size.height+"px'/></body>");

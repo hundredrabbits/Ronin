@@ -6,12 +6,10 @@ function Ronin()
   this.surface  = new Surface("@");
   this.fileload = new FileLoad("/");
   this.filesave = new FileSave("$");
-  this.history  = new History("^");
   this.overlay  = new Overlay("|");
   this.brush    = new Brush("-");
   this.eye      = new Eye("*");
   this.render   = new Render("%");
-  this.stroke   = new Stroke("_");
   this.vector   = new Vector("+");
   this.help     = new Help("?");
   this.typo     = new Typographe("&");
@@ -21,13 +19,11 @@ function Ronin()
   this.modules[this.surface.rune]  = this.surface;
   this.modules[this.fileload.rune] = this.fileload;
   this.modules[this.filesave.rune] = this.filesave;
-  this.modules[this.history.rune]  = this.history;
   this.modules[this.overlay.rune]  = this.overlay;
   this.modules[this.render.rune]   = this.render;
   this.modules[this.brush.rune]    = this.brush;
   this.modules[this.eye.rune]      = this.eye;
   this.modules[this.typo.rune]     = this.typo;
-  this.modules[this.stroke.rune]   = this.stroke;
   this.modules[this.vector.rune]   = this.vector;
   this.modules[this.help.rune]     = this.help;
   this.modules[this.terminal.rune] = this.terminal;

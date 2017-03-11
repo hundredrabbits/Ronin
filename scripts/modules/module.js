@@ -102,4 +102,22 @@ function Module(rune)
   this.key_delete = function()
   {
   }
+
+  this.key_arrow_up = function()
+  { 
+    ronin.surface.layer_up();
+  }
+
+  this.key_arrow_down = function()
+  { 
+    ronin.surface.layer_down();
+  }
+
+  this.key_arrow_left = function()
+  { 
+  }
+
+  this.key_arrow_right = function()
+  { 
+  }
 }

@@ -62,10 +62,14 @@ function Overlay(rune)
   {
     this.context().beginPath();
     
-    this.context().moveTo(position.x,position.y);
-    this.context().lineTo(position.x + 10,position.y);
-    this.context().lineTo(position.x,position.y + 10);
-    this.context().lineTo(position.x,position.y);
+    this.context().moveTo(position.x + 2,position.y);
+    this.context().lineTo(position.x + 5,position.y);
+    this.context().moveTo(position.x,position.y + 2);
+    this.context().lineTo(position.x,position.y + 5);
+    this.context().moveTo(position.x - 2,position.y);
+    this.context().lineTo(position.x - 5,position.y);
+    this.context().moveTo(position.x,position.y - 2);
+    this.context().lineTo(position.x,position.y - 5);
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
