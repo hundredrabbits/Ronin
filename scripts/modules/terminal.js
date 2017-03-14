@@ -121,34 +121,20 @@ function Terminal(rune)
 
   this.update_hint = function(content = this.input_element.value)
   {
-    var padding = "";
-    for (var i = 0; i < this.input_element.value.length; i++) {
-      padding += " ";
-    }
+    ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
 
     if(content.indexOf(";") > -1){
-      var h = padding+" "+content.split(";").length+" commands";
+      this.hint_element.innerHTML = padding+" "+content.split(";").length+" commands";
     }
     else if(ronin.module){
-      var h = padding+" <span class='name'>"+ronin.module.constructor.name+"</span> ";
-      for(param in ronin.module.parameters){
-        var name = new ronin.module.parameters[param]().constructor.name;
-        h += name+" ";
-      }
-      for(variable in ronin.module.variables){
-        h += variable+"="+ronin.module.variables[variable]+" ";
-      }
+      this.hint_element.innerHTML = ronin.module.hint(content);  
     }
     else{
-      var h = "";
+      this.hint_element.innerHTML = "";
       for(module in ronin.modules){
-        h += module+" ";
+        this.hint_element.innerHTML += "<b>"+module+"</b> "+ronin.modules[module].constructor.name+" ";
       }
-    }
-
-    this.hint_element.innerHTML = h;
-
-    ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
+    } 
   }
 
   this.update_menu = function()
