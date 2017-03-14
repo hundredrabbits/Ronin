@@ -37,7 +37,7 @@ function Render(rune)
 	
   this.hint = function(content)
   {
-    var name = content.trim().replace(this.rune,"").trim().split(" ");
+    var name = content.trim().replace(this.rune,"").trim().split(" ")[0];
 
     var h = "";
     if(this.collection[name]){

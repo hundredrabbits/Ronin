@@ -46,11 +46,11 @@ function Filter_Stencil()
 
     context.font = "5px Arial";
     context.fillStyle = color; 
-    context.fillText("GRID",(w*0.4)+10,10);
+    context.fillText(angle+"'",(w*0.4)+10,10);
 
     context.font = "5px Arial";
     context.fillStyle = color; 
-    context.fillText("GRID",(-w*0.4)-20,-10);
+    context.fillText(angle+"'",(-w*0.4)-20,-10);
 
     context.rotate(-angle*Math.PI/180);
     context.translate(-w/2,-h/2);
