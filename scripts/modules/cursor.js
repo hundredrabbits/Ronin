@@ -24,9 +24,7 @@ function Cursor(rune)
 
   this.active = function(cmd)
   {
-    console.log("!");
     if(cmd.bang()){
-      console.log("??");
       this.magnetism = null;
       if(this.layer){ this.layer.remove(this); }
       return;

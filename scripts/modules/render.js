@@ -45,6 +45,12 @@ function Render(rune)
         h += this.collection[name].parameters[i].name+" ";
       }
     }
+    else if(name){
+      for (var key in this.collection){
+        if(name != key.substr(0,name.length)){ continue; }
+        h += key.substr(name.length)+" ";
+      }  
+    }
     else{
       for (var key in this.collection){
         h += key+" ";

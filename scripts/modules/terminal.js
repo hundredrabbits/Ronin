@@ -88,6 +88,7 @@ function Terminal(rune)
     var cmd = new Command(content.substring(1).trim().split(" "));
 
     if(ronin.modules[key]){
+      ronin.modules[key].set_variables(cmd);
       ronin.modules[key].active(cmd);
       ronin.terminal.history.push(content);
       ronin.terminal.history_index = ronin.terminal.history.length-1;

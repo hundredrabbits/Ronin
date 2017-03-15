@@ -28,8 +28,6 @@ function Brush(rune)
     if(cmd.value()){
       this.size = cmd.value().float;
     }
-    
-    this.update_variables(cmd);
   }
   
   this.passive = function(cmd)

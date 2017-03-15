@@ -28,11 +28,12 @@ function Module(rune)
   {
   }
   
-  this.update_variables = function(cmd)
+  this.set_variables = function(cmd)
   {
     for (var key in this.variables){
       if(!cmd.variable(key)){ continue; }
       this.variables[key] = cmd.variable(key).value;
+      ronin.terminal.log(new Log(this,"Updated "+key+" with "+cmd.variable(key).value));
     }
   }
   
