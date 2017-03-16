@@ -16,7 +16,7 @@ function Typographe(rune)
 
   this.passive = function(cmd)
   {
-    if(!this.layer){ this.create_layer(); }
+    if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
 
     if(cmd.variable("text")){
       this.layer.clear();

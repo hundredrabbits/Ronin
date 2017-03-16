@@ -20,6 +20,12 @@ function Module(rune)
     ronin.surface.add_layer(this.layer);
   }
 
+  this.select_layer = function()
+  {
+    if(!this.layer){ this.create_layer(); }
+    return this.layer;
+  }
+
   this.active = function(cmd)
   {
   }

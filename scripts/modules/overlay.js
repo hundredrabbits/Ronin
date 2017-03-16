@@ -50,6 +50,27 @@ function Overlay(rune)
     this.context().lineTo(position.x + rect.width,position.y + rect.height);
     this.context().lineTo(position.x,position.y + rect.height);
     this.context().lineTo(position.x,position.y);
+
+    // Limits
+    this.context().moveTo(position.x + (rect.width/2),position.y-2);
+    this.context().lineTo(position.x + (rect.width/2),position.y+2);
+    this.context().moveTo(position.x + (rect.width/2),position.y + rect.height-2);
+    this.context().lineTo(position.x + (rect.width/2),position.y + rect.height+2);
+    this.context().moveTo(position.x + rect.width-2,position.y + (rect.height/2));
+    this.context().lineTo(position.x + rect.width+2,position.y + (rect.height/2));
+    this.context().moveTo(position.x+2,position.y + (rect.height/2));
+    this.context().lineTo(position.x-2,position.y + (rect.height/2));
+
+    // Center
+    this.context().moveTo(position.x + (rect.width/2) + 3,position.y + (rect.height/2));
+    this.context().lineTo(position.x + (rect.width/2) + 5,position.y + (rect.height/2));
+    this.context().moveTo(position.x + (rect.width/2) - 3,position.y + (rect.height/2));
+    this.context().lineTo(position.x + (rect.width/2) - 5,position.y + (rect.height/2));
+
+    this.context().moveTo(position.x + (rect.width/2),position.y + (rect.height/2) + 3);
+    this.context().lineTo(position.x + (rect.width/2),position.y + (rect.height/2) + 5);
+    this.context().moveTo(position.x + (rect.width/2),position.y + (rect.height/2) - 3);
+    this.context().lineTo(position.x + (rect.width/2),position.y + (rect.height/2) - 5);
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
@@ -108,7 +129,7 @@ function Overlay(rune)
   
   this.context = function()
   {
-    if(!this.layer){ this.create_layer(); }
+    if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
     return this.layer.context();
   }
   

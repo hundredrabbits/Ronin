@@ -17,6 +17,15 @@ function Surface(rune)
   this.install = function()
   {
     this.element.appendChild(this.widget_element);
+    this.blink();
+  }
+
+  this.blink = function()
+  {
+    Object.keys(ronin.surface.layers).forEach(function (key) {
+      ronin.surface.layers[key].blink();
+    });
+    setTimeout(function(){ ronin.surface.blink(); }, 30);
   }
 
   this.active = function(cmd)
@@ -106,7 +115,7 @@ function Surface(rune)
   
   this.widget_cursor = function()
   {
-    return "Drag";
+    return "Crop";
   }
 
   // Widget
@@ -162,39 +171,38 @@ function Surface(rune)
   {
     return this.active_layer.context();
   }
-  
+
   // Cursor
   
-  this.drag_from = null;
-  this.drag_offset_x = 0;
-  this.drag_offset_y = 0;
+  this.live_draw_from = null;
 
   this.mouse_down = function(position)
   {
-    this.drag_from = ronin.position_in_window(position);
+    ronin.overlay.clear();
+    ronin.overlay.draw_pointer(position);
+    this.live_draw_from = position;
+    ronin.terminal.input_element.value = "| "+this.live_draw_from.render();
   }
   
   this.mouse_move = function(position)
   {
-    if(this.drag_from === null){ return; }
+    if(this.live_draw_from === null){ return; }
     
-    position = ronin.position_in_window(position);
+    ronin.overlay.clear();
     
-    var offset_x = this.drag_from.x - position.x;
-    var offset_y = this.drag_from.y - position.y;
-    this.drag_offset_x -= offset_x;
-    this.drag_offset_y -= offset_y;
-    
-    ronin.surface.element.style.marginLeft = -(this.size.width/2) + this.drag_offset_x;
-    ronin.surface.element.style.marginTop = -(this.size.height/2) + this.drag_offset_y;
+    var rect = new Rect();
+    rect.width = position.x - this.live_draw_from.x;
+    rect.height = position.y - this.live_draw_from.y;
+  
+    ronin.overlay.draw_rect(this.live_draw_from,rect);
+    ronin.terminal.input_element.value = "@ "+this.live_draw_from.render()+" "+rect.render();
 
-    ronin.element.style.backgroundPosition = ((this.drag_offset_x/8))-(window.innerWidth % 20)+"px "+((this.drag_offset_y/8)-(window.innerWidth % 20))+"px";
-
-    this.drag_from = new Position(position.x,position.y);
+    ronin.terminal.update_hint();
   }
   
-  this.mouse_up = function(event)
+  this.mouse_up = function(position)
   {
-    this.drag_from = null;
+    this.live_draw_from = null;
+    ronin.terminal.input_element.focus();
   }
 }

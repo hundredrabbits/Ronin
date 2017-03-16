@@ -67,14 +67,11 @@ function Layer(name,manager = null)
   this.mouse_down = function(position)
   {
     this.move_from = ronin.position_in_window(position);
-    ronin.stroke.new_stroke();
   }
   
   this.mouse_move = function(position)
   {
     if(this.move_from === null){ return; }
-    
-    ronin.stroke.append_stroke(position); // Save to stroke
 
     position = ronin.position_in_window(position);
     
@@ -92,6 +89,16 @@ function Layer(name,manager = null)
   this.mouse_up = function(event)
   {
     this.move_from = null;
-    ronin.stroke.save_stroke("move");
+  }
+
+  // Blink
+
+  this.is_blinking = false;
+
+  this.blink = function()
+  {
+    if(this.is_blinking == false){ return; }
+    
+    this.element.style.display = this.element.style.display == "none" ? "block" : "none";
   }
 }

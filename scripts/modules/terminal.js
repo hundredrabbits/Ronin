@@ -125,7 +125,7 @@ function Terminal(rune)
     ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
 
     if(content.indexOf(";") > -1){
-      this.hint_element.innerHTML = padding+" "+content.split(";").length+" commands";
+      this.hint_element.innerHTML = " "+content.split(";").length+" commands";
     }
     else if(ronin.module){
       this.hint_element.innerHTML = ronin.module.hint(content);  

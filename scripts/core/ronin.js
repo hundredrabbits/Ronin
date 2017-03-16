@@ -3,6 +3,7 @@ function Ronin()
   this.modules  = {};
   this.element  = null;  
   
+  this.default  = new Default("`");
   this.surface  = new Surface("@");
   this.fileload = new FileLoad("/");
   this.filesave = new FileSave("$");

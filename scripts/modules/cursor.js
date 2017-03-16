@@ -79,7 +79,7 @@ function Cursor(rune)
       this.set_mode(ronin.surface.active_layer);
     }
     else if(event.altKey == true){
-      this.set_mode(ronin.surface);
+      this.set_mode(ronin.default);
     }
     else{
       this.set_mode(ronin.brush);
@@ -124,7 +124,6 @@ function Cursor(rune)
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_down(position);  
     }
-    ronin.surface.update_widget();
   }
   
   this.mouse_move = function(position)
@@ -152,7 +151,6 @@ function Cursor(rune)
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_up(position);  
     }
-    ronin.surface.update_widget();
     ronin.terminal.input_element.focus();
   }
 }
