@@ -8,7 +8,7 @@ function FileLoad(rune)
   {
     ronin.overlay.clear();
     
-    if(!cmd.filepath() && !cmd.value()){ return; }
+    if(!cmd.filepath() && !cmd.value()){ ronin.terminal.log(new Log(this,"Missing image path.","error")); return; }
     
     var position = cmd.position() ? cmd.position() : new Position();
     
@@ -34,16 +34,33 @@ function FileLoad(rune)
   }
   
   this.passive = function(cmd)
+  {    
+    ronin.overlay.draw(cmd.position(),cmd.rect());
+  }
+
+  this.mouse_mode = function()
   {
-    if(!cmd.filepath() && !cmd.value()){ return; }
-    
-    var position = cmd.position() ? cmd.position() : new Position();
-    
-    if(position && cmd.rect()){
-      ronin.overlay.draw(position,cmd.rect());
-    }
-    else if(position){
-      ronin.overlay.draw(position);
-    }
+    return "Place";
+  }
+
+  this.mouse_down = function(position)
+  {
+    ronin.overlay.draw(position);
+    ronin.terminal.input_element.value = "/ "+position.render();
+    ronin.terminal.update_hint();
+  }
+  
+  this.mouse_move = function(position,rect)
+  {
+    ronin.overlay.draw(this.mouse_from,rect);
+    ronin.terminal.input_element.value = "/ "+this.mouse_from.render()+" "+rect.render();
+    ronin.terminal.update_hint();
+  }
+  
+  this.mouse_up = function(position,rect)
+  {
+    ronin.overlay.draw(this.mouse_from,rect);
+    ronin.terminal.input_element.value = "/ "+this.mouse_from.render()+" "+rect.render();
+    ronin.terminal.update_hint();
   }
 }

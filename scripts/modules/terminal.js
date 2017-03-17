@@ -169,8 +169,9 @@ function Terminal(rune)
 
 // Log
 
-function Log(host,message)
+function Log(host,message,type = "default")
 {
   this.element = document.createElement("log");
+  this.element.setAttribute("class",type);
   this.element.innerHTML = "<span class='rune'>"+host.rune+"</span> "+message;
 }

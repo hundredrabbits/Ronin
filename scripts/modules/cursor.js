@@ -10,8 +10,6 @@ function Cursor(rune)
   this.magnetism = null;
   this.grid = new Position(4,4);
 
-  this.element = null;
-
   this.passive = function(cmd)
   {
     if(!cmd.rect()){ return; }
@@ -70,6 +68,49 @@ function Cursor(rune)
     context.fill();
   }
 
+  this.draw_pointer = function(position,size = 1)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.clear();
+
+    this.layer.context().beginPath();
+    this.layer.context().moveTo(this.pointer_last.x,this.pointer_last.y);
+    this.layer.context().lineTo(position.x,position.y);
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.layer.context().beginPath();
+    this.layer.context().arc(position.x, position.y, 0.5, 0, 2 * Math.PI, false);
+    this.layer.context().fillStyle = 'white';
+    this.layer.context().fill();
+    this.layer.context().closePath();
+
+    this.layer.context().beginPath();
+    
+    this.layer.context().moveTo(position.x + 2,position.y);
+    this.layer.context().lineTo(position.x + 5,position.y);
+    this.layer.context().moveTo(position.x,position.y + 2);
+    this.layer.context().lineTo(position.x,position.y + 5);
+    this.layer.context().moveTo(position.x - 2,position.y);
+    this.layer.context().lineTo(position.x - 5,position.y);
+    this.layer.context().moveTo(position.x,position.y - 2);
+    this.layer.context().lineTo(position.x,position.y - 5);
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
+  }
+
   this.update = function(event)
   {
     if(ronin.module){
@@ -103,19 +144,12 @@ function Cursor(rune)
     return new Position(x,y);
   }
 
-  this.update_element = function(position)
-  {
-    position = ronin.position_in_window(position);
-
-    var radius = this.mode && this.mode.size ? this.mode.size : 5;
-
-    this.element.setAttribute("style","left:"+(position.x + window.innerWidth/2)+"px;top:"+(position.y + window.innerHeight/2)+"px;width:"+radius+"px;height:"+radius+"px;margin-left:"+(-(radius/2)-1)+"px;margin-top:"+(-(radius/2)-1)+"px;border:1px solid "+(this.mode && this.mode.color ? this.mode.color.hex : ronin.brush.color.hex));
-  }
-
   //
   
   this.mouse_down = function(position)
   {
+    this.layer.clear();
+
     if(this.magnetism){
       position = this.magnetic_position(position);
     }
@@ -130,12 +164,13 @@ function Cursor(rune)
   
   this.mouse_move = function(position)
   {
+    this.draw_pointer(position);
+
     if(this.mode.mouse_from == null){ return; }
 
     if(this.magnetism){
       position = this.magnetic_position(position);
     }
-    this.update_element(position);
 
     this.position = position;
 
