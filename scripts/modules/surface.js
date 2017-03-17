@@ -41,6 +41,7 @@ function Surface(rune)
       this.context().fill();
       ronin.terminal.log(new Log(this,"Filled layer: "+cmd.color().hex)); 
       this.element.style.border = "1px solid "+cmd.color().hex;
+      this.element.setAttribute("class",cmd.color().style());
     }
 
     if(cmd.bang() && Object.keys(ronin.surface.layers).length > 1){

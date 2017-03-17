@@ -122,20 +122,23 @@ function Terminal(rune)
 
   this.update_hint = function(content = this.input_element.value)
   {
-    ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
+    // ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
 
     if(content.indexOf(";") > -1){
-      this.hint_element.innerHTML = " "+content.split(";").length+" commands";
+      this.hint_element.innerHTML = this.pad(content)+" "+content.split(";").length+" commands";
     }
     else if(ronin.module){
       this.hint_element.innerHTML = ronin.module.hint(content);  
     }
-    else{
+    else if(content == ""){
       this.hint_element.innerHTML = "";
       for(module in ronin.modules){
         this.hint_element.innerHTML += "<b>"+module+"</b> "+ronin.modules[module].constructor.name+" ";
       }
     } 
+    else{
+      this.hint_element.innerHTML = this.pad(content)+" Unknown Command."
+    }
   }
 
   this.update_menu = function()
@@ -164,6 +167,15 @@ function Terminal(rune)
     if(this.history_index >= this.history.length){ this.history_index = this.history.length-1; }
 
     ronin.terminal.input_element.value = "> "+ronin.terminal.history[this.history_index];
+  }
+
+  this.pad = function(input)
+  {
+    var s = "";
+    for (i = 0; i < input.length+1; i++){
+      s += "_";
+    }
+    return "<span style='color:#000'>"+s+"</span>";
   }
 }
 

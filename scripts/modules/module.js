@@ -81,6 +81,8 @@ function Module(rune)
   }
 
   this.mouse_from = null;
+  this.mouse_held = null;
+  this.mouse_prev = null;
   
   this.mouse_down = function(position)
   {

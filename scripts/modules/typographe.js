@@ -41,8 +41,6 @@ function Typographe(rune)
 
   // Mouse
 
-  this.click = null;
-
   this.mouse_mode = function()
   {
     return "Typographe";
@@ -50,24 +48,25 @@ function Typographe(rune)
 
   this.mouse_down = function(position)
   {
-    this.click = true;
     ronin.overlay.draw(position);
-    commander.element_input.value = "& "+position.render()+" ";
-    commander.hint.update();
+    ronin.terminal.input_element.value = "& "+position.render()+" ";
+    ronin.terminal.update_hint();
   }
   
-  this.mouse_move = function(position)
+  this.mouse_move = function(position,rect)
   {
-    if(!this.click){ return; }
+    if(!this.mouse_held){ return; }
+
     ronin.overlay.draw(position);
-    commander.element_input.value = "& "+position.render();
+    ronin.terminal.input_element.value = "& "+position.render()+" ";
+    ronin.terminal.update_hint();
   }
   
   this.mouse_up = function(position)
   {
-    this.click = null;
     ronin.overlay.draw(position);
-    commander.element_input.value = "& "+position.render();
+    ronin.terminal.input_element.value = "& "+position.render()+" ";
+    ronin.terminal.update_hint();
   }
 
   this.key_escape = function()

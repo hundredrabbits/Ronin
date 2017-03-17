@@ -34,10 +34,11 @@ starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 ronin.terminal.query("~ "+ronin.timestamp());
 ronin.terminal.query("@ "+starting_canvas.render());
 ronin.terminal.query("@ layer=Main");
+ronin.terminal.query("@ #ff0000");
 ronin.terminal.query("- 0,0");
 ronin.terminal.query("- 1,1");
 ronin.terminal.query("- 2,2");
-ronin.terminal.query("- #ff0000");
+ronin.terminal.query("- #000000");
 ronin.terminal.query("~ Ready.");
 
 ronin.terminal.input_element.focus();

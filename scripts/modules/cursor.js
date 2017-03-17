@@ -38,7 +38,7 @@ function Cursor(rune)
 
     if(cmd.rect()){
       this.magnetism = cmd.rect();
-      this.draw(cmd.rect(),this.grid);
+      this.draw(this.magnetism,this.grid);
     }
   }
 
@@ -73,8 +73,6 @@ function Cursor(rune)
     if(!this.layer){ this.create_layer(); }
 
     this.pointer_last = this.pointer_last ? this.pointer_last : position;
-
-    this.layer.clear();
 
     this.layer.context().beginPath();
     this.layer.context().moveTo(this.pointer_last.x,this.pointer_last.y);
@@ -148,7 +146,7 @@ function Cursor(rune)
   
   this.mouse_down = function(position)
   {
-    this.layer.clear();
+    if(this.layer){ this.layer.clear(); }
 
     if(this.magnetism){
       position = this.magnetic_position(position);
@@ -158,13 +156,18 @@ function Cursor(rune)
 
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_from = position;
+      this.mode.mouse_held = true;
       this.mode.mouse_down(position);  
     }
   }
   
   this.mouse_move = function(position)
   {
+    if(!this.layer){ this.create_layer(); }
+    
+    this.layer.clear();
     this.draw_pointer(position);
+    if(this.magnetism){ this.draw(this.magnetism,this.grid); }
 
     if(this.mode.mouse_from == null){ return; }
 
@@ -180,8 +183,8 @@ function Cursor(rune)
 
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_move(position,rect);  
+      this.mode.mouse_prev = position;
     }
-
   }
   
   this.mouse_up = function(position)
@@ -198,6 +201,7 @@ function Cursor(rune)
 
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_up(position,rect);  
+      this.mode.mouse_held = false;
     }
     ronin.terminal.input_element.focus();
 

@@ -95,7 +95,7 @@ function Brush(rune)
     this.position_prev = position;
   }
   
-  // Cursor
+  // Mouse
   
   this.mouse_mode = function()
   {
@@ -106,14 +106,9 @@ function Brush(rune)
       return "<i style='color:"+this.color.hex+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.size;  
     }
   }
-
-  this.is_drawing = false;
   
   this.mouse_down = function(position)
-  {
-    this.is_drawing = true;
-    this.position_prev = null;
-    
+  {    
     if(keyboard.shift_held == true){
       this.erase();
     }
@@ -122,12 +117,11 @@ function Brush(rune)
         ronin.brush.pointers[i].start();
       }
     }
-    
   }
   
   this.mouse_move = function(position,rect)
   {
-    if(this.is_drawing === false){ return; }
+    if(!this.mouse_held){ return; }
     
     if(keyboard.shift_held == true){
       this.erase();
@@ -140,10 +134,7 @@ function Brush(rune)
   }
   
   this.mouse_up = function(position,rect)
-  {
-    this.is_drawing = false;
-    this.position_prev = null;
-    
+  {    
     for (i = 0; i < ronin.brush.pointers.length; i++) {
       ronin.brush.pointers[i].stop();
     }
