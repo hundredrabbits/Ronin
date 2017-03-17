@@ -73,16 +73,6 @@ function Brush(rune)
     
     this.pointers.push(pointer);
   }
-  
-  this.widget_cursor = function()
-  {
-    if(keyboard.shift_held == true){
-      return "Eraser "+this.size;
-    }
-    else{
-      return "<i style='color:"+this.color.hex+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.size;  
-    }
-  }
 
   // Eraser
 
@@ -106,6 +96,16 @@ function Brush(rune)
   }
   
   // Cursor
+  
+  this.mouse_mode = function()
+  {
+    if(keyboard.shift_held == true){
+      return "Eraser "+this.size;
+    }
+    else{
+      return "<i style='color:"+this.color.hex+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.size;  
+    }
+  }
 
   this.is_drawing = false;
   
@@ -125,7 +125,7 @@ function Brush(rune)
     
   }
   
-  this.mouse_move = function(position)
+  this.mouse_move = function(position,rect)
   {
     if(this.is_drawing === false){ return; }
     
@@ -139,7 +139,7 @@ function Brush(rune)
     }
   }
   
-  this.mouse_up = function(position)
+  this.mouse_up = function(position,rect)
   {
     this.is_drawing = false;
     this.position_prev = null;

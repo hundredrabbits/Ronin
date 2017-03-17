@@ -54,6 +54,8 @@ function Module(rune)
       h += variable+"="+ronin.module.variables[variable]+" ";
     }
 
+    h += ronin.module.mouse_mode() ? "<i>"+ronin.module.mouse_mode()+"</i>" : "";
+
     return this.pad(content)+h;    
   }
 
@@ -70,23 +72,29 @@ function Module(rune)
   {
     return "";
   }
-  
-  this.widget_cursor = function()
+
+  // Mouse
+
+  this.mouse_mode = function()
   {
-    return "Missing";
+    return null;
   }
+
+  this.mouse_from = null;
   
   this.mouse_down = function(position)
   {
   }
   
-  this.mouse_move = function(position)
+  this.mouse_move = function(position,rect)
   {
   }
   
-  this.mouse_up = function(position)
+  this.mouse_up = function(position,rect)
   {
   }
+
+  // Keyboard
 
   this.key_escape = function()
   { 

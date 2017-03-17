@@ -121,13 +121,17 @@ function Cursor(rune)
     }
 
     this.position = position;
+
     if(this.mode.constructor.name != Cursor.name){
+      this.mode.mouse_from = position;
       this.mode.mouse_down(position);  
     }
   }
   
   this.mouse_move = function(position)
   {
+    if(this.mode.mouse_from == null){ return; }
+
     if(this.magnetism){
       position = this.magnetic_position(position);
     }
@@ -135,8 +139,12 @@ function Cursor(rune)
 
     this.position = position;
 
+    var rect = new Rect();
+    rect.width = this.position.x - this.mode.mouse_from.x;
+    rect.height = this.position.y - this.mode.mouse_from.y;
+
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_move(position);  
+      this.mode.mouse_move(position,rect);  
     }
 
   }
@@ -148,9 +156,16 @@ function Cursor(rune)
     }
 
     this.position = position;
+
+    var rect = new Rect();
+    rect.width = this.position.x - this.mode.mouse_from.x;
+    rect.height = this.position.y - this.mode.mouse_from.y;
+
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_up(position);  
+      this.mode.mouse_up(position,rect);  
     }
     ronin.terminal.input_element.focus();
+
+    this.mode.mouse_from = null;
   }
 }

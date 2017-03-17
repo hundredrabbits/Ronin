@@ -112,11 +112,6 @@ function Surface(rune)
 
     return this.rune+" "+this.size.render();
   }
-  
-  this.widget_cursor = function()
-  {
-    return "Crop";
-  }
 
   // Widget
 
@@ -130,7 +125,7 @@ function Surface(rune)
     }
     s += "</span>";
   
-    s += "<span class='cursor'>"+ronin.cursor.mode.widget_cursor()+"</span>";
+    s += "<span class='cursor'>"+ronin.cursor.mode.mouse_mode()+"</span>";
     
     var keys = Object.keys(ronin.surface.layers);
     var loc = keys.indexOf(this.active_layer.name);
@@ -173,36 +168,30 @@ function Surface(rune)
   }
 
   // Cursor
-  
-  this.live_draw_from = null;
 
+  this.mouse_mode = function()
+  { 
+    return "crop"; 
+  }
+  
   this.mouse_down = function(position)
   {
     ronin.overlay.clear();
     ronin.overlay.draw_pointer(position);
-    this.live_draw_from = position;
-    ronin.terminal.input_element.value = "| "+this.live_draw_from.render();
+    ronin.terminal.input_element.value = "| "+this.mouse_from.render();
   }
   
-  this.mouse_move = function(position)
-  {
-    if(this.live_draw_from === null){ return; }
-    
+  this.mouse_move = function(position,rect)
+  {    
     ronin.overlay.clear();
-    
-    var rect = new Rect();
-    rect.width = position.x - this.live_draw_from.x;
-    rect.height = position.y - this.live_draw_from.y;
-  
-    ronin.overlay.draw_rect(this.live_draw_from,rect);
-    ronin.terminal.input_element.value = "@ "+this.live_draw_from.render()+" "+rect.render();
+
+    ronin.overlay.draw_rect(this.mouse_from,rect);
+    ronin.terminal.input_element.value = "@ "+this.mouse_from.render()+" "+rect.render();
 
     ronin.terminal.update_hint();
   }
   
-  this.mouse_up = function(position)
+  this.mouse_up = function(position,rect)
   {
-    this.live_draw_from = null;
-    ronin.terminal.input_element.focus();
   }
 }

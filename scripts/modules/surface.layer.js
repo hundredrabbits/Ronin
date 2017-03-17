@@ -46,11 +46,6 @@ function Layer(name,manager = null)
 
   //
 
-  this.widget_cursor = function()
-  {
-    return "Move";
-  }
-
   this.widget = function()
   {
     var e_name = this.name;
@@ -62,6 +57,11 @@ function Layer(name,manager = null)
     return "<span class='"+e_class+"'>"+e_name+"</span>";
   }
 
+  this.mouse_mode = function()
+  {
+    return "Move";
+  }
+  
   this.move_from = null;
 
   this.mouse_down = function(position)

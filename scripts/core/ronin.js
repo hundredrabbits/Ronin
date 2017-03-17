@@ -12,7 +12,6 @@ function Ronin()
   this.eye      = new Eye("*");
   this.render   = new Render("%");
   this.vector   = new Vector("+");
-  this.help     = new Help("?");
   this.typo     = new Typographe("&");
   this.cursor   = new Cursor(".");
   this.terminal = new Terminal(">");
@@ -26,7 +25,6 @@ function Ronin()
   this.modules[this.eye.rune]      = this.eye;
   this.modules[this.typo.rune]     = this.typo;
   this.modules[this.vector.rune]   = this.vector;
-  this.modules[this.help.rune]     = this.help;
   this.modules[this.terminal.rune] = this.terminal;
 
   this.modules[this.cursor.rune]   = this.cursor;

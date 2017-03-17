@@ -43,7 +43,7 @@ function Typographe(rune)
 
   this.click = null;
 
-  this.widget_cursor = function()
+  this.mouse_mode = function()
   {
     return "Typographe";
   }

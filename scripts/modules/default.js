@@ -4,7 +4,7 @@ function Default(rune)
   
   // Cursor
   
-  this.widget_cursor = function()
+  this.mouse_mode = function()
   {
     return "Drag";
   }

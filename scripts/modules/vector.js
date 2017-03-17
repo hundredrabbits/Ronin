@@ -72,7 +72,7 @@ function Vector(rune)
 
   this.click = null;
 
-  this.widget_cursor = function()
+  this.mouse_mode = function()
   {
     if(keyboard.shift_held == true && keyboard.alt_held == true){
       return "Vector(Origin)";

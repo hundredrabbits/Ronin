@@ -16,6 +16,7 @@ canvas:hover { cursor: none;}
 #terminal input { display: block; position:absolute; bottom:0px; width:100vw; padding:0px 5px; font-size:10px; line-height: 20px; background:none; z-index:900; color:white;}
 #terminal hint { background:#000; position:absolute; bottom:0px; line-height: 20px; padding:0px 5px; width:100vw; color:#777; font-size:10px; white-space: pre;}
 #terminal hint b { font-family: "input_mono_regular"; color:#999; }
+#terminal hint i { font-style: italic; color:#fff; }
 #terminal logs { display: block;position: absolute;bottom:20px;width:100vw;color:white}
 #terminal logs log { display: block; font-size:10px; line-height:25px; padding:0px 5px; color:#666;}
 #terminal logs log .rune { color:white; }
