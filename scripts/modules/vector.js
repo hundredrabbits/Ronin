@@ -16,12 +16,12 @@ function Vector(rune)
     if(!ronin.vector.layer){ ronin.vector.create_layer(); }
 
     this.layer.clear();
-    this.layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
-    this.layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
-    this.layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
-    this.layer.context().fillStyle = cmd.variable("fill_color") ? cmd.variable("fill_color").value : "#ffffff";
+    this.layer.context().lineCap = cmd.setting("line_cap") ? cmd.setting("line_cap").value : "square";
+    this.layer.context().lineWidth = cmd.setting("stroke_width") ? cmd.setting("stroke_width").value : 10;
+    this.layer.context().strokeStyle = cmd.setting("stroke_color") ? cmd.setting("stroke_color").value : "#ffffff";
+    this.layer.context().fillStyle = cmd.setting("fill_color") ? cmd.setting("fill_color").value : "#ffffff";
 
-    if(cmd.variable("fill_color")){ronin.vector.layer.context().fill(new Path2D(cmd.content.join(" ")));}
+    if(cmd.setting("fill_color")){ronin.vector.layer.context().fill(new Path2D(cmd.content.join(" ")));}
     ronin.vector.layer.context().stroke(new Path2D(cmd.content.join(" ")));
   }
   
@@ -32,12 +32,12 @@ function Vector(rune)
 
     if(this.layer){ this.layer.remove(this); }
 
-    ronin.surface.active_layer.context().lineCap = cmd.variable("line_cap") ? cmd.variable("line_cap").value : "square";
-    ronin.surface.active_layer.context().lineWidth = cmd.variable("stroke_width") ? cmd.variable("stroke_width").value : 10;
-    ronin.surface.active_layer.context().strokeStyle = cmd.variable("stroke_color") ? cmd.variable("stroke_color").value : "#ffffff";
-    ronin.surface.active_layer.context().fillStyle = cmd.variable("fill_color") ? cmd.variable("fill_color").value : "#ffffff";
+    ronin.surface.active_layer.context().lineCap = cmd.setting("line_cap") ? cmd.setting("line_cap").value : "square";
+    ronin.surface.active_layer.context().lineWidth = cmd.setting("stroke_width") ? cmd.setting("stroke_width").value : 10;
+    ronin.surface.active_layer.context().strokeStyle = cmd.setting("stroke_color") ? cmd.setting("stroke_color").value : "#ffffff";
+    ronin.surface.active_layer.context().fillStyle = cmd.setting("fill_color") ? cmd.setting("fill_color").value : "#ffffff";
 
-    if(cmd.variable("fill_color")){ronin.surface.active_layer.context().fill(new Path2D(cmd.content.join(" ")));}
+    if(cmd.setting("fill_color")){ronin.surface.active_layer.context().fill(new Path2D(cmd.content.join(" ")));}
     ronin.surface.active_layer.context().stroke(new Path2D(cmd.content.join(" ")));
   }
 
@@ -57,7 +57,7 @@ function Vector(rune)
   {
     var s = "";
 
-    s += "<svg width='"+ronin.surface.size.width+"' height='"+ronin.surface.size.height+"' xmlns='http://www.w3.org/2000/svg' baseProfile='full' version='1.1' style='fill:none;stroke:red;stroke-width:2px;stroke-linecap:square;'>";
+    s += "<svg width='"+ronin.surface.settings["size"].width+"' height='"+ronin.surface.settings["size"].height+"' xmlns='http://www.w3.org/2000/svg' baseProfile='full' version='1.1' style='fill:none;stroke:red;stroke-width:2px;stroke-linecap:square;'>";
 
     for (var i = 0; i < this.paths.length; i++) {
       s += "<path d='"+this.paths[i]+"' />";

@@ -21,6 +21,17 @@ function Layer(name,manager = null)
     this.context().scale(2,2);
   }
 
+  this.fill = function(color)
+  {
+    this.context().beginPath();
+    this.context().rect(0, 0, this.active_layer.element.width, this.active_layer.element.height);
+    this.context().fillStyle = cmd.color().hex;
+    this.context().fill();
+    ronin.terminal.log(new Log(this,"Filled layer: "+cmd.color().hex)); 
+    this.element.style.border = "1px solid "+cmd.color().hex;
+    this.element.setAttribute("class",cmd.color().style());
+  }
+
   this.clear = function()
   {
     this.context().clearRect(0, 0, this.element.width, this.element.height);
@@ -78,7 +89,7 @@ function Layer(name,manager = null)
     var offset_x = this.move_from.x - position.x;
     var offset_y = this.move_from.y - position.y;
 
-    var imageData = this.context().getImageData(0, 0, ronin.surface.size.width * 2, ronin.surface.size.height * 2);
+    var imageData = this.context().getImageData(0, 0, ronin.surface.settings["size"].width * 2, ronin.surface.settings["size"].height * 2);
     this.clear();
     this.context().putImageData(imageData, -offset_x * 2, -offset_y * 2);
 

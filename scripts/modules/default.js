@@ -29,8 +29,8 @@ function Default(rune)
     this.drag_offset_x -= offset_x;
     this.drag_offset_y -= offset_y;
     
-    ronin.surface.element.style.marginLeft = -(ronin.surface.size.width/2) + this.drag_offset_x;
-    ronin.surface.element.style.marginTop = -(ronin.surface.size.height/2) + this.drag_offset_y;
+    ronin.surface.element.style.marginLeft = -(ronin.surface.settings["size"].width/2) + this.drag_offset_x;
+    ronin.surface.element.style.marginTop = -(ronin.surface.settings["size"].height/2) + this.drag_offset_y;
 
     ronin.element.style.backgroundPosition = ((this.drag_offset_x/8))-(window.innerWidth % 20)+"px "+((this.drag_offset_y/8)-(window.innerWidth % 20))+"px";
 

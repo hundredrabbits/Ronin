@@ -2,8 +2,7 @@ function Module(rune)
 {
   this.rune = rune;
   this.element = null;
-  this.parameters = [];
-  this.variables  = {};
+  this.settings  = {};
   this.layer = null;
 
   this.docs = "Missing documentation.";
@@ -34,24 +33,24 @@ function Module(rune)
   {
   }
   
-  this.set_variables = function(cmd)
+  this.update_settings = function(cmd)
   {
-    for (var key in this.variables){
-      if(!cmd.variable(key)){ continue; }
-      this.variables[key] = cmd.variable(key).value;
-      ronin.terminal.log(new Log(this,"Updated "+key+" with "+cmd.variable(key).value));
+    for (var key in this.settings){
+      if(!cmd.setting(key)){ continue; }
+      var value = new this.settings[key].constructor(cmd.setting(key).value);
+      this.settings[key] = value;
+      ronin.terminal.log(new Log(this,"Updated "+key+" with "+cmd.setting(key).value));
+      return;
     }
+    ronin.terminal.log(new Log(this,"Unknown setting: "+key));
   }
   
   this.hint = function(content)
   {
-    var h = "<span class='name'>"+ronin.module.constructor.name+"</span> ";
-    for(param in ronin.module.parameters){
-      var name = new ronin.module.parameters[param]().constructor.name;
-      h += name+" ";
-    }
-    for(variable in ronin.module.variables){
-      h += variable+"="+ronin.module.variables[variable]+" ";
+    var h = "<b>"+ronin.module.constructor.name+"</b> ";
+    
+    for(setting in ronin.module.settings){
+      h += setting+":"+ronin.module.settings[setting].render()+" ";
     }
 
     h += ronin.module.mouse_mode() ? "<i>"+ronin.module.mouse_mode()+"</i>" : "";
@@ -78,6 +77,11 @@ function Module(rune)
   this.mouse_mode = function()
   {
     return null;
+  }
+
+  this.mouse_pointer = function(position)
+  {
+    return ronin.cursor.draw_pointer_arrow(position);
   }
 
   this.mouse_from = null;

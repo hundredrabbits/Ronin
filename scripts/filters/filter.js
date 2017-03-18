@@ -78,6 +78,6 @@ function Filter()
   
   this.pixels = function()
   {
-    return ronin.surface.active_layer.context().getImageData(0,0,ronin.surface.size.width * 2,ronin.surface.size.height * 2);
+    return ronin.surface.active_layer.context().getImageData(0,0,ronin.surface.settings["size"].width * 2,ronin.surface.settings["size"].height * 2);
   }
 }

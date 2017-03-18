@@ -2,8 +2,7 @@ function Cursor(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Rect,Position,Bang];
-  this.variables  = {};
+  this.settings = {"grid" : new Rect("10x10"), "markers": new Position("4,4"), "reset" : new Bang()};
 
   this.mode = null;
   this.position = new Position();
@@ -46,8 +45,8 @@ function Cursor(rune)
   {
     if(rect.width < 5 || rect.height < 5){ return; }
 
-    var horizontal = ronin.surface.size.width/rect.width;
-    var vertical = ronin.surface.size.height/rect.height;
+    var horizontal = ronin.surface.settings["size"].width/rect.width;
+    var vertical = ronin.surface.settings["size"].height/rect.height;
     
     for (var x = 1; x < horizontal; x++) {
       for (var y = 1; y < vertical; y++) {
@@ -66,6 +65,44 @@ function Cursor(rune)
     context.arc(position.x, position.y, size, 0, 2 * Math.PI, false);
     context.fillStyle = 'white';
     context.fill();
+  }
+
+  this.draw_pointer_arrow = function(position,size = 1)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.context().beginPath();
+    
+    this.layer.context().moveTo(position.x,position.y);
+    this.layer.context().lineTo(position.x + 5,position.y);
+    this.layer.context().moveTo(position.x,position.y);
+    this.layer.context().lineTo(position.x,position.y + 5);
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
+  }
+
+  this.draw_pointer_circle = function(position,size = 1)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.context().beginPath();
+    this.layer.context().arc(position.x, position.y, 3.5, 0, 2 * Math.PI, false);
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
   }
 
   this.draw_pointer = function(position,size = 1)
@@ -166,7 +203,10 @@ function Cursor(rune)
     if(!this.layer){ this.create_layer(); }
     
     this.layer.clear();
-    this.draw_pointer(position);
+
+    if(this.mode){this.mode.mouse_pointer(position);}
+    else{ this.mouse_pointer(position);}
+
     if(this.magnetism){ this.draw(this.magnetism,this.grid); }
 
     if(this.mode.mouse_from == null){ return; }

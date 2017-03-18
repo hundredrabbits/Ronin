@@ -12,7 +12,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   {
     var ratio = 10/this.position().distance_to(this.position_prev[0]);
     ratio = ratio > 1 ? 1 : ratio;
-    return ronin.brush.size * ratio;
+    return ronin.brush.settings["size"].float * ratio;
   }
   
   //
@@ -57,7 +57,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 
     ronin.surface.context().lineCap="round";
     ronin.surface.context().lineWidth = this.thickness();
-    ronin.surface.context().strokeStyle = ronin.brush.color.rgba();
+    ronin.surface.context().strokeStyle = ronin.brush.settings["color"].rgba();
     ronin.surface.context().stroke();
     ronin.surface.context().closePath();
 

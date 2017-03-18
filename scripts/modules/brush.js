@@ -2,32 +2,21 @@ function Brush(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Position,Rect,Angle,Color,Value,Bang];
-  this.variables  = {"natural" : false,"banking" : false};
+  // this.parameters = {"offset":Position,"mirror":Rect,"angle":Angle,"reset":Bang};
+  this.parameters = [];
+  this.settings  = {"color":new Color("#ff0000"),"size":new Value(1)};
   this.pointers = [];
   
-  this.size = 1;
-  this.opacity = 1;
-  this.color = new Color();
-  
   // Module
+
+  this.install = function()
+  {
+    this.add_pointer(new Position("0,0"));
+  }
   
   this.active = function(cmd)
   {
     if(cmd.bang()){ this.pointers = []; }
-    
-    // Pointer
-    if(cmd.rect() || cmd.position() || cmd.angle()){
-      this.add_pointer(cmd);
-    }
-    
-    // Global
-    if(cmd.color()){
-      this.color = cmd.color();
-    }
-    if(cmd.value()){
-      this.size = cmd.value().float;
-    }
   }
   
   this.passive = function(cmd)
@@ -45,32 +34,23 @@ function Brush(rune)
 
   this.size_up = function()
   {
-    this.size -= this.size > 1 ? 1 : 0;
+    this.settings["size"].float -= this.settings["size"].float > 1 ? 1 : 0;
     ronin.surface.update_widget();
     ronin.terminal.log(new Log(this,"Increased pointer size to: "+this.size));
   }
 
   this.size_down = function()
   {
-    this.size += 1;
+    this.settings["size"].float += 1;
     ronin.surface.update_widget();
     ronin.terminal.log(new Log(this,"Decreased pointer size to: "+this.size));
   }
   
-  this.add_pointer = function(cmd)
+  this.add_pointer = function(position)
   {
+    ronin.terminal.log(new Log(this,"Added pointer at: "+position.render()));
     var pointer = new Pointer();
-    
-    if(cmd.position()){
-      pointer.offset = cmd.position();
-    }
-    if(cmd.rect()){
-      pointer.mirror = cmd.rect();
-    }
-    if(cmd.angle()){
-      pointer.angle = cmd.angle();
-    }
-    
+    pointer.offset = position;
     this.pointers.push(pointer);
   }
 
@@ -87,7 +67,7 @@ function Brush(rune)
     ronin.surface.context().moveTo(this.position_prev.x,this.position_prev.y);
     ronin.surface.context().lineTo(position.x,position.y);
     ronin.surface.context().lineCap="round";
-    ronin.surface.context().lineWidth = this.size * 5;
+    ronin.surface.context().lineWidth = this.settings["size"].float * 5;
     ronin.surface.context().strokeStyle = new Color("#ff0000").rgba();
     ronin.surface.context().stroke();
     ronin.surface.context().closePath();
@@ -96,14 +76,19 @@ function Brush(rune)
   }
   
   // Mouse
+
+  this.mouse_pointer = function(position)
+  {
+    return ronin.cursor.draw_pointer_circle(position,this.settings["size"]);
+  }
   
   this.mouse_mode = function()
   {
     if(keyboard.shift_held == true){
-      return "Eraser "+this.size;
+      return "Eraser "+this.settings["size"].float;
     }
     else{
-      return "<i style='color:"+this.color.hex+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.size;  
+      return "<i style='color:"+this.settings["color"].hex+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.settings["size"].render();  
     }
   }
   

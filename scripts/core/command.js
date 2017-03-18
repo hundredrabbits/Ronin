@@ -81,13 +81,13 @@ function Command(content)
     return null;
   }
   
-  this.variable = function(name)
+  this.setting = function(name)
   {
     for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("=") >= 0){
-        var parts = this.content[i].split("=");
+      if(this.content[i].indexOf(":") >= 0){
+        var parts = this.content[i].split(":");
         if(parts[0] == name){
-          return new Variable(parts[0],parts[1]);
+          return new Setting(parts[0],parts[1]);
         }
       }
     }

@@ -1,4 +1,4 @@
-function Variable(key,value)
+function Setting(key,value)
 {
   Unit.call(this);
   

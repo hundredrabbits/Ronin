@@ -43,11 +43,11 @@ function Ronin()
   this.position_in_canvas = function(e)
   {
     var x = e.clientX;
-    x -= (window.innerWidth - this.surface.size.width)/2;
-    x -= parseInt(this.surface.element.style.marginLeft) + (this.surface.size.width/2);
+    x -= (window.innerWidth - this.surface.settings["size"].width)/2;
+    x -= parseInt(this.surface.element.style.marginLeft) + (this.surface.settings["size"].width/2);
     var y = e.clientY;
-    y -= (window.innerHeight - this.surface.size.height)/2;
-    y -= parseInt(this.surface.element.style.marginTop) + parseInt(this.surface.size.height/2);
+    y -= (window.innerHeight - this.surface.settings["size"].height)/2;
+    y -= parseInt(this.surface.element.style.marginTop) + parseInt(this.surface.settings["size"].height/2);
     return new Position(x,y);
   }
   

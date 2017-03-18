@@ -8,7 +8,7 @@ function Filter_Chromatic()
 
   this.render = function(cmd)
   {
-    var position = cmd.position() ? cmd.position() : new Position(ronin.surface.size.width,ronin.surface.size.height);
+    var position = cmd.position() ? cmd.position() : new Position(ronin.surface.settings["size"].width,ronin.surface.settings["size"].height);
     var value = cmd.value() ? cmd.value().float : 5;
 
     ronin.overlay.clear();
@@ -26,8 +26,8 @@ function Filter_Chromatic()
 
   this.draw = function(context = this.context(), value, position)
   {
-    var w = ronin.surface.size.width;
-    var h = ronin.surface.size.height;
+    var w = ronin.surface.settings["size"].width;
+    var h = ronin.surface.settings["size"].height;
     
     //no longer letting you set how far each chanel is shifted, not sure how to receive extra data any more
 		var s = {r:value,g:value*.5,b:0};
