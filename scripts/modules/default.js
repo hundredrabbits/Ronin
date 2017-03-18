@@ -9,6 +9,11 @@ function Default(rune)
     return "Drag";
   }
   
+  this.mouse_pointer = function(position)
+  {
+    return ronin.cursor.draw_pointer_drag(position);
+  }
+  
   this.drag_from = null;
   this.drag_offset_x = 0;
   this.drag_offset_y = 0;

@@ -79,7 +79,7 @@ function Brush(rune)
 
   this.mouse_pointer = function(position)
   {
-    return ronin.cursor.draw_pointer_circle(position,this.settings["size"]);
+    return ronin.cursor.draw_pointer_circle(position,this.settings["size"].float);
   }
   
   this.mouse_mode = function()

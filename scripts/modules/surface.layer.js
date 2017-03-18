@@ -1,6 +1,7 @@
 function Layer(name,manager = null)
 {
-  this.rune = "@";
+  Module.call(this,"#");
+
   this.name = name;
   this.manager = manager;
   this.element = document.createElement("canvas");
@@ -66,6 +67,11 @@ function Layer(name,manager = null)
     if(this.manager != null){ e_class += "managed "; }
 
     return "<span class='"+e_class+"'>"+e_name+"</span>";
+  }
+
+  this.mouse_pointer = function(position)
+  {
+    return ronin.cursor.draw_pointer_drag(position);
   }
 
   this.mouse_mode = function()

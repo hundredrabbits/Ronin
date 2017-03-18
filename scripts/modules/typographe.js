@@ -2,8 +2,8 @@ function Typographe(rune)
 {
   Module.call(this,rune);
 
-  this.parameters = [Position,Color,Value];
-  this.variables  = {"text" : null, "font" : "Georgia"};
+  this.settings = {"color":new Color("#ffffff"),"size":new Value(10)};
+  this.methods = {"draw":new Method("draw",["text","position","font"])}
 
   this.active = function(cmd)
   {

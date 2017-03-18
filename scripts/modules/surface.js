@@ -4,6 +4,7 @@ function Surface(rune)
   
   this.element = null;
   this.settings = {"size":new Rect("200x200")};
+  this.methods = {"layer":new Method("layer",["name"])}
 
   this.layers = {};
   this.active_layer = null;

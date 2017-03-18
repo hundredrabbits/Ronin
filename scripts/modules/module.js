@@ -3,6 +3,7 @@ function Module(rune)
   this.rune = rune;
   this.element = null;
   this.settings  = {};
+  this.methods  = {};
   this.layer = null;
 
   this.docs = "Missing documentation.";
@@ -50,7 +51,10 @@ function Module(rune)
     var h = "<b>"+ronin.module.constructor.name+"</b> ";
     
     for(setting in ronin.module.settings){
-      h += setting+":"+ronin.module.settings[setting].render()+" ";
+      h += setting+"="+ronin.module.settings[setting].render()+" ";
+    }
+    for(method in ronin.module.methods){
+      h += ronin.module.methods[method].render()+" ";
     }
 
     h += ronin.module.mouse_mode() ? "<i>"+ronin.module.mouse_mode()+"</i>" : "";

@@ -19,13 +19,13 @@ function Ronin()
   this.modules[this.surface.rune]  = this.surface;
   this.modules[this.fileload.rune] = this.fileload;
   this.modules[this.filesave.rune] = this.filesave;
-  this.modules[this.overlay.rune]  = this.overlay;
   this.modules[this.render.rune]   = this.render;
   this.modules[this.brush.rune]    = this.brush;
   this.modules[this.eye.rune]      = this.eye;
   this.modules[this.typo.rune]     = this.typo;
   this.modules[this.vector.rune]   = this.vector;
   this.modules[this.terminal.rune] = this.terminal;
+  this.modules[this.overlay.rune]  = this.overlay;
 
   this.modules[this.cursor.rune]   = this.cursor;
 
