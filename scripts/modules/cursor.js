@@ -155,12 +155,12 @@ function Cursor(rune)
   {
     if(this.layer){ this.layer.clear(); }
 
-    this.position = position;
+    this.position = ronin.magnet.update_mouse(position);
 
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_from = position;
+      this.mode.mouse_from = this.position;
       this.mode.mouse_held = true;
-      this.mode.mouse_down(position);  
+      this.mode.mouse_down(this.position);  
     }
   }
   
@@ -170,33 +170,33 @@ function Cursor(rune)
     
     this.layer.clear();
 
-    if(this.mode){this.mode.mouse_pointer(position);}
-    else{ this.mouse_pointer(position);}
+    this.position = ronin.magnet.update_mouse(position);
+
+    if(this.mode){this.mode.mouse_pointer(this.position);}
+    else{ this.mouse_pointer(this.position);}
 
     if(this.mode.mouse_from == null){ return; }
-
-    this.position = position;
 
     var rect = new Rect();
     rect.width = this.position.x - this.mode.mouse_from.x;
     rect.height = this.position.y - this.mode.mouse_from.y;
 
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_move(position,rect);  
-      this.mode.mouse_prev = position;
+      this.mode.mouse_move(this.position,rect);  
+      this.mode.mouse_prev = this.position;
     }
   }
   
   this.mouse_up = function(position)
   {
-    this.position = position;
+    this.position = ronin.magnet.update_mouse(position);
 
     var rect = new Rect();
     rect.width = this.position.x - this.mode.mouse_from.x;
     rect.height = this.position.y - this.mode.mouse_from.y;
 
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_up(position,rect);  
+      this.mode.mouse_up(this.position,rect);  
       this.mode.mouse_held = false;
     }
     ronin.terminal.input_element.focus();

@@ -127,12 +127,6 @@ function Overlay(rune)
     this.context().closePath();
   }
   
-  this.context = function()
-  {
-    if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
-    return this.layer.context();
-  }
-  
   this.clear = function()
   {
     this.context().clearRect(0, 0, ronin.surface.settings["size"].width, ronin.surface.settings["size"].height);

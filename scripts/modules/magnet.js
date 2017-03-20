@@ -2,14 +2,14 @@ function Magnet(rune)
 {
   Module.call(this,rune);
   
-  this.settings = {"grid" : new Rect("0x0"), "marker": new Position("4,4"), "reset" : new Bang()};
+  this.settings = {"grid" : new Rect("1x1"), "marker": new Position("4,4"), "reset" : new Bang()};
 
   this.passive = function(cmd)
   {
     if(!this.layer){ this.create_layer(); }
 
     this.layer.clear();
-    this.draw(cmd.setting("grid"),cmd.setting("marker"));
+    this.draw_grid(cmd.setting("grid"),cmd.setting("marker"));
   }
 
   this.active = function(cmd)
@@ -22,10 +22,17 @@ function Magnet(rune)
     if(!this.layer){ this.create_layer(); }
 
     this.layer.clear();
-    this.draw(this.setting("grid"),this.setting("marker"));
+    this.draw_grid(this.settings["grid"],this.settings["marker"]);
+  }
+  
+  this.context = function()
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    return this.layer.context();
   }
 
-  this.draw = function(rect,grid)
+  this.draw_grid = function(rect,grid)
   {
     if(!rect){ rect = new Rect("20x20"); }
     if(!grid){ grid = new Position("4,4"); }
@@ -45,13 +52,24 @@ function Magnet(rune)
     }
   }
 
+  this.draw_helper = function(position)
+  {    
+    var magnetized = this.magnetic_position(position);
+    this.context().beginPath();
+    this.context().arc(magnetized.x, magnetized.y, 4, 0, 2 * Math.PI, false);
+    this.context().strokeStyle = 'white';
+    this.context().stroke();
+    this.context().closePath();
+  }
+
+
   this.draw_marker = function(position,size = 0.5)
   {
-    var context = this.layer.context();
-    context.beginPath();
-    context.arc(position.x, position.y, size, 0, 2 * Math.PI, false);
-    context.fillStyle = 'white';
-    context.fill();
+    this.context().beginPath();
+    this.context().arc(position.x, position.y, size, 0, 2 * Math.PI, false);
+    this.context().fillStyle = 'white';
+    this.context().fill();
+    this.context().closePath();
   }
 
   this.magnetic_position = function(position)
@@ -61,7 +79,19 @@ function Magnet(rune)
 
     return new Position(x,y);
   }
-  
+
+  this.update_mouse = function(position)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    this.layer.clear();
+
+    this.draw_helper(position);
+    this.draw_grid(this.settings["grid"],this.settings["marker"]);
+
+    return this.magnetic_position(position); 
+  }
+
   this.key_escape = function()
   {
     if(this.layer){ this.layer.remove(this); }

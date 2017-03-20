@@ -13,7 +13,7 @@ function Vector(rune)
   
   this.passive = function(cmd)
   {
-    if(!ronin.vector.layer){ ronin.vector.create_layer(); }
+    if(!ronin.vector.layer){ ronin.vector.create_layer(); ronin.vector.layer.is_blinking = true; }
 
     this.layer.clear();
     this.layer.context().lineCap = cmd.setting("line_cap") ? cmd.setting("line_cap").value : "square";
