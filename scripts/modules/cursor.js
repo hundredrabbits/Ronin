@@ -2,69 +2,18 @@ function Cursor(rune)
 {
   Module.call(this,rune);
   
-  this.settings = {"grid" : new Rect("10x10"), "markers": new Position("4,4"), "reset" : new Bang()};
+  this.settings = {};
 
   this.mode = null;
   this.position = new Position();
-  this.magnetism = null;
-  this.grid = new Position(4,4);
 
   this.passive = function(cmd)
   {
-    if(!cmd.rect()){ return; }
-
     if(!this.layer){ this.create_layer(); }
-
-    this.layer.clear();
-    this.draw(cmd.rect(),cmd.position());
   }
 
   this.active = function(cmd)
   {
-    if(cmd.bang()){
-      this.magnetism = null;
-      if(this.layer){ this.layer.remove(this); }
-      return;
-    }
-
-    if(!this.layer){ this.create_layer(); }
-
-    this.layer.clear();
-
-    if(cmd.position()){
-      this.grid = cmd.position();
-    }
-
-    if(cmd.rect()){
-      this.magnetism = cmd.rect();
-      this.draw(this.magnetism,this.grid);
-    }
-  }
-
-  this.draw = function(rect,grid)
-  {
-    if(rect.width < 5 || rect.height < 5){ return; }
-
-    var horizontal = ronin.surface.settings["size"].width/rect.width;
-    var vertical = ronin.surface.settings["size"].height/rect.height;
-    
-    for (var x = 1; x < horizontal; x++) {
-      for (var y = 1; y < vertical; y++) {
-        var dot_position = new Position(x * rect.width, y * rect.height);
-        var size = 0.5;
-        if(grid && x % grid.x == 0 && y % grid.y == 0){ size = 1; }
-        this.draw_marker(dot_position,size);
-      }
-    }
-  }
-
-  this.draw_marker = function(position,size = 0.5)
-  {
-    var context = this.layer.context();
-    context.beginPath();
-    context.arc(position.x, position.y, size, 0, 2 * Math.PI, false);
-    context.fillStyle = 'white';
-    context.fill();
   }
 
   this.draw_pointer_arrow = function(position,size = 1)
@@ -201,26 +150,10 @@ function Cursor(rune)
     this.mode = mode;
     document.body.setAttribute("class",this.mode.constructor.name);
   }
-
-  // 
-
-  this.magnetic_position = function(position)
-  {
-    var x = parseInt(position.x / this.magnetism.width) * this.magnetism.width;
-    var y = parseInt(position.y / this.magnetism.width) * this.magnetism.width;
-
-    return new Position(x,y);
-  }
-
-  //
   
   this.mouse_down = function(position)
   {
     if(this.layer){ this.layer.clear(); }
-
-    if(this.magnetism){
-      position = this.magnetic_position(position);
-    }
 
     this.position = position;
 
@@ -240,13 +173,7 @@ function Cursor(rune)
     if(this.mode){this.mode.mouse_pointer(position);}
     else{ this.mouse_pointer(position);}
 
-    if(this.magnetism){ this.draw(this.magnetism,this.grid); }
-
     if(this.mode.mouse_from == null){ return; }
-
-    if(this.magnetism){
-      position = this.magnetic_position(position);
-    }
 
     this.position = position;
 
@@ -262,10 +189,6 @@ function Cursor(rune)
   
   this.mouse_up = function(position)
   {
-    if(this.magnetism){
-      position = this.magnetic_position(position);
-    }
-
     this.position = position;
 
     var rect = new Rect();

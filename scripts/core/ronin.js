@@ -15,6 +15,7 @@ function Ronin()
   this.typo     = new Typographe("&");
   this.cursor   = new Cursor(".");
   this.terminal = new Terminal(">");
+  this.magnet   = new Magnet("^");
   
   this.modules[this.surface.rune]  = this.surface;
   this.modules[this.fileload.rune] = this.fileload;
@@ -26,6 +27,7 @@ function Ronin()
   this.modules[this.vector.rune]   = this.vector;
   this.modules[this.terminal.rune] = this.terminal;
   this.modules[this.overlay.rune]  = this.overlay;
+  this.modules[this.magnet.rune]   = this.magnet;
 
   this.modules[this.cursor.rune]   = this.cursor;
 
