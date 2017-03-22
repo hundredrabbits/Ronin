@@ -4,7 +4,7 @@ function Surface(rune)
   
   this.element = null;
   this.settings = {"size":new Rect("200x200")};
-  this.methods = [new Method("resize",[new Rect().name])]
+  this.methods = [new Method("resize",[new Rect().name]),new Method("crop",[new Position().name,new Rect().name])]
 
   this.layers = {};
   this.active_layer = null;
@@ -130,11 +130,19 @@ function Surface(rune)
     if(keys[loc-1] != null){this.select_layer(ronin.surface.layers[keys[loc-1]]);}
   }
 
-  // Layers
+  this.passive = function(cmd)
+  { 
+    var crop = ronin.terminal.cmd().method("crop");
 
-  this.context = function()
-  {
-    return this.active_layer.context();
+    if(crop && crop.params.length == 2){
+      console.log(crop);  
+      ronin.overlay.select_layer().clear();
+      ronin.overlay.draw_rect(new Position(crop.params[0]),new Rect(crop.params[1]));
+    }
+    else{
+      console.log("Missing params")
+    }
+    ronin.terminal.update_hint();
   }
 
   // Cursor
@@ -146,19 +154,14 @@ function Surface(rune)
   
   this.mouse_down = function(position)
   {
-    ronin.overlay.clear();
+    ronin.overlay.select_layer().clear();
     ronin.overlay.draw_pointer(position);
-    ronin.terminal.input_element.value = "| "+this.mouse_from.render();
   }
   
   this.mouse_move = function(position,rect)
-  {    
-    ronin.overlay.clear();
-
-    ronin.overlay.draw_rect(this.mouse_from,rect);
-    ronin.terminal.input_element.value = "@ "+this.mouse_from.render()+" "+rect.render();
-
-    ronin.terminal.update_hint();
+  {      
+    ronin.terminal.input_element.value = "@ crop:"+this.mouse_from.render()+":"+rect.render()+" ";
+    this.passive();
   }
   
   this.mouse_up = function(position,rect)

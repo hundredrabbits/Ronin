@@ -104,4 +104,12 @@ function Command(content)
     }
     return a;
   }
+
+  this.method = function(name)
+  {
+    for(i in this.methods()){
+      var m = new Method(this.methods()[i]);
+      if(m.name == name){ return m; }
+    }
+  }
 }

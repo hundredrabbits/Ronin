@@ -167,7 +167,7 @@ function Cursor(rune)
   this.mouse_move = function(position)
   {
     if(!this.layer){ this.create_layer(); }
-    
+      
     this.layer.clear();
 
     this.position = ronin.magnet.update_mouse(position);

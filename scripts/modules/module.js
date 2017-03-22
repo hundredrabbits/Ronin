@@ -13,6 +13,11 @@ function Module(rune)
     console.log("Installing "+ronin.modules[this.rune].constructor.name);
   }
 
+  this.context = function()
+  {
+    return this.select_layer().context();
+  }
+
   this.create_layer = function()
   {
     this.layer = new Layer(this.constructor.name+".Preview",this);
