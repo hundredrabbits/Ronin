@@ -54,6 +54,8 @@ function Magnet(rune)
 
   this.draw_helper = function(position)
   {    
+    if(this.settings["grid"].width < 5 || this.settings["grid"].height < 5){ return; }
+
     var magnetized = this.magnetic_position(position);
     this.context().beginPath();
     this.context().arc(magnetized.x, magnetized.y, 4, 0, 2 * Math.PI, false);
@@ -61,7 +63,6 @@ function Magnet(rune)
     this.context().stroke();
     this.context().closePath();
   }
-
 
   this.draw_marker = function(position,size = 0.5)
   {

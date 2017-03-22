@@ -93,4 +93,15 @@ function Command(content)
     }
     return null;
   }
+
+  this.methods = function()
+  {
+    var a = [];
+    for(i in this.content){
+      if(this.content[i].indexOf(":") > 0){
+        a.push(this.content[i]);
+      }
+    }
+    return a;
+  }
 }

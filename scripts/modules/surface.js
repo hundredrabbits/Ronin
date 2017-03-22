@@ -4,7 +4,7 @@ function Surface(rune)
   
   this.element = null;
   this.settings = {"size":new Rect("200x200")};
-  this.methods = {"layer":new Method("layer",["name"])}
+  this.methods = [new Method("resize",[new Rect().name])]
 
   this.layers = {};
   this.active_layer = null;
@@ -26,23 +26,11 @@ function Surface(rune)
     setTimeout(function(){ ronin.surface.blink(); }, 30);
   }
 
-  this.active = function(cmd)
+  this.resize = function(params)
   {
-    if(cmd.setting("size")){
-      this.resize(this.settings["size"],cmd.position());
-    }
+    var rect = new Rect(params[0]);
+    this.settings["size"] = rect;
 
-    if(cmd.setting("layer")){
-      var name = cmd.setting("layer").value;
-      if(!this.layers[name]){
-        this.add_layer(new Layer(name));
-      }
-      this.select_layer(this.layers[name]);
-    }
-  }
-
-  this.resize = function(rect, position = null)
-  {
     Object.keys(ronin.surface.layers).forEach(function (key) {
       ronin.surface.layers[key].resize(rect);
     });
@@ -56,6 +44,15 @@ function Surface(rune)
 
     ronin.on_resize();
     ronin.terminal.log(new Log(this,"Resized Surface to "+this.settings["size"].render()));
+  }
+
+  this.select = function(params)
+  {
+    var layer_name = params[0];
+    if(!ronin.surface.layers[layer_name]){
+      this.add_layer(new Layer(name));
+    }
+    this.select_layer(this.layers[name]);
   }
 
   this.select_layer = function(layer)
@@ -77,13 +74,6 @@ function Surface(rune)
     layer.resize(this.settings["size"]);
     this.layers[layer.name] = layer;
     this.element.appendChild(layer.element);
-  }
-  
-  this.passive = function(cmd)
-  {
-    if(cmd.rect()){
-      ronin.overlay.draw(cmd.position(),cmd.rect());
-    }
   }
 
   this.widget = function()

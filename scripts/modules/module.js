@@ -45,16 +45,33 @@ function Module(rune)
     }
     ronin.terminal.log(new Log(this,"Unknown setting: "+key));
   }
+
+  this.run_methods = function(cmd)
+  {
+    var methods = cmd.methods();
+    for(i in methods){
+      var content = methods[i].split(":");
+      var name = content.shift();
+      var params = content;
+      if(this[name]){
+        this[name](params);
+      }
+      else{
+        ronin.terminal.log(new Log(this,name+" is not a method of "+this.constructor.name,"error"));
+      }
+      
+    }
+  }
   
   this.hint = function(content)
   {
     var h = "<b>"+ronin.module.constructor.name+"</b> ";
     
-    for(setting in ronin.module.settings){
-      h += setting+"="+ronin.module.settings[setting].render()+" ";
-    }
     for(method in ronin.module.methods){
       h += ronin.module.methods[method].render()+" ";
+    }
+    for(setting in ronin.module.settings){
+      h += setting+"="+ronin.module.settings[setting].render()+" ";
     }
 
     h += ronin.module.mouse_mode() ? "<i>"+ronin.module.mouse_mode()+"</i>" : "";

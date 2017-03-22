@@ -89,7 +89,8 @@ function Terminal(rune)
 
     if(ronin.modules[key]){
       ronin.modules[key].update_settings(cmd);
-      ronin.modules[key].active(cmd);
+      ronin.modules[key].run_methods(cmd);
+      // ronin.modules[key].active(cmd);
       ronin.terminal.history.push(content);
       ronin.terminal.history_index = ronin.terminal.history.length-1;
       ronin.terminal.update_menu();
