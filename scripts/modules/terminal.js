@@ -76,6 +76,7 @@ function Terminal(rune)
   {
     if(!ronin.terminal.queue[0]){ console.log("Finished queue"); return; }
 
+    console.info(ronin.terminal.queue[0]);
     active(ronin.terminal.queue[0].trim());
     ronin.terminal.queue.shift();
 
@@ -98,25 +99,6 @@ function Terminal(rune)
     else{
       ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+key));
     }    
-  }
-
-  //
-
-  this.logs = [];
-
-  this.log = function(log)
-  {
-    this.logs.push(log);
-  }
-
-  this.update_log = function()
-  {
-    if(ronin.terminal.logs[0]){
-      ronin.terminal.logs_element.appendChild(ronin.terminal.logs[0].element);
-      ronin.terminal.logs.shift();
-    }
-
-    setTimeout(function(){ ronin.terminal.update_log(); }, 200);
   }
 
   // Hint
@@ -178,13 +160,36 @@ function Terminal(rune)
     }
     return "<span style='color:#000'>"+s+"</span>";
   }
+
+  //
+
+  this.logs = [];
+
+  this.log = function(log)
+  {
+    this.logs.push(log);
+  }
+
+  this.update_log = function()
+  {
+    if(ronin.terminal.logs[0]){
+      ronin.terminal.logs_element.appendChild(ronin.terminal.logs[0].element);
+      ronin.terminal.logs.shift();
+    }
+
+    setTimeout(function(){ ronin.terminal.update_log(); }, 200);
+  }
 }
 
 // Log
 
 function Log(host,message,type = "default")
 {
+  this.host = host;
+  this.message = message;
+  this.type = type;
   this.element = document.createElement("log");
   this.element.setAttribute("class",type);
   this.element.innerHTML = "<span class='rune'>"+host.rune+"</span> "+message;
+  console.log(this.host.constructor.name,this.message)
 }

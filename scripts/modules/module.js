@@ -15,7 +15,7 @@ function Module(rune)
 
   this.context = function()
   {
-    return this.select_layer().context();
+    return this._layer().context();
   }
 
   this.create_layer = function()
@@ -25,7 +25,7 @@ function Module(rune)
     ronin.surface.add_layer(this.layer);
   }
 
-  this.select_layer = function()
+  this._layer = function()
   {
     if(!this.layer){ this.create_layer(); }
     return this.layer;

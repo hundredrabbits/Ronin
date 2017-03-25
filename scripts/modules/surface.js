@@ -50,9 +50,9 @@ function Surface(rune)
   {
     var layer_name = params[0];
     if(!ronin.surface.layers[layer_name]){
-      this.add_layer(new Layer(name));
+      this.add_layer(new Layer(layer_name));
     }
-    this.select_layer(this.layers[name]);
+    this.select_layer(this.layers[layer_name]);
   }
 
   this.select_layer = function(layer)
