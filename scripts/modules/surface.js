@@ -24,19 +24,18 @@ function Surface(rune)
 
   this.resize = function(params)
   {
-    var rect = new Rect(params[0]);
-    this.settings["size"] = rect;
+    this.settings["size"] = params.rect();
 
     Object.keys(ronin.surface.layers).forEach(function (key) {
-      ronin.surface.layers[key].resize(rect);
+      ronin.surface.layers[key].resize(this.settings["size"]);
     });
     
-    ronin.surface.element.width = rect.width * 2;
-    ronin.surface.element.height = rect.height * 2;
-    ronin.surface.element.style.width = rect.width+"px";
-    ronin.surface.element.style.height = rect.height+"px";
-    ronin.surface.element.style.marginLeft = -(rect.width/2);
-    ronin.surface.element.style.marginTop = -(rect.height/2);
+    ronin.surface.element.width = this.settings["size"].width * 2;
+    ronin.surface.element.height = this.settings["size"].height * 2;
+    ronin.surface.element.style.width = this.settings["size"].width+"px";
+    ronin.surface.element.style.height = this.settings["size"].height+"px";
+    ronin.surface.element.style.marginLeft = -(this.settings["size"].width/2);
+    ronin.surface.element.style.marginTop = -(this.settings["size"].height/2);
 
     ronin.on_resize();
     ronin.terminal.log(new Log(this,"Resized Surface to "+this.settings["size"].render()));
@@ -98,6 +97,8 @@ function Surface(rune)
 
   this.update_widget = function()
   {
+    if(!this.active_layer){ return; }
+
     var s = "";
     
     s += "<span class='module'>";

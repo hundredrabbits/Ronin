@@ -80,12 +80,14 @@ function Module(rune)
     var method_name = content.split(" ")[0];
 
     if(this.methods[method_name]){
-      console.log(this.methods[method_name].params)
       s = this.methods[method_name].params;
     }
     else{
       for(method in this.methods){
         s += "."+method+"("+method_name+") ";
+      }
+      for(setting in this.settings){
+        s += setting+"="+this.settings[setting].render()+" ";
       }
     }
     return s;  

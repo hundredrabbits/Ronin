@@ -92,27 +92,30 @@ function Terminal(rune)
     var module_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[0] : content.split(" ")[0];
     var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
 
+    var parameters = content.split(" "); parameters.shift();
+    var parameters = new Command(parameters);
+
     if(ronin[module_name] && ronin[module_name][method_name]){
-      ronin[module_name][method_name]();
+      ronin[module_name][method_name](parameters);
     }
     else{
       ronin.terminal.log(new Log(ronin.terminal,"Unknown module"));
     }
 
-    var key = content[0];
-    var cmd = new Command(content.substring(1).trim().split(" "));
+    // var key = content[0];
+    // var cmd = new Command(content.substring(1).trim().split(" "));
 
-    if(ronin.modules[key]){
-      ronin.modules[key].update_settings(cmd);
-      ronin.modules[key].run_methods(cmd);
-      // ronin.modules[key].active(cmd);
-      ronin.terminal.history.push(content);
-      ronin.terminal.history_index = ronin.terminal.history.length-1;
-      ronin.terminal.update_menu();
-    }
-    else{
-      ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+key));
-    }    
+    // if(ronin.modules[key]){
+    //   ronin.modules[key].update_settings(cmd);
+    //   ronin.modules[key].run_methods(cmd);
+    //   // ronin.modules[key].active(cmd);
+    //   ronin.terminal.history.push(content);
+    //   ronin.terminal.history_index = ronin.terminal.history.length-1;
+    //   ronin.terminal.update_menu();
+    // }
+    // else{
+    //   ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+key));
+    // }    
   }
 
   // Hint
