@@ -5,9 +5,23 @@ function Vector(rune)
   this.parameters = [Any];
   this.variables  = {"fill_color" : null,"stroke_width" : 5,"stroke_color" : "#ffffff", "line_cap" : "square"};
 
+  this.add_method(new Method("stroke",["Positions"]));
+  this.add_method(new Method("fill",["Positions"]));
+
   this.coordinates = [];
   this.last_pos = null;
   this.paths = [];
+
+  this.stroke = function()
+  {
+    // TODO
+    console.warn("!!!!!")
+  }
+
+  this.fill = function()
+  {
+    
+  }
   
   // Module
   

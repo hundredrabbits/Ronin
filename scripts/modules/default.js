@@ -2,6 +2,11 @@ function Default(rune)
 {
   Module.call(this,rune);
   
+  this.hint = function()
+  {
+    return "??";
+  }
+
   // Cursor
   
   this.mouse_mode = function()

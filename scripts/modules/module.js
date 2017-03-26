@@ -15,7 +15,7 @@ function Module(rune)
 
   this.context = function()
   {
-    return this._layer().context();
+    return this.get_layer().context();
   }
 
   this.create_layer = function()
@@ -25,9 +25,9 @@ function Module(rune)
     ronin.surface.add_layer(this.layer);
   }
 
-  this._layer = function()
+  this.get_layer = function(is_blinking = false)
   {
-    if(!this.layer){ this.create_layer(); }
+    if(!this.layer){ this.create_layer(); this.layer.is_blinking = is_blinking }
     return this.layer;
   }
 
@@ -67,21 +67,28 @@ function Module(rune)
       
     }
   }
+
+  this.add_method = function(method)
+  {
+    this.methods[method.name] = method;
+  }
   
   this.hint = function(content)
   {
-    var h = "<b>"+ronin.module.constructor.name+"</b> ";
-    
-    for(method in ronin.module.methods){
-      h += ronin.module.methods[method].render()+" ";
-    }
-    for(setting in ronin.module.settings){
-      h += setting+"="+ronin.module.settings[setting].render()+" ";
-    }
+    var s = "";
 
-    h += ronin.module.mouse_mode() ? "<i>"+ronin.module.mouse_mode()+"</i>" : "";
+    var method_name = content.split(" ")[0];
 
-    return this.pad(content)+h;    
+    if(this.methods[method_name]){
+      console.log(this.methods[method_name].params)
+      s = this.methods[method_name].params;
+    }
+    else{
+      for(method in this.methods){
+        s += "."+method+"("+method_name+") ";
+      }
+    }
+    return s;  
   }
 
   this.pad = function(input)

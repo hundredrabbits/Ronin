@@ -29,6 +29,10 @@ function Terminal(rune)
   
   this.passive = function(content)
   {
+    this.hint(content);
+
+    
+    return;
     var key = content[0];
     var cmd = this.cmd();
     
@@ -85,6 +89,16 @@ function Terminal(rune)
 
   function active(content)
   {
+    var module_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[0] : content.split(" ")[0];
+    var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
+
+    if(ronin[module_name] && ronin[module_name][method_name]){
+      ronin[module_name][method_name]();
+    }
+    else{
+      ronin.terminal.log(new Log(ronin.terminal,"Unknown module"));
+    }
+
     var key = content[0];
     var cmd = new Command(content.substring(1).trim().split(" "));
 
@@ -105,22 +119,13 @@ function Terminal(rune)
 
   this.update_hint = function(content = this.input_element.value)
   {
-    // ronin.terminal.input_element.setAttribute("style","color:"+ronin.brush.color.hex);
+    var module_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[0] : content.split(" ")[0];
 
-    if(content.indexOf(";") > -1){
-      this.hint_element.innerHTML = this.pad(content)+" "+content.split(";").length+" commands";
+    if(ronin[module_name]){
+      this.hint_element.innerHTML = this.pad(content)+ronin[module_name].hint(content.replace(module_name+".",""));
     }
-    else if(ronin.module){
-      this.hint_element.innerHTML = ronin.module.hint(content);  
-    }
-    else if(content == ""){
-      this.hint_element.innerHTML = "";
-      for(module in ronin.modules){
-        this.hint_element.innerHTML += "<b>"+module+"</b> "+ronin.modules[module].constructor.name+" ";
-      }
-    } 
     else{
-      this.hint_element.innerHTML = this.pad(content)+" Unknown Command."
+      this.hint_element.innerHTML = this.pad(content)+ronin["default"].hint(content);
     }
   }
 

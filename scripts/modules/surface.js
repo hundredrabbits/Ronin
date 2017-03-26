@@ -4,11 +4,13 @@ function Surface(rune)
   
   this.element = null;
   this.settings = {"size":new Rect("200x200")};
-  this.methods = [new Method("resize",[new Rect().name]),new Method("crop",[new Position().name,new Rect().name])]
 
   this.layers = {};
   this.active_layer = null;
   this.render_layer = null;
+
+  this.add_method(new Method("resize",[new Rect().name]));
+  this.add_method(new Method("crop",[new Position().name,new Rect().name]));
 
   this.widget_element = document.createElement("widget");
   
@@ -18,13 +20,7 @@ function Surface(rune)
     this.blink();
   }
 
-  this.blink = function()
-  {
-    Object.keys(ronin.surface.layers).forEach(function (key) {
-      ronin.surface.layers[key].blink();
-    });
-    setTimeout(function(){ ronin.surface.blink(); }, 30);
-  }
+  // Methods
 
   this.resize = function(params)
   {
@@ -46,6 +42,11 @@ function Surface(rune)
     ronin.terminal.log(new Log(this,"Resized Surface to "+this.settings["size"].render()));
   }
 
+  this.crop = function(params)
+  {
+
+  }
+
   this.select = function(params)
   {
     var layer_name = params[0];
@@ -53,6 +54,16 @@ function Surface(rune)
       this.add_layer(new Layer(layer_name));
     }
     this.select_layer(this.layers[layer_name]);
+  }
+
+  // Misc
+
+  this.blink = function()
+  {
+    Object.keys(ronin.surface.layers).forEach(function (key) {
+      ronin.surface.layers[key].blink();
+    });
+    setTimeout(function(){ ronin.surface.blink(); }, 30);
   }
 
   this.select_layer = function(layer)
@@ -98,14 +109,14 @@ function Surface(rune)
     s += "<span class='cursor'>"+ronin.cursor.mode.mouse_mode()+"</span>";
     
     var keys = Object.keys(ronin.surface.layers);
-    // var loc = keys.indexOf(this.active_layer.name);
+    var loc = keys.indexOf(this.active_layer.name);
 
-    // if(keys.length > 1){
-    //   s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
-    // }
-    // else{
-    //   s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"</span>";
-    // }
+    if(keys.length > 1){
+      s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
+    }
+    else{
+      s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"</span>";
+    }
   
     this.widget_element.innerHTML = s;
   }
@@ -136,7 +147,7 @@ function Surface(rune)
 
     if(crop && crop.params.length == 2){
       console.log(crop);  
-      ronin.overlay.select_layer().clear();
+      ronin.overlay.get_layer(true).clear();
       ronin.overlay.draw_rect(new Position(crop.params[0]),new Rect(crop.params[1]));
     }
     else{
@@ -154,7 +165,7 @@ function Surface(rune)
   
   this.mouse_down = function(position)
   {
-    ronin.overlay.select_layer().clear();
+    ronin.overlay.get_layer(true).clear();
     ronin.overlay.draw_pointer(position);
   }
   

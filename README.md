@@ -37,6 +37,8 @@ Enjoy
     Load default.rin on startup
   * Eye
     Swatches, handle all colors
+  + Path
+    Rename vector to Path
 
 
   this.collection = {};

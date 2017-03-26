@@ -1,10 +1,9 @@
-function Method(method_str)
+function Method(name,params)
 {
   Unit.call(this);
   
-  var content = method_str.split(":");
-  this.name = content.shift();
-  this.params = content;
+  this.name = name;
+  this.params = params;
   this.example = "";
   
   this.render = function()
