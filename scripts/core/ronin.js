@@ -11,7 +11,7 @@ function Ronin()
   this.brush    = new Brush("-");
   this.eye      = new Eye("*");
   this.render   = new Render("%");
-  this.vector   = new Vector("+");
+  this.path     = new Path("+");
   this.typo     = new Typographe("&");
   this.cursor   = new Cursor(".");
   this.terminal = new Terminal(">");
@@ -24,7 +24,7 @@ function Ronin()
   this.modules[this.brush.rune]    = this.brush;
   this.modules[this.eye.rune]      = this.eye;
   this.modules[this.typo.rune]     = this.typo;
-  this.modules[this.vector.rune]   = this.vector;
+  this.modules[this.path.rune]     = this.path;
   this.modules[this.terminal.rune] = this.terminal;
   this.modules[this.overlay.rune]  = this.overlay;
   this.modules[this.magnet.rune]   = this.magnet;

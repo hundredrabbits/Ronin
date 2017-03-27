@@ -4,7 +4,12 @@ function Default(rune)
   
   this.hint = function()
   {
-    return "??";
+    var s = "";
+
+    for(module in ronin.modules){
+      s += ronin.modules[module].constructor.name+" ";
+    }
+    return s;
   }
 
   // Cursor

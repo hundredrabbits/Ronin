@@ -77,17 +77,20 @@ function Module(rune)
   {
     var s = "";
 
+    ronin.terminal.hint_element.innerHTML = "";
+
     var method_name = content.split(" ")[0];
 
     if(this.methods[method_name]){
       s = this.methods[method_name].params;
+      s += this.methods[method_name].mouse_event ? "<i>["+this.methods[method_name].mouse_event+"]</i> " : "";
     }
     else{
       for(method in this.methods){
-        s += "."+method+"("+method_name+") ";
+        s += ".<b>"+method+"</b> ";
       }
       for(setting in this.settings){
-        s += setting+"="+this.settings[setting].render()+" ";
+        s += setting+"="+this.settings[setting]+" ";
       }
     }
     return s;  

@@ -16,7 +16,7 @@ function FileSave(rune)
     var w = window.open('about:blank','image from canvas');
 
     if(cmd.setting("format") && cmd.setting("format").value == "svg"){
-      w.document.write("<title>Untitled</title><body>"+ronin.vector.create_svg()+"</body>");
+      w.document.write("<title>Untitled</title><body>"+ronin.path.create_svg()+"</body>");
     }
     else if(cmd.setting("format") && cmd.setting("format").value == "jpg"){
       w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/jpeg')+"' width='"+ronin.surface.settings["size"].width+"px' height='"+ronin.surface.settings["size"].height+"px'/></body>");

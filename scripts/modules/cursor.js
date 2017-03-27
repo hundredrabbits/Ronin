@@ -130,18 +130,18 @@ function Cursor(rune)
 
   this.update = function(event)
   {
-    if(ronin.module){
-      this.set_mode(ronin.module);
-    }
-    else if(event.altKey == true && event.shiftKey == true){
-      this.set_mode(ronin.surface.active_layer);
-    }
-    else if(event.altKey == true){
-      this.set_mode(ronin.default);
-    }
-    else{
-      this.set_mode(ronin.brush);
-    }
+    // if(ronin.terminal.module_name){
+    //   this.set_mode(ronin.module);
+    // }
+    // else if(event.altKey == true && event.shiftKey == true){
+    //   this.set_mode(ronin.surface.active_layer);
+    // }
+    // else if(event.altKey == true){
+    //   this.set_mode(ronin.default);
+    // }
+    // else{
+    //   this.set_mode(ronin.brush);
+    // }
   }
   
   this.set_mode = function(mode)
@@ -161,7 +161,10 @@ function Cursor(rune)
       this.mode.mouse_from = this.position;
       this.mode.mouse_held = true;
       this.mode.mouse_down(this.position);  
+      console.log(this.mode)
     }
+
+    ronin.terminal.update_hint();
   }
   
   this.mouse_move = function(position)
@@ -185,6 +188,7 @@ function Cursor(rune)
       this.mode.mouse_move(this.position,rect);  
       this.mode.mouse_prev = this.position;
     }
+    ronin.terminal.update_hint();
   }
   
   this.mouse_up = function(position)
@@ -200,7 +204,7 @@ function Cursor(rune)
       this.mode.mouse_held = false;
     }
     ronin.terminal.input_element.focus();
-
+    ronin.terminal.update_hint();
     this.mode.mouse_from = null;
   }
 }

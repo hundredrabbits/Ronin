@@ -27,27 +27,31 @@ function Terminal(rune)
   {
   }
   
-  this.passive = function(content)
-  {
-    this.hint(content);
+  this.module_name = null;
+  this.method_name = null;
+  this.method_params = null;
 
-    
-    return;
-    var key = content[0];
-    var cmd = this.cmd();
-    
-    ronin.module = null;
-    this.hint_element.innerHTML = "";
-    
-    if(ronin.modules[key]){
-      ronin.modules[key].passive(cmd);
-      ronin.module = ronin.modules[key];
-      ronin.cursor.set_mode(ronin.module);
-      this.update_hint(content);
+  this.passive = function()
+  {
+    var content = this.input_element.value;
+    var parts = content.split(" ");
+    var key = parts.shift();
+
+    this.module_name   = key.split(".")[0];
+    this.method_name   = key.indexOf(".") > -1 ? key.split(".")[1] : null;
+    this.method_params = parts;
+
+    if(ronin[this.module_name]){
+      ronin.cursor.set_mode(ronin[this.module_name]);
+      if(ronin[this.module_name][this.method_name]){
+        ronin[this.module_name][this.method_name](this.method_params,true);
+      }
     }
     else{
       ronin.cursor.set_mode(ronin.brush);
     }
+
+    this.hint(content);
   }
 
   this.cmd = function()

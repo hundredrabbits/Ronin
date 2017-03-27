@@ -1,9 +1,10 @@
-function Method(name,params)
+function Method(name,params,mouse_event)
 {
   Unit.call(this);
   
   this.name = name;
   this.params = params;
+  this.mouse_event = mouse_event;
   this.example = "";
   
   this.render = function()
