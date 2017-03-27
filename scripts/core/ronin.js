@@ -12,7 +12,7 @@ function Ronin()
   this.eye      = new Eye("*");
   this.render   = new Render("%");
   this.path     = new Path("+");
-  this.typo     = new Typographe("&");
+  this.type     = new Type("&");
   this.cursor   = new Cursor(".");
   this.terminal = new Terminal(">");
   this.magnet   = new Magnet("^");
@@ -23,7 +23,7 @@ function Ronin()
   this.modules[this.render.rune]   = this.render;
   this.modules[this.brush.rune]    = this.brush;
   this.modules[this.eye.rune]      = this.eye;
-  this.modules[this.typo.rune]     = this.typo;
+  this.modules[this.type.rune]     = this.type;
   this.modules[this.path.rune]     = this.path;
   this.modules[this.terminal.rune] = this.terminal;
   this.modules[this.overlay.rune]  = this.overlay;

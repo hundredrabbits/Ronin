@@ -3,6 +3,7 @@ function Layer(name,manager = null)
   Module.call(this,"#");
 
   this.name = name;
+  this.rune = "#";
   this.manager = manager;
   this.element = document.createElement("canvas");
   this.element.setAttribute("id","_"+name);
