@@ -161,7 +161,6 @@ function Cursor(rune)
       this.mode.mouse_from = this.position;
       this.mode.mouse_held = true;
       this.mode.mouse_down(this.position);  
-      console.log(this.mode)
     }
 
     ronin.terminal.update_hint();

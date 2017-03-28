@@ -51,23 +51,6 @@ function Module(rune)
     ronin.terminal.log(new Log(this,"Unknown setting: "+key));
   }
 
-  this.run_methods = function(cmd)
-  {
-    var methods = cmd.methods();
-    for(i in methods){
-      var content = methods[i].split(":");
-      var name = content.shift();
-      var params = content;
-      if(this[name]){
-        this[name](params);
-      }
-      else{
-        ronin.terminal.log(new Log(this,name+" is not a method of "+this.constructor.name,"error"));
-      }
-      
-    }
-  }
-
   this.add_method = function(method)
   {
     this.methods[method.name] = method;
@@ -83,7 +66,7 @@ function Module(rune)
 
     if(this.methods[method_name]){
       s = this.methods[method_name].params;
-      s += this.methods[method_name].mouse_event ? "<i>["+this.methods[method_name].mouse_event+"]</i> " : "";
+      s += this.methods[method_name].mouse_event ? " <i>"+this.methods[method_name].mouse_event+"</i> " : "";
     }
     else{
       for(method in this.methods){

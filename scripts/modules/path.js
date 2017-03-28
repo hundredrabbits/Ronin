@@ -17,10 +17,13 @@ function Path(rune)
     if(!ronin.path.layer){ ronin.path.create_layer(); ronin.path.layer.is_blinking = true; }
 
     this.layer.clear();
-    this.layer.context().lineCap = this.settings["line_cap"];
-    this.layer.context().lineWidth = this.settings["line_width"];
-    this.layer.context().strokeStyle = this.settings["line_color"];
-    ronin.path.layer.context().stroke(new Path2D(params.content));
+
+    var target_layer = preview ? this.layer : ronin.frame.active_layer;
+
+    target_layer.context().lineCap = this.settings["line_cap"];
+    target_layer.context().lineWidth = this.settings["line_width"];
+    target_layer.context().strokeStyle = this.settings["line_color"];
+    target_layer.context().stroke(new Path2D(params.content));
   }
 
   this.fill = function(params,preview = false)
@@ -28,9 +31,12 @@ function Path(rune)
     if(!ronin.path.layer){ ronin.path.create_layer(); ronin.path.layer.is_blinking = true; }
 
     this.layer.clear();
-    this.layer.context().fillStyle = this.settings["fill_color"];
 
-    ronin.path.layer.context().fill(new Path2D(params.content));
+    var target_layer = preview ? this.layer : ronin.frame.active_layer;
+
+    target_layer.context().fillStyle = this.settings["fill_color"];
+
+    target_layer.context().fill(new Path2D(params.content));
   }
 
   // Tools
