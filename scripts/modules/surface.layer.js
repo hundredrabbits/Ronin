@@ -2,12 +2,29 @@ function Layer(name,manager = null)
 {
   Module.call(this,"#");
 
+  this.add_method(new Method("fill",["color","position","rect"],"Add position"));
+
   this.name = name;
   this.rune = "#";
   this.manager = manager;
   this.element = document.createElement("canvas");
   this.element.setAttribute("id","_"+name);
   this.element.setAttribute("class","layer");
+
+  this.fill = function(params,preview = false)
+  {
+    if(preview){ return; }
+    if(!params.color()){ return; }
+
+    this.context().beginPath();
+    this.context().rect(0, 0, this.element.width, this.element.height);
+    this.context().fillStyle = params.color().hex;
+    this.context().fill();
+    ronin.terminal.log(new Log(this,"Filled layer: "+params.color().hex)); 
+    this.element.style.border = "1px solid "+params.color().hex;
+    this.element.setAttribute("class",params.color().style());
+
+  }
 
   this.resize = function(rect)
   {
@@ -21,17 +38,6 @@ function Layer(name,manager = null)
     this.element.style.height = rect.height+"px";
 
     this.context().scale(2,2);
-  }
-
-  this.fill = function(color)
-  {
-    this.context().beginPath();
-    this.context().rect(0, 0, this.active_layer.element.width, this.active_layer.element.height);
-    this.context().fillStyle = cmd.color().hex;
-    this.context().fill();
-    ronin.terminal.log(new Log(this,"Filled layer: "+cmd.color().hex)); 
-    this.element.style.border = "1px solid "+cmd.color().hex;
-    this.element.setAttribute("class",cmd.color().style());
   }
 
   this.clear = function()

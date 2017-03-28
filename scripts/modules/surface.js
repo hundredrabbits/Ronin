@@ -60,6 +60,8 @@ function Surface(rune)
       this.add_layer(new Layer(layer_name));
     }
     this.select_layer(this.layers[layer_name]);
+    ronin.modules["layer"] = this.layers[layer_name];
+    ronin.layer = this.layers[layer_name];
   }
 
   // Misc

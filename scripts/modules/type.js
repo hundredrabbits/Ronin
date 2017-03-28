@@ -10,13 +10,11 @@ function Type(rune)
   {
     if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
 
-    var command = new Command(params);
-
     this.layer.clear();
 
-    var text = "Hello there.".replace("_"," ");
-    var position = command.position() ? command.position() : new Position(40,80);
-    var color = new Color("#ffffff");
+    var text = "Hello.".replace("_"," ");
+    var position = params.position() ? params.position() : new Position(40,80);
+    var color = params.color() ? params.color() :new Color("#ffffff");
     var size = 40;
     var font = "Georgia";
 
