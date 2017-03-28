@@ -26,33 +26,6 @@ function Terminal(rune)
   this.active = function(cmd)
   {
   }
-  
-  this.module_name = null;
-  this.method_name = null;
-  this.method_params = null;
-
-  this.passive = function()
-  {
-    var content = this.input_element.value;
-    var parts = content.split(" ");
-    var key = parts.shift();
-
-    this.module_name   = key.split(".")[0];
-    this.method_name   = key.indexOf(".") > -1 ? key.split(".")[1] : null;
-    this.method_params = parts;
-
-    if(ronin[this.module_name]){
-      ronin.cursor.set_mode(ronin[this.module_name]);
-      if(ronin[this.module_name][this.method_name]){
-        ronin[this.module_name][this.method_name](this.method_params,true);
-      }
-    }
-    else{
-      ronin.cursor.set_mode(ronin.brush);
-    }
-
-    this.hint(content);
-  }
 
   this.cmd = function()
   {
@@ -120,6 +93,33 @@ function Terminal(rune)
     // else{
     //   ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+key));
     // }    
+  }
+  
+  this.module_name = null;
+  this.method_name = null;
+  this.method_params = null;
+
+  this.passive = function()
+  {
+    var content = this.input_element.value;
+    var parts = content.split(" ");
+    var key = parts.shift();
+
+    this.module_name   = key.split(".")[0];
+    this.method_name   = key.indexOf(".") > -1 ? key.split(".")[1] : null;
+    this.method_params = new Command(parts);
+
+    if(ronin[this.module_name]){
+      ronin.cursor.set_mode(ronin[this.module_name]);
+      if(ronin[this.module_name][this.method_name]){
+        ronin[this.module_name][this.method_name](this.method_params,true);
+      }
+    }
+    else{
+      ronin.cursor.set_mode(ronin.brush);
+    }
+
+    this.hint(content);
   }
 
   // Hint

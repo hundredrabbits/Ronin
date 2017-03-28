@@ -22,13 +22,15 @@ function Surface(rune)
 
   // Methods
 
-  this.resize = function(params)
+  this.resize = function(params, preview = false)
   {
+    if(preview){ return; }
+
     this.settings["size"] = params.rect();
 
-    Object.keys(ronin.surface.layers).forEach(function (key) {
-      ronin.surface.layers[key].resize(this.settings["size"]);
-    });
+    for(layer_name in ronin.surface.layers){
+      ronin.surface.layers[layer_name].resize(this.settings["size"]);
+    }
     
     ronin.surface.element.width = this.settings["size"].width * 2;
     ronin.surface.element.height = this.settings["size"].height * 2;
@@ -41,14 +43,19 @@ function Surface(rune)
     ronin.terminal.log(new Log(this,"Resized Surface to "+this.settings["size"].render()));
   }
 
-  this.crop = function(params)
+  this.crop = function(params, preview = false)
   {
+    if(!params.position() || !params.rect()){ return; }
 
+    this.settings["size"] = params.rect();
+
+    ronin.overlay.get_layer(true).clear();
+    ronin.overlay.draw_rect(params.position(),params.rect());
   }
 
   this.select = function(params)
   {
-    var layer_name = params[0];
+    var layer_name = params.content;
     if(!ronin.surface.layers[layer_name]){
       this.add_layer(new Layer(layer_name));
     }
@@ -67,7 +74,6 @@ function Surface(rune)
 
   this.select_layer = function(layer)
   {
-    console.log("Selecting layer:"+layer.name);
     this.active_layer = layer;
   }
 
@@ -142,20 +148,20 @@ function Surface(rune)
     if(keys[loc-1] != null){this.select_layer(ronin.surface.layers[keys[loc-1]]);}
   }
 
-  this.passive = function(cmd)
-  { 
-    var crop = ronin.terminal.cmd().method("crop");
+  // this.passive = function(cmd)
+  // { 
+  //   var crop = ronin.terminal.cmd().method("crop");
 
-    if(crop && crop.params.length == 2){
-      console.log(crop);  
-      ronin.overlay.get_layer(true).clear();
-      ronin.overlay.draw_rect(new Position(crop.params[0]),new Rect(crop.params[1]));
-    }
-    else{
-      console.log("Missing params")
-    }
-    ronin.terminal.update_hint();
-  }
+  //   if(crop && crop.params.length == 2){
+  //     console.log(crop);  
+  //     ronin.overlay.get_layer(true).clear();
+  //     ronin.overlay.draw_rect(new Position(crop.params[0]),new Rect(crop.params[1]));
+  //   }
+  //   else{
+  //     console.log("Missing params")
+  //   }
+  //   ronin.terminal.update_hint();
+  // }
 
   // Cursor
 
@@ -172,8 +178,8 @@ function Surface(rune)
   
   this.mouse_move = function(position,rect)
   {      
-    ronin.terminal.input_element.value = "@ crop:"+this.mouse_from.render()+":"+rect.render()+" ";
-    this.passive();
+    ronin.terminal.input_element.value = "surface."+ronin.terminal.method_name+" "+this.mouse_from.render()+" "+rect.render()+" ";
+    ronin.terminal.passive();
   }
   
   this.mouse_up = function(position,rect)

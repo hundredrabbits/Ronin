@@ -20,7 +20,7 @@ function Path(rune)
     this.layer.context().lineCap = this.settings["line_cap"];
     this.layer.context().lineWidth = this.settings["line_width"];
     this.layer.context().strokeStyle = this.settings["line_color"];
-    ronin.path.layer.context().stroke(new Path2D(params));
+    ronin.path.layer.context().stroke(new Path2D(params.content));
   }
 
   this.fill = function(params,preview = false)
@@ -30,7 +30,7 @@ function Path(rune)
     this.layer.clear();
     this.layer.context().fillStyle = this.settings["fill_color"];
 
-    ronin.path.layer.context().fill(new Path2D(params));
+    ronin.path.layer.context().fill(new Path2D(params.content));
   }
 
   // Tools
