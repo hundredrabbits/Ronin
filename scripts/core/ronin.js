@@ -17,19 +17,19 @@ function Ronin()
   this.terminal = new Terminal(">");
   this.magnet   = new Magnet("^");
   
-  this.modules[this.surface.rune]  = this.surface;
-  this.modules[this.fileload.rune] = this.fileload;
-  this.modules[this.filesave.rune] = this.filesave;
-  this.modules[this.render.rune]   = this.render;
-  this.modules[this.brush.rune]    = this.brush;
-  this.modules[this.eye.rune]      = this.eye;
-  this.modules[this.type.rune]     = this.type;
-  this.modules[this.path.rune]     = this.path;
-  this.modules[this.terminal.rune] = this.terminal;
-  this.modules[this.overlay.rune]  = this.overlay;
-  this.modules[this.magnet.rune]   = this.magnet;
+  this.modules[this.surface.constructor.name]  = this.surface;
+  this.modules[this.fileload.constructor.name] = this.fileload;
+  this.modules[this.filesave.constructor.name] = this.filesave;
+  this.modules[this.render.constructor.name]   = this.render;
+  this.modules[this.brush.constructor.name]    = this.brush;
+  this.modules[this.eye.constructor.name]      = this.eye;
+  this.modules[this.type.constructor.name]     = this.type;
+  this.modules[this.path.constructor.name]     = this.path;
+  this.modules[this.terminal.constructor.name] = this.terminal;
+  this.modules[this.overlay.constructor.name]  = this.overlay;
+  this.modules[this.magnet.constructor.name]   = this.magnet;
 
-  this.modules[this.cursor.rune]   = this.cursor;
+  this.modules[this.cursor.constructor.name]   = this.cursor;
 
   // 
 

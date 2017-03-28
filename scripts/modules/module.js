@@ -10,7 +10,7 @@ function Module(rune)
   
   this.install = function()
   {
-    console.log("Installing "+ronin.modules[this.rune].constructor.name);
+    // console.log("Installing "+ronin.modules[this.rune].constructor.name);
   }
 
   this.context = function()
