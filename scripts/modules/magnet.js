@@ -39,8 +39,8 @@ function Magnet(rune)
 
     if(rect.width < 5 || rect.height < 5){ return; }
 
-    var horizontal = ronin.surface.settings["size"].width/rect.width;
-    var vertical = ronin.surface.settings["size"].height/rect.height;
+    var horizontal = ronin.frame.settings["size"].width/rect.width;
+    var vertical = ronin.frame.settings["size"].height/rect.height;
     
     for (var x = 1; x < horizontal; x++) {
       for (var y = 1; y < vertical; y++) {

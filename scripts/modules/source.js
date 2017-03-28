@@ -35,7 +35,7 @@ function Source(rune)
       width  = isNaN(width) && height > 0 ? (height*base_image.naturalWidth)/base_image.naturalHeight : width;
       height = isNaN(height) && width > 0 ? (width*base_image.naturalHeight)/base_image.naturalWidth : height;
       
-      ronin.surface.context().drawImage(base_image, position.x, position.y, width, height);
+      ronin.frame.context().drawImage(base_image, position.x, position.y, width, height);
     }
   }
 
@@ -52,7 +52,7 @@ function Source(rune)
       w.document.write("<title>Untitled</title><body>"+ronin.path.create_svg()+"</body>");
     }
     else if(params.setting("format") && params.setting("format").value == "jpg"){
-      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/jpeg')+"' width='"+ronin.surface.settings["size"].width+"px' height='"+ronin.surface.settings["size"].height+"px'/></body>");
+      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/jpeg')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/></body>");
     }
     else if(params.setting("format") && params.setting("format").value == "rin"){
       var w = window.open('about:blank','source');
@@ -62,7 +62,7 @@ function Source(rune)
     }
     else{
       console.log("!!")
-      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.surface.settings["size"].width+"px' height='"+ronin.surface.settings["size"].height+"px'/></body>");
+      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/></body>");
     }
     
     this.layer.remove(this);
@@ -71,12 +71,12 @@ function Source(rune)
   this.merge = function()
   {
     var a = [];
-    for(layer_name in ronin.surface.layers){
-      if(ronin.surface.layers[layer_name].manager){ continue; }
-      a.push(ronin.surface.layers[layer_name]);
+    for(layer_name in ronin.frame.layers){
+      if(ronin.frame.layers[layer_name].manager){ continue; }
+      a.push(ronin.frame.layers[layer_name]);
     }
     for (i = 0; i < a.length; i++) {
-      this.layer.context().drawImage(a[i].context().canvas,0,0,ronin.surface.settings["size"].width,ronin.surface.settings["size"].height);
+      this.layer.context().drawImage(a[i].context().canvas,0,0,ronin.frame.settings["size"].width,ronin.frame.settings["size"].height);
     }
     return this.layer;
   }

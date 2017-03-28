@@ -35,14 +35,14 @@ function Brush(rune)
   this.size_up = function()
   {
     this.settings["size"].float -= this.settings["size"].float > 1 ? 1 : 0;
-    ronin.surface.update_widget();
+    ronin.frame.update_widget();
     ronin.terminal.log(new Log(this,"Increased pointer size to: "+this.size));
   }
 
   this.size_down = function()
   {
     this.settings["size"].float += 1;
-    ronin.surface.update_widget();
+    ronin.frame.update_widget();
     ronin.terminal.log(new Log(this,"Decreased pointer size to: "+this.size));
   }
   
@@ -62,15 +62,15 @@ function Brush(rune)
     
     var position = ronin.cursor.position;
     
-    ronin.surface.context().beginPath();
-    ronin.surface.context().globalCompositeOperation="destination-out";
-    ronin.surface.context().moveTo(this.position_prev.x,this.position_prev.y);
-    ronin.surface.context().lineTo(position.x,position.y);
-    ronin.surface.context().lineCap="round";
-    ronin.surface.context().lineWidth = this.settings["size"].float * 5;
-    ronin.surface.context().strokeStyle = new Color("#ff0000").rgba();
-    ronin.surface.context().stroke();
-    ronin.surface.context().closePath();
+    ronin.frame.context().beginPath();
+    ronin.frame.context().globalCompositeOperation="destination-out";
+    ronin.frame.context().moveTo(this.position_prev.x,this.position_prev.y);
+    ronin.frame.context().lineTo(position.x,position.y);
+    ronin.frame.context().lineCap="round";
+    ronin.frame.context().lineWidth = this.settings["size"].float * 5;
+    ronin.frame.context().strokeStyle = new Color("#ff0000").rgba();
+    ronin.frame.context().stroke();
+    ronin.frame.context().closePath();
     
     this.position_prev = position;
   }

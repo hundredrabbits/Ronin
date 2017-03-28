@@ -15,7 +15,7 @@ function Eye(rune)
   // TODO: If a rect is given, return the average color
   this.color_picker = function(position,rect = null)
   {
-    var imgData = ronin.surface.context().getImageData(position.x*2, position.y*2, 1, 1).data;
+    var imgData = ronin.frame.context().getImageData(position.x*2, position.y*2, 1, 1).data;
     var c = new Color();
     ronin.terminal.input_element.value = "* "+(c.rgb_to_hex(imgData));
     ronin.terminal.update_hint();

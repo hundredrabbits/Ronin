@@ -3,6 +3,7 @@ function Layer(name,manager = null)
   Module.call(this,"#");
 
   this.add_method(new Method("fill",["color","position","rect"],"Add position"));
+  this.add_method(new Method("rename",["text"]));
 
   this.name = name;
   this.rune = "#";
@@ -16,14 +17,24 @@ function Layer(name,manager = null)
     if(preview){ return; }
     if(!params.color()){ return; }
 
+    var rect = params.rect() ? params.rect() : new Rect(this.element.width+"x"+this.element.height);
+    var position = params.position() ? params.position() : new Position("0,0");
+
     this.context().beginPath();
-    this.context().rect(0, 0, this.element.width, this.element.height);
+    this.context().rect(position.x, position.y, rect.width, rect.height);
     this.context().fillStyle = params.color().hex;
     this.context().fill();
-    ronin.terminal.log(new Log(this,"Filled layer: "+params.color().hex)); 
-    this.element.style.border = "1px solid "+params.color().hex;
-    this.element.setAttribute("class",params.color().style());
+    ronin.terminal.log(new Log(this,"Filled layer "+this.name+": "+params.color().hex)); 
+  }
 
+  this.rename = function(params, preview = false)
+  {
+    if(preview){ return; }
+
+    // TODO
+    // ronin.frame.layers[params.text()] = this;
+    // ronin.frame.layers[this.name] = null;
+    ronin.terminal.log(new Log(this,"Renamed layer "+this.name+" to "+params.text())); 
   }
 
   this.resize = function(rect)
@@ -49,8 +60,8 @@ function Layer(name,manager = null)
   {
     ronin.terminal.log(new Log(this,"Removing layer "+this.name));
     manager.layer = null;
-    ronin.surface.layers[this.name].element.outerHTML = "";
-    delete ronin.surface.layers[this.name];
+    ronin.frame.layers[this.name].element.outerHTML = "";
+    delete ronin.frame.layers[this.name];
   }
 
   this.context = function()
@@ -70,7 +81,7 @@ function Layer(name,manager = null)
     var e_name = this.name;
     var e_class = "";
     
-    if(ronin.surface.active_layer.name == this.name){ e_class += "highlight "; }
+    if(ronin.frame.active_layer.name == this.name){ e_class += "highlight "; }
     if(this.manager != null){ e_class += "managed "; }
 
     return "<span class='"+e_class+"'>"+e_name+"</span>";
@@ -102,7 +113,7 @@ function Layer(name,manager = null)
     var offset_x = this.move_from.x - position.x;
     var offset_y = this.move_from.y - position.y;
 
-    var imageData = this.context().getImageData(0, 0, ronin.surface.settings["size"].width * 2, ronin.surface.settings["size"].height * 2);
+    var imageData = this.context().getImageData(0, 0, ronin.frame.settings["size"].width * 2, ronin.frame.settings["size"].height * 2);
     this.clear();
     this.context().putImageData(imageData, -offset_x * 2, -offset_y * 2);
 

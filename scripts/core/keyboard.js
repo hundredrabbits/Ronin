@@ -12,7 +12,7 @@ function Keyboard()
       this.alt_held = true;
     }
     ronin.cursor.update(event);
-    ronin.surface.update_widget();
+    ronin.frame.update_widget();
     ronin.terminal.update_hint();
   }
 
@@ -45,7 +45,7 @@ function Keyboard()
 
     // Passive
     ronin.terminal.passive(ronin.terminal.input_element.value);
-    ronin.surface.update_widget();
+    ronin.frame.update_widget();
     ronin.terminal.update_hint();
   };
 

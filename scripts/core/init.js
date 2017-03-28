@@ -1,6 +1,6 @@
 var ronin = new Ronin();
 ronin.element = document.getElementById('ronin');
-ronin.surface.element = document.getElementById('surface');
+ronin.frame.element = document.getElementById('frame');
 ronin.cursor.element = document.getElementById('cursor');
 ronin.terminal.element = document.getElementById('terminal');
 ronin.cursor.mode = ronin.brush;
@@ -32,12 +32,12 @@ starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
 starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
 ronin.terminal.query("~ "+ronin.timestamp());
-ronin.terminal.query("surface.select main");
-ronin.terminal.query("surface.resize "+starting_canvas.render());
+ronin.terminal.query("frame.select main");
+ronin.terminal.query("frame.resize "+starting_canvas.render());
 // ronin.terminal.query("- color=#ff0000");
 // ronin.terminal.query("# fill=#ff0000");
 // ronin.terminal.query("~ Ready.");
 
 ronin.terminal.input_element.focus();
 ronin.terminal.update_hint();
-ronin.surface.update_widget();
+ronin.frame.update_widget();

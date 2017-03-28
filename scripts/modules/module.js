@@ -22,7 +22,7 @@ function Module(rune)
   {
     this.layer = new Layer(this.constructor.name+".Preview",this);
     this.layer.element.setAttribute("style","z-index:7000");
-    ronin.surface.add_layer(this.layer);
+    ronin.frame.add_layer(this.layer);
   }
 
   this.get_layer = function(is_blinking = false)
@@ -150,12 +150,12 @@ function Module(rune)
 
   this.key_arrow_up = function()
   { 
-    ronin.surface.layer_up();
+    ronin.frame.layer_up();
   }
 
   this.key_arrow_down = function()
   { 
-    ronin.surface.layer_down();
+    ronin.frame.layer_down();
   }
 
   this.key_arrow_left = function()

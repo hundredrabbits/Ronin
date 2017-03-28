@@ -94,6 +94,13 @@ function Command(content)
     return null;
   }
 
+  this.text = function()
+  {
+    var content_str = this.content.join(" ");
+    if(content_str.indexOf("\"") < 0){ return null; }
+    return content_str.split("\"")[1];
+  }
+
   this.methods = function()
   {
     var a = [];

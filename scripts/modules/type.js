@@ -12,15 +12,16 @@ function Type(rune)
 
     this.layer.clear();
 
-    var text = "Hello.".replace("_"," ");
+    var text = params.text() ? params.text() : "Placeholder";
     var position = params.position() ? params.position() : new Position(40,80);
     var color = params.color() ? params.color() :new Color("#ffffff");
     var size = 40;
     var font = "Georgia";
 
-    this.layer.context().font = size+"px "+font;
-    this.layer.context().fillStyle = color.hex; 
-    this.layer.context().fillText(text,position.x,position.y);
+    var target_layer = preview ? this.layer : ronin.frame.active_layer;
+    target_layer.context().font = size+"px "+font;
+    target_layer.context().fillStyle = color.hex; 
+    target_layer.context().fillText(text,position.x,position.y);
   }
 
   // Mouse

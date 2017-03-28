@@ -19,9 +19,9 @@ function Widget()
 
   this.on_resize = function()
   {
-    this.element.style.left = (window.innerWidth/2)-(ronin.surface.settings["size"].width/2);
-    this.element.style.top = (window.innerHeight/2)+(ronin.surface.settings["size"].height/2)+20;
-    this.element.style.width = ronin.surface.settings["size"].width+"px";
+    this.element.style.left = (window.innerWidth/2)-(ronin.frame.settings["size"].width/2);
+    this.element.style.top = (window.innerHeight/2)+(ronin.frame.settings["size"].height/2)+20;
+    this.element.style.width = ronin.frame.settings["size"].width+"px";
     
     this.update();
   }

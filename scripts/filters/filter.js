@@ -73,11 +73,11 @@ function Filter()
 
   this.context = function()
   {
-    return ronin.surface.active_layer.context();
+    return ronin.frame.active_layer.context();
   }
   
   this.pixels = function()
   {
-    return ronin.surface.active_layer.context().getImageData(0,0,ronin.surface.settings["size"].width * 2,ronin.surface.settings["size"].height * 2);
+    return ronin.frame.active_layer.context().getImageData(0,0,ronin.frame.settings["size"].width * 2,ronin.frame.settings["size"].height * 2);
   }
 }

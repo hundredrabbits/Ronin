@@ -134,7 +134,7 @@ function Cursor(rune)
     //   this.set_mode(ronin.module);
     // }
     // else if(event.altKey == true && event.shiftKey == true){
-    //   this.set_mode(ronin.surface.active_layer);
+    //   this.set_mode(ronin.frame.active_layer);
     // }
     // else if(event.altKey == true){
     //   this.set_mode(ronin.default);

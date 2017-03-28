@@ -9,7 +9,7 @@ function Filter_Stencil()
     var color = cmd.color() ? cmd.color().hex : "#ffffff";
 
     ronin.render.layer.clear();
-    this.draw(ronin.surface.active_layer.context(),angle,color);
+    this.draw(ronin.frame.active_layer.context(),angle,color);
   }
 
   this.preview = function(cmd)
@@ -23,8 +23,8 @@ function Filter_Stencil()
 
   this.draw = function(context = this.context(), angle, color)
   {
-    var w = ronin.surface.settings["size"].width;
-    var h = ronin.surface.settings["size"].height;
+    var w = ronin.frame.settings["size"].width;
+    var h = ronin.frame.settings["size"].height;
     
     context.translate(w/2,h/2);
 

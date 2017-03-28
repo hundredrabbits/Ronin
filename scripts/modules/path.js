@@ -49,7 +49,7 @@ function Path(rune)
   {
     var s = "";
 
-    s += "<svg width='"+ronin.surface.settings["size"].width+"' height='"+ronin.surface.settings["size"].height+"' xmlns='http://www.w3.org/2000/svg' baseProfile='full' version='1.1' style='fill:none;stroke:red;stroke-width:2px;stroke-linecap:square;'>";
+    s += "<svg width='"+ronin.frame.settings["size"].width+"' height='"+ronin.frame.settings["size"].height+"' xmlns='http://www.w3.org/2000/svg' baseProfile='full' version='1.1' style='fill:none;stroke:red;stroke-width:2px;stroke-linecap:square;'>";
 
     for (var i = 0; i < this.paths.length; i++) {
       s += "<path d='"+this.paths[i]+"' />";

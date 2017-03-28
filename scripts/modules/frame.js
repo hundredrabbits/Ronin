@@ -1,4 +1,4 @@
-function Surface(rune)
+function Frame(rune)
 {
   Module.call(this,rune);
   
@@ -28,16 +28,16 @@ function Surface(rune)
 
     this.settings["size"] = params.rect();
 
-    for(layer_name in ronin.surface.layers){
-      ronin.surface.layers[layer_name].resize(this.settings["size"]);
+    for(layer_name in ronin.frame.layers){
+      ronin.frame.layers[layer_name].resize(this.settings["size"]);
     }
     
-    ronin.surface.element.width = this.settings["size"].width * 2;
-    ronin.surface.element.height = this.settings["size"].height * 2;
-    ronin.surface.element.style.width = this.settings["size"].width+"px";
-    ronin.surface.element.style.height = this.settings["size"].height+"px";
-    ronin.surface.element.style.marginLeft = -(this.settings["size"].width/2);
-    ronin.surface.element.style.marginTop = -(this.settings["size"].height/2);
+    ronin.frame.element.width = this.settings["size"].width * 2;
+    ronin.frame.element.height = this.settings["size"].height * 2;
+    ronin.frame.element.style.width = this.settings["size"].width+"px";
+    ronin.frame.element.style.height = this.settings["size"].height+"px";
+    ronin.frame.element.style.marginLeft = -(this.settings["size"].width/2);
+    ronin.frame.element.style.marginTop = -(this.settings["size"].height/2);
 
     ronin.on_resize();
     ronin.terminal.log(new Log(this,"Resized Surface to "+this.settings["size"].render()));
@@ -56,7 +56,7 @@ function Surface(rune)
   this.select = function(params)
   {
     var layer_name = params.content;
-    if(!ronin.surface.layers[layer_name]){
+    if(!ronin.frame.layers[layer_name]){
       this.add_layer(new Layer(layer_name));
     }
     this.select_layer(this.layers[layer_name]);
@@ -68,10 +68,10 @@ function Surface(rune)
 
   this.blink = function()
   {
-    Object.keys(ronin.surface.layers).forEach(function (key) {
-      ronin.surface.layers[key].blink();
+    Object.keys(ronin.frame.layers).forEach(function (key) {
+      ronin.frame.layers[key].blink();
     });
-    setTimeout(function(){ ronin.surface.blink(); }, 30);
+    setTimeout(function(){ ronin.frame.blink(); }, 30);
   }
 
   this.select_layer = function(layer)
@@ -81,8 +81,8 @@ function Surface(rune)
 
   this.select_any_layer = function()
   {
-    var layer_name = Object.keys(ronin.surface.layers)[0];
-    this.select_layer(ronin.surface.layers[layer_name]);    
+    var layer_name = Object.keys(ronin.frame.layers)[0];
+    this.select_layer(ronin.frame.layers[layer_name]);    
   }
 
   this.add_layer = function(layer)
@@ -117,14 +117,14 @@ function Surface(rune)
   
     s += "<span class='cursor'>"+ronin.cursor.mode.mouse_mode()+"</span>";
     
-    var keys = Object.keys(ronin.surface.layers);
+    var keys = Object.keys(ronin.frame.layers);
     var loc = keys.indexOf(this.active_layer.name);
 
     if(keys.length > 1){
-      s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
+      s += "<span class='layer'>"+ronin.frame.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
     }
     else{
-      s += "<span class='layer'>"+ronin.surface.active_layer.widget()+"</span>";
+      s += "<span class='layer'>"+ronin.frame.active_layer.widget()+"</span>";
     }
   
     this.widget_element.innerHTML = s;
@@ -134,20 +134,20 @@ function Surface(rune)
 
   this.layer_up = function()
   {
-    var keys = Object.keys(ronin.surface.layers);
+    var keys = Object.keys(ronin.frame.layers);
     var loc = keys.indexOf(this.active_layer.name);
 
     if(loc >= keys.length-1){ console.log("Reached end"); return false; }
 
-    if(keys[loc+1] != null){this.select_layer(ronin.surface.layers[keys[loc+1]]);}
+    if(keys[loc+1] != null){this.select_layer(ronin.frame.layers[keys[loc+1]]);}
   }
 
   this.layer_down = function()
   {
-    var keys = Object.keys(ronin.surface.layers);
+    var keys = Object.keys(ronin.frame.layers);
     var loc = keys.indexOf(this.active_layer.name);
 
-    if(keys[loc-1] != null){this.select_layer(ronin.surface.layers[keys[loc-1]]);}
+    if(keys[loc-1] != null){this.select_layer(ronin.frame.layers[keys[loc-1]]);}
   }
 
   // this.passive = function(cmd)
@@ -180,7 +180,7 @@ function Surface(rune)
   
   this.mouse_move = function(position,rect)
   {      
-    ronin.terminal.input_element.value = "surface."+ronin.terminal.method_name+" "+this.mouse_from.render()+" "+rect.render()+" ";
+    ronin.terminal.input_element.value = "frame."+ronin.terminal.method_name+" "+this.mouse_from.render()+" "+rect.render()+" ";
     ronin.terminal.passive();
   }
   
