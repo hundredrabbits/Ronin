@@ -11,12 +11,14 @@ function Source(rune)
   {
     if(!params.filepath() || !params.rect() || !params.position()){ ronin.terminal.log(new Log(this,"Missing image path.","error")); return; }
 
-    console.log("OK");
+    this.get_layer(true).clear();
+
+    var target_layer = preview ? this.get_layer(true) : ronin.frame.active_layer;
 
     ronin.overlay.get_layer(true).clear();
-    ronin.overlay.draw_rect(params.position(),params.rect());
 
     var position = params.position() ? params.position() : new Position();
+    ronin.overlay.draw_rect(params.position(),params.rect());
     
     base_image = new Image();
     base_image.src = params.filepath().path;
@@ -35,8 +37,10 @@ function Source(rune)
       width  = isNaN(width) && height > 0 ? (height*base_image.naturalWidth)/base_image.naturalHeight : width;
       height = isNaN(height) && width > 0 ? (width*base_image.naturalHeight)/base_image.naturalWidth : height;
       
-      ronin.frame.context().drawImage(base_image, position.x, position.y, width, height);
+      target_layer.context().drawImage(base_image, position.x, position.y, width, height);
     }
+
+    if(!preview){ ronin.overlay.get_layer(true).clear(); }
   }
 
   this.save = function(params,preview = false)
@@ -79,5 +83,15 @@ function Source(rune)
       this.layer.context().drawImage(a[i].context().canvas,0,0,ronin.frame.settings["size"].width,ronin.frame.settings["size"].height);
     }
     return this.layer;
+  }
+
+  this.key_escape = function()
+  {
+    if(this.layer){ this.layer.remove(this); }
+    this.coordinates = [];
+    this.last_pos = null;
+    ronin.terminal.input_element.value = "";
+    ronin.terminal.passive();
+    ronin.overlay.get_layer(true).clear();
   }
 }

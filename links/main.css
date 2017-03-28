@@ -20,4 +20,5 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal logs log { display: block; font-size:10px; line-height:25px; padding:0px 5px; color:#666;}
 #terminal logs log .rune { color:white; }
 #terminal logs log.error .rune { color:red; }
+#terminal logs log.input { color:white; }
 #terminal menu { display: inline-block;position: absolute;bottom: 0px;right: 0px;padding: 0px 5px;font-size: 10px;line-height: 20px;color:white }

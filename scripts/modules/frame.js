@@ -50,7 +50,7 @@ function Frame(rune)
     this.settings["size"] = params.rect();
 
     ronin.overlay.get_layer(true).clear();
-    ronin.overlay.draw_rect(params.position(),params.rect());
+    if(preview){ronin.overlay.draw_rect(params.position(),params.rect());}
   }
 
   this.select = function(params)

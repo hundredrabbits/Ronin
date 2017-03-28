@@ -32,7 +32,7 @@ function Ronin()
   // this.modules[this.magnet.constructor.name]   = this.magnet;
 
   this.modules[this.cursor.constructor.name]   = this.cursor;
-  this.modules[this.terminal.constructor.name] = this.terminal;
+  // this.modules[this.terminal.constructor.name] = this.terminal;
 
   // 
 
@@ -41,6 +41,8 @@ function Ronin()
     for(var key in this.modules){
       this.modules[key].install();
     }
+
+    this.terminal.install();
   }
   
   this.cursors = [];

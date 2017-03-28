@@ -1,6 +1,6 @@
 function Terminal(rune)
 {
-  Module.call(this,rune);
+  Module.call(this,">");
 
   this.element = null;
   this.input_element = document.createElement("input");
@@ -66,14 +66,29 @@ function Terminal(rune)
 
   function active(content)
   {
-    var module_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[0] : content.split(" ")[0];
+    ronin.terminal.log(new Log(this,content,"input"));
+
+    if(content.indexOf(".") > -1){
+      var module_name = content.split(" ")[0].split(".")[0]
+    }
+    else if(content.indexOf(":") > -1){
+      var module_name = content.split(" ")[0].split(":")[0]
+    }
+    else{
+      var module_name = content.split(" ")[0];
+    }
+
     var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
+    var setting_name = content.indexOf(":") > -1 ? content.split(" ")[0].split(":")[1] : null;
 
     var parameters = content.split(" "); parameters.shift();
     var parameters = new Command(parameters);
 
     if(ronin[module_name] && ronin[module_name][method_name]){
       ronin[module_name][method_name](parameters);
+    }
+    else if(ronin[module_name] && ronin[module_name].settings[setting_name]){
+      ronin[module_name].update_setting(setting_name,parameters);
     }
     else{
       ronin.terminal.log(new Log(ronin.terminal,"Unknown module"));
@@ -202,6 +217,6 @@ function Log(host,message,type = "default")
   this.type = type;
   this.element = document.createElement("log");
   this.element.setAttribute("class",type);
-  this.element.innerHTML = "<span class='rune'>"+host.rune+"</span> "+message;
+  this.element.innerHTML = "<span class='rune'>"+(host.rune ? host.rune : ">")+"</span> "+message;
   console.log(this.host.constructor.name,this.message)
 }

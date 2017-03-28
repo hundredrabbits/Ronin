@@ -39,16 +39,10 @@ function Module(rune)
   {
   }
   
-  this.update_settings = function(cmd)
+  this.update_setting = function(name,value)
   {
-    for (var key in this.settings){
-      if(!cmd.setting(key)){ continue; }
-      var value = new this.settings[key].constructor(cmd.setting(key).value);
-      this.settings[key] = value;
-      ronin.terminal.log(new Log(this,"Updated "+key+" with "+cmd.setting(key).value));
-      return;
-    }
-    ronin.terminal.log(new Log(this,"Unknown setting: "+key));
+    this.settings[name] = value.content.join(" ");
+    ronin.terminal.log(new Log(this,"Updated setting: "+name));
   }
 
   this.add_method = function(method)
