@@ -36,13 +36,6 @@ Enjoy
   * Eye
     Swatches, handle all colors
 
-
-  this.collection = {};
-  this.collection["grid"] = {};
-  this.collection["grid"]["glyph"] = "@ 300x300; @ layer=background ; @ #A1A1A1 ; . 15x15 4,4 ; @ layer=main";
-  this.collection["grid"]["icon"] = "@ 360x360; @ layer=background ; @ #000000 ; . 15x15 4,4 ; @ layer=main";
-  this.collection["grid"]["rune"] = "@ 240x360; @ layer=background ; @ #000000 ; . 15x15 4,4 ; @ layer=main";
-
   this.collection["custom"] = {};
   this.collection["custom"]["default"] = "@ 720x405 ; / ../assets/todo.jpg 720x 0,0 ; % chromatic 2 ; / ../assets/logo.png 35x35 15,355";
   this.collection["custom"]["black"] = "@ 720x405 #ff0000 ; / ../assets/todo.jpg 720x 0,-30 ; % grey ; % sharpen ; % sharpen ; % chromatic 2 ; @ layer=icon ; / ../assets/logo.png 35x35 15,355 "; 
