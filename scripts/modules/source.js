@@ -4,7 +4,7 @@ function Source(rune)
   
   this.parameters = [Filepath,Position,Rect];
 
-  this.add_method(new Method("save",["name"],"Add point"));
+  this.add_method(new Method("save",["name","rect","format"]));
   this.add_method(new Method("load",["path","position","rect"]),"Add point");
   
   this.load = function(params,preview = false) // source.load ../assets/todo.jpg 200x200 40,40

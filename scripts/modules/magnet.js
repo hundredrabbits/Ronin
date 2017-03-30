@@ -4,32 +4,21 @@ function Magnet(rune)
   
   this.settings = {"grid" : new Rect("1x1"), "marker": new Position("4,4"), "reset" : new Bang()};
 
-  this.passive = function(cmd)
+  this.add_method(new Method("grid",["rect","position"]));
+
+  this.grid = function(params,preview = false)
   {
+    if(!params.rect()){ return; }
+
     if(!this.layer){ this.create_layer(); }
 
     this.layer.clear();
-    this.draw_grid(cmd.setting("grid"),cmd.setting("marker"));
-  }
+    this.draw_grid(params.rect(),params.position());
 
-  this.active = function(cmd)
-  {
-    if(cmd.bang()){
-      if(this.layer){ this.layer.remove(this); }
-      return;
+    if(preview == false){
+      this.settings["grid"] = params.rect();
+      this.settings["market"] = params.position();
     }
-
-    if(!this.layer){ this.create_layer(); }
-
-    this.layer.clear();
-    this.draw_grid(this.settings["grid"],this.settings["marker"]);
-  }
-  
-  this.context = function()
-  {
-    if(!this.layer){ this.create_layer(); }
-
-    return this.layer.context();
   }
 
   this.draw_grid = function(rect,grid)

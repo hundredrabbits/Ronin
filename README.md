@@ -10,8 +10,6 @@ Enjoy
     Splash screen
     Hide widget on mouseover
     Add locks
-    Store values in modules, experiment with vector
-    Give name to settings
     Merge layers
     Export multiple layers file
   % Render
@@ -37,8 +35,6 @@ Enjoy
     Load default.rin on startup
   * Eye
     Swatches, handle all colors
-  + Path
-    Rename vector to Path
 
 
   this.collection = {};

@@ -3,6 +3,9 @@ function Layer(name,manager = null)
   Module.call(this,"#");
 
   this.add_method(new Method("fill",["color","position","rect"],"Add position"));
+  this.add_method(new Method("rotate",["position","angle"]));
+  this.add_method(new Method("resize",["position","rect"]));
+  this.add_method(new Method("mirror",["position"]));
   this.add_method(new Method("rename",["text"]));
 
   this.name = name;
