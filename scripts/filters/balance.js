@@ -9,7 +9,7 @@ function Filter_Balance()
     if(!cmd.color()){ return; }
     if(!cmd.color().rgb()){ return; }
 
-    this.draw(ronin.frame.active_layer.context(),cmd.color().rgb());
+    this.draw(ronin.frame.context(),cmd.color().rgb());
   }
 
   this.preview = function(cmd)
@@ -28,7 +28,7 @@ function Filter_Balance()
     var w = ronin.frame.settings["size"].width;
     var h = ronin.frame.settings["size"].height;
 
-    var originalData = ronin.frame.active_layer.context().getImageData(0, 0, w*2, h*2);
+    var originalData = ronin.frame.context().getImageData(0, 0, w*2, h*2);
     var data = originalData.data;
 
     var r = (color_rgb.r / 255) + 0.5;

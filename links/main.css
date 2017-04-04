@@ -11,7 +11,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #overlay { position:absolute; z-index:1000;}
 #frame { cursor:none;}
 
-#terminal { position: fixed; bottom:0px; left:0px; background:#000; width:100vw; height: 120px;overflow: hidden;}
+#terminal { position: fixed; bottom:0px; left:0px; background:#000; width:100vw; height: 125px;overflow: hidden;}
 #terminal input { display: block; position:absolute; bottom:0px; width:100vw; padding:0px 5px; font-size:10px; line-height: 20px; background:none; z-index:900; color:white;}
 #terminal hint { background:#000; position:absolute; bottom:0px; line-height: 20px; padding:0px 5px; width:100vw; color:#777; font-size:10px; white-space: pre;}
 #terminal hint b { font-family: "input_mono_regular"; color:#999; }
@@ -22,3 +22,6 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal logs log.error .rune { color:red; }
 #terminal logs log.input { color:white; }
 #terminal menu { display: inline-block;position: absolute;bottom: 0px;right: 0px;padding: 0px 5px;font-size: 10px;line-height: 20px;color:white }
+
+#terminal.hide { height:25px; }
+#terminal.mini { height:120px; }

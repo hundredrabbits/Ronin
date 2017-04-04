@@ -10,6 +10,15 @@ function Terminal(rune)
 
   this.history = [];
 
+  this.add_method(new Method("save",["text"]));
+  this.add_method(new Method("display",["mini/hide/full"]));
+
+  this.display = function(params,preview = false)
+  {
+    if(preview){ return; }
+    this.element.setAttribute("class",params.content);
+  }
+
   // Module
   this.install = function(cmd)
   {
@@ -66,7 +75,7 @@ function Terminal(rune)
 
   function active(content)
   {
-    ronin.terminal.log(new Log(this,content,"input"));
+    ronin.terminal.log(new Log(ronin.terminal,content,"input"));
 
     if(content.indexOf(".") > -1){
       var module_name = content.split(" ")[0].split(".")[0]
@@ -90,8 +99,11 @@ function Terminal(rune)
     else if(ronin[module_name] && ronin[module_name].settings[setting_name]){
       ronin[module_name].update_setting(setting_name,parameters);
     }
+    else if(ronin[module_name]){
+      ronin.terminal.log(new Log(ronin.terminal,"Unknown method: "+method_name));
+    }
     else{
-      ronin.terminal.log(new Log(ronin.terminal,"Unknown module"));
+      ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+module_name));
     }
 
     // var key = content[0];

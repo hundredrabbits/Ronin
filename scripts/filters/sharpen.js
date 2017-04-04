@@ -11,7 +11,7 @@ function Filter_Sharpen()
 
     var w = ronin.frame.settings["size"].width;
     var h = ronin.frame.settings["size"].height;
-    var context = ronin.frame.active_layer.context();
+    var context = ronin.frame.context();
 
     var originalData = context.getImageData(0, 0, w*2, h*2);
     var data = originalData.data;

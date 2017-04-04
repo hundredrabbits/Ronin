@@ -11,6 +11,7 @@ function Frame(rune)
 
   this.add_method(new Method("resize",[new Rect().name]));
   this.add_method(new Method("crop",[new Position().name,new Rect().name]));
+  this.add_method(new Method("select",["text"]));
 
   this.widget_element = document.createElement("widget");
   
@@ -53,8 +54,10 @@ function Frame(rune)
     if(preview){ronin.overlay.draw_rect(params.position(),params.rect());}
   }
 
-  this.select = function(params)
+  this.select = function(params, preview = false)
   {
+    if(preview){ return; }
+
     var layer_name = params.content;
     if(!ronin.frame.layers[layer_name]){
       this.add_layer(new Layer(layer_name));
@@ -62,6 +65,11 @@ function Frame(rune)
     this.select_layer(this.layers[layer_name]);
     ronin.modules["layer"] = this.layers[layer_name];
     ronin.layer = this.layers[layer_name];
+  }
+
+  this.context = function()
+  {
+    return this.active_layer.context();
   }
 
   // Misc

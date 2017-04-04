@@ -2,10 +2,12 @@ function Layer(name,manager = null)
 {
   Module.call(this,"#");
 
-  this.add_method(new Method("fill",["color","position","rect"],"Add position"));
+  this.add_method(new Method("translate",["position"]));
+  this.add_method(new Method("clear",[]));
   this.add_method(new Method("rotate",["position","angle"]));
-  this.add_method(new Method("resize",["position","rect"]));
   this.add_method(new Method("mirror",["position"]));
+  this.add_method(new Method("fill",["color","position","rect"],"Add position"));
+  
   this.add_method(new Method("rename",["text"]));
 
   this.name = name;
@@ -14,6 +16,17 @@ function Layer(name,manager = null)
   this.element = document.createElement("canvas");
   this.element.setAttribute("id","_"+name);
   this.element.setAttribute("class","layer");
+
+  this.translate = function(params,preview = false)
+  {
+    if(!params.position()){ return; }
+    if(preview){ return; }
+
+    var data = this.data();
+    this.clear();
+    this.context().putImageData(data, params.position().x * 2, params.position().y * 2);
+    ronin.overlay.get_layer(true).clear();
+  }
 
   this.fill = function(params,preview = false)
   {
@@ -40,6 +53,13 @@ function Layer(name,manager = null)
     ronin.terminal.log(new Log(this,"Renamed layer "+this.name+" to "+params.text())); 
   }
 
+  this.clear = function(params, preview = false)
+  {
+    if(preview){ return; }
+
+    this.context().clearRect(0, 0, this.element.width, this.element.height);
+  }
+
   this.resize = function(rect)
   {
     ronin.terminal.log(new Log(this,"Resize "+this.name+" to "+rect.render()));
@@ -52,11 +72,6 @@ function Layer(name,manager = null)
     this.element.style.height = rect.height+"px";
 
     this.context().scale(2,2);
-  }
-
-  this.clear = function()
-  {
-    this.context().clearRect(0, 0, this.element.width, this.element.height);
   }
 
   this.remove = function(manager)
@@ -77,6 +92,11 @@ function Layer(name,manager = null)
     return this.element.toDataURL('image/png');
   }
 
+  this.data = function()
+  {
+    return this.context().getImageData(0, 0, ronin.frame.settings["size"].width * 2, ronin.frame.settings["size"].height * 2);
+  }
+
   //
 
   this.widget = function()
@@ -92,42 +112,98 @@ function Layer(name,manager = null)
 
   this.mouse_pointer = function(position)
   {
-    return ronin.cursor.draw_pointer_drag(position);
+    return ronin.cursor.draw_pointer_arrow(position);
   }
 
   this.mouse_mode = function()
   {
     return "Move";
   }
-  
-  this.move_from = null;
 
   this.mouse_down = function(position)
   {
-    this.move_from = ronin.position_in_window(position);
+    ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" 0,0";
+    ronin.terminal.passive();
   }
   
   this.mouse_move = function(position)
   {
-    if(this.move_from === null){ return; }
+    var offset = new Position((-this.mouse_from.x + position.x)+","+(-this.mouse_from.y + position.y));
 
-    position = ronin.position_in_window(position);
-    
-    var offset_x = this.move_from.x - position.x;
-    var offset_y = this.move_from.y - position.y;
+    ronin.overlay.get_layer(true).clear();
+    ronin.overlay.draw_cross(this.mouse_from);
+    ronin.overlay.draw_cross(position);
+    ronin.overlay.draw_line(this.mouse_from,position);
 
-    var imageData = this.context().getImageData(0, 0, ronin.frame.settings["size"].width * 2, ronin.frame.settings["size"].height * 2);
-    this.clear();
-    this.context().putImageData(imageData, -offset_x * 2, -offset_y * 2);
-
-    this.move_from = new Position(position.x,position.y);
-    
+    ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
+    ronin.terminal.passive();
   }
   
-  this.mouse_up = function(event)
+  this.mouse_up = function(position)
   {
-    this.move_from = null;
+    var offset = new Position((-this.mouse_from.x + position.x)+","+(-this.mouse_from.y + position.y));
+
+    ronin.overlay.get_layer(true).clear();
+    ronin.overlay.draw_circle(position);
+    ronin.overlay.draw_circle(this.mouse_from);
+    ronin.overlay.draw_line(this.mouse_from,position);
+
+    ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
+    ronin.terminal.passive();
+
+    // if(this.coordinates.length == 0){
+    //   this.coordinates.push("M"+position.render());
+    // }
+    // else{
+    //   var offset = this.last_pos ? position.offset(this.last_pos) : position;
+
+    //   if(keyboard.shift_held == true && keyboard.alt_held == true){
+    //     this.coordinates.push("M"+position.render());
+    //   }
+    //   else if(keyboard.shift_held == true){
+    //     this.coordinates.push("a"+offset.render()+" 0 0,1 "+offset.render());
+    //   }
+    //   else if(keyboard.alt_held == true){
+    //    this.coordinates.push("a"+offset.render()+" 0 0,0 "+offset.render()); 
+    //   }
+    //   else{
+    //     this.coordinates.push("l"+offset.render());
+    //   }
+    // }
+
+    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
+    // this.last_pos = position;
+    // ronin.terminal.passive();
   }
+  
+  // this.move_from = null;
+
+  // this.mouse_down = function(position)
+  // {
+  //   this.move_from = ronin.position_in_window(position);
+  // }
+  
+  // this.mouse_move = function(position)
+  // {
+  //   if(this.move_from === null){ return; }
+
+  //   position = ronin.position_in_window(position);
+    
+  //   var offset_x = this.move_from.x - position.x;
+  //   var offset_y = this.move_from.y - position.y;
+
+  //   var imageData = this.context().getImageData(0, 0, ronin.frame.settings["size"].width * 2, ronin.frame.settings["size"].height * 2);
+  //   this.clear();
+  //   this.context().putImageData(imageData, -offset_x * 2, -offset_y * 2);
+
+  //   this.move_from = new Position(position.x,position.y);
+    
+  // }
+  
+  // this.mouse_up = function(event)
+  // {
+  //   this.move_from = null;
+  // }
 
   // Blink
 

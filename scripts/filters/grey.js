@@ -7,10 +7,10 @@ function Filter_Grey()
   this.render = function(cmd)
   {
     if(cmd.color() && cmd.color().rgb()){
-      this.draw(ronin.frame.active_layer.context(),cmd.color().rgb());
+      this.draw(ronin.frame.context(),cmd.color().rgb());
     }
     else{
-      this.draw(ronin.frame.active_layer.context());
+      this.draw(ronin.frame.context());
     }
   }
 
@@ -32,7 +32,7 @@ function Filter_Grey()
     var w = ronin.frame.settings["size"].width;
     var h = ronin.frame.settings["size"].height;
 
-    var originalData = ronin.frame.active_layer.context().getImageData(0, 0, w*2, h*2);
+    var originalData = ronin.frame.context().getImageData(0, 0, w*2, h*2);
     var data = originalData.data;
 
     var _r = (color_rgb.r / 255);

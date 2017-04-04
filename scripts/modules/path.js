@@ -16,14 +16,19 @@ function Path(rune)
   {
     if(!ronin.path.layer){ ronin.path.create_layer(); ronin.path.layer.is_blinking = true; }
 
+    ronin.terminal.log(new Log(this,"Stroke path!("+preview+")"));
+
     this.layer.clear();
 
-    var target_layer = preview ? this.layer : ronin.frame.active_layer;
+    var context = preview ? this.context() : ronin.frame.context();
 
-    target_layer.context().lineCap = this.settings["line_cap"];
-    target_layer.context().lineWidth = this.settings["line_width"];
-    target_layer.context().strokeStyle = this.settings["line_color"];
-    target_layer.context().stroke(new Path2D(params.content));
+    console.log(this.settings["line_width"]);
+    context.beginPath();
+    context.lineCap = this.settings["line_cap"];
+    context.lineWidth = this.settings["line_width"];
+    context.strokeStyle = this.settings["line_color"];
+    context.stroke(new Path2D(params.content));
+    context.closePath();
   }
 
   this.fill = function(params,preview = false)

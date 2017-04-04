@@ -15,13 +15,15 @@ function Type(rune)
     var text = params.text() ? params.text() : "Placeholder";
     var position = params.position() ? params.position() : new Position(40,80);
     var color = params.color() ? params.color() :new Color("#ffffff");
-    var size = 40;
-    var font = "Georgia";
+    var size = this.settings["size"];
+    var font = this.settings["font"];
 
     var target_layer = preview ? this.layer : ronin.frame.active_layer;
     target_layer.context().font = size+"px "+font;
     target_layer.context().fillStyle = color.hex; 
     target_layer.context().fillText(text,position.x,position.y);
+
+    console.log(target_layer.context());
   }
 
   // Mouse

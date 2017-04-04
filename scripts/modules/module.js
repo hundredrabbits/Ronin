@@ -42,7 +42,7 @@ function Module(rune)
   this.update_setting = function(name,value)
   {
     this.settings[name] = value.content.join(" ");
-    ronin.terminal.log(new Log(this,"Updated setting: "+name));
+    ronin.terminal.log(new Log(this,"Updated setting: "+name+", to "+this.settings[name]));
   }
 
   this.add_method = function(method)

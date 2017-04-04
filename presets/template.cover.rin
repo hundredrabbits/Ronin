@@ -1,0 +1,17 @@
+terminal.display hide ; 
+frame.resize 700x700 ; 
+layer.fill #ffcc00 ; 
+brush:color #000000 ; magnet.grid 10x10 4,4 ; 
+frame.select main ; 
+path:line_color black ; 
+path:line_width 20 ; 
+path:line_cap butt ; 
+path.stroke M200,400 a40,40 0 0,1 40,40 a-40,40 0 0,1 -40,40 l-40,0 a-40,-40 0 0,1 -40,-40 a40,-40 0 0,1 40,-40 l40,0 M280,490 l0,-90 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M390,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-40,0 a-20,20 0 0,0 -20,20 l0,20 l90,0 M520,390 l0,30 a20,20 0 0,0 20,20 l60,0 M600,390 l0,100 ;
+path:line_color #ffcc00 ; 
+path:line_cap round ;
+path:line_width 1 ;
+path.stroke M200,400 a40,40 0 0,1 40,40 a-40,40 0 0,1 -40,40 l-40,0 a-40,-40 0 0,1 -40,-40 a40,-40 0 0,1 40,-40 l40,0 M280,490 l0,-90 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M390,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-40,0 a-20,20 0 0,0 -20,20 l0,20 l90,0 M520,390 l0,30 a20,20 0 0,0 20,20 l60,0 M600,390 l0,100 ;
+type.write:size 20 ;
+type.write 110,540 "SUPERWORKER" ;
+type.write:size 20 ;
+type.write 110,560 "オフィス" ;

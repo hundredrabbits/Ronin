@@ -9,7 +9,7 @@ function Filter_Stencil()
     var color = cmd.color() ? cmd.color().hex : "#ffffff";
 
     ronin.render.layer.clear();
-    this.draw(ronin.frame.active_layer.context(),angle,color);
+    this.draw(ronin.frame.context(),angle,color);
   }
 
   this.preview = function(cmd)

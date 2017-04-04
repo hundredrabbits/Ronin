@@ -32,7 +32,7 @@ function Filter_Chromatic()
     //no longer letting you set how far each chanel is shifted, not sure how to receive extra data any more
 		var s = {r:value,g:value*.5,b:0};
 			
-    var context = ronin.frame.active_layer.context();
+    var context = ronin.frame.context();
     
     //now need two imagedatas to sample off of, for some reason I cant just dump the new pixels into an empty array :/
     var originalData = context.getImageData(0, 0, w*2, h*2);

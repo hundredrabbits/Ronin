@@ -99,6 +99,50 @@ function Overlay(rune)
     this.context().closePath();
   }
   
+  this.draw_line = function(position,to)
+  {
+    this.context().beginPath();
+    
+    this.context().moveTo(position.x,position.y);
+    this.context().lineTo(to.x,to.y);
+    
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = this.color.hex;
+    this.context().stroke();
+    this.context().closePath();
+  }
+
+  this.draw_circle = function(position,radius = 5)
+  {
+    this.context().beginPath();
+    this.context().arc(position.x, position.y, radius, 0, 2 * Math.PI, false);
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = "white";
+    this.context().stroke();
+    this.context().closePath();
+  }
+
+  this.draw_cross = function(position,radius = 5)
+  {
+    this.context().beginPath();
+    
+    this.context().moveTo(position.x+(radius-2),position.y);
+    this.context().lineTo(position.x+radius,position.y);
+    this.context().moveTo(position.x-(radius-2),position.y);
+    this.context().lineTo(position.x-radius,position.y);
+    this.context().moveTo(position.x,position.y+(radius-2));
+    this.context().lineTo(position.x,position.y+radius);
+    this.context().moveTo(position.x,position.y-(radius-2));
+    this.context().lineTo(position.x,position.y-radius);
+    
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = this.color.hex;
+    this.context().stroke();
+    this.context().closePath();
+  }
+  
   this.draw_vertical_line = function(position)
   {
     this.context().beginPath();
