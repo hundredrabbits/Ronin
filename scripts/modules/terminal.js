@@ -99,6 +99,9 @@ function Terminal(rune)
     else if(ronin[module_name] && ronin[module_name].settings[setting_name]){
       ronin[module_name].update_setting(setting_name,parameters);
     }
+    else if(ronin["render"].collection[method_name]){
+      ronin["render"].collection[method_name].render(parameters);
+    }
     else if(ronin[module_name]){
       ronin.terminal.log(new Log(ronin.terminal,"Unknown method: "+method_name));
     }

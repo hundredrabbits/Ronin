@@ -21,7 +21,7 @@ function Source(rune)
     ronin.overlay.draw_rect(params.position(),params.rect());
     
     base_image = new Image();
-    base_image.src = params.filepath().path;
+    base_image.src = "../assets/"+params.filepath().path;
     base_image.src += '?'+new Date().getTime();
     base_image.crossOrigin = "Anonymous";
     

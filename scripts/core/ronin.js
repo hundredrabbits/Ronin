@@ -27,7 +27,7 @@ function Ronin()
   this.modules[this.brush.constructor.name]    = this.brush;
 
   this.modules[this.source.constructor.name]   = this.source;
-  // this.modules[this.render.constructor.name]   = this.render;
+  this.modules[this.render.constructor.name]   = this.render;
   // this.modules[this.eye.constructor.name]      = this.eye;
   // this.modules[this.magnet.constructor.name]   = this.magnet;
 

@@ -1,0 +1,5 @@
+terminal.display hide ; 
+frame.resize 720x405 ; 
+source.load /01.jpg 720x 0,0 ;
+render.sharpen 0.5 ;
+source.load /hundred.rabbits.logo.white.svg 50x50 0,355 ;
