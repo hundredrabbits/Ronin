@@ -90,9 +90,10 @@ function Terminal(rune)
   {
     if(!ronin.terminal.queue[0]){ console.log("Finished queue"); return; }
 
-    console.info(ronin.terminal.queue[0].trim());
-    active(ronin.terminal.queue[0].trim());
-    ronin.terminal.queue.shift();
+    var entry = ronin.terminal.queue.shift();
+    console.info(entry);
+    active(entry);
+    // ronin.terminal.queue.shift();
 
     setTimeout(function(){ ronin.terminal.run(); }, 100);
   }
