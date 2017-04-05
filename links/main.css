@@ -25,3 +25,4 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 
 #terminal.hide { height:25px; }
 #terminal.mini { height:120px; }
+#terminal.full { height:100vh; }

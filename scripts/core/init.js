@@ -31,10 +31,7 @@ starting_canvas.height = window.innerHeight - 300;
 starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
 starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
-ronin.terminal.query("~ "+ronin.timestamp());
-ronin.terminal.query("frame.select main");
-ronin.terminal.query("frame.resize "+starting_canvas.render());
-ronin.terminal.query("brush:color #ff0000");
+ronin.terminal.query("terminal.load default.rin");
 
 ronin.terminal.input_element.focus();
 ronin.terminal.update_hint();

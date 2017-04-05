@@ -1,0 +1,3 @@
+frame.select what ; 
+frame.resize 400x400 ; 
+brush:color #ff00ff ;

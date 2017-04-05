@@ -11,7 +11,27 @@ function Terminal(rune)
   this.history = [];
 
   this.add_method(new Method("save",["text"]));
+  this.add_method(new Method("load",["path"]));
   this.add_method(new Method("display",["mini/hide/full"]));
+
+  this.load = function readTextFile(params, preview = false)
+  {
+    var file = "presets/"+params.content+'?'+new Date().getTime();
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                ronin.terminal.query(allText);                
+            }
+        }
+    }
+    rawFile.send(null);
+  }
 
   this.display = function(params,preview = false)
   {
@@ -53,7 +73,11 @@ function Terminal(rune)
     this.input_element.value = "";
 
     if(input_str.indexOf(";") > 0){
-      this.queue = input_str.split(";");
+      var parts = input_str.replace("\n","").split(";");
+      for(id in parts){
+        parts[id] = parts[id].replace("\n","").trim();
+      }
+      this.queue = parts;
     }
     else{
       this.queue = [];
@@ -66,7 +90,7 @@ function Terminal(rune)
   {
     if(!ronin.terminal.queue[0]){ console.log("Finished queue"); return; }
 
-    console.info(ronin.terminal.queue[0]);
+    console.info(ronin.terminal.queue[0].trim());
     active(ronin.terminal.queue[0].trim());
     ronin.terminal.queue.shift();
 
@@ -108,21 +132,6 @@ function Terminal(rune)
     else{
       ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+module_name));
     }
-
-    // var key = content[0];
-    // var cmd = new Command(content.substring(1).trim().split(" "));
-
-    // if(ronin.modules[key]){
-    //   ronin.modules[key].update_settings(cmd);
-    //   ronin.modules[key].run_methods(cmd);
-    //   // ronin.modules[key].active(cmd);
-    //   ronin.terminal.history.push(content);
-    //   ronin.terminal.history_index = ronin.terminal.history.length-1;
-    //   ronin.terminal.update_menu();
-    // }
-    // else{
-    //   ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+key));
-    // }    
   }
   
   this.module_name = null;
