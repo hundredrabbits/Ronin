@@ -2,90 +2,146 @@ function Cursor(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Rect,Position,Bang];
-  this.variables  = {};
+  this.settings = {};
 
   this.mode = null;
   this.position = new Position();
-  this.magnetism = null;
-  this.grid = new Position(4,4);
-
-  this.element = null;
 
   this.passive = function(cmd)
   {
-    if(!cmd.rect()){ return; }
-
     if(!this.layer){ this.create_layer(); }
-
-    this.layer.clear();
-    this.draw(cmd.rect(),cmd.position());
   }
 
   this.active = function(cmd)
   {
-    console.log("!");
-    if(cmd.bang()){
-      console.log("??");
-      this.magnetism = null;
-      if(this.layer){ this.layer.remove(this); }
-      return;
-    }
+  }
 
+  this.draw_pointer_arrow = function(position,size = 1)
+  {
     if(!this.layer){ this.create_layer(); }
 
-    this.layer.clear();
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
 
-    if(cmd.position()){
-      this.grid = cmd.position();
-    }
-
-    if(cmd.rect()){
-      this.magnetism = cmd.rect();
-      this.draw(cmd.rect(),this.grid);
-    }
-  }
-
-  this.draw = function(rect,grid)
-  {
-    if(rect.width < 5 || rect.height < 5){ return; }
-
-    var horizontal = ronin.surface.size.width/rect.width;
-    var vertical = ronin.surface.size.height/rect.height;
+    this.layer.context().beginPath();
     
-    for (var x = 1; x < horizontal; x++) {
-      for (var y = 1; y < vertical; y++) {
-        var dot_position = new Position(x * rect.width, y * rect.height);
-        var size = 0.5;
-        if(grid && x % grid.x == 0 && y % grid.y == 0){ size = 1; }
-        this.draw_marker(dot_position,size);
-      }
-    }
+    this.layer.context().moveTo(position.x,position.y);
+    this.layer.context().lineTo(position.x + 5,position.y);
+    this.layer.context().moveTo(position.x,position.y);
+    this.layer.context().lineTo(position.x,position.y + 5);
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
   }
 
-  this.draw_marker = function(position,size = 0.5)
+  this.draw_pointer_circle = function(position,size = 1)
   {
-    var context = this.layer.context();
-    context.beginPath();
-    context.arc(position.x, position.y, size, 0, 2 * Math.PI, false);
-    context.fillStyle = 'white';
-    context.fill();
+    if(!this.layer){ this.create_layer(); }
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.context().beginPath();
+    this.layer.context().moveTo(this.pointer_last.x,this.pointer_last.y);
+    this.layer.context().lineTo(position.x,position.y);
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.layer.context().beginPath();
+    this.layer.context().arc(position.x, position.y, size+1, 0, 2 * Math.PI, false);
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
+  }
+
+  this.draw_pointer_drag = function(position)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.context().beginPath();
+    
+    this.layer.context().moveTo(position.x,position.y - 3);
+    this.layer.context().lineTo(position.x,position.y + 3);
+    this.layer.context().moveTo(position.x - 2,position.y - 3);
+    this.layer.context().lineTo(position.x - 2,position.y + 3);
+    this.layer.context().moveTo(position.x + 2,position.y - 3);
+    this.layer.context().lineTo(position.x + 2,position.y + 3);
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
+  }
+
+  this.draw_pointer = function(position,size = 1)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.context().beginPath();
+    this.layer.context().moveTo(this.pointer_last.x,this.pointer_last.y);
+    this.layer.context().lineTo(position.x,position.y);
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.layer.context().beginPath();
+    this.layer.context().arc(position.x, position.y, 0.5, 0, 2 * Math.PI, false);
+    this.layer.context().fillStyle = 'white';
+    this.layer.context().fill();
+    this.layer.context().closePath();
+
+    this.layer.context().beginPath();
+    
+    this.layer.context().moveTo(position.x + 2,position.y);
+    this.layer.context().lineTo(position.x + 5,position.y);
+    this.layer.context().moveTo(position.x,position.y + 2);
+    this.layer.context().lineTo(position.x,position.y + 5);
+    this.layer.context().moveTo(position.x - 2,position.y);
+    this.layer.context().lineTo(position.x - 5,position.y);
+    this.layer.context().moveTo(position.x,position.y - 2);
+    this.layer.context().lineTo(position.x,position.y - 5);
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
   }
 
   this.update = function(event)
   {
-    if(ronin.module){
-      this.set_mode(ronin.module);
-    }
-    else if(event.altKey == true && event.shiftKey == true){
-      this.set_mode(ronin.surface.active_layer);
-    }
-    else if(event.altKey == true){
-      this.set_mode(ronin.surface);
-    }
-    else{
-      this.set_mode(ronin.brush);
-    }
+    // if(ronin.terminal.module_name){
+    //   this.set_mode(ronin.module);
+    // }
+    // else if(event.altKey == true && event.shiftKey == true){
+    //   this.set_mode(ronin.frame.active_layer);
+    // }
+    // else if(event.altKey == true){
+    //   this.set_mode(ronin.default);
+    // }
+    // else{
+    //   this.set_mode(ronin.brush);
+    // }
   }
   
   this.set_mode = function(mode)
@@ -94,67 +150,60 @@ function Cursor(rune)
     this.mode = mode;
     document.body.setAttribute("class",this.mode.constructor.name);
   }
-
-  // 
-
-  this.magnetic_position = function(position)
-  {
-    var x = parseInt(position.x / this.magnetism.width) * this.magnetism.width;
-    var y = parseInt(position.y / this.magnetism.width) * this.magnetism.width;
-
-    return new Position(x,y);
-  }
-
-  this.update_element = function(position)
-  {
-    position = ronin.position_in_window(position);
-
-    var radius = this.mode && this.mode.size ? this.mode.size : 5;
-
-    this.element.setAttribute("style","left:"+(position.x + window.innerWidth/2)+"px;top:"+(position.y + window.innerHeight/2)+"px;width:"+radius+"px;height:"+radius+"px;margin-left:"+(-(radius/2)-1)+"px;margin-top:"+(-(radius/2)-1)+"px;border:1px solid "+(this.mode && this.mode.color ? this.mode.color.hex : ronin.brush.color.hex));
-  }
-
-  //
   
   this.mouse_down = function(position)
   {
-    if(this.magnetism){
-      position = this.magnetic_position(position);
+    if(this.layer){ this.layer.clear(); }
+
+    this.position = ronin.magnet.update_mouse(position);
+
+    if(this.mode.constructor.name != Cursor.name){
+      this.mode.mouse_from = this.position;
+      this.mode.mouse_held = true;
+      this.mode.mouse_down(this.position);  
     }
 
-    this.position = position;
-    if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_down(position);  
-    }
-    ronin.widget.update();
+    ronin.terminal.update_hint();
   }
   
   this.mouse_move = function(position)
   {
-    if(this.magnetism){
-      position = this.magnetic_position(position);
-    }
-    this.update_element(position);
+    if(!this.layer){ this.create_layer(); }
+      
+    this.layer.clear();
 
-    this.position = position;
+    this.position = ronin.magnet.update_mouse(position);
+
+    if(this.mode){this.mode.mouse_pointer(this.position);}
+    else{ this.mouse_pointer(this.position);}
+
+    if(this.mode.mouse_from == null){ return; }
+
+    var rect = new Rect();
+    rect.width = this.position.x - this.mode.mouse_from.x;
+    rect.height = this.position.y - this.mode.mouse_from.y;
 
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_move(position);  
+      this.mode.mouse_move(this.position,rect);  
+      this.mode.mouse_prev = this.position;
     }
-
+    ronin.terminal.update_hint();
   }
   
   this.mouse_up = function(position)
   {
-    if(this.magnetism){
-      position = this.magnetic_position(position);
-    }
+    this.position = ronin.magnet.update_mouse(position);
 
-    this.position = position;
+    var rect = new Rect();
+    rect.width = this.position.x - this.mode.mouse_from.x;
+    rect.height = this.position.y - this.mode.mouse_from.y;
+
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_up(position);  
+      this.mode.mouse_up(this.position,rect);  
+      this.mode.mouse_held = false;
     }
-    ronin.widget.update();
-    commander.element_input.focus();
+    ronin.terminal.input_element.focus();
+    ronin.terminal.update_hint();
+    this.mode.mouse_from = null;
   }
 }

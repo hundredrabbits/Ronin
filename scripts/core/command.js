@@ -81,16 +81,42 @@ function Command(content)
     return null;
   }
   
-  this.variable = function(name)
+  this.setting = function(name)
   {
     for (i = 0; i < this.content.length; i++) {
       if(this.content[i].indexOf("=") >= 0){
         var parts = this.content[i].split("=");
         if(parts[0] == name){
-          return new Variable(parts[0],parts[1]);
+          return new Setting(parts[0],parts[1]);
         }
       }
     }
     return null;
+  }
+
+  this.text = function()
+  {
+    var content_str = this.content.join(" ");
+    if(content_str.indexOf("\"") < 0){ return null; }
+    return content_str.split("\"")[1];
+  }
+
+  this.methods = function()
+  {
+    var a = [];
+    for(i in this.content){
+      if(this.content[i].indexOf(":") > 0){
+        a.push(this.content[i]);
+      }
+    }
+    return a;
+  }
+
+  this.method = function(name)
+  {
+    for(i in this.methods()){
+      var m = new Method(this.methods()[i]);
+      if(m.name == name){ return m; }
+    }
   }
 }

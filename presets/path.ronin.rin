@@ -1,0 +1,7 @@
+frame.resize 240x360 ;
+frame.select background ;
+layer.fill #A1A1A1 ;
+brush:color #ff0000 ;
+magnet.grid 15x15 4,4 ;
+frame.select main ;
+path.stroke M150,53 A-96,97 0 0,0 246,150 M150,246 A97,-96 0 0,0 53,150 M53,101 A-48,-48 0 0,0 101,53 M246,101 A48,-48 0 0,1 198,53 M53,198 A-48,48 0 0,1 101,246 M246,198 A48,48 0 0,0 198,246 ;

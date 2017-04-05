@@ -8,7 +8,7 @@ function Filter_Chromatic()
 
   this.render = function(cmd)
   {
-    var position = cmd.position() ? cmd.position() : new Position(ronin.surface.size.width,ronin.surface.size.height);
+    var position = cmd.position() ? cmd.position() : new Position(ronin.frame.settings["size"].width,ronin.frame.settings["size"].height);
     var value = cmd.value() ? cmd.value().float : 5;
 
     ronin.overlay.clear();
@@ -26,13 +26,13 @@ function Filter_Chromatic()
 
   this.draw = function(context = this.context(), value, position)
   {
-    var w = ronin.surface.size.width;
-    var h = ronin.surface.size.height;
+    var w = ronin.frame.settings["size"].width;
+    var h = ronin.frame.settings["size"].height;
     
     //no longer letting you set how far each chanel is shifted, not sure how to receive extra data any more
 		var s = {r:value,g:value*.5,b:0};
 			
-    var context = ronin.surface.active_layer.context();
+    var context = ronin.frame.context();
     
     //now need two imagedatas to sample off of, for some reason I cant just dump the new pixels into an empty array :/
     var originalData = context.getImageData(0, 0, w*2, h*2);
@@ -61,7 +61,7 @@ function Filter_Chromatic()
 	 			this.set_color(imageData, c, i,j);
 	 		}
     }
-    ronin.surface.active_layer.clear();
+    ronin.frame.active_layer.clear();
     context.putImageData(imageData, 0, 0);
   }
 }

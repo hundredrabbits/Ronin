@@ -1,12 +1,9 @@
 var ronin = new Ronin();
 ronin.element = document.getElementById('ronin');
-ronin.surface.element = document.getElementById('surface');
-ronin.widget.element = document.getElementById('widget');
+ronin.frame.element = document.getElementById('frame');
 ronin.cursor.element = document.getElementById('cursor');
+ronin.terminal.element = document.getElementById('terminal');
 ronin.cursor.mode = ronin.brush;
-
-var commander = new Commander(document.getElementById("commander"),document.getElementById("commander_input"));
-commander.hint.element = document.getElementById('commander_hint');
 
 // Cursor
 
@@ -34,13 +31,11 @@ starting_canvas.height = window.innerHeight - 300;
 starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
 starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
-commander.query("~ "+ronin.timestamp());
-commander.query("@ "+starting_canvas.render());
-commander.query("@ layer=Background");
-commander.query("@ #222");
-commander.query("@ layer=Main");
-commander.query("> 0,0");
-commander.query("> 1,1");
-commander.query("> 2,2");
-commander.query("> #ff0000");
-commander.query("~ Ready.");
+ronin.terminal.query("~ "+ronin.timestamp());
+ronin.terminal.query("frame.select main");
+ronin.terminal.query("frame.resize "+starting_canvas.render());
+ronin.terminal.query("brush:color #ff0000");
+
+ronin.terminal.input_element.focus();
+ronin.terminal.update_hint();
+ronin.frame.update_widget();

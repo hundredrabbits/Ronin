@@ -29,4 +29,14 @@ function Color(hex = '#000000')
   {
     return "#"+("0" + parseInt(rgb[0],10).toString(16)).slice(-2)+("0" + parseInt(rgb[1],10).toString(16)).slice(-2)+("0" + parseInt(rgb[2],10).toString(16)).slice(-2);
   }
+
+  this.brightness = function()
+  {
+    return this.rgb() ? (this.rgb().r + this.rgb().g + this.rgb().b)/3 : 0;
+  }
+
+  this.style = function()
+  {
+    return this.brightness() > 150 ? "bright" : "dark";
+  }
 }

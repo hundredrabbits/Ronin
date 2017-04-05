@@ -30,28 +30,33 @@ function Render(rune)
     
     var name = cmd.content[0];
 
-    if(!this.collection[name]){ console.log("unknown ",name); return; }
+    if(!this.collection[name]){ return; }
 
     return this.collection[name].preview(cmd);
   }
 	
-  this.hint = function(cmd)
+  this.hint = function(content)
   {
-    var input = cmd.content.join(" ").trim().split(" ")[0];
-    var s = this.pad(cmd.content.join(" "));
+    var name = content.trim().replace(this.rune,"").trim().split(" ")[0];
 
-    if(this.collection[input]){
-      for (i = 0; i < this.collection[input].parameters.length; i++) {
-        s += this.collection[input].parameters[i].name+" ";
+    var h = "";
+    if(this.collection[name]){
+      for (i = 0; i < this.collection[name].parameters.length; i++) {
+        h += this.collection[name].parameters[i].name+" ";
       }
+    }
+    else if(name){
+      for (var key in this.collection){
+        if(name != key.substr(0,name.length)){ continue; }
+        h += key.substr(name.length)+" ";
+      }  
     }
     else{
       for (var key in this.collection){
-        s += key+" ";
+        h += key+" ";
       }  
-    }   
-
-    return s;
+    }
+    return this.pad(content)+h;   
   }
 
 }

@@ -12,34 +12,36 @@ function Eye(rune)
   {
   }
   
-  this.widget_cursor = function()
+  // TODO: If a rect is given, return the average color
+  this.color_picker = function(position,rect = null)
+  {
+    var imgData = ronin.frame.context().getImageData(position.x*2, position.y*2, 1, 1).data;
+    var c = new Color();
+    ronin.terminal.input_element.value = "* "+(c.rgb_to_hex(imgData));
+    ronin.terminal.update_hint();
+  }
+  
+  // Mouse
+
+  this.mouse_mode = function()
   {
     return "Eye";
   }
-  
-  this.color_picker = function(position)
-  {
-    var imgData = ronin.surface.context().getImageData(position.x, position.y, 1, 1).data;
-    var c = new Color();
-    commander.show();
-    commander.element_input.focus();
-    commander.element_input.value = "> "+(c.rgb_to_hex(imgData));
-  }
-  
-  // Cursor
-  
+
   this.mouse_down = function(position)
   {
+    ronin.overlay.draw(position);
     this.color_picker(position);
   }
   
-  this.mouse_move = function(position)
+  this.mouse_move = function(position,rect)
   {
-    this.color_picker(position);
+    ronin.overlay.draw(this.mouse_from,rect);
+    this.color_picker(position,rect);
   }
   
-  this.mouse_up = function(position)
+  this.mouse_up = function(position,rect)
   {
-    this.color_picker(position);
+    this.color_picker(position,rect);
   }
 }

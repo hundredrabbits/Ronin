@@ -12,7 +12,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   {
     var ratio = 10/this.position().distance_to(this.position_prev[0]);
     ratio = ratio > 1 ? 1 : ratio;
-    return ronin.brush.size * ratio;
+    return ronin.brush.settings["size"].float * ratio;
   }
   
   //
@@ -29,10 +29,10 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 
     this.distance += position.distance_to(position_prev);
 
-    ronin.surface.context().beginPath();
+    ronin.frame.context().beginPath();
 
-    ronin.surface.context().globalCompositeOperation="source-over";
-    ronin.surface.context().moveTo(position_prev.x,position_prev.y);
+    ronin.frame.context().globalCompositeOperation="source-over";
+    ronin.frame.context().moveTo(position_prev.x,position_prev.y);
 
     //Choose direct line or curve line based on how many samples available
     if(this.position_prev.length > 1 && position.distance_to(position_prev) > 13){
@@ -49,17 +49,17 @@ function Pointer(offset = new Position(), color = new Color('000000'))
       var tx = px + (ppx - px) * 0.2 * d;
       var ty = py + (ppy - py) * 0.2 * d;
 
-      ronin.surface.context().quadraticCurveTo(tx,ty,position.x,position.y);
+      ronin.frame.context().quadraticCurveTo(tx,ty,position.x,position.y);
     }
     else {
-      ronin.surface.context().lineTo(position.x,position.y);
+      ronin.frame.context().lineTo(position.x,position.y);
     }
 
-    ronin.surface.context().lineCap="round";
-    ronin.surface.context().lineWidth = this.thickness();
-    ronin.surface.context().strokeStyle = ronin.brush.color.rgba();
-    ronin.surface.context().stroke();
-    ronin.surface.context().closePath();
+    ronin.frame.context().lineCap="round";
+    ronin.frame.context().lineWidth = this.thickness();
+    ronin.frame.context().strokeStyle = new Color(ronin.brush.settings["color"]).rgba();
+    ronin.frame.context().stroke();
+    ronin.frame.context().closePath();
 
     this.position_prev.unshift(position);
   }
