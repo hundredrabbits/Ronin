@@ -16,6 +16,8 @@ function Terminal(rune)
 
   this.load = function readTextFile(params, preview = false)
   {
+    if(preview){return;}
+    
     var file = "presets/"+params.content+'?'+new Date().getTime();
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, false);
