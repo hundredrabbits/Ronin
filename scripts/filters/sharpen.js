@@ -12,17 +12,21 @@ function Filter_Sharpen()
     var w = ronin.frame.settings["size"].width;
     var h = ronin.frame.settings["size"].height;
     var context = ronin.frame.context();
-
+    
     var originalData = context.getImageData(0, 0, w*2, h*2);
     var data = originalData.data;
     var newImage = context.getImageData(0, 0, w*2, h*2);
 
     var strenght = cmd.value() ? cmd.value().float : 1;
 
+    var ver = -1;
+    var dia = 1;
+    var cen = 8;
+
     var weight_map = [ 
-       -2 * strenght, 0 * strenght,  -2 * strenght,
-      0 * strenght, 17 * strenght, 0 * strenght,
-       -2 * strenght, 0 * strenght,  -2 * strenght
+       dia * strenght, ver * strenght, dia * strenght,
+      ver * strenght, cen * strenght, ver * strenght,
+       dia * strenght, ver * strenght,  dia * strenght
     ];
 
     for(var i = 0; i < data.length; i += 4) {
