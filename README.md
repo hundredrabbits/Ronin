@@ -30,8 +30,5 @@ Enjoy
     Expand logs
   ? Interrog
     Inline Help
-  / Load
-    Load .rin files, instead of "Presets"
-    Load default.rin on startup
   * Eye
     Swatches, handle all colors
