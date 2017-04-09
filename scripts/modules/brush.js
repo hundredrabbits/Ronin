@@ -86,7 +86,9 @@ function Brush(rune)
   }
   
   this.mouse_down = function(position)
-  {    
+  {
+    if(position.is_outside()){ return; }
+
     if(keyboard.shift_held == true){
       this.erase();
     }

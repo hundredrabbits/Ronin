@@ -41,7 +41,6 @@ function Frame(rune)
     ronin.frame.element.style.marginTop = -(this.settings["size"].height/2);
 
     ronin.on_resize();
-    ronin.terminal.log(new Log(this,"Resized Surface to "+this.settings["size"].render()));
   }
 
   this.crop = function(params, preview = false)
@@ -95,8 +94,6 @@ function Frame(rune)
 
   this.add_layer = function(layer)
   {
-    ronin.terminal.log(new Log(this,"Creating layer:"+layer.name+(layer.manager ? "["+layer.manager.constructor.name+"]" : ""))); 
-
     layer.resize(this.settings["size"]);
     this.layers[layer.name] = layer;
     this.element.appendChild(layer.element);
@@ -157,21 +154,6 @@ function Frame(rune)
 
     if(keys[loc-1] != null){this.select_layer(ronin.frame.layers[keys[loc-1]]);}
   }
-
-  // this.passive = function(cmd)
-  // { 
-  //   var crop = ronin.terminal.cmd().method("crop");
-
-  //   if(crop && crop.params.length == 2){
-  //     console.log(crop);  
-  //     ronin.overlay.get_layer(true).clear();
-  //     ronin.overlay.draw_rect(new Position(crop.params[0]),new Rect(crop.params[1]));
-  //   }
-  //   else{
-  //     console.log("Missing params")
-  //   }
-  //   ronin.terminal.update_hint();
-  // }
 
   // Cursor
 

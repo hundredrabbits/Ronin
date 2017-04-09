@@ -1,5 +1,8 @@
 terminal.display hide ; 
-frame.resize 720x405 ; 
-source.load /01.jpg 720x 0,0 ;
-render.sharpen 0.5 ;
-source.load /hundred.rabbits.logo.white.svg 50x50 0,355 ;
+frame.resize 1060x600 ;
+source.load /08.jpg x600 ;
+render.sharpen 0.25 ;
+render.saturate #ffffff;
+render.contrast 0.25 ;
+source.load /hundred.rabbits.logo.white.svg 70x70 0,530 ;
+source.save

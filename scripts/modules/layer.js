@@ -62,8 +62,6 @@ function Layer(name,manager = null)
 
   this.resize = function(rect)
   {
-    ronin.terminal.log(new Log(this,"Resize "+this.name+" to "+rect.render()));
-
     var pixels_rect   = new Rect(this.element.width+"x"+this.element.height);
     
     this.element.width = rect.width * 2;
@@ -76,7 +74,6 @@ function Layer(name,manager = null)
 
   this.remove = function(manager)
   {
-    ronin.terminal.log(new Log(this,"Removing layer "+this.name));
     manager.layer = null;
     ronin.frame.layers[this.name].element.outerHTML = "";
     delete ronin.frame.layers[this.name];

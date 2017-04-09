@@ -132,6 +132,9 @@ function Terminal(rune)
     else if(ronin[module_name]){
       ronin.terminal.log(new Log(ronin.terminal,"Unknown method: "+method_name));
     }
+    else if(module_name == "render"){
+      ronin.terminal.log(new Log(ronin.terminal,"Unknown filter: "+method_name));
+    }
     else{
       ronin.terminal.log(new Log(ronin.terminal,"Unknown module: "+module_name));
     }

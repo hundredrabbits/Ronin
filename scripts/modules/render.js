@@ -2,7 +2,6 @@ function Render(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Any];
   this.collection = {};
 
   this.collection["rotate"] = new Filter_Rotate();
@@ -12,6 +11,8 @@ function Render(rune)
   this.collection["invert"] = new Filter_Invert();
   this.collection["chromatic"] = new Filter_Chromatic();
   this.collection["sharpen"] = new Filter_Sharpen();
+  this.collection["saturate"] = new Filter_Saturate();
+  this.collection["contrast"] = new Filter_Contrast();
   
   this.active = function(cmd)
   {

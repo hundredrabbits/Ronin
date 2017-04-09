@@ -1,15 +1,13 @@
 function Source(rune)
 {
   Module.call(this,rune);
-  
-  this.parameters = [Filepath,Position,Rect];
 
   this.add_method(new Method("save",["name","rect","format"]));
   this.add_method(new Method("load",["path","position","rect"]),"Add point");
   
   this.load = function(params,preview = false) // source.load ../assets/todo.jpg 200x200 40,40
   {
-    if(!params.filepath() || !params.rect() || !params.position()){ ronin.terminal.log(new Log(this,"Missing image path.","error")); return; }
+    if(!params.filepath() || !params.rect()){ ronin.terminal.log(new Log(this,"Missing image path.","error")); return; }
 
     this.get_layer(true).clear();
 
@@ -17,8 +15,8 @@ function Source(rune)
 
     ronin.overlay.get_layer(true).clear();
 
-    var position = params.position() ? params.position() : new Position();
-    ronin.overlay.draw_rect(params.position(),params.rect());
+    var position = params.position() ? params.position() : new Position("0,0");
+    ronin.overlay.draw_rect(position,params.rect());
     
     base_image = new Image();
     base_image.src = "../assets/"+params.filepath().path;
@@ -50,13 +48,13 @@ function Source(rune)
 
     var d = null;
 
-    var w = window.open('about:blank','image from canvas');
+    ronin.terminal.query("terminal.display mini");
 
     if(params.setting("format") && params.setting("format").value == "svg"){
-      w.document.write("<title>Untitled</title><body>"+ronin.path.create_svg()+"</body>");
+      ronin.terminal.log(new Log(this,ronin.path.create_svg(),"image"));
     }
     else if(params.setting("format") && params.setting("format").value == "jpg"){
-      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/jpeg')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/></body>");
+      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
     }
     else if(params.setting("format") && params.setting("format").value == "rin"){
       var w = window.open('about:blank','source');
@@ -65,8 +63,7 @@ function Source(rune)
       w.document.write("<title>Source</title><pre>"+html+"</pre>");
     }
     else{
-      console.log("!!")
-      w.document.write("<title>Untitled</title><body><img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/></body>");
+      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
     }
     
     this.layer.remove(this);

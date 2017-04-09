@@ -44,4 +44,13 @@ function Position(position_str = "0,0",y = null)
   {
     return (isNaN(this.x) ? 0 : this.x)+","+(isNaN(this.y) ? 0 : this.y);
   }
+
+  this.is_outside = function()
+  {
+    if(this.x < 0){ return true; }
+    if(this.y < 0){ return true; }
+    if(this.x > ronin.frame.element.width/2){ return true; }
+    if(this.y > ronin.frame.element.height/2){ return true; }
+    return false;
+  }
 }

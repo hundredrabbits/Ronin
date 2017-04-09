@@ -1,9 +1,9 @@
-function Filter_Balance()
+function Filter_Contrast()
 {
   Filter.call(this);
-  
-  this.parameters = [Color];
 
+  this.parameters = [Value];
+  
   this.render = function(params)
   {
     var color = params.color() ? params.color().floats() : new Color("#999999").floats();
@@ -11,9 +11,11 @@ function Filter_Balance()
     var data = originalData.data;
 
     for(var i = 0; i < data.length; i += 4) {
-      data[i]     = data[i] * (color.r + 0.5);
-      data[i + 1] = data[i + 1] * (color.g + 0.5);
-      data[i + 2] = data[i + 2] * (color.b + 0.5);
+      var average = parseFloat(data[i] + data[i+1] + data[i+2])/3;
+      var distance = 50;
+      data[i]     = data[i] + distance;
+      data[i + 1] = data[i+1] + distance;
+      data[i + 2] = data[i+2] + distance;
     }
 
     ronin.frame.context().putImageData(originalData, 0, 0);

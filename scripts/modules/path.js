@@ -22,7 +22,6 @@ function Path(rune)
 
     var context = preview ? this.context() : ronin.frame.context();
 
-    console.log(this.settings["line_width"]);
     context.beginPath();
     context.lineCap = this.settings["line_cap"];
     context.lineWidth = this.settings["line_width"];

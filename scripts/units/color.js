@@ -19,6 +19,12 @@ function Color(hex = '#000000')
   {
     return "rgba("+this.rgb().r+","+this.rgb().g+","+this.rgb().b+",1)";
   }
+
+  this.floats = function()
+  {
+    var rgb = this.rgb();
+    return { r:rgb.r/255, g:rgb.g/255, b:rgb.b/255 }
+  }
   
   this.render = function()
   {
