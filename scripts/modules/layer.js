@@ -3,6 +3,8 @@ function Layer(name,manager = null)
   Module.call(this,"#");
 
   this.add_method(new Method("translate",["position"]));
+  this.add_method(new Method("rotate",["position","angle"]));
+  this.add_method(new Method("scale",["position","value"]));
   this.add_method(new Method("clear",[]));
   this.add_method(new Method("rotate",["position","angle"]));
   this.add_method(new Method("mirror",["position"]));
@@ -17,10 +19,43 @@ function Layer(name,manager = null)
   this.element.setAttribute("id","_"+name);
   this.element.setAttribute("class","layer");
 
+  this.scale = function(params,preview = false)
+  {
+    // TODO
+    // ronin.render.get_layer();
+    // ronin.render.context().drawImage(ronin.frame.context().canvas,0,0,w/2,h/2);
+  }
+
+  this.rotate = function(params, preview = false)
+  {
+    if(preview){ ronin.overlay.draw_pointer(params.position()); return; }
+    if(!params.position()){ return; }
+
+    var position = params.position();
+    var angle = params.angle().degrees;
+
+    var w = ronin.frame.settings["size"].width;
+    var h = ronin.frame.settings["size"].height;
+
+    ronin.render.get_layer().clear();
+    ronin.render.context().drawImage(ronin.frame.context().canvas,0,0,w,h);
+    ronin.frame.active_layer.clear();
+
+    ronin.frame.context().save();
+    ronin.frame.context().translate(position.x,position.y);
+    ronin.frame.context().rotate(angle*Math.PI/180);
+
+    ronin.frame.context().drawImage(ronin.render.context().canvas, -position.x, -position.y,w,h)
+
+    ronin.frame.context().rotate(-angle*Math.PI/180);
+    ronin.frame.context().restore();
+    ronin.render.get_layer().clear();
+  }
+
   this.translate = function(params,preview = false)
   {
-    if(!params.position()){ return; }
     if(preview){ return; }
+    if(!params.position()){ return; }
 
     var data = this.data();
     this.clear();

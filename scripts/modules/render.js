@@ -4,7 +4,6 @@ function Render(rune)
   
   this.collection = {};
 
-  this.collection["rotate"] = new Filter_Rotate();
   this.collection["balance"] = new Filter_Balance();
   this.collection["grey"] = new Filter_Grey();
   this.collection["stencil"] = new Filter_Stencil();
