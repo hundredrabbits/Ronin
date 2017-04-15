@@ -121,7 +121,7 @@ function Terminal(rune)
     var entry = ronin.terminal.queue.shift();
     console.info(entry);
     active(entry);
-    // ronin.terminal.queue.shift();
+    ronin.widget.update();
 
     setTimeout(function(){ ronin.terminal.run(); }, 100);
   }

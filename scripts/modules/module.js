@@ -10,7 +10,6 @@ function Module(rune)
   
   this.install = function()
   {
-    // console.log("Installing "+ronin.modules[this.rune].constructor.name);
   }
 
   this.context = function()
@@ -20,7 +19,6 @@ function Module(rune)
 
   this.create_layer = function()
   {
-    console.info("!!!!",this);
     this.layer = new Layer(this.constructor.name+".Preview",this);
     this.layer.element.setAttribute("style","z-index:7000");
     ronin.frame.add_layer(this.layer);

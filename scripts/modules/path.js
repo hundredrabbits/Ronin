@@ -16,8 +16,6 @@ function Path(rune)
   {
     if(!ronin.path.layer){ ronin.path.create_layer(); ronin.path.layer.is_blinking = true; }
 
-    ronin.terminal.log(new Log(this,"Stroke path!("+preview+")"));
-
     this.layer.clear();
 
     var context = preview ? this.context() : ronin.frame.context();
@@ -36,11 +34,10 @@ function Path(rune)
 
     this.layer.clear();
 
-    var target_layer = preview ? this.layer : ronin.frame.active_layer;
+    var context = preview ? this.context() : ronin.frame.context();
 
-    target_layer.context().fillStyle = this.settings["fill_color"];
-
-    target_layer.context().fill(new Path2D(params.content));
+    context.fillStyle = this.settings["fill_color"];
+    context.fill(new Path2D(params.content));
   }
 
   // Tools

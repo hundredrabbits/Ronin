@@ -91,6 +91,7 @@ function Frame(rune)
 
   this.add_layer = function(layer)
   {
+    if(this.active_layer){layer.set_depth(this.active_layer.depth+1);}
     layer.resize(this.settings["size"]);
     this.layers[layer.name] = layer;
     this.element.appendChild(layer.element);
@@ -144,13 +145,13 @@ function Frame(rune)
     var s = "";
     for(layer in this.layers){
       if(this.active_layer.name == layer){
-        s += "<li class='active'>"+layer+"</li>";
+        s += "<li class='active'>"+layer+" z"+this.layers[layer].depth+"</li>";
       }
       else if(this.layers[layer].manager){
         s += "<li class='managed'>"+this.layers[layer].manager.constructor.name+"*</li>";
       }
       else{
-        s += "<li class='inactive'>"+layer+"</li>";
+        s += "<li class='inactive'>"+layer+" z"+this.layers[layer].depth+"</li>";
       }      
     }
     return s;

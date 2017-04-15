@@ -18,6 +18,7 @@ function Layer(name,manager = null)
   this.element = document.createElement("canvas");
   this.element.setAttribute("id","_"+name);
   this.element.setAttribute("class","layer");
+  this.depth = 0;
 
   this.scale = function(params,preview = false)
   {
@@ -117,6 +118,12 @@ function Layer(name,manager = null)
   this.context = function()
   {
     return this.element.getContext('2d');
+  }
+
+  this.set_depth = function(depth)
+  {
+    this.depth = depth;
+    this.element.setAttribute("z-index",depth);
   }
 
   this.image = function()
