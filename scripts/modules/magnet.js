@@ -72,13 +72,13 @@ function Magnet(rune)
 
   this.update_mouse = function(position)
   {
-    if(!this.layer){ this.create_layer(); }
-
-    this.layer.clear();
-
-    this.draw_helper(position);
-    this.draw_grid(this.settings["grid"],this.settings["marker"]);
-
+    if(this.settings["grid"].width > 4 || this.settings["grid"].height > 4){ 
+      if(!this.layer){ this.create_layer(); }
+      this.layer.clear();
+      this.draw_helper(position);
+      this.draw_grid(this.settings["grid"],this.settings["marker"]);
+    }
+    
     return this.magnetic_position(position); 
   }
 

@@ -17,7 +17,8 @@ function Brush(rune)
     pointer.offset = params.position() ? params.position() : new Position("0,0");
     this.pointers.push(pointer);
 
-    ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset));
+    ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset.render()));
+    ronin.widget.update();
   }
   
   this.passive = function(cmd)
@@ -36,14 +37,14 @@ function Brush(rune)
   this.size_up = function()
   {
     this.settings["size"] -= this.settings["size"] > 1 ? 1 : 0;
-    ronin.frame.update_widget();
+    ronin.frame.widget.update();
     ronin.terminal.log(new Log(this,"Increased pointer size to: "+this.settings["size"]));
   }
 
   this.size_down = function()
   {
     this.settings["size"] += 1;
-    ronin.frame.update_widget();
+    ronin.frame.widget.update();
     ronin.terminal.log(new Log(this,"Decreased pointer size to: "+this.settings["size"]));
   }
 
@@ -81,7 +82,7 @@ function Brush(rune)
       return "Eraser "+this.settings["size"];
     }
     else{
-      return "<i style='color:"+this.settings["color"]+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.settings["size"];  
+      return "Brush "+this.settings["size"];  
     }
   }
   
@@ -118,5 +119,16 @@ function Brush(rune)
     for (i = 0; i < ronin.brush.pointers.length; i++) {
       ronin.brush.pointers[i].stop();
     }
+  }
+
+  this.widget = function()
+  {
+    var s = "<i style='color:"+this.settings["color"]+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.settings["size"]+"<br />";  
+
+    for(id in this.pointers){
+      s += this.pointers[id].widget();
+    }
+    return s;
+
   }
 }

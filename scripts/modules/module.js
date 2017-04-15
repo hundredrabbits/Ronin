@@ -20,6 +20,7 @@ function Module(rune)
 
   this.create_layer = function()
   {
+    console.info("!!!!",this);
     this.layer = new Layer(this.constructor.name+".Preview",this);
     this.layer.element.setAttribute("style","z-index:7000");
     ronin.frame.add_layer(this.layer);
@@ -43,7 +44,7 @@ function Module(rune)
   {
     this.settings[name] = value.content.join(" ");
     ronin.terminal.log(new Log(this,"Updated setting: "+name+", to "+this.settings[name]));
-    ronin.frame.update_widget();
+    ronin.widget.update();
   }
 
   this.add_method = function(method)
@@ -120,6 +121,7 @@ function Module(rune)
 
   this.key_escape = function()
   { 
+    
   }
 
   this.key_delete = function()

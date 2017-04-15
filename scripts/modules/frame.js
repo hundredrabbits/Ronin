@@ -12,12 +12,9 @@ function Frame(rune)
   this.add_method(new Method("resize",[new Rect().name]));
   this.add_method(new Method("crop",[new Position().name,new Rect().name]));
   this.add_method(new Method("select",["text"]));
-
-  this.widget_element = document.createElement("widget");
   
   this.install = function()
   {
-    this.element.appendChild(this.widget_element);
     this.blink();
   }
 
@@ -99,42 +96,6 @@ function Frame(rune)
     this.element.appendChild(layer.element);
   }
 
-  this.widget = function()
-  {
-    if(!this.active_layer){ return ""; }
-
-    return this.rune+" "+this.settings["size"].render();
-  }
-
-  // Widget
-
-  this.update_widget = function()
-  {
-    if(!this.active_layer){ return; }
-
-    var s = "";
-    
-    s += "<span class='module'>";
-    for (var key in ronin.modules){
-      s += ronin.modules[key].widget() ? ronin.modules[key].widget()+" " : "";
-    }
-    s += "</span>";
-  
-    s += "<span class='cursor'>"+ronin.cursor.mode.mouse_mode()+"</span>";
-    
-    var keys = Object.keys(ronin.frame.layers);
-    var loc = keys.indexOf(this.active_layer.name);
-
-    if(keys.length > 1){
-      s += "<span class='layer'>"+ronin.frame.active_layer.widget()+"("+(loc+1)+"/"+keys.length+")</span>";
-    }
-    else{
-      s += "<span class='layer'>"+ronin.frame.active_layer.widget()+"</span>";
-    }
-  
-    this.widget_element.innerHTML = s;
-  }
-
   // Commands
 
   this.layer_up = function()
@@ -176,5 +137,22 @@ function Frame(rune)
   
   this.mouse_up = function(position,rect)
   {
+  }
+
+  this.widget = function()
+  {
+    var s = "";
+    for(layer in this.layers){
+      if(this.active_layer.name == layer){
+        s += "<li class='active'>"+layer+"</li>";
+      }
+      else if(this.layers[layer].manager){
+        s += "<li class='managed'>"+this.layers[layer].manager.constructor.name+"*</li>";
+      }
+      else{
+        s += "<li class='inactive'>"+layer+"</li>";
+      }      
+    }
+    return s;
   }
 }

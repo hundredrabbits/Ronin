@@ -1,3 +1,5 @@
 frame.select main ; 
 frame.resize 400x400 ; 
-brush:color #ff00ff ;
+brush:color #ff0000 ;
+brush.add_pointer 1,1 ;
+brush.add_pointer 2,2 ;

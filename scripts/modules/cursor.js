@@ -206,4 +206,9 @@ function Cursor(rune)
     ronin.terminal.update_hint();
     this.mode.mouse_from = null;
   }
+
+  this.widget = function()
+  {
+    return this.mode.mouse_mode();
+  }
 }

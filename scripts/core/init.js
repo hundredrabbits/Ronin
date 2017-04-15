@@ -35,4 +35,4 @@ ronin.terminal.query("terminal.load default.rin");
 
 ronin.terminal.input_element.focus();
 ronin.terminal.update_hint();
-ronin.frame.update_widget();
+ronin.widget.update();

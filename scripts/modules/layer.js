@@ -131,17 +131,6 @@ function Layer(name,manager = null)
 
   //
 
-  this.widget = function()
-  {
-    var e_name = this.name;
-    var e_class = "";
-    
-    if(ronin.frame.active_layer.name == this.name){ e_class += "highlight "; }
-    if(this.manager != null){ e_class += "managed "; }
-
-    return "<span class='"+e_class+"'>"+e_name+"</span>";
-  }
-
   this.mouse_pointer = function(position)
   {
     return ronin.cursor.draw_pointer_arrow(position);

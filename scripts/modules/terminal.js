@@ -94,8 +94,9 @@ function Terminal(rune)
   
   this.query = function(input_str)
   {
+    if(input_str.trim() == ""){ return; }
     if(this.locks.length > 0){ console.warn("Trying: "+input_str+", Locked: ",this.locks); return; }
-    console.warn(input_str);
+
     this.lock("query");
     this.input_element.value = "";
 

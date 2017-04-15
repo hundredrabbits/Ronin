@@ -19,6 +19,7 @@ function Ronin()
   this.overlay  = new Overlay("|");
   this.terminal = new Terminal(">");
   this.cursor   = new Cursor(".");
+  this.widget   = new Widget("?");
   
   this.modules[this.frame.constructor.name]    = this.frame;
   this.modules[this.type.constructor.name]     = this.type;
@@ -43,6 +44,7 @@ function Ronin()
     }
 
     this.terminal.install();
+    this.widget.install();
   }
   
   this.cursors = [];
