@@ -9,6 +9,7 @@ function Terminal(rune)
   this.menu_element = document.createElement("menu");
 
   this.history = [];
+  this.locks = [];
 
   this.add_method(new Method("save",["text"]));
   this.add_method(new Method("load",["path"]));
@@ -16,7 +17,9 @@ function Terminal(rune)
 
   this.load = function readTextFile(params, preview = false)
   {
-    if(preview){return;}
+    if(preview){ return; }
+
+    this.locks = [];
     
     var file = "presets/"+params.content+'?'+new Date().getTime();
     var rawFile = new XMLHttpRequest();
@@ -66,12 +69,34 @@ function Terminal(rune)
     return cmd;
   }
 
+  // Locks
+  
+  this.lock = function(key)
+  {
+    console.log("Added lock: ",key);
+    this.locks.push(key);
+    this.element.setAttribute("class","locked");
+  }
+
+  this.unlock = function(key)
+  {
+    console.log("Removed lock: ",key);
+    this.locks.splice(this.locks.indexOf(key), 1);
+
+    if(this.locks.length < 1){
+      this.element.setAttribute("class","unlocked");
+    }
+  }
+
   // Queue
 
   this.queue = [];
   
   this.query = function(input_str)
   {
+    if(this.locks.length > 0){ console.warn("Trying: "+input_str+", Locked: ",this.locks); return; }
+    console.warn(input_str);
+    this.lock("query");
     this.input_element.value = "";
 
     if(input_str.indexOf(";") > 0){
@@ -90,7 +115,7 @@ function Terminal(rune)
 
   this.run = function()
   {
-    if(!ronin.terminal.queue[0]){ console.log("Finished queue"); return; }
+    if(!ronin.terminal.queue[0]){ this.unlock("query"); return; }
 
     var entry = ronin.terminal.queue.shift();
     console.info(entry);
