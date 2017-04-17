@@ -8,7 +8,7 @@ function Filter_Stencil()
     var angle = cmd.angle() ? cmd.angle().degrees : 20;
     var color = cmd.color() ? cmd.color().hex : "#ffffff";
 
-    ronin.render.layer.clear();
+    ronin.frame.active_layer.clear();
     this.draw(ronin.frame.context(),angle,color);
   }
 

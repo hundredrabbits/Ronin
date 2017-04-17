@@ -130,21 +130,18 @@ function Cursor(rune)
 
   this.update = function(event)
   {
-    // if(ronin.terminal.module_name){
-    //   this.set_mode(ronin.module);
-    // }
-    // else if(event.altKey == true && event.shiftKey == true){
-    //   this.set_mode(ronin.frame.active_layer);
-    // }
-    // else if(event.altKey == true){
-    //   this.set_mode(ronin.default);
-    // }
-    // else{
-    //   this.set_mode(ronin.brush);
-    // }
+    if(event.altKey == true && event.shiftKey == true){
+      this.set_mode(ronin.frame.active_layer);
+    }
+    else if(event.altKey == true){
+      this.set_mode(ronin.default);
+    }
+    else{
+      this.set_mode(ronin.brush);
+    }
   }
   
-  this.set_mode = function(mode)
+  this.set_mode = function(mode = ronin.brush)
   {
     if(this.mode == mode){ return; }
     this.mode = mode;

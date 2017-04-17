@@ -1,5 +1,11 @@
-frame.select main ; 
+frame.select background ; 
 frame.resize 400x400 ; 
 brush:color #ff0000 ;
 brush.add_pointer 1,1 ;
 brush.add_pointer 2,2 ;
+layer.fill #A1A1A1 ;
+render.stencil #72dec2 ;
+type:size 50 ;
+type.write 50,150 "RONIN" ;
+type:size 15 ;
+type.write 55,180 "VER 0.1 " ;

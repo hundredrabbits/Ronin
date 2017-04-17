@@ -2,6 +2,8 @@ function Source(rune)
 {
   Module.call(this,rune);
 
+  this.settings  = {"format":"jpg","quality":"1"};
+
   this.add_method(new Method("save",["name","rect","format"]));
   this.add_method(new Method("load",["path","position","rect"]),"Add point");
   
@@ -50,11 +52,15 @@ function Source(rune)
 
     ronin.terminal.query("terminal.display mini");
 
+    if(this.settings["format"] == "jpg"){
+      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/jpeg',parseFloat(this.settings["quality"]))+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
+    }
+    else{
+      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/png',parseFloat(this.settings["quality"]))+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
+    }
+    /*
     if(params.setting("format") && params.setting("format").value == "svg"){
       ronin.terminal.log(new Log(this,ronin.path.create_svg(),"image"));
-    }
-    else if(params.setting("format") && params.setting("format").value == "jpg"){
-      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
     }
     else if(params.setting("format") && params.setting("format").value == "rin"){
       var w = window.open('about:blank','source');
@@ -62,9 +68,8 @@ function Source(rune)
       for (i = 0; i < ronin.terminal.history.length; i++) { html += ronin.terminal.history[i]+";<br />"; }
       w.document.write("<title>Source</title><pre>"+html+"</pre>");
     }
-    else{
-      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/png')+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
-    }
+    else 
+      */
     
     this.layer.remove(this);
   }

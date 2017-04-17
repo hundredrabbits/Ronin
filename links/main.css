@@ -20,15 +20,15 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal logs log.input { color:white; }
 #terminal logs log.image img { height:85px;width:auto;border-radius: 3px }
 #terminal menu { display: inline-block;position: absolute;bottom: 0px;right: 0px;padding: 0px 5px;font-size: 10px;line-height: 20px;color:white }
+#terminal.locked input { color:red; }
 
 #terminal.hide { height:25px; }
 #terminal.mini { height:120px; }
 #terminal.full { height:100vh; }
 
 #widget { position: absolute; top:0px; left:0px; line-height: 20px; font-size:10px; z-index:9000; color:white; width:100%; height:100%; }
-#widget span { display:inline-block; line-height:15px; padding:0px 5px; vertical-align: top; }
+#widget span { display:inline-block; line-height:15px; padding:0px 5px; vertical-align: top; min-width:100px;}
 #widget span name { display: block; border-bottom: 1px solid #333; line-height:25px; margin-bottom:5px;}
-#widget .cursor {  }
 #widget li { display:block; }
 #widget li.active { color:#72dec2; }
 #widget li.inactive { color:#fff; }

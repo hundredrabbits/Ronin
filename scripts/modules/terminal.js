@@ -187,7 +187,7 @@ function Terminal(rune)
       }
     }
     else{
-      ronin.cursor.set_mode(ronin.brush);
+      ronin.cursor.set_mode();
     }
 
     this.hint(content);
