@@ -4,7 +4,7 @@ function Brush(rune)
   
   // this.parameters = {"offset":Position,"mirror":Rect,"angle":Angle,"reset":Bang};
   this.parameters = [];
-  this.settings  = {"color":"#ff0000","size":1};
+  this.settings  = {"color":"#ff0000","size":4};
   this.pointers = [new Pointer(new Position("0,0"))];
 
   this.add_method(new Method("add_pointer",["Position"]));
@@ -18,7 +18,8 @@ function Brush(rune)
     this.pointers.push(pointer);
 
     ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset.render()));
-    ronin.widget.update();
+    
+    return 1, "ok";
   }
   
   this.passive = function(cmd)

@@ -10,6 +10,8 @@ function Filter_Stencil()
 
     ronin.frame.active_layer.clear();
     this.draw(ronin.frame.context(),angle,color);
+
+    return 1, "ok";
   }
 
   this.preview = function(cmd)

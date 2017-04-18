@@ -7,7 +7,7 @@ function Widget(rune)
 
   this.install = function()
   {
-    ronin.element.appendChild(this.element);
+    ronin.terminal.element.appendChild(this.element);
   }
 
   this.update = function()

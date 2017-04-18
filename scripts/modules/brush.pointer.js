@@ -12,7 +12,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   {
     var ratio = 10/this.position().distance_to(this.position_prev[0]);
     ratio = ratio > 1 ? 1 : ratio;
-    return ronin.brush.settings["size"].float * ratio;
+    return parseInt(ronin.brush.settings["size"]) * ratio;
   }
   
   //

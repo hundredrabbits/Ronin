@@ -43,7 +43,7 @@ function Ronin()
       this.modules[key].install();
     }
 
-    this.terminal.install();
+    // this.terminal.install();
     this.widget.install();
   }
   
@@ -52,11 +52,11 @@ function Ronin()
   this.position_in_canvas = function(e)
   {
     var x = e.clientX;
-    x -= (window.innerWidth - this.frame.settings["size"].width)/2;
-    x -= parseInt(this.frame.element.style.marginLeft) + (this.frame.settings["size"].width/2);
+    x -= (window.innerWidth - this.frame.settings["size"].width) * 0.4 - 25;
+    x -= parseInt(0) + (this.frame.settings["size"].width/2);
     var y = e.clientY;
-    y -= (window.innerHeight - this.frame.settings["size"].height)/2;
-    y -= parseInt(this.frame.element.style.marginTop) + parseInt(this.frame.settings["size"].height/2);
+    // y -= (window.innerHeight - this.frame.settings["size"].height)/2;
+    y -= parseInt(-100) + parseInt(this.frame.settings["size"].height/2);
     return new Position(x,y);
   }
   

@@ -130,6 +130,8 @@ function Cursor(rune)
 
   this.update = function(event)
   {
+    // this.set_mode(ronin.brush);
+    return;
     if(event.altKey == true && event.shiftKey == true){
       this.set_mode(ronin.frame.active_layer);
     }
@@ -157,10 +159,10 @@ function Cursor(rune)
     if(this.mode.constructor.name != Cursor.name){
       this.mode.mouse_from = this.position;
       this.mode.mouse_held = true;
-      this.mode.mouse_down(this.position);  
+      if(!position.is_outside()){
+        this.mode.mouse_down(this.position);  
+      }
     }
-
-    ronin.terminal.update_hint();
   }
   
   this.mouse_move = function(position)
@@ -184,7 +186,7 @@ function Cursor(rune)
       this.mode.mouse_move(this.position,rect);  
       this.mode.mouse_prev = this.position;
     }
-    ronin.terminal.update_hint();
+    // ronin.terminal.update_hint();
   }
   
   this.mouse_up = function(position)
@@ -195,13 +197,23 @@ function Cursor(rune)
     rect.width = this.position.x - this.mode.mouse_from.x;
     rect.height = this.position.y - this.mode.mouse_from.y;
 
+    if(!this.mode){ return; }
+
     if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_up(this.position,rect);  
+      if(!position.is_outside()){
+        this.mode.mouse_up(this.position,rect);  
+      }
       this.mode.mouse_held = false;
     }
-    ronin.terminal.input_element.focus();
-    ronin.terminal.update_hint();
     this.mode.mouse_from = null;
+  }
+
+  this.release = function()
+  {
+    this.mode.mouse_held = false;
+    this.mode.mouse_from = null;
+    this.mode = ronin.brush;
+    ronin.terminal.textarea.focus();
   }
 
   this.widget = function()

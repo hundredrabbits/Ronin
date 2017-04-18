@@ -16,6 +16,11 @@ function Frame(rune)
   this.install = function()
   {
     this.blink();
+    var l = new Layer("background");
+    this.add_layer(l);
+    this.select_layer(l);
+
+    this.resize(new Command(["300x300"]));
   }
 
   // Methods
@@ -34,10 +39,10 @@ function Frame(rune)
     ronin.frame.element.height = this.settings["size"].height * 2;
     ronin.frame.element.style.width = this.settings["size"].width+"px";
     ronin.frame.element.style.height = this.settings["size"].height+"px";
-    ronin.frame.element.style.marginLeft = -(this.settings["size"].width/2);
-    ronin.frame.element.style.marginTop = -(this.settings["size"].height/2);
 
     ronin.on_resize();
+
+    return 1, "ok";
   }
 
   this.crop = function(params, preview = false)
@@ -61,6 +66,8 @@ function Frame(rune)
     this.select_layer(this.layers[layer_name]);
     ronin.modules["layer"] = this.layers[layer_name];
     ronin.layer = this.layers[layer_name];
+
+    return 1, "ok";
   }
 
   this.context = function()
@@ -132,7 +139,7 @@ function Frame(rune)
   
   this.mouse_move = function(position,rect)
   {      
-    ronin.terminal.input_element.value = "frame."+ronin.terminal.method_name+" "+this.mouse_from.render()+" "+rect.render()+" ";
+    // ronin.terminal.input_element.value = "frame."+ronin.terminal.method_name+" "+this.mouse_from.render()+" "+rect.render()+" ";
     ronin.terminal.passive();
   }
   

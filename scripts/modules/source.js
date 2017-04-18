@@ -9,7 +9,8 @@ function Source(rune)
   
   this.load = function(params,preview = false) // source.load ../assets/todo.jpg 200x200 40,40
   {
-    if(!params.filepath() || !params.rect()){ ronin.terminal.log(new Log(this,"Missing image path.","error")); return; }
+    if(!params.filepath()){ return 0, "Path?"; }
+    if(!params.rect()){ return 0,"Rect?"; }
 
     this.get_layer(true).clear();
 
@@ -41,6 +42,8 @@ function Source(rune)
     }
 
     if(!preview){ ronin.overlay.get_layer(true).clear(); }
+
+    return 1,"ok";
   }
 
   this.save = function(params,preview = false)

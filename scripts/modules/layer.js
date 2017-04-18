@@ -51,6 +51,8 @@ function Layer(name,manager = null)
     ronin.frame.context().rotate(-angle*Math.PI/180);
     ronin.frame.context().restore();
     ronin.render.get_layer().clear();
+
+    return 1, "ok";
   }
 
   this.translate = function(params,preview = false)
@@ -62,6 +64,8 @@ function Layer(name,manager = null)
     this.clear();
     this.context().putImageData(data, params.position().x * 2, params.position().y * 2);
     ronin.overlay.get_layer(true).clear();
+
+    return 1, "ok";
   }
 
   this.fill = function(params,preview = false)
@@ -76,7 +80,8 @@ function Layer(name,manager = null)
     this.context().rect(position.x, position.y, rect.width, rect.height);
     this.context().fillStyle = params.color().hex;
     this.context().fill();
-    ronin.terminal.log(new Log(this,"Filled layer "+this.name+": "+params.color().hex)); 
+    
+    return 1, "ok";
   }
 
   this.rename = function(params, preview = false)
@@ -150,7 +155,7 @@ function Layer(name,manager = null)
 
   this.mouse_down = function(position)
   {
-    ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" 0,0";
+    // ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" 0,0";
     ronin.terminal.passive();
   }
   
@@ -163,7 +168,7 @@ function Layer(name,manager = null)
     ronin.overlay.draw_cross(position);
     ronin.overlay.draw_line(this.mouse_from,position);
 
-    ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
+    // ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
     ronin.terminal.passive();
   }
   
@@ -176,7 +181,7 @@ function Layer(name,manager = null)
     ronin.overlay.draw_circle(this.mouse_from);
     ronin.overlay.draw_line(this.mouse_from,position);
 
-    ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
+    // ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
     ronin.terminal.passive();
 
     // if(this.coordinates.length == 0){

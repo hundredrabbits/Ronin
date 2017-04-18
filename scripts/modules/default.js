@@ -3,34 +3,8 @@ function Default(rune)
   Module.call(this,rune);
   
   this.hint = function()
-  {
-    if(ronin.terminal.input_element.value == ""){
-      var s = "";
-      for(module in ronin.modules){
-        s += ronin.modules[module].constructor.name+" ";
-      }
-      return s;
-    }
-
-    //
-
-    var candidates = [];
-
-    for(module in ronin.modules){
-      for(method in ronin.modules[module].methods){
-        candidates.push(module.toLowerCase()+"."+method);
-      }
-    }
-
-    var s = "";
-
-    for(candidate in candidates){
-      if(candidates[candidate].indexOf(ronin.terminal.input_element.value) > -1){
-        s += candidates[candidate]+" ";
-      }
-    }
-    
-    return s;
+  { 
+    return "";
   }
 
   // Cursor

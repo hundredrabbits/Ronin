@@ -23,7 +23,7 @@ function Type(rune)
     target_layer.context().fillStyle = color; 
     target_layer.context().fillText(text,position.x,position.y);
 
-    console.log(target_layer.context());
+    return 1, preview ? "preview" : "ok";
   }
 
   // Mouse
@@ -35,26 +35,26 @@ function Type(rune)
 
   this.mouse_down = function(position)
   {
-    ronin.terminal.input_element.value = "type."+ronin.terminal.method_name+" "+position.render();
-    ronin.terminal.passive();
+    var line = "type.write "+position.render()+" \"Placeholder\"";
+    ronin.terminal.update_active_line(line);
   }
   
   this.mouse_move = function(position,rect)
   {
-    ronin.terminal.input_element.value = "type."+ronin.terminal.method_name+" "+position.render();
-    ronin.terminal.passive();
+    var line = "type.write "+position.render()+" \"Placeholder\"";
+    ronin.terminal.update_active_line(line);
   }
   
   this.mouse_up = function(position)
   {
-    ronin.terminal.input_element.value = "type."+ronin.terminal.method_name+" "+position.render();
-    ronin.terminal.passive();
+    var line = "type.write "+position.render()+" \"Placeholder\"";
+    ronin.terminal.update_active_line(line);
+    ronin.terminal.textarea.value += "\n";
+    ronin.cursor.release();
   }
 
   this.key_escape = function()
   {
     if(this.layer){ this.layer.remove(this); }
-    ronin.terminal.input_element.value = "";
-    ronin.terminal.passive();
   }
 }

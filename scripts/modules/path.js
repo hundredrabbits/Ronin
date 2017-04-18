@@ -26,6 +26,8 @@ function Path(rune)
     context.strokeStyle = this.settings["line_color"];
     context.stroke(new Path2D(params.content));
     context.closePath();
+
+    return 1, preview ? "preview" : "ok";
   }
 
   this.fill = function(params,preview = false)
@@ -38,6 +40,8 @@ function Path(rune)
 
     context.fillStyle = this.settings["fill_color"];
     context.fill(new Path2D(params.content));
+
+    return 1, preview ? "preview" : "ok";
   }
 
   // Tools
@@ -87,15 +91,15 @@ function Path(rune)
 
   this.mouse_down = function(position)
   {
-    ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
-    ronin.terminal.input_element.value += "M"+position.render();
+    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
+    // ronin.terminal.input_element.value += "M"+position.render();
     ronin.terminal.passive();
   }
   
   this.mouse_move = function(position)
   {
-    ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
-    ronin.terminal.input_element.value += "L"+position.render();
+    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
+    // ronin.terminal.input_element.value += "L"+position.render();
     ronin.terminal.passive();
   }
   
@@ -121,7 +125,7 @@ function Path(rune)
       }
     }
 
-    ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
+    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
     this.last_pos = position;
     ronin.terminal.passive();
   }
@@ -131,7 +135,7 @@ function Path(rune)
     if(this.layer){ this.layer.remove(this); }
     this.coordinates = [];
     this.last_pos = null;
-    ronin.terminal.input_element.value = "";
+    // ronin.terminal.input_element.value = "";
     ronin.terminal.passive();
   }
 }

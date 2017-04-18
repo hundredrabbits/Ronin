@@ -17,7 +17,7 @@ function Eye(rune)
   {
     var imgData = ronin.frame.context().getImageData(position.x*2, position.y*2, 1, 1).data;
     var c = new Color();
-    ronin.terminal.input_element.value = "* "+(c.rgb_to_hex(imgData));
+    // ronin.terminal.input_element.value = "* "+(c.rgb_to_hex(imgData));
     ronin.terminal.update_hint();
   }
   

@@ -1,11 +1,11 @@
-frame.select background ; 
-frame.resize 400x400 ; 
-brush:color #ff0000 ;
-brush.add_pointer 1,1 ;
-brush.add_pointer 2,2 ;
-layer.fill #A1A1A1 ;
-render.stencil #72dec2 ;
-type:size 50 ;
-type.write 50,150 "RONIN" ;
-type:size 15 ;
-type.write 55,180 "VER 0.1 " ;
+~ Default
+
+frame.resize 300x300 
+frame.select background 
+layer.fill #000000 
+path:line_width 43
+path:line_color #EEEEEE
+path.stroke M105,240 a-45,-45 0 0,0 -45,-45 M150,240 a-90,-90 0 0,0 -90,-90 M150,60 a90,90 0 0,0 90,90 M195,60 a45,45 0 0,0 45,45 M60,105 a45,-45 0 0,0 45,-45 M240,195 a-45,45 0 0,0 -45,45
+type:size 10
+type.write 38,262 "RONIN"
+type.write 38,252 "B07"

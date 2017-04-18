@@ -13,7 +13,8 @@ function Keyboard()
     }
     ronin.cursor.update(event);
     ronin.widget.update();
-    ronin.terminal.update_hint();
+    ronin.terminal.timer = 0;
+    ronin.terminal.update_status();
   }
 
   this.listen_onkeyup = function(event)
@@ -44,9 +45,8 @@ function Keyboard()
     }
 
     // Passive
-    ronin.terminal.passive(ronin.terminal.input_element.value);
     ronin.widget.update();
-    ronin.terminal.update_hint();
+    ronin.terminal.update_status();
   };
 
   this.key_tab = function()
@@ -55,7 +55,6 @@ function Keyboard()
 
   this.key_enter = function()
   {
-    ronin.terminal.query(ronin.terminal.input_element.value);
   }
 
   this.key_space = function()

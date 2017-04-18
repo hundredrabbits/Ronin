@@ -180,7 +180,7 @@ function Overlay(rune)
     ronin.overlay.clear();
     ronin.overlay.draw_pointer(position);
     this.live_draw_from = position;
-    ronin.terminal.input_element.value = "| "+this.live_draw_from.render();
+    // ronin.terminal.input_element.value = "| "+this.live_draw_from.render();
   }
   
   this.mouse_move = function(position)
@@ -194,7 +194,7 @@ function Overlay(rune)
     rect.height = position.y - this.live_draw_from.y;
   
     ronin.overlay.draw_rect(this.live_draw_from,rect);
-    ronin.terminal.input_element.value = "| "+this.live_draw_from.render()+" "+rect.render();
+    // ronin.terminal.input_element.value = "| "+this.live_draw_from.render()+" "+rect.render();
 
     ronin.terminal.update_hint();
   }
@@ -202,7 +202,7 @@ function Overlay(rune)
   this.mouse_up = function(position)
   {
     this.live_draw_from = null;
-    ronin.terminal.input_element.focus();
+    // ronin.terminal.input_element.focus();
   }
   
   // Widget

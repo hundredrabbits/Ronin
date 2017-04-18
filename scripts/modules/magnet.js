@@ -26,6 +26,9 @@ function Magnet(rune)
     if(!rect){ rect = new Rect("20x20"); }
     if(!grid){ grid = new Position("4,4"); }
 
+    this.settings["grid"] = rect;
+    this.settings["marker"] = grid;
+
     if(rect.width < 5 || rect.height < 5){ return; }
 
     var horizontal = ronin.frame.settings["size"].width/rect.width;
