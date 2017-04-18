@@ -39,6 +39,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal hint line .input .module { background: #222; }
 #terminal hint line .input .method { background: #333; }
 #terminal hint line .input .setting { background: #444; }
+#terminal hint line .input .comment { background: #222;width:100%;display: inline-block  }
 
 #terminal textarea { display: block;position: fixed;top: 100px;width: calc(40vw - 16px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #ccc;border-left:1px solid #333;margin-left:15px}
 #terminal textarea:hover { border-left:1px solid #555; }

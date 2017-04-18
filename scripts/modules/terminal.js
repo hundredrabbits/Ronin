@@ -119,6 +119,11 @@ function Terminal(rune)
   this.syntax_highlight = function(line)
   {
     var line = line;
+
+    console.log(line[0])
+
+    // Comment
+    if(line[0] == "~"){ line = "<span class='comment'>"+line+"</span>"; }
     
     // Method
     if(line.indexOf(".") > 0){

@@ -70,8 +70,8 @@ function Layer(name,manager = null)
 
   this.fill = function(params,preview = false)
   {
-    if(preview){ return; }
-    if(!params.color()){ return; }
+    if(!params.color()){ return 0, "Color?"; }
+    if(preview){ return 0, "No Preview"; }
 
     var rect = params.rect() ? params.rect() : new Rect(this.element.width+"x"+this.element.height);
     var position = params.position() ? params.position() : new Position("0,0");

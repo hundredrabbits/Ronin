@@ -8,11 +8,18 @@ function Pointer(offset = new Position(), color = new Color('000000'))
   
   // Parameters
 
+  this.actual_thickness = 0;
+
   this.thickness = function()
   {
     var ratio = 10/this.position().distance_to(this.position_prev[0]);
     ratio = ratio > 1 ? 1 : ratio;
-    return parseInt(ronin.brush.settings["size"]) * ratio;
+    var target = parseFloat(ronin.brush.settings["size"]) * ratio;
+
+    if(this.actual_thickness < target){ this.actual_thickness += 0.4; }
+    if(this.actual_thickness > target){ this.actual_thickness -= 0.4; }
+
+    return this.actual_thickness;
   }
   
   //
