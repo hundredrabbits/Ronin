@@ -14,7 +14,7 @@ function Keyboard()
     ronin.cursor.update(event);
     ronin.widget.update();
     ronin.terminal.timer = 0;
-    ronin.terminal.update_status();
+    ronin.terminal.update();
   }
 
   this.listen_onkeyup = function(event)
@@ -46,7 +46,7 @@ function Keyboard()
 
     // Passive
     ronin.widget.update();
-    ronin.terminal.update_status();
+    ronin.terminal.update();
   };
 
   this.key_tab = function()

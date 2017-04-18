@@ -54,9 +54,16 @@ function Cursor(rune)
     this.layer.context().closePath();
 
     this.layer.context().beginPath();
-    this.layer.context().arc(position.x, position.y, size+1, 0, 2 * Math.PI, false);
+    this.layer.context().arc(position.x, position.y, size/2, 0, 2 * Math.PI, false);
     this.layer.context().lineWidth = 1;
     this.layer.context().strokeStyle = "white";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.layer.context().beginPath();
+    this.layer.context().arc(position.x, position.y, (size/2)+1, 0, 2 * Math.PI, false);
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "black";
     this.layer.context().stroke();
     this.layer.context().closePath();
 

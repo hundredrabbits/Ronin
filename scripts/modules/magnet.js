@@ -2,13 +2,13 @@ function Magnet(rune)
 {
   Module.call(this,rune);
   
-  this.settings = {"grid" : new Rect("1x1"), "marker": new Position("4,4"), "reset" : new Bang()};
+  this.settings = {"grid" : new Rect("1x1"), "marker": new Position("4,4")};
 
   this.add_method(new Method("grid",["rect","position"]));
 
   this.grid = function(params,preview = false)
   {
-    if(!params.rect()){ return; }
+    if(!params.rect()){ return 0, "Rect?"; }
 
     if(!this.layer){ this.create_layer(); }
 
@@ -19,6 +19,8 @@ function Magnet(rune)
       this.settings["grid"] = params.rect();
       this.settings["market"] = params.position();
     }
+
+    return 1, preview ? "preview" : "ok";
   }
 
   this.draw_grid = function(rect,grid)

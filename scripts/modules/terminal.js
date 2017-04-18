@@ -57,8 +57,6 @@ function Terminal(rune)
       ronin.terminal.run();
     }
 
-    this.update_status();
-
     this.history = this.textarea.value;
     this.timer = 0;
   }
@@ -106,6 +104,9 @@ function Terminal(rune)
     else if(ronin["render"].collection[method_name]){
       return ronin["render"].collection[method_name].render(parameters);
     }
+    else if(setting_name){
+      return 0, "Unknown Setting";
+    }
     else if(ronin[module_name]){
       return 0, "Unknown Method";
     }
@@ -120,6 +121,24 @@ function Terminal(rune)
 
   this.syntax_highlight = function(line)
   {
+    var line = line;
+    
+    // Method
+    if(line.indexOf(".") > 0){
+      var module = line.split(".")[0];
+      var method = line.split(".")[1].split(" ")[0];
+      line = line.replace(module,"<span class='module'>"+module+"</span>");  
+      line = line.replace(method,"<span class='method'>"+method+"</span>");  
+    }
+
+    // Setting
+    if(line.indexOf(":") > 0){
+      var module = line.split(":")[0];
+      var setting = line.split(":")[1].split(" ")[0];
+      line = line.replace(module,"<span class='module'>"+module+"</span>");  
+      line = line.replace(setting,"<span class='setting'>"+setting+"</span>");  
+    }
+    
     return line;
   }
 
@@ -133,7 +152,7 @@ function Terminal(rune)
     this.timer = 10;
   }
 
-  this.update_status = function()
+  this.update = function()
   {
     if(ronin.terminal.has_changed() == true){ 
       this.status_element.innerHTML = "Changes Pending.";
@@ -143,6 +162,12 @@ function Terminal(rune)
     }
 
     this.status_element.innerHTML += "<span class='details'>"+this.textarea.value.length+"c "+this.textarea.value.split("\n").length+"l</span>";
+
+    this.hint_element.innerHTML = "";
+    var queue = ronin.terminal.textarea.value.split("\n")
+    for(id in queue){
+      this.hint_element.innerHTML += "<line><text class='input'>"+this.syntax_highlight(queue[id])+"</text></line><br />";
+    }
   }
 
   this.log = function(log)

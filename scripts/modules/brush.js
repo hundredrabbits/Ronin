@@ -83,7 +83,7 @@ function Brush(rune)
       return "Eraser "+this.settings["size"];
     }
     else{
-      return "Brush "+this.settings["size"];  
+      return "Brush <i style='color:"+this.settings["color"]+"'>&#9679;</i> "+this.settings["size"];  
     }
   }
   

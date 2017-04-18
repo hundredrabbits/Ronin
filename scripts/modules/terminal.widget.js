@@ -14,9 +14,10 @@ function Widget(rune)
   {
     var s = "";
 
-    for (var key in ronin.modules){
-      s += ronin.modules[key].widget() ? "<span class='"+key+"'><name>"+key+"</name>"+ronin.modules[key].widget()+"</span> " : "";
-    }
+    s += ronin.cursor.widget();
+    // for (var key in ronin.modules){
+    //   s += ronin.modules[key].widget() ? "<span class='"+key+"'><name>"+key+"</name>"+ronin.modules[key].widget()+"</span> " : "";
+    // }
 
     this.element.innerHTML = s;
   }

@@ -27,7 +27,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal.mini { height:120px; }
 #terminal.full { height:100vh; }
 
-#terminal #widget { display:none; position: absolute; top:0px; left:0px; line-height: 20px; font-size:10px; z-index:9000; color:white; width:50vw; height:100px; }
+#terminal #widget { position: absolute;top: 0px;left: 0px;line-height: 30px;font-size: 12px;z-index: 9000;color: white;width: calc(40vw - 15px);height: 100px;padding-left:30px }
 #terminal #widget span { display:inline-block; line-height:15px; padding:0px 5px; vertical-align: top; min-width:100px;}
 #terminal #widget span name { display: block; border-bottom: 1px solid #333; line-height:25px; margin-bottom:5px;}
 #terminal #widget li { display:block; }
@@ -35,7 +35,11 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal #widget li.inactive { color:#fff; }
 #terminal #widget li.managed { color:#777; }
 
-#terminal hint { display: block;position: fixed;top: 100px;width: calc(40vw - 45px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px}
+#terminal hint { display: block;position: fixed;top: 100px;width: calc(40vw - 45px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px; z-index:9000;}
 #terminal hint line { display: inline; width:calc(100% - 30px); }
-#terminal hint line .input { opacity:0.1; }
+#terminal hint line .input { opacity:1; }
 #terminal hint line .status { position: absolute;right:30px; }
+#terminal hint line .input .module { color: white; }
+#terminal hint line .input .method { color: red; }
+#terminal hint line .input .setting { color: #72dec2; }
+

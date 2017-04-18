@@ -7,9 +7,9 @@ Enjoy
 
 ## TODOs
   General
-    Splash screen(Complete)
     Merge layers
     Export multiple layers file
+    Syntax highlight
   % Render
     balance auto=true ~ auto color
     balance 0.8       ~ equal RGB balance
