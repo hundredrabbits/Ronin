@@ -168,6 +168,13 @@ function Terminal(rune)
     }
     rawFile.send(null);
   }
+
+  this.cmd = function()
+  {
+    var lines = ronin.terminal.textarea.value.split("\n");
+    var last = lines[lines.length-1];
+    return new Command(last.split(" "));
+  }
 }
 
 // Log

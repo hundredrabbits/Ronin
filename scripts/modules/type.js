@@ -35,19 +35,22 @@ function Type(rune)
 
   this.mouse_down = function(position)
   {
-    var line = "type.write "+position.render()+" \"Placeholder\"";
+    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
+    var line = "type.write "+position.render()+" \""+str+"\"";
     ronin.terminal.update_active_line(line);
   }
   
   this.mouse_move = function(position,rect)
   {
-    var line = "type.write "+position.render()+" \"Placeholder\"";
+    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
+    var line = "type.write "+position.render()+" \""+str+"\"";
     ronin.terminal.update_active_line(line);
   }
   
   this.mouse_up = function(position)
   {
-    var line = "type.write "+position.render()+" \"Placeholder\"";
+    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
+    var line = "type.write "+position.render()+" \""+str+"\"";
     ronin.terminal.update_active_line(line);
     ronin.terminal.textarea.value += "\n";
     ronin.cursor.release();
