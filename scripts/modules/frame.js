@@ -16,9 +16,7 @@ function Frame(rune)
   this.install = function()
   {
     this.blink();
-    var l = new Layer("background");
-    this.add_layer(l);
-    this.select_layer(l);
+    this.select(new Command(["background"]));
 
     this.resize(new Command(["300x300"]));
   }

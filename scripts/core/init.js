@@ -31,4 +31,6 @@ starting_canvas.height = window.innerHeight - 300;
 starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
 starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
+// ronin.terminal.load("default.rin");
+ronin.terminal.load("blank.rin");
 ronin.widget.update();

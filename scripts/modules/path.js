@@ -27,6 +27,8 @@ function Path(rune)
     context.stroke(new Path2D(params.content));
     context.closePath();
 
+    if(!preview){ this.coordinates = []; this.last_pos = null; }
+
     return 1, preview ? "preview" : "ok";
   }
 
@@ -91,16 +93,16 @@ function Path(rune)
 
   this.mouse_down = function(position)
   {
-    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
-    // ronin.terminal.input_element.value += "M"+position.render();
-    ronin.terminal.passive();
+    var line = "path.stroke "+this.create_path();
+    line += "M"+position.render();
+    ronin.terminal.update_active_line(line);
   }
   
   this.mouse_move = function(position)
   {
-    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
-    // ronin.terminal.input_element.value += "L"+position.render();
-    ronin.terminal.passive();
+    var line = "path.stroke "+this.create_path();
+    line += "L"+position.render();
+    ronin.terminal.update_active_line(line);
   }
   
   this.mouse_up = function(position)
@@ -125,9 +127,8 @@ function Path(rune)
       }
     }
 
-    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
+    ronin.terminal.update_active_line("path.stroke "+this.create_path());
     this.last_pos = position;
-    ronin.terminal.passive();
   }
 
   this.key_escape = function()
@@ -135,7 +136,6 @@ function Path(rune)
     if(this.layer){ this.layer.remove(this); }
     this.coordinates = [];
     this.last_pos = null;
-    // ronin.terminal.input_element.value = "";
     ronin.terminal.passive();
   }
 }

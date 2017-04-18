@@ -14,7 +14,6 @@ function Terminal(rune)
 
   this.add_method(new Method("save",["text"]));
   this.add_method(new Method("load",["path"]));
-  this.add_method(new Method("display",["mini/hide/full"]));
 
   // Module
   this.install = function(cmd)
@@ -26,11 +25,10 @@ function Terminal(rune)
     this.element.appendChild(this.status_element);
 
     this.status_element.innerHTML = "Ready.";
-    this.textarea.value = "frame.select background\nframe.resize 400x400\nbrush:color #ff0000\nbrush.add_pointer 1,1\nbrush.add_pointer 2,2\nlayer.fill #A1A1A1\nrender.stencil #72dec2\ntype:size 50\ntype.write 50,150 \"RONIN\"\ntype:size 15\ntype.write 55,180 \"VER 0.1\""
+    this.textarea.value = ""
     this.hint_element.innerHTML = "";
 
     this.validation_timer();
-    this.load("default.rin");
     this.timer = 20;
   }
 
@@ -56,7 +54,6 @@ function Terminal(rune)
     if(ronin.terminal.has_changed() == true){ 
       ronin.terminal.run();
     }
-
     this.history = this.textarea.value;
     this.timer = 0;
   }
@@ -74,7 +71,7 @@ function Terminal(rune)
   {
     var content = line;
 
-    if(content.trim() == ""){ return "~"; }
+    if(content.trim() == ""){ ronin.cursor.set_mode(ronin.brush); return "~"; }
     if(content.trim()[0] == "~"){ return "~"; }
 
     if(content.indexOf(".") > -1){
@@ -93,7 +90,7 @@ function Terminal(rune)
     var parameters = content.split(" "); parameters.shift();
     var parameters = new Command(parameters);
 
-    if(id == 1){ ronin.cursor.set_mode(ronin[module_name]); }
+    ronin.cursor.set_mode(ronin[module_name]);
 
     if(ronin[module_name] && ronin[module_name][method_name]){
       return ronin[module_name][method_name](parameters,id == 1 ? true : false);

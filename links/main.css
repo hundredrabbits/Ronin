@@ -9,9 +9,6 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #frame { cursor:none;}
 
 #terminal { position: fixed;top: 0px;left: 0px;background: #000;width: 40vw;height: 100vh;overflow: hidden;}
-#terminal textarea { display: block;position: fixed;top: 100px;width: calc(40vw - 16px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px}
-#terminal textarea:hover { border-left:1px solid #555; }
-#terminal textarea { z-index:900; }
 #terminal logs { display: none;position: absolute;bottom:20px;width:100vw;color:white}
 #terminal logs log { display: block; font-size:10px; line-height:25px; padding:0px 5px; color:#666;}
 #terminal logs log .rune { color:white; }
@@ -35,11 +32,14 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal #widget li.inactive { color:#fff; }
 #terminal #widget li.managed { color:#777; }
 
-#terminal hint { display: block;position: fixed;top: 100px;width: calc(40vw - 45px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px; z-index:9000;}
+#terminal hint { display: block;position: fixed;top: 100px;width: calc(40vw - 45px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px;}
 #terminal hint line { display: inline; width:calc(100% - 30px); }
 #terminal hint line .input { opacity:1; }
 #terminal hint line .status { position: absolute;right:30px; }
-#terminal hint line .input .module { color: white; }
-#terminal hint line .input .method { color: red; }
-#terminal hint line .input .setting { color: #72dec2; }
+#terminal hint line .input .module { background: #222; }
+#terminal hint line .input .method { background: #333; }
+#terminal hint line .input .setting { background: #444; }
 
+#terminal textarea { display: block;position: fixed;top: 100px;width: calc(40vw - 16px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #ccc;border-left:1px solid #333;margin-left:15px}
+#terminal textarea:hover { border-left:1px solid #555; }
+#terminal textarea { z-index:900; }

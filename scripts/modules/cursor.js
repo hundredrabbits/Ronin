@@ -155,6 +155,7 @@ function Cursor(rune)
     if(this.mode == mode){ return; }
     this.mode = mode;
     document.body.setAttribute("class",this.mode.constructor.name);
+    ronin.widget.update();
   }
   
   this.mouse_down = function(position)
