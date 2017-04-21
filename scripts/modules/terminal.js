@@ -63,7 +63,7 @@ function Terminal(rune)
     this.hint_element.innerHTML = "";
     var queue = ronin.terminal.textarea.value.split("\n")
     for(id in queue){
-      this.hint_element.innerHTML += "<line><text class='input'>"+this.syntax_highlight(queue[id])+"</text><text class='status'>"+this.run_line(queue.length - id,queue[id])+"</text></line><br />";
+      this.hint_element.innerHTML += "<line><text class='input'>"+this.syntax_highlight(queue[id])+"</text><text class='status'>"+this.run_line(queue.length - id,queue[id])+"</text></line>\n";
     }
   }
 
@@ -120,8 +120,6 @@ function Terminal(rune)
   {
     var line = line;
 
-    console.log(line[0])
-
     // Comment
     if(line[0] == "~"){ line = "<span class='comment'>"+line+"</span>"; }
     
@@ -177,8 +175,11 @@ function Terminal(rune)
 
   }
 
+  this.filename = "default.rin";
+
   this.load = function readTextFile(name)
   {    
+    this.filename = name;
     var file = "presets/"+name+'?'+new Date().getTime();
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, false);
@@ -194,6 +195,7 @@ function Terminal(rune)
         }
     }
     rawFile.send(null);
+    ronin.widget.update();
   }
 
   this.cmd = function()

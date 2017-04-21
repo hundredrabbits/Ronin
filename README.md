@@ -3,7 +3,20 @@
 Ronin is my web based drawing tool it's under constant development. 
 The repository comes with a script that fires Ronin from within Localhost.
 
-Enjoy
+## Example file
+
+```
+surface.resize 300x300
+layer.fill #AAAAAA
+magnet.grid 15x15 4,4
+path:line_width 2
+path.stroke M60,60 A1,1 0 0,0 240,60 A1,1 0 0,0 240,240
+path.stroke M240,240 A1,1 0 0,0 60,240 A1,1 0 0,0 60,60
+```
+
+## Load a preset
+
+Where `http://localhost:8022` will load the /presets/default.rin file, `http://localhost:8022/blank` will load /presets/blank.rin.
 
 ## TODOs
   General

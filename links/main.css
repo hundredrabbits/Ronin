@@ -32,7 +32,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal #widget li.inactive { color:#fff; }
 #terminal #widget li.managed { color:#777; }
 
-#terminal hint { display: block;position: fixed;top: 100px;width: calc(40vw - 45px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px;}
+#terminal hint { display: none;position: fixed;top: 100px;width: calc(40vw - 45px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px;white-space: pre;}
 #terminal hint line { display: inline; width:calc(100% - 30px); }
 #terminal hint line .input { opacity:1; }
 #terminal hint line .status { position: absolute;right:30px; }

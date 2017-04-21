@@ -13,12 +13,9 @@ function Widget(rune)
   this.update = function()
   {
     var s = "";
-
-    s += ronin.cursor.widget();
-    // for (var key in ronin.modules){
-    //   s += ronin.modules[key].widget() ? "<span class='"+key+"'><name>"+key+"</name>"+ronin.modules[key].widget()+"</span> " : "";
-    // }
-
+    s += ronin.terminal.file_name+" ";
+    s += "Cursor: "+ronin.cursor.widget();
+    
     this.element.innerHTML = s;
   }
 
