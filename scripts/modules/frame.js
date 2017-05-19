@@ -18,7 +18,17 @@ function Frame(rune)
     this.blink();
     this.select(new Command(["background"]));
 
-    this.resize(new Command(["300x300"]));
+    // Canvas
+    var starting_canvas = new Rect();
+    starting_canvas.width = window.innerWidth - 100;
+    starting_canvas.height = window.innerHeight - 100;
+
+    // Clamp
+
+    starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
+    starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
+
+    this.resize(new Command([starting_canvas.width+"x"+starting_canvas.height]));
   }
 
   // Methods
@@ -37,6 +47,9 @@ function Frame(rune)
     ronin.frame.element.height = this.settings["size"].height * 2;
     ronin.frame.element.style.width = this.settings["size"].width+"px";
     ronin.frame.element.style.height = this.settings["size"].height+"px";
+
+    ronin.frame.element.style.left = (window.innerWidth - this.settings["size"].width)/2;
+    ronin.frame.element.style.top = (window.innerHeight - this.settings["size"].height)/2;
 
     ronin.on_resize();
 

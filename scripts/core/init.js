@@ -21,17 +21,6 @@ document.onkeydown = function myFunction(){ keyboard.listen_onkeydown(event); };
 
 ronin.install();
 
-// Canvas
-var starting_canvas = new Rect();
-starting_canvas.width = window.innerWidth - 200;
-starting_canvas.height = window.innerHeight - 300;
-
-// Clamp
-
-starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
-starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
-
-
 var target_file = window.location.hash ? window.location.hash : "default";
 target_file = target_file.substr(1,target_file.length-1);
 

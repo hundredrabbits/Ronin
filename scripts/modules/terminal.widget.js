@@ -12,21 +12,8 @@ function Widget(rune)
 
   this.update = function()
   {
-    var s = "";
-    s += ronin.terminal.file_name+" ";
-    s += "Cursor: "+ronin.cursor.widget();
-    
-    this.element.innerHTML = s;
+    this.element.innerHTML = ronin.cursor.widget();
   }
-
-  // this.widget = function()
-  // {
-  //   if(!this.active_layer){ return ""; }
-
-  //   return this.rune+" "+this.settings["size"].render();
-  // }
-
-  // // Widget
 
   this.update_widget = function()
   {

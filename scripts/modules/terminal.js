@@ -6,7 +6,6 @@ function Terminal(rune)
   this.input = document.createElement("input");
   this.hint_element = document.createElement("hint");
   this.logs_element = document.createElement("logs");
-  this.status_element = document.createElement("status");
 
   this.history = [];
   this.locks = [];
@@ -20,24 +19,19 @@ function Terminal(rune)
     this.element.appendChild(this.input);
     this.element.appendChild(this.hint_element);
     this.element.appendChild(this.logs_element);
-    this.element.appendChild(this.status_element);
-
-    this.status_element.innerHTML = "Ready.";
+    
     this.input.value = ""
     this.hint_element.innerHTML = "";
   }
 
   this.run = function()
   {
-    this.run_line(this.input.value);
-    // this.hint_element.innerHTML = "";
-    // var queue = ronin.terminal.input.value.split("\n")
-    // for(id in queue){
-    //   this.hint_element.innerHTML += "<line><text class='input'>"+this.syntax_highlight(queue[id])+"</text><text class='status'>"+this.run_line(queue.length - id,queue[id])+"</text></line>\n";
-    // }
+    this.hint_element.innerHTML = "";
+    this.run_line(this.input.value,false);
+    this.input.value = "";
   }
 
-  this.run_line = function(line)
+  this.run_line = function(line,is_preview)
   {
     var content = line;
 
@@ -63,7 +57,7 @@ function Terminal(rune)
     ronin.cursor.set_mode(ronin[module_name]);
 
     if(ronin[module_name] && ronin[module_name][method_name]){
-      return ronin[module_name][method_name](parameters);
+      return ronin[module_name][method_name](parameters,is_preview);
     }
     else if(ronin[module_name] && ronin[module_name].settings[setting_name]){
       return ronin[module_name].update_setting(setting_name,parameters);
@@ -86,15 +80,6 @@ function Terminal(rune)
     return  0, "Unknown";
   }
 
-  this.update_active_line = function(new_line)
-  {
-    var lines = this.input.value.split("\n");
-
-    lines[lines.length-1] = new_line;
-
-    this.input.value = lines.join("\n");
-  }
-
   this.log = function(log)
   {
 
@@ -102,7 +87,7 @@ function Terminal(rune)
 
   this.update = function()
   {
-
+    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span> "+this.run_line(this.input.value,true);
   }
 
   this.filename = "default.rin";

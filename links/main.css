@@ -8,7 +8,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #overlay { position:absolute; z-index:1000;}
 #frame { cursor:none;}
 
-#terminal { position: fixed;bottom: 0px;left: 0px;background: #000;width: 100vw;height: 30px;overflow: hidden;}
+#terminal { position: fixed;bottom: 0px;left: 0px;background: #eee;width: 100vw;height: 30px;overflow: hidden; }
 #terminal logs { display: none;position: absolute;bottom:20px;width:100vw;color:white}
 #terminal logs log { display: block; font-size:10px; line-height:25px; padding:0px 5px; color:#666;}
 #terminal logs log .rune { color:white; }
@@ -23,22 +23,6 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal.mini { height:120px; }
 #terminal.full { height:100vh; }
 
-#terminal #widget { position: absolute;top: 0px;right: 0px;line-height: 30px;font-size: 12px;z-index: 9000;color: white;width: calc(40vw - 15px);height: 100px;padding-left:30px }
-#terminal #widget span { display:inline-block; line-height:15px; padding:0px 5px; vertical-align: top; min-width:100px;}
-#terminal #widget span name { display: block; border-bottom: 1px solid #333; line-height:25px; margin-bottom:5px;}
-#terminal #widget li { display:block; }
-#terminal #widget li.active { color:#72dec2; }
-#terminal #widget li.inactive { color:#fff; }
-#terminal #widget li.managed { color:#777; }
-
-#terminal hint { display: none;position: fixed;top: 100px;width: calc(40vw - 45px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #999;border-left:1px solid #333;margin-left:15px;white-space: pre;}
-#terminal hint line { display: inline; width:calc(100% - 30px); }
-#terminal hint line .input { opacity:1; }
-#terminal hint line .status { position: absolute;right:30px; }
-#terminal hint line .input .module { background: #222; }
-#terminal hint line .input .method { background: #333; }
-#terminal hint line .input .setting { background: #444; }
-#terminal hint line .input .comment { background: #222;width:100%;display: inline-block  }
-
-#terminal input { line-height: 30px; width:400px; background:none; color:pink; font-size:12px; }
-
+#terminal input   { position:fixed; bottom:0px; z-index:900; line-height: 20px; width:calc(100vw - 20px); background:none; color:black; font-size:11px; padding:5px 10px;}
+#terminal hint    { display: block;position: fixed;bottom: 0px;line-height: 20px; width:calc(100vw - 20px); background:none; color:#999; font-size:11px; padding:5px 10px; white-space: pre; }
+#terminal #widget { display: block;position: fixed;bottom: 0px;line-height: 20px; width:calc(100vw - 20px); background:none; color:#999; font-size:11px; padding:5px 10px; white-space: pre; text-align: right}
