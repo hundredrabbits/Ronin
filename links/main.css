@@ -8,23 +8,22 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #overlay { position:absolute; z-index:1000;}
 #frame { cursor:none;}
 
-#terminal { position: fixed;top: 0px;left: 0px;background: #000;width: 40vw;height: 100vh;overflow: hidden;}
+#terminal { position: fixed;bottom: 0px;left: 0px;background: #000;width: 100vw;height: 30px;overflow: hidden;}
 #terminal logs { display: none;position: absolute;bottom:20px;width:100vw;color:white}
 #terminal logs log { display: block; font-size:10px; line-height:25px; padding:0px 5px; color:#666;}
 #terminal logs log .rune { color:white; }
 #terminal logs log.error .rune { color:red; }
 #terminal logs log.input { color:white; }
 #terminal logs log.image img { height:85px;width:auto;border-radius: 3px }
-#terminal menu { display: inline-block;position: absolute;bottom: 0px;right: 0px;padding: 0px 5px;font-size: 10px;line-height: 20px;color:white }
 #terminal.locked input { color:red; }
-#terminal status { display: block;position: absolute;bottom: 0px;left: 0px;padding: 5px 15px 5px 31px;font-size: 12px;line-height: 20px;color: white;width:calc(40vw - 45px) }
+#terminal status { display: block;position: absolute;bottom: 0px;right: 0px;padding: 5px 15px 5px 31px;font-size: 12px;line-height: 20px;color: white;width:calc(40vw - 45px) }
 #terminal status .details { float:right; color:#555; }
 
 #terminal.hide { height:25px; }
 #terminal.mini { height:120px; }
 #terminal.full { height:100vh; }
 
-#terminal #widget { position: absolute;top: 0px;left: 0px;line-height: 30px;font-size: 12px;z-index: 9000;color: white;width: calc(40vw - 15px);height: 100px;padding-left:30px }
+#terminal #widget { position: absolute;top: 0px;right: 0px;line-height: 30px;font-size: 12px;z-index: 9000;color: white;width: calc(40vw - 15px);height: 100px;padding-left:30px }
 #terminal #widget span { display:inline-block; line-height:15px; padding:0px 5px; vertical-align: top; min-width:100px;}
 #terminal #widget span name { display: block; border-bottom: 1px solid #333; line-height:25px; margin-bottom:5px;}
 #terminal #widget li { display:block; }
@@ -41,6 +40,5 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal hint line .input .setting { background: #444; }
 #terminal hint line .input .comment { background: #222;width:100%;display: inline-block  }
 
-#terminal textarea { display: block;position: fixed;top: 100px;width: calc(40vw - 16px);height: calc(100vh - 130px);padding: 0px 15px;line-height: 20px;font-size: 12px;background: none;color: #ccc;border-left:1px solid #333;margin-left:15px}
-#terminal textarea:hover { border-left:1px solid #555; }
-#terminal textarea { z-index:900; }
+#terminal input { line-height: 30px; width:400px; background:none; color:pink; font-size:12px; }
+

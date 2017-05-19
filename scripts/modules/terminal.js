@@ -3,10 +3,9 @@ function Terminal(rune)
   Module.call(this,">");
 
   this.element = document.createElement("div");
-  this.textarea = document.createElement("textarea");
+  this.input = document.createElement("input");
   this.hint_element = document.createElement("hint");
   this.logs_element = document.createElement("logs");
-  this.menu_element = document.createElement("menu");
   this.status_element = document.createElement("status");
 
   this.history = [];
@@ -18,56 +17,27 @@ function Terminal(rune)
   // Module
   this.install = function(cmd)
   {
-    this.element.appendChild(this.textarea);
+    this.element.appendChild(this.input);
     this.element.appendChild(this.hint_element);
     this.element.appendChild(this.logs_element);
-    this.element.appendChild(this.menu_element);
     this.element.appendChild(this.status_element);
 
     this.status_element.innerHTML = "Ready.";
-    this.textarea.value = ""
+    this.input.value = ""
     this.hint_element.innerHTML = "";
-
-    this.validation_timer();
-    this.timer = 20;
-  }
-
-  this.timer = 0;
-  this.history = "";
-
-  this.validation_timer = function()
-  {
-    this.timer += 1;
-    setTimeout(function(){ ronin.terminal.validation_timer(); }, 100);
-    this.validate();
-  }
-
-  this.has_changed = function()
-  {
-    return ronin.terminal.history != ronin.terminal.textarea.value ? true : false;
-  }
-
-  this.validate = function()
-  {
-    if(this.timer < 10){ return; }
-
-    if(ronin.terminal.has_changed() == true){ 
-      ronin.terminal.run();
-    }
-    this.history = this.textarea.value;
-    this.timer = 0;
   }
 
   this.run = function()
   {
-    this.hint_element.innerHTML = "";
-    var queue = ronin.terminal.textarea.value.split("\n")
-    for(id in queue){
-      this.hint_element.innerHTML += "<line><text class='input'>"+this.syntax_highlight(queue[id])+"</text><text class='status'>"+this.run_line(queue.length - id,queue[id])+"</text></line>\n";
-    }
+    this.run_line(this.input.value);
+    // this.hint_element.innerHTML = "";
+    // var queue = ronin.terminal.input.value.split("\n")
+    // for(id in queue){
+    //   this.hint_element.innerHTML += "<line><text class='input'>"+this.syntax_highlight(queue[id])+"</text><text class='status'>"+this.run_line(queue.length - id,queue[id])+"</text></line>\n";
+    // }
   }
 
-  this.run_line = function(id,line)
+  this.run_line = function(line)
   {
     var content = line;
 
@@ -93,7 +63,7 @@ function Terminal(rune)
     ronin.cursor.set_mode(ronin[module_name]);
 
     if(ronin[module_name] && ronin[module_name][method_name]){
-      return ronin[module_name][method_name](parameters,id == 1 ? true : false);
+      return ronin[module_name][method_name](parameters);
     }
     else if(ronin[module_name] && ronin[module_name].settings[setting_name]){
       return ronin[module_name].update_setting(setting_name,parameters);
@@ -116,61 +86,21 @@ function Terminal(rune)
     return  0, "Unknown";
   }
 
-  this.syntax_highlight = function(line)
-  {
-    var line = line;
-
-    // Comment
-    if(line[0] == "~"){ line = "<span class='comment'>"+line+"</span>"; }
-    
-    // Method
-    if(line.indexOf(".") > 0){
-      var module = line.split(".")[0];
-      var method = line.split(".")[1].split(" ")[0];
-      line = line.replace(module,"<span class='module'>"+module+"</span>");  
-      line = line.replace(method,"<span class='method'>"+method+"</span>");  
-    }
-
-    // Setting
-    if(line.indexOf(":") > 0){
-      var module = line.split(":")[0];
-      var setting = line.split(":")[1].split(" ")[0];
-      line = line.replace(module,"<span class='module'>"+module+"</span>");  
-      line = line.replace(setting,"<span class='setting'>"+setting+"</span>");  
-    }
-    
-    return line;
-  }
-
   this.update_active_line = function(new_line)
   {
-    var lines = this.textarea.value.split("\n");
+    var lines = this.input.value.split("\n");
 
     lines[lines.length-1] = new_line;
 
-    this.textarea.value = lines.join("\n");
-    this.timer = 10;
-  }
-
-  this.update = function()
-  {
-    if(ronin.terminal.has_changed() == true){ 
-      this.status_element.innerHTML = "Changes Pending.";
-    }
-    else{ 
-      this.status_element.innerHTML = "Idle.";
-    }
-
-    this.status_element.innerHTML += "<span class='details'>"+this.textarea.value.length+"c "+this.textarea.value.split("\n").length+"l</span>";
-
-    this.hint_element.innerHTML = "";
-    var queue = ronin.terminal.textarea.value.split("\n")
-    for(id in queue){
-      this.hint_element.innerHTML += "<line><text class='input'>"+this.syntax_highlight(queue[id])+"</text></line><br />";
-    }
+    this.input.value = lines.join("\n");
   }
 
   this.log = function(log)
+  {
+
+  }
+
+  this.update = function()
   {
 
   }
@@ -190,7 +120,7 @@ function Terminal(rune)
             if(rawFile.status === 200 || rawFile.status == 0)
             {
                 var allText = rawFile.responseText;
-                ronin.terminal.textarea.value = allText;
+                ronin.terminal.input.value = allText;
             }
         }
     }
@@ -200,7 +130,7 @@ function Terminal(rune)
 
   this.cmd = function()
   {
-    var lines = ronin.terminal.textarea.value.split("\n");
+    var lines = ronin.terminal.input.value.split("\n");
     var last = lines[lines.length-1];
     return new Command(last.split(" "));
   }

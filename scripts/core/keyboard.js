@@ -13,7 +13,6 @@ function Keyboard()
     }
     ronin.cursor.update(event);
     ronin.widget.update();
-    ronin.terminal.timer = 0;
     ronin.terminal.update();
   }
 
@@ -22,7 +21,7 @@ function Keyboard()
     this.shift_held = false;
     this.alt_held = false;
 
-    switch (event.key) {
+    switch (event.key || event.which) {
       case "Enter": this.key_enter(); break;
       case "ArrowUp": this.key_arrow_up(); break;
       case "ArrowDown": this.key_arrow_down(); break;
@@ -30,10 +29,6 @@ function Keyboard()
       case "ArrowRight": this.key_arrow_right(); break;
       case ":": this.key_colon(); break;
       case "Escape": this.key_escape(); break;
-    }
-
-    switch(event.which)
-    {
       case 13:  this.key_enter();  break;
       case 186: if(event.shiftKey){this.key_colon();}  break;
       case 27:  this.key_escape(); break;
@@ -55,6 +50,7 @@ function Keyboard()
 
   this.key_enter = function()
   {
+    ronin.terminal.run();
   }
 
   this.key_space = function()

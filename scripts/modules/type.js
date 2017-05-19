@@ -52,7 +52,7 @@ function Type(rune)
     var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
     var line = "type.write "+position.render()+" \""+str+"\"";
     ronin.terminal.update_active_line(line);
-    ronin.terminal.textarea.value += "\n";
+    ronin.terminal.input.value += "\n";
     ronin.cursor.release();
   }
 

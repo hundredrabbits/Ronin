@@ -221,7 +221,7 @@ function Cursor(rune)
     this.mode.mouse_held = false;
     this.mode.mouse_from = null;
     this.mode = ronin.brush;
-    ronin.terminal.textarea.focus();
+    ronin.terminal.input.focus();
   }
 
   this.widget = function()

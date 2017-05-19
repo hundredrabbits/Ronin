@@ -35,5 +35,6 @@ starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 var target_file = window.location.hash ? window.location.hash : "default";
 target_file = target_file.substr(1,target_file.length-1);
 
-ronin.terminal.load(window.location.hash ? target_file+".rin" : "default.rin");
+// ronin.terminal.load(window.location.hash ? target_file+".rin" : "default.rin");
 ronin.widget.update();
+ronin.terminal.input.focus();
