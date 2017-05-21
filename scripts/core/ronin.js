@@ -47,11 +47,12 @@ function Ronin()
     this.widget.install();
   }
 
-  this.start = function()
+  this.start = function(target_file)
   {
     ronin.terminal.update();
     ronin.widget.update();
     ronin.terminal.input.focus();
+    ronin.load(target_file);
   }
   
   this.cursors = [];
@@ -80,5 +81,28 @@ function Ronin()
 
   this.on_resize = function()
   {
+  }
+
+  this.filename = "default.rin";
+
+  this.load = function readTextFile(name)
+  {    
+    this.filename = name;
+    var file = "presets/"+name+'?'+new Date().getTime();
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                ronin.terminal.run_multi(allText.split("\n").join(";"));
+            }
+        }
+    }
+    rawFile.send(null);
+    ronin.widget.update();
   }
 }

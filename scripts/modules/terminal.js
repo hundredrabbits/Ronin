@@ -27,20 +27,20 @@ function Terminal(rune)
     this.hint_element.innerHTML = "";
   }
 
-  this.run = function()
+  this.run = function(target_cmd)
   {
-    var command = this.cmd();
+    var command = target_cmd ? target_cmd : this.cmd();
     var module  = command.module();
     var method  = command.method();
     var setting = command.setting();
 
+    console.info(command.content);
+
     if(method){
       method.run(command);
     }
-
     if(setting){
       module.settings[setting] = command.values();
-      console.log(module.settings)
     }
     this.hint_element.innerHTML = "";
     this.input.value = "";
@@ -59,6 +59,15 @@ function Terminal(rune)
     this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " " : "")+(module ? module.hint(method) : this.hint(method));
     ronin.cursor.set_mode(module);
     this.input.focus();
+  }
+
+  this.run_multi = function(lines)
+  {
+    lines = lines.split(";")
+    for(id in lines){
+      var cmd = new Command(lines[id]);
+      this.run(cmd);
+    }
   }
 
   this.hint = function(method)
@@ -87,29 +96,6 @@ function Terminal(rune)
   this.cmd = function()
   {
     return new Command(this.input.value);
-  }
-
-  this.filename = "default.rin";
-
-  this.load = function readTextFile(name)
-  {    
-    this.filename = name;
-    var file = "presets/"+name+'?'+new Date().getTime();
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-                ronin.terminal.input.value = allText;
-            }
-        }
-    }
-    rawFile.send(null);
-    ronin.widget.update();
   }
 }
 

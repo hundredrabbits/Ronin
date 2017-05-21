@@ -15,6 +15,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal input:focus { color:#fff; }
 
 #terminal #logs { position:fixed; bottom:30px; border-bottom:1px solid #222; }
+#terminal #logs .module { font-family: 'input_mono_regular'; color:red; }
 
 #terminal #widget { text-align: right}
 #terminal #widget .mouse { color:white; }
