@@ -2,22 +2,24 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 *:focus {outline: none; }
 
 #ronin { background:#ddd; width:100%; height:100%; overflow:hidden; background-image:url(../media/graphics/grid.svg); background-position: center center; }
-#frame { background:#111; width:50vw; height:50vh; overflow:hidden; position:fixed; left: calc(40vw + 15px); top:100px;  border-radius: 3px}
+#frame { background:none; width:50vw; height:50vh; overflow:hidden; position:fixed; left: calc(40vw + 15px); top:100px;  border-radius: 3px}
 #frame > .layer { position:absolute; top:0px; left:0px; width:100%; height:100%;}
 #overlay { position:absolute; z-index:1000;}
 #frame { cursor:none;}
 
-#terminal { position: fixed;bottom: 0px;left: 0px;background: #eee;width: 100vw;height: 60px;overflow: hidden;}
+#terminal { position: fixed;bottom: 0px;left: 0px;background: #111;width: 100vw;height: 60px;overflow: hidden; color:#999;}
 
 #terminal #hint, #terminal #widget, #terminal input, #terminal #logs { display: block;position: fixed;bottom: 0px;line-height: 20px; width:calc(100vw - 40px); background:none; color:#777; font-size:11px; padding:5px 20px; white-space: pre; }
 
 #terminal input { z-index: 9000; color:red; font-family: 'input_mono_regular'}
-#terminal input:focus { color:#000; }
+#terminal input:focus { color:#fff; }
 
-#terminal #logs { position:fixed; bottom:30px; border-bottom:1px solid #fff; }
+#terminal #logs { position:fixed; bottom:30px; border-bottom:1px solid #222; }
 
 #terminal #widget { text-align: right}
+#terminal #widget .mouse { color:white; }
 
-#terminal #hint .module { display: inline-block; color:black; }
-#terminal #hint .method { display: inline-block; color:black; }
+#terminal #hint .module { display: inline-block; color:#999; }
+#terminal #hint .method { display: inline-block; color:#999; }
 #terminal #hint .params { display: inline-block; color:#999; font-style: italic }
+#terminal #hint .setting { display: inline-block; color:#fff; font-style: italic }

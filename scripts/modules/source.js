@@ -95,7 +95,7 @@ function Source(rune)
     if(this.layer){ this.layer.remove(this); }
     this.coordinates = [];
     this.last_pos = null;
-    ronin.terminal.input_element.value = "";
+    ronin.terminal.input.value = "";
     ronin.terminal.passive();
     ronin.overlay.get_layer(true).clear();
   }

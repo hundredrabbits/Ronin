@@ -30,7 +30,7 @@ function Ronin()
   this.modules[this.source.name]   = this.source;
   this.modules[this.render.name]   = this.render;
   // this.modules[this.eye.constructor.name]      = this.eye;
-  // this.modules[this.magnet.constructor.name]   = this.magnet;
+  this.modules[this.magnet.name]   = this.magnet;
 
   this.modules[this.cursor.name]   = this.cursor;
   this.modules[this.terminal.name] = this.terminal;

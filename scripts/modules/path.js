@@ -3,7 +3,7 @@ function Path(rune)
   Module.call(this,rune);
   
   this.parameters = [Any];
-  this.settings  = {"fill_color" : "#ff0000","line_width" : 1,"line_color" : "#ffffff", "line_cap" : "square"};
+  this.settings  = {"fill_color" : "#ff0000","line_width" : 3,"line_color" : "#999", "line_cap" : "square"};
 
   this.add_method(new Method("stroke",["Positions"],"Add point"));
   this.add_method(new Method("fill",["Positions"]),"Add point");
@@ -12,7 +12,7 @@ function Path(rune)
   this.last_pos = null;
   this.paths = [];
 
-  this.stroke = function(params,preview = false)
+  this.stroke = function(cmd,preview = false)
   {
     if(!ronin.path.layer){ ronin.path.create_layer(); ronin.path.layer.is_blinking = true; }
 
@@ -24,7 +24,7 @@ function Path(rune)
     context.lineCap = this.settings["line_cap"];
     context.lineWidth = this.settings["line_width"];
     context.strokeStyle = this.settings["line_color"];
-    context.stroke(new Path2D(params.content));
+    context.stroke(new Path2D(cmd.params()));
     context.closePath();
 
     if(!preview){ this.coordinates = []; this.last_pos = null; }
@@ -95,14 +95,14 @@ function Path(rune)
   {
     var line = "path.stroke "+this.create_path();
     line += "M"+position.render();
-    ronin.terminal.update_active_line(line);
+    ronin.terminal.update(line);
   }
   
   this.mouse_move = function(position)
   {
     var line = "path.stroke "+this.create_path();
     line += "L"+position.render();
-    ronin.terminal.update_active_line(line);
+    ronin.terminal.update(line);
   }
   
   this.mouse_up = function(position)
@@ -127,7 +127,7 @@ function Path(rune)
       }
     }
 
-    ronin.terminal.update_active_line("path.stroke "+this.create_path());
+    ronin.terminal.update("path.stroke "+this.create_path());
     this.last_pos = position;
   }
 
@@ -136,6 +136,5 @@ function Path(rune)
     if(this.layer){ this.layer.remove(this); }
     this.coordinates = [];
     this.last_pos = null;
-    ronin.terminal.passive();
   }
 }

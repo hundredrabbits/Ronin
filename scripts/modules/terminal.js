@@ -40,8 +40,9 @@ function Terminal(rune)
     this.input.value = "";
   }
 
-  this.update = function()
+  this.update = function(value = null)
   {
+    this.input.value = value ? value : this.input.value;
     var command = this.cmd();
     var module  = command.module();
     var method  = command.method();
@@ -51,6 +52,7 @@ function Terminal(rune)
     }
     this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " " : "")+(module ? module.hint(method) : this.hint(method));
     ronin.cursor.set_mode(module);
+    this.input.focus();
   }
 
   this.hint = function(method)

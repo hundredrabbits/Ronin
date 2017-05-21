@@ -62,15 +62,10 @@ function Module(rune)
       for(id in this.methods){
         html += "<span class='method'>."+this.methods[id].name+"</span> ";
       }
+      for(id in this.settings){
+        html += "<span class='setting'>:"+id+"</span> ";
+      }
     }
-
-
-    // for(method in this.methods){
-    //   html += ".<b>"+method+"</b> ";
-    // }
-    // for(setting in this.settings){
-    //   html += setting+"="+this.settings[setting]+" ";
-    // }
 
     return html;
   }

@@ -152,18 +152,10 @@ function Frame(rune)
 
   this.widget = function()
   {
-    var s = "";
+    var count = 0;
     for(layer in this.layers){
-      if(this.active_layer.name == layer){
-        s += "<li class='active'>"+layer+" z"+this.layers[layer].depth+"</li>";
-      }
-      else if(this.layers[layer].manager){
-        s += "<li class='managed'>"+this.layers[layer].manager.constructor.name+"*</li>";
-      }
-      else{
-        s += "<li class='inactive'>"+layer+" z"+this.layers[layer].depth+"</li>";
-      }      
+      count += 1;
     }
-    return s;
+    return this.active_layer.name+(count > 1 ? "("+count+" layers)" : "");
   }
 }

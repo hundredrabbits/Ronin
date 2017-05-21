@@ -21,6 +21,7 @@ function Overlay(rune)
   
   this.draw = function(position,rect)
   {
+    if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
     this.get_layer().clear();
     
     if(!position){ position = new Position("0,0"); }

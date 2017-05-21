@@ -228,6 +228,11 @@ function Cursor(rune)
 
   this.widget = function()
   {
-    return this.mode.mouse_mode();
+    return "<span class='mouse'>"+this.mode.mouse_mode()+"</span>";
+  }
+  
+  this.key_escape = function()
+  {
+    if(this.layer){ this.layer.remove(this); }
   }
 }

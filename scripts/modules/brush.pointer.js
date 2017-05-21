@@ -125,6 +125,6 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 
   this.widget = function()
   {
-    return this.offset.render()+"<br />";
+    return this.offset.render();
   }
 }

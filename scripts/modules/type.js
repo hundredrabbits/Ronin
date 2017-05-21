@@ -4,7 +4,7 @@ function Type(rune)
 
   this.add_method(new Method("write",["Position","Text"],"Add position"));
 
-  this.settings = {"color":"#ffffff","size":"10","font":"Din"};
+  this.settings = {"color":"#ffffff","size":"20","font":"Din"};
 
   this.write = function(params,preview = false)
   {
@@ -23,37 +23,37 @@ function Type(rune)
     target_layer.context().fillStyle = color; 
     target_layer.context().fillText(text,position.x,position.y);
 
-    return 1, preview ? "preview" : "ok";
+    if(!preview){ this.layer.clear(); }
+
+    return 1, "Wrote "+text+" at "+position.render();
   }
 
   // Mouse
 
   this.mouse_mode = function()
   {
-    return "Type";
+    return "Write";
   }
 
   this.mouse_down = function(position)
   {
     var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
     var line = "type.write "+position.render()+" \""+str+"\"";
-    ronin.terminal.update_active_line(line);
+    ronin.terminal.update(line);
   }
   
   this.mouse_move = function(position,rect)
   {
     var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
     var line = "type.write "+position.render()+" \""+str+"\"";
-    ronin.terminal.update_active_line(line);
+    ronin.terminal.update(line);
   }
   
   this.mouse_up = function(position)
   {
     var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
     var line = "type.write "+position.render()+" \""+str+"\"";
-    ronin.terminal.update_active_line(line);
-    ronin.terminal.input.value += "\n";
-    ronin.cursor.release();
+    ronin.terminal.update(line);
   }
 
   this.key_escape = function()

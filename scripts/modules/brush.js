@@ -116,15 +116,4 @@ function Brush(rune)
       ronin.brush.pointers[i].stop();
     }
   }
-
-  this.widget = function()
-  {
-    var s = "<i style='color:"+this.settings["color"]+"'>&#9679;</i> Brush "+ronin.brush.pointers.length+"x "+this.settings["size"]+"<br />";  
-
-    for(id in this.pointers){
-      s += this.pointers[id].widget();
-    }
-    return s;
-
-  }
 }

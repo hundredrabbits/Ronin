@@ -33,6 +33,13 @@ function Command(content)
     return module.methods[method_name] ? module.methods[method_name] : null;
   }
 
+  this.params = function()
+  {
+    var a = this.content.split(" ");
+    a.shift();
+    return a.join(" ").trim();
+  }
+
 
   this.inject_position = function(injection)
   {
