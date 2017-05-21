@@ -2,9 +2,8 @@ function Brush(rune)
 {
   Module.call(this,rune);
   
-  // this.parameters = {"offset":Position,"mirror":Rect,"angle":Angle,"reset":Bang};
   this.parameters = [];
-  this.settings  = {"color":"#ff0000","size":4};
+  this.settings  = {"color":"#ffffff","size":2};
   this.pointers = [new Pointer(new Position("0,0"))];
 
   this.add_method(new Method("add_pointer",["Position"]));
