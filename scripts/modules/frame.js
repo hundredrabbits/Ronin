@@ -9,7 +9,7 @@ function Frame(rune)
   this.active_layer = null;
   this.render_layer = null;
 
-  this.add_method(new Method("resize",[new Rect().name]));
+  this.add_method(new Method("resize",[new Position().name,new Rect().name]));
   this.add_method(new Method("select",["text"]));
   
   this.install = function()
@@ -24,8 +24,8 @@ function Frame(rune)
 
     // Clamp
 
-    starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
-    starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
+    starting_canvas.width = parseInt(starting_canvas.width/40) * 40 - 40;
+    starting_canvas.height = parseInt(starting_canvas.height/40) * 40 - 40;
 
     this.resize(new Command(starting_canvas.width+"x"+starting_canvas.height));
   }
@@ -55,7 +55,7 @@ function Frame(rune)
 
     this.settings.size = rect;
 
-    return 1, "ok";
+    return 1, "Resized to "+this.settings.size.render();
   }
 
   this.select = function(params, preview = false)

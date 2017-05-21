@@ -19,11 +19,11 @@ function Method(name,params,mouse_event)
     return s;
   }
 
-  this.help = function()
+  this.hint = function()
   {
     var s = "";
     for(id in this.params){
-      s += this.params[id]+":"
+      s += "<span class='params'>"+this.params[id]+"</span> ";
     }
     s = s.substr(0,s.length-1);
 
@@ -37,6 +37,6 @@ function Method(name,params,mouse_event)
 
   this.run = function(cmd)
   {
-    return this.host[this.name](cmd,false);
+    return ronin.terminal.log(new Log(this.host,this.host[this.name](cmd,false)));
   }
 }

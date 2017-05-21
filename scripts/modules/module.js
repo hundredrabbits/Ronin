@@ -51,16 +51,26 @@ function Module(rune)
     this.methods[method.name] = method;
   }
   
-  this.hint = function(content)
+  this.hint = function(method)
   {
     var html = "";
 
-    for(method in this.methods){
-      html += ".<b>"+method+"</b> ";
+    if(method){
+      html += method.hint();
     }
-    for(setting in this.settings){
-      html += setting+"="+this.settings[setting]+" ";
+    else{
+      for(id in this.methods){
+        html += "<span class='method'>."+this.methods[id].name+"</span> ";
+      }
     }
+
+
+    // for(method in this.methods){
+    //   html += ".<b>"+method+"</b> ";
+    // }
+    // for(setting in this.settings){
+    //   html += setting+"="+this.settings[setting]+" ";
+    // }
 
     return html;
   }

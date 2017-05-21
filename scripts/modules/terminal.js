@@ -4,8 +4,11 @@ function Terminal(rune)
 
   this.element = document.createElement("div");
   this.input = document.createElement("input");
-  this.hint_element = document.createElement("hint");
-  this.logs_element = document.createElement("logs");
+  this.hint_element = document.createElement("div");
+  this.logs_element = document.createElement("div");
+  this.hint_element.id = "hint";
+  this.logs_element.id = "logs";
+  this.logs_element.innerHTML = "<log>Hello there</log>";
 
   this.history = [];
   this.locks = [];
@@ -26,7 +29,6 @@ function Terminal(rune)
 
   this.run = function()
   {
-
     var command = this.cmd();
     var module  = command.module();
     var method  = command.method();
@@ -47,16 +49,31 @@ function Terminal(rune)
     if(method){
       method.preview(command);
     }
-    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span> "+(module ? module.hint() : this.hint());
+    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " " : "")+(module ? module.hint(method) : this.hint(method));
+    ronin.cursor.set_mode(module);
   }
 
-  this.hint = function()
+  this.hint = function(method)
   {
     var html = "";
-    for(id in ronin.modules){
-      html += ronin.modules[id].name+" ";
+    if(this.input.value){
+      for(id in ronin.modules){
+        if(this.input.value != ronin.modules[id].name.substr(0,this.input.value.length)){ continue; }
+        html += "<span class='module'>"+ronin.modules[id].name+"</span> ";
+      }
+    }
+    else{
+      for(id in ronin.modules){
+        html += "<span class='module'>"+ronin.modules[id].name+"</span> ";
+      }
     }
     return html;
+  }
+
+  this.log = function(log)
+  {
+    this.logs_element.innerHTML = "";
+    this.logs_element.appendChild(log.element);
   }
 
   this.cmd = function()
@@ -86,32 +103,6 @@ function Terminal(rune)
     rawFile.send(null);
     ronin.widget.update();
   }
-
-  this.parsed_input = function()
-  {
-    var content = this.input.value;
-
-    if(content.trim() == ""){ ronin.cursor.set_mode(ronin.brush); return "~"; }
-    if(content.trim()[0] == "~"){ return "~"; }
-
-    if(content.indexOf(".") > -1){
-      var module_name = content.split(" ")[0].split(".")[0]
-    }
-    else if(content.indexOf(":") > -1){
-      var module_name = content.split(" ")[0].split(":")[0]
-    }
-    else{
-      var module_name = content.split(" ")[0];
-    }
-
-    var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
-    var setting_name = content.indexOf(":") > -1 ? content.split(" ")[0].split(":")[1] : null;
-
-    var parameters = content.split(" "); parameters.shift();
-    var parameters = new Command(parameters);
-
-    return {module_name: module_name, method_name: method_name, setting_name: setting_name, parameters: parameters};
-  }
 }
 
 // Log
@@ -123,6 +114,6 @@ function Log(host,message,error = false)
   this.error = error;
   this.element = document.createElement("log");
   this.element.setAttribute("class",error ? "error" : "okay");
-  this.element.innerHTML = "<span class='rune'>"+(host.rune ? host.rune : ">")+"</span> "+message;
+  this.element.innerHTML = "<span class='module'>"+host.name+"</span>: "+message;
   console.log(this.host.constructor.name,this.message);
 }

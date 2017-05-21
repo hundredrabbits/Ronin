@@ -36,16 +36,12 @@ function Brush(rune)
 
   this.size_up = function()
   {
-    this.settings["size"] -= this.settings["size"] > 1 ? 1 : 0;
-    ronin.frame.widget.update();
-    ronin.terminal.log(new Log(this,"Increased pointer size to: "+this.settings["size"]));
+    this.settings["size"] += 1; 
   }
 
   this.size_down = function()
   {
-    this.settings["size"] += 1;
-    ronin.frame.widget.update();
-    ronin.terminal.log(new Log(this,"Decreased pointer size to: "+this.settings["size"]));
+    this.settings["size"] -= this.settings["size"] > 1 ? 1 : 0;
   }
 
   // Eraser

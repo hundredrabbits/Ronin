@@ -21,12 +21,14 @@ function Keyboard()
     this.shift_held = false;
     this.alt_held = false;
 
-    switch (event.key || event.which) {
+    switch (event.key || event.keyCode || event.which) {
       case "Enter": this.key_enter(); break;
       case "ArrowUp": this.key_arrow_up(); break;
       case "ArrowDown": this.key_arrow_down(); break;
       case "ArrowLeft": this.key_arrow_left(); break;
       case "ArrowRight": this.key_arrow_right(); break;
+      case "]": ronin.brush.size_up(); break;
+      case "[": ronin.brush.size_down(); break;
       case ":": this.key_colon(); break;
       case "Escape": this.key_escape(); break;
       case 13:  this.key_enter();  break;

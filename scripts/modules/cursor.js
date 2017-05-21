@@ -152,9 +152,11 @@ function Cursor(rune)
   
   this.set_mode = function(mode = ronin.brush)
   {
+    if(!mode){ mode = ronin.brush; }
+
     if(this.mode == mode){ return; }
     this.mode = mode;
-    document.body.setAttribute("class",this.mode.constructor.name);
+    document.body.setAttribute("class",this.mode.name);
     ronin.widget.update();
   }
   
