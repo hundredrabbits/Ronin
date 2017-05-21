@@ -1,8 +1,8 @@
 body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace;}
 *:focus {outline: none; }
 
-#ronin { width:100%; height:100%; overflow:hidden; background:#111; background-image:url(../media/graphics/grid.svg); background-position: center center; }
-#frame { width:50vw; height:50vh; overflow:hidden; position:fixed; left: calc(40vw + 15px); top:100px; background:none; border-radius:5px; border:1px solid #333;}
+#ronin { width:100%; height:100%; overflow:hidden; background:#ccc; background-image:url(../media/graphics/grid.svg); background-position: center center; }
+#frame { width:50vw; height:50vh; overflow:hidden; position:fixed; left: calc(40vw + 15px); top:100px; background:#ddd;}
 #frame > .layer { position:absolute; top:0px; left:0px; width:100%; height:100%;}
 #frame.bright widget { color:#000; }
 #overlay { position:absolute; z-index:1000;}

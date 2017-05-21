@@ -3,20 +3,19 @@ function Frame(rune)
   Module.call(this,rune);
   
   this.element = null;
-  this.settings = {"size":new Rect("200x200")};
+  this.settings = {size:new Rect("200x200")};
 
   this.layers = {};
   this.active_layer = null;
   this.render_layer = null;
 
   this.add_method(new Method("resize",[new Rect().name]));
-  this.add_method(new Method("crop",[new Position().name,new Rect().name]));
   this.add_method(new Method("select",["text"]));
   
   this.install = function()
   {
     this.blink();
-    this.select(new Command(["background"]));
+    this.select(new Command("background"));
 
     // Canvas
     var starting_canvas = new Rect();
@@ -28,42 +27,35 @@ function Frame(rune)
     starting_canvas.width = parseInt(starting_canvas.width/40) * 40;
     starting_canvas.height = parseInt(starting_canvas.height/40) * 40;
 
-    this.resize(new Command([starting_canvas.width+"x"+starting_canvas.height]));
+    this.resize(new Command(starting_canvas.width+"x"+starting_canvas.height));
   }
 
   // Methods
 
-  this.resize = function(params, preview = false)
+  this.resize = function(cmd, preview = false)
   {
-    if(preview){ return; }
+    var rect = cmd.rect();
+    var position = cmd.position() ? cmd.position() : new Position(0,0);
 
-    this.settings["size"] = params.rect();
+    if(preview){ ronin.overlay.draw(position,rect); return; }
 
     for(layer_name in ronin.frame.layers){
-      ronin.frame.layers[layer_name].resize(this.settings["size"]);
+      ronin.frame.layers[layer_name].resize(rect);
     }
     
-    ronin.frame.element.width = this.settings["size"].width * 2;
-    ronin.frame.element.height = this.settings["size"].height * 2;
-    ronin.frame.element.style.width = this.settings["size"].width+"px";
-    ronin.frame.element.style.height = this.settings["size"].height+"px";
+    ronin.frame.element.width = rect.width * 2;
+    ronin.frame.element.height = rect.height * 2;
+    ronin.frame.element.style.width = rect.width+"px";
+    ronin.frame.element.style.height = rect.height+"px";
 
-    ronin.frame.element.style.left = (window.innerWidth - this.settings["size"].width)/2;
-    ronin.frame.element.style.top = (window.innerHeight - this.settings["size"].height)/2;
+    ronin.frame.element.style.left = (window.innerWidth - rect.width)/2;
+    ronin.frame.element.style.top = (window.innerHeight - rect.height)/2;
 
     ronin.on_resize();
 
+    this.settings.size = rect;
+
     return 1, "ok";
-  }
-
-  this.crop = function(params, preview = false)
-  {
-    if(!params.position() || !params.rect()){ return; }
-
-    this.settings["size"] = params.rect();
-
-    ronin.overlay.get_layer(true).clear();
-    if(preview){ronin.overlay.draw_rect(params.position(),params.rect());}
   }
 
   this.select = function(params, preview = false)

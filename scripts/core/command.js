@@ -1,6 +1,38 @@
 function Command(content)
 {
   this.content = content;
+  this.parts   = content.split(" ");
+
+  this.module_name = null;
+  this.method_name = null;
+  this.setting_name = null;
+  this.module = null;
+  this.setthing = null;
+
+  this.module = function()
+  {
+    var module_name = null;
+    if(content.indexOf(".") > -1){
+      module_name = content.split(" ")[0].split(".")[0]
+    }
+    else if(content.indexOf(":") > -1){
+      module_name = content.split(" ")[0].split(":")[0]
+    }
+    else{
+      module_name = content.split(" ")[0];
+    }
+    return ronin.modules[module_name] ? ronin.modules[module_name] : null;
+  }
+
+  this.method = function()
+  {
+    var module = this.module();
+    if(!module){ return null; }
+
+    var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
+    return module.methods[method_name] ? module.methods[method_name] : null;
+  }
+
 
   this.inject_position = function(injection)
   {
@@ -12,80 +44,79 @@ function Command(content)
   
   this.any = function()
   {
-    if(this.content.join() === ""){ return null; }
     return new Any(this.content);
   }
   
   this.rect = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("x") >= 0 && this.content[i].indexOf("/") < 0){ return new Rect(this.content[i]); }
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf("x") >= 0 && this.parts[i].indexOf("/") < 0){ return new Rect(this.parts[i]); }
     }
     return null;
   }
   
   this.position = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf(",") >= 0){ return new Position(this.content[i]); }
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf(",") >= 0){ return new Position(this.parts[i]); }
     }
     return null;
   }
   
   this.color = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("#") >= 0){ return new Color(this.content[i]); }
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf("#") >= 0){ return new Color(this.parts[i]); }
     }
     return null;
   }
   
   this.filepath = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("/") >= 0){ return new Filepath(this.content[i]); }
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf("/") >= 0){ return new Filepath(this.parts[i]); }
     }
     return null;
   }
   
   this.value = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      var test = /[^$\-\d]/.test(this.content[i]);
-      if(!test && this.content[i] !== ""){ return new Value(this.content[i]); }
+    for (i = 0; i < this.parts.length; i++) {
+      var test = /[^$\-\d]/.test(this.parts[i]);
+      if(!test && this.parts[i] !== ""){ return new Value(this.parts[i]); }
     }
     return null;
   }
   
   this.range = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("..") >= 0){ return new Range(this.content[i]); }
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf("..") >= 0){ return new Range(this.parts[i]); }
     }
     return null;
   }
   
   this.bang = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("!") >= 0){ return new Bang(); }
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf("!") >= 0){ return new Bang(); }
     }
     return null;
   }
   
   this.angle = function()
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("'") >= 0){ return new Angle(this.content[i]); }
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf("'") >= 0){ return new Angle(this.parts[i]); }
     }
     return null;
   }
   
   this.setting = function(name)
   {
-    for (i = 0; i < this.content.length; i++) {
-      if(this.content[i].indexOf("=") >= 0){
-        var parts = this.content[i].split("=");
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf("=") >= 0){
+        var parts = this.parts[i].split("=");
         if(parts[0] == name){
           return new Setting(parts[0],parts[1]);
         }
@@ -96,27 +127,8 @@ function Command(content)
 
   this.text = function()
   {
-    var content_str = this.content.join(" ");
+    var content_str = this.parts.join(" ");
     if(content_str.indexOf("\"") < 0){ return null; }
     return content_str.split("\"")[1];
-  }
-
-  this.methods = function()
-  {
-    var a = [];
-    for(i in this.content){
-      if(this.content[i].indexOf(":") > 0){
-        a.push(this.content[i]);
-      }
-    }
-    return a;
-  }
-
-  this.method = function(name)
-  {
-    for(i in this.methods()){
-      var m = new Method(this.methods()[i]);
-      if(m.name == name){ return m; }
-    }
   }
 }

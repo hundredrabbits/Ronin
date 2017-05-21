@@ -24,6 +24,6 @@ ronin.install();
 var target_file = window.location.hash ? window.location.hash : "default";
 target_file = target_file.substr(1,target_file.length-1);
 
+ronin.start();
+
 // ronin.terminal.load(window.location.hash ? target_file+".rin" : "default.rin");
-ronin.widget.update();
-ronin.terminal.input.focus();

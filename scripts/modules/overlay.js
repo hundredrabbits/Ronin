@@ -21,7 +21,7 @@ function Overlay(rune)
   
   this.draw = function(position,rect)
   {
-    this.clear();
+    this.get_layer().clear();
     
     if(!position){ position = new Position("0,0"); }
     
@@ -39,10 +39,12 @@ function Overlay(rune)
     }
   }
   
-  this.draw_rect = function(position,rect)
+  this.draw_rect = function(position = new Position(0,0),rect)
   {
+    if(!position || !rect){ return; }
+
     this.context().beginPath();
-    
+      
     position.normalize(rect);
     
     this.context().moveTo(position.x,position.y);

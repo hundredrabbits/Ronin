@@ -1,5 +1,6 @@
 function Module(rune)
 {
+  this.name = this.constructor.name.toLowerCase();
   this.rune = rune;
   this.element = null;
   this.settings  = {};
@@ -46,30 +47,22 @@ function Module(rune)
 
   this.add_method = function(method)
   {
+    method.host = this;
     this.methods[method.name] = method;
   }
   
   this.hint = function(content)
   {
-    var s = "";
+    var html = "";
 
-    ronin.terminal.hint_element.innerHTML = "";
-
-    var method_name = content.split(" ")[0];
-
-    if(this.methods[method_name]){
-      s = this.methods[method_name].params;
-      s += this.methods[method_name].mouse_event ? " <i>"+this.methods[method_name].mouse_event+"</i> " : "";
+    for(method in this.methods){
+      html += ".<b>"+method+"</b> ";
     }
-    else{
-      for(method in this.methods){
-        s += ".<b>"+method+"</b> ";
-      }
-      for(setting in this.settings){
-        s += setting+"="+this.settings[setting]+" ";
-      }
+    for(setting in this.settings){
+      html += setting+"="+this.settings[setting]+" ";
     }
-    return s;  
+
+    return html;
   }
 
   this.pad = function(input)

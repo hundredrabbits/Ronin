@@ -26,68 +26,42 @@ function Terminal(rune)
 
   this.run = function()
   {
+
+    var command = this.cmd();
+    var module  = command.module();
+    var method  = command.method();
+
+    if(method){
+      method.run(command);
+    }
     this.hint_element.innerHTML = "";
-    this.run_line(this.input.value,false);
     this.input.value = "";
-  }
-
-  this.run_line = function(line,is_preview)
-  {
-    var content = line;
-
-    if(content.trim() == ""){ ronin.cursor.set_mode(ronin.brush); return "~"; }
-    if(content.trim()[0] == "~"){ return "~"; }
-
-    if(content.indexOf(".") > -1){
-      var module_name = content.split(" ")[0].split(".")[0]
-    }
-    else if(content.indexOf(":") > -1){
-      var module_name = content.split(" ")[0].split(":")[0]
-    }
-    else{
-      var module_name = content.split(" ")[0];
-    }
-
-    var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
-    var setting_name = content.indexOf(":") > -1 ? content.split(" ")[0].split(":")[1] : null;
-
-    var parameters = content.split(" "); parameters.shift();
-    var parameters = new Command(parameters);
-
-    ronin.cursor.set_mode(ronin[module_name]);
-
-    if(ronin[module_name] && ronin[module_name][method_name]){
-      return ronin[module_name][method_name](parameters,is_preview);
-    }
-    else if(ronin[module_name] && ronin[module_name].settings[setting_name]){
-      return ronin[module_name].update_setting(setting_name,parameters);
-    }
-    else if(ronin["render"].collection[method_name]){
-      return ronin["render"].collection[method_name].render(parameters);
-    }
-    else if(setting_name){
-      return 0, "Unknown Setting";
-    }
-    else if(ronin[module_name]){
-      return 0, "Unknown Method";
-    }
-    else if(module_name == "render"){
-      return 0, "Unknown Filter";
-    }
-    else{
-      return 0, "Unknown Module";
-    }
-    return  0, "Unknown";
-  }
-
-  this.log = function(log)
-  {
-
   }
 
   this.update = function()
   {
-    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span> "+this.run_line(this.input.value,true);
+    var command = this.cmd();
+    var module  = command.module();
+    var method  = command.method();
+
+    if(method){
+      method.preview(command);
+    }
+    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span> "+(module ? module.hint() : this.hint());
+  }
+
+  this.hint = function()
+  {
+    var html = "";
+    for(id in ronin.modules){
+      html += ronin.modules[id].name+" ";
+    }
+    return html;
+  }
+
+  this.cmd = function()
+  {
+    return new Command(this.input.value);
   }
 
   this.filename = "default.rin";
@@ -113,11 +87,30 @@ function Terminal(rune)
     ronin.widget.update();
   }
 
-  this.cmd = function()
+  this.parsed_input = function()
   {
-    var lines = ronin.terminal.input.value.split("\n");
-    var last = lines[lines.length-1];
-    return new Command(last.split(" "));
+    var content = this.input.value;
+
+    if(content.trim() == ""){ ronin.cursor.set_mode(ronin.brush); return "~"; }
+    if(content.trim()[0] == "~"){ return "~"; }
+
+    if(content.indexOf(".") > -1){
+      var module_name = content.split(" ")[0].split(".")[0]
+    }
+    else if(content.indexOf(":") > -1){
+      var module_name = content.split(" ")[0].split(":")[0]
+    }
+    else{
+      var module_name = content.split(" ")[0];
+    }
+
+    var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
+    var setting_name = content.indexOf(":") > -1 ? content.split(" ")[0].split(":")[1] : null;
+
+    var parameters = content.split(" "); parameters.shift();
+    var parameters = new Command(parameters);
+
+    return {module_name: module_name, method_name: method_name, setting_name: setting_name, parameters: parameters};
   }
 }
 

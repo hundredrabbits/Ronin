@@ -2,6 +2,7 @@ function Method(name,params,mouse_event)
 {
   Unit.call(this);
   
+  this.host = null;
   this.name = name;
   this.params = params;
   this.mouse_event = mouse_event;
@@ -16,5 +17,26 @@ function Method(name,params,mouse_event)
     s = s.substr(0,s.length-1);
 
     return s;
+  }
+
+  this.help = function()
+  {
+    var s = "";
+    for(id in this.params){
+      s += this.params[id]+":"
+    }
+    s = s.substr(0,s.length-1);
+
+    return s;
+  }
+
+  this.preview = function(cmd)
+  {
+    return this.host[this.name](cmd,true);
+  }
+
+  this.run = function(cmd)
+  {
+    return this.host[this.name](cmd,false);
   }
 }

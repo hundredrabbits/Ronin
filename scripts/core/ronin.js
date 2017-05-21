@@ -21,19 +21,19 @@ function Ronin()
   this.cursor   = new Cursor(".");
   this.widget   = new Widget("?");
   
-  this.modules[this.frame.constructor.name]    = this.frame;
-  this.modules[this.type.constructor.name]     = this.type;
-  this.modules[this.path.constructor.name]     = this.path;
+  this.modules[this.frame.name]    = this.frame;
+  this.modules[this.type.name]     = this.type;
+  this.modules[this.path.name]     = this.path;
 
-  this.modules[this.brush.constructor.name]    = this.brush;
+  this.modules[this.brush.name]    = this.brush;
 
-  this.modules[this.source.constructor.name]   = this.source;
-  this.modules[this.render.constructor.name]   = this.render;
+  this.modules[this.source.name]   = this.source;
+  this.modules[this.render.name]   = this.render;
   // this.modules[this.eye.constructor.name]      = this.eye;
   // this.modules[this.magnet.constructor.name]   = this.magnet;
 
-  this.modules[this.cursor.constructor.name]   = this.cursor;
-  this.modules[this.terminal.constructor.name] = this.terminal;
+  this.modules[this.cursor.name]   = this.cursor;
+  this.modules[this.terminal.name] = this.terminal;
 
   // 
 
@@ -46,15 +46,23 @@ function Ronin()
     // this.terminal.install();
     this.widget.install();
   }
+
+  this.start = function()
+  {
+    ronin.terminal.update();
+    ronin.widget.update();
+    ronin.terminal.input.focus();
+  }
   
   this.cursors = [];
   
   this.position_in_canvas = function(e)
   {
     var x = e.clientX;
-    x -= (window.innerWidth - this.frame.settings["size"].width) * 0.4 - 25;
-    x -= parseInt(0) + (this.frame.settings["size"].width/2);
-    var y = e.clientY - 100;
+    var y = e.clientY;
+    // Canvas Size
+    x += (-window.innerWidth/2) + (parseInt(this.frame.element.style.width)/2);
+    y += (-window.innerHeight/2) + (parseInt(this.frame.element.style.height)/2);
     return new Position(x,y);
   }
   
