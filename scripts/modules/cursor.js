@@ -2,7 +2,7 @@ function Cursor(rune)
 {
   Module.call(this,rune);
   
-  this.settings = {};
+  this.settings = {color: "#999999"};
 
   this.mode = null;
   this.position = new Position();
@@ -31,7 +31,7 @@ function Cursor(rune)
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "white";
+    this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
@@ -49,21 +49,21 @@ function Cursor(rune)
     this.layer.context().lineTo(position.x,position.y);
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "white";
+    this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
     this.layer.context().beginPath();
     this.layer.context().arc(position.x, position.y, size/2, 0, 2 * Math.PI, false);
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "white";
+    this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
     this.layer.context().beginPath();
     this.layer.context().arc(position.x, position.y, (size/2)+1, 0, 2 * Math.PI, false);
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "black";
+    this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
@@ -87,7 +87,7 @@ function Cursor(rune)
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "white";
+    this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
@@ -105,13 +105,13 @@ function Cursor(rune)
     this.layer.context().lineTo(position.x,position.y);
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "white";
+    this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
     this.layer.context().beginPath();
     this.layer.context().arc(position.x, position.y, 0.5, 0, 2 * Math.PI, false);
-    this.layer.context().fillStyle = 'white';
+    this.layer.context().fillStyle = this.settings.color;
     this.layer.context().fill();
     this.layer.context().closePath();
 
@@ -128,7 +128,7 @@ function Cursor(rune)
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "white";
+    this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
@@ -137,8 +137,7 @@ function Cursor(rune)
 
   this.update = function(event)
   {
-    // this.set_mode(ronin.brush);
-    return;
+    console.log("!")
     if(event.altKey == true && event.shiftKey == true){
       this.set_mode(ronin.frame.active_layer);
     }
@@ -152,7 +151,7 @@ function Cursor(rune)
   
   this.set_mode = function(mode = ronin.brush)
   {
-    if(!mode){ mode = ronin.brush; }
+    if(!mode){ return; }
 
     if(this.mode == mode){ return; }
     this.mode = mode;

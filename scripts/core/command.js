@@ -12,6 +12,7 @@ function Command(content)
   this.module = function()
   {
     var module_name = null;
+
     if(content.indexOf(".") > -1){
       module_name = content.split(" ")[0].split(".")[0]
     }
@@ -27,13 +28,22 @@ function Command(content)
   this.method = function()
   {
     var module = this.module();
-    if(!module){ return null; }
+    if(!module || content.indexOf(".") < 0){ return null; }
 
     var method_name = content.indexOf(".") > -1 ? content.split(" ")[0].split(".")[1] : "default";
     return module.methods[method_name] ? module.methods[method_name] : null;
   }
 
-  this.params = function()
+  this.setting = function()
+  {
+    var module = this.module();
+    if(!module || content.indexOf(":") < 0){ return null; }
+
+    var setting_name = this.parts[0].split(":")[1];
+    return module.settings[setting_name] ? setting_name : null;
+  }
+
+  this.values = function()
   {
     var a = this.content.split(" ");
     a.shift();
@@ -115,19 +125,6 @@ function Command(content)
   {
     for (i = 0; i < this.parts.length; i++) {
       if(this.parts[i].indexOf("'") >= 0){ return new Angle(this.parts[i]); }
-    }
-    return null;
-  }
-  
-  this.setting = function(name)
-  {
-    for (i = 0; i < this.parts.length; i++) {
-      if(this.parts[i].indexOf("=") >= 0){
-        var parts = this.parts[i].split("=");
-        if(parts[0] == name){
-          return new Setting(parts[0],parts[1]);
-        }
-      }
     }
     return null;
   }

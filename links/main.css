@@ -2,7 +2,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 *:focus {outline: none; }
 
 #ronin { background:#ddd; width:100%; height:100%; overflow:hidden; background-image:url(../media/graphics/grid.svg); background-position: center center; }
-#frame { background:none; width:50vw; height:50vh; overflow:hidden; position:fixed; left: calc(40vw + 15px); top:100px;  border-radius: 3px}
+#frame { width:50vw; height:50vh; overflow:hidden; position:fixed; left: calc(40vw + 15px); top:100px; background:white;}
 #frame > .layer { position:absolute; top:0px; left:0px; width:100%; height:100%;}
 #overlay { position:absolute; z-index:1000;}
 #frame { cursor:none;}

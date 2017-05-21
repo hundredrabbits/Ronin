@@ -24,7 +24,7 @@ function Path(rune)
     context.lineCap = this.settings["line_cap"];
     context.lineWidth = this.settings["line_width"];
     context.strokeStyle = this.settings["line_color"];
-    context.stroke(new Path2D(cmd.params()));
+    context.stroke(new Path2D(cmd.values()));
     context.closePath();
 
     if(!preview){ this.coordinates = []; this.last_pos = null; }
@@ -32,7 +32,7 @@ function Path(rune)
     return 1, preview ? "preview" : "ok";
   }
 
-  this.fill = function(params,preview = false)
+  this.fill = function(cmd,preview = false)
   {
     if(!ronin.path.layer){ ronin.path.create_layer(); ronin.path.layer.is_blinking = true; }
 
@@ -40,8 +40,12 @@ function Path(rune)
 
     var context = preview ? this.context() : ronin.frame.context();
 
+    context.beginPath();
     context.fillStyle = this.settings["fill_color"];
-    context.fill(new Path2D(params.content));
+    context.fill(new Path2D(cmd.values()));
+    context.closePath();
+
+    if(!preview){ this.coordinates = []; this.last_pos = null; }
 
     return 1, preview ? "preview" : "ok";
   }
@@ -93,20 +97,24 @@ function Path(rune)
 
   this.mouse_down = function(position)
   {
-    var line = "path.stroke "+this.create_path();
+    var method = ronin.terminal.cmd().method().name;
+    var line = "path."+method+" "+this.create_path();
     line += "M"+position.render();
     ronin.terminal.update(line);
   }
   
   this.mouse_move = function(position)
   {
-    var line = "path.stroke "+this.create_path();
+    var method = ronin.terminal.cmd().method().name;
+    var line = "path."+method+" "+this.create_path();
     line += "L"+position.render();
     ronin.terminal.update(line);
   }
   
   this.mouse_up = function(position)
   {
+    var method = ronin.terminal.cmd().method().name;
+
     if(this.coordinates.length == 0){
       this.coordinates.push("M"+position.render());
     }
@@ -127,7 +135,7 @@ function Path(rune)
       }
     }
 
-    ronin.terminal.update("path.stroke "+this.create_path());
+    ronin.terminal.update("path."+method+" "+this.create_path());
     this.last_pos = position;
   }
 

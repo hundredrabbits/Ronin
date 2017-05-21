@@ -32,9 +32,15 @@ function Terminal(rune)
     var command = this.cmd();
     var module  = command.module();
     var method  = command.method();
+    var setting = command.setting();
 
     if(method){
       method.run(command);
+    }
+
+    if(setting){
+      module.settings[setting] = command.values();
+      console.log(module.settings)
     }
     this.hint_element.innerHTML = "";
     this.input.value = "";

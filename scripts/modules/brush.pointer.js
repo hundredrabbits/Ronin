@@ -1,4 +1,4 @@
-function Pointer(offset = new Position(), color = new Color('000000'))
+function Pointer(offset = new Position())
 {
   this.offset = offset;
   this.mirror = null;
@@ -64,7 +64,7 @@ function Pointer(offset = new Position(), color = new Color('000000'))
 
     ronin.frame.context().lineCap="round";
     ronin.frame.context().lineWidth = this.thickness();
-    ronin.frame.context().strokeStyle = new Color(ronin.brush.settings["color"]).rgba();
+    ronin.frame.context().strokeStyle = new Color(ronin.brush.settings.color).rgba();
     ronin.frame.context().stroke();
     ronin.frame.context().closePath();
 

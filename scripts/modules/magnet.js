@@ -87,6 +87,12 @@ function Magnet(rune)
     return this.magnetic_position(position); 
   }
 
+  this.widget = function()
+  {
+    if(this.settings["grid"].width < 2 || this.settings["grid"].height < 2){ return ""; }
+    return this.settings["grid"].render();
+  }
+
   this.key_escape = function()
   {
     if(this.layer){ this.layer.remove(this); }

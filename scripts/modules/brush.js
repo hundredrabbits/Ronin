@@ -3,7 +3,7 @@ function Brush(rune)
   Module.call(this,rune);
   
   this.parameters = [];
-  this.settings  = {"color":"#ffffff","size":2};
+  this.settings  = {color:"#000","size":2};
   this.pointers = [new Pointer(new Position("0,0"))];
 
   this.add_method(new Method("add_pointer",["Position"]));
