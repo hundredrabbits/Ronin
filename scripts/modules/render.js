@@ -13,28 +13,6 @@ function Render(rune)
   this.collection["saturate"] = new Filter_Saturate();
   this.collection["contrast"] = new Filter_Contrast();
   
-  this.active = function(cmd)
-  {
-    if(!this.layer){ this.create_layer(); }
-
-    var name = cmd.content[0];
-
-    if(!this.collection[name]){ return; }
-    
-    return this.collection[name].render(cmd);
-  }
-  
-  this.passive = function(cmd)
-  {
-    if(!this.layer){ this.create_layer(); }
-    
-    var name = cmd.content[0];
-
-    if(!this.collection[name]){ return; }
-
-    return this.collection[name].preview(cmd);
-  }
-	
   this.hint = function(content)
   {
     var name = content.trim().replace(this.rune,"").trim().split(" ")[0];

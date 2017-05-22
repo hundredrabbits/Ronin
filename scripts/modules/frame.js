@@ -85,7 +85,7 @@ function Frame(rune)
     Object.keys(ronin.frame.layers).forEach(function (key) {
       ronin.frame.layers[key].blink();
     });
-    setTimeout(function(){ ronin.frame.blink(); }, 30);
+    setTimeout(function(){ ronin.frame.blink(); }, 300);
   }
 
   this.select_layer = function(layer)
@@ -138,12 +138,6 @@ function Frame(rune)
   {
     ronin.overlay.get_layer(true).clear();
     ronin.overlay.draw_pointer(position);
-  }
-  
-  this.mouse_move = function(position,rect)
-  {      
-    // ronin.terminal.input_element.value = "frame."+ronin.terminal.method_name+" "+this.mouse_from.render()+" "+rect.render()+" ";
-    ronin.terminal.passive();
   }
   
   this.mouse_up = function(position,rect)

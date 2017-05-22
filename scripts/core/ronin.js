@@ -35,20 +35,29 @@ function Ronin()
   this.modules[this.cursor.name]   = this.cursor;
   this.modules[this.terminal.name] = this.terminal;
 
-  // 
+  // document.addEventListener('contextmenu', function(ev){ ev.preventDefault(); return false;}, false);
+  window.addEventListener('resize', function(){ ronin.on_resize(); }, true);
 
   this.install = function()
   {
+    ronin.element = document.getElementById('ronin');
+    ronin.frame.element = document.getElementById('frame');
+    ronin.cursor.element = document.getElementById('cursor');
+    ronin.terminal.element = document.getElementById('terminal');
+
     for(var key in this.modules){
       this.modules[key].install();
     }
 
-    // this.terminal.install();
     this.widget.install();
+    ronin.cursor.mode = ronin.brush;
+    this.on_drag();
   }
 
-  this.start = function(target_file)
+  this.start = function(hash = null)
   {
+    var target_file = hash.length > 2 ? hash.substr(1,hash.length-1)+".rin" : "default.rin"
+  
     ronin.terminal.update();
     ronin.widget.update();
     ronin.terminal.input.focus();
@@ -59,17 +68,10 @@ function Ronin()
   
   this.position_in_canvas = function(e)
   {
-    var x = e.clientX;
-    var y = e.clientY;
-    // Canvas Size
-    x += (-window.innerWidth/2) + (parseInt(this.frame.element.style.width)/2);
-    y += (-window.innerHeight/2) + (parseInt(this.frame.element.style.height)/2);
+    // x -= parseInt(this.frame.element.style.left) - parseInt(this.frame.element.style.width/2);
+    var x = e.clientX - parseInt(this.frame.element.style.left);
+    var y = e.clientY - parseInt(this.frame.element.style.top);
     return new Position(x,y);
-  }
-  
-  this.position_in_window = function(p)
-  {
-    return new Position(p.x + parseInt(this.frame.element.style.marginLeft),p.y + parseInt(this.frame.element.style.marginTop));
   }
   
   this.timestamp = function()
@@ -81,6 +83,17 @@ function Ronin()
 
   this.on_resize = function()
   {
+  }
+
+  this.on_drag = function()
+  {
+    // Position Background
+    var bg_offset_parts = ronin.element.style.backgroundPosition == "" ? [0,0] : ronin.element.style.backgroundPosition.split(" ");
+
+    var x = parseInt(ronin.frame.element.style.left)/4;
+    var y = parseInt(ronin.frame.element.style.top)/4;
+
+    ronin.element.style.backgroundPosition = x+"px "+y+"px";
   }
 
   this.filename = "default.rin";

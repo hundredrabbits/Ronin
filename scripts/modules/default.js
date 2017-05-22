@@ -1,11 +1,6 @@
 function Default(rune)
 {
   Module.call(this,rune);
-  
-  this.hint = function()
-  { 
-    return "";
-  }
 
   // Cursor
   
@@ -25,26 +20,21 @@ function Default(rune)
 
   this.mouse_down = function(position)
   {
-    this.drag_from = ronin.position_in_window(position);
+    this.drag_from = ronin.cursor.position_in_window;
   }
   
   this.mouse_move = function(position)
   {
     if(this.drag_from === null){ return; }
-    
-    position = ronin.position_in_window(position);
-    
-    var offset_x = this.drag_from.x - position.x;
-    var offset_y = this.drag_from.y - position.y;
-    this.drag_offset_x -= offset_x;
-    this.drag_offset_y -= offset_y;
-    
-    ronin.frame.element.style.marginLeft = -(ronin.frame.settings["size"].width/2) + this.drag_offset_x;
-    ronin.frame.element.style.marginTop = -(ronin.frame.settings["size"].height/2) + this.drag_offset_y;
 
-    ronin.element.style.backgroundPosition = ((this.drag_offset_x/8))-(window.innerWidth % 20)+"px "+((this.drag_offset_y/8)-(window.innerWidth % 20))+"px";
+    var offset = ronin.cursor.position_in_window.offset(this.drag_from);
+    
+    ronin.frame.element.style.left = parseInt(ronin.frame.element.style.left) + offset.x;
+    ronin.frame.element.style.top = parseInt(ronin.frame.element.style.top) + offset.y;
 
-    this.drag_from = new Position(position.x,position.y);
+    ronin.on_drag();
+
+    this.drag_from = ronin.cursor.position_in_window;
   }
   
   this.mouse_up = function(event)

@@ -3,6 +3,9 @@ function Keyboard()
   this.shift_held = false;
   this.alt_held = false;
 
+  document.onkeyup = function myFunction(){ keyboard.listen_onkeyup(event); };
+  document.onkeydown = function myFunction(){ keyboard.listen_onkeydown(event); };
+
   this.listen_onkeydown = function(event)
   {
     if(event.shiftKey == true){
@@ -44,6 +47,7 @@ function Keyboard()
     // Passive
     ronin.widget.update();
     ronin.terminal.update();
+    ronin.cursor.update();
   };
 
   this.key_tab = function()

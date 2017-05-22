@@ -9,6 +9,6 @@ path.stroke M105,240 a-45,-45 0 0,0 -45,-45 M150,240 a-90,-90 0 0,0 -90,-90 M150
 type:size 10
 type:color white
 type.write 38,262 "RONIN"
-type.write 38,252 "B07"
+type.write 38,252 "B08"
 brush:color #000000
 brush:size 10

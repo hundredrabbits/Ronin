@@ -6,15 +6,95 @@ function Cursor(rune)
 
   this.mode = null;
   this.position = new Position();
+  this.position_in_window = new Position();
 
-  this.passive = function(cmd)
+  document.addEventListener('mousedown', function(e){ ronin.cursor.mouse_down(ronin.position_in_canvas(e),e);}, false);
+  document.addEventListener('mousemove', function(e){ ronin.cursor.mouse_move(ronin.position_in_canvas(e),e);}, false);
+  document.addEventListener('mouseup', function(e){ ronin.cursor.mouse_up(ronin.position_in_canvas(e),e);}, false);
+
+  this.update = function(event = null)
+  {
+    if(event && event.altKey == true && event.shiftKey == true){
+      this.set_mode(ronin.frame.active_layer);
+    }
+    else if(event && event.altKey == true){
+      this.set_mode(ronin.default);
+    }
+    else{
+      this.set_mode(ronin.brush);
+    }
+  }
+  
+  this.set_mode = function(mode = ronin.brush)
+  {
+    if(!mode){ return; }
+
+    if(this.mode == mode){ return; }
+    this.mode = mode;
+    document.body.setAttribute("class",this.mode.name);
+    ronin.widget.update();
+  }
+
+  this.mouse_down = function(position,e)
+  {
+    if(this.layer){ this.layer.clear(); }
+
+    this.position = ronin.magnet.update_mouse(position);
+    this.position_in_window = new Position(e.clientX,e.clientY);
+
+    if(this.mode.constructor.name != Cursor.name){
+      this.mode.mouse_from = this.position;
+      this.mode.mouse_held = true;
+      if(!position.is_outside()){
+        this.mode.mouse_down(this.position);  
+      }
+    }
+  }
+  
+  this.mouse_move = function(position,e)
   {
     if(!this.layer){ this.create_layer(); }
+      
+    this.layer.clear();
+
+    this.position = ronin.magnet.update_mouse(position);
+    this.position_in_window = new Position(e.clientX,e.clientY);
+
+    if(this.mode){this.mode.mouse_pointer(this.position);}
+    else{ this.mouse_pointer(this.position);}
+
+    if(this.mode.mouse_from == null){ return; }
+
+    var rect = new Rect();
+    rect.width = this.position.x - this.mode.mouse_from.x;
+    rect.height = this.position.y - this.mode.mouse_from.y;
+
+    if(this.mode.constructor.name != Cursor.name){
+      this.mode.mouse_move(this.position,rect);  
+      this.mode.mouse_prev = this.position;
+    }
+  }
+  
+  this.mouse_up = function(position,e)
+  {
+    this.position = ronin.magnet.update_mouse(position);
+    this.position_in_window = new Position(e.clientX,e.clientY);
+
+    var rect = new Rect();
+    rect.width = this.position.x - this.mode.mouse_from.x;
+    rect.height = this.position.y - this.mode.mouse_from.y;
+
+    if(!this.mode){ return; }
+
+    if(this.mode.constructor.name != Cursor.name){
+      if(!position.is_outside()){
+        this.mode.mouse_up(this.position,rect);  
+      }
+      this.mode.mouse_held = false;
+    }
+    this.mode.mouse_from = null;
   }
 
-  this.active = function(cmd)
-  {
-  }
 
   this.draw_pointer_arrow = function(position,size = 1)
   {
@@ -133,88 +213,6 @@ function Cursor(rune)
     this.layer.context().closePath();
 
     this.pointer_last = position;
-  }
-
-  this.update = function(event)
-  {
-    console.log("!")
-    if(event.altKey == true && event.shiftKey == true){
-      this.set_mode(ronin.frame.active_layer);
-    }
-    else if(event.altKey == true){
-      this.set_mode(ronin.default);
-    }
-    else{
-      this.set_mode(ronin.brush);
-    }
-  }
-  
-  this.set_mode = function(mode = ronin.brush)
-  {
-    if(!mode){ return; }
-
-    if(this.mode == mode){ return; }
-    this.mode = mode;
-    document.body.setAttribute("class",this.mode.name);
-    ronin.widget.update();
-  }
-  
-  this.mouse_down = function(position)
-  {
-    if(this.layer){ this.layer.clear(); }
-
-    this.position = ronin.magnet.update_mouse(position);
-
-    if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_from = this.position;
-      this.mode.mouse_held = true;
-      if(!position.is_outside()){
-        this.mode.mouse_down(this.position);  
-      }
-    }
-  }
-  
-  this.mouse_move = function(position)
-  {
-    if(!this.layer){ this.create_layer(); }
-      
-    this.layer.clear();
-
-    this.position = ronin.magnet.update_mouse(position);
-
-    if(this.mode){this.mode.mouse_pointer(this.position);}
-    else{ this.mouse_pointer(this.position);}
-
-    if(this.mode.mouse_from == null){ return; }
-
-    var rect = new Rect();
-    rect.width = this.position.x - this.mode.mouse_from.x;
-    rect.height = this.position.y - this.mode.mouse_from.y;
-
-    if(this.mode.constructor.name != Cursor.name){
-      this.mode.mouse_move(this.position,rect);  
-      this.mode.mouse_prev = this.position;
-    }
-    // ronin.terminal.update_hint();
-  }
-  
-  this.mouse_up = function(position)
-  {
-    this.position = ronin.magnet.update_mouse(position);
-
-    var rect = new Rect();
-    rect.width = this.position.x - this.mode.mouse_from.x;
-    rect.height = this.position.y - this.mode.mouse_from.y;
-
-    if(!this.mode){ return; }
-
-    if(this.mode.constructor.name != Cursor.name){
-      if(!position.is_outside()){
-        this.mode.mouse_up(this.position,rect);  
-      }
-      this.mode.mouse_held = false;
-    }
-    this.mode.mouse_from = null;
   }
 
   this.release = function()

@@ -55,6 +55,11 @@
       <div id='frame'></div>
       <div id='terminal'></div>
     </div>
-    <script type="text/javascript" src="scripts/core/init.js"></script>
+    <script type="text/javascript">
+        var ronin = new Ronin();
+        var keyboard = new Keyboard();
+        ronin.install();
+        ronin.start(window.location.hash);
+    </script>
   </body>
 </html>

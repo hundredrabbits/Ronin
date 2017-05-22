@@ -6,17 +6,6 @@ function Overlay(rune)
   
   this.color = new Color("#ffffff");
 
-  this.passive = function(cmd)
-  {
-    this.draw(cmd.position(),cmd.rect());
-  }
-  
-  this.active = function(cmd)
-  {
-    if(cmd.bang()){ this.guides = []; }
-    if(cmd.color()){ this.color = cmd.color(); }
-  }
-  
   // draw
   
   this.draw = function(position,rect)

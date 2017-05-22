@@ -2,16 +2,6 @@ function Eye(rune)
 {
   Module.call(this,rune);
   
-  // Module
-  
-  this.active = function(cmd)
-  {
-  }
-  
-  this.passive = function(cmd)
-  {
-  }
-  
   // TODO: If a rect is given, return the average color
   this.color_picker = function(position,rect = null)
   {

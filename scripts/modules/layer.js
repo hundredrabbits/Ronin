@@ -152,12 +152,6 @@ function Layer(name,manager = null)
   {
     return "Move";
   }
-
-  this.mouse_down = function(position)
-  {
-    // ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" 0,0";
-    ronin.terminal.passive();
-  }
   
   this.mouse_move = function(position)
   {
@@ -167,9 +161,6 @@ function Layer(name,manager = null)
     ronin.overlay.draw_cross(this.mouse_from);
     ronin.overlay.draw_cross(position);
     ronin.overlay.draw_line(this.mouse_from,position);
-
-    // ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
-    ronin.terminal.passive();
   }
   
   this.mouse_up = function(position)
@@ -182,7 +173,6 @@ function Layer(name,manager = null)
     ronin.overlay.draw_line(this.mouse_from,position);
 
     // ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
-    ronin.terminal.passive();
 
     // if(this.coordinates.length == 0){
     //   this.coordinates.push("M"+position.render());

@@ -31,14 +31,6 @@ function Module(rune)
     return this.layer;
   }
 
-  this.active = function(cmd)
-  {
-  }
-  
-  this.passive = function(cmd)
-  {
-  }
-  
   this.update_setting = function(name,value)
   {
     this.settings[name] = value.content.join(" ");

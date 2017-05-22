@@ -96,7 +96,6 @@ function Source(rune)
     this.coordinates = [];
     this.last_pos = null;
     ronin.terminal.input.value = "";
-    ronin.terminal.passive();
     ronin.overlay.get_layer(true).clear();
   }
 }
