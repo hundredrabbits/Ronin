@@ -1,0 +1,10 @@
+frame.resize 300x300
+layer.fill #111111
+magnet.grid 15x15 4,4
+path:line_color #ffffff
+path:line_width 10
+path.stroke M60,60 A1,1 0 0,0 240,60 A1,1 0 0,0 240,240 
+path.stroke M240,240 A1,1 0 0,0 60,240 A1,1 0 0,0 60,60
+magnet.grid 1x1
+brush.add_pointer #ff0000 1
+source.save

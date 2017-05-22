@@ -1,5 +1,0 @@
-frame.resize 300x300 ;
-layer.fill #A1A1A1 ;
-brush:color #ff0000 ;
-magnet.grid 15x15 4,4 ;
-frame.select work ;

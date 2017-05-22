@@ -45,6 +45,7 @@ function Terminal(rune)
     }
     this.hint_element.innerHTML = "";
     this.input.value = "";
+    this.update();
   }
 
   this.update = function(value = null)

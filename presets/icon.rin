@@ -1,0 +1,6 @@
+frame.resize 360x360
+frame.select background
+layer.fill #A1A1A1
+brush:color #ff0000
+magnet.grid 15x15 4,4 
+frame.select main
