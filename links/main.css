@@ -26,5 +26,5 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal #hint .setting { display: inline-block; color:#fff; font-style: italic }
 
 #modal { position: fixed; bottom:80px; right:20px; width:100px; height:100px; background:#111; border-radius:3px; overflow:hidden; display: block}
-#modal.image img { display: block; max-width: 100%}
+#modal.image img { display: block; max-height: 100%}
 #modal.hidden { display: none }

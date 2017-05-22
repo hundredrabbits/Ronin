@@ -44,9 +44,6 @@ function Type(rune)
   
   this.mouse_move = function(position,rect)
   {
-    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
-    var line = "type.write "+position.render()+" \""+str+"\"";
-    ronin.terminal.update(line);
   }
   
   this.mouse_up = function(position)

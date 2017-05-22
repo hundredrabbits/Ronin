@@ -3,17 +3,19 @@ function Brush(rune)
   Module.call(this,rune);
   
   this.parameters = [];
-  this.settings  = {color:"#000","size":2};
+  this.settings  = {color:"#000000","size":2};
   this.pointers = [new Pointer(new Position("0,0"))];
 
-  this.add_method(new Method("add_pointer",["Position"]));
+  this.add_method(new Method("add_pointer",["Position","Color","Scale"]));
 
-  this.add_pointer = function(params, preview = false)
+  this.add_pointer = function(cmd, preview = false)
   {
     if(preview){ return; }
 
     var pointer = new Pointer();
-    pointer.offset = params.position() ? params.position() : new Position("0,0");
+    pointer.offset = cmd.position() ? cmd.position() : new Position("0,0");
+    pointer.color = cmd.color().hex ? cmd.color().hex : this.settings.color;
+    pointer.scale = cmd.value().float ? cmd.value().float : 1;
     this.pointers.push(pointer);
 
     ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset.render()));
@@ -23,12 +25,12 @@ function Brush(rune)
 
   this.size_up = function()
   {
-    this.settings["size"] += 1; 
+    this.settings["size"] = parseInt(this.settings["size"]) + 1; 
   }
 
   this.size_down = function()
   {
-    this.settings["size"] -= this.settings["size"] > 1 ? 1 : 0;
+    this.settings["size"] -= parseInt(this.settings["size"]) > 1 ? 1 : 0;
   }
 
   // Eraser

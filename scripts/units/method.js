@@ -32,11 +32,11 @@ function Method(name,params,mouse_event)
 
   this.preview = function(cmd)
   {
-    return this.host[this.name](cmd,true);
+    return this.host[this.name] ? this.host[this.name](cmd,true) : "";
   }
 
   this.run = function(cmd)
   {
-    return ronin.terminal.log(new Log(this.host,this.host[this.name](cmd,false)));
+    return this.host[this.name] ? ronin.terminal.log(new Log(this.host,this.host[this.name](cmd,false))) : null;
   }
 }

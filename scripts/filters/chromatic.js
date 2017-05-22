@@ -10,10 +10,7 @@ function Filter_Chromatic()
   {
     var position = cmd.position() ? cmd.position() : new Position(ronin.frame.settings["size"].width,ronin.frame.settings["size"].height);
     var value = cmd.value() ? cmd.value().float : 5;
-
-    ronin.overlay.clear();
     this.draw(this.context(),value,position);
-    ronin.overlay.clear();
   }
 
   this.preview = function(cmd)

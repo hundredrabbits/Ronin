@@ -1,6 +1,9 @@
-function Pointer(offset = new Position())
+function Pointer(offset = new Position(), color = new Color().hex, scale = 1)
 {
   this.offset = offset;
+  this.color = color;
+  this.scale = scale;
+
   this.mirror = null;
   this.position_prev = null;
   this.angle = null;
@@ -15,6 +18,8 @@ function Pointer(offset = new Position())
     var ratio = 10/this.position().distance_to(this.position_prev[0]);
     ratio = ratio > 1 ? 1 : ratio;
     var target = parseFloat(ronin.brush.settings["size"]) * ratio;
+
+    target = target * this.scale;
 
     if(this.actual_thickness < target){ this.actual_thickness += 0.4; }
     if(this.actual_thickness > target){ this.actual_thickness -= 0.4; }
@@ -42,11 +47,9 @@ function Pointer(offset = new Position())
     ronin.frame.context().moveTo(position_prev.x,position_prev.y);
 
     //Choose direct line or curve line based on how many samples available
-    if(this.position_prev.length > 1 && position.distance_to(position_prev) > 13){
+    if(this.position_prev.length > 1 && position.distance_to(position_prev) > 5){
 
-      var d =
-      position.distance_to(position_prev)/
-      position_prev.distance_to(this.position_prev[1]);
+      var d = position.distance_to(position_prev)/position_prev.distance_to(this.position_prev[1]);
 
       //caluclate a control point for the quad curve
       var ppx = position_prev.x - (this.position_prev[1].x - position_prev.x);
@@ -64,7 +67,7 @@ function Pointer(offset = new Position())
 
     ronin.frame.context().lineCap="round";
     ronin.frame.context().lineWidth = this.thickness();
-    ronin.frame.context().strokeStyle = ronin.brush.settings.color;
+    ronin.frame.context().strokeStyle = this.color;
     ronin.frame.context().stroke();
     ronin.frame.context().closePath();
 

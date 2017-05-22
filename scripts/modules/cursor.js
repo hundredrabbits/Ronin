@@ -2,7 +2,7 @@ function Cursor(rune)
 {
   Module.call(this,rune);
   
-  this.settings = {color: "#999999"};
+  this.settings = {color: "#000000",color_alt: "#fffffff"};
 
   this.mode = null;
   this.position = new Position();
@@ -98,7 +98,6 @@ function Cursor(rune)
     this.mode.mouse_from = null;
   }
 
-
   this.draw_pointer_arrow = function(position,size = 1)
   {
     if(!this.layer){ this.create_layer(); }
@@ -107,10 +106,9 @@ function Cursor(rune)
 
     this.layer.context().beginPath();
     
-    this.layer.context().moveTo(position.x,position.y);
-    this.layer.context().lineTo(position.x + 5,position.y);
-    this.layer.context().moveTo(position.x,position.y);
-    this.layer.context().lineTo(position.x,position.y + 5);
+    this.layer.context().moveTo(position.x + 10,position.y);
+    this.layer.context().lineTo(position.x,position.y);
+    this.layer.context().lineTo(position.x,position.y + 10);
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
@@ -128,9 +126,7 @@ function Cursor(rune)
     this.pointer_last = this.pointer_last ? this.pointer_last : position;
 
     this.layer.context().beginPath();
-    this.layer.context().moveTo(this.pointer_last.x,this.pointer_last.y);
-    this.layer.context().lineTo(position.x,position.y);
-    this.layer.context().lineCap="round";
+    this.layer.context().arc(position.x, position.y, 0.5, 0, 2 * Math.PI, false);
     this.layer.context().lineWidth = 1;
     this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
@@ -144,7 +140,7 @@ function Cursor(rune)
     this.layer.context().closePath();
 
     this.layer.context().beginPath();
-    this.layer.context().arc(position.x, position.y, (size/2)+1, 0, 2 * Math.PI, false);
+    this.layer.context().arc(position.x, position.y, (size/2)+2, 0, 2 * Math.PI, false);
     this.layer.context().lineWidth = 1;
     this.layer.context().strokeStyle = this.settings.color;
     this.layer.context().stroke();
@@ -160,13 +156,19 @@ function Cursor(rune)
     this.pointer_last = this.pointer_last ? this.pointer_last : position;
 
     this.layer.context().beginPath();
+
+    var radius = 5;
     
-    this.layer.context().moveTo(position.x,position.y - 3);
-    this.layer.context().lineTo(position.x,position.y + 3);
-    this.layer.context().moveTo(position.x - 2,position.y - 3);
-    this.layer.context().lineTo(position.x - 2,position.y + 3);
-    this.layer.context().moveTo(position.x + 2,position.y - 3);
-    this.layer.context().lineTo(position.x + 2,position.y + 3);
+    this.layer.context().moveTo(position.x,position.y - radius);
+    this.layer.context().lineTo(position.x,position.y + radius);
+    this.layer.context().moveTo(position.x - radius/2,position.y - radius);
+    this.layer.context().lineTo(position.x - radius/2,position.y + radius);
+    this.layer.context().moveTo(position.x + radius/2,position.y - radius);
+    this.layer.context().lineTo(position.x + radius/2,position.y + radius);
+    this.layer.context().moveTo(position.x + radius,position.y - radius);
+    this.layer.context().lineTo(position.x + radius,position.y + radius);
+    this.layer.context().moveTo(position.x - radius,position.y - radius);
+    this.layer.context().lineTo(position.x - radius,position.y + radius);
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;

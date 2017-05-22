@@ -13,6 +13,8 @@ function Overlay(rune)
     if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
     
     if(!position){ position = new Position("0,0"); }
+
+    this.layer.clear();
     
     if(rect){
       this.draw_rect(position,rect);
@@ -65,7 +67,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = this.color.hex;
+    this.context().strokeStyle = ronin.cursor.color;
     this.context().stroke();
     this.context().closePath();
   }
@@ -85,7 +87,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = this.color.hex;
+    this.context().strokeStyle = ronin.cursor.color;
     this.context().stroke();
     this.context().closePath();
   }
@@ -99,7 +101,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = this.color.hex;
+    this.context().strokeStyle = ronin.cursor.color;
     this.context().stroke();
     this.context().closePath();
   }
@@ -129,7 +131,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = this.color.hex;
+    this.context().strokeStyle = ronin.cursor.color;
     this.context().stroke();
     this.context().closePath();
   }
@@ -143,7 +145,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = this.color.hex;
+    this.context().strokeStyle = ronin.cursor.color;
     this.context().stroke();
     this.context().closePath();
   }
@@ -157,7 +159,7 @@ function Overlay(rune)
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = this.color.hex;
+    this.context().strokeStyle = ronin.cursor.color;
     this.context().stroke();
     this.context().closePath();
   }

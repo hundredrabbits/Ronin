@@ -136,12 +136,19 @@ function Frame(rune)
   
   this.mouse_down = function(position)
   {
-    ronin.overlay.get_layer(true).clear();
-    ronin.overlay.draw_pointer(position);
+    ronin.overlay.draw(position);
+  }
+  this.mouse_move = function(position,rect)
+  {
+    ronin.overlay.draw(this.mouse_from,rect);
   }
   
   this.mouse_up = function(position,rect)
   {
+    ronin.overlay.draw(this.mouse_from,rect)+" "+rect.render();
+
+    var line = "frame.resize "+this.mouse_from.render()+" "+rect.render();
+    ronin.terminal.update(line);
   }
 
   this.widget = function()

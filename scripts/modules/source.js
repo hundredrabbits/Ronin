@@ -4,7 +4,7 @@ function Source(rune)
 
   this.modal_element = null;
 
-  this.settings  = {"format":"png","quality":"1"};
+  this.settings  = {format:"png",quality:"1"};
 
   this.add_method(new Method("save",["name","rect","format"]));
   this.add_method(new Method("load",["path","position","rect"]),"Add point");
@@ -22,11 +22,15 @@ function Source(rune)
     if(!params.filepath()){ return 0, "Path?"; }
     if(!params.rect()){ return 0,"Rect?"; }
 
-    ronin.overlay.draw_rect(position,params.rect());
+    var position = params.position() ? params.position() : new Position("0,0");
+    var rect = params.rect() ? params.rect() : new Rect("50,50");
+
+    ronin.overlay.draw(position,rect);
 
     if(preview){ return; }
+    if(this.is_locked){ console.log("Locked!"); return 0,"The source module is locked."; }
 
-    var position = params.position() ? params.position() : new Position("0,0");
+    this.lock();
 
     base_image = new Image();
     base_image.src = "../assets/"+params.filepath().path;
@@ -46,9 +50,9 @@ function Source(rune)
       height = isNaN(height) && width > 0 ? (width*base_image.naturalHeight)/base_image.naturalWidth : height;
       
       ronin.frame.active_layer.context().drawImage(base_image, position.x, position.y, width, height);
+      ronin.overlay.clear();
+      ronin.source.unlock();
     }
-
-    ronin.overlay.clear();
 
     return 1,"Loaded "+params.filepath().path+" at "+position.render();
   }
@@ -62,11 +66,11 @@ function Source(rune)
 
     this.modal();
 
-    if(this.settings["format"] == "jpg"){
-      this.modal("image","<img src='"+this.merge().element.toDataURL('image/jpeg',parseFloat(this.settings["quality"]))+"' />");
+    if(this.settings.format == "jpg"){
+      this.modal("image","<img src='"+this.merge().element.toDataURL('image/jpeg',parseFloat(this.settings.quality))+"' />");
     }
     else{
-      this.modal("image","<img src='"+this.merge().element.toDataURL('image/png',parseFloat(this.settings["quality"]))+"'/>");
+      this.modal("image","<img src='"+this.merge().element.toDataURL('image/png')+"'/>");
     }
     /*
     if(params.setting("format") && params.setting("format").value == "svg"){
@@ -82,6 +86,8 @@ function Source(rune)
       */
     
     this.layer.remove(this);
+
+    return 1,"Rendered the "+this.settings.format+" image, quality "+this.settings.quality+"."
   }
 
   this.modal = function(type,content)

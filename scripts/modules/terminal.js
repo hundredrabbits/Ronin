@@ -34,7 +34,7 @@ function Terminal(rune)
     var method  = command.method();
     var setting = command.setting();
 
-    console.info(command.content);
+    console.info(command.content); // Don't remove
 
     if(method){
       method.run(command);
@@ -64,11 +64,13 @@ function Terminal(rune)
 
   this.run_multi = function(lines)
   {
-    lines = lines.split(";")
-    for(id in lines){
-      var cmd = new Command(lines[id]);
-      this.run(cmd);
+    if(!ronin.terminal.is_locked){
+      lines = lines.split(";");
+      target_line = lines.shift();
+      this.run(new Command(target_line));
     }
+
+    if(lines.length > 0){ setTimeout(function(){ ronin.terminal.run_multi(lines.join(";")) }, 250); }
   }
 
   this.hint = function(method)

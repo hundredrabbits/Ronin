@@ -13,14 +13,14 @@ function Command(content)
   {
     var module_name = null;
 
-    if(content.indexOf(".") > -1){
-      module_name = content.split(" ")[0].split(".")[0]
+    if(this.parts[0].indexOf(".") > -1){
+      module_name = this.parts[0].split(" ")[0].split(".")[0]
     }
-    else if(content.indexOf(":") > -1){
-      module_name = content.split(" ")[0].split(":")[0]
+    else if(this.parts[0].indexOf(":") > -1){
+      module_name = this.parts[0].split(" ")[0].split(":")[0]
     }
     else{
-      module_name = content.split(" ")[0];
+      module_name = this.parts[0].split(" ")[0];
     }
     return ronin.modules[module_name] ? ronin.modules[module_name] : null;
   }
@@ -36,8 +36,11 @@ function Command(content)
 
   this.setting = function()
   {
+    var content = this.content;
     var module = this.module();
-    if(!module || content.indexOf(":") < 0){ return null; }
+
+    if(!module){ return null;  }
+    if(content.indexOf(":") < 0){ return null; }
 
     var setting_name = this.parts[0].split(":")[1];
     return module.settings[setting_name] ? setting_name : null;

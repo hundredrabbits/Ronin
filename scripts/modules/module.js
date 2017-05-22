@@ -6,6 +6,7 @@ function Module(rune)
   this.settings  = {};
   this.methods  = {};
   this.layer = null;
+  this.is_locked = false;
 
   this.docs = "Missing documentation.";
   
@@ -74,6 +75,16 @@ function Module(rune)
   this.widget = function()
   {
     return "";
+  }
+
+  this.lock = function()
+  {
+    ronin.terminal.is_locked = true;
+  }
+
+  this.unlock = function()
+  {
+    ronin.terminal.is_locked = false;
   }
 
   // Mouse

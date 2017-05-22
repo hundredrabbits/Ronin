@@ -6,10 +6,10 @@ function Filter_Stencil()
   this.render = function(cmd)
   {
     var angle = cmd.angle() ? cmd.angle().degrees : 20;
-    var color = cmd.color() ? cmd.color().hex : "#ffffff";
+    var color = cmd.color() ? cmd.color().hex : "#000000";
 
-    ronin.frame.active_layer.clear();
     this.draw(ronin.frame.context(),angle,color);
+    if(ronin.render.layer){ ronin.render.layer.remove(this); }
 
     return 1, "ok";
   }
@@ -17,9 +17,9 @@ function Filter_Stencil()
   this.preview = function(cmd)
   {
     var angle = cmd.angle() ? cmd.angle().degrees : 20;
-    var color = cmd.color() ? cmd.color().hex : "#ffffff";
+    var color = cmd.color() ? cmd.color().hex : "#000000";
 
-    ronin.render.layer.clear();
+    ronin.render.get_layer().clear();
     this.draw(ronin.render.layer.context(),angle,color);
   }
 

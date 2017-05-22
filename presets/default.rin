@@ -1,6 +1,7 @@
 frame.resize 300x300 
 frame.select main 
 layer.fill #ff0000 
+render.stencil 45' #000000
 path:line_width 43
 path:line_color #EEEEEE
 path:line_cap square
@@ -10,6 +11,7 @@ type:color white
 type.write 38,262 "RONIN"
 type.write 38,252 "B08"
 brush:color #000000
-brush:size 4
+brush:size 2
 path:line_width 20
 path:line_color #999999
+brush.add_pointer 0,0 #000000 2

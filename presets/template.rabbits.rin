@@ -1,5 +1,0 @@
-~ Rabbits
-
-frame.resize 640x400
-source.load /08.jpg x400
-source.load /hundred.rabbits.logo.white.svg 70x70 0,530
