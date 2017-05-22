@@ -90,6 +90,8 @@ function Keyboard()
 
   this.key_escape = function()
   {
+    ronin.overlay.key_escape();
+    
     for(var key in ronin.modules){
       ronin.modules[key].key_escape();
     }

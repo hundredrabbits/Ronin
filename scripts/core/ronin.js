@@ -111,6 +111,7 @@ function Ronin()
             if(rawFile.status === 200 || rawFile.status == 0)
             {
                 var allText = rawFile.responseText;
+                ronin.terminal.log(new Log(null,"Loaded file "+name));
                 ronin.terminal.run_multi(allText.split("\n").join(";"));
             }
         }

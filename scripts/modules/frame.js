@@ -146,10 +146,27 @@ function Frame(rune)
 
   this.widget = function()
   {
-    var count = 0;
-    for(layer in this.layers){
+    var html = ""
+
+    html += this.settings.size.render()+" ";
+    html += this.active_layer.name+" ";
+
+    var user_layers = 0;
+    var managed_layers = 0;
+
+    count = 0;
+    for(id in this.layers){
+      if(this.layers[id].manager){
+        managed_layers += 1;
+      }
+      else{
+        user_layers += 1;
+      }
       count += 1;
     }
-    return this.active_layer.name+(count > 1 ? "("+count+" layers)" : "");
+
+    html += user_layers+"&"+managed_layers+" ";
+
+    return html
   }
 }

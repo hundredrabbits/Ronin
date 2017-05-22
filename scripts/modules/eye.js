@@ -20,7 +20,7 @@ function Eye(rune)
 
   this.mouse_down = function(position)
   {
-    ronin.overlay.draw(position);
+    // ronin.overlay.draw(position);
     this.color_picker(position);
   }
   

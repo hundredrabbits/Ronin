@@ -102,13 +102,13 @@ function Terminal(rune)
 
 // Log
 
-function Log(host,message,error = false)
+function Log(host = null,message,error = false)
 {
   this.host = host;
   this.message = message;
   this.error = error;
   this.element = document.createElement("log");
   this.element.setAttribute("class",error ? "error" : "okay");
-  this.element.innerHTML = "<span class='module'>"+host.name+"</span> "+message;
-  console.log(this.host.constructor.name,this.message);
+  this.element.innerHTML = "<span class='module'>"+(this.host ? this.host.name : "Ronin")+"</span> "+message;
+  console.log(this.host ? this.host.name : "Ronin",this.message);
 }
