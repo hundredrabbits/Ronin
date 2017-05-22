@@ -2,11 +2,21 @@ function Source(rune)
 {
   Module.call(this,rune);
 
-  this.settings  = {"format":"jpg","quality":"1"};
+  this.modal_element = null;
+
+  this.settings  = {"format":"png","quality":"1"};
 
   this.add_method(new Method("save",["name","rect","format"]));
   this.add_method(new Method("load",["path","position","rect"]),"Add point");
-  
+    
+  this.install = function()
+  {
+    this.modal_element = document.createElement("modal");
+    this.modal_element.id = "modal";
+    this.modal_element.setAttribute("class","hidden");
+    ronin.element.appendChild(this.modal_element);
+  }
+
   this.load = function(params,preview = false) // source.load /01.jpg 0,0 100x100
   {
     if(!params.filepath()){ return 0, "Path?"; }
@@ -50,13 +60,13 @@ function Source(rune)
 
     var d = null;
 
-    ronin.terminal.query("terminal.display mini");
+    this.modal();
 
     if(this.settings["format"] == "jpg"){
-      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/jpeg',parseFloat(this.settings["quality"]))+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
+      this.modal("image","<img src='"+this.merge().element.toDataURL('image/jpeg',parseFloat(this.settings["quality"]))+"' />");
     }
     else{
-      ronin.terminal.log(new Log(this,"<img src='"+this.merge().element.toDataURL('image/png',parseFloat(this.settings["quality"]))+"' width='"+ronin.frame.settings["size"].width+"px' height='"+ronin.frame.settings["size"].height+"px'/>","image"));
+      this.modal("image","<img src='"+this.merge().element.toDataURL('image/png',parseFloat(this.settings["quality"]))+"'/>");
     }
     /*
     if(params.setting("format") && params.setting("format").value == "svg"){
@@ -72,6 +82,12 @@ function Source(rune)
       */
     
     this.layer.remove(this);
+  }
+
+  this.modal = function(type,content)
+  {
+    this.modal_element.setAttribute("class",type);
+    this.modal_element.innerHTML = content;
   }
 
   this.merge = function()
@@ -93,5 +109,8 @@ function Source(rune)
     this.coordinates = [];
     this.last_pos = null;
     ronin.terminal.input.value = "";
+
+    this.modal_element.innerHTML = "";
+    this.modal_element.setAttribute("class","hidden");
   }
 }

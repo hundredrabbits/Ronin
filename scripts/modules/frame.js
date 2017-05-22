@@ -85,7 +85,7 @@ function Frame(rune)
     Object.keys(ronin.frame.layers).forEach(function (key) {
       ronin.frame.layers[key].blink();
     });
-    setTimeout(function(){ ronin.frame.blink(); }, 300);
+    setTimeout(function(){ ronin.frame.blink(); }, 30);
   }
 
   this.select_layer = function(layer)

@@ -10,6 +10,6 @@ type:color white
 type.write 38,262 "RONIN"
 type.write 38,252 "B08"
 brush:color #000000
-brush:size 10
+brush:size 4
 path:line_width 20
 path:line_color #999999
