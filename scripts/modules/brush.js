@@ -3,7 +3,7 @@ function Brush(rune)
   Module.call(this,rune);
   
   this.parameters = [];
-  this.settings  = {color:"#000000","size":2};
+  this.settings  = {color:"#000000",size:2};
   this.pointers = [new Pointer(new Position("0,0"))];
 
   this.add_method(new Method("add_pointer",["Position","Color","Scale"]));
@@ -25,12 +25,12 @@ function Brush(rune)
 
   this.size_up = function()
   {
-    this.settings["size"] = parseInt(this.settings["size"]) + 1; 
+    this.settings.size = parseInt(this.settings.size) + 1; 
   }
 
   this.size_down = function()
   {
-    this.settings["size"] -= parseInt(this.settings["size"]) > 1 ? 1 : 0;
+    this.settings.size -= parseInt(this.settings.size) > 1 ? 1 : 0;
   }
 
   // Eraser
@@ -46,7 +46,7 @@ function Brush(rune)
     ronin.frame.context().moveTo(this.position_prev.x,this.position_prev.y);
     ronin.frame.context().lineTo(position.x,position.y);
     ronin.frame.context().lineCap="round";
-    ronin.frame.context().lineWidth = this.settings["size"] * 5;
+    ronin.frame.context().lineWidth = this.settings.size * 3;
     ronin.frame.context().strokeStyle = new Color("#ff0000").rgba();
     ronin.frame.context().stroke();
     ronin.frame.context().closePath();
@@ -58,16 +58,16 @@ function Brush(rune)
 
   this.mouse_pointer = function(position)
   {
-    return ronin.cursor.draw_pointer_circle(position,this.settings["size"]);
+    return keyboard.shift_held == true ? ronin.cursor.draw_pointer_circle_eraser(position,this.settings.size * 3) : ronin.cursor.draw_pointer_circle(position,this.settings.size);
   }
   
   this.mouse_mode = function()
   {
     if(keyboard.shift_held == true){
-      return "Eraser "+this.settings["size"];
+      return "Eraser "+this.settings.size;
     }
     else{
-      return "Brush <i style='color:"+this.settings["color"]+"'>&#9679;</i> "+this.settings["size"];  
+      return "Brush <i style='color:"+this.settings["color"]+"'>&#9679;</i> "+this.settings.size;  
     }
   }
   
@@ -104,5 +104,6 @@ function Brush(rune)
     for (i = 0; i < ronin.brush.pointers.length; i++) {
       ronin.brush.pointers[i].stop();
     }
+    this.position_prev = null;
   }
 }

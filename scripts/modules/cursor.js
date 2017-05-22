@@ -149,6 +149,22 @@ function Cursor(rune)
     this.pointer_last = position;
   }
 
+  this.draw_pointer_circle_eraser = function(position,size = 1)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.context().beginPath();
+    this.layer.context().arc(position.x, position.y, (size/2), 0, 2 * Math.PI, false);
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = this.settings.color;
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
+  }
+
   this.draw_pointer_drag = function(position)
   {
     if(!this.layer){ this.create_layer(); }

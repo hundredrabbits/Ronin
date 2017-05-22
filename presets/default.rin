@@ -14,4 +14,3 @@ brush:color #000000
 brush:size 2
 path:line_width 20
 path:line_color #999999
-brush.add_pointer 0,0 #000000 2

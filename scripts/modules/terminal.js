@@ -71,7 +71,7 @@ function Terminal(rune)
       this.run(new Command(target_line));
     }
 
-    if(lines.length > 0){ setTimeout(function(){ ronin.terminal.run_multi(lines.join(";")) }, 250); }
+    if(lines.length > 0){ setTimeout(function(){ ronin.terminal.run_multi(lines.join(";")) }, 50); }
   }
 
   this.hint = function(method)
