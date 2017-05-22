@@ -14,7 +14,10 @@ function Cursor(rune)
 
   this.update = function(event = null)
   {
-    if(event && event.altKey == true && event.shiftKey == true){
+    if(ronin.terminal.cmd().module()){
+      this.set_mode(ronin.terminal.cmd().module());
+    }
+    else if(event && event.altKey == true && event.shiftKey == true){
       this.set_mode(ronin.frame.active_layer);
     }
     else if(event && event.altKey == true){

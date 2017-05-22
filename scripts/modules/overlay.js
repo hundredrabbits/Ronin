@@ -11,7 +11,6 @@ function Overlay(rune)
   this.draw = function(position,rect)
   {
     if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
-    this.get_layer().clear();
     
     if(!position){ position = new Position("0,0"); }
     
@@ -162,46 +161,10 @@ function Overlay(rune)
     this.context().stroke();
     this.context().closePath();
   }
-  
-  // Cursor
-  
-  this.live_draw_from = null;
 
-  this.mouse_down = function(position)
+  this.clear = function()
   {
-    ronin.overlay.clear();
-    ronin.overlay.draw_pointer(position);
-    this.live_draw_from = position;
-    // ronin.terminal.input_element.value = "| "+this.live_draw_from.render();
-  }
-  
-  this.mouse_move = function(position)
-  {
-    if(this.live_draw_from === null){ return; }
-    
-    ronin.overlay.clear();
-    
-    var rect = new Rect();
-    rect.width = position.x - this.live_draw_from.x;
-    rect.height = position.y - this.live_draw_from.y;
-  
-    ronin.overlay.draw_rect(this.live_draw_from,rect);
-    // ronin.terminal.input_element.value = "| "+this.live_draw_from.render()+" "+rect.render();
-
-    ronin.terminal.update_hint();
-  }
-  
-  this.mouse_up = function(position)
-  {
-    this.live_draw_from = null;
-    // ronin.terminal.input_element.focus();
-  }
-  
-  // Widget
-  
-  this.widget_cursor = function()
-  {
-    return "Guide";
+    this.layer.remove(this);
   }
 
   this.key_escape = function()

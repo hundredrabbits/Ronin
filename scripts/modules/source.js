@@ -7,20 +7,17 @@ function Source(rune)
   this.add_method(new Method("save",["name","rect","format"]));
   this.add_method(new Method("load",["path","position","rect"]),"Add point");
   
-  this.load = function(params,preview = false) // source.load ../assets/todo.jpg 200x200 40,40
+  this.load = function(params,preview = false) // source.load /01.jpg 0,0 100x100
   {
     if(!params.filepath()){ return 0, "Path?"; }
     if(!params.rect()){ return 0,"Rect?"; }
 
-    this.get_layer(true).clear();
+    ronin.overlay.draw_rect(position,params.rect());
 
-    var target_layer = preview ? this.get_layer(true) : ronin.frame.active_layer;
-
-    ronin.overlay.get_layer(true).clear();
+    if(preview){ return; }
 
     var position = params.position() ? params.position() : new Position("0,0");
-    ronin.overlay.draw_rect(position,params.rect());
-    
+
     base_image = new Image();
     base_image.src = "../assets/"+params.filepath().path;
     base_image.src += '?'+new Date().getTime();
@@ -38,12 +35,12 @@ function Source(rune)
       width  = isNaN(width) && height > 0 ? (height*base_image.naturalWidth)/base_image.naturalHeight : width;
       height = isNaN(height) && width > 0 ? (width*base_image.naturalHeight)/base_image.naturalWidth : height;
       
-      target_layer.context().drawImage(base_image, position.x, position.y, width, height);
+      ronin.frame.active_layer.context().drawImage(base_image, position.x, position.y, width, height);
     }
 
-    if(!preview){ ronin.overlay.get_layer(true).clear(); }
+    ronin.overlay.clear();
 
-    return 1,"ok";
+    return 1,"Loaded "+params.filepath().path+" at "+position.render();
   }
 
   this.save = function(params,preview = false)

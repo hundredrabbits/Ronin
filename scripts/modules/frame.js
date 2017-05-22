@@ -15,7 +15,7 @@ function Frame(rune)
   this.install = function()
   {
     this.blink();
-    this.select(new Command("background"));
+    this.select(new Command("frame.select main"));
 
     // Canvas
     var starting_canvas = new Rect();
@@ -62,7 +62,7 @@ function Frame(rune)
   {
     if(preview){ return; }
 
-    var layer_name = params.content;
+    var layer_name = "main";
     if(!ronin.frame.layers[layer_name]){
       this.add_layer(new Layer(layer_name));
     }

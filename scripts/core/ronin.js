@@ -117,5 +117,6 @@ function Ronin()
     }
     rawFile.send(null);
     ronin.widget.update();
+    ronin.terminal.update();
   }
 }

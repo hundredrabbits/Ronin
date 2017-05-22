@@ -27,7 +27,7 @@ function Path(rune)
     context.stroke(new Path2D(cmd.values()));
     context.closePath();
 
-    if(!preview){ this.coordinates = []; this.last_pos = null; }
+    if(!preview){ this.coordinates = []; this.last_pos = null; if(!preview){ this.layer.remove(this); } }
 
     return 1, preview ? "preview" : "ok";
   }

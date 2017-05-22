@@ -23,7 +23,7 @@ function Type(rune)
     target_layer.context().fillStyle = color; 
     target_layer.context().fillText(text,position.x,position.y);
 
-    if(!preview){ this.layer.clear(); }
+    if(!preview){ this.layer.remove(this); }
 
     return 1, "Wrote "+text+" at "+position.render();
   }
