@@ -65,8 +65,8 @@ function Terminal(rune)
 
   this.run_multi = function(lines)
   {
+    lines = lines.split(";");
     if(!ronin.terminal.is_locked){
-      lines = lines.split(";");
       target_line = lines.shift();
       this.run(new Command(target_line));
     }
