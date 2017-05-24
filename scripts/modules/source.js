@@ -4,10 +4,12 @@ function Source(rune)
 
   this.modal_element = null;
 
-  this.settings  = {format:"png",quality:"1"};
+  this.add_setting(new Setting("format","png"));
+  this.add_setting(new Setting("quality","1"));
 
   this.add_method(new Method("save",["name","rect","format"]));
-  this.add_method(new Method("load",["path","position","rect"]),"Add point");
+  this.add_method(new Method("load",["path","position","rect"]));
+  this.add_method(new Method("help"));
     
   this.install = function()
   {
@@ -66,8 +68,8 @@ function Source(rune)
 
     this.modal();
 
-    if(this.settings.format == "jpg"){
-      this.modal("image","<img src='"+this.merge().element.toDataURL('image/jpeg',parseFloat(this.settings.quality))+"' />");
+    if(this.settings["format"].value == "jpg"){
+      this.modal("image","<img src='"+this.merge().element.toDataURL('image/jpeg',this.settings["quality"].to_f())+"' />");
     }
     else{
       this.modal("image","<img src='"+this.merge().element.toDataURL('image/png')+"'/>");
@@ -87,7 +89,30 @@ function Source(rune)
     
     this.layer.remove(this);
 
-    return 1,"Rendered the "+this.settings.format+" image, quality "+this.settings.quality+"."
+    return 1,"Rendered the "+this.settings.format+" image, quality "+this.settings["quality"].to_f()+"."
+  }
+
+  this.help = function(params,preview = false)
+  {
+    if(preview){ return; }
+
+    html = "";
+
+    for(module_id in ronin.modules){
+      html += "<span class='module'>"+ronin.modules[module_id].name+"</span><br/>";
+
+      for(mode_id in ronin.modules[module_id].modes){
+        html += "  <span class='mode'>~"+(ronin.modules[module_id].modes[mode_id].key ? '['+ronin.modules[module_id].modes[mode_id].key+']' : "")+""+ronin.modules[module_id].modes[mode_id].name+"</span><br />"
+      }
+      for(setting_id in ronin.modules[module_id].settings){
+        html += "  <span class='setting'>:"+ronin.modules[module_id].settings[setting_id].name+"</span><br />"
+      }
+      for(method_id in ronin.modules[module_id].methods){
+        html += "  <span class='method'>."+ronin.modules[module_id].methods[method_id].name+"</span><br />"
+      }
+    }
+
+    this.modal("text",html);
   }
 
   this.modal = function(type,content)
@@ -104,7 +129,7 @@ function Source(rune)
       a.push(ronin.frame.layers[layer_name]);
     }
     for (i = 0; i < a.length; i++) {
-      this.layer.context().drawImage(a[i].context().canvas,0,0,ronin.frame.settings["size"].width,ronin.frame.settings["size"].height);
+      this.layer.context().drawImage(a[i].context().canvas,0,0,ronin.frame.size.width,ronin.frame.size.height);
     }
     return this.layer;
   }

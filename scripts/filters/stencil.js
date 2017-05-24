@@ -25,8 +25,8 @@ function Filter_Stencil()
 
   this.draw = function(context = this.context(), angle, color)
   {
-    var w = ronin.frame.settings["size"].width;
-    var h = ronin.frame.settings["size"].height;
+    var w = ronin.frame.size.width;
+    var h = ronin.frame.size.height;
     
     context.translate(w/2,h/2);
 

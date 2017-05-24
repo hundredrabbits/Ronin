@@ -15,12 +15,14 @@ function Pointer(offset = new Position(), color = null, scale = 1)
 
   this.thickness = function()
   {
-    var radius = parseFloat(ronin.brush.settings["size"]) * this.scale;
+    var radius = ronin.brush.settings["size"].to_f() * this.scale;
 
-    var ratio = 10/this.position().distance_to(this.position_prev[0]);
-    ratio = ratio > 1 ? 1 : ratio;
+    var ratio = this.position().distance_to(this.position_prev[0]);
+    // ratio = ratio > 1 ? 1 : ratio;
 
     var target = radius * ratio;
+
+    // return target;
 
     if(this.actual_thickness < target){ this.actual_thickness += 0.25; }
     if(this.actual_thickness > target){ this.actual_thickness -= 0.25; }
@@ -68,7 +70,7 @@ function Pointer(offset = new Position(), color = null, scale = 1)
 
     ronin.frame.context().lineCap="round";
     ronin.frame.context().lineWidth = this.thickness();
-    ronin.frame.context().strokeStyle = this.color ? this.color : ronin.brush.color;
+    ronin.frame.context().strokeStyle = this.color ? this.color : ronin.brush.settings["color"].value;
     ronin.frame.context().stroke();
     ronin.frame.context().closePath();
 
@@ -120,12 +122,12 @@ function Pointer(offset = new Position(), color = null, scale = 1)
   
   this.start = function()
   {
-    var radius = parseFloat(ronin.brush.settings["size"]) * this.scale;
+    var radius = ronin.brush.settings["size"].to_f() * this.scale;
     this.actual_thickness = radius/2;
     ronin.frame.context().beginPath();
     ronin.frame.context().arc(this.position().x, this.position().y, radius/2, 0, 2 * Math.PI, false);
     ronin.frame.context().lineWidth = 0;
-    ronin.frame.context().fillStyle = this.color ? this.color : ronin.brush.color;
+    ronin.frame.context().fillStyle = this.color ? this.color : ronin.brush.settings["color"].to_f();
     ronin.frame.context().fill();
     ronin.frame.context().closePath();
   }

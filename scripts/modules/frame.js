@@ -3,7 +3,8 @@ function Frame(rune)
   Module.call(this,rune);
   
   this.element = null;
-  this.settings = {size:new Rect("200x200")};
+
+  this.size = new Rect("200x200");
 
   this.layers = {};
   this.active_layer = null;
@@ -11,6 +12,7 @@ function Frame(rune)
 
   this.add_method(new Method("resize",[new Position().name,new Rect().name]));
   this.add_method(new Method("select",["text"]));
+  this.add_mode(new Mode("crop"));
   
   this.install = function()
   {
@@ -53,9 +55,9 @@ function Frame(rune)
 
     ronin.on_resize();
 
-    this.settings.size = rect;
+    this.size = rect;
 
-    return 1, "Resized to "+this.settings.size.render();
+    return 1, "Resized to "+this.size.render();
   }
 
   this.select = function(params, preview = false)
@@ -108,7 +110,7 @@ function Frame(rune)
   this.add_layer = function(layer)
   {
     if(this.active_layer){layer.set_depth(this.active_layer.depth+1);}
-    layer.resize(this.settings["size"]);
+    layer.resize(this.size);
     this.layers[layer.name] = layer;
     this.element.appendChild(layer.element);
   }
@@ -161,7 +163,7 @@ function Frame(rune)
   {
     var html = ""
 
-    html += this.settings.size.render()+" ";
+    html += this.size.render()+" ";
     html += this.active_layer.name+" ";
 
     var user_layers = 0;

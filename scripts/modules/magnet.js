@@ -1,23 +1,24 @@
 function Magnet(rune)
 {
   Module.call(this,rune);
-  
-  this.settings = {"grid" : new Rect("1x1"), "marker": new Position("4,4")};
+
+  this.add_setting(new Setting("grid","1x1"));
+  this.add_setting(new Setting("marker","4,4"));
 
   this.add_method(new Method("grid",["rect","position"]));
 
-  this.grid = function(params,preview = false)
+  this.grid = function(cmd,preview = false)
   {
-    if(!params.rect()){ return 0, "Rect?"; }
+    if(!cmd.rect()){ return 0, "Rect?"; }
 
     if(!this.layer){ this.create_layer(); }
 
     this.layer.clear();
-    this.draw_grid(params.rect(),params.position());
+    this.draw_grid(cmd.rect(),cmd.position());
 
     if(preview == false){
-      this.settings["grid"] = params.rect();
-      this.settings["market"] = params.position();
+      this.settings["grid"].update(cmd.rect().render());
+      this.settings["marker"].update(cmd.position().render());
     }
 
     return 1, preview ? "preview" : "ok";
@@ -28,13 +29,13 @@ function Magnet(rune)
     if(!rect){ rect = new Rect("20x20"); }
     if(!grid){ grid = new Position("4,4"); }
 
-    this.settings["grid"] = rect;
-    this.settings["marker"] = grid;
+    this.settings["grid"].update(rect.render());
+    this.settings["marker"].update(grid.render());
 
     if(rect.width < 5 || rect.height < 5){ return; }
 
-    var horizontal = ronin.frame.settings["size"].width/rect.width;
-    var vertical = ronin.frame.settings["size"].height/rect.height;
+    var horizontal = ronin.frame.size.width/rect.width;
+    var vertical = ronin.frame.size.height/rect.height;
     
     for (var x = 1; x < horizontal; x++) {
       for (var y = 1; y < vertical; y++) {
@@ -48,7 +49,7 @@ function Magnet(rune)
 
   this.draw_helper = function(position)
   {    
-    if(this.settings["grid"].width < 5 || this.settings["grid"].height < 5){ return; }
+    if(this.settings["grid"].to_rect().width < 5 || this.settings["grid"].to_rect().height < 5){ return; }
 
     var magnetized = this.magnetic_position(position);
     this.context().beginPath();
@@ -69,19 +70,19 @@ function Magnet(rune)
 
   this.magnetic_position = function(position)
   {
-    var x = parseInt(position.x / this.settings["grid"].width) * this.settings["grid"].width;
-    var y = parseInt(position.y / this.settings["grid"].width) * this.settings["grid"].width;
+    var x = parseInt(position.x / this.settings["grid"].to_rect().width) * this.settings["grid"].to_rect().width;
+    var y = parseInt(position.y / this.settings["grid"].to_rect().width) * this.settings["grid"].to_rect().width;
 
     return new Position(x,y);
   }
 
   this.update_mouse = function(position)
   {
-    if(this.settings["grid"].width > 4 || this.settings["grid"].height > 4){ 
+    if(this.settings["grid"].to_rect().width > 4 || this.settings["grid"].to_rect().height > 4){ 
       if(!this.layer){ this.create_layer(); }
       this.layer.clear();
       this.draw_helper(position);
-      this.draw_grid(this.settings["grid"],this.settings["marker"]);
+      this.draw_grid(this.settings["grid"].to_rect(),this.settings["marker"].to_pos());
     }
     
     return this.magnetic_position(position); 

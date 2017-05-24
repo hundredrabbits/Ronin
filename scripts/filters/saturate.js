@@ -7,7 +7,7 @@ function Filter_Saturate()
   this.render = function(params)
   {
     var color = params.color() ? params.color().floats() : new Color("#999999").floats();
-    var originalData = ronin.frame.context().getImageData(0, 0, ronin.frame.settings["size"].width*2, ronin.frame.settings["size"].height*2);
+    var originalData = ronin.frame.context().getImageData(0, 0, ronin.frame.size.width*2, ronin.frame.size.height*2);
     var data = originalData.data;
 
     for(var i = 0; i < data.length; i += 4) {

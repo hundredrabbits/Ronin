@@ -5,11 +5,30 @@ function Module(rune)
   this.element = null;
   this.settings  = {};
   this.methods  = {};
+  this.modes  = {};
   this.layer = null;
   this.is_locked = false;
 
   this.docs = "Missing documentation.";
   
+  this.add_method = function(method)
+  {
+    method.host = this;
+    this.methods[method.name] = method;
+  }
+
+  this.add_setting = function(setting)
+  {
+    setting.host = this;
+    this.settings[setting.name] = setting;
+  }
+
+  this.add_mode = function(mode)
+  {
+    mode.host = this;
+    this.modes[mode.name] = mode;
+  }
+
   this.install = function()
   {
   }
@@ -30,18 +49,6 @@ function Module(rune)
   {
     if(!this.layer){ this.create_layer(); this.layer.is_blinking = is_blinking }
     return this.layer;
-  }
-
-  this.update_setting = function(name,value)
-  {
-    this.settings[name] = value.content.join(" ");
-    return 1, "ok";
-  }
-
-  this.add_method = function(method)
-  {
-    method.host = this;
-    this.methods[method.name] = method;
   }
   
   this.hint = function(method)

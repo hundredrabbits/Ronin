@@ -1,7 +1,7 @@
 frame.resize 300x300 
 frame.select main 
-layer.fill #ffffff 
-render.stencil 45' #dddddd
+layer.fill #eeeeee 
+render.stencil 45' #cccccc
 path:line_width 43
 path:line_color #000000
 path:line_cap square

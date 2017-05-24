@@ -1,37 +1,31 @@
 function Eye(rune)
 {
   Module.call(this,rune);
+
+  this.add_mode(new Mode("picker"));
   
   // TODO: If a rect is given, return the average color
   this.color_picker = function(position,rect = null)
   {
-    var imgData = ronin.frame.context().getImageData(position.x*2, position.y*2, 1, 1).data;
-    var c = new Color();
-    // ronin.terminal.input_element.value = "* "+(c.rgb_to_hex(imgData));
-    ronin.terminal.update_hint();
+    var pixel = ronin.frame.context().getImageData(position.x*2, position.y*2, 1, 1).data;
+    var hex = new Color().rgb_to_hex({r:pixel[0],g:pixel[1],b:pixel[2]});
+    ronin.terminal.log(new Log(this,"Color at "+position.render()+" is "+hex));
   }
   
   // Mouse
 
-  this.mouse_mode = function()
-  {
-    return "Eye";
-  }
-
   this.mouse_down = function(position)
   {
-    // ronin.overlay.draw(position);
     this.color_picker(position);
   }
   
   this.mouse_move = function(position,rect)
   {
-    ronin.overlay.draw(this.mouse_from,rect);
-    this.color_picker(position,rect);
+    this.color_picker(position);
   }
   
   this.mouse_up = function(position,rect)
   {
-    this.color_picker(position,rect);
+    this.color_picker(position);
   }
 }

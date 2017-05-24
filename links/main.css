@@ -11,13 +11,13 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 
 #terminal #hint, #terminal #widget, #terminal input, #terminal #logs { display: block;position: fixed;bottom: 0px;line-height: 20px; width:calc(100vw - 40px); background:none; color:#777; font-size:11px; padding:5px 20px; white-space: pre; }
 
-#terminal input { z-index: 9000; color:red; font-family: 'input_mono_regular'}
+#terminal input { z-index: 9000; color:#999; font-family: 'input_mono_regular'}
 #terminal input:focus { color:#fff; }
 
 #terminal #logs { position:fixed; bottom:30px; border-bottom:1px solid #222; }
 #terminal #logs .module { font-family: 'input_mono_regular'; color:#ccc; }
 
-#terminal #widget { text-align: right}
+#terminal #widget { text-align: right; bottom:30px}
 #terminal #widget .mouse { color:white; }
 
 #terminal #hint .module { display: inline-block; color:#999; }
@@ -26,5 +26,9 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal #hint .setting { display: inline-block; color:#fff; font-style: italic }
 
 #modal { position: fixed; bottom:80px; right:20px; width:100px; height:100px; background:#111; border-radius:3px; overflow:hidden; display: block}
+#modal.text { display: block;background: white;width:calc(60vw - 60px);height:calc(100vh - 160px);padding:30px;font-size:12px; white-space:pre; column-count: 2; line-height: 16px}
+#modal.text .module { font-family: 'input_mono_regular';}
+#modal.text .setting { font-style: italic; color:#999;}
+#modal.text .mode { text-decoration: underline}
 #modal.image img { display: block; max-height: 100%}
 #modal.hidden { display: none }

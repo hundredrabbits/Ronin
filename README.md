@@ -28,8 +28,6 @@ Where `http://localhost:8022` will load the /presets/default.rin file, `http://l
     balance 0.8       ~ equal RGB balance
   Brush
     Texture paint
-    Natural brush(Expand stroke size from stroke lenght)
-    Color per pointer
   Save
     source.save 1280x800 ~ Export with size
   > Terminal

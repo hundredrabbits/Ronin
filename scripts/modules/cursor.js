@@ -1,8 +1,9 @@
 function Cursor(rune)
 {
   Module.call(this,rune);
-  
-  this.settings = {color: "#000000",color_alt: "#fffffff"};
+
+  this.add_setting(new Setting("color","#000000"));
+  this.add_setting(new Setting("color_alt","#fffffff"));
 
   this.mode = null;
   this.position = new Position();
@@ -17,11 +18,11 @@ function Cursor(rune)
     if(this.is_inside){
       this.set_mode(ronin.default)
     }
+    else if(keyboard.shift_held,keyboard.alt_held){
+      this.set_mode(ronin.frame.active_layer);
+    }
     else if(ronin.terminal.cmd().module()){
       this.set_mode(ronin.terminal.cmd().module());
-    }
-    else if(event && event.altKey == true && event.shiftKey == true){
-      this.set_mode(ronin.frame.active_layer);
     }
     else if(event && event.altKey == true){
       this.set_mode(ronin.default);
@@ -43,6 +44,9 @@ function Cursor(rune)
 
   this.mouse_down = function(position,e)
   {
+    var true_pos = e.clientX;
+    var better_pos = (e.clientX/parseFloat(window.innerWidth)) * window.innerWidth;
+
     if(this.layer){ this.layer.clear(); }
 
     this.position = ronin.magnet.update_mouse(position);
@@ -95,9 +99,11 @@ function Cursor(rune)
     this.position = ronin.magnet.update_mouse(position);
     this.position_in_window = new Position(e.clientX,e.clientY);
 
-    var rect = new Rect();
-    rect.width = this.position.x - this.mode.mouse_from.x;
-    rect.height = this.position.y - this.mode.mouse_from.y;
+    if(this.mode.mouse_from){
+      var rect = new Rect();
+      rect.width = this.position.x - this.mode.mouse_from.x;
+      rect.height = this.position.y - this.mode.mouse_from.y;
+    }
 
     if(!this.mode){ return; }
 
@@ -120,8 +126,6 @@ function Cursor(rune)
 
     this.is_inside = true;
     this.update();
-
-    console.log("over")
   }
 
   this.mouse_inside = function()
@@ -130,7 +134,6 @@ function Cursor(rune)
 
     this.is_inside = false;
     this.update();
-    console.log("off") 
   }
 
   this.draw_pointer_arrow = function(position,size = 1)

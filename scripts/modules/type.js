@@ -3,20 +3,22 @@ function Type(rune)
   Module.call(this,rune);
 
   this.add_method(new Method("write",["Position","Text"],"Add position"));
+  this.add_mode(new Mode("write"));
+  this.add_setting(new Setting("color","#ffffff"));
+  this.add_setting(new Setting("size","20"));
+  this.add_setting(new Setting("font","Din"));
 
-  this.settings = {"color":"#ffffff","size":"20","font":"Din"};
-
-  this.write = function(params,preview = false)
+  this.write = function(cmd,preview = false)
   {
     if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
-
+    
     this.layer.clear();
 
-    var text = params.text() ? params.text() : "Placeholder";
-    var position = params.position() ? params.position() : new Position(40,80);
-    var color = this.settings["color"];
-    var size = this.settings["size"];
-    var font = this.settings["font"];
+    var text = cmd.text() ? cmd.text() : "Placeholder";
+    var position = cmd.position() ? cmd.position() : new Position(40,80);
+    var color = this.settings["color"].value;
+    var size = parseFloat(this.settings["size"].value);
+    var font = this.settings["font"].value;
 
     var target_layer = preview ? this.layer : ronin.frame.active_layer;
     target_layer.context().font = size+"px "+font;

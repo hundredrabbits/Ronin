@@ -40,7 +40,7 @@ function Terminal(rune)
       method.run(command);
     }
     if(setting){
-      module.settings[setting] = command.values();
+      module.settings[setting].update(command.values());
       this.log(new Log(module,setting+" = "+command.values()));
     }
     this.hint_element.innerHTML = "";
@@ -60,7 +60,7 @@ function Terminal(rune)
       method.preview(command);
     }
     this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " " : "")+(module ? module.hint(method) : this.hint(method));
-    ronin.cursor.set_mode(module);
+    ronin.cursor.update();
   }
 
   this.run_multi = function(lines)

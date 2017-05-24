@@ -32,22 +32,4 @@ function Render(rune)
     if(preview){ f.preview(cmd); }
     else{ f.render(cmd); }
   }
-
-  this.hint = function(method)
-  {
-    var html = "";
-    var filter_name = ronin.terminal.input.value.split(" ")[0].split(".")[1];
-
-    if(this.filters[filter_name]){
-      return this.filters[filter_name].hint();
-    }
-    else{
-      for (var key in this.filters){
-        html += key+" ";
-      }  
-    }
-
-    return html;  
-  }
-
 }

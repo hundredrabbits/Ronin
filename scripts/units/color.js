@@ -33,7 +33,7 @@ function Color(hex = '#000000')
   
   this.rgb_to_hex = function(rgb)
   {
-    return "#"+("0" + parseInt(rgb[0],10).toString(16)).slice(-2)+("0" + parseInt(rgb[1],10).toString(16)).slice(-2)+("0" + parseInt(rgb[2],10).toString(16)).slice(-2);
+    return "#"+parseInt(rgb.r,10).toString(16)+parseInt(rgb.g,10).toString(16)+parseInt(rgb.b,10).toString(16);
   }
 
   this.brightness = function()

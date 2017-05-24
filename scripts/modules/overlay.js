@@ -2,8 +2,6 @@ function Overlay(rune)
 {
   Module.call(this,rune);
   
-  this.parameters = [Position,Rect,Color];
-  
   this.color = new Color("#ffffff");
 
   // draw

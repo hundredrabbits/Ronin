@@ -35,8 +35,8 @@ function Layer(name,manager = null)
     var position = params.position();
     var angle = params.angle().degrees;
 
-    var w = ronin.frame.settings["size"].width;
-    var h = ronin.frame.settings["size"].height;
+    var w = ronin.frame.size.width;
+    var h = ronin.frame.size.height;
 
     ronin.render.get_layer().clear();
     ronin.render.context().drawImage(ronin.frame.context().canvas,0,0,w,h);
@@ -138,7 +138,7 @@ function Layer(name,manager = null)
 
   this.data = function()
   {
-    return this.context().getImageData(0, 0, ronin.frame.settings["size"].width * 2, ronin.frame.settings["size"].height * 2);
+    return this.context().getImageData(0, 0, ronin.frame.size.width * 2, ronin.frame.size.height * 2);
   }
 
   //

@@ -9,8 +9,8 @@ function Filter_Sharpen()
     var imageObj = new Image();
     imageObj.src = ronin.frame.active_layer.element.toDataURL('image/png');
 
-    var w = ronin.frame.settings["size"].width;
-    var h = ronin.frame.settings["size"].height;
+    var w = ronin.frame.size.width;
+    var h = ronin.frame.size.height;
     var context = ronin.frame.context();
     
     var originalData = context.getImageData(0, 0, w*2, h*2);
