@@ -83,6 +83,7 @@ function Ronin()
 
   this.on_resize = function()
   {
+    ronin.frame.center();
   }
 
   this.on_drag = function()

@@ -88,6 +88,12 @@ function Frame(rune)
     setTimeout(function(){ ronin.frame.blink(); }, 30);
   }
 
+  this.center = function()
+  {
+    ronin.frame.element.style.left = (window.innerWidth/2) - (ronin.frame.element.width/4);
+    ronin.frame.element.style.top = (window.innerHeight/2) - (ronin.frame.element.height/4) - 30;
+  }
+
   this.select_layer = function(layer)
   {
     this.active_layer = layer;
