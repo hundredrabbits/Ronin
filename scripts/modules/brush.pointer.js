@@ -127,7 +127,7 @@ function Pointer(offset = new Position(), color = null, scale = 1)
     ronin.frame.context().beginPath();
     ronin.frame.context().arc(this.position().x, this.position().y, radius/2, 0, 2 * Math.PI, false);
     ronin.frame.context().lineWidth = 0;
-    ronin.frame.context().fillStyle = this.color ? this.color : ronin.brush.settings["color"].to_f();
+    ronin.frame.context().fillStyle = this.color ? this.color : ronin.brush.settings["color"].value;
     ronin.frame.context().fill();
     ronin.frame.context().closePath();
   }
