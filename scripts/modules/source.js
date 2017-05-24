@@ -99,16 +99,16 @@ function Source(rune)
     html = "";
 
     for(module_id in ronin.modules){
-      html += "<span class='module'>"+ronin.modules[module_id].name+"</span><br/>";
+      html += ronin.modules[module_id]+"\n";
 
       for(mode_id in ronin.modules[module_id].modes){
-        html += "  <span class='mode'>~"+(ronin.modules[module_id].modes[mode_id].key ? '['+ronin.modules[module_id].modes[mode_id].key+']' : "")+""+ronin.modules[module_id].modes[mode_id].name+"</span><br />"
+        html += "  "+ronin.modules[module_id].modes[mode_id]+"\n";
       }
       for(setting_id in ronin.modules[module_id].settings){
-        html += "  <span class='setting'>:"+ronin.modules[module_id].settings[setting_id].name+"</span><br />"
+        html += "  "+ronin.modules[module_id].settings[setting_id]+"\n";
       }
       for(method_id in ronin.modules[module_id].methods){
-        html += "  <span class='method'>."+ronin.modules[module_id].methods[method_id].name+"</span><br />"
+        html += "  "+ronin.modules[module_id].methods[method_id]+"\n";
       }
     }
 

@@ -60,10 +60,13 @@ function Module(rune)
     }
     else{
       for(id in this.methods){
-        html += "<span class='method'>."+this.methods[id].name+"</span> ";
+        html += this.methods[id]+" ";
       }
       for(id in this.settings){
-        html += "<span class='setting'>:"+id+"</span> ";
+        html += this.settings[id]+" ";
+      }
+      for(mode in this.modes){
+        html += this.modes[mode]+" ";
       }
     }
 
@@ -149,5 +152,10 @@ function Module(rune)
 
   this.key_arrow_right = function()
   { 
+  }
+
+  this.toString = function()
+  {
+    return "<span class='module'>"+this.name+"</span>";
   }
 }

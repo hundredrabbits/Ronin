@@ -10,4 +10,9 @@ function Mode(name,key = "")
   {
     return "?";
   }
+
+  this.toString = function()
+  {
+    return "<span class='mode'>~"+this.name+(this.key ? '['+this.key+']' : '')+"</span>"
+  }
 }

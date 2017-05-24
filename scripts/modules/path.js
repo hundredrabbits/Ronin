@@ -2,6 +2,11 @@ function Path(rune)
 {
   Module.call(this,rune);
 
+  this.add_mode(new Mode("stroke"));
+  this.add_mode(new Mode("arc","shift"));
+  this.add_mode(new Mode("arc_cc","alt"));
+  this.add_mode(new Mode("stem","shift_alt"));
+
   this.add_setting(new Setting("fill_color","#ff0000"));
   this.add_setting(new Setting("line_width","3"));
   this.add_setting(new Setting("line_color","#999"));
@@ -99,7 +104,7 @@ function Path(rune)
 
   this.mouse_down = function(position)
   {
-    var method = ronin.terminal.cmd().method().name;
+    var method = ronin.terminal.cmd().method() ? ronin.terminal.cmd().method().name : "stroke";
     var line = "path."+method+" "+this.create_path();
     line += "M"+position.render();
     ronin.terminal.update(line);

@@ -11,6 +11,11 @@ function Setting(name,value)
     return "?";
   }
 
+  this.toString = function()
+  {
+    return "<span class='setting'>:"+this.name+(this.key ? '['+this.value+']' : '')+"</span>"
+  }
+
   this.update = function(value)
   {
     this.value = value;
@@ -30,4 +35,5 @@ function Setting(name,value)
   {
     return new Position(this.value);
   }
+
 }
