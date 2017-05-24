@@ -14,7 +14,10 @@ function Cursor(rune)
 
   this.update = function(event = null)
   {
-    if(ronin.terminal.cmd().module()){
+    if(this.is_inside){
+      this.set_mode(ronin.default)
+    }
+    else if(ronin.terminal.cmd().module()){
       this.set_mode(ronin.terminal.cmd().module());
     }
     else if(event && event.altKey == true && event.shiftKey == true){
@@ -51,15 +54,24 @@ function Cursor(rune)
       if(!position.is_outside()){
         this.mode.mouse_down(this.position);  
       }
+      else{
+        ronin.cursor.set_mode(ronin.default);
+        ronin.default.mouse_down(this.position);
+      }
     }
   }
   
   this.mouse_move = function(position,e)
   {
     if(!this.layer){ this.create_layer(); }
+
+    // On/Out
+    if(position.is_outside()){ this.mouse_outside(); }
+    else{ this.mouse_inside(); }
       
     this.layer.clear();
 
+    // Magnet
     this.position = ronin.magnet.update_mouse(position);
     this.position_in_window = new Position(e.clientX,e.clientY);
 
@@ -96,6 +108,29 @@ function Cursor(rune)
       this.mode.mouse_held = false;
     }
     this.mode.mouse_from = null;
+  }
+
+  // over/out
+
+  this.is_inside = false;
+
+  this.mouse_outside = function()
+  {
+    if(this.is_inside){ return; }
+
+    this.is_inside = true;
+    this.update();
+
+    console.log("over")
+  }
+
+  this.mouse_inside = function()
+  {
+    if(!this.is_inside){ return; }
+
+    this.is_inside = false;
+    this.update();
+    console.log("off") 
   }
 
   this.draw_pointer_arrow = function(position,size = 1)
@@ -135,7 +170,7 @@ function Cursor(rune)
     this.layer.context().beginPath();
     this.layer.context().arc(position.x, position.y, size/2, 0, 2 * Math.PI, false);
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
+    this.layer.context().strokeStyle = ronin.brush.color;
     this.layer.context().stroke();
     this.layer.context().closePath();
 
@@ -197,6 +232,7 @@ function Cursor(rune)
 
   this.draw_pointer = function(position,size = 1)
   {
+    if(!this.is_inside){ return; }
     if(!this.layer){ this.create_layer(); }
 
     this.pointer_last = this.pointer_last ? this.pointer_last : position;
@@ -246,7 +282,7 @@ function Cursor(rune)
 
   this.widget = function()
   {
-    return "<span class='mouse'>"+this.mode.mouse_mode()+"</span>";
+    return "<span class='mouse'>"+this.mode.name+"."+this.mode.mouse_mode()+"</span>";
   }
   
   this.key_escape = function()

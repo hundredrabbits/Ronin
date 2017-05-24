@@ -15,16 +15,16 @@ function Default(rune)
   }
   
   this.drag_from = null;
-  this.drag_offset_x = 0;
-  this.drag_offset_y = 0;
 
   this.mouse_down = function(position)
   {
+    console.log("down")
     this.drag_from = ronin.cursor.position_in_window;
   }
   
   this.mouse_move = function(position)
   {
+    console.log("move")
     if(this.drag_from === null){ return; }
 
     var offset = ronin.cursor.position_in_window.offset(this.drag_from);
@@ -39,6 +39,7 @@ function Default(rune)
   
   this.mouse_up = function(event)
   {
+    console.log("up")
     this.drag_from = null;
   }
 }

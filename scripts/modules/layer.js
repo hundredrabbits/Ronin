@@ -153,80 +153,30 @@ function Layer(name,manager = null)
     return "Move";
   }
   
+  this.drag_from = null;
+
+  this.mouse_down = function(position)
+  {
+    this.drag_from = ronin.cursor.position_in_window;
+  }
+
   this.mouse_move = function(position)
   {
-    var offset = new Position((-this.mouse_from.x + position.x)+","+(-this.mouse_from.y + position.y));
+    if(this.drag_from === null){ return; }
 
-    ronin.overlay.get_layer(true).clear();
-    ronin.overlay.draw_cross(this.mouse_from);
-    ronin.overlay.draw_cross(position);
-    ronin.overlay.draw_line(this.mouse_from,position);
+    var offset = ronin.cursor.position_in_window.offset(this.drag_from);
+
+    var data = this.data();
+    this.clear();
+    this.context().putImageData(data, offset.x * 2, offset.y * 2);
+
+    this.drag_from = ronin.cursor.position_in_window;
   }
   
   this.mouse_up = function(position)
   {
-    var offset = new Position((-this.mouse_from.x + position.x)+","+(-this.mouse_from.y + position.y));
-
-    ronin.overlay.get_layer(true).clear();
-    ronin.overlay.draw_circle(position);
-    ronin.overlay.draw_circle(this.mouse_from);
-    ronin.overlay.draw_line(this.mouse_from,position);
-
-    // ronin.terminal.input_element.value = "layer."+ronin.terminal.method_name+" "+offset.render();
-
-    // if(this.coordinates.length == 0){
-    //   this.coordinates.push("M"+position.render());
-    // }
-    // else{
-    //   var offset = this.last_pos ? position.offset(this.last_pos) : position;
-
-    //   if(keyboard.shift_held == true && keyboard.alt_held == true){
-    //     this.coordinates.push("M"+position.render());
-    //   }
-    //   else if(keyboard.shift_held == true){
-    //     this.coordinates.push("a"+offset.render()+" 0 0,1 "+offset.render());
-    //   }
-    //   else if(keyboard.alt_held == true){
-    //    this.coordinates.push("a"+offset.render()+" 0 0,0 "+offset.render()); 
-    //   }
-    //   else{
-    //     this.coordinates.push("l"+offset.render());
-    //   }
-    // }
-
-    // ronin.terminal.input_element.value = "path."+ronin.terminal.method_name+" "+this.create_path();
-    // this.last_pos = position;
-    // ronin.terminal.passive();
+    this.drag_from = null;
   }
-  
-  // this.move_from = null;
-
-  // this.mouse_down = function(position)
-  // {
-  //   this.move_from = ronin.position_in_window(position);
-  // }
-  
-  // this.mouse_move = function(position)
-  // {
-  //   if(this.move_from === null){ return; }
-
-  //   position = ronin.position_in_window(position);
-    
-  //   var offset_x = this.move_from.x - position.x;
-  //   var offset_y = this.move_from.y - position.y;
-
-  //   var imageData = this.context().getImageData(0, 0, ronin.frame.settings["size"].width * 2, ronin.frame.settings["size"].height * 2);
-  //   this.clear();
-  //   this.context().putImageData(imageData, -offset_x * 2, -offset_y * 2);
-
-  //   this.move_from = new Position(position.x,position.y);
-    
-  // }
-  
-  // this.mouse_up = function(event)
-  // {
-  //   this.move_from = null;
-  // }
 
   // Blink
 

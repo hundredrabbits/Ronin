@@ -1,4 +1,4 @@
-function Pointer(offset = new Position(), color = new Color().hex, scale = 1)
+function Pointer(offset = new Position(), color = null, scale = 1)
 {
   this.offset = offset;
   this.color = color;
@@ -68,7 +68,7 @@ function Pointer(offset = new Position(), color = new Color().hex, scale = 1)
 
     ronin.frame.context().lineCap="round";
     ronin.frame.context().lineWidth = this.thickness();
-    ronin.frame.context().strokeStyle = this.color;
+    ronin.frame.context().strokeStyle = this.color ? this.color : ronin.brush.color;
     ronin.frame.context().stroke();
     ronin.frame.context().closePath();
 
@@ -125,7 +125,7 @@ function Pointer(offset = new Position(), color = new Color().hex, scale = 1)
     ronin.frame.context().beginPath();
     ronin.frame.context().arc(this.position().x, this.position().y, radius/2, 0, 2 * Math.PI, false);
     ronin.frame.context().lineWidth = 0;
-    ronin.frame.context().fillStyle = this.color;
+    ronin.frame.context().fillStyle = this.color ? this.color : ronin.brush.color;
     ronin.frame.context().fill();
     ronin.frame.context().closePath();
   }

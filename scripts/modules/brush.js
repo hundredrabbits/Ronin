@@ -64,10 +64,10 @@ function Brush(rune)
   this.mouse_mode = function()
   {
     if(keyboard.shift_held == true){
-      return "Eraser "+this.settings.size;
+      return "Erase "+this.settings.size;
     }
     else{
-      return "Brush <i style='color:"+this.settings["color"]+"'>&#9679;</i> "+this.settings.size;  
+      return "Paint <i style='color:"+this.settings["color"]+"'>&#9679;</i> "+this.settings.size;  
     }
   }
   
