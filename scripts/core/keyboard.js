@@ -65,12 +65,12 @@ function Keyboard()
 
   this.key_arrow_up = function()
   {
-    if(ronin.module){ ronin.module.key_arrow_up(); }
+    ronin.frame.select_layer(ronin.frame.layer_above());
   }
 
   this.key_arrow_down = function()
   {
-    if(ronin.module){ ronin.module.key_arrow_down(); }
+    ronin.frame.select_layer(ronin.frame.layer_below());
   }
 
   this.key_arrow_left = function()

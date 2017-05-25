@@ -1,7 +1,9 @@
 frame.resize 300x300 
-frame.select main 
+frame.select background
 layer.fill #eeeeee 
+frame.select stencil
 render.stencil 45' #cccccc
+frame.select logo
 path:line_width 43
 path:line_color #000000
 path:line_cap square

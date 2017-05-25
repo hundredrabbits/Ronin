@@ -90,8 +90,8 @@ function Magnet(rune)
 
   this.widget = function()
   {
-    if(this.settings["grid"].width < 2 || this.settings["grid"].height < 2){ return ""; }
-    return this.settings["grid"].render();
+    if(this.settings["grid"].to_rect().width < 2 || this.settings["grid"].to_rect().height < 2){ return ""; }
+    return this.settings["grid"].value;
   }
 
   this.key_escape = function()

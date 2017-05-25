@@ -17,7 +17,7 @@ function Frame(rune)
   this.install = function()
   {
     this.blink();
-    this.select(new Command("frame.select main"));
+    this.select(new Command("frame.select background"));
 
     // Canvas
     var starting_canvas = new Rect();
@@ -60,11 +60,12 @@ function Frame(rune)
     return 1, "Resized to "+this.size.render();
   }
 
-  this.select = function(params, preview = false)
+  this.select = function(cmd, preview = false)
   {
     if(preview){ return; }
 
-    var layer_name = "main";
+    var layer_name = cmd.values();
+
     if(!ronin.frame.layers[layer_name]){
       this.add_layer(new Layer(layer_name));
     }
@@ -72,7 +73,7 @@ function Frame(rune)
     ronin.modules["layer"] = this.layers[layer_name];
     ronin.layer = this.layers[layer_name];
 
-    return 1, "ok";
+    return 1, "Selected "+this.active_layer.name;
   }
 
   this.context = function()
@@ -98,6 +99,7 @@ function Frame(rune)
 
   this.select_layer = function(layer)
   {
+    if(!layer){ return; }
     this.active_layer = layer;
   }
 
@@ -117,22 +119,22 @@ function Frame(rune)
 
   // Commands
 
-  this.layer_up = function()
+  this.layer_above = function()
   {
     var keys = Object.keys(ronin.frame.layers);
     var loc = keys.indexOf(this.active_layer.name);
 
     if(loc >= keys.length-1){ console.log("Reached end"); return false; }
 
-    if(keys[loc+1] != null){this.select_layer(ronin.frame.layers[keys[loc+1]]);}
+    if(keys[loc+1] != null){ return ronin.frame.layers[keys[loc+1]]; }
   }
 
-  this.layer_down = function()
+  this.layer_below = function()
   {
     var keys = Object.keys(ronin.frame.layers);
     var loc = keys.indexOf(this.active_layer.name);
 
-    if(keys[loc-1] != null){this.select_layer(ronin.frame.layers[keys[loc-1]]);}
+    if(keys[loc-1] != null){ return ronin.frame.layers[keys[loc-1]]; }
   }
 
   // Cursor
@@ -182,6 +184,29 @@ function Frame(rune)
 
     html += user_layers+"&"+managed_layers+" ";
 
+    html += this.widget_map()+" "
+
     return html
+  }
+
+  this.widget_map = function()
+  {
+    html = ""
+    var keys = Object.keys(ronin.frame.layers);
+    var loc = keys.indexOf(this.active_layer.name);
+    i = 0;
+    while(i < keys.length){
+      if(i == loc){
+        html += "<span style='color:white'>|</span>";
+      }
+      else if(this.layers[keys[i]].manager){
+        html += "<span style='color:red'>|</span>";        
+      }
+      else{
+        html += "|";
+      }
+      i += 1;
+    }
+    return html;
   }
 }

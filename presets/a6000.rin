@@ -1,0 +1,5 @@
+frame.resize 795x450
+source.load /target.jpg x450
+source:format jpg
+source:quality 0.9
+source.save
