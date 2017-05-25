@@ -4,7 +4,7 @@ function Layer(name,manager = null)
 
   this.add_method(new Method("translate",["position"]));
   this.add_method(new Method("rotate",["position","angle"]));
-  this.add_method(new Method("scale",["position","value"]));
+  this.add_method(new Method("scale",["float"]));
   this.add_method(new Method("clear",[]));
   this.add_method(new Method("rotate",["position","angle"]));
   this.add_method(new Method("mirror",["position"]));
@@ -20,11 +20,19 @@ function Layer(name,manager = null)
   this.element.setAttribute("class","layer");
   this.depth = 0;
 
-  this.scale = function(params,preview = false)
+  this.scale = function(cmd,preview = false)
   {
-    // TODO
-    // ronin.render.get_layer();
-    // ronin.render.context().drawImage(ronin.frame.context().canvas,0,0,w/2,h/2);
+    if(preview){ return; }
+
+    var ratio = parseFloat(cmd.values());
+    var data = ronin.frame.context().canvas;
+
+    ronin.render.get_layer().clear();
+    ronin.render.context().drawImage(ronin.frame.context().canvas,0,0,w,h);
+    
+    ronin.frame.context().drawImage(ronin.render.context().canvas, -position.x, -position.y,w,h)
+
+    ronin.frame.context().drawImage(data,0,0,ronin.frame.size.width * ratio,ronin.frame.size.height * ratio);
   }
 
   this.rotate = function(params, preview = false)
