@@ -139,7 +139,7 @@ function Overlay(rune)
     this.context().beginPath();
     
     this.context().moveTo(position.x,0);
-    this.context().lineTo(position.x,this.element.height);
+    this.context().lineTo(position.x,ronin.frame.size.height);
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;
@@ -153,7 +153,7 @@ function Overlay(rune)
     this.context().beginPath();
     
     this.context().moveTo(0,position.y);
-    this.context().lineTo(this.element.width,position.y);
+    this.context().lineTo(ronin.frame.size.width,position.y);
     
     this.context().lineCap="round";
     this.context().lineWidth = 1;

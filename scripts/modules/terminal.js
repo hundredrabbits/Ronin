@@ -1,6 +1,6 @@
 function Terminal(rune)
 {
-  Module.call(this,">");
+  Module.call(this);
 
   this.element = document.createElement("div");
   this.input = document.createElement("input");
@@ -13,8 +13,7 @@ function Terminal(rune)
   this.history = [];
   this.locks = [];
 
-  this.add_method(new Method("save",["text"]));
-  this.add_method(new Method("load",["path"]));
+  this.add_method(new Method("load",["file_name.rin"]));
 
   // Module
   this.install = function(cmd)
@@ -59,7 +58,7 @@ function Terminal(rune)
     if(method){
       method.preview(command);
     }
-    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " " : "")+(module ? module.hint(method) : this.hint(method));
+    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " " : "")+(module ? module.hint(method) : ronin.hint(method));
     ronin.cursor.update();
   }
 
@@ -74,23 +73,6 @@ function Terminal(rune)
     if(lines.length > 0){ setTimeout(function(){ ronin.terminal.run_multi(lines.join(";")) }, 50); }
   }
 
-  this.hint = function(method)
-  {
-    var html = "";
-    if(this.input.value){
-      for(id in ronin.modules){
-        if(this.input.value != ronin.modules[id].name.substr(0,this.input.value.length)){ continue; }
-        html += "<span class='module'>"+ronin.modules[id].name+"</span> ";
-      }
-    }
-    else{
-      for(id in ronin.modules){
-        html += "<span class='module'>"+ronin.modules[id].name+"</span> ";
-      }
-    }
-    return html;
-  }
-
   this.log = function(log)
   {
     this.logs_element.innerHTML = "";
@@ -100,6 +82,15 @@ function Terminal(rune)
   this.cmd = function()
   {
     return new Command(this.input.value);
+  }
+
+  this.load = function(cmd,preview = false)
+  {
+    if(preview){ return; }
+
+    ronin.load(cmd.values());
+
+    return "Loading "+cmd.values();
   }
 }
 

@@ -63,6 +63,23 @@ function Ronin()
     ronin.terminal.input.focus();
     ronin.load(target_file);
   }
+
+  this.hint = function(method)
+  {
+    var html = "";
+    if(this.terminal.input.value){
+      for(id in ronin.modules){
+        if(this.terminal.input.value != ronin.modules[id].name.substr(0,this.terminal.input.value.length)){ continue; }
+        html += "<span class='module'>"+ronin.modules[id].name+"</span> ";
+      }
+    }
+    else{
+      for(id in ronin.modules){
+        html += "<span class='module'>"+ronin.modules[id].name+"</span> ";
+      }
+    }
+    return html;
+  }
   
   this.cursors = [];
   

@@ -12,6 +12,6 @@ type.write 38,262 "RONIN"
 type:font "DIN Medium"
 type.write 38,252 "B09"
 brush:color #ff0000
-brush:size 2
+brush:size 5
 path:line_width 20
 path:line_color #999999

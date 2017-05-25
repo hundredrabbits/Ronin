@@ -8,16 +8,31 @@ function Brush(rune)
   this.add_mode(new Mode("erase","alt"));
   this.add_setting(new Setting("color","#00ff00"));
   this.add_setting(new Setting("size","2"));
-  this.add_method(new Method("add_pointer",["Position","Color","Scale"]));
+  this.add_method(new Method("add_pointer",["Position","Color","Scale","mirror_x","mirror_y"]));
 
   this.add_pointer = function(cmd, preview = false)
   {
-    if(preview){ return; }
+    if(cmd.option("mirror_x")){
+      var mirror_x = parseFloat(cmd.option("mirror_x").value);
+      ronin.overlay.draw(new Position(mirror_x+",0"))
+    }
+    if(cmd.option("mirror_y")){
+      var mirror_y = parseFloat(cmd.option("mirror_y").value);
+      ronin.overlay.draw(new Position("0,"+mirror_y))
+    }
+
+    if(preview){ 
+      return;
+    }
 
     var pointer = new Pointer();
     pointer.offset = cmd.position() ? cmd.position() : new Position("0,0");
-    pointer.color = cmd.color().hex ? cmd.color().hex : this.settings["color"].value;
-    pointer.scale = cmd.value().float ? cmd.value().float : 1;
+    pointer.color = cmd.color() ? cmd.color().hex : this.settings["color"].value;
+    pointer.scale = cmd.value() ? cmd.value().float : 1;
+
+    if(mirror_x){ pointer.mirror_x = mirror_x; }
+    if(mirror_y){ pointer.mirror_y = mirror_y; }
+
     this.pointers.push(pointer);
 
     ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset.render()));

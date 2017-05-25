@@ -116,6 +116,14 @@ function Command(content)
     return null;
   }
   
+  this.option = function(name)
+  {
+    for (i = 0; i < this.parts.length; i++) {
+      if(this.parts[i].indexOf(name+"=") >= 0){ return new Option(this.parts[i]); }
+    }
+    return null;
+  }
+  
   this.bang = function()
   {
     for (i = 0; i < this.parts.length; i++) {
