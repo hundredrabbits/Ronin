@@ -4,7 +4,7 @@ function Bang()
   
   this.example = "";
   
-  this.render = function()
+  this.toString = function()
   {
     return "BANG";
   }

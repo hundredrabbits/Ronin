@@ -4,6 +4,7 @@ function Magnet(rune)
 
   this.add_setting(new Setting("grid","1x1"));
   this.add_setting(new Setting("marker","4,4"));
+  this.add_setting(new Setting("color","#000000"));
 
   this.add_method(new Method("grid",["rect","position"]));
 
@@ -17,8 +18,8 @@ function Magnet(rune)
     this.draw_grid(cmd.rect(),cmd.position());
 
     if(preview == false){
-      this.settings["grid"].update(cmd.rect().render());
-      this.settings["marker"].update(cmd.position().render());
+      if(cmd.rect()){ this.settings["grid"].update(cmd.rect().toString());}
+      if(cmd.position()){ this.settings["marker"].update(cmd.position().toString());}
     }
 
     return 1, preview ? "preview" : "ok";
@@ -29,8 +30,8 @@ function Magnet(rune)
     if(!rect){ rect = new Rect("20x20"); }
     if(!grid){ grid = new Position("4,4"); }
 
-    this.settings["grid"].update(rect.render());
-    this.settings["marker"].update(grid.render());
+    this.settings["grid"].update(rect.toString());
+    this.settings["marker"].update(grid.toString());
 
     if(rect.width < 5 || rect.height < 5){ return; }
 
@@ -54,7 +55,7 @@ function Magnet(rune)
     var magnetized = this.magnetic_position(position);
     this.context().beginPath();
     this.context().arc(magnetized.x, magnetized.y, 4, 0, 2 * Math.PI, false);
-    this.context().strokeStyle = 'white';
+    this.context().strokeStyle = this.settings["color"].value;
     this.context().stroke();
     this.context().closePath();
   }
@@ -63,7 +64,7 @@ function Magnet(rune)
   {
     this.context().beginPath();
     this.context().arc(position.x, position.y, size, 0, 2 * Math.PI, false);
-    this.context().fillStyle = 'white';
+    this.context().fillStyle = this.settings["color"].value;
     this.context().fill();
     this.context().closePath();
   }

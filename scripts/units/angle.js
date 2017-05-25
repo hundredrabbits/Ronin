@@ -6,7 +6,7 @@ function Angle(angle_str = "0'")
   
   this.degrees = parseFloat(angle_str.replace('\'',''));
   
-  this.render = function()
+  this.toString = function()
   {
     return this.degrees+"'";
   }

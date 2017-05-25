@@ -141,6 +141,6 @@ function Pointer(offset = new Position(), color = null, scale = 1)
 
   this.widget = function()
   {
-    return this.offset.render();
+    return this.offset.toString();
   }
 }

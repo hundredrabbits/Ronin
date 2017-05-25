@@ -5,7 +5,7 @@ function Any(str)
   this.example = "";
   this.string = str;
   
-  this.render = function()
+  this.toString = function()
   {
     return this.string;
   }

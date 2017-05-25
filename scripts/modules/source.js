@@ -56,7 +56,7 @@ function Source(rune)
       ronin.source.unlock();
     }
 
-    return 1,"Loaded "+params.filepath().path+" at "+position.render();
+    return 1,"Loaded "+params.filepath().path+" at "+position.toString();
   }
 
   this.save = function(params,preview = false)

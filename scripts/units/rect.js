@@ -9,7 +9,7 @@ function Rect(rect_str)
   
   this.example = "200x300";
   
-  this.render = function()
+  this.toString = function()
   {
     return (isNaN(this.width) ? 0 : this.width)+"x"+(isNaN(this.height) ? 0 : this.height);
   }

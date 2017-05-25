@@ -5,13 +5,13 @@ function Brush(rune)
   this.pointers = [new Pointer(new Position("0,0"))];
 
   this.add_mode(new Mode("paint"));
-  this.add_mode(new Mode("erase","alt"));
-  this.add_setting(new Setting("color","#00ff00"));
+  this.add_mode(new Mode("erase","shift"));
+  this.add_setting(new Setting("color","#000000"));
   this.add_setting(new Setting("size","2"));
-  this.add_method(new Method("add_pointer",["Position","Color","Scale","mirror_x","mirror_y"]));
+  this.add_method(new Method("add",["Position","Color","Scale","mirror_x","mirror_y"]));
   this.add_method(new Method("clear"));
 
-  this.add_pointer = function(cmd, preview = false)
+  this.add = function(cmd, preview = false)
   {
     if(cmd.option("mirror_x")){
       var mirror_x = parseFloat(cmd.option("mirror_x").value);
@@ -36,12 +36,12 @@ function Brush(rune)
 
     this.pointers.push(pointer);
 
-    ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset.render()));
+    ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset.toString()));
     
     return 1, "ok";
   }
 
-  this.clear = function()
+  this.remove = function()
   {
     this.pointers = [];
     return 1,"Removed all pointers.";

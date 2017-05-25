@@ -57,7 +57,7 @@ function Frame(rune)
 
     this.size = rect;
 
-    return 1, "Resized to "+this.size.render();
+    return 1, "Resized to "+this.size.toString();
   }
 
   this.select = function(cmd, preview = false)
@@ -149,9 +149,9 @@ function Frame(rune)
   
   this.mouse_up = function(position,rect)
   {
-    ronin.overlay.draw(this.mouse_from,rect)+" "+rect.render();
+    ronin.overlay.draw(this.mouse_from,rect)+" "+rect.toString();
 
-    var line = "frame.resize "+this.mouse_from.render()+" "+rect.render();
+    var line = "frame.resize "+this.mouse_from.toString()+" "+rect.toString();
     ronin.terminal.update(line);
   }
 
@@ -159,7 +159,7 @@ function Frame(rune)
   {
     var html = ""
 
-    html += this.size.render()+" ";
+    html += this.size.toString()+" ";
     html += this.active_layer.name+" ";
 
     var user_layers = 0;

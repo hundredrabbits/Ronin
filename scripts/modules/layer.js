@@ -84,16 +84,6 @@ function Layer(name,manager = null)
     return 1, "ok";
   }
 
-  this.rename = function(params, preview = false)
-  {
-    if(preview){ return; }
-
-    // TODO
-    // ronin.frame.layers[params.text()] = this;
-    // ronin.frame.layers[this.name] = null;
-    ronin.terminal.log(new Log(this,"Renamed layer "+this.name+" to "+params.text())); 
-  }
-
   this.clear = function(params, preview = false)
   {
     if(preview){ return; }

@@ -7,7 +7,7 @@ function Value(value_str)
   this.float = parseFloat(this.value);
   this.int = parseInt(this.value);
   
-  this.render = function()
+  this.toString = function()
   {
     return this.value;
   }

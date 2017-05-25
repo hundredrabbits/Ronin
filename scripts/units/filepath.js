@@ -5,7 +5,7 @@ function Filepath(path_str)
   this.example = "assets/demo.png";
   this.path = path_str;
   
-  this.render = function()
+  this.toString = function()
   {
     return this.path;
   }

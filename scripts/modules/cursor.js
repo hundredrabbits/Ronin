@@ -18,11 +18,11 @@ function Cursor(rune)
     if(this.is_inside){
       this.set_mode(ronin.default)
     }
-    else if(keyboard.shift_held,keyboard.alt_held){
-      this.set_mode(ronin.frame.active_layer);
-    }
     else if(ronin.terminal.cmd().module()){
       this.set_mode(ronin.terminal.cmd().module());
+    }
+    else if(keyboard.shift_held,keyboard.alt_held){
+      this.set_mode(ronin.frame.active_layer);
     }
     else if(event && event.altKey == true){
       this.set_mode(ronin.default);

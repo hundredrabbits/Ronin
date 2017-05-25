@@ -6,7 +6,7 @@ function Setting(name,value)
   this.name = name;
   this.value = value;
   
-  this.render = function()
+  this.toString = function()
   {
     return "?";
   }

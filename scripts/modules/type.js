@@ -27,7 +27,7 @@ function Type(rune)
 
     if(!preview){ this.layer.remove(this); }
 
-    return 1, "Wrote "+text+" at "+position.render();
+    return 1, "Wrote "+text+" at "+position.toString();
   }
 
   // Mouse
@@ -40,7 +40,7 @@ function Type(rune)
   this.mouse_down = function(position)
   {
     var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
-    var line = "type.write "+position.render()+" \""+str+"\"";
+    var line = "type.write "+position.toString()+" \""+str+"\"";
     ronin.terminal.update(line);
   }
   
@@ -51,7 +51,7 @@ function Type(rune)
   this.mouse_up = function(position)
   {
     var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
-    var line = "type.write "+position.render()+" \""+str+"\"";
+    var line = "type.write "+position.toString()+" \""+str+"\"";
     ronin.terminal.update(line);
   }
 

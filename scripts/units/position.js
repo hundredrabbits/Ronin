@@ -40,7 +40,7 @@ function Position(position_str = "0,0",y = null)
     }
   }
   
-  this.render = function()
+  this.toString = function()
   {
     return (isNaN(this.x) ? 0 : this.x)+","+(isNaN(this.y) ? 0 : this.y);
   }

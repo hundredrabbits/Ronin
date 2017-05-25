@@ -1,0 +1,8 @@
+frame.resize 300x300
+layer.fill #ff0000
+path:line_width 28
+path:line_cap round
+magnet.grid 30x30 2,2
+frame.select logo
+path.stroke M60,60 l60,0 a60,60 0 0,1 60,60 M240,60 l0,60 a-60,60 0 0,1 -60,60 M240,240 l-60,0 a-60,-60 0 0,1 -60,-60 M60,240 l0,-60 a60,-60 0 0,1 60,-60 M60,90 l60,0 a30,30 0 0,1 30,30 M210,60 l0,60 a-30,30 0 0,1 -30,30 M240,210 l-60,0 a-30,-30 0 0,1 -30,-30 M90,240 l0,-60 a30,-30 0 0,1 30,-30 
+magnet.grid 1x1 2,2

@@ -8,7 +8,7 @@ function Range(range_str)
   this.from = parseFloat(this.range_str.split("..")[0]);
   this.to = parseFloat(this.range_str.split("..")[1]);
   
-  this.render = function()
+  this.toString = function()
   {
     return this.from+".."+this.to;
   }

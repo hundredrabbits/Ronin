@@ -9,7 +9,7 @@ function Path(rune)
 
   this.add_setting(new Setting("fill_color","#ff0000"));
   this.add_setting(new Setting("line_width","3"));
-  this.add_setting(new Setting("line_color","#999"));
+  this.add_setting(new Setting("line_color","#ffffff"));
   this.add_setting(new Setting("line_cap","square"));
 
   this.add_method(new Method("stroke",["Positions"],"Add point"));
@@ -106,7 +106,7 @@ function Path(rune)
   {
     var method = ronin.terminal.cmd().method() ? ronin.terminal.cmd().method().name : "stroke";
     var line = "path."+method+" "+this.create_path();
-    line += "M"+position.render();
+    line += "M"+position.toString();
     ronin.terminal.update(line);
   }
   
@@ -114,7 +114,7 @@ function Path(rune)
   {
     var method = ronin.terminal.cmd().method().name;
     var line = "path."+method+" "+this.create_path();
-    line += "L"+position.render();
+    line += "L"+position.toString();
     ronin.terminal.update(line);
   }
   
@@ -123,22 +123,22 @@ function Path(rune)
     var method = ronin.terminal.cmd().method().name;
 
     if(this.coordinates.length == 0){
-      this.coordinates.push("M"+position.render());
+      this.coordinates.push("M"+position.toString());
     }
     else{
       var offset = this.last_pos ? position.offset(this.last_pos) : position;
 
       if(keyboard.shift_held == true && keyboard.alt_held == true){
-        this.coordinates.push("M"+position.render());
+        this.coordinates.push("M"+position.toString());
       }
       else if(keyboard.shift_held == true){
-        this.coordinates.push("a"+offset.render()+" 0 0,1 "+offset.render());
+        this.coordinates.push("a"+offset.toString()+" 0 0,1 "+offset.toString());
       }
       else if(keyboard.alt_held == true){
-       this.coordinates.push("a"+offset.render()+" 0 0,0 "+offset.render()); 
+       this.coordinates.push("a"+offset.toString()+" 0 0,0 "+offset.toString()); 
       }
       else{
-        this.coordinates.push("l"+offset.render());
+        this.coordinates.push("l"+offset.toString());
       }
     }
 
