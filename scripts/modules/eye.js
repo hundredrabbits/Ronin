@@ -9,7 +9,8 @@ function Eye(rune)
   {
     var pixel = ronin.frame.context().getImageData(position.x*2, position.y*2, 1, 1).data;
     var hex = new Color().rgb_to_hex({r:pixel[0],g:pixel[1],b:pixel[2]});
-    ronin.terminal.log(new Log(this,"Color at "+position.toString()+" is "+hex));
+    ronin.terminal.log(new Log(this,"Pixel on "+ronin.frame.active_layer.name+" layer at "+position.toString()+" is "+hex));
+    ronin.terminal.input.focus();
   }
   
   // Mouse

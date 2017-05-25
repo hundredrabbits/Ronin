@@ -4,9 +4,9 @@ function Render(rune)
   
   this.filters = {};
 
-  this.add_method(new Method("balance",["Position","Color","Scale"]));
-  this.add_method(new Method("stencil",["Position","Color","Scale"]));
-  this.add_method(new Method("chromatic",["Position","Color","Scale"]));
+  this.add_method(new Method("balance",["color"]));
+  this.add_method(new Method("stencil",["angle","color"]));
+  this.add_method(new Method("chromatic",["float"]));
 
   this.filters["balance"] = new Filter_Balance();
   this.filters["grey"] = new Filter_Grey();

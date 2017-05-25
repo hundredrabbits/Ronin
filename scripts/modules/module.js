@@ -56,7 +56,7 @@ function Module(rune)
     var html = "";
 
     if(method){
-      html += method.hint();
+      html += method;
     }
     else{
       for(id in this.methods){
@@ -101,6 +101,11 @@ function Module(rune)
 
   this.mouse_mode = function()
   {
+    for(mode_id in this.modes){
+      if(!keyboard.shift_held && !keyboard.alt_held && !this.modes[mode_id].key){
+        return this.modes[mode_id].name;
+      }
+    }
     return null;
   }
 

@@ -12,8 +12,8 @@ function Path(rune)
   this.add_setting(new Setting("line_color","#ffffff"));
   this.add_setting(new Setting("line_cap","square"));
 
-  this.add_method(new Method("stroke",["Positions"],"Add point"));
-  this.add_method(new Method("fill",["Positions"]),"Add point");
+  this.add_method(new Method("stroke",["Positions"]));
+  this.add_method(new Method("fill",["Positions"]));
 
   this.coordinates = [];
   this.last_pos = null;
@@ -72,16 +72,10 @@ function Path(rune)
   this.create_svg = function()
   {
     var s = "";
-
-    s += "<svg width='"+ronin.frame.size.width+"' height='"+ronin.frame.size.height+"' xmlns='http://www.w3.org/2000/svg' baseProfile='full' version='1.1' style='fill:none;stroke:red;stroke-width:2px;stroke-linecap:square;'>";
-
     for (var i = 0; i < this.paths.length; i++) {
       s += "<path d='"+this.paths[i]+"' />";
     }
-
-    s += "</svg>";
-    console.log(s);
-    return s;
+    return "<svg width='"+ronin.frame.size.width+"' height='"+ronin.frame.size.height+"' xmlns='http://www.w3.org/2000/svg' baseProfile='full' version='1.1' style='fill:none;stroke:red;stroke-width:2px;stroke-linecap:square;'>"+s+"</svg>";
   }
 
   // Mouse

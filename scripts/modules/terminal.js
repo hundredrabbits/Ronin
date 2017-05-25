@@ -47,7 +47,7 @@ function Terminal(rune)
     this.update();
   }
 
-  this.update = function(value = null)
+  this.update = function(value = null, preview = true)
   {
     if(value){ this.input.value = value; this.input.focus(); }
 
@@ -55,10 +55,10 @@ function Terminal(rune)
     var module  = command.module();
     var method  = command.method();
 
-    if(method){
+    if(method && preview){
       method.preview(command);
     }
-    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " " : "")+(module ? module.hint(method) : ronin.hint(method));
+    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " > " : "")+(module ? module.hint(method) : ronin.hint(method));
     ronin.cursor.update();
   }
 

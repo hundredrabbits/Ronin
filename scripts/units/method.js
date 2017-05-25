@@ -1,33 +1,28 @@
-function Method(name,params,mouse_event)
+function Method(name,params,options = null)
 {
   Unit.call(this);
   
   this.host = null;
   this.name = name;
   this.params = params;
-  this.mouse_event = mouse_event;
+  this.options = options;
   this.example = "";
 
   this.toString = function()
   {
-    var s = "";
+    var params_str = "";
     for(param in this.params){
-      s += this.params[param]+","
+      params_str += this.params[param]+","
     }
-    s = s.substr(0,s.length-1);
+    params_str = params_str.substr(0,params_str.length-1);
 
-    return "<span class='method'>."+this.name+"("+s+")</span>";
-  }
-
-  this.hint = function()
-  {
-    var s = "";
-    for(id in this.params){
-      s += "<span class='params'>"+this.params[id]+"</span> ";
+    var options_str = "";
+    for(option in this.options){
+      options_str += this.options[option]+","
     }
-    s = s.substr(0,s.length-1);
+    options_str = options_str.substr(0,options_str.length-1);
 
-    return s;
+    return "<span class='method'>.<span class='name'>"+this.name+"</span> "+params_str+(this.options ? ' <span class=\'options\'>['+options_str+']</span>' : '')+"</span>";
   }
 
   this.preview = function(cmd)

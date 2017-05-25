@@ -8,7 +8,7 @@ function Layer(name,manager = null)
   this.add_method(new Method("clear",[]));
   this.add_method(new Method("rotate",["position","angle"]));
   this.add_method(new Method("mirror",["position"]));
-  this.add_method(new Method("fill",["color","position","rect"],"Add position"));
+  this.add_method(new Method("fill",["color","position","rect"]));
   
   this.add_method(new Method("rename",["text"]));
 

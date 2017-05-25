@@ -20,16 +20,17 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal #widget { text-align: right; bottom:30px}
 #terminal #widget .mouse { color:white; }
 
-#terminal #hint .module { display: inline-block; color:#999; }
-#terminal #hint .method { display: inline-block; color:#999; }
-#terminal #hint .params { display: inline-block; color:#999; font-style: italic }
-#terminal #hint .setting { display: inline-block; color:#fff; font-style: italic }
+span.module { display: inline-block; color:#999; }
+span.method { display: inline-block; color:#999; }
+span.method .name { color:#fff; }
+span.method .options { color:#555; }
+span.params { display: inline-block; color:#999; }
+span.setting { display: inline-block; color:#fff;  }
+span.setting .value { color:#999; }
+span.mode { color:#999; }
+span.mode .name { text-decoration: underline; color:white; }
 
 #modal { position: fixed; bottom:80px; right:20px; height:100px; background:#111; border-radius:3px; overflow:hidden; display: block}
 #modal.text { display: block;background: #000;width: calc(100vw - 100px);height: calc(100vh - 160px);padding: 30px;font-size: 12px;white-space: pre;column-count: 3;line-height: 20px;color:white}
-#modal.text .module { font-family: 'input_mono_regular'; border-bottom:1px solid #333; display: block; line-height: 30px}
-/*#modal.text .module:before { content: "-";margin-left:-15px;margin-right:15px;display:inline-block }*/
-#modal.text .setting { font-style: italic; color:#999;}
-#modal.text .mode { text-decoration: underline}
 #modal.image img { display: block; max-height: 100%; width:inherit;}
 #modal.hidden { display: none }

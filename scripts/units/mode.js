@@ -1,4 +1,4 @@
-function Mode(name,key = "")
+function Mode(name,key = null)
 {
   Unit.call(this);
   
@@ -8,6 +8,6 @@ function Mode(name,key = "")
 
   this.toString = function()
   {
-    return "<span class='mode'>~"+this.name+(this.key ? '['+this.key+']' : '')+"</span>"
+    return "<span class='mode'><span class='name'>~"+this.name+"</span>"+(this.key ? ' <span class="key">'+this.key+'</span>' : '')+"</span>"
   }
 }

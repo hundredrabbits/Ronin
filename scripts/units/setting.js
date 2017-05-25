@@ -13,7 +13,7 @@ function Setting(name,value)
 
   this.toString = function()
   {
-    return "<span class='setting'>:"+this.name+(this.key ? '['+this.value+']' : '')+"</span>"
+    return "<span class='setting'>:"+this.name+(this.value ? ' <span class="value">'+this.value+'</span>' : '')+"</span>"
   }
 
   this.update = function(value)

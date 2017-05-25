@@ -8,7 +8,7 @@ function Brush(rune)
   this.add_mode(new Mode("erase","shift"));
   this.add_setting(new Setting("color","#000000"));
   this.add_setting(new Setting("size","2"));
-  this.add_method(new Method("add",["Position","Color","Scale","mirror_x","mirror_y"]));
+  this.add_method(new Method("add",["Position","Color","Scale"],["mirror_x","mirror_y"]));
   this.add_method(new Method("clear"));
 
   this.add = function(cmd, preview = false)
@@ -85,7 +85,7 @@ function Brush(rune)
   this.mouse_pointer = function(position)
   {
     if(this.pointers.length < 1){ ronin.cursor.draw_pointer_no_pointer(position); return; }
-    return keyboard.shift_held == true ? ronin.cursor.draw_pointer_circle_eraser(position,this.settings["size"].to_f() * 3) : ronin.cursor.draw_pointer_circle(position,this.settings["size"].to_f());
+    return keyboard.shift_held == true ? ronin.cursor.draw_pointer_circle_eraser(position,this.settings["size"].to_f() * 3) : ronin.cursor.draw_pointer_brush(position,this.settings["size"].to_f());
   }
   
   this.mouse_mode = function()

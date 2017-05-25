@@ -2,11 +2,11 @@ function Type(rune)
 {
   Module.call(this,rune);
 
-  this.add_method(new Method("write",["Position","Text"],"Add position"));
+  this.add_method(new Method("write",["Position","Text"]));
   this.add_mode(new Mode("write"));
-  this.add_setting(new Setting("color","#ffffff"));
-  this.add_setting(new Setting("size","20"));
-  this.add_setting(new Setting("font","Din"));
+  this.add_setting(new Setting("color","#000000"));
+  this.add_setting(new Setting("size","40"));
+  this.add_setting(new Setting("font","DIN Medium"));
 
   this.write = function(cmd,preview = false)
   {
@@ -14,7 +14,7 @@ function Type(rune)
     
     this.layer.clear();
 
-    var text = cmd.text() ? cmd.text() : "Placeholder";
+    var text = cmd.text() ? cmd.text() : "Text";
     var position = cmd.position() ? cmd.position() : new Position(40,80);
     var color = this.settings["color"].value;
     var size = parseFloat(this.settings["size"].value);
@@ -39,7 +39,7 @@ function Type(rune)
 
   this.mouse_down = function(position)
   {
-    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
+    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Text";
     var line = "type.write "+position.toString()+" \""+str+"\"";
     ronin.terminal.update(line);
   }
@@ -50,7 +50,7 @@ function Type(rune)
   
   this.mouse_up = function(position)
   {
-    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Placeholder";
+    var str = ronin.terminal.cmd().text() ? ronin.terminal.cmd().text() : "Text";
     var line = "type.write "+position.toString()+" \""+str+"\"";
     ronin.terminal.update(line);
   }

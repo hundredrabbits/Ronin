@@ -144,13 +144,24 @@ function Cursor(rune)
 
     this.layer.context().beginPath();
     
-    this.layer.context().moveTo(position.x + 10,position.y);
+    // Background
+    this.layer.context().moveTo(position.x + 5,position.y);
     this.layer.context().lineTo(position.x,position.y);
-    this.layer.context().lineTo(position.x,position.y + 10);
+    this.layer.context().lineTo(position.x,position.y + 5);
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 3;
+    this.layer.context().strokeStyle = "#000000";
+    this.layer.context().stroke();
+    
+    // Overlay
+    this.layer.context().moveTo(position.x + 5,position.y);
+    this.layer.context().lineTo(position.x,position.y);
+    this.layer.context().lineTo(position.x,position.y + 5);
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
+    this.layer.context().strokeStyle = "#ffffff";
     this.layer.context().stroke();
     this.layer.context().closePath();
 
@@ -186,31 +197,24 @@ function Cursor(rune)
     this.pointer_last = position;
   }
 
-  this.draw_pointer_circle = function(position,size = 1)
+  this.draw_pointer_brush = function(position,size = 1)
   {
     if(!this.layer){ this.create_layer(); }
 
     this.pointer_last = this.pointer_last ? this.pointer_last : position;
 
     this.layer.context().beginPath();
-    this.layer.context().arc(position.x, position.y, 0.5, 0, 2 * Math.PI, false);
-    this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
-    this.layer.context().stroke();
-    this.layer.context().closePath();
 
-    this.layer.context().beginPath();
+    this.layer.context().arc(position.x, position.y, size/2, 0, 2 * Math.PI, false);
+    this.layer.context().lineWidth = 3;
+    this.layer.context().strokeStyle = "#000000";
+    this.layer.context().stroke();
+
     this.layer.context().arc(position.x, position.y, size/2, 0, 2 * Math.PI, false);
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = ronin.brush.color;
+    this.layer.context().strokeStyle = ronin.brush.settings["color"].value != "#000000" ? ronin.brush.settings["color"].value : "#ffffff";
     this.layer.context().stroke();
-    this.layer.context().closePath();
 
-    this.layer.context().beginPath();
-    this.layer.context().arc(position.x, position.y, (size/2)+2, 0, 2 * Math.PI, false);
-    this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
-    this.layer.context().stroke();
     this.layer.context().closePath();
 
     this.pointer_last = position;

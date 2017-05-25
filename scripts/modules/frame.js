@@ -12,7 +12,7 @@ function Frame(rune)
 
   this.add_method(new Method("resize",[new Position().name,new Rect().name]));
   this.add_method(new Method("select",["text"]));
-  this.add_mode(new Mode("crop"));
+  this.add_mode(new Mode("resize"));
   
   this.install = function()
   {

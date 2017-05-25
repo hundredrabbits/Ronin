@@ -2,8 +2,9 @@ function Magnet(rune)
 {
   Module.call(this,rune);
 
-  this.add_setting(new Setting("grid","1x1"));
-  this.add_setting(new Setting("marker","4,4"));
+  this.size = new Rect("1x1");
+  this.rate = null;
+
   this.add_setting(new Setting("color","#000000"));
 
   this.add_method(new Method("grid",["rect","position"]));
@@ -18,20 +19,20 @@ function Magnet(rune)
     this.draw_grid(cmd.rect(),cmd.position());
 
     if(preview == false){
-      if(cmd.rect()){ this.settings["grid"].update(cmd.rect().toString());}
-      if(cmd.position()){ this.settings["marker"].update(cmd.position().toString());}
+      if(cmd.rect()){ this.size = cmd.rect(); }
+      if(cmd.position()){ this.rate = cmd.rect();  }
     }
 
     return 1, preview ? "preview" : "ok";
   }
 
-  this.draw_grid = function(rect,grid)
+  this.draw_grid = function(rect,position)
   {
     if(!rect){ rect = new Rect("20x20"); }
-    if(!grid){ grid = new Position("4,4"); }
+    if(!position){ position = new Position("4,4"); }
 
-    this.settings["grid"].update(rect.toString());
-    this.settings["marker"].update(grid.toString());
+    this.size = rect;
+    this.rate = position;
 
     if(rect.width < 5 || rect.height < 5){ return; }
 
@@ -42,7 +43,7 @@ function Magnet(rune)
       for (var y = 1; y < vertical; y++) {
         var dot_position = new Position(x * rect.width, y * rect.height);
         var size = 0.5;
-        if(grid && x % grid.x == 0 && y % grid.y == 0){ size = 1; }
+        if(position && x % position.x == 0 && y % position.y == 0){ size = 1; }
         this.draw_marker(dot_position,size);
       }
     }
@@ -50,7 +51,7 @@ function Magnet(rune)
 
   this.draw_helper = function(position)
   {    
-    if(this.settings["grid"].to_rect().width < 5 || this.settings["grid"].to_rect().height < 5){ return; }
+    if(this.size.width < 5 || this.size.height < 5){ return; }
 
     var magnetized = this.magnetic_position(position);
     this.context().beginPath();
@@ -71,19 +72,19 @@ function Magnet(rune)
 
   this.magnetic_position = function(position)
   {
-    var x = parseInt(position.x / this.settings["grid"].to_rect().width) * this.settings["grid"].to_rect().width;
-    var y = parseInt(position.y / this.settings["grid"].to_rect().width) * this.settings["grid"].to_rect().width;
+    var x = parseInt(position.x / this.size.width) * this.size.width;
+    var y = parseInt(position.y / this.size.width) * this.size.width;
 
     return new Position(x,y);
   }
 
   this.update_mouse = function(position)
   {
-    if(this.settings["grid"].to_rect().width > 4 || this.settings["grid"].to_rect().height > 4){ 
+    if(this.size.width > 4 || this.size.height > 4){ 
       if(!this.layer){ this.create_layer(); }
       this.layer.clear();
       this.draw_helper(position);
-      this.draw_grid(this.settings["grid"].to_rect(),this.settings["marker"].to_pos());
+      this.draw_grid(this.size,this.rate);
     }
     
     return this.magnetic_position(position); 
@@ -91,8 +92,8 @@ function Magnet(rune)
 
   this.widget = function()
   {
-    if(this.settings["grid"].to_rect().width < 2 || this.settings["grid"].to_rect().height < 2){ return ""; }
-    return this.settings["grid"].value;
+    if(this.size.width < 2 || this.size.height < 2){ return ""; }
+    return this.size.value;
   }
 
   this.key_escape = function()
