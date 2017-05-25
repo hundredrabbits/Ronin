@@ -99,14 +99,8 @@ function Frame(rune)
 
   this.select_layer = function(layer)
   {
-    if(!layer){ return; }
+    if(!layer || layer.manager){ return; }
     this.active_layer = layer;
-  }
-
-  this.select_any_layer = function()
-  {
-    var layer_name = Object.keys(ronin.frame.layers)[0];
-    this.select_layer(ronin.frame.layers[layer_name]);    
   }
 
   this.add_layer = function(layer)

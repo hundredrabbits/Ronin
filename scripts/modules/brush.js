@@ -9,6 +9,7 @@ function Brush(rune)
   this.add_setting(new Setting("color","#00ff00"));
   this.add_setting(new Setting("size","2"));
   this.add_method(new Method("add_pointer",["Position","Color","Scale","mirror_x","mirror_y"]));
+  this.add_method(new Method("clear"));
 
   this.add_pointer = function(cmd, preview = false)
   {
@@ -38,6 +39,12 @@ function Brush(rune)
     ronin.terminal.log(new Log(this,"Added pointer at: "+pointer.offset.render()));
     
     return 1, "ok";
+  }
+
+  this.clear = function()
+  {
+    this.pointers = [];
+    return 1,"Removed all pointers.";
   }
 
   this.size_up = function()
@@ -77,6 +84,7 @@ function Brush(rune)
 
   this.mouse_pointer = function(position)
   {
+    if(this.pointers.length < 1){ ronin.cursor.draw_pointer_no_pointer(position); return; }
     return keyboard.shift_held == true ? ronin.cursor.draw_pointer_circle_eraser(position,this.settings["size"].to_f() * 3) : ronin.cursor.draw_pointer_circle(position,this.settings["size"].to_f());
   }
   
@@ -98,6 +106,7 @@ function Brush(rune)
       this.erase();
     }
     else{
+      if(ronin.brush.pointers.length < 1){ ronin.terminal.log(new Log(this,"Brush has no pointers!"))}
       for (i = 0; i < ronin.brush.pointers.length; i++) {
         ronin.brush.pointers[i].start();
       }

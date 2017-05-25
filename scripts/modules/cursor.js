@@ -157,6 +157,35 @@ function Cursor(rune)
     this.pointer_last = position;
   }
 
+  this.draw_pointer_no_pointer = function(position,size = 2)
+  {
+    if(!this.layer){ this.create_layer(); }
+
+    var radius = 4000;
+
+    this.pointer_last = this.pointer_last ? this.pointer_last : position;
+
+    this.layer.context().beginPath();
+
+    this.layer.context().moveTo(position.x - radius,position.y + radius);
+    this.layer.context().lineTo(position.x - size,position.y + size);
+    this.layer.context().moveTo(position.x + radius,position.y + radius);
+    this.layer.context().lineTo(position.x + size,position.y + size);
+
+    this.layer.context().moveTo(position.x - radius,position.y - radius);
+    this.layer.context().lineTo(position.x - size,position.y - size);
+    this.layer.context().moveTo(position.x + radius,position.y - radius);
+    this.layer.context().lineTo(position.x + size,position.y - size);
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "#ff0000";
+    this.layer.context().stroke();
+    this.layer.context().closePath();
+
+    this.pointer_last = position;
+  }
+
   this.draw_pointer_circle = function(position,size = 1)
   {
     if(!this.layer){ this.create_layer(); }
