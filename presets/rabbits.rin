@@ -1,6 +1,7 @@
 frame.resize 795x450
 source.load /01.jpg x450
 source.load /hundred.rabbits.logo.white.svg 70x70 0,380
+render.chromatic 3
 source:format jpg
 source:quality 0.9
 source.save
