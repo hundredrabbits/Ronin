@@ -6,7 +6,7 @@ function Render(rune)
 
   this.add_method(new Method("balance",["color"]));
   this.add_method(new Method("stencil",["angle","color"]));
-  this.add_method(new Method("chromatic",["float"]));
+  this.add_method(new Method("chromatic",["position","float"]));
 
   this.filters["balance"] = new Filter_Balance();
   this.filters["grey"] = new Filter_Grey();
@@ -31,5 +31,7 @@ function Render(rune)
 
     if(preview){ f.preview(cmd); }
     else{ f.render(cmd); }
+
+    return "Done.";
   }
 }

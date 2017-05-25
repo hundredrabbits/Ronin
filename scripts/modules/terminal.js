@@ -40,7 +40,7 @@ function Terminal(rune)
     }
     if(setting){
       module.settings[setting].update(command.values());
-      this.log(new Log(module,setting+" = "+command.values()));
+      this.log(new Log(module,module.settings[setting]));
     }
     this.hint_element.innerHTML = "";
     this.input.value = "";

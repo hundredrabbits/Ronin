@@ -10,14 +10,14 @@ function Filter_Chromatic()
   {
     var position = cmd.position() ? cmd.position() : new Position(ronin.frame.size.width,ronin.frame.size.height);
     var value = cmd.value() ? cmd.value().float : 5;
+
     this.draw(this.context(),value,position);
   }
 
   this.preview = function(cmd)
   {
     if(cmd.position()){
-      ronin.overlay.clear();
-      ronin.overlay.draw_pointer(cmd.position());
+      ronin.overlay.draw(cmd.position());
     }
   }
 

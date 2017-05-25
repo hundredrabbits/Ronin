@@ -53,20 +53,28 @@ function Overlay(rune)
     this.context().lineTo(position.x-2,position.y + (rect.height/2));
 
     // Center
-    this.context().moveTo(position.x + (rect.width/2) + 3,position.y + (rect.height/2));
-    this.context().lineTo(position.x + (rect.width/2) + 5,position.y + (rect.height/2));
-    this.context().moveTo(position.x + (rect.width/2) - 3,position.y + (rect.height/2));
-    this.context().lineTo(position.x + (rect.width/2) - 5,position.y + (rect.height/2));
+    var radius = 3;
+    var radius_2 = 4;
+    this.context().moveTo(position.x + (rect.width/2) + radius,position.y + (rect.height/2));
+    this.context().lineTo(position.x + (rect.width/2) + radius_2,position.y + (rect.height/2));
+    this.context().moveTo(position.x + (rect.width/2) - radius,position.y + (rect.height/2));
+    this.context().lineTo(position.x + (rect.width/2) - radius_2,position.y + (rect.height/2));
 
-    this.context().moveTo(position.x + (rect.width/2),position.y + (rect.height/2) + 3);
-    this.context().lineTo(position.x + (rect.width/2),position.y + (rect.height/2) + 5);
-    this.context().moveTo(position.x + (rect.width/2),position.y + (rect.height/2) - 3);
-    this.context().lineTo(position.x + (rect.width/2),position.y + (rect.height/2) - 5);
+    this.context().moveTo(position.x + (rect.width/2),position.y + (rect.height/2) + radius);
+    this.context().lineTo(position.x + (rect.width/2),position.y + (rect.height/2) + radius_2);
+    this.context().moveTo(position.x + (rect.width/2),position.y + (rect.height/2) - radius);
+    this.context().lineTo(position.x + (rect.width/2),position.y + (rect.height/2) - radius_2);
     
+    this.context().lineCap="square";
+    this.context().lineWidth = 2;
+    this.context().strokeStyle = "#000000";
+    this.context().stroke();
+
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = ronin.cursor.color;
+    this.context().strokeStyle = "#ffffff";
     this.context().stroke();
+
     this.context().closePath();
   }
   
@@ -83,10 +91,16 @@ function Overlay(rune)
     this.context().moveTo(position.x,position.y - 2);
     this.context().lineTo(position.x,position.y - 5);
     
+    this.context().lineCap="square";
+    this.context().lineWidth = 2;
+    this.context().strokeStyle = "#000000";
+    this.context().stroke();
+
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = ronin.cursor.color;
+    this.context().strokeStyle = "#ffffff";
     this.context().stroke();
+
     this.context().closePath();
   }
   
@@ -97,10 +111,16 @@ function Overlay(rune)
     this.context().moveTo(position.x,position.y);
     this.context().lineTo(to.x,to.y);
     
+    this.context().lineCap="square";
+    this.context().lineWidth = 2;
+    this.context().strokeStyle = "#000000";
+    this.context().stroke();
+
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = ronin.cursor.color;
+    this.context().strokeStyle = "#ffffff";
     this.context().stroke();
+
     this.context().closePath();
   }
 
@@ -108,9 +128,17 @@ function Overlay(rune)
   {
     this.context().beginPath();
     this.context().arc(position.x, position.y, radius, 0, 2 * Math.PI, false);
-    this.context().lineWidth = 1;
-    this.context().strokeStyle = "white";
+
+    this.context().lineCap="square";
+    this.context().lineWidth = 2;
+    this.context().strokeStyle = "#000000"
     this.context().stroke();
+    
+    this.context().lineCap="round";
+    this.context().lineWidth = 1;
+    this.context().strokeStyle = "#ffffff"
+    this.context().stroke();
+
     this.context().closePath();
   }
 
@@ -127,10 +155,16 @@ function Overlay(rune)
     this.context().moveTo(position.x,position.y-(radius-2));
     this.context().lineTo(position.x,position.y-radius);
     
+    this.context().lineCap="square";
+    this.context().lineWidth = 2;
+    this.context().strokeStyle = "#000000"
+    this.context().stroke();
+    
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = ronin.cursor.color;
+    this.context().strokeStyle = "#ffffff"
     this.context().stroke();
+
     this.context().closePath();
   }
   
@@ -141,10 +175,17 @@ function Overlay(rune)
     this.context().moveTo(position.x,0);
     this.context().lineTo(position.x,ronin.frame.size.height);
     
+    this.context().lineCap="square";
+    this.context().lineWidth = 2;
+    this.context().strokeStyle = "#000000"
+    this.context().stroke();
+    
+
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = ronin.cursor.color;
+    this.context().strokeStyle = "#ffffff"
     this.context().stroke();
+    
     this.context().closePath();
   }
   
@@ -155,10 +196,16 @@ function Overlay(rune)
     this.context().moveTo(0,position.y);
     this.context().lineTo(ronin.frame.size.width,position.y);
     
+    this.context().lineCap="square";
+    this.context().lineWidth = 2;
+    this.context().strokeStyle = "#000000"
+    this.context().stroke();
+    
     this.context().lineCap="round";
     this.context().lineWidth = 1;
-    this.context().strokeStyle = ronin.cursor.color;
+    this.context().strokeStyle = "#ffffff"
     this.context().stroke();
+
     this.context().closePath();
   }
 

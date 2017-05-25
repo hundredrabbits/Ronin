@@ -15,17 +15,14 @@ function Cursor(rune)
 
   this.update = function(event = null)
   {
-    if(this.is_inside){
-      this.set_mode(ronin.default)
-    }
-    else if(ronin.terminal.cmd().module()){
+    if(ronin.terminal.cmd().module()){
       this.set_mode(ronin.terminal.cmd().module());
     }
     else if(keyboard.shift_held,keyboard.alt_held){
       this.set_mode(ronin.frame.active_layer);
     }
-    else if(event && event.altKey == true){
-      this.set_mode(ronin.default);
+    else if(this.is_inside){
+      this.set_mode(ronin.default)
     }
     else{
       this.set_mode(ronin.brush);
@@ -149,20 +146,16 @@ function Cursor(rune)
     this.layer.context().lineTo(position.x,position.y);
     this.layer.context().lineTo(position.x,position.y + 5);
     
-    this.layer.context().lineCap="round";
-    this.layer.context().lineWidth = 3;
+    this.layer.context().lineCap="square";
+    this.layer.context().lineWidth = 2;
     this.layer.context().strokeStyle = "#000000";
     this.layer.context().stroke();
-    
-    // Overlay
-    this.layer.context().moveTo(position.x + 5,position.y);
-    this.layer.context().lineTo(position.x,position.y);
-    this.layer.context().lineTo(position.x,position.y + 5);
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
     this.layer.context().strokeStyle = "#ffffff";
     this.layer.context().stroke();
+
     this.layer.context().closePath();
 
     this.pointer_last = position;
@@ -188,10 +181,16 @@ function Cursor(rune)
     this.layer.context().moveTo(position.x + radius,position.y - radius);
     this.layer.context().lineTo(position.x + size,position.y - size);
     
+    this.layer.context().lineCap="square";
+    this.layer.context().lineWidth = 2;
+    this.layer.context().strokeStyle = "#000000";
+    this.layer.context().stroke();
+    
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = "#ff0000";
+    this.layer.context().strokeStyle = "#ffffff";
     this.layer.context().stroke();
+    
     this.layer.context().closePath();
 
     this.pointer_last = position;
@@ -206,11 +205,13 @@ function Cursor(rune)
     this.layer.context().beginPath();
 
     this.layer.context().arc(position.x, position.y, size/2, 0, 2 * Math.PI, false);
-    this.layer.context().lineWidth = 3;
+
+    this.layer.context().lineWidth = 2;
     this.layer.context().strokeStyle = "#000000";
     this.layer.context().stroke();
 
     this.layer.context().arc(position.x, position.y, size/2, 0, 2 * Math.PI, false);
+
     this.layer.context().lineWidth = 1;
     this.layer.context().strokeStyle = ronin.brush.settings["color"].value != "#000000" ? ronin.brush.settings["color"].value : "#ffffff";
     this.layer.context().stroke();
@@ -228,9 +229,17 @@ function Cursor(rune)
 
     this.layer.context().beginPath();
     this.layer.context().arc(position.x, position.y, (size/2), 0, 2 * Math.PI, false);
-    this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
+    
+    this.layer.context().lineCap="square";
+    this.layer.context().lineWidth = 2;
+    this.layer.context().strokeStyle = "#000000";
     this.layer.context().stroke();
+    
+    this.layer.context().lineCap="round";
+    this.layer.context().lineWidth = 1;
+    this.layer.context().strokeStyle = "#ffffff";
+    this.layer.context().stroke();
+    
     this.layer.context().closePath();
 
     this.pointer_last = position;
@@ -257,52 +266,16 @@ function Cursor(rune)
     this.layer.context().moveTo(position.x - radius,position.y - radius);
     this.layer.context().lineTo(position.x - radius,position.y + radius);
     
-    this.layer.context().lineCap="round";
-    this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
+    this.layer.context().lineCap="square";
+    this.layer.context().lineWidth = 2;
+    this.layer.context().strokeStyle = "#000000";
     this.layer.context().stroke();
-    this.layer.context().closePath();
-
-    this.pointer_last = position;
-  }
-
-  this.draw_pointer = function(position,size = 1)
-  {
-    if(!this.is_inside){ return; }
-    if(!this.layer){ this.create_layer(); }
-
-    this.pointer_last = this.pointer_last ? this.pointer_last : position;
-
-    this.layer.context().beginPath();
-    this.layer.context().moveTo(this.pointer_last.x,this.pointer_last.y);
-    this.layer.context().lineTo(position.x,position.y);
-    this.layer.context().lineCap="round";
-    this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
-    this.layer.context().stroke();
-    this.layer.context().closePath();
-
-    this.layer.context().beginPath();
-    this.layer.context().arc(position.x, position.y, 0.5, 0, 2 * Math.PI, false);
-    this.layer.context().fillStyle = this.settings.color;
-    this.layer.context().fill();
-    this.layer.context().closePath();
-
-    this.layer.context().beginPath();
-    
-    this.layer.context().moveTo(position.x + 2,position.y);
-    this.layer.context().lineTo(position.x + 5,position.y);
-    this.layer.context().moveTo(position.x,position.y + 2);
-    this.layer.context().lineTo(position.x,position.y + 5);
-    this.layer.context().moveTo(position.x - 2,position.y);
-    this.layer.context().lineTo(position.x - 5,position.y);
-    this.layer.context().moveTo(position.x,position.y - 2);
-    this.layer.context().lineTo(position.x,position.y - 5);
     
     this.layer.context().lineCap="round";
     this.layer.context().lineWidth = 1;
-    this.layer.context().strokeStyle = this.settings.color;
+    this.layer.context().strokeStyle = "#ffffff";
     this.layer.context().stroke();
+    
     this.layer.context().closePath();
 
     this.pointer_last = position;

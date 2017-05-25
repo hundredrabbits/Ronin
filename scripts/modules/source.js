@@ -89,7 +89,7 @@ function Source(rune)
     
     this.layer.remove(this);
 
-    return 1,"Rendered the "+this.settings.format+" image, quality "+this.settings["quality"].to_f()+"."
+    return 1,"Rendered the "+this.settings.format+" image, "+this.settings.quality+"."
   }
 
   this.help = function(params,preview = false)
