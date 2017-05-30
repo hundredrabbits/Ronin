@@ -1,0 +1,22 @@
+frame.resize 500x500
+brush:color #000000
+
+~ Radial 45'
+~ brush.add 250,250 45'
+~ brush.add 250,250 90'
+~ brush.add 250,250 135'
+~ brush.add 250,250 180'
+~ brush.add 250,250 225'
+~ brush.add 250,250 270'
+~ brush.add 250,250 315'
+
+~ Radial 72'
+brush.add 250,250 72'
+brush.add 250,250 144'
+brush.add 250,250 216'
+brush.add 250,250 288'
+
+~ Radial 90'
+~ brush.add 250,250 90'
+~ brush.add 250,250 180'
+~ brush.add 250,250 270'

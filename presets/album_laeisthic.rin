@@ -1,0 +1,42 @@
+frame.resize 800x800
+type:size 13
+type:font DIN Medium
+type:color #000
+
+~ PART 1
+~ source.load /laeisth_1.jpg x800 -250,0
+~ type.write 400,67 "CHILDREN OF BRAMBLE"
+
+~ PART 2
+source.load /laeisth_2.jpg x800 -250,0
+type.write 400,67 "KNOWN MAGYE"
+
+~ PART 3
+~ source.load /laeisth_3.jpg x800 -250,0
+~ type.write 400,67 "EXTENDED SLEEP"
+
+source.load /nataniev.small.black.svg x40 50,50
+type.write 250,67 "ALICEFFEKT"
+type.write 110,67 "LAEISTHIC"
+type:font DIN
+type:size 10
+
+~ PART 1
+~ type.write 250,82 "2012.04"
+~ type.write 400,82 "4 TRACKS"
+~ type.write 110,83 "PART 1"
+
+~ PART 2
+type.write 250,82 "2014.03"
+type.write 400,82 "6 TRACKS"
+type.write 110,83 "PART 2"
+
+~ PART 3
+~ type.write 250,82 "2015.05"
+~ type.write 400,82 "4 TRACKS"
+~ type.write 110,83 "PART 3"
+
+~ Save
+source:format jpg
+source:quality 1
+source.save

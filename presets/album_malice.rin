@@ -1,0 +1,25 @@
+frame.resize 800x800
+type:size 13
+type:font DIN Medium
+type:color #ffffff
+
+~ PART 1
+layer.fill #72dec2
+source.load /malice_1.jpg x800 -90,0
+type.write 400,67 "COLLECTED WORKS"
+
+source.load /nataniev.small.white.svg x40 50,50
+type.write 250,67 "害意"
+type.write 110,67 "MALICE"
+type:font DIN
+type:size 10
+
+~ PART 1
+type.write 250,82 "2016.07"
+type.write 400,82 "4 TRACKS"
+type.write 110,83 "2008-2015"
+
+~ Save
+source:format jpg
+source:quality 1
+source.save

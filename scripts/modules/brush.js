@@ -8,7 +8,7 @@ function Brush(rune)
   this.add_mode(new Mode("erase","shift"));
   this.add_setting(new Setting("color","#000000"));
   this.add_setting(new Setting("size","2"));
-  this.add_method(new Method("add",["Position","Color","Scale"],["mirror_x","mirror_y"]));
+  this.add_method(new Method("add",["Position","Color","Scale","Angle"],["mirror_x","mirror_y"]));
   this.add_method(new Method("clear"));
 
   this.add = function(cmd, preview = false)
@@ -30,6 +30,7 @@ function Brush(rune)
     pointer.offset = cmd.position() ? cmd.position() : new Position("0,0");
     pointer.color = cmd.color() ? cmd.color().hex : this.settings["color"].value;
     pointer.scale = cmd.value() ? cmd.value().float : 1;
+    pointer.angle = cmd.angle() ? cmd.angle().degrees : 0;
 
     if(mirror_x){ pointer.mirror_x = mirror_x; }
     if(mirror_y){ pointer.mirror_y = mirror_y; }

@@ -1,14 +1,14 @@
-function Pointer(offset = new Position(), color = null, scale = 1)
+function Pointer(offset = new Position(), color = null, scale = 1, angle = 1)
 {
   this.offset = offset;
   this.color = color;
   this.scale = scale;
+  this.angle = null;
 
   this.mirror_x = null;
   this.mirror_y = null;
 
   this.position_prev = null;
-  this.angle = null;
   this.distance = 0;
   
   // Parameters
@@ -112,7 +112,7 @@ function Pointer(offset = new Position(), color = null, scale = 1)
   
   this.position_rotation = function()
   {
-    var angle_radian = this.angle.degrees * Math.PI / 180;
+    var angle_radian = this.angle * Math.PI / 180;
     var deltaX = ronin.cursor.position.x - this.offset.x;
     var deltaY = ronin.cursor.position.y - this.offset.y;
     var t = Math.atan2(deltaY, deltaX) + angle_radian;

@@ -1,0 +1,45 @@
+frame.resize 800x800
+type:size 13
+type:font DIN Medium
+type:color #ffffff
+
+~ PART 1
+layer.fill #b3b3b3
+source.load /duomic_1.jpg x700 -90,100
+type.write 400,67 "OPAL INQUISITORS"
+
+~ PART 2
+~ layer.fill #a6a6a6
+~ source.load /duomic_2.jpg x700 -65,100
+~ type.write 400,67 "PORTALION"
+
+~ PART 3
+~ layer.fill #b3b3b3
+~ source.load /duomic_3.jpg x700 -75,100
+~ type.write 400,67 "DEI DAIN"
+
+source.load /nataniev.small.white.svg x40 50,50
+type.write 250,67 "ALICEFFEKT"
+type.write 110,67 "DUOMIC"
+type:font DIN
+type:size 10
+
+~ PART 1
+type.write 250,82 "2015.09"
+type.write 400,82 "4 TRACKS"
+type.write 110,83 "PART 1"
+
+~ PART 2
+~ type.write 250,82 "2016.10"
+~ type.write 400,82 "4 TRACKS"
+~ type.write 110,83 "PART 2"
+
+~ PART 3
+~ type.write 250,82 "2013.06"
+~ type.write 400,82 "10 TRACKS"
+~ type.write 110,83 "PART 3"
+
+~ Save
+source:format jpg
+source:quality 1
+source.save
