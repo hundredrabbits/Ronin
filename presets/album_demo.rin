@@ -1,0 +1,52 @@
+frame.resize 800x800
+type:size 13
+type:font DIN Medium
+type:color #000
+layer.fill #A1A1A1
+
+~ PART 1
+type.write 400,67 "SUPERVISITOR"
+
+~ PART 2
+~ type.write 400,67 "SUPERWORKER"
+
+source.load /nataniev.small.black.svg x40 50,50
+type.write 250,67 "ALICEFFEKT"
+type.write 110,67 "DEMO"
+type:font DIN
+type:size 10
+
+~ PART 1
+type.write 250,82 "2012.04"
+type.write 400,82 "4 TRACKS"
+type.write 110,83 "MICROBRUTE"
+path:line_color black ; 
+path:line_width 20 ; 
+path:line_cap square ; 
+path.stroke M240,400 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M300,440 a20,20 0 0,1 20,20 l0,20 M240,400 l0,80 ;
+path.stroke M360,400 l0,60 a20,20 0 0,0 20,20 l40,0 a20,-20 0 0,0 20,-20 l0,-60 M440,460 l0,20 ;
+path.stroke M480,400 l80,0 M520,400 l0,80 ;
+path.stroke M120,400 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M180,440 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 ;
+path:line_color #A1A1A1 ; 
+path:line_cap round ;
+path:line_width 1 ;
+path.stroke M110,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-70,0 M180,440 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-70,0 M240,490 l0,-90 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M300,440 a20,20 0 0,1 20,20 l0,30 M360,390 l0,70 a20,20 0 0,0 20,20 l40,0 a20,-20 0 0,0 20,-20 l0,-70 l0,100 M470,400 l100,0 M520,400 l0,90 ;
+
+~ PART 2
+~ type.write 250,82 "2017.04"
+~ type.write 400,82 "3 TRACKS"
+~ type.write 110,83 "オフィス"
+~ magnet.grid 20x20 4,4
+~ path:line_color black
+~ path:line_width 20
+~ path:line_cap butt
+~ path.stroke M280,400 a40,40 0 0,1 40,40 a-40,40 0 0,1 -40,40 l0,0 a-40,-40 0 0,1 -40,-40 a40,-40 0 0,1 40,-40 M120,490 l0,-90 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M350,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-40,0 a-20,20 0 0,0 -20,20 l0,20 l90,0 M480,390 l0,30 a20,20 0 0,0 20,20 l60,0 M560,390 l0,100 ;
+~ path:line_color #A1A1A1
+~ path:line_cap round
+~ path:line_width 1
+~ path.stroke M280,400 a40,40 0 0,1 40,40 a-40,40 0 0,1 -40,40 l0,0 a-40,-40 0 0,1 -40,-40 a40,-40 0 0,1 40,-40 M120,490 l0,-90 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M350,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-40,0 a-20,20 0 0,0 -20,20 l0,20 l90,0 M480,390 l0,30 a20,20 0 0,0 20,20 l60,0 M560,390 l0,100 ;
+
+~ Save
+source:format jpg
+source:quality 1
+source.save
