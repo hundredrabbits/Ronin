@@ -31,6 +31,8 @@ path:line_color #A1A1A1 ;
 path:line_cap round ;
 path:line_width 1 ;
 path.stroke M110,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-70,0 M180,440 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-70,0 M240,490 l0,-90 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M300,440 a20,20 0 0,1 20,20 l0,30 M360,390 l0,70 a20,20 0 0,0 20,20 l40,0 a20,-20 0 0,0 20,-20 l0,-70 l0,100 M470,400 l100,0 M520,400 l0,90 ;
+type:size 20
+type.write 110,550 "ARTURIA'S MICROBRUTE"
 
 ~ PART 2
 ~ type.write 250,82 "2017.04"
@@ -45,6 +47,8 @@ path.stroke M110,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-70,0 M180,4
 ~ path:line_cap round
 ~ path:line_width 1
 ~ path.stroke M280,400 a40,40 0 0,1 40,40 a-40,40 0 0,1 -40,40 l0,0 a-40,-40 0 0,1 -40,-40 a40,-40 0 0,1 40,-40 M120,490 l0,-90 l60,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-60,0 M350,400 l70,0 a20,20 0 0,1 20,20 a-20,20 0 0,1 -20,20 l-40,0 a-20,20 0 0,0 -20,20 l0,20 l90,0 M480,390 l0,30 a20,20 0 0,0 20,20 l60,0 M560,390 l0,100 ;
+~ type:size 20
+~ type.write 110,550 "TEENAGE ENGINEERING'S POCKET OPERATOR 24"
 
 ~ Save
 source:format jpg

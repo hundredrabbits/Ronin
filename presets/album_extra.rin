@@ -1,7 +1,8 @@
 frame.resize 800x800
 type:size 13
 type:font DIN Medium
-type:color #000
+type:color #fff
+layer.fill #1a1a1a
 
 ~ PART 1
 ~ source.load /soundtrack_oquonie.jpg x800 -235,0
@@ -12,12 +13,12 @@ type:color #000
 ~ type.write 400,67 "RABBITS"
 
 ~ PART 3
-source.load /soundtrack_purgateus.jpg x800 0,0
-type.write 400,67 "WHERE UNDERWATER IS"
+source.load /extra_4.jpg x800 0,20
+type.write 400,67 "DAMOISEAU CANALX"
 
-source.load /nataniev.small.black.svg x40 50,50
+source.load /nataniev.small.white.svg x40 50,50
 type.write 250,67 "ALICEFFEKT"
-type.write 110,67 "SOUNDTRACK"
+type.write 110,67 "EXTRA"
 type:font DIN
 type:size 10
 
@@ -32,9 +33,9 @@ type:size 10
 ~ type.write 110,83 "HUNDRED RABBITS"
 
 ~ PART 3
-type.write 250,82 "2014.05"
-type.write 400,82 "6 TRACKS"
-type.write 110,83 "PURGATEUS"
+type.write 250,82 "2014.08"
+type.write 400,82 "4 TRACKS"
+type.write 110,83 "PART 4"
 
 ~ Save
 source:format jpg
