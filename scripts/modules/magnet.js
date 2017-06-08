@@ -3,7 +3,7 @@ function Magnet(rune)
   Module.call(this,rune);
 
   this.size = new Rect("1x1");
-  this.rate = null;
+  this.rate = new Position("4,4");
 
   this.add_setting(new Setting("color","#000000"));
 
@@ -20,7 +20,7 @@ function Magnet(rune)
 
     if(preview == false){
       if(cmd.rect()){ this.size = cmd.rect(); }
-      if(cmd.position()){ this.rate = cmd.rect();  }
+      if(cmd.position()){ this.rate = cmd.position();  }
     }
 
     return 1, preview ? "preview" : "ok";
@@ -38,27 +38,15 @@ function Magnet(rune)
 
     var horizontal = ronin.frame.size.width/rect.width;
     var vertical = ronin.frame.size.height/rect.height;
-    
+
     for (var x = 1; x < horizontal; x++) {
       for (var y = 1; y < vertical; y++) {
         var dot_position = new Position(x * rect.width, y * rect.height);
         var size = 0.5;
-        if(position && x % position.x == 0 && y % position.y == 0){ size = 1; }
+        if(this.rate && x % this.rate.x == 0 && y % this.rate.y == 0){ size = 1; }
         this.draw_marker(dot_position,size);
       }
     }
-  }
-
-  this.draw_helper = function(position)
-  {    
-    if(this.size.width < 5 || this.size.height < 5){ return; }
-
-    var magnetized = this.magnetic_position(position);
-    this.context().beginPath();
-    this.context().arc(magnetized.x, magnetized.y, 4, 0, 2 * Math.PI, false);
-    this.context().strokeStyle = this.settings["color"].value;
-    this.context().stroke();
-    this.context().closePath();
   }
 
   this.draw_marker = function(position,size = 0.5)
@@ -83,7 +71,6 @@ function Magnet(rune)
     if(this.size.width > 4 || this.size.height > 4){ 
       if(!this.layer){ this.create_layer(); }
       this.layer.clear();
-      this.draw_helper(position);
       this.draw_grid(this.size,this.rate);
     }
     

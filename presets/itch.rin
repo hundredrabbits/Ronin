@@ -1,0 +1,10 @@
+frame.resize 315x250
+layer.fill #111
+magnet:color #999
+magnet.grid 15x15 3,4
+path:line_color #ffffff
+path:line_width 5
+path:line_cap square
+path:fill_color #fff
+source.load /badge.donsol.png 82.5,45 150x
+source.save
