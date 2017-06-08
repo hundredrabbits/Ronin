@@ -1,0 +1,13 @@
+frame.resize 800x400
+frame.select background
+layer.fill #fff
+frame.select drawing
+brush:color #000000
+brush:size 3
+brush.clear
+brush.add 0,0
+brush.add 1,1
+brush.add -1,-1
+brush.add 0,0 mirror_x=400
+brush.add 1,1 mirror_x=400
+brush.add -1,-1 mirror_x=400
