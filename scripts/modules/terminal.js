@@ -54,11 +54,13 @@ function Terminal(rune)
     var command = this.cmd();
     var module  = command.module();
     var method  = command.method();
+    var autocomplete = this.find_autocomplete(command,module,method);
 
     if(method && preview){
       method.preview(command);
     }
-    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(this.input.value ? " > " : "")+(module ? module.hint(method) : ronin.hint(method));
+
+    this.hint_element.innerHTML = "<span class='input'>"+this.input.value+"</span>"+(autocomplete ? '<span class="autocomplete">'+autocomplete+'</span>' : '')+(this.input.value ? " > " : "")+(module ? module.hint(method) : ronin.hint(method));
     ronin.cursor.update();
   }
 
@@ -91,6 +93,31 @@ function Terminal(rune)
     ronin.load(cmd.values());
 
     return "Loading "+cmd.values();
+  }
+
+  this.find_autocomplete = function()
+  {
+    html = ""
+
+    var entry = this.input.value;
+    var module = this.cmd().module();
+    var method = entry.indexOf(".") > -1 ? entry.split(".")[1] : null;
+
+    if(entry.length == 0){ return null; }
+
+    if(module && method){
+      for(id in module.methods){
+        if(method == module.methods[id].name){ break; }
+        if(method == module.methods[id].name.substr(0,method.length)){ return module.methods[id].name.replace(method,""); }
+      }
+    }
+    else{
+      for(id in ronin.modules){
+        if(entry == ronin.modules[id].name){ break; }
+        if(entry == ronin.modules[id].name.substr(0,entry.length)){ return ronin.modules[id].name.replace(entry,""); }
+      }
+    }
+    return null;
   }
 }
 

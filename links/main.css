@@ -20,6 +20,8 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium"
 #terminal #widget { text-align: right; bottom:30px}
 #terminal #widget .mouse { color:white; }
 
+span.autocomplete { background:white; color:black; }
+
 span.module { display: inline-block; color:#999; }
 span.method { display: inline-block; color:#999; }
 span.method .name { color:#fff; }

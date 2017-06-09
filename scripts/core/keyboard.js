@@ -14,6 +14,16 @@ function Keyboard()
     if(event.altKey == true){
       this.alt_held = true;
     }
+
+    // Autocomplete with tab
+    if(event.keyCode === 9){
+      var ac = ronin.terminal.find_autocomplete();
+      if(ac){
+        event.preventDefault();
+        ronin.terminal.input.value += ac;
+      }
+    }
+
     ronin.cursor.update(event);
     ronin.widget.update();
     ronin.terminal.update();
@@ -23,6 +33,8 @@ function Keyboard()
   {
     this.shift_held = false;
     this.alt_held = false;
+
+    event.preventDefault();
 
     switch (event.key || event.keyCode || event.which) {
       case "Enter": this.key_enter(); break;
@@ -43,6 +55,8 @@ function Keyboard()
       case 40:  this.key_arrow_down(); break;
       case 8: this.key_delete(); break;
     }
+
+    console.log(event)
 
     // Passive
     ronin.widget.update();
