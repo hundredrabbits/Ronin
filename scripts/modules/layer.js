@@ -182,8 +182,6 @@ function Layer(name,manager = null)
 
   this.blink = function()
   {
-    if(this.is_blinking == false){ return; }
-    
-    this.element.style.display = this.element.style.display == "none" ? "block" : "none";
+    this.element.setAttribute("class","layer blink")
   }
 }

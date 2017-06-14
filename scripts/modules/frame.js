@@ -16,7 +16,6 @@ function Frame(rune)
   
   this.install = function()
   {
-    this.blink();
     this.select(new Command("frame.select background"));
 
     // Canvas

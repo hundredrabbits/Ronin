@@ -38,10 +38,11 @@ function Module(rune)
     return this.get_layer().context();
   }
 
-  this.create_layer = function()
+  this.create_layer = function(blink = false)
   {
     this.layer = new Layer(this.constructor.name+".Preview",this);
     this.layer.element.setAttribute("style","z-index:7000");
+    if(blink){ this.layer.blink(); }
     ronin.frame.add_layer(this.layer);
   }
 

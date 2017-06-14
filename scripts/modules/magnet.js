@@ -8,12 +8,13 @@ function Magnet(rune)
   this.add_setting(new Setting("color","#000000"));
 
   this.add_method(new Method("grid",["rect","position"]));
+  this.add_method(new Method("clear",[]));
 
   this.grid = function(cmd,preview = false)
   {
     if(!cmd.rect()){ return 0, "Rect?"; }
 
-    if(!this.layer){ this.create_layer(); }
+    if(!this.layer){ this.create_layer(true); }
 
     this.layer.clear();
     this.draw_grid(cmd.rect(),cmd.position());
@@ -24,6 +25,14 @@ function Magnet(rune)
     }
 
     return 1, preview ? "preview" : "ok";
+  }
+
+  this.clear = function(cmd,preview = false)
+  {
+    this.layer.clear();
+
+    this.size = new Rect("1x1");
+    this.rate = this.rate;    
   }
 
   this.draw_grid = function(rect,position)
@@ -69,7 +78,7 @@ function Magnet(rune)
   this.update_mouse = function(position)
   {
     if(this.size.width > 4 || this.size.height > 4){ 
-      if(!this.layer){ this.create_layer(); }
+      if(!this.layer){ this.create_layer(true); }
       this.layer.clear();
       this.draw_grid(this.size,this.rate);
     }

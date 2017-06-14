@@ -8,7 +8,7 @@ function Overlay(rune)
   
   this.draw = function(position,rect)
   {
-    if(!this.layer){ this.create_layer(); this.layer.is_blinking = true; }
+    if(!this.layer){ this.create_layer(true); this.layer.is_blinking = true; }
     
     if(!position){ position = new Position("0,0"); }
 

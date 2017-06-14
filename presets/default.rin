@@ -1,4 +1,4 @@
-frame.resize 300x320
+frame.resize 300x300
 layer.fill #000000
 path:line_width 28
 path:line_cap butt
@@ -10,9 +10,5 @@ path:line_cap round
 path.stroke M120,60 a60,60 0 0,1 60,60 M240,120 a-60,60 0 0,1 -60,60 M180,240 a-60,-60 0 0,1 -60,-60 M60,180 a60,-60 0 0,1 60,-60 
 path.stroke M120,90 a30,30 0 0,1 30,30 M210,120 a-30,30 0 0,1 -30,30 M180,210 a-30,-30 0 0,1 -30,-30 M90,180 a30,-30 0 0,1 30,-30 
 magnet.grid 1x1 4,4
-type:size 11
-type:color #ffffff
-type:font "DIN Medium"
-type.write 45,280 "RONIN"
-type:font "DIN"
-type.write 85,280 "09"
+brush:color #72dec2
+brush:size 10
