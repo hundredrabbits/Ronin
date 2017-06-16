@@ -36,7 +36,7 @@ span.setting .value { color:#999; }
 span.mode { color:#999; }
 span.mode .name { text-decoration: underline; color:white; }
 
-#modal { position: fixed; bottom:80px; right:20px; height:100px; background:#111; border-radius:3px; overflow:hidden; display: block}
+#modal { position: fixed; bottom:80px; right:20px; height:100px; border-radius:3px; overflow:hidden; display: block}
 #modal.text { display: block;background: #000;width: calc(100vw - 100px);height: calc(100vh - 160px);padding: 30px;font-size: 12px;white-space: pre;column-count: 3;line-height: 20px;color:white}
 #modal.image img { display: block; max-height: 100%; width:inherit;}
 #modal.hidden { display: none }

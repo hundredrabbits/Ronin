@@ -14,7 +14,7 @@ function Magnet(rune)
   {
     if(!cmd.rect()){ return 0, "Rect?"; }
 
-    if(!this.layer){ this.create_layer(true); }
+    if(!this.layer){ this.create_layer(); }
 
     this.layer.clear();
     this.draw_grid(cmd.rect(),cmd.position());
@@ -78,7 +78,7 @@ function Magnet(rune)
   this.update_mouse = function(position)
   {
     if(this.size.width > 4 || this.size.height > 4){ 
-      if(!this.layer){ this.create_layer(true); }
+      if(!this.layer){ this.create_layer(); }
       this.layer.clear();
       this.draw_grid(this.size,this.rate);
     }

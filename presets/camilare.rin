@@ -1,0 +1,21 @@
+frame.resize 300x300
+layer.fill #000000
+path:line_width 28
+path:line_cap butt
+magnet:color #999
+magnet.grid 15x15 4,4
+frame.select logo~ 
+brush:color #72dec2
+path:line_cap round
+path.stroke M150,240 l0,-30 a60,-60 0 0,1 60,-60 l30,0 l0,30 l-30,0 a-30,30 0 0,0 -30,30 l0,30 l30,0 l0,-30 
+path.stroke M150,60 l0,30 a-60,60 0 0,1 -60,60 l-30,0 l0,-30 l30,0 a30,-30 0 0,0 30,-30 l0,-30 l-30,0 l0,30 
+path.stroke M120,240 l0,-30 a-30,-30 0 0,0 -30,-30 l-30,0 l0,30 l30,0 
+path.stroke M180,60 l0,30 a30,30 0 0,0 30,30 l30,0 l0,-30 l-30,0 
+path:line_cap square
+path.stroke M150,75 l0,-15 M180,75 l0,-15 M150,225 l0,15 M120,225 l0,15 
+path:line_cap round
+path.stroke M90,210 l0,30 M210,210 l30,0 M210,90 l0,-30 M90,90 l-30,0 
+path.stroke M90,240 l-30,0 M60,90 l0,-30 M210,60 l30,0 M240,210 l0,30 
+path:line_cap square
+path.stroke M240,225 l0,15 M75,240 l-15,0 M60,75 l0,-15 M225,60 l15,0 
+magnet.clear
