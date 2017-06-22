@@ -1,6 +1,6 @@
 frame.resize 300x300
 layer.fill #000
-path:line_width 29
+path:line_width 28
 path:line_cap square
 magnet.grid 30x30 2,2
 frame.select logo
