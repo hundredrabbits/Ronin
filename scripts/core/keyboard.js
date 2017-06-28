@@ -17,9 +17,9 @@ function Keyboard()
 
     // Autocomplete with tab
     if(event.keyCode === 9){
+      event.preventDefault();
       var ac = ronin.terminal.find_autocomplete();
       if(ac){
-        event.preventDefault();
         ronin.terminal.input.value += ac;
       }
     }
@@ -105,7 +105,7 @@ function Keyboard()
   this.key_escape = function()
   {
     ronin.overlay.key_escape();
-    
+
     for(var key in ronin.modules){
       ronin.modules[key].key_escape();
     }
