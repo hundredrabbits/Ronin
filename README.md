@@ -1,7 +1,8 @@
-# Ronin
+# Marabu
 
-Ronin is my web based drawing tool it's under constant development. 
-The repository comes with a script that fires Ronin from within Localhost.
+Marabu is a simple open-source graphic design tool.
+
+<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width="600"/>
 
 ## Example file
 

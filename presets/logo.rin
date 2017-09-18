@@ -1,0 +1,16 @@
+~ TRY 1
+frame.resize 420x330
+layer.fill #EEE
+brush:color #ff0000
+path:line_color #222
+magnet.grid 15x15 4,4
+frame.select work
+path:line_cap butt
+path:line_width 60
+path.stroke M60,60 a30,30 0 0,1 30,30 l0,120 a30,30 0 0,0 30,30 a30,-30 0 0,0 30,-30 l0,-120 a30,-30 0 0,1 30,-30 a30,30 0 0,1 30,30 l0,120 a30,30 0 0,0 30,30 a30,-30 0 0,0 30,-30 l0,-120 a30,-30 0 0,1 30,-30 
+path:line_cap butt
+path:line_width 1
+path:line_color #EEE
+path.stroke M90,60 a30,30 0 0,1 30,30 l0,120 a30,30 0 0,0 30,30 a30,-30 0 0,0 30,-30 l0,-120 a30,-30 0 0,1 30,-30 a30,30 0 0,1 30,30 l0,120 a30,30 0 0,0 30,30 a30,-30 0 0,0 30,-30 l0,-120 a30,-30 0 0,1 30,-30 
+path.stroke M90,60 a-30,30 0 0,0 -30,30 
+magnet.clear

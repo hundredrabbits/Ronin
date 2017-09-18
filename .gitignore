@@ -1,6 +1,4 @@
-*.swp
-*.swo
-assets/*.png
-assets/*.jpg
-assets/*.gif
-assets/*.svg
+node_modules/
+builds/
+.DS_Store
+*/.DS_Store
