@@ -116,7 +116,8 @@ function Ronin()
   this.filename = "default.rin";
 
   this.load = function readTextFile(name)
-  {    
+  {   
+    return; 
     this.filename = name;
     var file = "presets/"+name+'?'+new Date().getTime();
     var rawFile = new XMLHttpRequest();

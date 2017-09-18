@@ -1,6 +1,6 @@
-# Marabu
+# Ronin
 
-Marabu is a simple open-source graphic design tool.
+Ronin is a simple open-source graphic design tool.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width="600"/>
 
