@@ -60,7 +60,7 @@ function Ronin()
     ronin.terminal.update();
     ronin.widget.update();
     ronin.terminal.input.focus();
-    ronin.load(target_file);
+    // ronin.load(target_file);
   }
 
   this.hint = function(method)
