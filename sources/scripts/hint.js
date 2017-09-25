@@ -11,7 +11,13 @@ function Hint()
 
   this.update = function(e = null)
   {
-    this.el.innerHTML = this.pad(ronin.commander.input_el.value)+"brush:"+ronin.brush.settings.size+"&"+ronin.brush.settings.color+"";
+    var html = ""
+
+    for(module_id in ronin.modules){
+      var module = ronin.modules[module_id];
+      html += module.hint()+" ";
+    }
+    this.el.innerHTML = this.pad(ronin.commander.input_el.value)+html;
   }
 
   this.pad = function(input)

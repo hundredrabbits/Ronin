@@ -8,13 +8,16 @@ function Ronin()
   this.commander = new Commander();
   this.cursor = new Cursor();
   this.render = new Render();
-  this.brush = new Brush();
-  this.eraser = new Eraser();
   this.hint = new Hint();
 
+  this.brush = new Brush();
+  this.eraser = new Eraser();
+  this.frame = new Frame();
+
   this.modules = {
-    rescale : new Rescale(),
     brush : this.brush,
+    eraser : this.eraser,
+    frame : this.frame,
   };
   
   this.install = function()

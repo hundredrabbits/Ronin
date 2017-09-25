@@ -1,5 +1,7 @@
 function Brush()
 {
+  Module.call(this,"brush");
+
   this.settings = {size:10,color:"#f00"};
 
   this.thickness = function(line)
@@ -26,7 +28,12 @@ function Brush()
 
   this.mod_size = function(mod)
   {
-    this.settings.size += mod;
+    this.settings.size = clamp(this.settings.size+mod,1,100);
+  }
+
+  function clamp(v, min, max)
+  { 
+    return v < min ? min : v > max ? max : v; 
   }
 
   function distance_between(a,b)

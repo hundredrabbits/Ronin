@@ -1,5 +1,7 @@
 function Eraser()
 {
+  Module.call(this,"eraser");
+
   this.thickness = function(line)
   {
     return ronin.brush.thickness(line);
