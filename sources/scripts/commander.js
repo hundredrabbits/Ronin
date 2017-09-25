@@ -15,6 +15,9 @@ function Commander()
   this.validate = function(query_str = ronin.commander.input_el.value)
   {
     var q = new Query(query_str);
-    console.log(q);
+
+    if(!ronin.modules[q.module]){ console.log("Unknown module"); return; }
+
+    ronin.modules[q.module].run(q)
   }
 }

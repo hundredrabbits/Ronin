@@ -8,6 +8,10 @@ function Ronin()
   this.commander = new Commander();
   this.cursor = new Cursor();
   this.render = new Render();
+
+  this.modules = {
+    rescale : new Rescale()
+  };
   
   this.install = function()
   {
