@@ -1,37 +1,38 @@
 function Cursor(rune)
 {
+  this.line = {from:null,to:null};
   this.is_down = false;
 
   this.mouse_down = function(e)
   {
     e.preventDefault();
 
-    ronin.cursor.is_down = true;
-
-    var ctx = ronin.render.context();
-    ctx.beginPath();
-    ctx.rect(e.clientX * 2, e.clientY * 2, 5, 5);
-    ctx.fillStyle = "red";
-    ctx.fill();
+    ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
   }
 
   this.mouse_move = function(e)
   {
     e.preventDefault();
 
-    if(!ronin.cursor.is_down){ return; }
+    if(!ronin.cursor.line.from){ return; }
 
-    var ctx = ronin.render.context();
-    ctx.beginPath();
-    ctx.rect(e.clientX * 2, e.clientY * 2, 5, 5);
-    ctx.fillStyle = "red";
-    ctx.fill();
+    ronin.cursor.line.to = {x:e.clientX,y:e.clientY};
+
+    if(e.altKey){
+      ronin.eraser.stroke(ronin.cursor.line);
+    }
+    else{
+      ronin.brush.stroke(ronin.cursor.line);  
+    }
+    
+    ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
   }
 
   this.mouse_up = function(e)
   {   
     e.preventDefault();
     
-    ronin.cursor.is_down = false; 
+    ronin.cursor.is_down = false;
+    ronin.cursor.line = {};
   }
 }

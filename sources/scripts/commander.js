@@ -3,7 +3,7 @@ function Commander()
   this.el = document.createElement('yu');
   this.el.id = "commander";
   this.input_el = document.createElement('input');
-  this.input_el.value = "rescale s:0.5 rect:300x300";
+  this.input_el.value = "";
 
   this.install = function()
   {
@@ -16,8 +16,33 @@ function Commander()
   {
     var q = new Query(query_str);
 
-    if(!ronin.modules[q.module]){ console.log("Unknown module"); return; }
+    if(!ronin.modules[q.module]){ console.log("Unknown module",q); return; }
 
-    ronin.modules[q.module].run(q)
+    // Update settings
+    for(setting_id in q.settings){
+      var setting_value = q.settings[setting_id];
+      if(!ronin.modules[q.module].settings[setting_id]){ console.log("Missing setting",setting_id); return; }
+      ronin.modules[q.module].settings[setting_id] = setting_value;
+    }
+
+    // Run methods
+    for(method_id in q.methods){
+      var method_param = q.methods[method_id];
+      if(!ronin.modules[q.module][method_id]){ console.log("Missing method",method_id); return; }
+      ronin.modules[q.module][method_id].run(method_param);
+    }
+
+    ronin.commander.input_el.value = "";
+    ronin.hint.update();
+  }
+
+  this.on_input = function(e)
+  {
+    ronin.hint.update();
+  }
+
+  this.blur = function()
+  {
+    this.input_el.blur();
   }
 }
