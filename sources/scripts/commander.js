@@ -32,6 +32,8 @@ function Commander()
       ronin.modules[q.module][method_id].run(method_param);
     }
 
+    ronin.modules[q.module].routes = q.routes;
+
     ronin.commander.input_el.value = "";
     ronin.hint.update();
   }

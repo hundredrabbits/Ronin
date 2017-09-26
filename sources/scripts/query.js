@@ -5,6 +5,7 @@ function Query(query_str)
   this.raw = parts.join(" ");
   this.methods = {};
   this.settings = {};
+  this.routes = {};
 
   for(part_id in parts){
     var part = parts[part_id];
@@ -13,10 +14,15 @@ function Query(query_str)
       var value = part.indexOf(":") > -1 ? part.split(":")[1] : part;
       this.methods[key] = value;
     }
-    if(part.indexOf("=") > -1){
+    else if(part.indexOf("=") > -1){
       var key = part.indexOf("=") > -1 ? part.split("=")[0] : "any";
       var value = part.indexOf("=") > -1 ? part.split("=")[1] : part;
       this.settings[key] = value;
+    }
+    else if(part.indexOf("->") > -1){
+      var key = part.indexOf("->") > -1 ? part.split("->")[1] : "any";
+      var value = part.indexOf("->") > -1 ? part.split("->")[0] : part;
+      this.routes[key] = value;
     }
   }
 }

@@ -1,6 +1,9 @@
 function Module(name)
 {
   this.name = name;
+  this.settings = {};
+  this.routes = {};
+  this.ports = {};
 
   this.hint = function()
   {
@@ -11,6 +14,11 @@ function Module(name)
       html += setting_id+"="+setting_value+" ";
     }
 
-    return this.name+"["+html.trim()+"]";
+    for(route_id in this.routes){
+      var route_val = this.routes[route_id];
+      html += route_val+"->"+route_id;
+    }
+
+    return html.trim() != "" ? "<b>"+this.name+"</b> "+html.trim() : "";
   }
 }

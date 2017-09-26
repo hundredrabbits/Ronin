@@ -17,7 +17,7 @@ function Hint()
       var module = ronin.modules[module_id];
       html += module.hint()+" ";
     }
-    this.el.innerHTML = this.pad(ronin.commander.input_el.value)+html;
+    this.el.innerHTML = this.pad(ronin.commander.input_el.value)+(ronin.commander.input_el.value == "" ? html : "");
   }
 
   this.pad = function(input)
