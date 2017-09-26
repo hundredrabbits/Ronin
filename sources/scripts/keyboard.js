@@ -14,7 +14,9 @@ function Keyboard()
     
     if(e.key == "Escape"){
       e.preventDefault();
-      ronin.commander.input_el.blur();;
+      ronin.commander.input_el.blur();
+      ronin.commander.input_el.value = "";
+      ronin.guide.update();
     }
 
     if(e.key == "]"){

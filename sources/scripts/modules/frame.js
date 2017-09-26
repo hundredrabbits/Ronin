@@ -8,10 +8,11 @@ function Frame()
 
   this.methods.resize = function(q)
   {
-    if(q.indexOf("x") == -1){ return; }
+    var data = ronin.render.select(0,0,ronin.frame.settings.width,ronin.frame.settings.height);
 
-    var size = {width:parseInt(q.split("x")[0]),height:parseInt(q.split("x")[1])};
-    ronin.frame.resize(size);
+    ronin.render.clear();
+    ronin.frame.resize_to(q);
+    ronin.render.context().putImageData(data, 0, 0);
   }
 
   this.methods.rescale = function(p)

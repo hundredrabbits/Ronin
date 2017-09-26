@@ -3,19 +3,26 @@ function Ronin()
   this.el = document.createElement('yu');
   this.el.id = "ronin";
 
-  this.grid = new Grid();
   this.io = new IO();
   this.keyboard = new Keyboard();
   this.commander = new Commander();
   this.cursor = new Cursor();
-  this.render = new Render();
   this.hint = new Hint();
+
+  this.grid = new Grid();
   this.guide = new Guide();
+  this.render = new Render();
 
   this.brush = new Brush();
   this.eraser = new Eraser();
   this.frame = new Frame();
   this.line = new Line();
+
+  this.layers = {
+    grid : this.grid,
+    guide : this.guide,
+    render : this.render,
+  };
 
   this.modules = {
     brush : this.brush,
@@ -27,6 +34,9 @@ function Ronin()
   this.install = function()
   {
     document.body.appendChild(this.el);
+
+    this.frame.settings.width = window.innerWidth;
+    this.frame.settings.height = window.innerHeight;
 
     this.grid.install();
     this.guide.install();
