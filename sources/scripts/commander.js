@@ -39,6 +39,7 @@ function Commander()
   this.on_input = function(e)
   {
     ronin.hint.update();
+    ronin.guide.update();
   }
 
   this.blur = function()

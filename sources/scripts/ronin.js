@@ -10,6 +10,7 @@ function Ronin()
   this.cursor = new Cursor();
   this.render = new Render();
   this.hint = new Hint();
+  this.guide = new Guide();
 
   this.brush = new Brush();
   this.eraser = new Eraser();
@@ -49,6 +50,6 @@ function Ronin()
     this.render.update();
     this.grid.update();
 
-    this.commander.input_el.value = "line tween:$&$&$>>$&$&$"
+    this.commander.input_el.value = "line tween:$&$&$>>$&$&$";
   }
 }

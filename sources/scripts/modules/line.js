@@ -2,14 +2,17 @@ function Line()
 {
   Module.call(this,"line");
 
-  this.settings = {steps:20};
+  this.settings = {steps:100};
 
   this.methods = {};
 
+  this.ports = {};
+  this.ports.index = 0;
+
   this.methods.tween = function(q)
   {
-    var from = parse_sequence(q.split(">>")[0]);
-    var to = parse_sequence(q.split(">>")[1]);
+    var from = q.from;
+    var to = q.to;
 
     var s = 0;
     while(s < ronin.line.settings.steps){
@@ -18,6 +21,12 @@ function Line()
       ronin.line.stroke_multi(new_positions);
       s += 1;
     }
+  }
+
+  this.methods.stroke = function(q)
+  {
+    console.log(q)
+    ronin.line.stroke_multi(q)
   }
 
   this.stroke_multi = function(coordinates)
@@ -43,28 +52,6 @@ function Line()
     ctx.strokeStyle = "#000";
     ctx.stroke();
     ctx.closePath();
-  }
-
-  function parse_sequence(seq_str)
-  {
-    var a = [];
-
-    var parts = seq_str.split("&");
-    for(part_id in parts){
-      var part = parts[part_id];
-      a.push(parse_unit(part));
-    }
-    return a;
-  }
-
-  function parse_unit(unit_str)
-  {
-    if(unit_str.indexOf(",") > -1){
-      return {x:parseInt(unit_str.split(",")[0]),y:parseInt(unit_str.split(",")[1])};
-    }
-    if(unit_str.indexOf("x") > -1){
-      return {width:parseInt(unit_str.split("x")[0]),height:parseInt(unit_str.split("x")[1])};
-    }
   }
 
   function tween_positions(froms,tos,progress)

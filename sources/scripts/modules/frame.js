@@ -18,6 +18,11 @@ function Frame()
   {
   }
 
+  this.methods.crop = function(p)
+  {
+    
+  }
+
   this.resize_to = function(size)
   {
     ronin.frame.settings.width = size.width;
