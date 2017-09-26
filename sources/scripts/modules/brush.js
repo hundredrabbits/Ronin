@@ -6,11 +6,11 @@ function Brush()
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}}),
-    new Pointer({offset:{x:2,y:2}}),
-    new Pointer({offset:{x:4,y:4}}),
+    new Pointer({offset:{x:1,y:0}}),
+    new Pointer({offset:{x:-1,y:0}}),
+    new Pointer({offset:{x:0,y:1}}),
+    new Pointer({offset:{x:0,y:-1}}),
   ];
-
-  // brush speed->blue speed->thickness noise->green
 
   this.ports.speed = 0;
   this.ports.distance = 0;
@@ -18,6 +18,7 @@ function Brush()
   this.ports.green = 0;
   this.ports.blue = 0;
   this.ports.alpha = 1;
+  this.ports.x = 1;
   this.ports.noise = 0;
 
   this.thickness = function(line)
@@ -31,7 +32,7 @@ function Brush()
   this.offset = function(line)
   {
     if(this.ports[this.routes.offset]){
-      return this.ports[this.routes.offset] * this.settings.size;  
+      return this.ports[this.routes.offset];  
     }
     return 1;
   }
@@ -47,7 +48,6 @@ function Brush()
   this.green = function(line)
   {
     if(this.ports[this.routes.green]){
-      console.log(this.ports[this.routes.green])
       return this.ports[this.routes.green] * 255;  
     }
     return this.ports.green;
@@ -63,7 +63,10 @@ function Brush()
 
   this.alpha = function(line)
   {
-    return 1;
+    if(this.ports[this.routes.alpha]){
+      return this.ports[this.routes.alpha];  
+    }
+    return this.ports.alpha;
   }
 
   this.stroke = function(line)
@@ -72,7 +75,8 @@ function Brush()
 
     this.ports.speed = distance_between(line.from,line.to)/15.0;
     this.ports.distance += this.ports.speed;
-    this.ports.noise = Math.random(255);
+    this.ports.noise = Math.random(255/255.0);
+    this.ports.x = line.from.x/2;
 
     for(pointer_id in this.pointers){
       this.pointers[pointer_id].stroke(line);
@@ -122,8 +126,6 @@ function Pointer(options)
     ctx.strokeStyle = "rgba("+clamp(parseInt(ronin.brush.red()),0,255)+","+clamp(parseInt(ronin.brush.green()),0,255)+","+clamp(parseInt(ronin.brush.blue()),0,255)+","+ronin.brush.alpha()+")";
     ctx.stroke();
     ctx.closePath();
-
-    console.log("rgba("+clamp(parseInt(ronin.brush.red()),0,255)+","+clamp(parseInt(ronin.brush.green()),0,255)+","+clamp(parseInt(ronin.brush.blue()),0,255)+","+ronin.brush.alpha()+")");
   }
 
   function clamp(v, min, max)

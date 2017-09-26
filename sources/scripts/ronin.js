@@ -3,6 +3,7 @@ function Ronin()
   this.el = document.createElement('yu');
   this.el.id = "ronin";
 
+  this.grid = new Grid();
   this.io = new IO();
   this.keyboard = new Keyboard();
   this.commander = new Commander();
@@ -24,6 +25,7 @@ function Ronin()
   {
     document.body.appendChild(this.el);
 
+    this.grid.install();
     this.render.install();
     this.commander.install();
     this.hint.install();
@@ -43,6 +45,7 @@ function Ronin()
 
     console.log("Ronin","Started");
     this.render.update();
+    this.grid.update();
   }
 
   this.resize_to = function(size)
