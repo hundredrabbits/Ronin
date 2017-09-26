@@ -15,6 +15,7 @@ function Commander()
   this.validate = function(q = ronin.commander.query())
   {
     if(!ronin.modules[q.module]){ console.log("Unknown module",q.module); return; }
+    if(q.raw.indexOf("$") > -1){ console.log("Variables present"); return; }
 
     // Update settings
     for(setting_id in q.settings){
