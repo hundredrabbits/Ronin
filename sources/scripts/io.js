@@ -26,7 +26,7 @@ function IO()
       var width = base_image.naturalWidth;
       var height = base_image.naturalHeight;
 
-      ronin.resize_to({width:width * 0.5,height:height * 0.5});
+      ronin.frame.resize_to({width:width * 0.5,height:height * 0.5});
       ronin.render.context().drawImage(base_image, 0,0,width,height);
     }
     reader.readAsDataURL(file);

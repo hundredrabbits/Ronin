@@ -52,6 +52,8 @@ function Grid()
     this.el.height = size.height * 2;
     this.el.style.width = size.width+"px";
     this.el.style.height = size.height+"px";
+
+    this.draw();
   }
 
   this.clear = function()

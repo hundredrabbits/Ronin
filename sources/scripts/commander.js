@@ -16,7 +16,7 @@ function Commander()
   {
     var q = new Query(query_str);
 
-    if(!ronin.modules[q.module]){ console.log("Unknown module",q); return; }
+    if(!ronin.modules[q.module]){ console.log("Unknown module",q.module); return; }
 
     // Update settings
     for(setting_id in q.settings){
@@ -28,8 +28,8 @@ function Commander()
     // Run methods
     for(method_id in q.methods){
       var method_param = q.methods[method_id];
-      if(!ronin.modules[q.module][method_id]){ console.log("Missing method",method_id); return; }
-      ronin.modules[q.module][method_id].run(method_param);
+      if(!ronin.modules[q.module].methods[method_id]){ console.log("Missing method",method_id); return; }
+      ronin.modules[q.module].methods[method_id](method_param);
     }
 
     ronin.modules[q.module].routes = q.routes;

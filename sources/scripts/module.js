@@ -1,6 +1,7 @@
 function Module(name)
 {
   this.name = name;
+  this.methods = {};
   this.settings = {};
   this.routes = {};
   this.ports = {};
@@ -18,8 +19,6 @@ function Module(name)
       var route_val = this.routes[route_id];
       html += route_val+"->"+route_id+" ";
     }
-
-    console.log(this.name,this.settings);
 
     return html.trim() != "" ? "<b>"+this.name+"</b> "+html.trim() : "";
   }

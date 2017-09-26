@@ -47,12 +47,4 @@ function Ronin()
     this.render.update();
     this.grid.update();
   }
-
-  this.resize_to = function(size)
-  {
-    const {dialog,app} = require('electron').remote;
-    var win = require('electron').remote.getCurrentWindow();
-    win.setSize(size.width,size.height);
-    this.render.resize_to(size);
-  }
 }

@@ -6,10 +6,10 @@ function Brush()
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}}),
-    new Pointer({offset:{x:1,y:0}}),
-    new Pointer({offset:{x:-1,y:0}}),
-    new Pointer({offset:{x:0,y:1}}),
-    new Pointer({offset:{x:0,y:-1}}),
+    // new Pointer({offset:{x:1,y:0}}),
+    // new Pointer({offset:{x:-1,y:0}}),
+    // new Pointer({offset:{x:0,y:1}}),
+    // new Pointer({offset:{x:0,y:-1}}),
   ];
 
   this.ports.speed = 0;
