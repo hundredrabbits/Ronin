@@ -1,6 +1,6 @@
 function Cursor(rune)
 {
-  this.line = {from:null,to:null};
+  this.line = {origin:null,from:null,to:null,destination:null};
   this.is_down = false;
 
   this.mouse_down = function(e)
@@ -39,7 +39,9 @@ function Cursor(rune)
     ronin.cursor.line.destination = {x:e.clientX,y:e.clientY};
 
     if(distance_between(ronin.cursor.line.origin,ronin.cursor.line.destination) > 10){
-      ronin.commander.inject(e.clientX+"x"+e.clientY);
+      var offset = ronin.cursor.line.origin.x+","+ronin.cursor.line.origin.y;
+      var rect = (ronin.cursor.line.destination.x - ronin.cursor.line.origin.x)+"x"+(ronin.cursor.line.destination.y - ronin.cursor.line.origin.y);
+      ronin.commander.inject(offset+"%"+rect);
     }
     else{
       ronin.commander.inject(e.clientX+","+e.clientY);
