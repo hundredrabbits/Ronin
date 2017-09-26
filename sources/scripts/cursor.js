@@ -7,6 +7,7 @@ function Cursor(rune)
   {
     e.preventDefault();
 
+    ronin.cursor.line.origin = {x:e.clientX,y:e.clientY};
     ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
   }
 
@@ -18,7 +19,10 @@ function Cursor(rune)
 
     ronin.cursor.line.to = {x:e.clientX,y:e.clientY};
 
-    if(e.altKey){
+    if(ronin.commander.active_module()){
+
+    }
+    else if(e.altKey){
       ronin.eraser.stroke(ronin.cursor.line);
     }
     else{
@@ -32,7 +36,21 @@ function Cursor(rune)
   {   
     e.preventDefault();
     
+    ronin.cursor.line.destination = {x:e.clientX,y:e.clientY};
+
+    if(distance_between(ronin.cursor.line.origin,ronin.cursor.line.destination) > 10){
+      ronin.commander.inject(e.clientX+"x"+e.clientY);
+    }
+    else{
+      ronin.commander.inject(e.clientX+","+e.clientY);
+    }
+    
     ronin.cursor.is_down = false;
     ronin.cursor.line = {};
+  }
+
+  function distance_between(a,b)
+  {
+    return Math.sqrt( (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y) );
   }
 }

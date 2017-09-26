@@ -2,7 +2,7 @@ function Brush()
 {
   Module.call(this,"brush");
 
-  this.settings = {size:1,color:"#f00",opacity:1.0};
+  this.settings = {size:4,color:"#000",opacity:1.0};
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}}),
@@ -14,7 +14,7 @@ function Brush()
 
   this.ports.speed = 0;
   this.ports.distance = 0;
-  this.ports.red = 255;
+  this.ports.red = 0;
   this.ports.green = 0;
   this.ports.blue = 0;
   this.ports.alpha = 1;

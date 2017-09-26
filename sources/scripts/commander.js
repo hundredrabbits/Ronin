@@ -12,10 +12,8 @@ function Commander()
     this.input_el.focus();
   }
 
-  this.validate = function(query_str = ronin.commander.input_el.value)
+  this.validate = function(q = ronin.commander.query())
   {
-    var q = new Query(query_str);
-
     if(!ronin.modules[q.module]){ console.log("Unknown module",q.module); return; }
 
     // Update settings
@@ -46,5 +44,20 @@ function Commander()
   this.blur = function()
   {
     this.input_el.blur();
+  }
+
+  this.active_module = function()
+  {
+    return this.query().module;
+  }
+
+  this.inject = function(str,entry_code = "$")
+  {
+    ronin.commander.input_el.value = ronin.commander.input_el.value.replace(entry_code,str);
+  }
+
+  this.query = function()
+  {
+    return new Query(ronin.commander.input_el.value);
   }
 }

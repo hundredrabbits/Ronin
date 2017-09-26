@@ -14,11 +14,13 @@ function Ronin()
   this.brush = new Brush();
   this.eraser = new Eraser();
   this.frame = new Frame();
+  this.line = new Line();
 
   this.modules = {
     brush : this.brush,
     eraser : this.eraser,
     frame : this.frame,
+    line : this.line,
   };
   
   this.install = function()
@@ -46,5 +48,7 @@ function Ronin()
     console.log("Ronin","Started");
     this.render.update();
     this.grid.update();
+
+    this.commander.input_el.value = "line tween:$&$&$>>$&$&$"
   }
 }
