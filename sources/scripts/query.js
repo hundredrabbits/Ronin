@@ -78,8 +78,8 @@ function Query(query_str)
 
   function parse_unit(unit_str)
   {
-    if(unit_str.indexOf("%") > -1 && unit_str.indexOf(",") > -1 && unit_str.indexOf("x") > -1){
-      return Object.assign(parse_unit(unit_str.split("%")[0]), parse_unit(unit_str.split("%")[1]));
+    if(unit_str.indexOf("|") > -1 && unit_str.indexOf(",") > -1 && unit_str.indexOf("x") > -1){
+      return Object.assign(parse_unit(unit_str.split("|")[0]), parse_unit(unit_str.split("|")[1]));
     }
     if(unit_str.indexOf(",") > -1){
       return {x:parseInt(unit_str.split(",")[0]),y:parseInt(unit_str.split(",")[1])};

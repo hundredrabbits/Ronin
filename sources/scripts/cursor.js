@@ -41,7 +41,7 @@ function Cursor(rune)
     if(distance_between(ronin.cursor.line.origin,ronin.cursor.line.destination) > 10){
       var offset = ronin.cursor.line.origin.x+","+ronin.cursor.line.origin.y;
       var rect = (ronin.cursor.line.destination.x - ronin.cursor.line.origin.x)+"x"+(ronin.cursor.line.destination.y - ronin.cursor.line.origin.y);
-      ronin.commander.inject(offset+"%"+rect);
+      ronin.commander.inject(offset+"|"+rect);
     }
     else{
       ronin.commander.inject(e.clientX+","+e.clientY);

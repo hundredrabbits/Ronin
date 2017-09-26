@@ -20,7 +20,11 @@ function Frame()
 
   this.methods.crop = function(p)
   {
-    
+    var data = ronin.render.select(p.x,p.y,p.width,p.height);
+
+    ronin.render.clear();
+    ronin.frame.resize_to(p);
+    ronin.render.context().putImageData(data, 0, 0);
   }
 
   this.resize_to = function(size)
@@ -33,5 +37,6 @@ function Frame()
     win.setSize(size.width,size.height);
     ronin.render.resize_to(size);
     ronin.grid.resize_to(size);
+    ronin.guide.resize_to(size);
   }
 }

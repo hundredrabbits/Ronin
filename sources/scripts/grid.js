@@ -1,21 +1,8 @@
 function Grid()
 {
-  this.el = document.createElement('canvas'); this.el.id = "grid";
+  Layer.call(this);
 
-  this.install = function()
-  {
-    ronin.el.appendChild(this.el);
-  }
-
-  this.update = function()
-  {
-    this.el.width = window.innerWidth * 2;
-    this.el.height = window.innerHeight * 2;
-    this.el.style.width = (window.innerWidth)+"px";
-    this.el.style.height = (window.innerHeight)+"px";
-
-    this.draw();
-  }
+  this.el.id = "grid";
 
   this.draw = function()
   {
@@ -41,11 +28,6 @@ function Grid()
     ctx.fill();
   }
 
-  this.context = function()
-  {
-    return this.el.getContext('2d');
-  }
-
   this.resize_to = function(size)
   {
     this.el.width = size.width * 2;
@@ -54,10 +36,5 @@ function Grid()
     this.el.style.height = size.height+"px";
 
     this.draw();
-  }
-
-  this.clear = function()
-  {
-    ronin.render.context().clearRect(0, 0, this.el.width, this.el.height);
   }
 }

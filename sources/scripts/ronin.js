@@ -29,7 +29,9 @@ function Ronin()
     document.body.appendChild(this.el);
 
     this.grid.install();
+    this.guide.install();
     this.render.install();
+
     this.commander.install();
     this.hint.install();
 
@@ -49,7 +51,8 @@ function Ronin()
     console.log("Ronin","Started");
     this.render.update();
     this.grid.update();
+    this.guide.update();
 
-    this.commander.input_el.value = "line tween:$&$&$>>$&$&$";
+    this.commander.input_el.value = "frame crop:$";
   }
 }

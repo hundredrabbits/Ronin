@@ -35,6 +35,7 @@ function Commander()
 
     ronin.commander.input_el.value = "";
     ronin.hint.update();
+    ronin.guide.update();
   }
 
   this.on_input = function(e)
@@ -56,6 +57,7 @@ function Commander()
   this.inject = function(str,entry_code = "$")
   {
     ronin.commander.input_el.value = ronin.commander.input_el.value.replace(entry_code,str);
+    ronin.guide.update();
   }
 
   this.query = function()
