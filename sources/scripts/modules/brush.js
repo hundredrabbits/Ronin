@@ -6,20 +6,17 @@ function Brush()
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}}),
-    // new Pointer({offset:{x:1,y:0}}),
-    // new Pointer({offset:{x:-1,y:0}}),
-    // new Pointer({offset:{x:0,y:1}}),
-    // new Pointer({offset:{x:0,y:-1}}),
+    new Pointer({offset:{x:2,y:2}}),
+    new Pointer({offset:{x:4,y:4}}),
   ];
 
-  this.ports.speed = 0;
-  this.ports.distance = 0;
-  this.ports.red = 0;
-  this.ports.green = 0;
-  this.ports.blue = 0;
-  this.ports.alpha = 1;
-  this.ports.x = 1;
-  this.ports.noise = 0;
+  this.ports = {};
+
+  this.ports.speed = new Port("speed",false,true,0,50,"The cursor speed");
+  this.ports.distance = new Port("distance",false,true,0,null,"The cursor distance");
+  this.ports.red = new Port("red",true,true,0,255,"The brush color value(red)");
+  this.ports.green = new Port("green",true,true,0,255,"The brush color value(green)");
+  this.ports.blue = new Port("blue",true,true,0,255,"The brush color value(blue)");
 
   this.thickness = function(line)
   {
@@ -39,6 +36,7 @@ function Brush()
 
   this.red = function(line)
   {
+    return 255;
     if(this.ports[this.routes.red]){
       return this.ports[this.routes.red] * 255;  
     }
@@ -47,6 +45,7 @@ function Brush()
 
   this.green = function(line)
   {
+    return 0;
     if(this.ports[this.routes.green]){
       return this.ports[this.routes.green] * 255;  
     }
@@ -55,6 +54,7 @@ function Brush()
 
   this.blue = function(line)
   {
+    return 0;
     if(this.ports[this.routes.blue]){
       return this.ports[this.routes.blue] * 255;  
     }
@@ -73,10 +73,10 @@ function Brush()
   {
     ronin.commander.blur();
 
-    this.ports.speed = distance_between(line.from,line.to)/15.0;
-    this.ports.distance += this.ports.speed;
-    this.ports.noise = Math.random(255/255.0);
-    this.ports.x = line.from.x/2;
+    // this.ports.speed = distance_between(line.from,line.to)/15.0;
+    // this.ports.distance += this.ports.speed;
+    // this.ports.noise = Math.random(255/255.0);
+    // this.ports.x = line.from.x/2;
 
     for(pointer_id in this.pointers){
       this.pointers[pointer_id].stroke(line);

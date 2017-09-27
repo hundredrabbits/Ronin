@@ -63,7 +63,5 @@ function Ronin()
     this.render.update();
     this.grid.update();
     this.guide.update();
-
-    this.commander.input_el.value = "frame crop:$";
   }
 }

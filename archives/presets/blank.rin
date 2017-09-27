@@ -1,7 +1,0 @@
-frame.resize 500x500
-layer.fill #eeeeee
-brush:color #000000
-brush:size 3
-frame.select main
-brush.add 1,1
-brush.add -1,-1

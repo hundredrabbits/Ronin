@@ -25,7 +25,7 @@ function Docs()
   this.print_intro = function()
   {
     html = "# Ronin\n";
-    html += "Ronin is a simple open-source graphic design tool.\n";
+    html += "Ronin is a simple open-source graphic design tool.\n\n";
     html += "<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>\n";
     return html;
   }
@@ -61,7 +61,7 @@ function Docs()
 
     for(method_name in methods){
       var method_val = methods[method_name];
-      html += "- `"+method_name+"`, no details.\n";
+      html += "- `"+method_name+":`, no details.\n";
     }
     return html;
   }
@@ -71,8 +71,9 @@ function Docs()
     var html = "### Ports\n";
 
     for(port_name in ports){
-      var port_val = ports[setting_name];
-      html += "- `"+port_name+"`, no details.\n";
+      var port = ports[port_name];
+      console.log(ports);
+      html += "- `->"+port.name+"`{"+port.input+","+port.output+"}, **"+port.value+"/"+port.max+"** "+port.docs+".\n";
     }
     return html;  
   }

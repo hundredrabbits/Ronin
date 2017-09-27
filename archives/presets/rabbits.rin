@@ -1,7 +1,0 @@
-frame.resize 795x450
-frame.select "photo"
-frame.select "logo"
-source.load /hundred.rabbits.logo.white.svg 70x70 0,380
-frame.select "photo"
-source:format jpg
-source:quality 0.9

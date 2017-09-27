@@ -1,4 +1,0 @@
-frame.resize 240x360
-layer.fill #A1A1A1
-magnet.grid 15x15 4,4
-path:line_color #ffffff

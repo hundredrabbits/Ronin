@@ -7,7 +7,6 @@ function Line()
   this.methods = {};
 
   this.ports = {};
-  this.ports.index = 0;
 
   this.methods.tween = function(q)
   {

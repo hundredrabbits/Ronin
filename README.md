@@ -1,5 +1,6 @@
 # Ronin
 Ronin is a simple open-source graphic design tool.
+
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>
 ## Modules
 ## brush
@@ -9,14 +10,11 @@ Ronin is a simple open-source graphic design tool.
 - `opacity`, default 1
 ### Methods
 ### Ports
-- `speed`, no details.
-- `distance`, no details.
-- `red`, no details.
-- `green`, no details.
-- `blue`, no details.
-- `alpha`, no details.
-- `x`, no details.
-- `noise`, no details.
+- `->speed`{false,true}, **0/50** The cursor speed.
+- `->distance`{false,true}, **0/null** The cursor distance.
+- `->red`{true,true}, **0/255** The brush color value(red).
+- `->green`{true,true}, **0/255** The brush color value(green).
+- `->blue`{true,true}, **0/255** The brush color value(blue).
 ## eraser
 ### Settings
 ### Methods
@@ -26,17 +24,16 @@ Ronin is a simple open-source graphic design tool.
 - `width`, default 930
 - `height`, default 540
 ### Methods
-- `resize`, no details.
-- `rescale`, no details.
-- `crop`, no details.
+- `resize:`, no details.
+- `rescale:`, no details.
+- `crop:`, no details.
 ### Ports
 ## line
 ### Settings
 - `steps`, default 100
 ### Methods
-- `tween`, no details.
-- `stroke`, no details.
+- `tween:`, no details.
+- `stroke:`, no details.
 ### Ports
-- `index`, no details.
 ## License
 See the [LICENSE](LICENSE.md) file for license rights and limitations (CC).
