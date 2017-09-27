@@ -87,5 +87,9 @@ function Query(query_str)
     if(unit_str.indexOf("x") > -1){
       return {width:parseInt(unit_str.split("x")[0]),height:parseInt(unit_str.split("x")[1])};
     }
+    if(unit_str.indexOf(".") > -1){
+      return parseFloat(unit_str);
+    }
+    return unit_str;
   }
 }

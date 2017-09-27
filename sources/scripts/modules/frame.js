@@ -17,6 +17,20 @@ function Frame()
 
   this.methods.rescale = function(p)
   {
+    var img = new Image();
+    var data = ronin.render.image();
+
+    img.src = data;
+    var copy_canvas = document.createElement("canvas");
+    var copy_ctx = copy_canvas.getContext("2d");
+
+    copy_canvas.width = ronin.frame.settings.width;
+    copy_canvas.height = ronin.frame.settings.height;
+    copy_ctx.drawImage(img, 0, 0);
+
+    // ronin.render.clear();
+    // ronin.frame.resize_to(p);
+    ronin.render.context().drawImage(copy_ctx.canvas,0,0,ronin.frame.settings.width * 0.5,ronin.frame.settings.height * 0.5);
   }
 
   this.methods.crop = function(p)
