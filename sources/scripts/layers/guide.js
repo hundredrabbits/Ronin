@@ -11,7 +11,8 @@ function Guide()
     this.el.style.width = (window.innerWidth)+"px";
     this.el.style.height = (window.innerHeight)+"px";
 
-    var u = ronin.guide.find_unit();
+    var u = this.find_unit();
+    console.log("found:",u)
     if(!u){ return; }
 
     this.clear();
@@ -80,6 +81,9 @@ function Guide()
 
   this.find_unit = function(q = ronin.commander.query())
   {
+    if(q.settings.anchor){ return q.settings.anchor; }
+
+    console.log("-----",q.settings)
     for(method_id in q.methods){
       var params = q.methods[method_id];
       if(!params){ return null; }
@@ -87,6 +91,14 @@ function Guide()
       if(params[0]){ return params[0]; }
       return params;
     }
+
+    for(method_id in q.settings){
+      var params = q.settings[method_id];
+      if(!params){ return null; }
+      if(params[0]){ return params[0]; }
+      return params;
+    }
+
     return null;
   }
 }

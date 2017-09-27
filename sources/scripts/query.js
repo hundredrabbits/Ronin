@@ -1,4 +1,4 @@
-function Query(query_str)
+function Query(query_str = "")
 {
   this.module = query_str.split(" ")[0];
   var parts = query_str.split(" ").splice(1);
@@ -9,16 +9,19 @@ function Query(query_str)
 
   for(part_id in parts){
     var part = parts[part_id];
+    // Method
     if(part.indexOf(":") > -1){
       var key = part.indexOf(":") > -1 ? part.split(":")[0] : "any";
       var value = part.indexOf(":") > -1 ? part.split(":")[1] : part;
       this.methods[key] = parse_parameters(value);
     }
+    // Setting
     else if(part.indexOf("=") > -1){
       var key = part.indexOf("=") > -1 ? part.split("=")[0] : "any";
       var value = part.indexOf("=") > -1 ? part.split("=")[1] : part;
-      this.settings[key] = value;
+      this.settings[key] = parse_parameters(value);
     }
+    // Port
     else if(part.indexOf("->") > -1){
       var key = part.indexOf("->") > -1 ? part.split("->")[0] : "any";
       var value = part.indexOf("->") > -1 ? part.split("->")[1] : part;
@@ -28,6 +31,7 @@ function Query(query_str)
 
   function parse_parameters(param_str)
   {
+    // Modifier
     if(param_str.indexOf(">>") > -1){
       return parse_modifier(param_str);
     }

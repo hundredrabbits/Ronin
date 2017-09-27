@@ -2,7 +2,7 @@ function IO()
 {
   Module.call(this,"io");
 
-  this.settings = {rect:"25,25|200x200"};
+  this.settings = {anchor:{x:0,y:0,width:0,height:0}};
 
   this.methods = {};
 
@@ -17,9 +17,9 @@ function IO()
       
       var img = new Image();
       img.src = filepath[0];
-        
+
       img.onload = function() {
-        ronin.io.draw_image(img);
+        ronin.io.draw_image(img,ronin.commander.query());
       }
     });
   }
@@ -81,17 +81,14 @@ function IO()
     }
   }
 
-  this.draw_image = function(img)
+  this.draw_image = function(img,params)
   {
+    var anchor = ronin.io.settings.anchor;
+
     var width = parseInt(img.naturalWidth * 0.5);
     var height = parseInt(img.naturalHeight * 0.5);
+    var scale = (anchor.width/width) * 2;
 
-    if(height > 900){
-      width *= 0.5;
-      height *= 0.5;
-    }
-
-    console.log(width,height);
-    ronin.render.context().drawImage(img, 0,0,width * 2,height * 2);    
+    ronin.render.context().drawImage(img, anchor.x * 2,anchor.y * 2,width * scale,height * scale);    
   }
 }

@@ -33,7 +33,6 @@ function Commander()
       ronin.modules[q.module].methods[method_id](method_param);
     }
 
-
     ronin.commander.input_el.value = "";
     ronin.hint.update();
     ronin.guide.update();
@@ -41,6 +40,7 @@ function Commander()
 
   this.on_input = function(e)
   {
+    console.log("input");
     ronin.hint.update();
     ronin.guide.update();
   }
