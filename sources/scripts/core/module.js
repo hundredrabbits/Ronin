@@ -1,10 +1,11 @@
-function Module(name)
+function Module(name,docs = "Missing documentation.")
 {
   this.name = name;
   this.methods = {};
   this.settings = {};
   this.routes = {};
   this.ports = {};
+  this.docs = docs;
 
   this.hint = function()
   {

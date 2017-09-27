@@ -5,6 +5,9 @@ Ronin is a simple open-source graphic design tool.
 
 ## Modules
 ## brush
+
+Missing documentation.
+
 ### Settings
 - `size`, default 4
 - `color`, default #000
@@ -19,14 +22,10 @@ Ronin is a simple open-source graphic design tool.
 - `->green->` **(0/255)** The brush color value(green).
 - `->blue->` **(0/255)** The brush color value(blue).
 
-## eraser
-### Settings
-
-### Methods
-
-### Ports
-
 ## frame
+
+Missing documentation.
+
 ### Settings
 - `width`, default 930
 - `height`, default 540
@@ -39,6 +38,9 @@ Ronin is a simple open-source graphic design tool.
 ### Ports
 
 ## line
+
+Missing documentation.
+
 ### Settings
 
 ### Methods
@@ -48,6 +50,45 @@ Ronin is a simple open-source graphic design tool.
 ### Ports
 - `step->` **(0/100)** The tween line index..
 - `->thickness->` **(4/100)** The tween line thickness..
+
+## io
+
+Missing documentation.
+
+### Settings
+- `anchor`, default [object Object]
+
+### Methods
+- `import:`, no details.
+- `load:`, no details.
+- `save:`, no details.
+
+### Ports
+
+## path
+
+Missing documentation.
+
+### Settings
+
+### Methods
+- `stroke:`, no details.
+- `fill:`, no details.
+
+### Ports
+
+## magnet
+
+Cursor magnetisation settings.
+
+### Settings
+- `size`, default 15
+- `rate`, default 4
+
+### Methods
+- `lock:`, no details.
+
+### Ports
 
 
 ## License

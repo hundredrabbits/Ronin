@@ -34,7 +34,8 @@ function Docs()
 
     for(module_name in modules){
       var module = modules[module_name];
-      html += "## "+module_name+"\n";
+      html += "## "+module_name+"\n\n";
+      html += module.docs+"\n\n";
       html += this.print_settings(module.settings)+"\n";
       html += this.print_methods(module.methods)+"\n";
       html += this.print_ports(module.ports)+"\n";

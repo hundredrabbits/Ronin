@@ -24,6 +24,16 @@ function IO()
     });
   }
 
+  this.methods.load = function(q)
+  {
+    // TODO
+  }
+  
+  this.methods.save = function(q)
+  {
+    // TODO
+  }
+
   this.render = function()
   {
     var fs = require('fs');

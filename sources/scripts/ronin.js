@@ -18,6 +18,8 @@ function Ronin()
   this.eraser = new Eraser();
   this.frame = new Frame();
   this.line = new Line();
+  this.path = new Path();
+  this.magnet = new Magnet();
 
   this.layers = {
     grid : this.grid,
@@ -30,6 +32,8 @@ function Ronin()
     frame : this.frame,
     line : this.line,
     io : this.io,
+    path : this.path,
+    magnet : this.magnet
   };
   
   this.install = function()

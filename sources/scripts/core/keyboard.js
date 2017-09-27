@@ -33,6 +33,16 @@ function Keyboard()
       ronin.render.clear();
     }
 
+    if(e.key == "o" && (e.ctrlKey || e.metaKey)){
+      e.preventDefault();
+      ronin.io.load();
+    }
+
+    if(e.key == "s" && (e.ctrlKey || e.metaKey)){
+      e.preventDefault();
+      ronin.io.save();
+    }
+
     if(e.key == "r" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
       ronin.io.render();
