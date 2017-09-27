@@ -55,9 +55,9 @@ function Commander()
     return this.query().module;
   }
 
-  this.inject = function(str,entry_code = "$")
+  this.inject = function(str)
   {
-    ronin.commander.input_el.value = ronin.commander.input_el.value.replace(entry_code,str);
+    ronin.commander.input_el.value = str;
     ronin.guide.update();
   }
 

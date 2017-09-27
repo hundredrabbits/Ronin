@@ -12,7 +12,6 @@ function Guide()
     this.el.style.height = (window.innerHeight)+"px";
 
     var u = this.find_unit();
-    console.log("found:",u)
     if(!u){ return; }
 
     this.clear();
@@ -26,6 +25,7 @@ function Guide()
     }
     if(u.width && u.height){
       this.draw_rect(u);
+      this.draw_pos({x:u.x + (u.width/2),y:u.y + (u.height/2)});
     }
   }
 
@@ -38,6 +38,8 @@ function Guide()
 
     var offset = {x:u.x * 2, y:u.y * 2};
     var rect = {width:u.width * 2,height:u.height * 2};
+
+    // Outline
 
     ctx.beginPath();
     ctx.globalCompositeOperation="source-over";
@@ -83,7 +85,6 @@ function Guide()
   {
     if(q.settings.anchor){ return q.settings.anchor; }
 
-    console.log("-----",q.settings)
     for(method_id in q.methods){
       var params = q.methods[method_id];
       if(!params){ return null; }

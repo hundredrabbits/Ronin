@@ -50,8 +50,6 @@ function IO()
     var files = e.dataTransfer.files;
     var file = files[0];
 
-    console.log(file);
-
     if (!file.type.match(/image.*/)) { console.log("Not image"); return false; }
 
     var reader = new FileReader();

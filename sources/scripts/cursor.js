@@ -3,12 +3,17 @@ function Cursor(rune)
   this.line = {origin:null,from:null,to:null,destination:null};
   this.is_down = false;
 
+  this.query = null;
+
   this.mouse_down = function(e)
   {
     e.preventDefault();
 
     ronin.cursor.line.origin = {x:e.clientX,y:e.clientY};
     ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
+
+    // Save original query
+    ronin.cursor.query = ronin.commander.input_el.value;
   }
 
   this.mouse_move = function(e)
@@ -28,6 +33,8 @@ function Cursor(rune)
     else{
       ronin.brush.stroke(ronin.cursor.line);  
     }
+
+    ronin.cursor.inject_query();
     
     ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
   }
@@ -38,17 +45,28 @@ function Cursor(rune)
     
     ronin.cursor.line.destination = {x:e.clientX,y:e.clientY};
 
-    if(distance_between(ronin.cursor.line.origin,ronin.cursor.line.destination) > 10){
-      var offset = ronin.cursor.line.origin.x+","+ronin.cursor.line.origin.y;
-      var rect = (ronin.cursor.line.destination.x - ronin.cursor.line.origin.x)+"x"+(ronin.cursor.line.destination.y - ronin.cursor.line.origin.y);
-      ronin.commander.inject(offset+"|"+rect);
-    }
-    else{
-      ronin.commander.inject(e.clientX+","+e.clientY);
-    }
+    ronin.cursor.inject_query();
     
     ronin.cursor.is_down = false;
     ronin.cursor.line = {};
+  }
+
+  this.inject_query = function()
+  {
+    if(ronin.cursor.query.indexOf("$") < 0){ return; }
+
+    var a = ronin.cursor.line.origin;
+    var b = ronin.cursor.line.destination ? ronin.cursor.line.destination : ronin.cursor.line.from;
+
+    if(distance_between(a,b) > 10){
+      var offset = a.x+","+a.y;
+      var rect = (b.x - a.x)+"x"+(b.y - a.y);
+      var str = offset+"|"+rect;
+    }
+    else{
+      var str = a.x+","+a.y;
+    }
+    ronin.commander.inject(ronin.cursor.query.replace("$",str));
   }
 
   function distance_between(a,b)
