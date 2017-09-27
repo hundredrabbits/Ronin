@@ -3,8 +3,7 @@ function IO()
   this.render = function()
   {
     var fs = require('fs');
-    var img = ronin.render.image();
-    var data = img.replace(/^data:image\/\w+;base64,/, "");
+    var data = ronin.render.to_data().replace(/^data:image\/\w+;base64,/, "");
     var buf = new Buffer(data, 'base64');
 
     dialog.showSaveDialog((fileName) => {
@@ -36,11 +35,16 @@ function IO()
       base_image = new Image();
       base_image.src = event.target.result;
 
-      var width = base_image.naturalWidth;
-      var height = base_image.naturalHeight;
+      var width = parseInt(base_image.naturalWidth * 0.5);
+      var height = parseInt(base_image.naturalHeight * 0.5);
 
-      ronin.frame.resize_to({width:width * 0.5,height:height * 0.5});
-      ronin.render.context().drawImage(base_image, 0,0,width,height);
+      if(height > 900){
+        width *= 0.5;
+        height *= 0.5;
+      }
+
+      ronin.frame.resize_to({width:width,height:height});
+      ronin.render.context().drawImage(base_image, 0,0,width * 2,height * 2);
     }
     reader.readAsDataURL(file);
   }

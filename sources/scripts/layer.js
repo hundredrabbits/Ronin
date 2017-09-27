@@ -33,9 +33,16 @@ function Layer()
     return this.context().getImageData(x, y, width * 2, height * 2);
   }
 
-  this.image = function()
+  this.to_data = function()
   {
     return this.el.toDataURL('image/png');
+  }
+
+  this.to_img = function()
+  {
+    var img = new Image();
+    img.src = this.to_data();
+    return img;
   }
 
   this.clear = function()

@@ -10,11 +10,9 @@ function Docs()
 
     html += this.print_license();
 
-    var str = html;
-
     dialog.showSaveDialog((fileName) => {
       if (fileName === undefined){ return; }
-      fs.writeFile(fileName+".md", str, (err) => {
+      fs.writeFile(fileName, html, (err) => {
         if(err){ alert("An error ocurred creating the file "+ err.message); return; }
       });
     }); 
@@ -72,7 +70,6 @@ function Docs()
 
     for(port_name in ports){
       var port = ports[port_name];
-      console.log(ports);
       html += "- `"+(port.input ? '->' : '')+""+port.name+""+(port.output ? '->' : '')+"` **("+port.value+"/"+port.max+")** "+port.docs+".\n";
     }
     return html;  

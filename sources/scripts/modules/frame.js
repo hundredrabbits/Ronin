@@ -2,7 +2,7 @@ function Frame()
 {
   Module.call(this,"frame");
   
-  this.settings = {width:200,height:200};
+  this.settings = {width:400,height:400};
 
   this.methods = {};
 
@@ -17,20 +17,19 @@ function Frame()
 
   this.methods.rescale = function(p)
   {
-    var img = new Image();
-    var data = ronin.render.image();
-
-    img.src = data;
+    // Create a canvas copy
     var copy_canvas = document.createElement("canvas");
+    copy_canvas.width = ronin.frame.settings.width * 2;
+    copy_canvas.height = ronin.frame.settings.height * 2;
     var copy_ctx = copy_canvas.getContext("2d");
+    copy_ctx.drawImage(ronin.render.to_img(), 0, 0);
 
-    copy_canvas.width = ronin.frame.settings.width;
-    copy_canvas.height = ronin.frame.settings.height;
-    copy_ctx.drawImage(img, 0, 0);
+    var new_size = {width:ronin.frame.settings.width * p,height:ronin.frame.settings.height * p};
 
-    // ronin.render.clear();
-    // ronin.frame.resize_to(p);
-    ronin.render.context().drawImage(copy_ctx.canvas,0,0,ronin.frame.settings.width * 0.5,ronin.frame.settings.height * 0.5);
+    // Paste
+    ronin.render.clear();
+    ronin.frame.resize_to(new_size);
+    ronin.render.context().drawImage(copy_ctx.canvas,0,0,new_size.width * 2,new_size.height * 2);
   }
 
   this.methods.crop = function(p)
