@@ -65,6 +65,8 @@ function IO()
 
   this.inject = function(data_url)
   {  
+    var img = new Image();
+    img.src = data_url;
 
     var width = parseInt(img.naturalWidth * 0.5);
     var height = parseInt(img.naturalHeight * 0.5);
