@@ -11,6 +11,7 @@
     <script type="text/javascript" src="scripts/layers/guide.js"></script>
     <script type="text/javascript" src="scripts/layers/render.js"></script>
 
+    <script type="text/javascript" src="scripts/docs.js"></script>
     <script type="text/javascript" src="scripts/io.js"></script>
     <script type="text/javascript" src="scripts/query.js"></script>
     <script type="text/javascript" src="scripts/keyboard.js"></script>
@@ -26,6 +27,11 @@
   </head>
   <body>
     <script type="text/javascript">
+      
+      const {dialog,app} = require('electron').remote;
+      const fs = require('fs');
+      const app_path = app.getAppPath();
+
       var ronin = new Ronin();
       ronin.install();
     </script>

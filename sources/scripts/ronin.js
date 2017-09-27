@@ -8,6 +8,7 @@ function Ronin()
   this.commander = new Commander();
   this.cursor = new Cursor();
   this.hint = new Hint();
+  this.docs = new Docs();
 
   this.grid = new Grid();
   this.guide = new Guide();

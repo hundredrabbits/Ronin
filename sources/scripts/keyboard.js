@@ -33,6 +33,11 @@ function Keyboard()
       ronin.render.clear();
     }
 
+    if(e.key == "H" && (e.ctrlKey || e.metaKey) && e.shiftKey){
+      e.preventDefault();
+      ronin.docs.export();
+    }
+
     ronin.hint.update(e);
   }
 }
