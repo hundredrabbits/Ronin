@@ -37,11 +37,11 @@ function Docs()
     for(module_name in modules){
       var module = modules[module_name];
       html += "## "+module_name+"\n";
-      html += this.print_settings(module.settings);
-      html += this.print_methods(module.methods);
-      html += this.print_ports(module.ports);
+      html += this.print_settings(module.settings)+"\n";
+      html += this.print_methods(module.methods)+"\n";
+      html += this.print_ports(module.ports)+"\n";
     }
-    return html;
+    return html+"\n";
   }
 
   this.print_settings = function(settings)
@@ -73,7 +73,7 @@ function Docs()
     for(port_name in ports){
       var port = ports[port_name];
       console.log(ports);
-      html += "- `->"+port.name+"`{"+port.input+","+port.output+"}, **"+port.value+"/"+port.max+"** "+port.docs+".\n";
+      html += "- `->"+port.name+"` *"+port.input+","+port.output+"* **"+port.value+"/"+port.max+"** "+port.docs+".\n";
     }
     return html;  
   }
