@@ -13,11 +13,11 @@ Ronin is a simple open-source graphic design tool.
 ### Methods
 
 ### Ports
-- `speed->` (I:*false* 0, O:*true* 50), The cursor speed.
-- `distance->` (I:*false* 0, O:*true* 9999), The cursor distance.
-- `->red->` (I:*true* 0, O:*true* 255), The brush color value(red).
-- `->green->` (I:*true* 0, O:*true* 255), The brush color value(green).
-- `->blue->` (I:*true* 0, O:*true* 255), The brush color value(blue).
+- `speed->` *0/50* The cursor speed.
+- `distance->` *0/9999* The cursor distance.
+- `->red->` *0/255* The brush color value(red).
+- `->green->` *0/255* The brush color value(green).
+- `->blue->` *0/255* The brush color value(blue).
 
 ## eraser
 ### Settings
@@ -40,13 +40,14 @@ Ronin is a simple open-source graphic design tool.
 
 ## line
 ### Settings
-- `steps`, default 100
 
 ### Methods
 - `tween:`, no details.
 - `stroke:`, no details.
 
 ### Ports
+- `step->` *0/100* The tween line index..
+- `->thickness->` *4/100* The tween line thickness..
 
 
 ## License

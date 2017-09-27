@@ -23,6 +23,8 @@ function Commander()
       if(!ronin.modules[q.module].settings[setting_id]){ console.log("Missing setting",setting_id); return; }
       ronin.modules[q.module].settings[setting_id] = setting_value;
     }
+    
+    ronin.modules[q.module].routes = q.routes;
 
     // Run methods
     for(method_id in q.methods){
@@ -31,7 +33,6 @@ function Commander()
       ronin.modules[q.module].methods[method_id](method_param);
     }
 
-    ronin.modules[q.module].routes = q.routes;
 
     ronin.commander.input_el.value = "";
     ronin.hint.update();

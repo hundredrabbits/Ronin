@@ -12,11 +12,11 @@ function Brush()
 
   this.ports = {};
 
-  this.ports.speed = new Port("speed",false,true,0,50,"The cursor speed");
-  this.ports.distance = new Port("distance",false,true,0,9999,"The cursor distance");
-  this.ports.red = new Port("red",true,true,0,255,"The brush color value(red)");
-  this.ports.green = new Port("green",true,true,0,255,"The brush color value(green)");
-  this.ports.blue = new Port("blue",true,true,0,255,"The brush color value(blue)");
+  this.ports.speed = new Port(this,"speed",false,true,0,50,"The cursor speed");
+  this.ports.distance = new Port(this,"distance",false,true,0,9999,"The cursor distance");
+  this.ports.red = new Port(this,"red",true,true,0,255,"The brush color value(red)");
+  this.ports.green = new Port(this,"green",true,true,0,255,"The brush color value(green)");
+  this.ports.blue = new Port(this,"blue",true,true,0,255,"The brush color value(blue)");
 
   this.thickness = function(line)
   {

@@ -20,8 +20,8 @@ function Query(query_str)
       this.settings[key] = value;
     }
     else if(part.indexOf("->") > -1){
-      var key = part.indexOf("->") > -1 ? part.split("->")[1] : "any";
-      var value = part.indexOf("->") > -1 ? part.split("->")[0] : part;
+      var key = part.indexOf("->") > -1 ? part.split("->")[0] : "any";
+      var value = part.indexOf("->") > -1 ? part.split("->")[1] : part;
       this.routes[key] = value;
     }
   }

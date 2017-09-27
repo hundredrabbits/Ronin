@@ -73,7 +73,7 @@ function Docs()
     for(port_name in ports){
       var port = ports[port_name];
       console.log(ports);
-      html += "- `"+(port.input ? '->' : '')+""+port.name+""+(port.output ? '->' : '')+"` (I:*"+port.input+"* "+port.value+", O:*"+port.output+"* "+port.max+"), "+port.docs+".\n";
+      html += "- `"+(port.input ? '->' : '')+""+port.name+""+(port.output ? '->' : '')+"` *"+port.value+"/"+port.max+"* "+port.docs+".\n";
     }
     return html;  
   }

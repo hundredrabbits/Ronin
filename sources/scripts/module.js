@@ -17,7 +17,7 @@ function Module(name)
 
     for(route_id in this.routes){
       var route_val = this.routes[route_id];
-      html += route_val+"->"+route_id+" ";
+      html += route_id+"->"+route_val+" ";
     }
 
     return html.trim() != "" ? "<b>"+this.name+"</b> "+html.trim() : "";
