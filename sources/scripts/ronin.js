@@ -69,6 +69,7 @@ function Ronin()
     this.guide.update();
 
     // this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
-    this.commander.input_el.value = "path stroke:$+";
+    // this.commander.input_el.value = "path stroke:$+";
+    this.commander.input_el.value = "magnet lock:";
   }
 }

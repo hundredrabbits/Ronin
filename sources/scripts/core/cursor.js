@@ -7,11 +7,6 @@ function Cursor(rune)
 
   this.mode = "vertex";
 
-  // default vertex
-  // shift rect
-  // alt -> arc_to_clockwise
-  // ctrl -> arc_to_counterclockwise
-
   this.mouse_down = function(e)
   {
     e.preventDefault();
