@@ -4,39 +4,39 @@ Ronin is a simple open-source graphic design tool.
 ## Modules
 ## brush
 ### Settings
-- size
-- color
-- opacity
+- `size`, default 4
+- `color`, default #000
+- `opacity`, default 1
 ### Methods
 ### Ports
-- speed
-- distance
-- red
-- green
-- blue
-- alpha
-- x
-- noise
+- `speed`, no details.
+- `distance`, no details.
+- `red`, no details.
+- `green`, no details.
+- `blue`, no details.
+- `alpha`, no details.
+- `x`, no details.
+- `noise`, no details.
 ## eraser
 ### Settings
 ### Methods
 ### Ports
 ## frame
 ### Settings
-- width
-- height
+- `width`, default 930
+- `height`, default 540
 ### Methods
-- resize
-- rescale
-- crop
+- `resize`, no details.
+- `rescale`, no details.
+- `crop`, no details.
 ### Ports
 ## line
 ### Settings
-- steps
+- `steps`, default 100
 ### Methods
-- tween
-- stroke
+- `tween`, no details.
+- `stroke`, no details.
 ### Ports
-- index
+- `index`, no details.
 ## License
 See the [LICENSE](LICENSE.md) file for license rights and limitations (CC).

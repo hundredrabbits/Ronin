@@ -49,8 +49,8 @@ function Docs()
     var html = "### Settings\n";
 
     for(setting_name in settings){
-      var setting = settings[setting_name];
-      html += "- "+setting_name+"\n";
+      var setting_val = settings[setting_name];
+      html += "- `"+setting_name+"`, default "+setting_val+"\n";
     }
     return html;
   }
@@ -60,8 +60,8 @@ function Docs()
     var html = "### Methods\n";
 
     for(method_name in methods){
-      var method = methods[method_name];
-      html += "- "+method_name+"\n";
+      var method_val = methods[method_name];
+      html += "- `"+method_name+"`, no details.\n";
     }
     return html;
   }
@@ -71,8 +71,8 @@ function Docs()
     var html = "### Ports\n";
 
     for(port_name in ports){
-      var port = ports[setting_name];
-      html += "- "+port_name+"\n";
+      var port_val = ports[setting_name];
+      html += "- `"+port_name+"`, no details.\n";
     }
     return html;  
   }
