@@ -35,7 +35,7 @@ function Layer()
 
   this.image = function()
   {
-    return this.element.toDataURL('image/png');
+    return this.el.toDataURL('image/png');
   }
 
   this.clear = function()

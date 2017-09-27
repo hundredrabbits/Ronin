@@ -14,7 +14,7 @@ function Docs()
 
     dialog.showSaveDialog((fileName) => {
       if (fileName === undefined){ return; }
-      fs.writeFile("README.md", str, (err) => {
+      fs.writeFile(fileName+".md", str, (err) => {
         if(err){ alert("An error ocurred creating the file "+ err.message); return; }
       });
     }); 
@@ -73,7 +73,7 @@ function Docs()
     for(port_name in ports){
       var port = ports[port_name];
       console.log(ports);
-      html += "- `"+(port.input ? '->' : '')+""+port.name+""+(port.output ? '->' : '')+"` *"+port.value+"/"+port.max+"* "+port.docs+".\n";
+      html += "- `"+(port.input ? '->' : '')+""+port.name+""+(port.output ? '->' : '')+"` **("+port.value+"/"+port.max+")** "+port.docs+".\n";
     }
     return html;  
   }

@@ -1,5 +1,18 @@
 function IO()
 {
+  this.render = function()
+  {
+    var fs = require('fs');
+    var img = ronin.render.image();
+    var data = img.replace(/^data:image\/\w+;base64,/, "");
+    var buf = new Buffer(data, 'base64');
+
+    dialog.showSaveDialog((fileName) => {
+      if (fileName === undefined){ return; }
+      fs.writeFile(fileName+'.png', buf);
+    }); 
+  }
+
   this.drag_over = function(e)
   {
     e.stopPropagation();

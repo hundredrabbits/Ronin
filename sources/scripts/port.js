@@ -14,6 +14,7 @@ function Port(host,name,input,output,value,max,docs)
     this.value = value;
     var target = this.host.routes[this.name];
 
+    if(!this.output){ return; }
     if(!target){ console.log("No output for",this.name); return; }
     
     this.host.ports[target].write(this.value);
