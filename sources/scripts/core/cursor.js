@@ -5,6 +5,13 @@ function Cursor(rune)
 
   this.query = null;
 
+  this.mode = "vertex";
+
+  // default vertex
+  // shift rect
+  // alt -> arc_to_clockwise
+  // ctrl -> arc_to_counterclockwise
+
   this.mouse_down = function(e)
   {
     e.preventDefault();
@@ -14,6 +21,10 @@ function Cursor(rune)
 
     // Save original query
     ronin.cursor.query = ronin.commander.input_el.value;
+
+    if(e.shiftKey){ ronin.cursor.mode = "rect"; }
+    if(e.altKey){ ronin.cursor.mode = "arc_to"; }
+    if(e.ctrlKey){ ronin.cursor.mode = "cc_arc_to"; }
   }
 
   this.mouse_move = function(e)
@@ -49,6 +60,9 @@ function Cursor(rune)
     
     ronin.cursor.is_down = false;
     ronin.cursor.line = {};
+    ronin.cursor.mode = "vertex";
+
+    ronin.cursor.query = ronin.commander.input_el.value;
   }
 
   this.inject_query = function()
@@ -58,15 +72,32 @@ function Cursor(rune)
     var a = ronin.cursor.line.origin;
     var b = ronin.cursor.line.destination ? ronin.cursor.line.destination : ronin.cursor.line.from;
 
-    if(distance_between(a,b) > 10){
+    var str = "<error>";
+
+    if(ronin.cursor.mode == "vertex"){
+      str = b.x+","+b.y;
+    }
+    else if(ronin.cursor.mode == "rect"){
       var offset = a.x+","+a.y;
       var rect = (b.x - a.x)+"x"+(b.y - a.y);
-      var str = offset+"|"+rect;
+      str = offset+"|"+rect;
+    }
+    else if(ronin.cursor.mode == "arc_to"){
+      str = "@>"+b.x+","+b.y;
+    }
+    else if(ronin.cursor.mode == "cc_arc_to"){
+      str = "@<"+b.x+","+b.y;
+    }
+
+    // 
+    var i = ronin.cursor.query.indexOf("$");
+    var i1 = ronin.cursor.query.substr(i,1);
+    if(i1 == "$"){
+      ronin.commander.inject(ronin.cursor.query.replace("$+",str+"&$+"));
     }
     else{
-      var str = a.x+","+a.y;
+      ronin.commander.inject(ronin.cursor.query.replace("$",str));
     }
-    ronin.commander.inject(ronin.cursor.query.replace("$",str));
   }
 
   function distance_between(a,b)

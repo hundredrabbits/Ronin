@@ -82,21 +82,33 @@ function Query(query_str = "")
 
   function parse_unit(unit_str)
   {
+    // Arc
+    if(unit_str.indexOf("@") == 0 ){
+      unit_str = unit_str.substr(1,unit_str.length-1);
+      var clockwise = unit_str.indexOf(">") == 0 ? true : false;
+      unit_str = unit_str.substr(1,unit_str.length-1);
+      return {x:parseInt(unit_str.split(",")[0]),y:parseInt(unit_str.split(",")[1]),clockwise:clockwise};
+    }
     if(unit_str.indexOf(".") > -1 && unit_str.indexOf("/") > -1 ){
       return unit_str;
     }
+    // Rect
     if(unit_str.indexOf("|") > -1 && unit_str.indexOf(",") > -1 && unit_str.indexOf("x") > -1){
       return Object.assign(parse_unit(unit_str.split("|")[0]), parse_unit(unit_str.split("|")[1]));
     }
+    // Pos
     if(unit_str.indexOf(",") > -1){
       return {x:parseInt(unit_str.split(",")[0]),y:parseInt(unit_str.split(",")[1])};
     }
+    // Size
     if(unit_str.indexOf("x") > -1){
       return {width:parseInt(unit_str.split("x")[0]),height:parseInt(unit_str.split("x")[1])};
     }
+    // Float
     if(unit_str.indexOf(".") > -1 ){
       return parseFloat(unit_str);
     }
+    // Any
     return unit_str;
   }
 }

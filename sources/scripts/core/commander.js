@@ -40,9 +40,13 @@ function Commander()
 
   this.on_input = function(e)
   {
-    console.log("input");
     ronin.hint.update();
     ronin.guide.update();
+  }
+
+  this.focus = function()
+  {
+    this.input_el.focus();
   }
 
   this.blur = function()

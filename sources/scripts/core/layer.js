@@ -47,7 +47,6 @@ function Layer()
 
   this.clear = function()
   {
-    console.log("Clear")
     this.context().clearRect(0, 0, this.el.width * 2, this.el.height * 2);
   }
 }

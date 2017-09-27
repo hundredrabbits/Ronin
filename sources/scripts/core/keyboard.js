@@ -19,6 +19,12 @@ function Keyboard()
       ronin.guide.update();
     }
 
+    if(e.key == "tab" || e.keyCode == 9){
+      e.preventDefault();
+      ronin.commander.focus();
+      return;
+    }
+
     if(e.key == "]"){
       e.preventDefault();
       ronin.brush.mod_size(1);

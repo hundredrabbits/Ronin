@@ -68,6 +68,7 @@ function Ronin()
     this.grid.update();
     this.guide.update();
 
-    this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
+    // this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
+    this.commander.input_el.value = "path stroke:$+";
   }
 }
