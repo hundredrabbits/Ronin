@@ -25,6 +25,7 @@ function Ronin()
     grid : this.grid,
     guide : this.guide,
     render : this.render,
+    cursor : this.cursor
   };
 
   this.modules = {
@@ -46,6 +47,7 @@ function Ronin()
     this.grid.install();
     this.guide.install();
     this.render.install();
+    this.cursor.install();
 
     this.commander.install();
     this.hint.install();
@@ -57,9 +59,9 @@ function Ronin()
   {
     window.addEventListener('dragover', ronin.io.drag_over);
     window.addEventListener('drop', ronin.io.drop);
-    ronin.render.el.addEventListener('mousedown', ronin.cursor.mouse_down);
-    ronin.render.el.addEventListener('mousemove', ronin.cursor.mouse_move);
-    ronin.render.el.addEventListener('mouseup', ronin.cursor.mouse_up);
+    ronin.cursor.el.addEventListener('mousedown', ronin.cursor.mouse_down);
+    ronin.cursor.el.addEventListener('mousemove', ronin.cursor.mouse_move);
+    ronin.cursor.el.addEventListener('mouseup', ronin.cursor.mouse_up);
     window.addEventListener('keydown', ronin.keyboard.key_down);
     ronin.commander.input_el.addEventListener('input', ronin.commander.on_input);
 
@@ -67,6 +69,7 @@ function Ronin()
     this.render.update();
     this.grid.update();
     this.guide.update();
+    this.cursor.update();
 
     // this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
     // this.commander.input_el.value = "path stroke:$+";

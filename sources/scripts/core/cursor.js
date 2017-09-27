@@ -1,15 +1,35 @@
 function Cursor(rune)
 {
+  Layer.call(this);
+
+  this.el.id = "cursor";
   this.line = {origin:null,from:null,to:null,destination:null};
   this.is_down = false;
-
   this.query = null;
-
   this.mode = "vertex";
+
+  this.draw_cursor = function(pos,touch = false)
+  {
+    this.clear();
+
+    var ctx = this.context();
+    var radius = ronin.brush.settings.size;
+
+    ctx.beginPath();
+    ctx.arc(pos.x * 2, pos.y * 2, radius, 0, 2 * Math.PI, false);
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 4.5;
+    ctx.stroke();
+    ctx.strokeStyle = touch ? "#000" : "#fff";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.closePath();
+  }
 
   this.mouse_down = function(e)
   {
     e.preventDefault();
+    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
 
     ronin.cursor.line.origin = {x:e.clientX,y:e.clientY};
     ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
@@ -25,6 +45,7 @@ function Cursor(rune)
   this.mouse_move = function(e)
   {
     e.preventDefault();
+    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY});
 
     if(!ronin.cursor.line.from){ return; }
 
@@ -48,6 +69,7 @@ function Cursor(rune)
   this.mouse_up = function(e)
   {   
     e.preventDefault();
+    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
     
     ronin.cursor.line.destination = {x:e.clientX,y:e.clientY};
 

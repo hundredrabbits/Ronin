@@ -26,6 +26,7 @@ function Grid()
     ctx.arc(x, y, 1.5, 0, 2 * Math.PI, false);
     ctx.fillStyle = is_marker ? '#000' : '#ccc';
     ctx.fill();
+    ctx.closePath();
   }
 
   this.resize_to = function(size)
