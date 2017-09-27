@@ -3,7 +3,6 @@ function Ronin()
   this.el = document.createElement('yu');
   this.el.id = "ronin";
 
-  this.io = new IO();
   this.keyboard = new Keyboard();
   this.commander = new Commander();
   this.cursor = new Cursor();
@@ -14,6 +13,7 @@ function Ronin()
   this.guide = new Guide();
   this.render = new Render();
 
+  this.io = new IO();
   this.brush = new Brush();
   this.eraser = new Eraser();
   this.frame = new Frame();
@@ -27,9 +27,9 @@ function Ronin()
 
   this.modules = {
     brush : this.brush,
-    eraser : this.eraser,
     frame : this.frame,
     line : this.line,
+    io : this.io,
   };
   
   this.install = function()
@@ -64,6 +64,6 @@ function Ronin()
     this.grid.update();
     this.guide.update();
 
-    this.commander.input_el.value = "frame rescale:0.5";
+    this.commander.input_el.value = "io import:~/Desktop/test.png rect=$";
   }
 }
