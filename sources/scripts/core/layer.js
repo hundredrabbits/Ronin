@@ -28,12 +28,12 @@ function Layer()
     this.el.style.height = size.height+"px";
   }
 
-  this.select = function(x,y,width,height)
+  this.select = function(x = 0,y = 0,width = ronin.frame.settings.width,height = ronin.frame.settings.width)
   {
     return this.context().getImageData(x, y, width * 2, height * 2);
   }
 
-  this.to_data = function()
+  this.to_base64 = function()
   {
     return this.el.toDataURL('image/png');
   }
@@ -41,7 +41,7 @@ function Layer()
   this.to_img = function()
   {
     var img = new Image();
-    img.src = this.to_data();
+    img.src = this.to_base64();
     return img;
   }
 

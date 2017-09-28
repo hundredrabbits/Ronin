@@ -83,6 +83,20 @@ function Brush()
     }
   }
 
+  this.erase = function(line)
+  {
+    var ctx = ronin.render.context();
+
+    ctx.beginPath();
+    ctx.globalCompositeOperation="destination-out";
+    ctx.moveTo(line.from.x * 2,line.from.y * 2);
+    ctx.lineTo(line.to.x * 2,line.to.y * 2);
+    ctx.lineCap="round";
+    ctx.lineWidth = this.thickness(line);
+    ctx.stroke();
+    ctx.closePath();
+  }
+
   this.mod_size = function(mod)
   {
     this.settings.size = clamp(this.settings.size+mod,1,100);

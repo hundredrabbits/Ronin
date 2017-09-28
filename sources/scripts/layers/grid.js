@@ -6,6 +6,8 @@ function Grid()
 
   this.draw = function(size = 60, step = 5)
   {
+    this.clear();
+    
     var x = 1;
     var size = size * 2;
     while(x < this.el.width/size){

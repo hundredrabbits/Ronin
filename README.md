@@ -70,6 +70,9 @@ Missing documentation.
 Missing documentation.
 
 ### Settings
+- `thickness`, default 30
+- `color`, default black
+- `cap`, default square
 
 ### Methods
 - `stroke:`, no details.
@@ -82,11 +85,12 @@ Missing documentation.
 Cursor magnetisation settings.
 
 ### Settings
-- `size`, default 15
-- `rate`, default 4
+- `size`, default 0
+- `step`, default 4
 
 ### Methods
 - `lock:`, no details.
+- `unlock:`, no details.
 
 ### Ports
 

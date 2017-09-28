@@ -16,7 +16,6 @@ function Ronin()
 
   this.io = new IO();
   this.brush = new Brush();
-  this.eraser = new Eraser();
   this.frame = new Frame();
   this.line = new Line();
   this.path = new Path();
@@ -77,6 +76,6 @@ function Ronin()
 
     // this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
     // this.commander.input_el.value = "path stroke:$+";
-    this.commander.input_el.value = "magnet lock:";
+    // this.commander.input_el.value = "magnet lock:";
   }
 }

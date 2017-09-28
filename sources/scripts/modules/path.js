@@ -2,6 +2,8 @@ function Path()
 {
   Module.call(this,"path");
 
+  this.settings = {thickness:30,color:"black",cap:"square"};
+
   this.methods.stroke = function(q)
   {
     ronin.preview.clear();
@@ -32,9 +34,9 @@ function Path()
 
     var ctx = ronin.preview.context();
     ctx.beginPath();
-    ctx.lineCap = "butt";
-    ctx.lineWidth = 30;
-    ctx.strokeStyle = "black";
+    ctx.lineCap = q.settings.cap ? q.settings.cap : ronin.path.settings.cap;
+    ctx.lineWidth = q.settings.thickness ? q.settings.thickness : ronin.path.settings.thickness;
+    ctx.strokeStyle = q.settings.color ? q.settings.color : ronin.path.settings.color;
     ctx.stroke(new Path2D(path));
     ctx.closePath();
   }

@@ -61,7 +61,10 @@ function Cursor(rune)
 
     }
     else if(e.altKey){
-      ronin.eraser.stroke(ronin.cursor.line);
+      ronin.brush.erase(ronin.cursor.line);
+    }
+    else if(e.shiftKey){
+      ronin.cursor.drag(ronin.cursor.line);
     }
     else{
       ronin.brush.stroke(ronin.cursor.line);  
@@ -90,6 +93,20 @@ function Cursor(rune)
 
     ronin.cursor.query = ronin.commander.input_el.value;
   }
+
+  this.drag = function(line)
+  {
+    var offset = make_offset(line.from,line.to);
+    var data = ronin.render.select();
+    ronin.render.clear();
+    ronin.render.context().putImageData(data, offset.x * -2, offset.y * -2);
+  }
+
+  function make_offset(a,b)
+  {
+    return {x:a.x-b.x,y:a.y-b.y};
+  }
+
 
   this.inject_query = function()
   {

@@ -37,7 +37,7 @@ function IO()
   this.render = function()
   {
     var fs = require('fs');
-    var data = ronin.render.to_data().replace(/^data:image\/\w+;base64,/, "");
+    var data = ronin.render.to_base64().replace(/^data:image\/\w+;base64,/, "");
     var buf = new Buffer(data, 'base64');
 
     dialog.showSaveDialog((fileName) => {
