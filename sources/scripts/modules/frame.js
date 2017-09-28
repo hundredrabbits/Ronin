@@ -53,5 +53,6 @@ function Frame()
     ronin.grid.resize_to(size);
     ronin.guide.resize_to(size);
     ronin.cursor.resize_to(size);
+    ronin.preview.resize_to(size);
   }
 }

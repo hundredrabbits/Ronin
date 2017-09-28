@@ -38,10 +38,19 @@ function Commander()
     ronin.guide.update();
   }
 
-  this.on_input = function(e)
+  this.update = function()
   {
+    var q = ronin.commander.query();
+    if(ronin.modules[q.module] && ronin.modules[q.module]["preview"]){
+      ronin.modules[q.module].preview(q);
+    } 
     ronin.hint.update();
     ronin.guide.update();
+  }
+
+  this.on_input = function(e)
+  {
+    ronin.commander.update();
   }
 
   this.focus = function()
@@ -62,7 +71,7 @@ function Commander()
   this.inject = function(str)
   {
     ronin.commander.input_el.value = str;
-    ronin.guide.update();
+    ronin.commander.update();
   }
 
   this.query = function()

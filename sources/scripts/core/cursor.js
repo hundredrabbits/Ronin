@@ -29,10 +29,13 @@ function Cursor(rune)
   this.mouse_down = function(e)
   {
     e.preventDefault();
-    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
 
-    ronin.cursor.line.origin = {x:e.clientX,y:e.clientY};
-    ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
+    var pos = ronin.magnet.filter({x:e.clientX,y:e.clientY});
+
+    ronin.cursor.draw_cursor({x:pos.x,y:pos.y},true);
+
+    ronin.cursor.line.origin = {x:pos.x,y:pos.y};
+    ronin.cursor.line.from = {x:pos.x,y:pos.y};
 
     // Save original query
     ronin.cursor.query = ronin.commander.input_el.value;
@@ -45,11 +48,14 @@ function Cursor(rune)
   this.mouse_move = function(e)
   {
     e.preventDefault();
-    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY});
+
+    var pos = ronin.magnet.filter({x:e.clientX,y:e.clientY});
+
+    ronin.cursor.draw_cursor({x:pos.x,y:pos.y});
 
     if(!ronin.cursor.line.from){ return; }
 
-    ronin.cursor.line.to = {x:e.clientX,y:e.clientY};
+    ronin.cursor.line.to = {x:pos.x,y:pos.y};
 
     if(ronin.commander.active_module()){
 
@@ -63,15 +69,18 @@ function Cursor(rune)
 
     ronin.cursor.inject_query();
     
-    ronin.cursor.line.from = {x:e.clientX,y:e.clientY};
+    ronin.cursor.line.from = {x:pos.x,y:pos.y};
   }
 
   this.mouse_up = function(e)
   {   
     e.preventDefault();
-    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
+
+    var pos = ronin.magnet.filter({x:e.clientX,y:e.clientY});
+
+    ronin.cursor.draw_cursor({x:pos.x,y:pos.y},true);
     
-    ronin.cursor.line.destination = {x:e.clientX,y:e.clientY};
+    ronin.cursor.line.destination = {x:pos.x,y:pos.y};
 
     ronin.cursor.inject_query();
     
@@ -84,7 +93,7 @@ function Cursor(rune)
 
   this.inject_query = function()
   {
-    if(ronin.cursor.query.indexOf("$") < 0){ return; }
+    if(ronin.cursor.query && ronin.cursor.query.indexOf("$") < 0){ return; }
 
     var a = ronin.cursor.line.origin;
     var b = ronin.cursor.line.destination ? ronin.cursor.line.destination : ronin.cursor.line.from;

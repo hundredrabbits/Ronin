@@ -9,7 +9,8 @@ yu { display:block; }
 #grid { z-index:1;position: fixed; }
 #guide { z-index:700;position: fixed; }
 #render { z-index:800; position: fixed; }
-#cursor { z-index:800; position: fixed; }
+#preview { z-index:800; position: fixed; }
+#cursor { z-index:890; position: fixed; }
 #commander { position: fixed; bottom:15px; left:5px; width:100vw; height:20px; line-height: 20px;  -webkit-user-select: none;-webkit-app-region: drag; z-index:900;}
 #commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 20px;font-size: 11px;color: black; margin-left:20px; }
 #hint { position: fixed; bottom:15px; left:5px; width:100vw; height:20px; line-height: 20px; font-size: 11px;color: #999; margin-left:20px; }

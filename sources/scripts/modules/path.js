@@ -4,6 +4,8 @@ function Path()
 
   this.methods.stroke = function(q)
   {
+    ronin.preview.clear();
+
     var path = ronin.path.create_path(q);
 
     var ctx = ronin.render.context();
@@ -19,6 +21,22 @@ function Path()
   this.methods.fill = function()
   {
     
+  }
+
+  this.preview = function(q)
+  {
+    if(!q.methods.stroke){ return; }
+
+    ronin.preview.clear();
+    var path = ronin.path.create_path(q.methods.stroke);
+
+    var ctx = ronin.preview.context();
+    ctx.beginPath();
+    ctx.lineCap = "butt";
+    ctx.lineWidth = 30;
+    ctx.strokeStyle = "black";
+    ctx.stroke(new Path2D(path));
+    ctx.closePath();
   }
 
   this.create_path = function(q_array)

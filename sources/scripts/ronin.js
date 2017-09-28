@@ -12,6 +12,7 @@ function Ronin()
   this.grid = new Grid();
   this.guide = new Guide();
   this.render = new Render();
+  this.preview = new Preview();
 
   this.io = new IO();
   this.brush = new Brush();
@@ -25,7 +26,8 @@ function Ronin()
     grid : this.grid,
     guide : this.guide,
     render : this.render,
-    cursor : this.cursor
+    cursor : this.cursor,
+    preview : this.preview,
   };
 
   this.modules = {
@@ -47,6 +49,7 @@ function Ronin()
     this.grid.install();
     this.guide.install();
     this.render.install();
+    this.preview.install();
     this.cursor.install();
 
     this.commander.install();
@@ -70,6 +73,7 @@ function Ronin()
     this.grid.update();
     this.guide.update();
     this.cursor.update();
+    this.preview.update();
 
     // this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
     // this.commander.input_el.value = "path stroke:$+";

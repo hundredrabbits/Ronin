@@ -19,4 +19,10 @@ function Magnet()
   {
     console.log(q)    
   }
+
+  this.filter = function(pos)
+  {
+    var s = this.settings.size;
+    return {x:parseInt(pos.x/s)*s,y:parseInt(pos.y/s)*s};
+  }
 }
