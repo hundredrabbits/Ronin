@@ -1,6 +1,6 @@
 function Magnet()
 {
-  Module.call(this,"magnet","Cursor magnetisation settings.");
+  Module.call(this,"magnet","Cursor magnetisation settings, changes are reflected on the grid layer.");
 
   this.settings = {size:0,step:4};
 

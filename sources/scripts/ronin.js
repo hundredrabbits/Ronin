@@ -73,6 +73,7 @@ function Ronin()
     this.guide.update();
     this.cursor.update();
     this.preview.update();
+    this.commander.update();
 
     // this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
     // this.commander.input_el.value = "path stroke:$+";

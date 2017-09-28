@@ -15,9 +15,20 @@ function Hint()
 
     for(module_id in ronin.modules){
       var module = ronin.modules[module_id];
-      html += module.hint()+" ";
+      html += module_id+" ";
     }
-    this.el.innerHTML = this.pad(ronin.commander.input_el.value)+(ronin.commander.input_el.value == "" ? html : "");
+
+    var target_module = ronin.commander.query().module;
+
+    if(ronin.commander.input_el.value == ""){
+      this.el.innerHTML = html;
+    }
+    else if(ronin.modules[target_module]){
+      this.el.innerHTML = this.pad(ronin.commander.input_el.value)+ronin.modules[target_module].hint();
+    }
+    else{
+      this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" > Idle."
+    }
   }
 
   this.pad = function(input)

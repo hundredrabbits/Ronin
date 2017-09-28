@@ -1,6 +1,6 @@
 function IO()
 {
-  Module.call(this,"io");
+  Module.call(this,"io","File import/export tools.");
 
   this.settings = {anchor:{x:0,y:0,width:0,height:0}};
 

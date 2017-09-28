@@ -1,6 +1,6 @@
 function Frame()
 {
-  Module.call(this,"frame");
+  Module.call(this,"frame","Manager for the canvas size");
   
   this.settings = {width:400,height:400};
 
