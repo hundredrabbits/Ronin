@@ -6,20 +6,24 @@ function Guide()
 
   this.update = function()
   {
+    this.clear();
+
     this.el.width = window.innerWidth * 2;
     this.el.height = window.innerHeight * 2;
     this.el.style.width = (window.innerWidth)+"px";
     this.el.style.height = (window.innerHeight)+"px";
 
-    var u = this.find_unit();
-    if(!u){ return; }
+    var units = this.find_units();
 
-    this.clear();
-    this.draw(u)
+    if(units.length == 0){ return; }
+
+    for(i in units){
+      this.draw(units[i]);
+    }
   }
 
   this.draw = function(u)
-  {    
+  { 
     if(u.x && u.y){
       this.draw_pos(u);
     }
@@ -75,31 +79,38 @@ function Guide()
     ctx.moveTo(pos.x,pos.y-offset);
     ctx.lineTo(pos.x,pos.y-radius);
     ctx.lineCap="round";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 4;
     ctx.strokeStyle = "#000";
+    ctx.stroke();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#fff";
     ctx.stroke();
     ctx.closePath();
   }
 
-  this.find_unit = function(q = ronin.commander.query())
+  this.find_units = function(q = ronin.commander.query())
   {
+    var a = [];
     if(q.settings.anchor){ return q.settings.anchor; }
 
     for(method_id in q.methods){
       var params = q.methods[method_id];
-      if(!params){ return null; }
-      if(params.from){ return params.from[0]; }
-      if(params[0]){ return params[0]; }
-      return params;
+      if(params.from && params.to){
+        a = a.concat(params.from);
+        a = a.concat(params.to);
+      }
+      else{
+        a = a.concat(params);  
+      }
     }
 
-    for(method_id in q.settings){
-      var params = q.settings[method_id];
-      if(!params){ return null; }
-      if(params[0]){ return params[0]; }
-      return params;
-    }
+    // for(setting in q.settings){
+    //   var params = q.settings[method_id];
+    //   if(!params){ return null; }
+    //   if(params[0]){ return params[0]; }
+    //   return params;
+    // }
 
-    return null;
+    return a;
   }
 }

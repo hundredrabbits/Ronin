@@ -24,7 +24,7 @@ Missing documentation.
 
 ## frame
 
-Missing documentation.
+Manager for the canvas size
 
 ### Settings
 - `width`, default 930
@@ -39,7 +39,7 @@ Missing documentation.
 
 ## line
 
-Missing documentation.
+Drawing lines. Tween expects something in the `$&$>>$&$` format.
 
 ### Settings
 
@@ -49,11 +49,11 @@ Missing documentation.
 
 ### Ports
 - `step->` **(0/100)** The tween line index..
-- `->thickness->` **(4/100)** The tween line thickness..
+- `->thickness->` **(1/100)** The tween line thickness..
 
 ## io
 
-Missing documentation.
+File import/export tools.
 
 ### Settings
 - `anchor`, default [object Object]
@@ -67,7 +67,7 @@ Missing documentation.
 
 ## path
 
-Missing documentation.
+Trace lines and to draw shapes.
 
 ### Settings
 - `thickness`, default 30
@@ -82,7 +82,7 @@ Missing documentation.
 
 ## magnet
 
-Cursor magnetisation settings.
+Cursor magnetisation settings, changes are reflected on the grid layer.
 
 ### Settings
 - `size`, default 0

@@ -1,19 +1,19 @@
 function Line()
 {
-  Module.call(this,"line");
+  Module.call(this,"line","Drawing lines. Tween expects something in the `$&$>>$&$` format.");
 
   this.methods = {};
 
   this.ports = {};
   this.ports.step = new Port(this,"step",false,true,0,100,"The tween line index.");
-  this.ports.thickness = new Port(this,"thickness",true,true,4,100,"The tween line thickness.");
+  this.ports.thickness = new Port(this,"thickness",true,true,1,100,"The tween line thickness.");
 
   this.methods.tween = function(q) // line tween:$&$>>$&$ step->thickness
   {
     var from = q.from;
     var to = q.to;
 
-    ronin.line.ports.step.value = 0;
+    ronin.line.ports.step.write(0);
     while(ronin.line.ports.step.value < ronin.line.ports.step.max){
       var progress = ronin.line.ports.step.value/parseFloat(ronin.line.ports.step.max);
       var new_positions = tween_positions(from,to,progress);
@@ -27,6 +27,12 @@ function Line()
     ronin.line.stroke_multi(q)
   }
 
+  this.preview = function(q)
+  {
+    // TODO
+    // console.log(q);
+  }
+
   this.stroke_multi = function(coordinates)
   {
     var from = coordinates[0];
@@ -37,10 +43,8 @@ function Line()
     }
   }
 
-  this.stroke = function(from,to)
+  this.stroke = function(from,to,ctx = ronin.render.context())
   {
-    var ctx = ronin.render.context();
-
     ctx.beginPath();
     ctx.globalCompositeOperation="source-over";
     ctx.moveTo((from.x * 2),(from.y * 2));

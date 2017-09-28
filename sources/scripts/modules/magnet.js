@@ -7,6 +7,7 @@ function Magnet()
   this.methods.lock = function(q)
   {
     var size = parseInt(q);
+    ronin.magnet.settings.size = size;
 
     if(size < 5){ this.unlock(); return; }
 

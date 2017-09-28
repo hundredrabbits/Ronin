@@ -131,11 +131,10 @@ function Cursor(rune)
     else if(ronin.cursor.mode == "cc_arc_to"){
       str = "@<"+b.x+","+b.y;
     }
-
     // 
     var i = ronin.cursor.query.indexOf("$");
-    var i1 = ronin.cursor.query.substr(i,1);
-    if(i1 == "$"){
+    var i1 = ronin.cursor.query.substr(i,2);
+    if(i1 == "$+"){
       ronin.commander.inject(ronin.cursor.query.replace("$+",str+"&$+"));
     }
     else{

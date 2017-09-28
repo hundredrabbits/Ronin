@@ -17,6 +17,8 @@ function Keyboard()
       ronin.commander.input_el.blur();
       ronin.commander.input_el.value = "";
       ronin.guide.update();
+      ronin.guide.clear();
+      ronin.preview.clear();
     }
 
     if(e.key == "tab" || e.keyCode == 9){
