@@ -33,9 +33,9 @@ function Layer()
     return this.context().getImageData(x, y, width * 2, height * 2);
   }
 
-  this.to_base64 = function()
+  this.to_base64 = function(format = 'png', quality = 0.9)
   {
-    return this.el.toDataURL('image/png');
+    return format == 'png' ? this.el.toDataURL('image/png') : this.el.toDataURL('image/jpeg',0.9);
   }
 
   this.to_img = function()
@@ -48,5 +48,21 @@ function Layer()
   this.clear = function()
   {
     this.context().clearRect(0, 0, this.el.width * 2, this.el.height * 2);
+  }
+
+  this.fill = function(color = "red")
+  {
+    var ctx = this.context();
+
+    ctx.beginPath();
+    ctx.globalCompositeOperation="source-over";
+    ctx.moveTo(0,0);
+    ctx.lineTo(this.el.width,0);
+    ctx.lineTo(this.el.width,this.el.height);
+    ctx.lineTo(0,this.el.height);
+    ctx.lineTo(0,0);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.closePath();
   }
 }

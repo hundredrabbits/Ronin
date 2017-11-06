@@ -11,6 +11,11 @@ function Module(name,docs = "Missing documentation.")
   {
     var html = "";
 
+    for(id in this.methods){
+      var v = this.methods[id];
+      html += id+": ";
+    }
+
     for(setting_id in this.settings){
       var setting_value = this.settings[setting_id];
       html += setting_id+"="+setting_value+" ";

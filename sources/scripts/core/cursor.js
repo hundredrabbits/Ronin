@@ -60,6 +60,9 @@ function Cursor(rune)
     if(ronin.commander.active_module()){
 
     }
+    else if(e.shiftKey && e.altKey){
+      ronin.brush.pick(ronin.cursor.line);
+    }
     else if(e.altKey){
       ronin.brush.erase(ronin.cursor.line);
     }

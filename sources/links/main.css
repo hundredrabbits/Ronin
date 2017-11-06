@@ -11,9 +11,9 @@ yu { display:block; }
 #render { z-index:800; position: fixed; }
 #grid { z-index:795;position: fixed; }
 
-
 #ronin { background:#eee; height: 100vh; width:100vw; }
-#commander { position: fixed; bottom:15px; left:5px; width:100vw; height:20px; line-height: 20px;  -webkit-user-select: none;-webkit-app-region: drag; z-index:900;}
-#commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 20px;font-size: 11px;color: black; margin-left:20px; }
-#hint { position: fixed; bottom:15px; left:5px; width:100vw; height:20px; line-height: 20px; font-size: 11px;color: #999; margin-left:20px; }
+#commander, #hint { position: fixed;bottom: 0px;left: 0px;width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px;}
+#commander { z-index: 9000 }
+#commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 40px;font-size: 11px;color: white; margin-left:20px; }
+#hint { background:black; color:#666; padding-left:20px;}
 #hint b { font-family: 'input_mono_regular' }

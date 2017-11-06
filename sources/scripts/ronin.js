@@ -79,6 +79,6 @@ function Ronin()
     // this.commander.input_el.value = "path stroke:$+";
 
     // this.commander.input_el.value = "magnet lock:";
-    this.commander.inject("line tween:$&$&$>>$&$&$ step->thickness");
+    // this.commander.inject("line tween:$&$&$>>$&$&$ step->thickness");
   }
 }

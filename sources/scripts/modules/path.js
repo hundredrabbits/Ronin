@@ -20,9 +20,20 @@ function Path()
     ctx.closePath();
   }
 
-  this.methods.fill = function()
+  this.methods.fill = function(q)
   {
-    
+    ronin.preview.clear();
+
+    var path = ronin.path.create_path(q);
+
+    var ctx = ronin.render.context();
+
+    ctx.beginPath();
+    ctx.lineCap = "butt";
+    ctx.lineWidth = 30;
+    ctx.fillStyle = "black";
+    ctx.fill(new Path2D(path));
+    ctx.closePath();
   }
 
   this.preview = function(q)

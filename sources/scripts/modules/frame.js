@@ -41,6 +41,16 @@ function Frame()
     ronin.render.context().putImageData(data, 0, 0);
   }
 
+  this.methods.clear = function(q)
+  {
+    ronin.render.fill("blue");
+  }
+
+  this.methods.fill = function(q)
+  {
+    ronin.render.fill(q);
+  }
+
   this.resize_to = function(size)
   {
     ronin.frame.settings.width = size.width;

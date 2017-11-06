@@ -43,7 +43,7 @@ function Keyboard()
 
     if(e.key == "o" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
-      ronin.io.load();
+      ronin.io.methods.import();
     }
 
     if(e.key == "s" && (e.ctrlKey || e.metaKey)){

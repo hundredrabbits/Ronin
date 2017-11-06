@@ -97,6 +97,11 @@ function Brush()
     ctx.closePath();
   }
 
+  this.pick = function(line)
+  {
+    var pixel = ronin.render.context().getImageData(line.to.x*2, line.to.y*2, 1, 1).data;
+  }
+
   this.mod_size = function(mod)
   {
     this.settings.size = clamp(this.settings.size+mod,1,100);
