@@ -13,7 +13,7 @@ function Module(name,docs = "Missing documentation.")
 
     for(id in this.methods){
       var v = this.methods[id];
-      html += id+": ";
+      html += v.hint();
     }
 
     for(setting_id in this.settings){
@@ -26,6 +26,6 @@ function Module(name,docs = "Missing documentation.")
       html += route_id+"->"+route_val+" ";
     }
 
-    return html.trim() != "" ? "<b>"+this.name+"</b> "+html.trim() : "";
+    return html.trim() != "" ? " "+html.trim() : "";
   }
 }

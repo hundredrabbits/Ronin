@@ -16,4 +16,5 @@ yu { display:block; }
 #commander { z-index: 9000 }
 #commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 40px;font-size: 11px;color: white; margin-left:20px; }
 #hint { background:black; color:#666; padding-left:20px;}
-#hint b { font-family: 'input_mono_regular' }
+#hint b { font-family: 'input_mono_regular'; color:#999;}
+#hint i { font-style: italic; }

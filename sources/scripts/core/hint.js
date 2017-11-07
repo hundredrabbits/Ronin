@@ -19,9 +19,13 @@ function Hint()
     }
 
     var target_module = ronin.commander.query().module;
+    var target_method = Object.keys(ronin.commander.query().methods).length > 0 ? Object.keys(ronin.commander.query().methods)[0] : null
 
     if(ronin.commander.input_el.value == ""){
       this.el.innerHTML = html;
+    }
+    else if(ronin.modules[target_module] && ronin.modules[target_module].methods[target_method]){
+      this.el.innerHTML = this.pad(ronin.commander.input_el.value)+ronin.modules[target_module].methods[target_method].docs();
     }
     else if(ronin.modules[target_module]){
       this.el.innerHTML = this.pad(ronin.commander.input_el.value)+ronin.modules[target_module].hint();

@@ -6,7 +6,9 @@ function Frame()
 
   this.methods = {};
 
-  this.methods.resize = function(q)
+  this.methods.resize = new Method("resize","WxH");
+
+  this.methods.resize.run = function(q)
   {
     var data = ronin.render.select(0,0,ronin.frame.settings.width,ronin.frame.settings.height);
 
@@ -15,7 +17,9 @@ function Frame()
     ronin.render.context().putImageData(data, 0, 0);
   }
 
-  this.methods.rescale = function(p)
+  this.methods.rescale = new Method("rescale","X,Y|WxH");
+
+  this.methods.rescale.run = function(p)
   {
     // Create a canvas copy
     var copy_canvas = document.createElement("canvas");
@@ -32,7 +36,8 @@ function Frame()
     ronin.render.context().drawImage(copy_ctx.canvas,0,0,new_size.width * 2,new_size.height * 2);
   }
 
-  this.methods.crop = function(p)
+  this.methods.crop = new Method("crop","X,Y|WxH");
+  this.methods.crop.run = function(p)
   {
     var data = ronin.render.select(p.x,p.y,p.width,p.height);
 
@@ -41,12 +46,14 @@ function Frame()
     ronin.render.context().putImageData(data, 0, 0);
   }
 
-  this.methods.clear = function(q)
+  this.methods.clear = new Method("clear","X,Y|WxH");
+  this.methods.clear.run = function(q)
   {
     ronin.render.fill("blue");
   }
 
-  this.methods.fill = function(q)
+  this.methods.fill = new Method("fill","X,Y|WxH");
+  this.methods.fill.run = function(q)
   {
     ronin.render.fill(q);
   }

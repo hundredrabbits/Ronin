@@ -30,7 +30,7 @@ function Commander()
     for(method_id in q.methods){
       var method_param = q.methods[method_id];
       if(!ronin.modules[q.module].methods[method_id]){ console.log("Missing method",method_id); return; }
-      ronin.modules[q.module].methods[method_id](method_param);
+      ronin.modules[q.module].methods[method_id].run(method_param);
     }
 
     ronin.commander.input_el.value = "";

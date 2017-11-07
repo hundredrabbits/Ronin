@@ -5,28 +5,12 @@ function IO()
   this.settings = {anchor:{x:0,y:0,width:200,height:200}};
 
   this.methods = {};
-
-  this.methods.import = function(q)
-  {
-    var filepath = dialog.showOpenDialog({properties: ['openFile']});
-
-    if(!filepath){ console.log("Nothing to load"); return; }
-
-    fs.readFile(filepath[0], 'utf-8', (err, data) => {
-      if(err){ alert("An error ocurred reading the file :" + err.message); return; }
-      
-      var img = new Image();
-      img.src = filepath[0];
-
-      img.onload = function() {
-        ronin.io.draw_image(ronin.render.context(),img,ronin.commander.query());
-      }
-    });
-  }
-
+  
   this.image = null;
 
-  this.methods.load = function(q)
+  this.methods.load = new Method("load","browser","Press enter to open the file browser.");
+
+  this.methods.load.run = function(q)
   {
     var filepath = dialog.showOpenDialog({properties: ['openFile']});
 
@@ -34,10 +18,8 @@ function IO()
 
     fs.readFile(filepath[0], 'utf-8', (err, data) => {
       if(err){ alert("An error ocurred reading the file :" + err.message); return; }
-      
       var img = new Image();
       img.src = filepath[0];
-
       img.onload = function() {
         ronin.io.image = img;
         ronin.commander.inject("io draw:20,20|100x100");
@@ -45,14 +27,20 @@ function IO()
     });
   }
 
-  this.methods.draw = function(q)
+  this.methods.draw = new Method("draw","X,Y|WxH","Draw the loaded image pixels.");
+
+  this.methods.draw.run = function(q)
   {
+    if(!ronin.io.image){ return; }
+
     ronin.io.draw_image(ronin.render.context(),ronin.io.image,ronin.commander.query().methods.draw);
     ronin.io.image = null;
     ronin.preview.clear();
   }
   
-  this.methods.save = function(q)
+  this.methods.save = new Method("save","name");
+
+  this.methods.save.run = function(q)
   {
     // TODO
     ronin.io.render();
@@ -130,13 +118,10 @@ function IO()
 
   this.draw_image = function(ctx = ronin.preview.context(),img,params)
   {
-    var anchor = params ? params : ronin.io.settings.anchor;
-
-    console.log("draw",ctx)
     var width = parseInt(img.naturalWidth * 0.5);
     var height = parseInt(img.naturalHeight * 0.5);
-    var scale = (anchor.width/width) * 2;
+    var scale = (params.width/width) * 2;
 
-    ctx.drawImage(img, anchor.x * 2,anchor.y * 2,width * scale,height * scale);    
+    ctx.drawImage(img, params.x * 2,params.y * 2,width * scale,height * scale);    
   }
 }

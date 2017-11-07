@@ -3,8 +3,9 @@ function Path()
   Module.call(this,"path","Trace lines and to draw shapes.");
 
   this.settings = {thickness:30,color:"black",cap:"square"};
-
-  this.methods.stroke = function(q)
+  
+  this.methods.stroke = new Method("stroke","x,y&");
+  this.methods.stroke.run = function(q)
   {
     ronin.preview.clear();
 
@@ -20,7 +21,8 @@ function Path()
     ctx.closePath();
   }
 
-  this.methods.fill = function(q)
+  this.methods.fill = new Method("fill","x,y&");
+  this.methods.fill.run = function(q)
   {
     ronin.preview.clear();
 
