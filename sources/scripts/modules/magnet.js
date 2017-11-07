@@ -4,21 +4,17 @@ function Magnet()
 
   this.settings = {size:0,step:4};
 
-  this.methods.lock = function(q)
-  {
+  this.methods.lock = new Method("lock","10x10","Magnetize cursor",function(q){
     var size = parseInt(q);
-    ronin.magnet.settings.size = size;
-
     if(size < 5){ this.unlock(); return; }
-
+    ronin.magnet.settings.size = size;
     ronin.grid.draw(size,ronin.magnet.settings.step);
-  }
+  })
 
-  this.methods.unlock = function(q)
-  {
+  this.methods.unlock = new Method("unlock","","Release cursor",function(q){
     ronin.magnet.settings.size = 0;
     ronin.grid.clear();
-  }
+  })
 
   this.filter = function(pos)
   {

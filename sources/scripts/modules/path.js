@@ -4,9 +4,7 @@ function Path()
 
   this.settings = {thickness:30,color:"black",cap:"square"};
   
-  this.methods.stroke = new Method("stroke","x,y&");
-  this.methods.stroke.run = function(q)
-  {
+  this.methods.stroke = new Method("stroke","x,y&","",function(q){
     ronin.preview.clear();
 
     var path = ronin.path.create_path(q);
@@ -19,11 +17,9 @@ function Path()
     ctx.strokeStyle = "black";
     ctx.stroke(new Path2D(path));
     ctx.closePath();
-  }
+  });
 
-  this.methods.fill = new Method("fill","x,y&");
-  this.methods.fill.run = function(q)
-  {
+  this.methods.fill = new Method("fill","x,y&","",function(q){
     ronin.preview.clear();
 
     var path = ronin.path.create_path(q);
@@ -36,7 +32,7 @@ function Path()
     ctx.fillStyle = "black";
     ctx.fill(new Path2D(path));
     ctx.closePath();
-  }
+  });
 
   this.preview = function(q)
   {

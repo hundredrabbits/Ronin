@@ -1,10 +1,9 @@
-function Method(name,params,info = "Missing documentation")
+function Method(name,params,info = "Missing documentation",f)
 {
   this.name = name;
   this.params = params;
   this.info = info;
-
-  this.run = null;
+  this.run = f;
 
   this.hint = function()
   {
@@ -13,6 +12,6 @@ function Method(name,params,info = "Missing documentation")
 
   this.docs = function()
   {
-    return "["+this.params+"] <i>"+this.info+"</i>";
+    return "<b>"+this.params+"</b> <i>"+this.info+"</i>";
   }
 }

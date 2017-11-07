@@ -1,17 +1,22 @@
 ## TODOs
 
 ### Commander
-- Parse multicommand with `;`
+
+### Module
+- Move preview into method.
 
 ### Path
 - Origin marker
-- Export SVG value
 
 ### IO
 - Import `.rin` files
 - Export `.rin` file
+- Negative positions
 
 ### Type
+- Implement
+
+### Transform
 - Implement
 
 ### Docs
@@ -20,6 +25,7 @@
 
 ### Brush
 - Finish Port draft
+- Color picker
 
 ### Line
 - Preview support

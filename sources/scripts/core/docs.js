@@ -5,16 +5,24 @@ function Docs()
     var html = "";
 
     html += this.print_intro();
+    html += "## Cursor\n";
+    html += "- `$` replace with **Pos**.\n";
+    html += "- `$+shift` replace with **Rect**.\n\n";
+    
     html += "## Modules\n";
     html += this.print_modules(ronin.modules);
-
     html += this.print_license();
 
-    dialog.showSaveDialog((fileName) => {
-      if (fileName === undefined){ return; }
-      fs.writeFile(fileName, html, (err) => {
-        if(err){ alert("An error ocurred creating the file "+ err.message); return; }
-      });
+    // dialog.showSaveDialog((fileName) => {
+    //   if (fileName === undefined){ return; }
+    //   console.log(fileName)
+    //   fs.writeFile(fileName, html, (err) => {
+    //     if(err){ alert("An error ocurred creating the file "+ err.message); return; }
+    //   });
+    // });
+
+    fs.writeFile("/Users/VillaMoirai/Github/HundredRabbits/Ronin/README.md", html, (err) => {
+      if(err){ alert("An error ocurred creating the file "+ err.message); return; }
     }); 
 
     return html;
@@ -36,11 +44,22 @@ function Docs()
       var module = modules[module_name];
       html += "## "+module_name+"\n\n";
       html += module.docs+"\n\n";
-      html += this.print_settings(module.settings)+"\n";
       html += this.print_methods(module.methods)+"\n";
+      html += this.print_settings(module.settings)+"\n";
       html += this.print_ports(module.ports)+"\n";
     }
     return html+"\n";
+  }
+
+  this.print_methods = function(methods)
+  {
+    var html = "### Methods\n";
+
+    for(method_name in methods){
+      var method = methods[method_name];
+      html += "- `"+method_name+":"+method.params+"` "+method.info+"\n";
+    }
+    return html;
   }
 
   this.print_settings = function(settings)
@@ -54,16 +73,6 @@ function Docs()
     return html;
   }
 
-  this.print_methods = function(methods)
-  {
-    var html = "### Methods\n";
-
-    for(method_name in methods){
-      var method_val = methods[method_name];
-      html += "- `"+method_name+":`, no details.\n";
-    }
-    return html;
-  }
 
   this.print_ports = function(ports)
   {

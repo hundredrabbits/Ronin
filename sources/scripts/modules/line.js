@@ -2,14 +2,14 @@ function Line()
 {
   Module.call(this,"line","Drawing lines. Tween expects something in the `$&$>>$&$` format.");
 
-  this.methods = {};
-
-  this.ports = {};
   this.ports.step = new Port(this,"step",false,true,0,100,"The tween line index.");
   this.ports.thickness = new Port(this,"thickness",true,true,1,100,"The tween line thickness.");
 
-  this.methods.tween = function(q) // line tween:$&$>>$&$ step->thickness
-  {
+  this.methods.stroke = new Method("stroke","x1,y1&x2,y2","Stroke positions.",function(q){
+    ronin.line.stroke_multi(q)
+  })
+
+  this.methods.tween = new Method("tween","tween:$&$>>$&$ step->thickness","Stroke lines between strokes.",function(q){
     var from = q.from;
     var to = q.to;
 
@@ -20,12 +20,7 @@ function Line()
       ronin.line.stroke_multi(new_positions);
       ronin.line.ports.step.write(ronin.line.ports.step.value+1);
     }
-  }
-
-  this.methods.stroke = function(q)
-  {
-    ronin.line.stroke_multi(q)
-  }
+  })
 
   this.preview = function(q)
   {

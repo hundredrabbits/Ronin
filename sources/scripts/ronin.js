@@ -20,6 +20,7 @@ function Ronin()
   this.line = new Line();
   this.path = new Path();
   this.magnet = new Magnet();
+  this.filter = new Filter();
 
   this.layers = {
     grid : this.grid,
@@ -35,7 +36,8 @@ function Ronin()
     line : this.line,
     io : this.io,
     path : this.path,
-    magnet : this.magnet
+    magnet : this.magnet,
+    filter : this.filter
   };
   
   this.install = function()
@@ -74,11 +76,5 @@ function Ronin()
     this.cursor.update();
     this.preview.update();
     this.commander.update();
-
-    // this.commander.input_el.value = "io import:~/Desktop/test.png anchor=$";
-    // this.commander.input_el.value = "path stroke:$+";
-
-    // this.commander.input_el.value = "magnet lock:";
-    // this.commander.inject("line tween:$&$&$>>$&$&$ step->thickness");
   }
 }

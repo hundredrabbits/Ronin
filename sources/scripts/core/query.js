@@ -1,5 +1,6 @@
 function Query(query_str = "")
 {
+  this.string = query_str;
   this.module = query_str.split(" ")[0];
   var parts = query_str.split(" ").splice(1);
   this.raw = parts.join(" ");
