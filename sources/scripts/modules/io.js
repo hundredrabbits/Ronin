@@ -5,9 +5,12 @@ function IO()
   this.image = null;
 
   this.methods.load = new Method("load","browser","Press enter to open the file browser.",function(q){
-    var filepath = dialog.showOpenDialog({properties: ['openFile']});
+
+    var filepath = q ? [q] : dialog.showOpenDialog({properties: ['openFile']});
 
     if(!filepath){ console.log("Nothing to load"); return; }
+
+    console.log("Loaded",filepath)
 
     fs.readFile(filepath[0], 'utf-8', (err, data) => {
       if(err){ alert("An error ocurred reading the file :" + err.message); return; }
