@@ -102,7 +102,7 @@ function Query(query_str = "")
       return {x:parseInt(unit_str.split(",")[0]),y:parseInt(unit_str.split(",")[1])};
     }
     // Size
-    if(unit_str.indexOf("x") > -1){
+    if(unit_str.indexOf("x") > -1 && !isNaN(unit_str.split("x")[0]) && !isNaN(unit_str.split("x")[1])){
       return {width:parseInt(unit_str.split("x")[0]),height:parseInt(unit_str.split("x")[1])};
     }
     // Float
