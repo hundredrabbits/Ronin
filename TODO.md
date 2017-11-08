@@ -25,7 +25,6 @@
 
 ### Brush
 - Finish Port draft
-- Color picker
 
 ### Line
 - Preview support
