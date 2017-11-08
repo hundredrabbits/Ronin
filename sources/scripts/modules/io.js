@@ -57,3 +57,33 @@ function IO()
     ctx.drawImage(img, params.x * 2,params.y * 2,width * scale,height * scale);    
   }
 }
+
+window.addEventListener('dragover',function(e)
+{
+  e.stopPropagation();
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+});
+
+window.addEventListener('drop', function(e)
+{
+  e.stopPropagation();
+  e.preventDefault();
+
+  var files = e.dataTransfer.files;
+  var file = files[0];
+
+  if (file.type && !file.type.match(/image.*/)) { console.log("Not image", file.type); return false; }
+
+  var path = file.path ? file.path : file.name;
+  var reader = new FileReader();
+
+  reader.onload = function(event)
+  {
+    var img = new Image();
+    img.src = event.target.result;
+    ronin.io.image = img;
+    ronin.commander.inject("io draw:20,20|100x100");
+  }
+  reader.readAsDataURL(file);
+});
