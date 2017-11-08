@@ -28,7 +28,7 @@ function Layer()
     this.el.style.height = size.height+"px";
   }
 
-  this.select = function(x = 0,y = 0,width = ronin.frame.settings.width,height = ronin.frame.settings.width)
+  this.select = function(x = 0,y = 0,width = ronin.frame.width,height = ronin.frame.width)
   {
     return this.context().getImageData(x, y, width * 2, height * 2);
   }

@@ -24,6 +24,7 @@ function Commander()
       var setting_value = q.settings[setting_id];
       if(!ronin.modules[q.module].settings[setting_id]){ console.log("Missing setting",setting_id); return; }
       ronin.modules[q.module].settings[setting_id] = setting_value;
+      console.log(ronin.modules[q.module]);
     }
     
     ronin.modules[q.module].routes = q.routes;

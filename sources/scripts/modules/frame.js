@@ -2,10 +2,11 @@ function Frame()
 {
   Module.call(this,"frame","Manager for the canvas size");
   
-  this.settings = {width:400,height:400};
+  this.width = 400;
+  this.height = 400;
 
   this.methods.resize = new Method("resize","WxH","Resize canvas to size.",function(q){
-    var data = ronin.render.select(0,0,ronin.frame.settings.width,ronin.frame.settings.height);
+    var data = ronin.render.select(0,0,ronin.frame.width,ronin.frame.height);
     ronin.render.clear();
     ronin.frame.resize_to(q);
     ronin.render.context().putImageData(data, 0, 0);
@@ -13,12 +14,12 @@ function Frame()
 
   this.methods.rescale = new Method("rescale","0.5","Rescale canvas to float.",function(p){
     var copy_canvas = document.createElement("canvas");
-    copy_canvas.width = ronin.frame.settings.width * 2;
+    copy_canvas.width = ronin.frame.width * 2;
     copy_canvas.height = ronin.frame.settings.height * 2;
     var copy_ctx = copy_canvas.getContext("2d");
     copy_ctx.drawImage(ronin.render.to_img(), 0, 0);
 
-    var new_size = {width:ronin.frame.settings.width * p,height:ronin.frame.settings.height * p};
+    var new_size = {width:ronin.frame.width * p,height:ronin.frame.height * p};
 
     ronin.render.clear();
     ronin.frame.resize_to(new_size);
@@ -42,8 +43,8 @@ function Frame()
 
   this.resize_to = function(size)
   {
-    ronin.frame.settings.width = size.width;
-    ronin.frame.settings.height = size.height;
+    ronin.frame.width = size.width;
+    ronin.frame.height = size.height;
 
     const {dialog,app} = require('electron').remote;
     var win = require('electron').remote.getCurrentWindow();

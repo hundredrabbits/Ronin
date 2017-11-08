@@ -6,11 +6,8 @@ function Brush()
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}}),
-    new Pointer({offset:{x:2,y:2}}),
-    new Pointer({offset:{x:4,y:4}}),
+    new Pointer({offset:{x:0,y:0},mirror:{x:400,y:0}})
   ];
-
-  this.ports = {};
 
   this.ports.speed = new Port(this,"speed",false,true,0,50,"The cursor speed");
   this.ports.distance = new Port(this,"distance",false,true,0,9999,"The cursor distance");
@@ -18,63 +15,38 @@ function Brush()
   this.ports.green = new Port(this,"green",true,true,0,255,"The brush color value(green)");
   this.ports.blue = new Port(this,"blue",true,true,0,255,"The brush color value(blue)");
 
+  this.methods.add = new Method("add","x,y&mirror_x,mirror_y","Add a new pointer to the brush",function(q){
+    var offset = q.length ? q[0] : q;
+    var mirror = q.length ? q[1] : null;
+    ronin.brush.pointers.push(new Pointer({offset:offset,mirror:mirror}));
+  })
+
+  this.methods.remove = new Method("remove","","Remove last pointer",function(q){
+    ronin.brush.pointers.pop();
+  })
+
+  this.methods.pick = new Method("pick","x,y","Set brush color to a position's pixel.",function(q){
+    var pixel = ronin.render.context().getImageData(q.x*2, q.y*2, 1, 1).data;
+    var c = new Color().rgb_to_hex(pixel);
+    var color = new Color(c);
+    ronin.brush.settings.color = color.hex;
+  })
+
+  this.absolute_thickness = 0;
+
   this.thickness = function(line)
   {
-    if(this.ports[this.routes.thickness]){
-      return this.ports[this.routes.thickness] * this.settings.size;  
-    }
-    return this.settings.size;
-  }
-
-  this.offset = function(line)
-  {
-    if(this.ports[this.routes.offset]){
-      return this.ports[this.routes.offset];  
-    }
-    return 1;
-  }
-
-  this.red = function(line)
-  {
-    return 255;
-    if(this.ports[this.routes.red]){
-      return this.ports[this.routes.red] * 255;  
-    }
-    return this.ports.red;
-  }
-
-  this.green = function(line)
-  {
-    return 0;
-    if(this.ports[this.routes.green]){
-      return this.ports[this.routes.green] * 255;  
-    }
-    return this.ports.green;
-  }
-
-  this.blue = function(line)
-  {
-    return 0;
-    if(this.ports[this.routes.blue]){
-      return this.ports[this.routes.blue] * 255;  
-    }
-    return this.ports.blue;
-  }
-
-  this.alpha = function(line)
-  {
-    if(this.ports[this.routes.alpha]){
-      return this.ports[this.routes.alpha];  
-    }
-    return this.ports.alpha;
+    var t = this.settings.size * this.ports.speed;
+    this.absolute_thickness = t > this.absolute_thickness ? this.absolute_thickness+0.5 : this.absolute_thickness-0.5;
+    return this.absolute_thickness * 3;
   }
 
   this.stroke = function(line)
   {
     ronin.commander.blur();
 
-    // this.ports.speed = distance_between(line.from,line.to)/15.0;
-    // this.ports.distance += this.ports.speed;
+    this.ports.speed = 1-distance_between(line.from,line.to)/15.0;
+    this.ports.distance += this.ports.speed;
     // this.ports.noise = Math.random(255/255.0);
     // this.ports.x = line.from.x/2;
 
@@ -136,13 +108,18 @@ function Pointer(options)
   {
     var ctx = ronin.render.context();
 
+    if(this.options.mirror){
+      line.from.x = this.options.mirror.x - line.from.x;
+      line.to.x = this.options.mirror.x - line.to.x;  
+    }
+
     ctx.beginPath();
     ctx.globalCompositeOperation="source-over";
-    ctx.moveTo((line.from.x * 2) + (this.options.offset.x * ronin.brush.offset(line)),(line.from.y * 2) + (this.options.offset.y * ronin.brush.offset(line)));
-    ctx.lineTo((line.to.x * 2) + (this.options.offset.x * ronin.brush.offset(line)),(line.to.y * 2) + (this.options.offset.y * ronin.brush.offset(line)));
+    ctx.moveTo((line.from.x * 2) + this.options.offset.x,(line.from.y * 2) + this.options.offset.y);
+    ctx.lineTo((line.to.x * 2) + this.options.offset.x,(line.to.y * 2) + this.options.offset.y);
     ctx.lineCap="round";
     ctx.lineWidth = this.thickness(line);
-    ctx.strokeStyle = "rgba("+clamp(parseInt(ronin.brush.red()),0,255)+","+clamp(parseInt(ronin.brush.green()),0,255)+","+clamp(parseInt(ronin.brush.blue()),0,255)+","+ronin.brush.alpha()+")";
+    ctx.strokeStyle = ronin.brush.settings.color;
     ctx.stroke();
     ctx.closePath();
   }

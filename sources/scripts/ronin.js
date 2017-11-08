@@ -44,8 +44,8 @@ function Ronin()
   {
     document.body.appendChild(this.el);
 
-    this.frame.settings.width = window.innerWidth;
-    this.frame.settings.height = window.innerHeight;
+    this.frame.width = window.innerWidth;
+    this.frame.height = window.innerHeight;
 
     this.grid.install();
     this.guide.install();

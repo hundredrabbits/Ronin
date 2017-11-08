@@ -13,6 +13,9 @@ Ronin is a simple open-source graphic design tool.
 Missing documentation.
 
 ### Methods
+- `add:x,y&mirror_x,mirror_y` Add a new pointer to the brush
+- `remove:` Remove last pointer
+- `pick:x,y` Set brush color to a position's pixel.
 
 ### Settings
 - `size`, default 4
@@ -38,8 +41,6 @@ Manager for the canvas size
 - `fill:#f00` Fill entire canvas with color
 
 ### Settings
-- `width`, default 930
-- `height`, default 540
 
 ### Ports
 
@@ -67,7 +68,6 @@ File import/export tools.
 - `save:name` Export canvas.
 
 ### Settings
-- `anchor`, default [object Object]
 
 ### Ports
 
@@ -91,12 +91,23 @@ Trace lines and to draw shapes.
 Cursor magnetisation settings, changes are reflected on the grid layer.
 
 ### Methods
-- `lock:undefined` undefined
-- `unlock:undefined` undefined
+- `lock:10x10` Magnetize cursor
+- `unlock:` Release cursor
 
 ### Settings
 - `size`, default 0
 - `step`, default 4
+
+### Ports
+
+## filter
+
+Pixel filter
+
+### Methods
+- `balance:#ff0033` Filter color balance.
+
+### Settings
 
 ### Ports
 
