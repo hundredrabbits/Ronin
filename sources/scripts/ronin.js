@@ -21,6 +21,7 @@ function Ronin()
   this.path = new Path();
   this.magnet = new Magnet();
   this.filter = new Filter();
+  this.type = new Type();
 
   this.layers = {
     grid : this.grid,
@@ -37,7 +38,8 @@ function Ronin()
     io : this.io,
     path : this.path,
     magnet : this.magnet,
-    filter : this.filter
+    filter : this.filter,
+    type : this.type
   };
   
   this.install = function()
