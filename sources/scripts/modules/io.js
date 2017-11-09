@@ -5,7 +5,6 @@ function IO()
   this.image = null;
 
   this.methods.load = new Method("load","browser","Press enter to open the file browser.",function(q){
-
     var filepath = q ? [q] : dialog.showOpenDialog({properties: ['openFile']});
 
     if(!filepath){ console.log("Nothing to load"); return; }
@@ -31,14 +30,15 @@ function IO()
     ronin.preview.clear();
   });
   
-  this.methods.save = new Method("save","name","Export canvas.",function(q){
+  this.methods.save = new Method("save","jpg/png","Export canvas.",function(q){
+    var ext = q ? q : "jpg";
     var fs = require('fs');
-    var data = ronin.render.to_base64('jpg').replace(/^data:image\/\w+;base64,/, "");
+    var data = ronin.render.to_base64(ext).replace(/^data:image\/\w+;base64,/, "");
     var buf = new Buffer(data, 'base64');
 
     dialog.showSaveDialog((fileName) => {
       if (fileName === undefined){ return; }
-      fs.writeFile(fileName+'.jpg', buf);
+      fs.writeFile(fileName+'.'+ext, buf);
     }); 
   });
 

@@ -43,17 +43,17 @@ function Keyboard()
 
     if(e.key == "o" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
-      ronin.io.methods.import();
+      ronin.io.methods.load.run();
     }
 
     if(e.key == "s" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
-      ronin.io.save();
+      ronin.io.methods.save.run();
     }
 
     if(e.key == "r" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
-      ronin.io.render();
+      ronin.io.methods.save.run();
     }
 
     if(e.key == "H" && (e.ctrlKey || e.metaKey) && e.shiftKey){
