@@ -9,7 +9,7 @@ function Hint()
   {
     ronin.commander.el.appendChild(this.el);
     ronin.commander.el.appendChild(this.cursor_hint_el);
-    this.cursor_hint_el.innerHTML = "Hello";
+    this.cursor_hint_el.innerHTML = "";
   }
 
   this.find_autocomplete = function(collection,append = "")

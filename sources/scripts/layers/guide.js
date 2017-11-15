@@ -3,7 +3,7 @@ function Guide()
   Layer.call(this);
   
   this.el.id = "guide";
-  this.inspect = true;
+  this.inspect = false;
 
   this.update = function()
   {
@@ -16,6 +16,10 @@ function Guide()
 
     var units = this.find_units();
 
+    if(this.inspect){
+      this.draw_inspector();
+    }
+    
     if(units.length == 0){ return; }
 
     for(i in units){
@@ -31,9 +35,6 @@ function Guide()
     if(u && u.width && u.height){
       this.draw_rect(u);
       this.draw_pos({x:u.x + (u.width/2),y:u.y + (u.height/2)});
-    }
-    if(this.inspect){
-      this.draw_inspector();
     }
   }
 
@@ -128,7 +129,6 @@ function Guide()
 
   this.draw_inspector = function()
   {
-    // 
     this.draw_line({x:ronin.frame.width/2,y:0},{x:ronin.frame.width/2,y:ronin.frame.height},"red");
     this.draw_line({x:0,y:ronin.frame.height/2},{x:ronin.frame.width,y:ronin.frame.height/2},"red");
 

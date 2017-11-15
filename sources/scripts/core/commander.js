@@ -22,10 +22,8 @@ function Commander()
     for(setting_id in q.settings){
       var setting_value = q.settings[setting_id];
       if(!ronin.modules[q.module].settings[setting_id]){ console.log("Missing setting",setting_id); return; }
-      
       ronin.modules[q.module].settings[setting_id] = setting_value;
     }
-    
     ronin.modules[q.module].routes = q.routes;
 
     // Run methods
@@ -80,12 +78,7 @@ function Commander()
   {
     var target_module = ronin.commander.query().module;
 
-    if(ronin.modules[target_module]){
-      var ac = ronin.hint.find_autocomplete(ronin.modules[target_module].methods,":");
-    }
-    else{
-      var ac = ronin.hint.find_autocomplete(ronin.modules," ");
-    }
+    var ac = ronin.modules[target_module] ? ronin.hint.find_autocomplete(ronin.modules[target_module].methods,":") : ronin.hint.find_autocomplete(ronin.modules," ")
 
     if(ac.lenght < 1 || !ac[0]){ return; }
 

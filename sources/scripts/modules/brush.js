@@ -2,7 +2,7 @@ function Brush()
 {
   Module.call(this,"brush");
 
-  this.settings = {size:4,color:"#000",opacity:1.0};
+  this.settings = {size:4,color:"#000"};
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}}),

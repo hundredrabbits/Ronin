@@ -13,14 +13,6 @@ function Docs()
     html += this.print_modules(ronin.modules);
     html += this.print_license();
 
-    // dialog.showSaveDialog((fileName) => {
-    //   if (fileName === undefined){ return; }
-    //   console.log(fileName)
-    //   fs.writeFile(fileName, html, (err) => {
-    //     if(err){ alert("An error ocurred creating the file "+ err.message); return; }
-    //   });
-    // });
-
     fs.writeFile("/Users/VillaMoirai/Github/HundredRabbits/Ronin/README.md", html, (err) => {
       if(err){ alert("An error ocurred creating the file "+ err.message); return; }
     }); 
@@ -46,7 +38,6 @@ function Docs()
       html += module.docs+"\n\n";
       html += this.print_methods(module.methods)+"\n";
       html += this.print_settings(module.settings)+"\n";
-      html += this.print_ports(module.ports)+"\n";
     }
     return html+"\n";
   }
@@ -71,18 +62,6 @@ function Docs()
       html += "- `"+setting_name+"`, default "+setting_val+"\n";
     }
     return html;
-  }
-
-
-  this.print_ports = function(ports)
-  {
-    var html = "### Ports\n";
-
-    for(port_name in ports){
-      var port = ports[port_name];
-      html += "- `"+(port.input ? '->' : '')+""+port.name+""+(port.output ? '->' : '')+"` **("+port.value+"/"+port.max+")** "+port.docs+".\n";
-    }
-    return html;  
   }
 
   this.print_license = function()

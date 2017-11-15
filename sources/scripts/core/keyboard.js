@@ -18,6 +18,7 @@ function Keyboard()
       ronin.commander.input_el.value = "";
       ronin.guide.update();
       ronin.guide.clear();
+      ronin.guide.inspect = false;
       ronin.preview.clear();
     }
 
@@ -38,6 +39,8 @@ function Keyboard()
 
     if(e.key == "n" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
+      ronin.guide.inspect = false;
+      ronin.guide.clear();
       ronin.render.clear();
     }
 

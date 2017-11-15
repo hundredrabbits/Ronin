@@ -42,8 +42,8 @@ function Frame()
   });
 
   this.methods.inspect = new Method("inspect","","View canvas details",function(q){
-    ronin.layers.guide.inspect = ronin.layers.guide.inspect ? false : true;
-    ronin.layers.guide.draw();
+    ronin.guide.inspect = ronin.guide.inspect ? false : true;
+    ronin.guide.draw();
   });
 
   this.resize_to = function(size)
