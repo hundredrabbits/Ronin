@@ -17,7 +17,6 @@ function Ronin()
   this.io = new IO();
   this.brush = new Brush();
   this.frame = new Frame();
-  this.line = new Line();
   this.path = new Path();
   this.magnet = new Magnet();
   this.filter = new Filter();
@@ -34,7 +33,6 @@ function Ronin()
   this.modules = {
     brush : this.brush,
     frame : this.frame,
-    line : this.line,
     io : this.io,
     path : this.path,
     magnet : this.magnet,

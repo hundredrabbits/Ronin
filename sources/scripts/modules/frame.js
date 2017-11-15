@@ -41,6 +41,11 @@ function Frame()
     ronin.render.fill(q);
   });
 
+  this.methods.inspect = new Method("inspect","","View canvas details",function(q){
+    ronin.layers.guide.inspect = ronin.layers.guide.inspect ? false : true;
+    ronin.layers.guide.draw();
+  });
+
   this.resize_to = function(size)
   {
     ronin.frame.width = size.width;

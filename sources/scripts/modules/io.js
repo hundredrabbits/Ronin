@@ -55,7 +55,8 @@ function IO()
   {
     var width = parseInt(img.naturalWidth * 0.5);
     var height = parseInt(img.naturalHeight * 0.5);
-    var scale = (params.width/width) * 2;
+
+    var scale = params.width > params.height ? (params.width/width) * 2 : (params.height/height) * 2;
 
     ctx.drawImage(img, params.x * 2,params.y * 2,width * scale,height * scale);    
   }

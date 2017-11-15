@@ -4,7 +4,7 @@ function Magnet()
 
   this.settings = {size:0,step:4};
 
-  this.methods.lock = new Method("lock","10x10","Magnetize cursor",function(q){
+  this.methods.lock = new Method("lock","10","Magnetize cursor",function(q){
     var size = parseInt(q);
     if(size < 5){ this.unlock(); return; }
     ronin.magnet.settings.size = size;

@@ -1,4 +1,4 @@
-body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace;}
+body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace; background:red;}
 *:focus {outline: none; }
 
 * { cursor: none }
