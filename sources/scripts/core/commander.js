@@ -77,6 +77,23 @@ function Commander()
     ronin.guide.update();
   }
 
+  this.autocomplete = function()
+  {
+    var target_module = ronin.commander.query().module;
+
+    if(ronin.modules[target_module]){
+      var ac = ronin.hint.find_autocomplete(ronin.modules[target_module].methods,":");
+    }
+    else{
+      var ac = ronin.hint.find_autocomplete(ronin.modules," ");
+    }
+
+    if(ac.lenght < 1 || !ac[0]){ return; }
+
+    this.append(ac[0]);
+    this.focus();
+  }
+
   this.on_input = function(e)
   {
     ronin.commander.update();
@@ -101,6 +118,12 @@ function Commander()
   {
     ronin.commander.input_el.value = str;
     ronin.commander.update();
+  }
+
+  this.append = function(str)
+  {
+    ronin.commander.input_el.value += str;
+    ronin.commander.update();    
   }
 
   this.query = function()

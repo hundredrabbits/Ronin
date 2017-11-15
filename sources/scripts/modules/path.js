@@ -4,17 +4,6 @@ function Path()
 
   this.settings = {thickness:4,color:"white",cap:"square"};
   
-  this.methods.svg = new Method("svg","M0,0 L100,100","",function(q){    
-    var path = ronin.commander.query().raw.replace("svg:","").trim();
-    var ctx = ronin.render.context();
-    ctx.beginPath();
-    ctx.lineCap = ronin.path.settings.cap;
-    ctx.lineWidth = ronin.path.settings.thickness;
-    ctx.strokeStyle = ronin.path.settings.color;
-    ctx.stroke(new Path2D(path));
-    ctx.closePath();
-  });
-
   this.methods.stroke = new Method("stroke","x,y&","",function(q){
     ronin.preview.clear();
 
@@ -23,9 +12,9 @@ function Path()
     var ctx = ronin.render.context();
 
     ctx.beginPath();
-    ctx.lineCap = r.path.settings.cap;
-    ctx.lineWidth = r.path.settings.thickness;
-    ctx.strokeStyle = r.path.settings.color;
+    ctx.lineCap = ronin.path.settings.cap;
+    ctx.lineWidth = ronin.path.settings.thickness;
+    ctx.strokeStyle = ronin.path.settings.color;
     ctx.stroke(new Path2D(path));
     ctx.closePath();
   });
@@ -38,10 +27,21 @@ function Path()
     var ctx = ronin.render.context();
 
     ctx.beginPath();
-    ctx.lineCap = r.path.settings.cap;
-    ctx.lineWidth = r.path.settings.thickness;
-    ctx.strokeStyle = r.path.settings.color;
+    ctx.lineCap = ronin.path.settings.cap;
+    ctx.lineWidth = ronin.path.settings.thickness;
+    ctx.fillStyle = ronin.path.settings.color;
     ctx.fill(new Path2D(path));
+    ctx.closePath();
+  });
+
+  this.methods.svg = new Method("svg","M0,0 L100,100","",function(q){    
+    var path = ronin.commander.query().raw.replace("svg:","").trim();
+    var ctx = ronin.render.context();
+    ctx.beginPath();
+    ctx.lineCap = ronin.path.settings.cap;
+    ctx.lineWidth = ronin.path.settings.thickness;
+    ctx.strokeStyle = ronin.path.settings.color;
+    ctx.stroke(new Path2D(path));
     ctx.closePath();
   });
 

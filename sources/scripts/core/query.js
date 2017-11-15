@@ -7,6 +7,7 @@ function Query(query_str = "")
   this.methods = {};
   this.settings = {};
   this.routes = {};
+  this.last = query_str.indexOf(" ") > -1 ? query_str.split(" ")[query_str.split(" ").length-1] : query_str;
 
   for(part_id in parts){
     var part = parts[part_id];

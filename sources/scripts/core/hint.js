@@ -2,11 +2,29 @@ function Hint()
 {
   this.el = document.createElement('yu');
   this.el.id = "hint";
+  this.cursor_hint_el = document.createElement('yu');
+  this.cursor_hint_el.id = "cursor_hint";
 
   this.install = function()
   {
-    ronin.el.appendChild(this.el);
-    this.el.innerHTML = "";
+    ronin.commander.el.appendChild(this.el);
+    ronin.commander.el.appendChild(this.cursor_hint_el);
+    this.cursor_hint_el.innerHTML = "Hello";
+  }
+
+  this.find_autocomplete = function(collection,append = "")
+  {
+    var target = ronin.commander.query().last;
+    var a = [];
+
+    for(id in collection){
+      var name = collection[id].name;
+      if(name && name.substr(0,target.length) == target){
+        a.push(name.substr(target.length,20)+append)
+      }
+    }
+
+    return a;
   }
 
   this.update = function(e = null)
@@ -25,20 +43,32 @@ function Hint()
       this.el.innerHTML = html;
     }
     else if(ronin.modules[target_module] && ronin.modules[target_module].methods[target_method]){
-      this.el.innerHTML = this.pad(ronin.commander.input_el.value)+ronin.modules[target_module].methods[target_method].docs();
+      this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" "+ronin.modules[target_module].methods[target_method].docs();
     }
     else if(ronin.modules[target_module]){
-      this.el.innerHTML = this.pad(ronin.commander.input_el.value)+ronin.modules[target_module].hint();
+      var ac = this.find_autocomplete(ronin.modules[target_module].methods,":");
+      if(ac.length > 0){
+        this.el.innerHTML = this.pad(ronin.commander.input_el.value)+"<span class='autocomplete'>"+ac[0]+"</span> > Press tab to autocomplete."  
+      }
+      else{
+        this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" "+ronin.modules[target_module].hint();  
+      }
     }
     else{
-      this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" > Idle."
+      var ac = this.find_autocomplete(ronin.modules);
+      if(ac.length > 0){
+        this.el.innerHTML = this.pad(ronin.commander.input_el.value)+"<span class='autocomplete'>"+ac[0]+"</span> > Press tab to autocomplete."  
+      }
+      else{
+        this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" > Unknown command."  
+      }
     }
   }
 
   this.pad = function(input)
   {
     var s = "";
-    for (i = 0; i < input.length+1; i++){
+    for (i = 0; i < input.length; i++){
       s += "_";
     }
     return "<span style='color:RGBA(0,0,0,0)'>"+s+"</span>";

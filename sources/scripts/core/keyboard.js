@@ -23,7 +23,7 @@ function Keyboard()
 
     if(e.key == "tab" || e.keyCode == 9){
       e.preventDefault();
-      ronin.commander.focus();
+      ronin.commander.autocomplete();
       return;
     }
 
