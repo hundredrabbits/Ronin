@@ -2,7 +2,7 @@ function Path()
 {
   Module.call(this,"path","Trace lines and to draw shapes.");
 
-  this.settings = {thickness:4,color:"white",cap:"square"};
+  this.settings = {thickness:4,color:"red",cap:"square"};
   
   this.methods.stroke = new Method("stroke","x,y&","",function(q){
     ronin.preview.clear();

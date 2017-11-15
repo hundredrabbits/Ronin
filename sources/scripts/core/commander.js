@@ -14,7 +14,6 @@ function Commander()
 
   this.validate = function(q = ronin.commander.query())
   {
-    console.info(q.string)
     if(!ronin.modules[q.module]){ console.log("Unknown module",q.module); return; }
     if(q.raw.indexOf("$") > -1){ console.log("Variables present"); return; }
     if(q.raw.indexOf(";") > -1){ this.validate_multi(q); return; }

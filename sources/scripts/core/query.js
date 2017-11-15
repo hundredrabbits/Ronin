@@ -1,5 +1,8 @@
 function Query(query_str = "")
 {
+  // Strip trailing variables
+  query_str = query_str.indexOf("&$+") > -1 ? query_str.replace("&$+","").trim() : query_str
+
   this.string = query_str;
   this.module = query_str.split(" ")[0];
   var parts = query_str.split(" ").splice(1);
