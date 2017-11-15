@@ -38,7 +38,7 @@ function Frame()
   });
 
   this.methods.fill = new Method("fill","#f00","Fill entire canvas with color",function(q){
-    ronin.render.fill(q);
+    ronin.render.fill(q ? q : ronin.brush.settings.color);
   });
 
   this.methods.inspect = new Method("inspect","","View canvas details",function(q){

@@ -4,12 +4,28 @@ function IO()
   
   this.image = null;
 
-  this.methods.load = new Method("load","browser","Press enter to open the file browser.",function(q){
+  this.methods.open = new Method("open","browser","Press enter to open the file browser.",function(q){
     var filepath = q ? [q] : dialog.showOpenDialog({properties: ['openFile']});
 
     if(!filepath){ console.log("Nothing to load"); return; }
 
-    console.log("Loaded",filepath)
+    fs.readFile(filepath[0], 'utf-8', (err, data) => {
+      if(err){ alert("An error ocurred reading the file :" + err.message); return; }
+      var img = new Image();
+      img.src = filepath[0];
+      img.onload = function() {
+        var width = parseInt(img.naturalWidth * 0.5);
+        var height = parseInt(img.naturalHeight * 0.5);
+        ronin.frame.resize_to({width:width,height:height});
+        ronin.io.draw_image(ronin.render.context(),img,{x:0,y:0,width:width,height:height});
+      }
+    });
+  })
+
+  this.methods.load = new Method("load","browser","Press enter to open the file browser.",function(q){
+    var filepath = q ? [q] : dialog.showOpenDialog({properties: ['openFile']});
+
+    if(!filepath){ console.log("Nothing to load"); return; }
 
     fs.readFile(filepath[0], 'utf-8', (err, data) => {
       if(err){ alert("An error ocurred reading the file :" + err.message); return; }
