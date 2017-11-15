@@ -13,17 +13,11 @@ function Frame()
   });
 
   this.methods.rescale = new Method("rescale","0.5","Rescale canvas to float.",function(p){
-    var copy_canvas = document.createElement("canvas");
-    copy_canvas.width = ronin.frame.width * 2;
-    copy_canvas.height = ronin.frame.settings.height * 2;
-    var copy_ctx = copy_canvas.getContext("2d");
-    copy_ctx.drawImage(ronin.render.to_img(), 0, 0);
 
     var new_size = {width:ronin.frame.width * p,height:ronin.frame.height * p};
 
-    ronin.render.clear();
-    ronin.frame.resize_to(new_size);
-    ronin.render.context().drawImage(copy_ctx.canvas,0,0,new_size.width * 2,new_size.height * 2);
+    ronin.render.context().drawImage(ronin.render.to_img(),0,0,new_size.width * 2,new_size.height * 2);
+    setTimeout(ronin.frame.methods.resize.run(new_size),1000)
   });
 
   this.methods.crop = new Method("crop","X,Y|WxH","Crop canvas to rect.",function(p){

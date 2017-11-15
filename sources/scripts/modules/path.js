@@ -1,6 +1,6 @@
 function Path()
 {
-  Module.call(this,"path","Trace lines and to draw shapes.");
+  Module.call(this,"path","Trace lines and draw shapes.");
 
   this.settings = {thickness:4,color:"red",cap:"square"};
   

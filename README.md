@@ -40,6 +40,7 @@ Manager for the canvas size
 File import/export tools.
 
 ### Methods
+- `open:browser` Press enter to open the file browser.
 - `load:browser` Press enter to open the file browser.
 - `draw:X,Y|WxH` Draw the loaded image pixels.
 - `save:jpg/png` Export canvas.
@@ -48,7 +49,7 @@ File import/export tools.
 
 ## path
 
-Trace lines and to draw shapes.
+Trace lines and draw shapes.
 
 ### Methods
 - `stroke:x,y&` 
