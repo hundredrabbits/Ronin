@@ -5,8 +5,7 @@ function Brush()
   this.settings = {size:4,color:"#000"};
 
   this.pointers = [
-    new Pointer({offset:{x:0,y:0}}),
-    new Pointer({offset:{x:0,y:0},mirror:{x:400,y:0}})
+    new Pointer({offset:{x:0,y:0}})
   ];
 
   this.ports.speed = new Port(this,"speed",false,true,0,50,"The cursor speed");
@@ -109,8 +108,8 @@ function Pointer(options)
     var ctx = ronin.render.context();
 
     if(this.options.mirror){
-      line.from.x = this.options.mirror.x - line.from.x;
-      line.to.x = this.options.mirror.x - line.to.x;  
+      line.from.x = (this.options.mirror.x *2) - line.from.x;
+      line.to.x = (this.options.mirror.x*2) - line.to.x;  
     }
 
     ctx.beginPath();

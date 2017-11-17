@@ -19,6 +19,13 @@ function Guide()
     if(this.inspect){
       this.draw_inspector();
     }
+
+    // Brush mirrors
+    for(id in ronin.brush.pointers){
+      var pointer = ronin.brush.pointers[id];
+      if(!pointer.options.mirror){ continue; }
+      units.push({x1:pointer.options.mirror.x,y1:0,x2:pointer.options.mirror.x,y2:ronin.frame.height})
+    }
     
     if(units.length == 0){ return; }
 
@@ -29,6 +36,10 @@ function Guide()
 
   this.draw = function(u = null)
   { 
+    if(u && u.x1 != null && u.y1 != null && u.x2 != null && u.y2 != null){
+      this.draw_line({x:u.x1,y:u.y1},{x:u.x2,y:u.y2})
+    }
+
     if(u && u.x && u.y){
       this.draw_pos(u);
     }
