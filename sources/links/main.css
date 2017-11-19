@@ -20,4 +20,4 @@ yu { display:block; }
 #hint i { font-style: italic; }
 #hint .autocomplete { background:white; color:black; }
 
-#cursor_hint { position: absolute;top: 0px;right: 20px;color: white;  }
+#cursor_hint { position: absolute;top: 0px;right: 20px;color: white; font-family: courier; padding: 0px 10px; }

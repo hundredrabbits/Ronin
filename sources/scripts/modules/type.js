@@ -10,8 +10,6 @@ function Type()
     var size = rect.height * 2
     ronin.preview.clear();
 
-    console.log(ronin.type.settings);
-
     ronin.render.context().textAlign = ronin.type.settings.anchor;
     ronin.render.context().font = size+"px "+ronin.type.settings.font.replace("+"," ");
     ronin.render.context().fillText(q[0].replace("+"," "),rect.x * 2,(rect.y * 2)+size);

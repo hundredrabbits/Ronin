@@ -18,14 +18,6 @@ function Commander()
     if(q.raw.indexOf("$") > -1){ console.log("Variables present"); return; }
     if(q.raw.indexOf(";") > -1){ this.validate_multi(q); return; }
 
-    // Update settings
-    for(setting_id in q.settings){
-      var setting_value = q.settings[setting_id];
-      if(!ronin.modules[q.module].settings[setting_id]){ console.log("Missing setting",setting_id); return; }
-      ronin.modules[q.module].settings[setting_id] = setting_value;
-    }
-    ronin.modules[q.module].routes = q.routes;
-
     // Run methods
     for(method_id in q.methods){
       var method_param = q.methods[method_id];

@@ -20,6 +20,9 @@ function Guide()
       this.draw_inspector();
     }
 
+    // Color picker
+    this.toggle_color_picker(ronin.commander.query().last_char == "#")
+
     // Brush mirrors
     for(id in ronin.brush.pointers){
       var pointer = ronin.brush.pointers[id];
@@ -32,6 +35,11 @@ function Guide()
     for(i in units){
       this.draw(units[i]);
     }
+  }
+
+  this.toggle_color_picker = function(show)
+  {
+    console.log("Picker",show)
   }
 
   this.draw = function(u = null)
@@ -123,7 +131,6 @@ function Guide()
   this.find_units = function(q = ronin.commander.query())
   {
     var a = [];
-    if(q.settings.anchor){ return q.settings.anchor; }
 
     for(method_id in q.methods){
       var params = q.methods[method_id];

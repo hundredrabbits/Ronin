@@ -17,10 +17,6 @@ Missing documentation.
 - `remove:` Remove last pointer
 - `pick:x,y` Set brush color to a position's pixel.
 
-### Settings
-- `size`, default 4
-- `color`, default #000
-
 ## frame
 
 Manager for the canvas size
@@ -33,8 +29,6 @@ Manager for the canvas size
 - `fill:#f00` Fill entire canvas with color
 - `inspect:` View canvas details
 
-### Settings
-
 ## io
 
 File import/export tools.
@@ -45,8 +39,6 @@ File import/export tools.
 - `draw:X,Y|WxH` Draw the loaded image pixels.
 - `save:jpg/png` Export canvas.
 
-### Settings
-
 ## path
 
 Trace lines and draw shapes.
@@ -56,11 +48,6 @@ Trace lines and draw shapes.
 - `fill:x,y&` 
 - `svg:M0,0 L100,100` 
 
-### Settings
-- `thickness`, default 4
-- `color`, default red
-- `cap`, default square
-
 ## magnet
 
 Cursor magnetisation settings, changes are reflected on the grid layer.
@@ -68,10 +55,6 @@ Cursor magnetisation settings, changes are reflected on the grid layer.
 ### Methods
 - `lock:10` Magnetize cursor
 - `unlock:` Release cursor
-
-### Settings
-- `size`, default 0
-- `step`, default 4
 
 ## filter
 
@@ -81,19 +64,12 @@ Pixel filter
 - `balance:#ff0033` Filter color balance.
 - `saturation:0.5,0.5` Filter color saturation.
 
-### Settings
-
 ## type
 
 Missing documentation.
 
 ### Methods
 - `write:text&x,y|WxH` Draw text
-
-### Settings
-- `color`, default #000000
-- `font`, default Gotham Light
-- `anchor`, default center
 
 
 ## License

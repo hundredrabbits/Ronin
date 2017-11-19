@@ -2,7 +2,7 @@ function Path()
 {
   Module.call(this,"path","Trace lines and draw shapes.");
 
-  this.settings = {thickness:4,color:"red",cap:"square"};
+  this.settings = {cap:"square"};
   
   this.methods.stroke = new Method("stroke","x,y&","",function(q){
     ronin.preview.clear();
@@ -13,8 +13,8 @@ function Path()
 
     ctx.beginPath();
     ctx.lineCap = ronin.path.settings.cap;
-    ctx.lineWidth = ronin.path.settings.thickness;
-    ctx.strokeStyle = ronin.path.settings.color;
+    ctx.lineWidth = ronin.cursor.size;
+    ctx.strokeStyle = ronin.cursor.color;
     ctx.stroke(new Path2D(path));
     ctx.closePath();
   });
@@ -28,8 +28,8 @@ function Path()
 
     ctx.beginPath();
     ctx.lineCap = ronin.path.settings.cap;
-    ctx.lineWidth = ronin.path.settings.thickness;
-    ctx.fillStyle = ronin.path.settings.color;
+    ctx.lineWidth = ronin.cursor.size;
+    ctx.fillStyle = ronin.cursor.color;
     ctx.fill(new Path2D(path));
     ctx.closePath();
   });
@@ -39,8 +39,8 @@ function Path()
     var ctx = ronin.render.context();
     ctx.beginPath();
     ctx.lineCap = ronin.path.settings.cap;
-    ctx.lineWidth = ronin.path.settings.thickness;
-    ctx.strokeStyle = ronin.path.settings.color;
+    ctx.lineWidth = ronin.cursor.size;
+    ctx.strokeStyle = ronin.cursor.color;
     ctx.stroke(new Path2D(path));
     ctx.closePath();
   });
@@ -55,8 +55,8 @@ function Path()
     var ctx = ronin.preview.context();
     ctx.beginPath();
     ctx.lineCap = q.settings.cap ? q.settings.cap : ronin.path.settings.cap;
-    ctx.lineWidth = q.settings.thickness ? q.settings.thickness : ronin.path.settings.thickness;
-    ctx.strokeStyle = q.settings.color ? q.settings.color : ronin.path.settings.color;
+    ctx.lineWidth = ronin.cursor.size;
+    ctx.strokeStyle = ronin.cursor.color;
     ctx.stroke(new Path2D(path));
     ctx.closePath();
   }

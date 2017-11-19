@@ -37,7 +37,6 @@ function Docs()
       html += "## "+module_name+"\n\n";
       html += module.docs+"\n\n";
       html += this.print_methods(module.methods)+"\n";
-      html += this.print_settings(module.settings)+"\n";
     }
     return html+"\n";
   }
@@ -49,17 +48,6 @@ function Docs()
     for(method_name in methods){
       var method = methods[method_name];
       html += "- `"+method_name+":"+method.params+"` "+method.info+"\n";
-    }
-    return html;
-  }
-
-  this.print_settings = function(settings)
-  {
-    var html = "### Settings\n";
-
-    for(setting_name in settings){
-      var setting_val = settings[setting_name];
-      html += "- `"+setting_name+"`, default "+setting_val+"\n";
     }
     return html;
   }

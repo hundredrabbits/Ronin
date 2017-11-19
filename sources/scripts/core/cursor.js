@@ -8,12 +8,15 @@ function Cursor(rune)
   this.query = null;
   this.mode = "vertex";
 
+  this.color = "#f0f"
+  this.size = 4;
+
   this.draw_cursor = function(pos,touch = false)
   {
     this.clear();
 
     var ctx = this.context();
-    var radius = ronin.brush.settings.size;
+    var radius = ronin.cursor.size;
 
     ctx.beginPath();
     ctx.arc(pos.x * 2, pos.y * 2, radius, 0, 2 * Math.PI, false);
@@ -109,7 +112,6 @@ function Cursor(rune)
   {
     return {x:a.x-b.x,y:a.y-b.y};
   }
-
 
   this.inject_query = function()
   {

@@ -8,9 +8,9 @@ function Query(query_str = "")
   var parts = query_str.split(" ").splice(1);
   this.raw = parts.join(" ");
   this.methods = {};
-  this.settings = {};
   this.routes = {};
   this.last = query_str.indexOf(" ") > -1 ? query_str.split(" ")[query_str.split(" ").length-1] : query_str;
+  this.last_char = query_str.trim().substr(query_str.trim().length-1,1);
 
   for(part_id in parts){
     var part = parts[part_id];
@@ -19,12 +19,6 @@ function Query(query_str = "")
       var key = part.indexOf(":") > -1 ? part.split(":")[0] : "any";
       var value = part.indexOf(":") > -1 ? part.split(":")[1] : part;
       this.methods[key] = parse_parameters(value);
-    }
-    // Setting
-    else if(part.indexOf("=") > -1){
-      var key = part.indexOf("=") > -1 ? part.split("=")[0] : "any";
-      var value = part.indexOf("=") > -1 ? part.split("=")[1] : part;
-      this.settings[key] = parse_parameters(value);
     }
     // Port
     else if(part.indexOf("->") > -1){

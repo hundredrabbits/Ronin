@@ -2,17 +2,9 @@ function Brush()
 {
   Module.call(this,"brush");
 
-  this.settings = {size:4,color:"#000"};
-
   this.pointers = [
     new Pointer({offset:{x:0,y:0}})
   ];
-
-  this.ports.speed = new Port(this,"speed",false,true,0,50,"The cursor speed");
-  this.ports.distance = new Port(this,"distance",false,true,0,9999,"The cursor distance");
-  this.ports.red = new Port(this,"red",true,true,0,255,"The brush color value(red)");
-  this.ports.green = new Port(this,"green",true,true,0,255,"The brush color value(green)");
-  this.ports.blue = new Port(this,"blue",true,true,0,255,"The brush color value(blue)");
 
   this.methods.add = new Method("add","x,y&mirror_x,mirror_y","Add a new pointer to the brush",function(q){
     var offset = q.length ? q[0] : q;
@@ -28,14 +20,14 @@ function Brush()
     var pixel = ronin.render.context().getImageData(q.x*2, q.y*2, 1, 1).data;
     var c = new Color().rgb_to_hex(pixel);
     var color = new Color(c);
-    ronin.brush.settings.color = color.hex;
+    ronin.cursor.color = color.hex;
   })
 
   this.absolute_thickness = 0;
 
   this.thickness = function(line)
   {
-    var t = this.settings.size * this.ports.speed;
+    var t = ronin.cursor.size * this.ports.speed;
     this.absolute_thickness = t > this.absolute_thickness ? this.absolute_thickness+0.5 : this.absolute_thickness-0.5;
     return this.absolute_thickness * 3;
   }
@@ -75,7 +67,7 @@ function Brush()
 
   this.mod_size = function(mod)
   {
-    this.settings.size = clamp(this.settings.size+mod,1,100);
+    ronin.cursor.size = clamp(ronin.cursor.size+mod,1,100);
   }
 
   function clamp(v, min, max)
@@ -100,7 +92,7 @@ function Pointer(options)
 
   this.color = function(line)
   {
-    return ronin.brush.settings.color;
+    return ronin.cursor.color;
   }
 
   this.stroke = function(line)
@@ -118,7 +110,7 @@ function Pointer(options)
     ctx.lineTo((line.to.x * 2) + this.options.offset.x,(line.to.y * 2) + this.options.offset.y);
     ctx.lineCap="round";
     ctx.lineWidth = this.thickness(line);
-    ctx.strokeStyle = ronin.brush.settings.color;
+    ctx.strokeStyle = ronin.cursor.color;
     ctx.stroke();
     ctx.closePath();
   }
