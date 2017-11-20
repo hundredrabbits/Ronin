@@ -58,6 +58,9 @@ function Hint()
       if(ac.length > 0){
         this.el.innerHTML = this.pad(ronin.commander.input_el.value)+"<span class='autocomplete'>"+ac[0]+"</span> > Press tab to autocomplete."  
       }
+      else if(ronin.commander.input_el.value == "~"){
+        this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" > Select a color."  
+      }
       else{
         this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" > Unknown command."  
       }

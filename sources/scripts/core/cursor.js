@@ -15,6 +15,8 @@ function Cursor(rune)
   {
     this.clear();
 
+    if(!pos){ return; }
+
     var ctx = this.context();
     var radius = ronin.cursor.size;
 

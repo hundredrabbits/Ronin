@@ -43,7 +43,6 @@ function Guide()
     if(!show){ return; }
     var originalData = ronin.render.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
     var data = originalData.data;
-
     for(var i = 0; i < data.length; i += 4) {
       var x = i % (ronin.frame.width*8)
       var y = i / (ronin.frame.width*32)
@@ -52,7 +51,6 @@ function Guide()
       data[i + 2] = y;
       data[i + 3] = 255;
     }
-
     ronin.layers.guide.context().putImageData(originalData, 0, 0);
   }
 

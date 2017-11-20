@@ -24,6 +24,10 @@ function Brush()
     ronin.hint.update();
   })
 
+  this.methods.set_color = new Method("set_color","#ff0033","Set color",function(q){
+    ronin.cursor.color = q;
+  })
+
   this.absolute_thickness = 0;
 
   this.thickness = function(line)

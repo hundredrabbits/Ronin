@@ -15,7 +15,7 @@ function Frame()
   this.methods.rescale = new Method("rescale","0.5","Rescale canvas to float.",function(p){
     var new_size = {width:ronin.frame.width * p,height:ronin.frame.height * p};
     ronin.render.context().drawImage(ronin.render.to_img(),0,0,new_size.width * 2,new_size.height * 2);
-    setTimeout(ronin.frame.methods.resize.run(new_size),2000)
+    setTimeout(function(){ ronin.frame.methods.resize.run(new_size);},1000)
   });
 
   this.methods.crop = new Method("crop","X,Y|WxH","Crop canvas to rect.",function(p){
