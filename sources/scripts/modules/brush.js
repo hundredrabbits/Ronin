@@ -17,10 +17,11 @@ function Brush()
   })
 
   this.methods.pick = new Method("pick","x,y","Set brush color to a position's pixel.",function(q){
-    var pixel = ronin.render.context().getImageData(q.x*2, q.y*2, 1, 1).data;
+    var pixel = (ronin.commander.input_el.value == "~" ? ronin.guide: ronin.render).context() .getImageData(q.x*2, q.y*2, 1, 1).data;
     var c = new Color().rgb_to_hex(pixel);
     var color = new Color(c);
     ronin.cursor.color = color.hex;
+    ronin.hint.update();
   })
 
   this.absolute_thickness = 0;

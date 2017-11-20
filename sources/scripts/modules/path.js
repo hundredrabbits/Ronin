@@ -54,7 +54,7 @@ function Path()
 
     var ctx = ronin.preview.context();
     ctx.beginPath();
-    ctx.lineCap = q.settings.cap ? q.settings.cap : ronin.path.settings.cap;
+    ctx.lineCap = ronin.path.settings.cap;
     ctx.lineWidth = ronin.cursor.size;
     ctx.strokeStyle = ronin.cursor.color;
     ctx.stroke(new Path2D(path));

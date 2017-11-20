@@ -18,7 +18,7 @@ function Filter()
     ronin.render.context().putImageData(originalData, 0, 0);
   });
 
-  this.methods.saturation = new Method("saturation","0.5,0.5","Filter color saturation.",function(q){
+  this.methods.saturation = new Method("saturation","#ff00333","Filter color saturation.",function(q){
 
     var color = new Color(q).floats();
 

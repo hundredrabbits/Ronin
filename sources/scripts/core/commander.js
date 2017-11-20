@@ -68,14 +68,16 @@ function Commander()
 
   this.autocomplete = function()
   {
+
     var target_module = ronin.commander.query().module;
 
     var ac = ronin.modules[target_module] ? ronin.hint.find_autocomplete(ronin.modules[target_module].methods,":") : ronin.hint.find_autocomplete(ronin.modules," ")
 
+    this.focus();
     if(ac.lenght < 1 || !ac[0]){ return; }
+    if(ronin.commander.query().string.length < 1){ return; }
 
     this.append(ac[0]);
-    this.focus();
   }
 
   this.on_input = function(e)

@@ -33,3 +33,7 @@ rm -r /xxiivv/Nataniev/public/public.projects/builds/Ronin-win32-x64/
 
 ~/butler status hundredrabbits/ronin
 ```
+
+### Etcs.
+
+`var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;`

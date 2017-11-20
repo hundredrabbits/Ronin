@@ -1,7 +1,7 @@
 body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace; background:red;}
 *:focus {outline: none; }
 
-* { cursor: none }
+canvas { cursor: none }
 
 yu { display:block; }
 
@@ -12,7 +12,7 @@ yu { display:block; }
 #grid { z-index:795;position: fixed; }
 
 #ronin { background:#eee; height: 100vh; width:100vw; }
-#commander, #hint { position: fixed;bottom: 0px;left: 0px;width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px;}
+#commander, #hint { position: fixed;bottom: 0px;left: 0px;width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px; cursor: default;}
 #commander { z-index: 9000; background:black; }
 #commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 40px;font-size: 11px;color: white; margin-left:20px;    z-index: 9000;position: relative; }
 #hint {  color:#666; padding-left:20px;}
@@ -20,4 +20,5 @@ yu { display:block; }
 #hint i { font-style: italic; }
 #hint .autocomplete { background:white; color:black; }
 
-#cursor_hint { position: absolute;top: 0px;right: 20px;color: white; font-family: courier; padding: 0px 10px; }
+#cursor_hint { position: absolute;top: 0px;right: 20px;color: white; padding: 0px 10px; color:#555; font-size:11px; text-transform: uppercase; }
+#cursor_hint .mode {}

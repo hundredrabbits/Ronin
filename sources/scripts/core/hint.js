@@ -9,9 +9,6 @@ function Hint()
   {
     ronin.commander.el.appendChild(this.el);
     ronin.commander.el.appendChild(this.cursor_hint_el);
-    this.cursor_hint_el.innerHTML = "●";
-    this.cursor_hint_el.title = ronin.cursor.color;
-    this.cursor_hint_el.style.color = ronin.cursor.color;
   }
 
   this.find_autocomplete = function(collection,append = "")
@@ -65,6 +62,7 @@ function Hint()
         this.el.innerHTML = this.pad(ronin.commander.input_el.value)+" > Unknown command."  
       }
     }
+    this.cursor_hint_el.innerHTML = ronin.cursor.hint();
   }
 
   this.pad = function(input)

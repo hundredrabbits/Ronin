@@ -67,6 +67,7 @@ function Ronin()
     ronin.cursor.el.addEventListener('mousemove', ronin.cursor.mouse_move);
     ronin.cursor.el.addEventListener('mouseup', ronin.cursor.mouse_up);
     window.addEventListener('keydown', ronin.keyboard.key_down);
+    window.addEventListener('keyup', ronin.keyboard.key_up);
     ronin.commander.input_el.addEventListener('input', ronin.commander.on_input);
 
     console.log("Ronin","Started");

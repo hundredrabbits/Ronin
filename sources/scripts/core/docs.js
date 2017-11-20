@@ -5,9 +5,13 @@ function Docs()
     var html = "";
 
     html += this.print_intro();
+
     html += "## Cursor\n";
-    html += "- `$` replace with **Pos**.\n";
-    html += "- `$+shift` replace with **Rect**.\n\n";
+    html += "Include `$` in a query and click on the canvas to inject the cursor position in the query.\n";
+    html += "- `$ click` inject a **Pos**.\n";
+    html += "- `$+ click` inject a **Pos**, and append `$+` for multiple positions.\n";
+    html += "- `$ shift click` inject a **Rect**.\n\n";
+    html += "- `#$ click` inject a **Color**.\n";
     
     html += "## Modules\n";
     html += this.print_modules(ronin.modules);
@@ -23,7 +27,7 @@ function Docs()
   this.print_intro = function()
   {
     html = "# Ronin\n";
-    html += "Ronin is a simple open-source graphic design tool.\n\n";
+    html += "Ronin is a graphic design tool, to paint, resize and export graphics.\n\n";
     html += "<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>\n\n";
     return html;
   }
@@ -55,7 +59,7 @@ function Docs()
   this.print_license = function()
   {
     html = "## License\n";
-    html += "See the [LICENSE](LICENSE.md) file for license rights and limitations (CC).\n";
+    html += "See the [LICENSE](LICENSE.md) file for license rights and limitations.\n";
     return html;
   }
 }

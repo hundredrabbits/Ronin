@@ -1,12 +1,23 @@
 function Keyboard()
 {
+  this.is_down = {};
+
   this.key_up = function(e)
   {
+    ronin.keyboard.is_down[e.key] = false;
     ronin.hint.update(e);
   }
 
   this.key_down = function(e)
   {
+    ronin.keyboard.is_down[e.key] = true;
+
+    if(e.key == "~"){
+      e.preventDefault();
+      ronin.commander.inject("~")
+      return;
+    }
+
     if(e.key == "Enter"){
       e.preventDefault();
       ronin.commander.validate();

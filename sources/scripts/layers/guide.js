@@ -20,8 +20,9 @@ function Guide()
       this.draw_inspector();
     }
 
-    // Color picker
-    this.toggle_color_picker(ronin.commander.query().last_char == "#")
+    if(ronin.commander.input_el.value == "~"){
+      this.toggle_color_picker(true);
+    }
 
     // Brush mirrors
     for(id in ronin.brush.pointers){
@@ -39,7 +40,20 @@ function Guide()
 
   this.toggle_color_picker = function(show)
   {
-    console.log("Picker",show)
+    if(!show){ return; }
+    var originalData = ronin.render.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
+    var data = originalData.data;
+
+    for(var i = 0; i < data.length; i += 4) {
+      var x = i % (ronin.frame.width*8)
+      var y = i / (ronin.frame.width*32)
+      data[i]     = x/32;
+      data[i + 1] = 255 - (x/32);
+      data[i + 2] = y;
+      data[i + 3] = 255;
+    }
+
+    ronin.layers.guide.context().putImageData(originalData, 0, 0);
   }
 
   this.draw = function(u = null)

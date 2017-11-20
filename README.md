@@ -4,9 +4,12 @@ Ronin is a simple open-source graphic design tool.
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>
 
 ## Cursor
-- `$` replace with **Pos**.
-- `$+shift` replace with **Rect**.
+Include `$` in a query and click on the canvas to inject the cursor position in the query.
+- `$ click` inject a **Pos**.
+- `$+ click` inject a **Pos**, and append `$+` for multiple positions.
+- `$ shift click` inject a **Rect**.
 
+- `#$ click` inject a **Color**.
 ## Modules
 ## brush
 
@@ -62,7 +65,7 @@ Pixel filter
 
 ### Methods
 - `balance:#ff0033` Filter color balance.
-- `saturation:0.5,0.5` Filter color saturation.
+- `saturation:#ff00333` Filter color saturation.
 
 ## type
 

@@ -8,7 +8,7 @@ function Cursor(rune)
   this.query = null;
   this.mode = "vertex";
 
-  this.color = "#f0f"
+  this.color = "#f00"
   this.size = 4;
 
   this.draw_cursor = function(pos,touch = false)
@@ -35,6 +35,14 @@ function Cursor(rune)
 
     var pos = ronin.magnet.filter({x:e.clientX,y:e.clientY});
 
+    // Color Pick
+    if(ronin.commander.input_el.value == "~"){
+      ronin.brush.methods.pick.run({x:pos.x,y:pos.y})
+      ronin.commander.input_el.value = "";
+      ronin.commander.update();
+      return;
+    }
+
     ronin.cursor.draw_cursor({x:pos.x,y:pos.y},true);
 
     ronin.cursor.line.origin = {x:pos.x,y:pos.y};
@@ -42,6 +50,10 @@ function Cursor(rune)
 
     // Save original query
     ronin.cursor.query = ronin.commander.input_el.value;
+
+    if(e.altKey && e.shiftKey){
+      ronin.brush.methods.pick.run(pos);
+    }
 
     if(e.shiftKey){ ronin.cursor.mode = "rect"; }
     if(e.altKey){ ronin.cursor.mode = "arc_to"; }
@@ -63,8 +75,8 @@ function Cursor(rune)
     if(ronin.commander.active_module()){
 
     }
-    else if(e.shiftKey && e.altKey){
-      ronin.brush.pick(ronin.cursor.line);
+    else if(e.altKey && e.shiftKey){
+      ronin.brush.methods.pick.run(pos);
     }
     else if(e.altKey){
       ronin.brush.erase(ronin.cursor.line);
@@ -137,14 +149,48 @@ function Cursor(rune)
       str = "@<"+b.x+","+b.y;
     }
     // 
-    var i = ronin.cursor.query.indexOf("$");
-    var i1 = ronin.cursor.query.substr(i,2);
-    if(i1 == "$+"){
+    var i = ronin.cursor.query ? ronin.cursor.query.indexOf("$") : '';
+    var i1 = ronin.cursor.query ? ronin.cursor.query.substr(i,2) : '';
+    var e1 = ronin.cursor.query ? ronin.cursor.query.substr(i-1,2) : '';
+
+    if(e1 == "#$"){
+      var r = parseInt((b.x/ronin.frame.width) * 255);
+      var g = 255 - parseInt((b.x/ronin.frame.width) * 255);
+      var b = parseInt((b.y/ronin.frame.height) * 255);
+      var str = new Color().rgb_to_hex([r,g,b]);
+      ronin.commander.inject(ronin.cursor.query.replace("#$",str+" "));
+    }
+    else if(i1 == "$+"){
       ronin.commander.inject(ronin.cursor.query.replace("$+",str+"&$+"));
     }
-    else{
+    else if(ronin.cursor.query){
       ronin.commander.inject(ronin.cursor.query.replace("$",str));
     }
+  }
+
+  this.hint = function()
+  {
+    var html = "";
+
+    var mode = "PAINT";
+
+    if(ronin.commander.input_el.value.indexOf("$+") > -1){
+      mode = "[MULTI]POS/SHIFT-RECT"
+    }
+    else if(ronin.commander.input_el.value.indexOf("$") > -1){
+      mode = "POS/SHIFT-RECT"
+    }
+    else if(ronin.keyboard.is_down["Alt"] && ronin.keyboard.is_down["Shift"]){
+      mode = "PICK";
+    }
+    else if(ronin.keyboard.is_down["Alt"]){
+      mode = "ERASE";
+    }
+    else if(ronin.keyboard.is_down["Shift"]){
+      mode = "DRAG";
+    }
+
+    return "<t class='mode'>"+mode+"</t><t class='size'>"+ronin.cursor.size+"</t> <t class='color' style='color:"+ronin.cursor.color+"'>●</t>";
   }
 
   function distance_between(a,b)
