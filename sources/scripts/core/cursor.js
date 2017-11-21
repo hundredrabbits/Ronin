@@ -53,8 +53,14 @@ function Cursor(rune)
     // Save original query
     ronin.cursor.query = ronin.commander.input_el.value;
 
-    if(e.altKey && e.shiftKey){
+    if(ronin.commander.active_module()){
+
+    }
+    else if(e.altKey && e.shiftKey){
       ronin.brush.methods.pick.run(pos);
+    }
+    else{
+      ronin.brush.stroke(ronin.cursor.line);  
     }
 
     if(e.shiftKey){ ronin.cursor.mode = "rect"; }

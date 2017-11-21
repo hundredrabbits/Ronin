@@ -33,7 +33,7 @@ function Brush()
   this.thickness = function(line)
   {
     var t = ronin.cursor.size * this.ports.speed;
-    this.absolute_thickness = t > this.absolute_thickness ? this.absolute_thickness+0.5 : this.absolute_thickness-0.5;
+    this.absolute_thickness = t > this.absolute_thickness ? this.absolute_thickness+0.25 : this.absolute_thickness-0.25;
     return this.absolute_thickness * 3;
   }
 
@@ -43,8 +43,6 @@ function Brush()
 
     this.ports.speed = 1-distance_between(line.from,line.to)/15.0;
     this.ports.distance += this.ports.speed;
-    // this.ports.noise = Math.random(255/255.0);
-    // this.ports.x = line.from.x/2;
 
     for(pointer_id in this.pointers){
       this.pointers[pointer_id].stroke(line);
@@ -82,7 +80,7 @@ function Brush()
 
   function distance_between(a,b)
   {
-    return Math.sqrt( (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y) );
+    return a && b ? Math.sqrt( (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y) ) : 0;
   }
 }
 
@@ -107,6 +105,10 @@ function Pointer(options)
     if(this.options.mirror){
       line.from.x = (this.options.mirror.x *2) - line.from.x;
       line.to.x = (this.options.mirror.x*2) - line.to.x;  
+    }
+
+    if(!line.to){
+      line.to = line.from
     }
 
     ctx.beginPath();
