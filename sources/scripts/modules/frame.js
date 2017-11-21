@@ -15,14 +15,14 @@ function Frame()
   this.methods.rescale = new Method("rescale","0.5","Rescale canvas to float.",function(p){
     var new_size = {width:ronin.frame.width * p,height:ronin.frame.height * p};
     ronin.render.context().drawImage(ronin.render.to_img(),0,0,new_size.width * 2,new_size.height * 2);
-    setTimeout(function(){ ronin.frame.methods.resize.run(new_size);},1000)
+    setTimeout(function(){ ronin.frame.methods.resize.run(new_size);},500)
   });
 
   this.methods.crop = new Method("crop","X,Y|WxH","Crop canvas to rect.",function(p){
-    var data = ronin.render.select(p.x,p.y,p.width,p.height);
+    var data = ronin.render.select(0,0,p.width*2,p.height*2);
     ronin.render.clear();
     ronin.frame.resize_to(p);
-    ronin.render.context().putImageData(data, 0, 0);
+    setTimeout(function(){ ronin.render.context().putImageData(data, p.x*-2, p.y*-2);},500)
   });
 
   this.methods.clear = new Method("clear","","Erase entire canvas",function(q){
