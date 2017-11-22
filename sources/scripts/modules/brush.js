@@ -49,24 +49,6 @@ function Brush()
     }
   }
 
-  this.erase = function(line)
-  {
-    var ctx = ronin.render.context();
-
-    if(!line.to){
-      line.to = line.from
-    }
-
-    ctx.beginPath();
-    ctx.globalCompositeOperation="destination-out";
-    ctx.moveTo(line.from.x * 2,line.from.y * 2);
-    ctx.lineTo(line.to.x * 2,line.to.y * 2);
-    ctx.lineCap="round";
-    ctx.lineWidth = this.thickness(line);
-    ctx.stroke();
-    ctx.closePath();
-  }
-
   this.pick = function(line)
   {
     if(!line.to){
@@ -120,7 +102,7 @@ function Pointer(options)
     }
 
     ctx.beginPath();
-    ctx.globalCompositeOperation="source-over";
+    ctx.globalCompositeOperation = ronin.keyboard.is_down["Alt"] ? "destination-out" : "source-over";
     ctx.moveTo((line.from.x * 2) + this.options.offset.x,(line.from.y * 2) + this.options.offset.y);
     ctx.lineTo((line.to.x * 2) + this.options.offset.x,(line.to.y * 2) + this.options.offset.y);
     ctx.lineCap="round";

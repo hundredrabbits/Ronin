@@ -61,9 +61,6 @@ function Cursor(rune)
     else if(e.altKey && e.shiftKey){
       ronin.brush.methods.pick.run(pos);
     }
-    else if(e.altKey){
-      ronin.brush.erase(ronin.cursor.line);
-    }
     else if(e.shiftKey){
       
     }
@@ -93,9 +90,6 @@ function Cursor(rune)
     }
     else if(e.altKey && e.shiftKey){
       ronin.brush.methods.pick.run(pos);
-    }
-    else if(e.altKey){
-      ronin.brush.erase(ronin.cursor.line);
     }
     else if(e.shiftKey){
       ronin.cursor.drag(ronin.cursor.line);
