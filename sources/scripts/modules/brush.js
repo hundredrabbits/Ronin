@@ -53,6 +53,10 @@ function Brush()
   {
     var ctx = ronin.render.context();
 
+    if(!line.to){
+      line.to = line.from
+    }
+
     ctx.beginPath();
     ctx.globalCompositeOperation="destination-out";
     ctx.moveTo(line.from.x * 2,line.from.y * 2);
@@ -65,6 +69,10 @@ function Brush()
 
   this.pick = function(line)
   {
+    if(!line.to){
+      line.to = line.from
+    }
+
     var pixel = ronin.render.context().getImageData(line.to.x*2, line.to.y*2, 1, 1).data;
   }
 
@@ -100,7 +108,7 @@ function Pointer(options)
 
   this.stroke = function(line)
   {
-    var ctx = ronin.render.context();
+    var ctx = ronin.cursor.under ? ronin.layers.under.context() : ronin.layers.render.context();
 
     if(this.options.mirror){
       line.from.x = (this.options.mirror.x *2) - line.from.x;

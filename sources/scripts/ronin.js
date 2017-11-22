@@ -13,6 +13,7 @@ function Ronin()
   this.guide = new Guide();
   this.render = new Render();
   this.preview = new Preview();
+  this.under = new Under();
 
   this.io = new IO();
   this.brush = new Brush();
@@ -25,6 +26,7 @@ function Ronin()
   this.layers = {
     grid : this.grid,
     guide : this.guide,
+    under : this.under,
     render : this.render,
     cursor : this.cursor,
     preview : this.preview,
@@ -50,6 +52,7 @@ function Ronin()
     this.grid.install();
     this.guide.install();
     this.render.install();
+    this.under.install();
     this.preview.install();
     this.cursor.install();
 
@@ -72,6 +75,7 @@ function Ronin()
 
     console.log("Ronin","Started");
     this.render.update();
+    this.under.update();
     this.grid.update();
     this.guide.update();
     this.cursor.update();

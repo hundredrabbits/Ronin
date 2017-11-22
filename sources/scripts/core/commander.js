@@ -85,6 +85,11 @@ function Commander()
     ronin.commander.update();
   }
 
+  this.is_focused = function()
+  {
+    return this.input_el === document.activeElement;
+  }
+
   this.focus = function()
   {
     this.input_el.focus();

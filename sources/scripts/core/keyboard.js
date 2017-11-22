@@ -40,6 +40,11 @@ function Keyboard()
       return;
     }
 
+    if(ronin.commander.is_focused()){
+      ronin.hint.update(e);
+      return;
+    }
+
     if(e.key == "]"){
       e.preventDefault();
       ronin.brush.mod_size(1);
@@ -56,17 +61,14 @@ function Keyboard()
       ronin.render.clear();
     }
 
+    // Open
     if(e.key == "o" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
       ronin.io.methods.load.run();
     }
 
+    // Save
     if(e.key == "s" && (e.ctrlKey || e.metaKey)){
-      e.preventDefault();
-      ronin.io.methods.save.run();
-    }
-
-    if(e.key == "r" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
       ronin.io.methods.save.run();
     }
@@ -74,6 +76,16 @@ function Keyboard()
     if(e.key == "H" && (e.ctrlKey || e.metaKey) && e.shiftKey){
       e.preventDefault();
       ronin.docs.export();
+    }
+
+    if(e.key == "x"){
+      e.preventDefault();
+      ronin.cursor.swap_colors();
+    }
+
+    if(e.key == "z"){
+      e.preventDefault();
+      ronin.cursor.swap_layer();
     }
 
     ronin.hint.update(e);

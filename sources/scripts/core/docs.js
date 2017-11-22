@@ -10,8 +10,10 @@ function Docs()
     html += "Include `$` in a query and click on the canvas to inject the cursor position in the query.\n";
     html += "- `$ click` inject a **Pos**.\n";
     html += "- `$+ click` inject a **Pos**, and append `$+` for multiple positions.\n";
-    html += "- `$ shift click` inject a **Rect**.\n\n";
+    html += "- `$ shift click` inject a **Rect**.\n";
     html += "- `#$ click` inject a **Color**.\n";
+    html += "- `x` swap **Color** with secondary.\n\n";
+    html += "- `z` draw under render.\n\n";
     
     html += "## Modules\n";
     html += this.print_modules(ronin.modules);

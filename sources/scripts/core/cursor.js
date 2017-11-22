@@ -9,7 +9,9 @@ function Cursor(rune)
   this.mode = "vertex";
 
   this.color = "#f00"
+  this.color_alt = "#fff"
   this.size = 4;
+  this.under = false;
 
   this.draw_cursor = function(pos,touch = false)
   {
@@ -58,6 +60,12 @@ function Cursor(rune)
     }
     else if(e.altKey && e.shiftKey){
       ronin.brush.methods.pick.run(pos);
+    }
+    else if(e.altKey){
+      ronin.brush.erase(ronin.cursor.line);
+    }
+    else if(e.shiftKey){
+      
     }
     else{
       ronin.brush.stroke(ronin.cursor.line);  
@@ -118,6 +126,15 @@ function Cursor(rune)
     ronin.cursor.mode = "vertex";
 
     ronin.cursor.query = ronin.commander.input_el.value;
+
+    if(ronin.cursor.under){
+      var above = ronin.render.to_img();
+      var under = ronin.under.to_img();
+      ronin.render.clear();
+      ronin.under.clear();
+      ronin.render.context().drawImage(under, 0,0,ronin.frame.width*2,ronin.frame.height*2);  
+      ronin.render.context().drawImage(above, 0,0,ronin.frame.width*2,ronin.frame.height*2);   
+    }
   }
 
   this.drag = function(line)
@@ -126,6 +143,20 @@ function Cursor(rune)
     var data = ronin.render.select();
     ronin.render.clear();
     ronin.render.context().putImageData(data, offset.x * -2, offset.y * -2);
+  }
+
+  this.swap_colors = function()
+  {
+    var c = this.color_alt
+    this.color_alt = this.color;
+    this.color = c;
+    ronin.commander.update();
+  }
+
+  this.swap_layer = function()
+  {
+    this.under = this.under ? false : true;
+    ronin.commander.update();
   }
 
   function make_offset(a,b)
@@ -198,7 +229,7 @@ function Cursor(rune)
       mode = "DRAG";
     }
 
-    return "<t class='mode'>"+mode+"</t><t class='size'>"+ronin.cursor.size+"</t> <t class='color' style='color:"+ronin.cursor.color+"'>●</t>";
+    return "<t class='mode'>"+mode+"</t><t class='size'>"+ronin.cursor.size+"</t> "+(ronin.cursor.under ? "UNDER" : "ABOVE")+" <t class='color' style='color:"+ronin.cursor.color+"'>●</t><t class='color' style='color:"+ronin.cursor.color_alt+"'>●</t>";
   }
 
   function distance_between(a,b)
