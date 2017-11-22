@@ -122,13 +122,29 @@ function Cursor(rune)
     ronin.cursor.query = ronin.commander.input_el.value;
 
     if(ronin.cursor.under){
-      var above = ronin.render.to_img();
-      var under = ronin.under.to_img();
-      ronin.render.clear();
-      ronin.under.clear();
-      ronin.render.context().drawImage(under, 0,0,ronin.frame.width*2,ronin.frame.height*2);  
-      ronin.render.context().drawImage(above, 0,0,ronin.frame.width*2,ronin.frame.height*2);   
+      ronin.cursor.flatten();
     }
+  }
+
+  this.flatten = function()
+  {
+    var a = ronin.under.to_img()
+    var b = null
+
+    a.onload = function(){
+      b = ronin.render.to_img()
+      b.onload = function(){
+        ronin.cursor.merge(a,b);
+      }
+    }
+  }
+
+  this.merge = function(a,b)
+  {
+    ronin.render.clear();
+    ronin.render.context().drawImage(a, 0,0,ronin.frame.width*2,ronin.frame.height*2);  
+    ronin.render.context().drawImage(b, 0,0,ronin.frame.width*2,ronin.frame.height*2);  
+    ronin.under.clear();
   }
 
   this.drag = function(line)
