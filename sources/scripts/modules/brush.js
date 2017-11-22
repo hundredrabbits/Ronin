@@ -2,6 +2,8 @@ function Brush()
 {
   Module.call(this,"brush");
 
+  this.speed = 0;
+
   this.pointers = [
     new Pointer({offset:{x:0,y:0}})
   ];
@@ -32,7 +34,8 @@ function Brush()
 
   this.thickness = function(line)
   {
-    var t = ronin.cursor.size * this.ports.speed;
+    var ratio = clamp(1 - (ronin.brush.speed/20),0,1)
+    var t = ronin.cursor.size * ratio;
     this.absolute_thickness = t > this.absolute_thickness ? this.absolute_thickness+0.25 : this.absolute_thickness-0.25;
     return this.absolute_thickness * 3;
   }
@@ -41,8 +44,7 @@ function Brush()
   {
     ronin.commander.blur();
 
-    this.ports.speed = 1-distance_between(line.from,line.to)/15.0;
-    this.ports.distance += this.ports.speed;
+    this.speed = distance_between(line.from,line.to);
 
     for(pointer_id in this.pointers){
       this.pointers[pointer_id].stroke(line);
@@ -101,13 +103,15 @@ function Pointer(options)
       line.to = line.from
     }
 
+    var ratio = clamp((ronin.brush.speed/20),0,1)
+
     ctx.beginPath();
     ctx.globalCompositeOperation = ronin.keyboard.is_down["Alt"] ? "destination-out" : "source-over";
     ctx.moveTo((line.from.x * 2) + this.options.offset.x,(line.from.y * 2) + this.options.offset.y);
     ctx.lineTo((line.to.x * 2) + this.options.offset.x,(line.to.y * 2) + this.options.offset.y);
     ctx.lineCap="round";
     ctx.lineWidth = this.thickness(line);
-    ctx.strokeStyle = ronin.cursor.color;
+    ctx.strokeStyle = this.options.tween ? new Color(ronin.cursor.color).tween(new Color(ronin.cursor.color_alt),ratio) : ronin.cursor.color;
     ctx.stroke();
     ctx.closePath();
   }

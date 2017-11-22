@@ -8,8 +8,8 @@ function Cursor(rune)
   this.query = null;
   this.mode = "vertex";
 
-  this.color = "#f00"
-  this.color_alt = "#fff"
+  this.color = "#444444"
+  this.color_alt = "#ff0000"
   this.size = 4;
   this.under = false;
 

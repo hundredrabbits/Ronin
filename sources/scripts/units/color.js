@@ -43,4 +43,17 @@ function Color(hex = '#000000')
   {
     return this.brightness() > 150 ? "bright" : "dark";
   }
+
+  this.tween = function(target,value)
+  {
+    var c1 = this.floats();
+    var c2 = target.floats();
+
+    var r = ((255 * c1.r) * value) + ((255 * c2.r) * (1-value));
+    var g = ((255 * c1.g) * value) + ((255 * c2.g) * (1-value));
+    var b = ((255 * c1.b) * value) + ((255 * c2.b) * (1-value));
+    var rgb = [parseInt(r),parseInt(g),parseInt(b)];
+    var hex = new Color().rgb_to_hex(rgb);
+    return hex;
+  }
 }
