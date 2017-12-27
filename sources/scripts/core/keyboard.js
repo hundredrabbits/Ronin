@@ -31,12 +31,16 @@ function Keyboard()
       ronin.guide.clear();
       ronin.guide.inspect = false;
       ronin.preview.clear();
+      if(!ronin.commander.is_focused()){
+        ronin.commander.hide();
+      }
     }
 
     if(e.key == "tab" || e.keyCode == 9){
       e.preventDefault();
       ronin.cursor.update();
       ronin.commander.autocomplete();
+      ronin.commander.show();
       return;
     }
 
@@ -86,6 +90,21 @@ function Keyboard()
     if(e.key == "z"){
       e.preventDefault();
       ronin.cursor.swap_layer();
+    }
+
+    if(e.key == "1"){
+      e.preventDefault();
+      ronin.frame.methods.zoom.run(1);
+    }
+
+    if(e.key == "2"){
+      e.preventDefault();
+      ronin.frame.methods.zoom.run(2);
+    }
+
+    if(e.key == "3"){
+      e.preventDefault();
+      ronin.frame.methods.zoom.run(4);
     }
 
     ronin.hint.update(e);

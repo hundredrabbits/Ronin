@@ -4,6 +4,7 @@ function Frame()
   
   this.width = 400;
   this.height = 400;
+  this.zoom = {scale:1,offset:{x:0,y:0}};
 
   this.methods.resize = new Method("resize","WxH","Resize canvas to size.",function(q){
     var data = ronin.render.select(0,0,ronin.frame.width,ronin.frame.height);
@@ -36,6 +37,25 @@ function Frame()
   this.methods.inspect = new Method("inspect","","View canvas details",function(q){
     ronin.guide.inspect = ronin.guide.inspect ? false : true;
     ronin.guide.draw();
+  });
+
+  this.methods.zoom = new Method("zoom","","Zoom canvas",function(q){
+    if(ronin.frame.zoom.scale == parseInt(q)){ return; }
+
+    ronin.frame.zoom.scale = parseInt(q);
+    ronin.layers.render.el.style.width = (ronin.frame.width * ronin.frame.zoom.scale)+"px";
+    ronin.layers.render.el.style.height = (ronin.frame.height * ronin.frame.zoom.scale)+"px";
+
+    if(ronin.frame.zoom.scale == 1){
+      ronin.frame.zoom.offset.x = 0;
+      ronin.frame.zoom.offset.y = 0;
+    }
+    else{
+      ronin.frame.zoom.offset.x = ((-ronin.cursor.pos.x * ronin.frame.zoom.scale) + (ronin.frame.width/2));
+      ronin.frame.zoom.offset.y = ((-ronin.cursor.pos.y * ronin.frame.zoom.scale) + (ronin.frame.height/2));
+    }
+    ronin.layers.render.el.style.left = ronin.frame.zoom.offset.x+"px"; 
+    ronin.layers.render.el.style.top = ronin.frame.zoom.offset.y+"px"; 
   });
 
   this.resize_to = function(size)

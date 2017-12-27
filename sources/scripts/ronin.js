@@ -69,6 +69,7 @@ function Ronin()
     ronin.cursor.el.addEventListener('mousedown', ronin.cursor.mouse_down);
     ronin.cursor.el.addEventListener('mousemove', ronin.cursor.mouse_move);
     ronin.cursor.el.addEventListener('mouseup', ronin.cursor.mouse_up);
+    ronin.cursor.el.addEventListener('contextmenu', ronin.cursor.mouse_alt);
     window.addEventListener('keydown', ronin.keyboard.key_down);
     window.addEventListener('keyup', ronin.keyboard.key_up);
     ronin.commander.input_el.addEventListener('input', ronin.commander.on_input);

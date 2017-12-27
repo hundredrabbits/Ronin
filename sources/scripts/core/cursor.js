@@ -8,10 +8,11 @@ function Cursor(rune)
   this.query = null;
   this.mode = "vertex";
 
-  this.color = "#444444"
+  this.color = "#000000"
   this.color_alt = "#ff0000"
   this.size = 4;
   this.under = false;
+  this.pos = {x:0,y:0};
 
   this.draw_cursor = function(pos,touch = false)
   {
@@ -33,11 +34,26 @@ function Cursor(rune)
     ctx.closePath();
   }
 
+  this.mouse_pos = function(e)
+  {
+    var pos = {x:e.clientX,y:e.clientY};
+
+    pos.x = ((pos.x/ronin.frame.width) / ronin.frame.zoom.scale) * ronin.frame.width;
+    pos.y = ((pos.y/ronin.frame.height) / ronin.frame.zoom.scale) * ronin.frame.height;
+
+    pos.x -= (ronin.frame.zoom.offset.x / ronin.frame.zoom.scale);
+    pos.y -= (ronin.frame.zoom.offset.y / ronin.frame.zoom.scale);
+
+    var magnet_pos = ronin.magnet.filter({x:pos.x,y:pos.y});
+    return magnet_pos;
+  }
+
   this.mouse_down = function(e)
   {
     e.preventDefault();
 
-    var pos = ronin.magnet.filter({x:e.clientX,y:e.clientY});
+    var pos = ronin.cursor.mouse_pos(e);
+    ronin.cursor.pos = pos;
 
     // Color Pick
     if(ronin.commander.input_el.value == "~"){
@@ -77,7 +93,8 @@ function Cursor(rune)
   {
     e.preventDefault();
 
-    var pos = ronin.magnet.filter({x:e.clientX,y:e.clientY});
+    var pos = ronin.cursor.mouse_pos(e);
+    ronin.cursor.pos = pos;
 
     ronin.cursor.draw_cursor({x:pos.x,y:pos.y});
 
@@ -107,7 +124,8 @@ function Cursor(rune)
   {   
     e.preventDefault();
 
-    var pos = ronin.magnet.filter({x:e.clientX,y:e.clientY});
+    var pos = ronin.cursor.mouse_pos(e);
+    ronin.cursor.pos = pos;
 
     ronin.cursor.draw_cursor({x:pos.x,y:pos.y},true);
     
@@ -120,10 +138,11 @@ function Cursor(rune)
     ronin.cursor.mode = "vertex";
 
     ronin.cursor.query = ronin.commander.input_el.value;
+  }
 
-    if(ronin.cursor.under){
-      ronin.cursor.flatten();
-    }
+  this.mouse_alt = function(e)
+  {
+    console.log(e);
   }
 
   this.flatten = function()
@@ -149,10 +168,11 @@ function Cursor(rune)
 
   this.drag = function(line)
   {
+    var target = this.under ? ronin.layers.under : ronin.layers.render;
     var offset = make_offset(line.from,line.to);
-    var data = ronin.render.select();
-    ronin.render.clear();
-    ronin.render.context().putImageData(data, offset.x * -2, offset.y * -2);
+    var data = target.select();
+    target.clear();
+    target.context().putImageData(data, offset.x * -2, offset.y * -2);
   }
 
   this.swap_colors = function()

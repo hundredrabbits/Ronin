@@ -1,6 +1,7 @@
 function Layer()
 {
   this.el = document.createElement('canvas');
+  this.className = "layer";
 
   this.install = function()
   {

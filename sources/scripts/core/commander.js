@@ -117,6 +117,16 @@ function Commander()
     ronin.commander.update();    
   }
 
+  this.show = function()
+  {
+    this.el.style.display = "block";
+  }
+
+  this.hide = function()
+  {
+    this.el.style.display = "none";
+  }
+
   this.query = function()
   {
     return new Query(ronin.commander.input_el.value);
