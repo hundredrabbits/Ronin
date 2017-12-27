@@ -6,7 +6,7 @@ function Filter()
 
     var color = new Color(q).floats();
 
-    var originalData = ronin.render.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
+    var originalData = ronin.cursor.target.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
     var data = originalData.data;
 
     for(var i = 0; i < data.length; i += 4) {
@@ -15,14 +15,14 @@ function Filter()
       data[i + 2] = data[i + 2] * (color.b + 0.5);
     }
 
-    ronin.render.context().putImageData(originalData, 0, 0);
+    ronin.cursor.target.context().putImageData(originalData, 0, 0);
   });
 
   this.methods.saturation = new Method("saturation","#ff00333","Filter color saturation.",function(q){
 
     var color = new Color(q).floats();
 
-    var originalData = ronin.render.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
+    var originalData = ronin.cursor.target.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
     var data = originalData.data;
 
     for(var i = 0; i < data.length; i += 4) {
@@ -33,7 +33,7 @@ function Filter()
       data[i] = data[i+1] = data[i+2] = v
     }
 
-    ronin.render.context().putImageData(originalData, 0, 0);
+    ronin.cursor.target.context().putImageData(originalData, 0, 0);
   });
 
   this.preview = function(q)
@@ -46,7 +46,7 @@ function Filter()
 
     var x = q.methods.saturation.x/ronin.frame.width;
 
-    var originalData = ronin.render.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
+    var originalData = ronin.cursor.target.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
     var data = originalData.data;
 
     for(var i = 0; i < data.length; i += 4) {

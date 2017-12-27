@@ -1,7 +1,9 @@
-function Layer()
+function Layer(name)
 {
+  this.name = name;
   this.el = document.createElement('canvas');
-  this.className = "layer";
+  this.el.id = name;
+  this.el.className = "layer";
 
   this.install = function()
   {
@@ -65,5 +67,18 @@ function Layer()
     ctx.fillStyle = color;
     ctx.fill();
     ctx.closePath();
+  }
+
+  this.zoom = function(zoom)
+  {
+    this.el.style.width = (ronin.frame.width * ronin.frame.zoom.scale)+"px";
+    this.el.style.height = (ronin.frame.height * ronin.frame.zoom.scale)+"px";
+
+    // Clamp
+    if(zoom.offset.x > 0){ zoom.offset.x = 0; }
+    if(zoom.offset.y > 0){ zoom.offset.y = 0; }
+
+    this.el.style.left = zoom.offset.x+"px"; 
+    this.el.style.top = zoom.offset.y+"px"; 
   }
 }

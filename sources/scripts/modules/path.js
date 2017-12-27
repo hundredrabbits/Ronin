@@ -9,7 +9,7 @@ function Path()
 
     var path = ronin.path.create_path(q);
 
-    var ctx = ronin.render.context();
+    var ctx = ronin.cursor.target.context();
 
     ctx.beginPath();
     ctx.lineCap = ronin.path.settings.cap;
@@ -24,7 +24,7 @@ function Path()
 
     var path = ronin.path.create_path(q);
 
-    var ctx = ronin.render.context();
+    var ctx = ronin.cursor.target.context();
 
     ctx.beginPath();
     ctx.lineCap = ronin.path.settings.cap;
@@ -36,7 +36,7 @@ function Path()
 
   this.methods.svg = new Method("svg","M0,0 L100,100","",function(q){    
     var path = ronin.commander.query().raw.replace("svg:","").trim();
-    var ctx = ronin.render.context();
+    var ctx = ronin.cursor.target.context();
     ctx.beginPath();
     ctx.lineCap = ronin.path.settings.cap;
     ctx.lineWidth = ronin.cursor.size;

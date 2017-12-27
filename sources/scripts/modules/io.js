@@ -17,7 +17,7 @@ function IO()
         var width = parseInt(img.naturalWidth * 0.5);
         var height = parseInt(img.naturalHeight * 0.5);
         ronin.frame.resize_to({width:width,height:height});
-        ronin.io.draw_image(ronin.render.context(),img,{x:0,y:0,width:width,height:height});
+        ronin.io.draw_image(ronin.cursor.target.context(),img,{x:0,y:0,width:width,height:height});
       }
     });
   })
@@ -41,7 +41,7 @@ function IO()
   this.methods.draw = new Method("draw","X,Y|WxH","Draw the loaded image pixels.",function(q){
     if(!ronin.io.image){ return; }
 
-    ronin.io.draw_image(ronin.render.context(),ronin.io.image,ronin.commander.query().methods.draw);
+    ronin.io.draw_image(ronin.cursor.target.context(),ronin.io.image,ronin.commander.query().methods.draw);
     ronin.io.image = null;
     ronin.preview.clear();
   });
@@ -49,7 +49,7 @@ function IO()
   this.methods.save = new Method("save","jpg/png","Export canvas.",function(q){
     var ext = q ? q : "jpg";
     var fs = require('fs');
-    var data = ronin.render.to_base64(ext).replace(/^data:image\/\w+;base64,/, "");
+    var data = ronin.cursor.target.to_base64(ext).replace(/^data:image\/\w+;base64,/, "");
     var buf = new Buffer(data, 'base64');
 
     dialog.showSaveDialog((fileName) => {

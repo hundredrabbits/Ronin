@@ -8,12 +8,12 @@ yu { display:block; }
 #cursor { z-index:899; position: fixed; }
 #guide { z-index:810;position: fixed; }
 #preview { z-index:805; position: fixed; }
-#render { z-index:800; position: fixed; }
-#under { z-index:799; position: fixed; }
+#above { z-index:800; position: fixed; }
+#below { z-index:799; position: fixed; }
 #grid { z-index:795;position: fixed; }
 
 #ronin { background-color:#aaa; height: 100vh; width:100vw; background-image:url(../media/assets/grid.svg);}
-#commander, #hint { position: fixed;bottom: 7px;left: 0px;width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px; cursor: default;}
+#commander, #hint { position: fixed;bottom: 8px;left: 0px;width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px; cursor: default;}
 #commander { z-index: 9000; }
 #commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 40px;font-size: 11px;color: black; margin-left:20px; z-index: 9000;position: relative; }
 #hint {  color:#666; padding-left:20px;}
@@ -24,4 +24,4 @@ yu { display:block; }
 #cursor_hint { position: absolute;top: 0px;right: 10px;color: white; padding: 0px 10px; color:#555; font-size:11px; text-transform: uppercase; }
 #cursor_hint .mode {}
 
-.layer { transition: all 450ms }
+.layer { transition: all 150ms; left:0px; top:0px; }

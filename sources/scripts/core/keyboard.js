@@ -62,7 +62,7 @@ function Keyboard()
       e.preventDefault();
       ronin.guide.inspect = false;
       ronin.guide.clear();
-      ronin.render.clear();
+      ronin.cursor.target.clear();
     }
 
     // Open

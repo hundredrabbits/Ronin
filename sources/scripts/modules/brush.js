@@ -6,8 +6,8 @@ function Brush()
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}}),
-    new Pointer({offset:{x:2,y:2}}),
-    new Pointer({offset:{x:4,y:4}})
+    new Pointer({offset:{x:3,y:3}}),
+    new Pointer({offset:{x:-2,y:-3}})
   ];
 
   this.methods.add = new Method("add","x,y&mirror_x,mirror_y","Add a new pointer to the brush",function(q){
@@ -21,7 +21,7 @@ function Brush()
   })
 
   this.methods.pick = new Method("pick","x,y","Set brush color to a position's pixel.",function(q){
-    var pixel = (ronin.commander.input_el.value == "~" ? ronin.guide: ronin.render).context() .getImageData(q.x*2, q.y*2, 1, 1).data;
+    var pixel = (ronin.commander.input_el.value == "~" ? ronin.guide: ronin.cursor.target).context() .getImageData(q.x*2, q.y*2, 1, 1).data;
     var c = new Color().rgb_to_hex(pixel);
     var color = new Color(c);
     ronin.cursor.color = color.hex;
@@ -59,7 +59,7 @@ function Brush()
       line.to = line.from
     }
 
-    var pixel = ronin.render.context().getImageData(line.to.x*2, line.to.y*2, 1, 1).data;
+    var pixel = ronin.cursor.target.context().getImageData(line.to.x*2, line.to.y*2, 1, 1).data;
   }
 
   this.mod_size = function(mod)
@@ -94,7 +94,7 @@ function Pointer(options)
 
   this.stroke = function(line)
   {
-    var ctx = ronin.cursor.under ? ronin.layers.under.context() : ronin.layers.render.context();
+    var ctx = ronin.cursor.target.context();
 
     if(this.options.mirror){
       line.from.x = (this.options.mirror.x *2) - line.from.x;

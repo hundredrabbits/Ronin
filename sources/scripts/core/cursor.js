@@ -11,8 +11,9 @@ function Cursor(rune)
   this.color = "#000000"
   this.color_alt = "#ff0000"
   this.size = 4;
-  this.under = false;
   this.pos = {x:0,y:0};
+
+  this.target = null;
 
   this.draw_cursor = function(pos,touch = false)
   {
@@ -63,7 +64,7 @@ function Cursor(rune)
       return;
     }
 
-    ronin.cursor.draw_cursor({x:pos.x,y:pos.y},true);
+    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
 
     ronin.cursor.line.origin = {x:pos.x,y:pos.y};
     ronin.cursor.line.from = {x:pos.x,y:pos.y};
@@ -96,7 +97,7 @@ function Cursor(rune)
     var pos = ronin.cursor.mouse_pos(e);
     ronin.cursor.pos = pos;
 
-    ronin.cursor.draw_cursor({x:pos.x,y:pos.y});
+    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY});
 
     if(!ronin.cursor.line.from){ return; }
 
@@ -127,7 +128,7 @@ function Cursor(rune)
     var pos = ronin.cursor.mouse_pos(e);
     ronin.cursor.pos = pos;
 
-    ronin.cursor.draw_cursor({x:pos.x,y:pos.y},true);
+    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
     
     ronin.cursor.line.destination = {x:pos.x,y:pos.y};
 
@@ -145,34 +146,12 @@ function Cursor(rune)
     console.log(e);
   }
 
-  this.flatten = function()
-  {
-    var a = ronin.under.to_img()
-    var b = null
-
-    a.onload = function(){
-      b = ronin.render.to_img()
-      b.onload = function(){
-        ronin.cursor.merge(a,b);
-      }
-    }
-  }
-
-  this.merge = function(a,b)
-  {
-    ronin.render.clear();
-    ronin.render.context().drawImage(a, 0,0,ronin.frame.width*2,ronin.frame.height*2);  
-    ronin.render.context().drawImage(b, 0,0,ronin.frame.width*2,ronin.frame.height*2);  
-    ronin.under.clear();
-  }
-
   this.drag = function(line)
   {
-    var target = this.under ? ronin.layers.under : ronin.layers.render;
     var offset = make_offset(line.from,line.to);
-    var data = target.select();
-    target.clear();
-    target.context().putImageData(data, offset.x * -2, offset.y * -2);
+    var data = ronin.cursor.target.select();
+    ronin.cursor.target.clear();
+    ronin.cursor.target.context().putImageData(data, offset.x * -2, offset.y * -2);
   }
 
   this.swap_colors = function()
@@ -185,7 +164,7 @@ function Cursor(rune)
 
   this.swap_layer = function()
   {
-    this.under = this.under ? false : true;
+    this.target = this.target.name == "above" ? ronin.layers.below : ronin.layers.above;
     ronin.commander.update();
   }
 
@@ -259,7 +238,7 @@ function Cursor(rune)
       mode = "DRAG";
     }
 
-    return "<t class='mode'>"+mode+"</t><t class='size'>"+ronin.cursor.size+"</t> "+(ronin.cursor.under ? "UNDER" : "ABOVE")+" <t class='color' style='color:"+ronin.cursor.color+"'>●</t><t class='color' style='color:"+ronin.cursor.color_alt+"'>●</t>";
+    return "<t class='zoom'>ZOOM"+ronin.frame.zoom.scale+"</t> <t class='mode'>"+mode+"</t><t class='size'>"+ronin.cursor.size+"</t> "+(ronin.cursor.target.name)+" <t class='color' style='color:"+ronin.cursor.color+"'>●</t><t class='color' style='color:"+ronin.cursor.color_alt+"'>●</t>";
   }
 
   function distance_between(a,b)

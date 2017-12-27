@@ -38,7 +38,7 @@ function Line()
     }
   }
 
-  this.stroke = function(from,to,ctx = ronin.render.context())
+  this.stroke = function(from,to,ctx = ronin.cursor.target.context())
   {
     ctx.beginPath();
     ctx.globalCompositeOperation="source-over";

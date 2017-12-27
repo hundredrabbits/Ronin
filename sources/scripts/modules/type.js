@@ -10,9 +10,9 @@ function Type()
     var size = rect.height * 2
     ronin.preview.clear();
 
-    ronin.render.context().textAlign = ronin.type.settings.anchor;
-    ronin.render.context().font = size+"px "+ronin.type.settings.font.replace("+"," ");
-    ronin.render.context().fillText(q[0].replace("+"," "),rect.x * 2,(rect.y * 2)+size);
+    ronin.cursor.target.context().textAlign = ronin.type.settings.anchor;
+    ronin.cursor.target.context().font = size+"px "+ronin.type.settings.font.replace("+"," ");
+    ronin.cursor.target.context().fillText(q[0].replace("+"," "),rect.x * 2,(rect.y * 2)+size);
   })
 
   this.preview = function(q)

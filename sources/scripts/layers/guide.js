@@ -41,7 +41,7 @@ function Guide()
   this.toggle_color_picker = function(show)
   {
     if(!show){ return; }
-    var originalData = ronin.render.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
+    var originalData = ronin.cursor.target.context().getImageData(0, 0, ronin.frame.width*2, ronin.frame.height*2);
     var data = originalData.data;
     for(var i = 0; i < data.length; i += 4) {
       var x = i % (ronin.frame.width*8)
