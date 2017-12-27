@@ -49,7 +49,7 @@ function IO()
   this.methods.save = new Method("save","jpg/png","Export canvas.",function(q){
     var ext = q ? q : "jpg";
     var fs = require('fs');
-    var data = ronin.cursor.target.to_base64(ext).replace(/^data:image\/\w+;base64,/, "");
+    var data = ronin.io.render().to_base64(ext).replace(/^data:image\/\w+;base64,/, "");
     var buf = new Buffer(data, 'base64');
 
     dialog.showSaveDialog((fileName) => {
@@ -65,6 +65,16 @@ function IO()
     if(ronin.commander.query().methods.draw && this.image){
       this.draw_image(ronin.preview.context(),this.image,ronin.commander.query().methods.draw);  
     }
+  }
+
+  this.render = function()
+  {
+    var export_layer = new Layer();
+
+    export_layer.update();
+    export_layer.context().drawImage(ronin.layers.below.el,0,0)
+    export_layer.context().drawImage(ronin.layers.above.el,0,0)
+    return export_layer;
   }
 
   this.draw_image = function(ctx = ronin.preview.context(),img,params)
