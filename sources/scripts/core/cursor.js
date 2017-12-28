@@ -9,7 +9,7 @@ function Cursor(rune)
   this.mode = "vertex";
 
   this.color = "#000000"
-  this.color_alt = "#ff0000"
+  this.color_alt = "#ffffff"
   this.size = 4;
   this.pos = {x:0,y:0};
 

@@ -1,17 +1,21 @@
-function Color(hex = '#000000')
+function Color(hex = '#000000', rgb)
 {  
-  this.example = "#ff0000";
-  this.hex = hex;
-
-  this.rgb = function()
-  {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
+  if(rgb){
+    this.rgb = rgb;
+    this.hex = "#"+("0" + parseInt(rgb.r,10).toString(16)).slice(-2)+("0" + parseInt(rgb.g,10).toString(16)).slice(-2)+("0" + parseInt(rgb.b,10).toString(16)).slice(-2);
   }
+  else{
+    this.hex = hex;
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.hex);
+    this.rgb = {r: parseInt(result[1], 16),g: parseInt(result[2], 16),b: parseInt(result[3], 16)}
+  }
+
+  this.r = this.rgb.r;
+  this.g = this.rgb.g;
+  this.b = this.rgb.b;
+
+  this.average = parseInt((this.r + this.g + this.b)/3)
+  this.invert = {r:255-this.rgb.r, g:255-this.rgb.g, b:255-this.rgb.b};
   
   this.rgba = function()
   {
@@ -20,7 +24,7 @@ function Color(hex = '#000000')
 
   this.floats = function()
   {
-    var rgb = this.rgb();
+    var rgb = this.rgb;
     return { r:rgb.r/255, g:rgb.g/255, b:rgb.b/255 }
   }
   
