@@ -49,6 +49,7 @@ function Frame()
     console.log(ronin.frame.zoom)
     ronin.layers.above.zoom(ronin.frame.zoom);
     ronin.layers.below.zoom(ronin.frame.zoom);
+    ronin.layers.guide.zoom(ronin.frame.zoom);
   });
 
   this.resize_to = function(size)
