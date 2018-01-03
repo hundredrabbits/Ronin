@@ -8,7 +8,7 @@ function Cursor(rune)
   this.query = null;
   this.mode = "vertex";
 
-  this.color = "#ff0000"
+  this.color = "#000000"
   this.color_alt = "#ffffff"
   this.size = 2;
   this.pos = {x:0,y:0};
