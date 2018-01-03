@@ -109,6 +109,7 @@ function Commander()
   {
     ronin.commander.input_el.value = str;
     ronin.commander.update();
+    ronin.commander.show();
   }
 
   this.append = function(str)
@@ -119,12 +120,12 @@ function Commander()
 
   this.show = function()
   {
-    this.el.style.display = "block";
+    this.el.className = "visible";
   }
 
   this.hide = function()
   {
-    this.el.style.display = "none";
+    this.el.className = "hidden";
   }
 
   this.query = function()

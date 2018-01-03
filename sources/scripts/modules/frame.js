@@ -46,7 +46,6 @@ function Frame()
     ronin.frame.zoom.offset.x = ronin.frame.zoom.scale == 1 ? 0 : ((-ronin.cursor.pos.x * ronin.frame.zoom.scale) + (ronin.frame.width/2));
     ronin.frame.zoom.offset.y = ronin.frame.zoom.scale == 1 ? 0 : ((-ronin.cursor.pos.y * ronin.frame.zoom.scale) + (ronin.frame.height/2));
 
-    console.log(ronin.frame.zoom)
     ronin.layers.above.zoom(ronin.frame.zoom);
     ronin.layers.below.zoom(ronin.frame.zoom);
     ronin.layers.guide.zoom(ronin.frame.zoom);

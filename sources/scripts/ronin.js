@@ -84,5 +84,17 @@ function Ronin()
     this.cursor.update();
     this.preview.update();
     this.commander.update();
+
+    this.load();
+  }
+
+  this.load = function(content = this.default())
+  {
+
+  }
+
+  this.default = function()
+  {
+    return "select_layer:below ; fill:#fff ; select_layer:above ; add_cursor:1,1 ; add_cursor:-1,-1"
   }
 }

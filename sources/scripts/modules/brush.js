@@ -5,12 +5,7 @@ function Brush()
   this.speed = 0;
 
   this.pointers = [
-    new Pointer({offset:{x:0,y:0}}),
-    // new Pointer({offset:{x:2,y:2}}),
-    // new Pointer({offset:{x:-10,y:-10}}),
-    new Pointer({offset:{x:0,y:0},mirror:{x:450,y:0}}),
-    // new Pointer({offset:{x:-10,y:10},mirror:{x:450,y:0}}),
-    // new Pointer({offset:{x:2,y:-2},mirror:{x:450,y:0}}),
+    new Pointer({offset:{x:0,y:0}})
   ];
 
   this.methods.add = new Method("add","x,y&mirror_x,mirror_y","Add a new pointer to the brush",function(q){

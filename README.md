@@ -1,84 +1,48 @@
 # Ronin
-Ronin is a simple open-source graphic design tool.
+Ronin is a graphic design tool.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>
 
 ## Cursor
+
+- `shift drag`, drag content of layer.
+- `alt drag`, erase.
+- `alt shift click`, color pick.
+
+### Special Input
+
 Include `$` in a query and click on the canvas to inject the cursor position in the query.
+
 - `$ click` inject a **Pos**.
 - `$+ click` inject a **Pos**, and append `$+` for multiple positions.
 - `$ shift click` inject a **Rect**.
 
-- `#$ click` inject a **Color**.
-## Modules
-## brush
+## Zoom
 
-Missing documentation.
+- `1`, zoom **100%**.
+- `2`, zoom **200%**.
+- `3`, zoom **400%**.
 
-### Methods
-- `add:x,y&mirror_x,mirror_y` Add a new pointer to the brush
-- `remove:` Remove last pointer
-- `pick:x,y` Set brush color to a position's pixel.
+## Commander
 
-## frame
+- `Tab`, display input.
 
-Manager for the canvas size
+## Layers
 
-### Methods
-- `resize:WxH` Resize canvas to size.
-- `rescale:0.5` Rescale canvas to float.
-- `crop:X,Y|WxH` Crop canvas to rect.
-- `clear:` Erase entire canvas
-- `fill:#f00` Fill entire canvas with color
-- `inspect:` View canvas details
+- `z`, toggle between above and below layers.
 
-## io
+## Brush
 
-File import/export tools.
+- `x`, toggle between primary and secondary color.
+- `[`, decrease brush size.
+- `]`, increase brush size.
 
-### Methods
-- `open:browser` Press enter to open the file browser.
-- `load:browser` Press enter to open the file browser.
-- `draw:X,Y|WxH` Draw the loaded image pixels.
-- `save:jpg/png` Export canvas.
+## Macros
 
-## path
+- `ctrl f`, inject `frame fill:[#primary]`
 
-Trace lines and draw shapes.
+## Extras
 
-### Methods
-- `stroke:x,y&` 
-- `fill:x,y&` 
-- `svg:M0,0 L100,100` 
-
-## magnet
-
-Cursor magnetisation settings, changes are reflected on the grid layer.
-
-### Methods
-- `lock:10` Magnetize cursor
-- `unlock:` Release cursor
-
-## filter
-
-Pixel filter
-
-### Methods
-- `balance:#ff0033` Filter color balance.
-- `saturation:#ff00333` Filter color saturation.
-
-## type
-
-Missing documentation.
-
-### Methods
-- `write:text&x,y|WxH` Draw text
-
-## Support
-
-- You can support this project through [Patreon](https://patreon.com/100), or with:
-- **$ETH** `0x7a5f5d9B697F04f5deE82c81859F7cC4FDb6e990`
-- **$BTC** `1NU2Pso6nYbRpCAftX3yqQW9w2NSUxzsNa`. 
-
-## License
-See the [LICENSE](LICENSE.md) file for license rights and limitations (CC).
+- Download additional [themes](https://github.com/hundredrabbits/Themes).
+- Support this project through [Patreon](https://patreon.com/100).
+- See the [License](LICENSE.md) file for license rights and limitations (MIT).

@@ -4,6 +4,15 @@ function Keyboard()
 
   this.key_up = function(e)
   {
+    if(e.key == "tab" || e.keyCode == 9){
+      e.preventDefault();
+      ronin.cursor.update();
+      ronin.commander.autocomplete();
+      ronin.commander.show();
+      setTimeout(()=>{ronin.commander.focus},100)
+      return;
+    }
+
     ronin.keyboard.is_down[e.key] = false;
     ronin.hint.update(e);
   }
@@ -12,7 +21,7 @@ function Keyboard()
   {
     ronin.keyboard.is_down[e.key] = true;
 
-    if(e.key == "~"){
+    if(e.key == "/"){
       e.preventDefault();
       ronin.commander.inject("~")
       return;
@@ -36,12 +45,10 @@ function Keyboard()
       }
     }
 
-    if(e.key == "tab" || e.keyCode == 9){
+    // Macros
+    if(e.key == "f" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
-      ronin.cursor.update();
-      ronin.commander.autocomplete();
-      ronin.commander.show();
-      return;
+      ronin.commander.inject(`frame fill:${ronin.cursor.color}`)
     }
 
     if(ronin.commander.is_focused()){
@@ -65,6 +72,14 @@ function Keyboard()
       ronin.cursor.target.clear();
     }
 
+    if(e.key == "N" && (e.ctrlKey || e.metaKey) && e.shiftKey){
+      e.preventDefault();
+      ronin.guide.inspect = false;
+      ronin.guide.clear();
+      ronin.layers.above.clear()
+      ronin.layers.below.clear()
+    }
+
     // Open
     if(e.key == "o" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
@@ -75,11 +90,6 @@ function Keyboard()
     if(e.key == "s" && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
       ronin.io.methods.save.run();
-    }
-
-    if(e.key == "H" && (e.ctrlKey || e.metaKey) && e.shiftKey){
-      e.preventDefault();
-      ronin.docs.export();
     }
 
     if(e.key == "x"){

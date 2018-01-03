@@ -8,9 +8,9 @@ function Cursor(rune)
   this.query = null;
   this.mode = "vertex";
 
-  this.color = "#000000"
+  this.color = "#ff0000"
   this.color_alt = "#ffffff"
-  this.size = 4;
+  this.size = 2;
   this.pos = {x:0,y:0};
 
   this.target = null;
@@ -22,7 +22,7 @@ function Cursor(rune)
     if(!pos){ return; }
 
     var ctx = this.context();
-    var radius = ronin.cursor.size;
+    var radius = ronin.cursor.size * ronin.frame.zoom.scale;
 
     ctx.beginPath();
     ctx.arc(pos.x * 2, pos.y * 2, radius, 0, 2 * Math.PI, false);
@@ -220,25 +220,21 @@ function Cursor(rune)
   {
     var html = "";
 
-    var mode = "PAINT";
+    var mode = "paint";
 
-    if(ronin.commander.input_el.value.indexOf("$+") > -1){
-      mode = "[MULTI]POS/SHIFT-RECT"
-    }
-    else if(ronin.commander.input_el.value.indexOf("$") > -1){
-      mode = "POS/SHIFT-RECT"
-    }
-    else if(ronin.keyboard.is_down["Alt"] && ronin.keyboard.is_down["Shift"]){
-      mode = "PICK";
+    if(ronin.keyboard.is_down["Alt"] && ronin.keyboard.is_down["Shift"]){
+      mode = "pick";
     }
     else if(ronin.keyboard.is_down["Alt"]){
-      mode = "ERASE";
+      mode = "erase";
     }
     else if(ronin.keyboard.is_down["Shift"]){
-      mode = "DRAG";
+      mode = "drag";
     }
 
-    return "<t class='zoom'>ZOOM"+ronin.frame.zoom.scale+"</t> <t class='mode'>"+mode+"</t><t class='size'>"+ronin.cursor.size+"</t> "+(ronin.cursor.target.name)+" <t class='color' style='color:"+ronin.cursor.color+"'>●</t><t class='color' style='color:"+ronin.cursor.color_alt+"'>●</t>";
+    return `
+    <t class='target_${ronin.cursor.target.name}'></t><t class='size ${mode}'>${ronin.cursor.size}</t><t class='zoom'>${ronin.frame.zoom.scale}</t>
+    <icon class='brush'><icon class='primary' style='background:${ronin.cursor.color}'></icon><icon class='secondary' style='background:${ronin.cursor.color_alt}'></icon></icon>`;
   }
 
   function distance_between(a,b)

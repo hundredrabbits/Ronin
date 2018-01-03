@@ -13,15 +13,29 @@ yu { display:block; }
 #grid { z-index:795;position: fixed; }
 
 #ronin { background-color:#ccc; height: 100vh; width:100vw; background-image:url(../media/assets/grid.svg);}
-#commander, #hint { position: fixed;bottom: 8px;left: 0px;width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px; cursor: default;}
-#commander { z-index: 9000; }
-#commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 40px;font-size: 11px;color: black; margin-left:20px; z-index: 9000;position: relative; }
-#hint {  color:#666; padding-left:20px;}
+#commander, #hint { width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px; cursor: default;}
+#commander { z-index: 9000;background: #000;bottom: 0px;position: relative; transition: top 150ms; }
+#commander input { background: transparent;width: calc(100vw - 30px);display: block;line-height: 40px;font-size: 11px;color: white; margin-left:20px; z-index: 9000;position: relative; }
+
+#commander.hidden { top:-40px; }
+#commander.visible { top:0px; }
+
+#hint { color:#666; padding-left:20px; position: absolute;top: 0px;}
 #hint b { font-family: 'input_mono_regular'; color:#999;}
 #hint i { font-style: italic; }
 #hint .autocomplete { background:white; color:black; }
 
-#cursor_hint { position: absolute;top: 0px;right: 10px;color: white; padding: 0px 10px; color:#555; font-size:11px; text-transform: uppercase; }
-#cursor_hint .mode {}
+#commander #cursor_hint { position: fixed;top: 0px;right: 10px;color: white; padding: 0px 10px; color:#555; font-size:11px; padding-right: 40px; }
+#commander #cursor_hint .mode {}
+#commander #cursor_hint .zoom::after  { content:"*"; }
+#commander #cursor_hint .pick::after  { content:"#"; }
+#commander #cursor_hint .paint::after { content:"+"; }
+#commander #cursor_hint .erase::after { content:"-"; }
+#commander #cursor_hint .drag::after  { content:"/"; }
+#commander #cursor_hint .target_above::after  { content:"^"; }
+#commander #cursor_hint .target_below::after  { content:"v"; }
+#commander icon.brush { display: block;width: 40px;height: 40px;position: absolute;top: 0px;right: 0px; }
+#commander icon.brush icon.primary { display: block;width: 6px;height: 20px;border-radius: 20px;border-style: solid;top: 10px;left: 16px;position: absolute;background: pink;transform: rotate(23deg);}
+#commander icon.brush icon.secondary { display: block;width: 6px;height: 20px;border-radius: 20px;border-style: solid;top: 10px;left: 24px;position: absolute;background: pink;transform: rotate(23deg);}
 
-.layer { transition: all 150ms; left:0px; top:0px; }
+.layer { transition: all 150ms; left:0px; top:0px; outline-color: #bbb;outline-width: 1px;outline-style: solid;}
