@@ -59,7 +59,8 @@ function Frame()
     const {dialog,app} = require('electron').remote;
     var win = require('electron').remote.getCurrentWindow();
     win.setSize(size.width,size.height);
-    ronin.cursor.target.resize_to(size);
+    ronin.layers.above.resize_to(size);
+    ronin.layers.below.resize_to(size);
     ronin.grid.resize_to(size);
     ronin.guide.resize_to(size);
     ronin.cursor.resize_to(size);

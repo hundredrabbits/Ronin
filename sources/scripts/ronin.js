@@ -85,6 +85,8 @@ function Ronin()
     this.preview.update();
     this.commander.update();
 
+    this.frame.resize_to({width:930,height:540});
+
     this.load();
   }
 

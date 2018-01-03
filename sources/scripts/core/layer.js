@@ -12,10 +12,11 @@ function Layer(name)
 
   this.update = function(zoom = {scale:1,offset:{x:0,y:0}})
   {
+    console.log(`Updated ${this.name}`);
     this.el.style.width = (ronin.frame.width * ronin.frame.zoom.scale)+"px";
     this.el.style.height = (ronin.frame.height * ronin.frame.zoom.scale)+"px";
-    this.el.style.left = `calc(50vw - ${ronin.frame.width/2}px + ${zoom.offset.x}px)`;
-    this.el.style.top = `calc(50vh - ${ronin.frame.height/2}px + ${zoom.offset.y}px)`;
+    this.el.style.left = zoom.offset.x+"px";
+    this.el.style.top = zoom.offset.y+"px";
   }
 
   this.context = function()
@@ -25,6 +26,7 @@ function Layer(name)
 
   this.resize_to = function(size)
   {
+    console.log(`Resized ${this.name}`);
     this.el.width = ronin.frame.width * 2;
     this.el.height = ronin.frame.height * 2;
     this.update();
