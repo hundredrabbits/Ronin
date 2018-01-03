@@ -233,6 +233,7 @@ function Cursor(rune)
     }
 
     return `
+    <t class='frame'>${ronin.frame.width}x${ronin.frame.height}</t>
     <t class='target_${ronin.cursor.target.name}'></t><t class='size ${mode}'>${ronin.cursor.size}</t><t class='zoom'>${ronin.frame.zoom.scale}</t>
     <icon class='brush'><icon class='primary' style='background:${ronin.cursor.color}'></icon><icon class='secondary' style='background:${ronin.cursor.color_alt}'></icon></icon>`;
   }

@@ -10,12 +10,12 @@ function Layer(name)
     ronin.el.appendChild(this.el);
   }
 
-  this.update = function()
+  this.update = function(zoom = {scale:1,offset:{x:0,y:0}})
   {
-    this.el.width = window.innerWidth * 2;
-    this.el.height = window.innerHeight * 2;
-    this.el.style.width = (window.innerWidth)+"px";
-    this.el.style.height = (window.innerHeight)+"px";
+    this.el.style.width = (ronin.frame.width * ronin.frame.zoom.scale)+"px";
+    this.el.style.height = (ronin.frame.height * ronin.frame.zoom.scale)+"px";
+    this.el.style.left = `calc(50vw - ${ronin.frame.width/2}px + ${zoom.offset.x}px)`;
+    this.el.style.top = `calc(50vh - ${ronin.frame.height/2}px + ${zoom.offset.y}px)`;
   }
 
   this.context = function()
@@ -25,10 +25,9 @@ function Layer(name)
 
   this.resize_to = function(size)
   {
-    this.el.width = size.width * 2;
-    this.el.height = size.height * 2;
-    this.el.style.width = size.width+"px";
-    this.el.style.height = size.height+"px";
+    this.el.width = ronin.frame.width * 2;
+    this.el.height = ronin.frame.height * 2;
+    this.update();
   }
 
   this.select = function(x = 0,y = 0,width = ronin.frame.width,height = ronin.frame.width)
@@ -69,16 +68,8 @@ function Layer(name)
     ctx.closePath();
   }
 
-  this.zoom = function(zoom)
+  this.zoom = function(zoom = {scale:1,offset:{x:0,y:0}})
   {
-    this.el.style.width = (ronin.frame.width * ronin.frame.zoom.scale)+"px";
-    this.el.style.height = (ronin.frame.height * ronin.frame.zoom.scale)+"px";
-
-    // Clamp
-    if(zoom.offset.x > 0){ zoom.offset.x = 0; }
-    if(zoom.offset.y > 0){ zoom.offset.y = 0; }
-
-    this.el.style.left = zoom.offset.x+"px"; 
-    this.el.style.top = zoom.offset.y+"px"; 
+    this.update(zoom);
   }
 }

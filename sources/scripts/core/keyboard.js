@@ -65,7 +65,7 @@ function Keyboard()
       ronin.brush.mod_size(-1);
     }
 
-    if(e.key == "n" && (e.ctrlKey || e.metaKey)){
+    if((e.key == "n" || e.key == "Backspace") && (e.ctrlKey || e.metaKey)){
       e.preventDefault();
       ronin.guide.inspect = false;
       ronin.guide.clear();

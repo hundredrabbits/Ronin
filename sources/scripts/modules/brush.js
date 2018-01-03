@@ -62,7 +62,7 @@ function Brush()
 
   this.mod_size = function(mod)
   {
-    ronin.cursor.size = clamp(ronin.cursor.size+mod,1,100);
+    ronin.cursor.size = clamp(parseInt(ronin.cursor.size)+mod,1,100);
   }
 
   function clamp(v, min, max)
