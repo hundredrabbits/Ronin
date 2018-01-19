@@ -5,8 +5,8 @@ canvas { cursor: none }
 
 yu { display:block; }
 
-#cursor { z-index:899; position: fixed; }
-#guide { z-index:810;position: fixed; display: none}
+#cursor { z-index:899; position: absolute; }
+#guide { z-index:810;position: absolute; display: none}
 #above { z-index:800; position: absolute; }
 #below { z-index:799; position: absolute; }
 
