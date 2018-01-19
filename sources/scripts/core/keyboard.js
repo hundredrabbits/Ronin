@@ -82,16 +82,6 @@ function Keyboard()
       ronin.io.methods.save.run();
     }
 
-    if(e.key == "x"){
-      e.preventDefault();
-      ronin.cursor.swap_colors();
-    }
-
-    if(e.key == "z"){
-      e.preventDefault();
-      ronin.cursor.swap_layer();
-    }
-
     ronin.hint.update(e);
   }
 }

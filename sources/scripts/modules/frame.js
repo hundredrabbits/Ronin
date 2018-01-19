@@ -55,6 +55,11 @@ function Frame()
     ronin.frame.el.style.height = `${ronin.frame.height * ronin.frame.zoom.scale}px`;
     ronin.frame.zoom.offset.x = ronin.frame.zoom.scale == 1 ? 0 : ((-ronin.cursor.pos.x * ronin.frame.zoom.scale) + (ronin.frame.width/2));
     ronin.frame.zoom.offset.y = ronin.frame.zoom.scale == 1 ? 0 : ((-ronin.cursor.pos.y * ronin.frame.zoom.scale) + (ronin.frame.height/2));
+
+    // Normalize
+    if(ronin.frame.zoom.offset.x > 0){ ronin.frame.zoom.offset.x = 0; }
+    if(ronin.frame.zoom.offset.y > 0){ ronin.frame.zoom.offset.y = 0; }
+
     ronin.frame.el.style.top = `${ronin.frame.zoom.offset.y}px`;
     ronin.frame.el.style.left = `${ronin.frame.zoom.offset.x}px`;
   });

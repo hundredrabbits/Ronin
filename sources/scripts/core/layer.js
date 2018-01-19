@@ -12,9 +12,6 @@ function Layer(name)
 
   this.update = function(zoom = {scale:1,offset:{x:0,y:0}})
   {
-    console.log(`Updated ${this.name}`);
-    // this.el.style.width = (ronin.frame.width)+"px";
-    // this.el.style.height = (ronin.frame.height)+"px";
   }
 
   this.context = function()

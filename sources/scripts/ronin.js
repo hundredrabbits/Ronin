@@ -76,10 +76,15 @@ function Ronin()
     this.controller.add("default","File","Open",() => { ronin.open(); },"CmdOrCtrl+O");
     this.controller.add("default","File","Save",() => { ronin.save(); },"CmdOrCtrl+S");
 
+    this.controller.add("default","Layers","Above Layer",() => { ronin.cursor.select_layer(ronin.layers.above); },"c");
+    this.controller.add("default","Layers","Below Layer",() => { ronin.cursor.select_layer(ronin.layers.below); },"z");
+    this.controller.add("default","Layers","Toggle Layer",() => { ronin.cursor.swap_layer(); },"x");
+
     this.controller.add("default","Brush","Inc Size",() => { ronin.brush.mod_size(1); },"]");
     this.controller.add("default","Brush","Dec Size",() => { ronin.brush.mod_size(-1); },"[");
+    this.controller.add("default","Brush","Toggle Color",() => { ronin.cursor.swap_colors(); },"x");
 
-    this.controller.add("default","View","Reset Zoom",() => { ronin.frame.methods.zoom.run(1); },"1");
+    this.controller.add("default","View","Zoom Reset",() => { ronin.frame.methods.zoom.run(1); },"1");
     this.controller.add("default","View","Zoom 2x",() => { ronin.frame.methods.zoom.run(2); },"2");
     this.controller.add("default","View","Zoom 4x",() => { ronin.frame.methods.zoom.run(4); },"3");
 

@@ -168,6 +168,12 @@ function Cursor(rune)
     ronin.commander.update();
   }
 
+  this.select_layer = function(layer)
+  {
+    this.target = layer;
+    ronin.commander.update();
+  }
+
   function make_offset(a,b)
   {
     return {x:a.x-b.x,y:a.y-b.y};
