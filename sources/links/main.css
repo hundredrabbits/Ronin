@@ -7,10 +7,8 @@ yu { display:block; }
 
 #cursor { z-index:899; position: fixed; }
 #guide { z-index:810;position: fixed; display: none}
-#preview { z-index:805; position: fixed; display: none}
-#above { z-index:800; position: fixed; }
-#below { z-index:799; position: fixed; }
-#grid { z-index:795;position: fixed; display: none}
+#above { z-index:800; position: absolute; }
+#below { z-index:799; position: absolute; }
 
 #ronin { background-color:#ccc; height: 100vh; width:100vw; background-image:url(../media/assets/grid.svg);}
 #commander, #hint { width: 100vw;line-height: 40px;-webkit-user-select: none;-webkit-app-region: drag;z-index: 900;height: 40px; font-size:11px; cursor: default;}
@@ -38,4 +36,6 @@ yu { display:block; }
 #commander icon.brush icon.primary { display: block;width: 6px;height: 20px;border-radius: 20px;border-style: solid;top: 10px;left: 16px;position: absolute;background: pink;transform: rotate(23deg);}
 #commander icon.brush icon.secondary { display: block;width: 6px;height: 20px;border-radius: 20px;border-style: solid;top: 10px;left: 24px;position: absolute;background: pink;transform: rotate(23deg);}
 
-.layer { transition: all 150ms; left:0px; top:0px; border-radius: 4px; overflow: hidden;}
+surface { display: block; background:pink; position: absolute; top:0px; transition: all 100ms; }
+surface .layer { border-radius: 4px; overflow: hidden; width:100%; height:100%;}
+

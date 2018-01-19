@@ -2,6 +2,13 @@ function Frame()
 {
   Module.call(this,"frame","Manager for the canvas size");
   
+  this.el = document.createElement('surface');
+
+  this.install = function()
+  {
+    ronin.el.appendChild(this.el);
+  }
+
   this.width = 400;
   this.height = 400;
   this.zoom = {scale:1,offset:{x:0,y:0}};
@@ -43,16 +50,19 @@ function Frame()
     if(ronin.frame.zoom.scale == parseInt(q)){ return; }
 
     ronin.frame.zoom.scale = parseInt(q);
+
+    ronin.frame.el.style.width = `${ronin.frame.width * ronin.frame.zoom.scale}px`;
+    ronin.frame.el.style.height = `${ronin.frame.height * ronin.frame.zoom.scale}px`;
     ronin.frame.zoom.offset.x = ronin.frame.zoom.scale == 1 ? 0 : ((-ronin.cursor.pos.x * ronin.frame.zoom.scale) + (ronin.frame.width/2));
     ronin.frame.zoom.offset.y = ronin.frame.zoom.scale == 1 ? 0 : ((-ronin.cursor.pos.y * ronin.frame.zoom.scale) + (ronin.frame.height/2));
-
-    ronin.layers.above.zoom(ronin.frame.zoom);
-    ronin.layers.below.zoom(ronin.frame.zoom);
-    ronin.layers.guide.zoom(ronin.frame.zoom);
+    ronin.frame.el.style.top = `${ronin.frame.zoom.offset.y}px`;
+    ronin.frame.el.style.left = `${ronin.frame.zoom.offset.x}px`;
   });
 
   this.resize_to = function(size)
   {
+    this.el.style.width = `${size.width}px`;
+    this.el.style.height = `${size.height}px`;
     ronin.frame.width = size.width;
     ronin.frame.height = size.height;
 
@@ -61,9 +71,7 @@ function Frame()
     win.setSize(size.width,size.height);
     ronin.layers.above.resize_to(size);
     ronin.layers.below.resize_to(size);
-    ronin.grid.resize_to(size);
     ronin.guide.resize_to(size);
     ronin.cursor.resize_to(size);
-    ronin.preview.resize_to(size);
   }
 }

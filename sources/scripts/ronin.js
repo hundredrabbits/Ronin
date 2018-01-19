@@ -3,17 +3,17 @@ function Ronin()
   this.el = document.createElement('yu');
   this.el.id = "ronin";
 
+  this.controller = new Controller();
+
   this.keyboard = new Keyboard();
   this.commander = new Commander();
   this.cursor = new Cursor();
   this.hint = new Hint();
   this.docs = new Docs();
 
-  this.grid = new Grid();
   this.guide = new Guide();
   this.above = new Layer("above");
   this.below = new Layer("below");
-  this.preview = new Preview();
 
   this.io = new IO();
   this.brush = new Brush();
@@ -24,12 +24,10 @@ function Ronin()
   this.type = new Type();
 
   this.layers = {
-    grid : this.grid,
     guide : this.guide,
     above : this.above,
     below : this.below,
     cursor : this.cursor,
-    preview : this.preview,
   };
 
   this.modules = {
@@ -49,16 +47,16 @@ function Ronin()
     this.frame.width = window.innerWidth;
     this.frame.height = window.innerHeight;
 
+    this.commander.install();
+    this.frame.install();
+
     this.cursor.target = this.layers.above;
 
-    this.grid.install();
-    this.guide.install();
+    // this.guide.install();
     this.above.install();
     this.below.install();
-    this.preview.install();
     this.cursor.install();
 
-    this.commander.install();
     this.hint.install();
 
     this.start();
@@ -66,6 +64,27 @@ function Ronin()
 
   this.start = function()
   {
+    this.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Ronin'); },"CmdOrCtrl+,");
+    this.controller.add("default","*","Fullscreen",() => { app.toggle_fullscreen(); },"CmdOrCtrl+Enter");
+    this.controller.add("default","*","Hide",() => { app.toggle_visible(); },"CmdOrCtrl+H");
+    this.controller.add("default","*","Inspect",() => { app.inspect(); },"CmdOrCtrl+.");
+    this.controller.add("default","*","Documentation",() => { ronin.controller.docs(); },"CmdOrCtrl+Esc");
+    this.controller.add("default","*","Reset",() => { ronin.reset(); },"CmdOrCtrl+Backspace");
+    this.controller.add("default","*","Quit",() => { app.exit(); },"CmdOrCtrl+Q");
+
+    this.controller.add("default","File","New",() => { ronin.new(); },"CmdOrCtrl+N");
+    this.controller.add("default","File","Open",() => { ronin.open(); },"CmdOrCtrl+O");
+    this.controller.add("default","File","Save",() => { ronin.save(); },"CmdOrCtrl+S");
+
+    this.controller.add("default","Brush","Inc Size",() => { ronin.brush.mod_size(1); },"]");
+    this.controller.add("default","Brush","Dec Size",() => { ronin.brush.mod_size(-1); },"[");
+
+    this.controller.add("default","View","Reset Zoom",() => { ronin.frame.methods.zoom.run(1); },"1");
+    this.controller.add("default","View","Zoom 2x",() => { ronin.frame.methods.zoom.run(2); },"2");
+    this.controller.add("default","View","Zoom 4x",() => { ronin.frame.methods.zoom.run(4); },"3");
+
+    this.controller.commit();
+
     window.addEventListener('dragover', ronin.io.drag_over);
     window.addEventListener('drop', ronin.io.drop);
     ronin.cursor.el.addEventListener('mousedown', ronin.cursor.mouse_down);
@@ -79,10 +98,8 @@ function Ronin()
     console.log("Ronin","Started");
     this.above.update();
     this.below.update();
-    this.grid.update();
     this.guide.update();
     this.cursor.update();
-    this.preview.update();
     this.commander.update();
 
     this.frame.resize_to({width:930,height:540});

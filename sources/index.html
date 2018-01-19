@@ -1,6 +1,8 @@
 <!DOCTYPE html>
   <head>
     <meta charset='UTF-8'>
+    <script type="text/javascript" src="scripts/controller.js"></script>
+
     <script type="text/javascript" src="scripts/units/color.js"></script>
 
     <script type="text/javascript" src="scripts/core/module.js"></script>
@@ -15,9 +17,7 @@
     <script type="text/javascript" src="scripts/modules/type.js"></script>
 
     <script type="text/javascript" src="scripts/core/layer.js"></script>
-    <script type="text/javascript" src="scripts/layers/grid.js"></script>
     <script type="text/javascript" src="scripts/layers/guide.js"></script>
-    <script type="text/javascript" src="scripts/layers/preview.js"></script>
 
     <script type="text/javascript" src="scripts/core/docs.js"></script>
     <script type="text/javascript" src="scripts/core/port.js"></script>
@@ -39,6 +39,7 @@
 
       const {dialog,app} = require('electron').remote;
       const fs = require('fs');
+      
       const app_path = app.getAppPath();
 
       var ronin = new Ronin();

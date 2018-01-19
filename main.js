@@ -1,61 +1,48 @@
-const {app, BrowserWindow, webFrame, Menu} = require('electron')
+const {app, BrowserWindow, webFrame, Menu, dialog} = require('electron')
 const path = require('path')
 const url = require('url')
 const shell = require('electron').shell
 
-let win
+let is_shown = true;
+
+app.inspect = function()
+{
+  app.win.toggleDevTools();
+}
+
+app.toggle_fullscreen = function()
+{
+  app.win.setFullScreen(app.win.isFullScreen() ? false : true);
+}
+
+app.toggle_visible = function()
+{
+  if(is_shown){ app.win.hide(); } else{ app.win.show(); }
+}
+
+app.inject_menu = function(m)
+{
+  Menu.setApplicationMenu(Menu.buildFromTemplate(m));
+}
+
+app.win = null;
 
 app.on('ready', () => 
 {
-  win = new BrowserWindow({width: 930, height: 540, frame:false,autoHideMenuBar: true, backgroundColor: '#000', show:false,  resizable:true, icon: __dirname + '/icon.ico'})
+  app.win = new BrowserWindow({width: 930, height: 540, minWidth: 930, minHeight: 540, backgroundColor:"#000", frame:false, autoHideMenuBar: true, icon: __dirname + '/icon.ico'})
 
-  var nativeHandleBuffer = win.getNativeWindowHandle();
+  app.win.loadURL(`file://${__dirname}/sources/index.html`);
 
-  win.loadURL(`file://${__dirname}/sources/index.html`)
-    
-  let is_shown = true;
-  let is_fullscreen = false;
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate([
-    {
-      label: 'File',
-      submenu: [
-        { label: 'Inspector', accelerator: 'CmdOrCtrl+.', click: () => { win.webContents.openDevTools(); }},
-        { label: 'Guide', accelerator: 'CmdOrCtrl+,', click: () => { shell.openExternal('https://github.com/hundredrabbits/Ronin'); }},
-        { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => { force_quit=true; app.exit(); }}
-      ]
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'delete' },
-        { role: 'selectall' }
-      ]
-    },
-    {
-      label: 'Window',
-      submenu : [
-        { label: 'Hide', accelerator: 'CmdOrCtrl+H',click: () => { if(is_shown){ win.hide(); } else{ win.show(); }}},
-        { label: 'Minimize', accelerator: 'CmdOrCtrl+M',click: () => { win.minimize(); }},
-        { label: 'Fullscreen', accelerator: 'CmdOrCtrl+Enter',click: () => { win.setFullScreen(win.isFullScreen() ? false : true); }}
-      ]
-    }
-  ]));
-
-  win.on('ready-to-show',function() {
-    win.show();
+  app.win.on('closed', () => {
+    win = null
+    app.quit()
   })
 
-  win.on('hide',function() {
+  app.win.on('hide',function() {
     is_shown = false;
   })
 
-  win.on('show',function() {
+  app.win.on('show',function() {
     is_shown = true;
   })
 })
@@ -66,7 +53,7 @@ app.on('window-all-closed', () =>
 })
 
 app.on('activate', () => {
-  if (win === null) {
+  if (app.win === null) {
     createWindow()
   }
   else{

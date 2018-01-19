@@ -39,7 +39,6 @@ function Keyboard()
       ronin.guide.update();
       ronin.guide.clear();
       ronin.guide.inspect = false;
-      ronin.preview.clear();
       if(!ronin.commander.is_focused()){
         ronin.commander.hide();
       }
@@ -54,15 +53,6 @@ function Keyboard()
     if(ronin.commander.is_focused()){
       ronin.hint.update(e);
       return;
-    }
-
-    if(e.key == "]"){
-      e.preventDefault();
-      ronin.brush.mod_size(1);
-    }
-    if(e.key == "["){
-      e.preventDefault();
-      ronin.brush.mod_size(-1);
     }
 
     if((e.key == "n" || e.key == "Backspace") && (e.ctrlKey || e.metaKey)){
@@ -100,21 +90,6 @@ function Keyboard()
     if(e.key == "z"){
       e.preventDefault();
       ronin.cursor.swap_layer();
-    }
-
-    if(e.key == "1"){
-      e.preventDefault();
-      ronin.frame.methods.zoom.run(1);
-    }
-
-    if(e.key == "2"){
-      e.preventDefault();
-      ronin.frame.methods.zoom.run(2);
-    }
-
-    if(e.key == "3"){
-      e.preventDefault();
-      ronin.frame.methods.zoom.run(4);
     }
 
     ronin.hint.update(e);

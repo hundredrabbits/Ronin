@@ -7,16 +7,14 @@ function Layer(name)
 
   this.install = function()
   {
-    ronin.el.appendChild(this.el);
+    ronin.frame.el.appendChild(this.el);
   }
 
   this.update = function(zoom = {scale:1,offset:{x:0,y:0}})
   {
     console.log(`Updated ${this.name}`);
-    this.el.style.width = (ronin.frame.width * ronin.frame.zoom.scale)+"px";
-    this.el.style.height = (ronin.frame.height * ronin.frame.zoom.scale)+"px";
-    this.el.style.left = zoom.offset.x+"px";
-    this.el.style.top = zoom.offset.y+"px";
+    // this.el.style.width = (ronin.frame.width)+"px";
+    // this.el.style.height = (ronin.frame.height)+"px";
   }
 
   this.context = function()
