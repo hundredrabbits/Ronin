@@ -118,6 +118,20 @@ function Commander()
     ronin.commander.update();    
   }
 
+  this.activate = function()
+  {
+    ronin.cursor.update();
+    ronin.commander.autocomplete();
+    ronin.commander.show();
+    setTimeout(()=>{ronin.commander.focus},100)
+  }
+
+  this.deactivate = function()
+  {
+    this.blur();
+    this.hide();
+  }
+
   this.show = function()
   {
     this.el.className = "visible";
