@@ -72,18 +72,10 @@ function Cursor(rune)
     // Save original query
     ronin.cursor.query = ronin.commander.input_el.value;
 
-    if(ronin.commander.active_module()){
-
-    }
-    else if(e.altKey && e.shiftKey){
-      ronin.brush.methods.pick.run(pos);
-    }
-    else if(e.shiftKey){
-      
-    }
-    else{
-      ronin.brush.stroke(ronin.cursor.line);  
-    }
+    if(ronin.commander.active_module()){ }
+    else if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
+    else if(e.shiftKey){ }
+    else{ ronin.brush.stroke(ronin.cursor.line);   }
 
     if(e.shiftKey){ ronin.cursor.mode = "rect"; }
     if(e.altKey){ ronin.cursor.mode = "arc_to"; }
@@ -96,25 +88,16 @@ function Cursor(rune)
 
     var pos = ronin.cursor.mouse_pos(e);
     ronin.cursor.pos = pos;
-
-    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY});
+    ronin.cursor.draw_cursor({x:pos.x,y:pos.y});
 
     if(!ronin.cursor.line.from){ return; }
 
     ronin.cursor.line.to = {x:pos.x,y:pos.y};
 
-    if(ronin.commander.active_module()){
-
-    }
-    else if(e.altKey && e.shiftKey){
-      ronin.brush.methods.pick.run(pos);
-    }
-    else if(e.shiftKey){
-      ronin.cursor.drag(ronin.cursor.line);
-    }
-    else{
-      ronin.brush.stroke(ronin.cursor.line);  
-    }
+    if(ronin.commander.active_module()){ }
+    else if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
+    else if(e.shiftKey){ ronin.cursor.drag(ronin.cursor.line); }
+    else{ ronin.brush.stroke(ronin.cursor.line); }
 
     ronin.cursor.inject_query();
     
@@ -127,8 +110,7 @@ function Cursor(rune)
 
     var pos = ronin.cursor.mouse_pos(e);
     ronin.cursor.pos = pos;
-
-    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
+    ronin.cursor.draw_cursor({x:pos.x,y:pos.y});
     
     ronin.cursor.line.destination = {x:pos.x,y:pos.y};
 

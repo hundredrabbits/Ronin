@@ -84,6 +84,8 @@ function Ronin()
     this.controller.add("default","Brush","Dec Size",() => { ronin.brush.mod_size(-1); },"[");
     this.controller.add("default","Brush","Toggle Color",() => { ronin.cursor.swap_colors(); },"x");
 
+    this.controller.add("default","Commander","Fill With $",() => { ronin.commander.inject("fill:$"); },"CmdOrCtrl+F");
+
     this.controller.add("default","View","Zoom Reset",() => { ronin.frame.methods.zoom.run(1); },"1");
     this.controller.add("default","View","Zoom 2x",() => { ronin.frame.methods.zoom.run(2); },"2");
     this.controller.add("default","View","Zoom 4x",() => { ronin.frame.methods.zoom.run(4); },"3");
