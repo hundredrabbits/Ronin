@@ -72,11 +72,10 @@ function Ronin()
     this.controller.add("default","*","Reset",() => { ronin.reset(); },"CmdOrCtrl+Backspace");
     this.controller.add("default","*","Quit",() => { app.exit(); },"CmdOrCtrl+Q");
 
-    this.controller.add("default","File","New",() => { ronin.new(); },"CmdOrCtrl+N");
-    this.controller.add("default","File","Open",() => { ronin.open(); },"CmdOrCtrl+O");
-    this.controller.add("default","File","Save",() => { ronin.save(); },"CmdOrCtrl+S");
-
-    this.controller.add("default","I/O","Import Image",() => { ronin.io.methods.load.run(); },"CmdOrCtrl+I");
+    this.controller.add("default","File","New Image",() => { ronin.frame.methods.new.run(); },"CmdOrCtrl+N");
+    this.controller.add("default","File","Open Image",() => { ronin.io.methods.open.run(); },"CmdOrCtrl+O");
+    this.controller.add("default","File","Import Image",() => { ronin.io.methods.load.run(); },"CmdOrCtrl+I");
+    this.controller.add("default","File","Export Image",() => { ronin.io.methods.save.run(); },"CmdOrCtrl+R");
 
     this.controller.add("default","Layers","Above Layer",() => { ronin.cursor.select_layer(ronin.layers.above); },"c");
     this.controller.add("default","Layers","Below Layer",() => { ronin.cursor.select_layer(ronin.layers.below); },"z");

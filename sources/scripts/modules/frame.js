@@ -9,6 +9,12 @@ function Frame()
     ronin.el.appendChild(this.el);
   }
 
+  this.methods.new = new Method("new","WxH","New Canvas",function(q){
+    ronin.layers.above.clear();
+    ronin.layers.below.clear();
+    ronin.frame.resize_to({width:930,height:540});
+  });
+
   this.width = 400;
   this.height = 400;
   this.zoom = {scale:1,offset:{x:0,y:0}};

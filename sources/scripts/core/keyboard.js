@@ -55,33 +55,6 @@ function Keyboard()
       return;
     }
 
-    if((e.key == "n" || e.key == "Backspace") && (e.ctrlKey || e.metaKey)){
-      e.preventDefault();
-      ronin.guide.inspect = false;
-      ronin.guide.clear();
-      ronin.cursor.target.clear();
-    }
-
-    if(e.key == "N" && (e.ctrlKey || e.metaKey) && e.shiftKey){
-      e.preventDefault();
-      ronin.guide.inspect = false;
-      ronin.guide.clear();
-      ronin.layers.above.clear()
-      ronin.layers.below.clear()
-    }
-
-    // Open
-    if(e.key == "o" && (e.ctrlKey || e.metaKey)){
-      e.preventDefault();
-      ronin.io.methods.load.run();
-    }
-
-    // Save
-    if(e.key == "s" && (e.ctrlKey || e.metaKey)){
-      e.preventDefault();
-      ronin.io.methods.save.run();
-    }
-
     ronin.hint.update(e);
   }
 }
