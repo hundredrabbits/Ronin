@@ -43,7 +43,6 @@ function IO()
 
     ronin.io.draw_image(ronin.cursor.target.context(),ronin.io.image,ronin.commander.query().methods.draw);
     ronin.io.image = null;
-    ronin.preview.clear();
   });
   
   this.methods.save = new Method("save","jpg/png","Export canvas.",function(q){
@@ -58,14 +57,14 @@ function IO()
     }); 
   });
 
-  this.preview = function(q)
-  {
-    ronin.preview.clear();
+  // this.preview = function(q)
+  // {
+  //   ronin.preview.clear();
 
-    if(ronin.commander.query().methods.draw && this.image){
-      this.draw_image(ronin.preview.context(),this.image,ronin.commander.query().methods.draw);  
-    }
-  }
+  //   if(ronin.commander.query().methods.draw && this.image){
+  //     this.draw_image(ronin.preview.context(),this.image,ronin.commander.query().methods.draw);  
+  //   }
+  // }
 
   this.render = function()
   {
@@ -77,7 +76,7 @@ function IO()
     return export_layer;
   }
 
-  this.draw_image = function(ctx = ronin.preview.context(),img,params)
+  this.draw_image = function(ctx,img,params)
   {
     var width = parseInt(img.naturalWidth * 0.5);
     var height = parseInt(img.naturalHeight * 0.5);

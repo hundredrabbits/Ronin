@@ -76,6 +76,8 @@ function Ronin()
     this.controller.add("default","File","Open",() => { ronin.open(); },"CmdOrCtrl+O");
     this.controller.add("default","File","Save",() => { ronin.save(); },"CmdOrCtrl+S");
 
+    this.controller.add("default","I/O","Import Image",() => { ronin.io.methods.load.run(); },"CmdOrCtrl+I");
+
     this.controller.add("default","Layers","Above Layer",() => { ronin.cursor.select_layer(ronin.layers.above); },"c");
     this.controller.add("default","Layers","Below Layer",() => { ronin.cursor.select_layer(ronin.layers.below); },"z");
     this.controller.add("default","Layers","Toggle Layer",() => { ronin.cursor.swap_layer(); },"x");
