@@ -3,10 +3,12 @@ function Frame()
   Module.call(this,"frame","Manager for the canvas size");
   
   this.el = document.createElement('surface');
+  this.background = "pink";
 
   this.install = function()
   {
     ronin.el.appendChild(this.el);
+    this.el.style.backgroundColor = this.background;
   }
 
   this.methods.new = new Method("new","WxH","New Canvas",function(q){
@@ -18,6 +20,11 @@ function Frame()
   this.width = 400;
   this.height = 400;
   this.zoom = {scale:1,offset:{x:0,y:0}};
+
+  this.methods.set_background = new Method("set_background","WxH","Resize canvas to size.",function(q){
+    ronin.frame.background = q;
+    ronin.frame.el.style.backgroundColor = q;
+  });
 
   this.methods.resize = new Method("resize","WxH","Resize canvas to size.",function(q){
     var data = ronin.cursor.target.select(0,0,ronin.frame.width,ronin.frame.height);

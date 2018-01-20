@@ -75,7 +75,9 @@ function Ronin()
     this.controller.add("default","File","New Image",() => { ronin.frame.methods.new.run(); },"CmdOrCtrl+N");
     this.controller.add("default","File","Open Image",() => { ronin.io.methods.open.run(); },"CmdOrCtrl+O");
     this.controller.add("default","File","Import Image",() => { ronin.io.methods.load.run(); },"CmdOrCtrl+I");
-    this.controller.add("default","File","Export Image",() => { ronin.io.methods.save.run(); },"CmdOrCtrl+R");
+    this.controller.add("default","File","Render Image(PNG)",() => { ronin.io.methods.render.run(); },"CmdOrCtrl+R");
+    this.controller.add("default","File","Save Images(PNGs)",() => { ronin.io.methods.save.run(); },"CmdOrCtrl+S");
+    this.controller.add("default","File","Export Image(JPG)",() => { ronin.io.methods.export.run(); },"CmdOrCtrl+E");
 
     this.controller.add("default","Layers","Above Layer",() => { ronin.cursor.select_layer(ronin.layers.above); },"c");
     this.controller.add("default","Layers","Below Layer",() => { ronin.cursor.select_layer(ronin.layers.below); },"z");

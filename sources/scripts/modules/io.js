@@ -38,15 +38,8 @@ function IO()
     });
   });
 
-  this.methods.draw = new Method("draw","X,Y|WxH","Draw the loaded image pixels.",function(q){
-    if(!ronin.io.image){ return; }
-
-    ronin.io.draw_image(ronin.cursor.target.context(),ronin.io.image,ronin.commander.query().methods.draw);
-    ronin.io.image = null;
-  });
-  
-  this.methods.save = new Method("save","jpg/png","Export canvas.",function(q){
-    var ext = q ? q : "jpg";
+  this.methods.render = new Method("render","png","Export canvas.",function(q){
+    var ext = "png";
     var fs = require('fs');
     var data = ronin.io.render().to_base64(ext).replace(/^data:image\/\w+;base64,/, "");
     var buf = new Buffer(data, 'base64');
@@ -57,6 +50,25 @@ function IO()
     }); 
   });
 
+  this.methods.export = new Method("render","jpg","Export canvas.",function(q){
+    var ext = "jpg";
+    var fs = require('fs');
+    var data = ronin.io.render(ronin.frame.background).to_base64(ext).replace(/^data:image\/\w+;base64,/, "");
+    var buf = new Buffer(data, 'base64');
+
+    dialog.showSaveDialog((fileName) => {
+      if (fileName === undefined){ return; }
+      fs.writeFile(fileName+'.'+ext, buf);
+    }); 
+  });
+
+  this.methods.draw = new Method("draw","X,Y|WxH","Draw the loaded image pixels.",function(q){
+    if(!ronin.io.image){ return; }
+
+    ronin.io.draw_image(ronin.cursor.target.context(),ronin.io.image,ronin.commander.query().methods.draw);
+    ronin.io.image = null;
+  });
+  
   // this.preview = function(q)
   // {
   //   ronin.preview.clear();
@@ -66,11 +78,16 @@ function IO()
   //   }
   // }
 
-  this.render = function()
+  this.render = function(fill = null)
   {
     var export_layer = new Layer();
 
-    export_layer.update();
+    export_layer.el.width = ronin.frame.width * 2;
+    export_layer.el.height = ronin.frame.height * 2;
+
+    if(fill){
+      export_layer.fill(fill);
+    }
     export_layer.context().drawImage(ronin.layers.below.el,0,0)
     export_layer.context().drawImage(ronin.layers.above.el,0,0)
     return export_layer;
