@@ -42,8 +42,6 @@ function Brush()
 
   this.stroke = function(line)
   {
-    ronin.commander.blur();
-
     this.speed = distance_between(line.from,line.to);
 
     for(pointer_id in this.pointers){

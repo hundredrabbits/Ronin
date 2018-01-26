@@ -55,6 +55,8 @@ function Cursor(rune)
     var pos = ronin.cursor.mouse_pos(e);
     ronin.cursor.pos = pos;
 
+    ronin.commander.blur();
+
     // Color Pick
     if(ronin.commander.input_el.value == "~"){
       ronin.brush.methods.pick.run({x:pos.x,y:pos.y})
@@ -93,8 +95,7 @@ function Cursor(rune)
 
     ronin.cursor.line.to = {x:pos.x,y:pos.y};
 
-    if(ronin.commander.active_module()){ }
-    else if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
+    if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
     else if(e.shiftKey){ ronin.cursor.drag(ronin.cursor.line); }
     else{ ronin.brush.stroke(ronin.cursor.line); }
 

@@ -161,8 +161,13 @@ function Guide()
   {
     var color = "black"
 
-    this.draw_line({x:ronin.frame.width/2,y:0},{x:ronin.frame.width/2,y:ronin.frame.height},color);
-    this.draw_line({x:0,y:ronin.frame.height/2},{x:ronin.frame.width,y:ronin.frame.height/2},color);
+    // Center
+    this.draw_line({x:0,y:ronin.frame.height/2},{x:10,y:ronin.frame.height/2},color);
+    this.draw_line({x:ronin.frame.width-10,y:ronin.frame.height/2},{x:ronin.frame.width,y:ronin.frame.height/2},color);
+    this.draw_line({x:(ronin.frame.width/2)-10,y:ronin.frame.height/2},{x:(ronin.frame.width/2)+10,y:ronin.frame.height/2},color);
+    this.draw_line({x:ronin.frame.width/2,y:0},{x:ronin.frame.width/2,y:10},color);
+    this.draw_line({x:ronin.frame.width/2,y:ronin.frame.height-10},{x:ronin.frame.width/2,y:ronin.frame.height},color);
+    this.draw_line({x:ronin.frame.width/2,y:(ronin.frame.height/2)-10},{x:ronin.frame.width/2,y:(ronin.frame.height/2)+10},color);
 
     var ctx = this.context();
 
