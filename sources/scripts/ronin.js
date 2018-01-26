@@ -19,7 +19,6 @@ function Ronin()
   this.brush = new Brush();
   this.frame = new Frame();
   this.path = new Path();
-  this.magnet = new Magnet();
   this.filter = new Filter();
   this.type = new Type();
 
@@ -28,6 +27,7 @@ function Ronin()
     above : this.above,
     below : this.below,
     cursor : this.cursor,
+    guide : this.guide,
   };
 
   this.modules = {
@@ -35,7 +35,6 @@ function Ronin()
     frame : this.frame,
     io : this.io,
     path : this.path,
-    magnet : this.magnet,
     filter : this.filter,
     type : this.type
   };
@@ -56,6 +55,9 @@ function Ronin()
     this.above.install();
     this.below.install();
     this.cursor.install();
+    this.guide.install();
+
+    this.guide.update();
 
     this.hint.install();
 
@@ -94,6 +96,7 @@ function Ronin()
     this.controller.add("default","View","Zoom Reset",() => { ronin.frame.methods.zoom.run(1); },"1");
     this.controller.add("default","View","Zoom 2x",() => { ronin.frame.methods.zoom.run(2); },"2");
     this.controller.add("default","View","Zoom 4x",() => { ronin.frame.methods.zoom.run(4); },"3");
+    this.controller.add("default","View","Toggle Guide",() => { ronin.guide.toggle(); },"h");
 
     this.controller.commit();
 

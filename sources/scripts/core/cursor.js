@@ -45,8 +45,7 @@ function Cursor(rune)
     pos.x -= (ronin.frame.zoom.offset.x / ronin.frame.zoom.scale);
     pos.y -= (ronin.frame.zoom.offset.y / ronin.frame.zoom.scale);
 
-    var magnet_pos = ronin.magnet.filter({x:pos.x,y:pos.y});
-    return magnet_pos;
+    return pos;
   }
 
   this.mouse_down = function(e)

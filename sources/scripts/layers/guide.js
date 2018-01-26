@@ -3,16 +3,11 @@ function Guide()
   Layer.call(this);
   
   this.el.id = "guide";
-  this.inspect = false;
+  this.inspect = true;
 
   this.update = function()
   {
     this.clear();
-
-    this.el.width = window.innerWidth * 2;
-    this.el.height = window.innerHeight * 2;
-    this.el.style.width = (window.innerWidth)+"px";
-    this.el.style.height = (window.innerHeight)+"px";
 
     var units = this.find_units();
 
@@ -36,6 +31,11 @@ function Guide()
     for(i in units){
       this.draw(units[i]);
     }
+  }
+
+  this.toggle = function()
+  {
+    this.el.style.opacity = this.el.style.opacity == 0 ? 1 : 0
   }
 
   this.toggle_color_picker = function(show)
@@ -105,7 +105,7 @@ function Guide()
     ctx.moveTo(u1.x * 2,u1.y * 2);
     ctx.lineTo(u2.x * 2,u2.y * 2);
     ctx.lineCap="round";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 0.5;
     ctx.strokeStyle = color;
     ctx.stroke();
     ctx.closePath();
@@ -159,15 +159,16 @@ function Guide()
 
   this.draw_inspector = function()
   {
-    this.draw_line({x:ronin.frame.width/2,y:0},{x:ronin.frame.width/2,y:ronin.frame.height},"red");
-    this.draw_line({x:0,y:ronin.frame.height/2},{x:ronin.frame.width,y:ronin.frame.height/2},"red");
+    var color = "black"
+
+    this.draw_line({x:ronin.frame.width/2,y:0},{x:ronin.frame.width/2,y:ronin.frame.height},color);
+    this.draw_line({x:0,y:ronin.frame.height/2},{x:ronin.frame.width,y:ronin.frame.height/2},color);
 
     var ctx = this.context();
 
     var w = ronin.frame.width * 2;
     var h = ronin.frame.height * 2;
-    var angle = parseInt(ronin.commander.query().methods.inspect) > 0 ? parseInt(ronin.commander.query().methods.inspect) : 0;
-    var color = "red"
+    var angle = 45;
     
     ctx.translate(w/2,h/2);
 

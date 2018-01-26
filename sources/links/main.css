@@ -6,7 +6,7 @@ canvas { cursor: none }
 yu { display:block; }
 
 #cursor { z-index:899; position: absolute; }
-#guide { z-index:810;position: absolute; display: none}
+#guide { z-index:810;position: absolute; transition: opacity 250ms; opacity: 0}
 #above { z-index:800; position: absolute; }
 #below { z-index:799; position: absolute; }
 
