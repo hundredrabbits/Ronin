@@ -120,7 +120,6 @@ function Commander()
 
   this.activate = function()
   {
-    ronin.cursor.update();
     ronin.commander.autocomplete();
     ronin.commander.show();
     setTimeout(()=>{ronin.commander.focus},100)

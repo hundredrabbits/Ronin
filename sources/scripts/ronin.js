@@ -3,6 +3,7 @@ function Ronin()
   this.el = document.createElement('yu');
   this.el.id = "ronin";
 
+  this.theme = new Theme();
   this.controller = new Controller();
 
   this.keyboard = new Keyboard();
@@ -41,6 +42,9 @@ function Ronin()
   
   this.install = function()
   {
+    this.theme.start();
+    this.brush.swatch.start();
+
     document.body.appendChild(this.el);
 
     this.frame.width = window.innerWidth;
@@ -80,13 +84,21 @@ function Ronin()
     this.controller.add("default","File","Save Images(PNGs)",() => { ronin.io.methods.save.run(); },"CmdOrCtrl+S");
     this.controller.add("default","File","Export Image(JPG)",() => { ronin.io.methods.export.run(); },"CmdOrCtrl+E");
 
+    this.controller.add_role("default","Edit","undo");
+    this.controller.add_role("default","Edit","redo");
+    this.controller.add_role("default","Edit","cut");
+    this.controller.add_role("default","Edit","copy");
+    this.controller.add_role("default","Edit","paste");
+    this.controller.add_role("default","Edit","delete");
+    this.controller.add_role("default","Edit","selectall");
+    
     this.controller.add("default","Layers","Above Layer",() => { ronin.cursor.select_layer(ronin.layers.above); },"c");
     this.controller.add("default","Layers","Below Layer",() => { ronin.cursor.select_layer(ronin.layers.below); },"z");
-    this.controller.add("default","Layers","Toggle Layer",() => { ronin.cursor.swap_layer(); },"x");
+    this.controller.add("default","Layers","Toggle Layer",() => { ronin.cursor.brush.swatch.swap(); },"x");
 
     this.controller.add("default","Brush","Inc Size",() => { ronin.brush.mod_size(1); },"]");
     this.controller.add("default","Brush","Dec Size",() => { ronin.brush.mod_size(-1); },"[");
-    this.controller.add("default","Brush","Toggle Color",() => { ronin.cursor.swap_colors(); },"x");
+    this.controller.add("default","Brush","Toggle Color",() => { ronin.brush.swatch.swap(); },"x");
 
     this.controller.add("default","Commander","Show",() => { ronin.commander.activate(); },"`");
     this.controller.add("default","Commander","Hide",() => { ronin.commander.deactivate(); },"Escape");
@@ -115,9 +127,14 @@ function Ronin()
     this.guide.update();
     this.commander.update();
 
-    this.frame.resize_to({width:930,height:540});
+    this.frame.resize_to({width:900,height:540});
 
     this.load();
+  }
+
+  this.reset = function()
+  {
+    this.theme.reset();
   }
 
   this.load = function(content = this.default())

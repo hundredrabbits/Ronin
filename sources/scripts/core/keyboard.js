@@ -11,7 +11,7 @@ function Keyboard()
   {
     ronin.keyboard.is_down[e.key] = true;
 
-    if(e.key == "Enter"){
+    if(ronin.commander.is_focused() && e.key == "Enter"){
       e.preventDefault();
       ronin.commander.validate();
     }

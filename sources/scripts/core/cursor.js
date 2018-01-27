@@ -5,13 +5,11 @@ function Cursor(rune)
   this.query = null;
   this.mode = "vertex";
 
-  this.color = "#000000"
-  this.color_alt = "#ffffff"
   this.size = 2;
   this.pos = {x:0,y:0};
 
   this.target = null;
-
+  
   this.mouse_pos = function(e)
   {
     var pos = {x:e.clientX,y:e.clientY};
@@ -30,17 +28,8 @@ function Cursor(rune)
     e.preventDefault();
 
     var pos = ronin.cursor.mouse_pos(e);
-    ronin.cursor.pos = pos;
 
     ronin.commander.blur();
-
-    // Color Pick
-    if(ronin.commander.input_el.value == "~"){
-      ronin.brush.methods.pick.run({x:pos.x,y:pos.y})
-      ronin.commander.input_el.value = "";
-      ronin.commander.update();
-      return;
-    }
 
     ronin.cursor.line.origin = {x:pos.x,y:pos.y};
     ronin.cursor.line.from = {x:pos.x,y:pos.y};
@@ -48,7 +37,8 @@ function Cursor(rune)
     // Save original query
     ronin.cursor.query = ronin.commander.input_el.value;
 
-    if(ronin.commander.active_module()){ }
+    if(ronin.commander.active_module()){ /* DO NOTHING */ }
+    else if(e.shiftKey){ /* DO NOTHING */ }
     else if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
     else if(e.altKey){ ronin.brush.erase(ronin.cursor.line); }
     else{ ronin.brush.stroke(ronin.cursor.line);   }
@@ -69,13 +59,12 @@ function Cursor(rune)
 
     ronin.cursor.line.to = {x:pos.x,y:pos.y};
 
-    if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
+    if(ronin.commander.active_module()){ ronin.cursor.inject_query(); }
+    else if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
     else if(e.shiftKey){ ronin.cursor.drag(ronin.cursor.line); }
     else if(e.altKey){ ronin.brush.erase(ronin.cursor.line); }
     else{ ronin.brush.stroke(ronin.cursor.line); }
 
-    ronin.cursor.inject_query();
-    
     ronin.cursor.line.from = {x:pos.x,y:pos.y};
   }
 
@@ -84,7 +73,6 @@ function Cursor(rune)
     e.preventDefault();
 
     var pos = ronin.cursor.mouse_pos(e);
-    ronin.cursor.pos = pos;
     
     ronin.cursor.line.destination = {x:pos.x,y:pos.y};
 
@@ -108,14 +96,6 @@ function Cursor(rune)
     var data = ronin.cursor.target.select();
     ronin.cursor.target.clear();
     ronin.cursor.target.context().putImageData(data, offset.x * -2, offset.y * -2);
-  }
-
-  this.swap_colors = function()
-  {
-    var c = this.color_alt
-    this.color_alt = this.color;
-    this.color = c;
-    ronin.commander.update();
   }
 
   this.swap_layer = function()
@@ -195,9 +175,9 @@ function Cursor(rune)
     }
 
     return `
-    <t class='frame'>${ronin.frame.width}x${ronin.frame.height}</t>
+    <t class='frame'>${ronin.frame.width}X${ronin.frame.height} ${(ronin.frame.width/ronin.frame.height).toFixed(2)}:1</t>
     <t class='target_${ronin.cursor.target.name}'></t><t class='size ${mode}'>${ronin.cursor.size}</t><t class='zoom'>${ronin.frame.zoom.scale}</t>
-    <icon class='brush'><icon class='primary' style='background:${ronin.cursor.color}'></icon><icon class='secondary' style='background:${ronin.cursor.color_alt}'></icon></icon>`;
+    ${ronin.brush.swatch.hint()}`;
   }
 
   function distance_between(a,b)

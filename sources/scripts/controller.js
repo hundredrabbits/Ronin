@@ -17,7 +17,14 @@ function Controller()
     console.log(`${mode}/${cat}/${label} <${accelerator}>`);
   }
 
-  this.set = function(mode)
+  this.add_role = function(mode,cat,label)
+  {
+    if(!this.menu[mode]){ this.menu[mode] = {}; }
+    if(!this.menu[mode][cat]){ this.menu[mode][cat] = {}; }
+    this.menu[mode][cat][label] = {role:label};    
+  }
+
+  this.set = function(mode = "default")
   {
     this.mode = mode;
     this.commit();
@@ -31,7 +38,12 @@ function Controller()
       var submenu = [];
       for(name in m[cat]){
         var option = m[cat][name];
-        submenu.push({label:name,accelerator:option.accelerator,click:option.fn})
+        if(option.role){
+          submenu.push({role:option.role})
+        }
+        else{
+          submenu.push({label:name,accelerator:option.accelerator,click:option.fn})  
+        }
       }
       f.push({label:cat,submenu:submenu});
     }
@@ -76,7 +88,7 @@ function Controller()
     for(cat in menu){
       var options = menu[cat];
       for(id in options.submenu){
-        var option = options.submenu[id];
+        var option = options.submenu[id]; if(option.role){ continue; }
         acc.basic = (option.accelerator.toLowerCase() == key.toLowerCase()) ? option.label.toUpperCase().replace("TOGGLE ","").substr(0,8).trim() : acc.basic;
         acc.ctrl = (option.accelerator.toLowerCase() == ("CmdOrCtrl+"+key).toLowerCase()) ? option.label.toUpperCase().replace("TOGGLE ","").substr(0,8).trim() : acc.ctrl;
       }
@@ -97,7 +109,7 @@ function Controller()
     {x:540, y:0,   width:60,  height:60, name:"9"},
     {x:600, y:0,   width:60,  height:60, name:"0"},
     {x:660, y:0,   width:60,  height:60, name:"-"},
-    {x:720, y:0,   width:60,  height:60, name:"+"},
+    {x:720, y:0,   width:60,  height:60, name:"plus"},
     {x:780, y:0,   width:120, height:60, name:"backspace"},
     {x:0,   y:60,  width:90,  height:60, name:"tab"},
     {x:90,  y:60,  width:60,  height:60, name:"q"},

@@ -8,13 +8,12 @@ function Frame()
   this.install = function()
   {
     ronin.el.appendChild(this.el);
-    this.el.style.backgroundColor = this.background;
   }
 
   this.methods.new = new Method("new","WxH","New Canvas",function(q){
     ronin.layers.above.clear();
     ronin.layers.below.clear();
-    ronin.frame.resize_to({width:930,height:540});
+    ronin.frame.resize_to({width:900,height:540});
   });
 
   this.width = 400;

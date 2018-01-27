@@ -3,6 +3,7 @@ function Brush()
   Module.call(this,"brush");
 
   this.speed = 0;
+  this.swatch = new Swatch();
 
   this.pointers = [
     new Pointer({offset:{x:0,y:0}})
@@ -92,11 +93,6 @@ function Pointer(options)
     return ronin.brush.thickness(line);
   }
 
-  this.color = function(line)
-  {
-    return ronin.cursor.color;
-  }
-
   this.stroke = function(line,erase = false)
   {
     var ctx = ronin.cursor.target.context();
@@ -116,7 +112,7 @@ function Pointer(options)
     ctx.lineTo((line.to.x * 2) + this.options.offset.x,(line.to.y * 2) + this.options.offset.y);
     ctx.lineCap="round";
     ctx.lineWidth = this.thickness(line);
-    ctx.strokeStyle = ronin.cursor.color;
+    ctx.strokeStyle = ronin.brush.swatch.color();
     ctx.stroke();
     ctx.closePath();
   }
