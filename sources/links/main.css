@@ -1,8 +1,6 @@
 body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace; background:000;}
 *:focus {outline: none; }
 
-canvas { cursor: none }
-
 yu { display:block; }
 
 #cursor { z-index:899; position: absolute; }

@@ -90,6 +90,5 @@ function Frame()
     ronin.layers.above.resize_to(size);
     ronin.layers.below.resize_to(size);
     ronin.guide.resize_to(size);
-    ronin.cursor.resize_to(size);
   }
 }

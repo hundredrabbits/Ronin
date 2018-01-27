@@ -49,6 +49,15 @@ function Brush()
     }
   }
 
+  this.erase = function(line)
+  {
+    this.speed = distance_between(line.from,line.to);
+
+    for(pointer_id in this.pointers){
+      this.pointers[pointer_id].stroke(line,true);
+    }
+  }
+
   this.pick = function(line)
   {
     if(!line.to){
@@ -88,7 +97,7 @@ function Pointer(options)
     return ronin.cursor.color;
   }
 
-  this.stroke = function(line)
+  this.stroke = function(line,erase = false)
   {
     var ctx = ronin.cursor.target.context();
 
@@ -101,10 +110,8 @@ function Pointer(options)
       line.to = line.from
     }
 
-    var ratio = clamp((ronin.brush.speed/20),0,1)
-
     ctx.beginPath();
-    ctx.globalCompositeOperation = ronin.keyboard.is_down["Alt"] ? "destination-out" : "source-over";
+    ctx.globalCompositeOperation = erase ? "destination-out" : "source-over";
     ctx.moveTo((line.from.x * 2) + this.options.offset.x,(line.from.y * 2) + this.options.offset.y);
     ctx.lineTo((line.to.x * 2) + this.options.offset.x,(line.to.y * 2) + this.options.offset.y);
     ctx.lineCap="round";

@@ -1,8 +1,5 @@
 function Cursor(rune)
 {
-  Layer.call(this);
-
-  this.el.id = "cursor";
   this.line = {origin:null,from:null,to:null,destination:null};
   this.is_down = false;
   this.query = null;
@@ -14,26 +11,6 @@ function Cursor(rune)
   this.pos = {x:0,y:0};
 
   this.target = null;
-
-  this.draw_cursor = function(pos,touch = false)
-  {
-    this.clear();
-
-    if(!pos){ return; }
-
-    var ctx = this.context();
-    var radius = ronin.cursor.size * ronin.frame.zoom.scale;
-
-    ctx.beginPath();
-    ctx.arc(pos.x * 2, pos.y * 2, radius, 0, 2 * Math.PI, false);
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = 4.5;
-    ctx.stroke();
-    ctx.strokeStyle = touch ? "#000" : "#fff";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.closePath();
-  }
 
   this.mouse_pos = function(e)
   {
@@ -65,8 +42,6 @@ function Cursor(rune)
       return;
     }
 
-    ronin.cursor.draw_cursor({x:e.clientX,y:e.clientY},true);
-
     ronin.cursor.line.origin = {x:pos.x,y:pos.y};
     ronin.cursor.line.from = {x:pos.x,y:pos.y};
 
@@ -75,7 +50,7 @@ function Cursor(rune)
 
     if(ronin.commander.active_module()){ }
     else if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
-    else if(e.shiftKey){ }
+    else if(e.altKey){ ronin.brush.erase(ronin.cursor.line); }
     else{ ronin.brush.stroke(ronin.cursor.line);   }
 
     if(e.shiftKey){ ronin.cursor.mode = "rect"; }
@@ -89,7 +64,6 @@ function Cursor(rune)
 
     var pos = ronin.cursor.mouse_pos(e);
     ronin.cursor.pos = pos;
-    ronin.cursor.draw_cursor({x:pos.x,y:pos.y});
 
     if(!ronin.cursor.line.from){ return; }
 
@@ -97,6 +71,7 @@ function Cursor(rune)
 
     if(e.altKey && e.shiftKey){ ronin.brush.methods.pick.run(pos); }
     else if(e.shiftKey){ ronin.cursor.drag(ronin.cursor.line); }
+    else if(e.altKey){ ronin.brush.erase(ronin.cursor.line); }
     else{ ronin.brush.stroke(ronin.cursor.line); }
 
     ronin.cursor.inject_query();
@@ -110,7 +85,6 @@ function Cursor(rune)
 
     var pos = ronin.cursor.mouse_pos(e);
     ronin.cursor.pos = pos;
-    ronin.cursor.draw_cursor({x:pos.x,y:pos.y});
     
     ronin.cursor.line.destination = {x:pos.x,y:pos.y};
 

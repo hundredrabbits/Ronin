@@ -54,7 +54,6 @@ function Ronin()
     // this.guide.install();
     this.above.install();
     this.below.install();
-    this.cursor.install();
     this.guide.install();
 
     this.guide.update();
@@ -102,10 +101,10 @@ function Ronin()
 
     window.addEventListener('dragover', ronin.io.drag_over);
     window.addEventListener('drop', ronin.io.drop);
-    ronin.cursor.el.addEventListener('mousedown', ronin.cursor.mouse_down);
-    ronin.cursor.el.addEventListener('mousemove', ronin.cursor.mouse_move);
-    ronin.cursor.el.addEventListener('mouseup', ronin.cursor.mouse_up);
-    ronin.cursor.el.addEventListener('contextmenu', ronin.cursor.mouse_alt);
+    ronin.frame.el.addEventListener('mousedown', ronin.cursor.mouse_down);
+    ronin.frame.el.addEventListener('mousemove', ronin.cursor.mouse_move);
+    ronin.frame.el.addEventListener('mouseup', ronin.cursor.mouse_up);
+    ronin.frame.el.addEventListener('contextmenu', ronin.cursor.mouse_alt);
     window.addEventListener('keydown', ronin.keyboard.key_down);
     window.addEventListener('keyup', ronin.keyboard.key_up);
     ronin.commander.input_el.addEventListener('input', ronin.commander.on_input);
@@ -114,7 +113,6 @@ function Ronin()
     this.above.update();
     this.below.update();
     this.guide.update();
-    this.cursor.update();
     this.commander.update();
 
     this.frame.resize_to({width:930,height:540});
