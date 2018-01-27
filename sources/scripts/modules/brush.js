@@ -38,7 +38,7 @@ function Brush()
     var ratio = clamp(1 - (ronin.brush.speed/20),0,1)
     var t = ronin.cursor.size * ratio;
     this.absolute_thickness = t > this.absolute_thickness ? this.absolute_thickness+0.25 : this.absolute_thickness-0.25;
-    return this.absolute_thickness * 3;
+    return this.absolute_thickness;
   }
 
   this.stroke = function(line)
@@ -88,11 +88,6 @@ function Pointer(options)
 {
   this.options = options;
 
-  this.thickness = function(line)
-  {
-    return ronin.brush.thickness(line);
-  }
-
   this.stroke = function(line,erase = false)
   {
     var ctx = ronin.cursor.target.context();
@@ -111,7 +106,7 @@ function Pointer(options)
     ctx.moveTo((line.from.x * 2) + this.options.offset.x,(line.from.y * 2) + this.options.offset.y);
     ctx.lineTo((line.to.x * 2) + this.options.offset.x,(line.to.y * 2) + this.options.offset.y);
     ctx.lineCap="round";
-    ctx.lineWidth = this.thickness(line);
+    ctx.lineWidth = ronin.brush.thickness(line);
     ctx.strokeStyle = ronin.brush.swatch.color();
     ctx.stroke();
     ctx.closePath();

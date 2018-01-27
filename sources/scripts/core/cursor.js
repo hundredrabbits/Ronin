@@ -83,6 +83,7 @@ function Cursor(rune)
     ronin.cursor.mode = "vertex";
 
     ronin.cursor.query = ronin.commander.input_el.value;
+    ronin.brush.absolute_thickness = 0;
   }
 
   this.mouse_alt = function(e)

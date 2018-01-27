@@ -118,10 +118,12 @@ window.addEventListener('drop', function(e)
 
   var files = e.dataTransfer.files;
   var file = files[0];
+  var path = file.path ? file.path : file.name;
 
+  if(path.substr(-4,4) == ".thm"){ return; }
+  
   if (file.type && !file.type.match(/image.*/)) { console.log("Not image", file.type); return false; }
 
-  var path = file.path ? file.path : file.name;
   var reader = new FileReader();
 
   reader.onload = function(event)
