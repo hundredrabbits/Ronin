@@ -1,0 +1,4 @@
+<svg class="vector" width="300px" height="300px" xmlns="http://www.w3.org/2000/svg" baseProfile="full" version="1.1" style="width: 300px; height: 300px; stroke: rgb(0, 0, 0); stroke-width: 0; fill: none; stroke-linecap: square;">
+  <rect width="300" height="300" style="fill:rgb(0,0,0)" />
+  <path d="M60,60 l120,0 a60,60 0 0,1 60,60 a-60,60 0 0,1 -60,60 l-120,0 M180,180 a60,60 0 0,1 60,60" stroke='white' stroke-width='15'></path>
+</svg>
