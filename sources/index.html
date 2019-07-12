@@ -46,7 +46,21 @@
       const app_path = app.getAppPath();
 
       var ronin = new Ronin();
-      ronin.install();
+
+      ronin.controller = new Controller();
+
+      ronin.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Dotgrid'); },"CmdOrCtrl+,");
+      ronin.controller.add("default","*","Fullscreen",() => { app.toggleFullscreen(); },"CmdOrCtrl+Enter");
+      ronin.controller.add("default","*","Hide",() => { app.toggleVisible(); },"CmdOrCtrl+H");
+      ronin.controller.add("default","*","Inspect",() => { app.inspect(); },"CmdOrCtrl+.");
+      ronin.controller.add("default","*","Reset",() => { dotgrid.reset(); dotgrid.theme.reset(); },"CmdOrCtrl+Backspace");
+      ronin.controller.add("default","*","Quit",() => { app.exit(); },"CmdOrCtrl+Q");
+
+      ronin.controller.commit();
+
+      ronin.install(document.body);
+
+      window.addEventListener('load', () => { ronin.start(); })
     </script>
   </body>
 </html>

@@ -1,64 +1,76 @@
-const {app, BrowserWindow, webFrame, Menu, dialog} = require('electron')
+const { app, BrowserWindow, webFrame, Menu } = require('electron')
 const path = require('path')
 const url = require('url')
 const shell = require('electron').shell
 
-let is_shown = true;
+let isShown = true
 
-app.inspect = function()
-{
-  app.win.toggleDevTools();
-}
+app.win = null
 
-app.toggle_fullscreen = function()
-{
-  app.win.setFullScreen(app.win.isFullScreen() ? false : true);
-}
+app.on('ready', () => {
+  app.win = new BrowserWindow({
+    width: 660,
+    height: 390,
+    minWidth: 320,
+    minHeight: 320,
+    backgroundColor: '#000',
+    icon: path.join(__dirname, { darwin: 'icon.icns', linux: 'icon.png', win32: 'icon.ico' }[process.platform] || 'icon.ico'),
+    resizable: true,
+    frame: process.platform !== 'darwin',
+    skipTaskbar: process.platform === 'darwin',
+    autoHideMenuBar: process.platform === 'darwin',
+    webPreferences: { zoomFactor: 1.0, nodeIntegration: true, backgroundThrottling: false }
+  })
 
-app.toggle_visible = function()
-{
-  if(is_shown){ app.win.hide(); } else{ app.win.show(); }
-}
-
-app.inject_menu = function(m)
-{
-  Menu.setApplicationMenu(Menu.buildFromTemplate(m));
-}
-
-app.win = null;
-
-app.on('ready', () => 
-{
-  app.win = new BrowserWindow({width: 900, height: 540, minWidth: 900, minHeight: 540, backgroundColor:"#000", frame:false, autoHideMenuBar: true, icon: __dirname + '/icon.ico'})
-
-  app.win.toggleDevTools();
-  
-  app.win.loadURL(`file://${__dirname}/sources/index.html`);
+  app.win.loadURL(`file://${__dirname}/sources/index.html`)
+  // app.inspect()
 
   app.win.on('closed', () => {
     win = null
     app.quit()
   })
 
-  app.win.on('hide',function() {
-    is_shown = false;
+  app.win.on('hide', function () {
+    isShown = false
   })
 
-  app.win.on('show',function() {
-    is_shown = true;
+  app.win.on('show', function () {
+    isShown = true
+  })
+
+  app.on('window-all-closed', () => {
+    app.quit()
+  })
+
+  app.on('activate', () => {
+    if (app.win === null) {
+      createWindow()
+    } else {
+      app.win.show()
+    }
   })
 })
 
-app.on('window-all-closed', () => 
-{
-  app.quit()
-})
+app.inspect = function () {
+  app.win.toggleDevTools()
+}
 
-app.on('activate', () => {
-  if (app.win === null) {
-    createWindow()
+app.toggleFullscreen = function () {
+  app.win.setFullScreen(!app.win.isFullScreen())
+}
+
+app.toggleVisible = function () {
+  if (process.platform === 'win32') {
+    if (!app.win.isMinimized()) { app.win.minimize() } else { app.win.restore() }
+  } else {
+    if (isShown && !app.win.isFullScreen()) { app.win.hide() } else { app.win.show() }
   }
-  else{
-    
+}
+
+app.injectMenu = function (menu) {
+  try {
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
+  } catch (err) {
+    console.warn('Cannot inject menu.')
   }
-})
+}
