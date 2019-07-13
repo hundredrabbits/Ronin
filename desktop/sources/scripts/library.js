@@ -108,4 +108,8 @@ function Library (ronin) {
   this.div = function (a, b) {
     return a / b
   }
+
+  this.clamp = function (val, min, max) {
+    return Math.min(max, Math.max(min, val))
+  }
 }
