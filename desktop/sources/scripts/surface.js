@@ -35,21 +35,24 @@ function Surface (ronin) {
     this.context.closePath()
   }
 
-  this.fill = (rect, width, color) => {
+  this.fill = (rect, color) => {
     this.context.beginPath()
     this.context.moveTo(rect.x, rect.y)
     this.context.lineTo(rect.x + rect.w, rect.y)
     this.context.lineTo(rect.x + rect.w, rect.y + rect.h)
     this.context.lineTo(rect.x, rect.y + rect.h)
     this.context.lineTo(rect.x, rect.y)
-    this.context.lineWidth = width
     this.context.fillStyle = color
     this.context.fill()
     this.context.closePath()
   }
 
-  this.clear = function (rect) {
+  this.clear = function (rect = this.getRect()) {
     this.context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+
+  this.clone = function (a, b) {
+    this.context.drawImage(this.el, a.x, a.y, a.w, a.h, b.x, b.y, b.w, b.h)
   }
 
   this.addGuide = function (rect) {
@@ -73,6 +76,6 @@ function Surface (ronin) {
   }
 
   this.getRect = function () {
-    return { x: 0, y: 0, w: Math.floor(window.innerWidth / 2) - 15, h: Math.floor(window.innerHeight) - 30 }
+    return { x: 0, y: 0, w: Math.floor(window.innerWidth / 2) - 30, h: Math.floor(window.innerHeight) - 60 }
   }
 }

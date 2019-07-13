@@ -17,7 +17,7 @@ function Commander (ronin) {
   }
 
   this.start = function () {
-    this._status.textContent = 'Idle, RUN(cmd+enter).'
+    this._status.textContent = 'Idle. (zoom 100%)'
     this._input.focus()
     this.run()
   }
