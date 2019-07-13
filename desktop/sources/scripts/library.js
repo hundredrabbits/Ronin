@@ -24,6 +24,56 @@ function Library (ronin) {
     // TODO: Closes Ronin
   }
 
+  // Logic
+
+  this.gt = (a, b) => {
+    return a > b
+  }
+
+  this.lt = (a, b) => {
+    return a < b
+  }
+
+  this.eq = (a, b) => {
+    return a === b
+  }
+
+  this.and = (...args) => {
+    for (let i = 0; i < args.length; i++) {
+      if (!args[i]) {
+        return args[i]
+      }
+    }
+    return args[args.length - 1]
+  }
+
+  this.or = (...args) => {
+    for (let i = 0; i < args.length; i++) {
+      if (args[i]) {
+        return args[i]
+      }
+    }
+    return args[args.length - 1]
+  }
+
+  // Arrays
+
+  this.map = (fn, arr) => {
+    return arr.map(fn)
+  }
+
+  this.filter = (fn, arr) => {
+    return arr.filter(fn)
+  }
+
+  this.first = (arr) => {
+    return arr[0]
+  }
+
+  this.rest = ([_, ...arr]) => {
+    return arr
+  }
+
   // Rects
 
   this.pos = (x, y, t = 'pos') => {
@@ -105,7 +155,12 @@ function Library (ronin) {
   this.mul = function (...args) {
     return args.reduce((sum, val) => sum * val)
   }
+  
   this.div = function (...args) {
     return args.reduce((sum, val) => sum / val)
+  }
+
+  this.mod = function (a, b) {
+    return a % b
   }
 }
