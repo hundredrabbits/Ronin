@@ -26,8 +26,7 @@
     <script type="text/javascript" src="scripts/core/port.js"></script>
     <script type="text/javascript" src="scripts/core/query.js"></script>
     <script type="text/javascript" src="scripts/core/keyboard.js"></script>
-    
-    <script type="text/javascript" src="scripts/core/hint.js"></script>
+  
     <script type="text/javascript" src="scripts/core/commander.js"></script>
     
     <script type="text/javascript" src="scripts/ronin.js"></script>
@@ -55,6 +54,14 @@
       ronin.controller.add("default","*","Inspect",() => { app.inspect(); },"CmdOrCtrl+.");
       ronin.controller.add("default","*","Reset",() => { dotgrid.reset(); dotgrid.theme.reset(); },"CmdOrCtrl+Backspace");
       ronin.controller.add("default","*","Quit",() => { app.exit(); },"CmdOrCtrl+Q");
+
+      ronin.controller.addRole('default', 'Edit', 'undo')
+      ronin.controller.addRole('default', 'Edit', 'redo')
+      ronin.controller.addRole('default', 'Edit', 'cut')
+      ronin.controller.addRole('default', 'Edit', 'copy')
+      ronin.controller.addRole('default', 'Edit', 'paste')
+      ronin.controller.addRole('default', 'Edit', 'delete')
+      ronin.controller.addRole('default', 'Edit', 'selectall')
 
       ronin.controller.commit();
 

@@ -23,7 +23,6 @@ function Brush () {
     var c = new Color().rgb_to_hex(pixel)
     var color = new Color(c)
     ronin.cursor.color = color.hex
-    ronin.hint.update()
   })
 
   this.methods.set_color = new Method('set_color', '#ff0033', 'Set color', function (q) {

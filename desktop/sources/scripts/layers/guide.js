@@ -131,18 +131,18 @@ function Guide () {
     ctx.closePath()
   }
 
-  this.find_units = function (q = ronin.commander.query()) {
+  this.find_units = function (q = ronin.commander.getQuery()) {
     var a = []
 
-    for (method_id in q.methods) {
-      var params = q.methods[method_id]
-      if (params.from && params.to) {
-        a = a.concat(params.from)
-        a = a.concat(params.to)
-      } else {
-        a = a.concat(params)
-      }
-    }
+    // for (method_id in q.methods) {
+    //   var params = q.methods[method_id]
+    //   if (params.from && params.to) {
+    //     a = a.concat(params.from)
+    //     a = a.concat(params.to)
+    //   } else {
+    //     a = a.concat(params)
+    //   }
+    // }
     return a
   }
 

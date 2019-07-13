@@ -19,7 +19,6 @@ function Ronin () {
   this.keyboard = new Keyboard()
   this.commander = new Commander()
   this.cursor = new Cursor()
-  this.hint = new Hint()
   this.docs = new Docs()
 
   this.guide = new Guide()
@@ -69,8 +68,6 @@ function Ronin () {
     this.guide.install()
 
     this.guide.update()
-
-    this.hint.install()
     this.theme.install(host, () => { this.update() })
   }
 
@@ -91,8 +88,6 @@ function Ronin () {
     this.below.update()
     this.guide.update()
     this.commander.update()
-
-    this.frame.resize_to({ width: 900, height: 540 })
 
     this.load()
   }

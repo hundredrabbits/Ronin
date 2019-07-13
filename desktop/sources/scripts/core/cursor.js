@@ -134,27 +134,4 @@ function Cursor (rune) {
       ronin.commander.inject(ronin.cursor.query.replace('$', str))
     }
   }
-
-  this.hint = function () {
-    var html = ''
-
-    var mode = 'paint'
-
-    if (ronin.keyboard.is_down['Alt'] && ronin.keyboard.is_down['Shift']) {
-      mode = 'pick'
-    } else if (ronin.keyboard.is_down['Alt']) {
-      mode = 'erase'
-    } else if (ronin.keyboard.is_down['Shift']) {
-      mode = 'drag'
-    }
-
-    return `
-    <t class='frame'>${ronin.frame.width}X${ronin.frame.height} ${(ronin.frame.width / ronin.frame.height).toFixed(2)}:1</t>
-    <t class='target_${ronin.cursor.target.name}'></t><t class='size ${mode}'>${ronin.cursor.size}</t><t class='zoom'>${ronin.frame.zoom.scale}</t>
-    ${ronin.brush.swatch.hint()}`
-  }
-
-  function distance_between (a, b) {
-    return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y))
-  }
 }

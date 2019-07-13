@@ -1,0 +1,22 @@
+body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace; background:000; -webkit-app-region: drag; -webkit-user-select: none;}
+*:focus {outline: none; }
+
+yu { display:block; }
+
+:root { --background: "#222"; --f_high: "#fff";--f_med: "#777";--f_low: "#444";--f_inv: "#000";--b_high: "#000";--b_med: "#affec7";--b_low: "#000";--b_inv: "#affec7"; }  
+
+#cursor { z-index:899; position: absolute; }
+#guide { z-index:810;position: absolute; transition: opacity 250ms; opacity: 0}
+#above { z-index:800; position: absolute; }
+#below { z-index:799; position: absolute; }
+
+#ronin { background:var(--b_low); height: 100vh; width:100vw; }
+#commander { z-index: 9000; top: 15px; position: absolute; transition: all 150ms; left: 15px; width: 300px; height: calc(100vh - 60px); border-radius: 3px; padding: 15px;}
+#commander textarea { background: none; width: 100%; height: calc(100% - 45px); resize: none; font-size: 12px;color: white; }
+
+#commander.hidden { top:-40px; }
+#commander.visible { top:0px; }
+
+surface { display: block; background:var(--background); position: absolute; top:0px; transition: all 100ms; }
+surface .layer { border-radius: 4px; overflow: hidden; width:100%; height:100%;}
+
