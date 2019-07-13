@@ -57,7 +57,7 @@ function Ronin () {
     this.frame.width = window.innerWidth
     this.frame.height = window.innerHeight
 
-    this.commander.install()
+    this.commander.install(this.el)
     this.frame.install()
 
     this.cursor.target = this.layers.above
@@ -73,6 +73,8 @@ function Ronin () {
 
   this.start = function () {
     this.theme.start()
+    this.commander.start()
+
     window.addEventListener('dragover', ronin.io.drag_over)
     window.addEventListener('drop', ronin.io.drop)
     ronin.frame.el.addEventListener('mousedown', ronin.cursor.mouse_down)
@@ -81,13 +83,11 @@ function Ronin () {
     ronin.frame.el.addEventListener('contextmenu', ronin.cursor.mouse_alt)
     window.addEventListener('keydown', ronin.keyboard.key_down)
     window.addEventListener('keyup', ronin.keyboard.key_up)
-    ronin.commander.input_el.addEventListener('input', ronin.commander.on_input)
 
     console.log('Ronin', 'Started')
     this.above.update()
     this.below.update()
     this.guide.update()
-    this.commander.update()
 
     this.load()
   }

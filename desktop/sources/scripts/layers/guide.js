@@ -13,10 +13,6 @@ function Guide () {
       this.draw_inspector()
     }
 
-    if (ronin.commander.input_el.value == '~') {
-      this.toggle_color_picker(true)
-    }
-
     // Brush mirrors
     for (id in ronin.brush.pointers) {
       var pointer = ronin.brush.pointers[id]

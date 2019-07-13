@@ -1,4 +1,4 @@
-body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_medium",courier,monospace; background:000; -webkit-app-region: drag; -webkit-user-select: none;}
+body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular",courier,monospace; background:000; -webkit-app-region: drag; -webkit-user-select: none; font-size:12px;}
 *:focus {outline: none; }
 
 yu { display:block; }
@@ -11,8 +11,9 @@ yu { display:block; }
 #below { z-index:799; position: absolute; }
 
 #ronin { background:var(--b_low); height: 100vh; width:100vw; }
-#commander { z-index: 9000; top: 15px; position: absolute; transition: all 150ms; left: 15px; width: 300px; height: calc(100vh - 60px); border-radius: 3px; padding: 15px;}
-#commander textarea { background: none; width: 100%; height: calc(100% - 45px); resize: none; font-size: 12px;color: white; }
+#commander { z-index: 9000; top: 15px; position: absolute; transition: all 150ms; left: 15px; width: calc(50vw - 60px); height: calc(100vh - 60px); padding: 15px; border-right: 1px solid #333;}
+#commander textarea { background: none; width: 100%; height: calc(100vh - 75px); resize: none; font-size: 12px;color: white; }
+#commander div#status { color:#555; }
 
 #commander.hidden { top:-40px; }
 #commander.visible { top:0px; }
