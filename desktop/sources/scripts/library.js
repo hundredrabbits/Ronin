@@ -70,6 +70,10 @@ function Library (ronin) {
     return arr[0]
   }
 
+  this.last = (arr) => {
+    return arr[arr.length - 1]
+  }
+
   this.rest = ([_, ...arr]) => {
     return arr
   }
