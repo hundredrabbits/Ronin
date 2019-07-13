@@ -25,7 +25,6 @@ function Commander (ronin) {
   this.run = function (txt = this._input.value) {
     console.log('========')
     const inter = new Lisp(txt, ronin.library)
-    console.log(inter)
     inter.toPixels()
   }
 

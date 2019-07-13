@@ -22,7 +22,17 @@ function Surface (ronin) {
     }
   }
 
-  this.stroke = (rect, width, color) => {
+  // Shape
+
+  this.stroke = (shape, width, color) => {
+    if (shape.t === 'rect') {
+      this.strokeRect(shape, width, color)
+    } else if (shape.t === 'line') {
+      this.strokeLine(shape, width, color)
+    }
+  }
+
+  this.strokeRect = (rect, width, color) => {
     this.context.beginPath()
     this.context.moveTo(rect.x, rect.y)
     this.context.lineTo(rect.x + rect.w, rect.y)
@@ -35,7 +45,25 @@ function Surface (ronin) {
     this.context.closePath()
   }
 
-  this.fill = (rect, color) => {
+  this.strokeLine = function (line, width, color) {
+    this.context.beginPath()
+    this.context.moveTo(line.a.x, line.a.y)
+    this.context.lineTo(line.b.x, line.b.y)
+    this.context.lineWidth = width
+    this.context.strokeStyle = color
+    this.context.stroke()
+    this.context.closePath()
+  }
+
+  // Fill
+
+  this.fill = (shape, color) => {
+    if (shape.t === 'rect') {
+      this.fillRect(shape, color)
+    }
+  }
+
+  this.fillRect = (rect, color) => {
     this.context.beginPath()
     this.context.moveTo(rect.x, rect.y)
     this.context.lineTo(rect.x + rect.w, rect.y)

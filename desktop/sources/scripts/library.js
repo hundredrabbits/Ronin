@@ -12,8 +12,12 @@ function Library (ronin) {
     return { w, h }
   }
 
-  this.rect = (x, y, w, h) => {
-    return { x, y, w, h }
+  this.rect = (x, y, w, h, t = 'rect') => {
+    return { x, y, w, h, t }
+  }
+
+  this.line = (a, b, t = 'line') => {
+    return { a, b, t }
   }
 
   this.frame = () => {
@@ -24,11 +28,12 @@ function Library (ronin) {
 
   this.clone = (a, b) => {
     ronin.surface.clone(a, b)
+    return [a, b]
   }
 
-  this.stroke = (rect = this.frame(), thickness, color) => {
-    ronin.surface.stroke(rect, thickness, color)
-    return rect
+  this.stroke = (shape = this.frame(), thickness, color) => {
+    ronin.surface.stroke(shape, thickness, color)
+    return shape
   }
 
   this.fill = (rect = this.frame(), color) => {
