@@ -9,6 +9,10 @@ function Surface (ronin) {
   this.install = function (host) {
     host.appendChild(this.el)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
+
+    this.el.addEventListener('mousedown', ronin.commander.onMouseDown, false)
+    this.el.addEventListener('mousemove', ronin.commander.onMouseMove, false)
+    this.el.addEventListener('mouseup', ronin.commander.onMouseUp, false)
   }
 
   this.start = function () {
