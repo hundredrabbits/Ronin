@@ -2,6 +2,10 @@ function Library (ronin) {
   this.clear = (rect = this.select_all()) => {
   }
 
+  this.load = (path, rect) => {
+    console.log(path, rect)
+  }
+
   // Rects
 
   this.pos = (x, y) => {

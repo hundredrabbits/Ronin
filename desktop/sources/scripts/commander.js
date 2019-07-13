@@ -89,6 +89,10 @@ function Commander (ronin) {
     this.cache = this._input.value
   }
 
+  this.injectPath = function (path) {
+    this._input.value = this._input.value.replace('($path)', `(path "${path}")`)
+  }
+
   this.commit = function () {
     let value = this.cache
 
@@ -115,21 +119,25 @@ function Commander (ronin) {
 
   // Events
 
-  this.drag = function (e) {
+  this.drag = (e) => {
     e.stopPropagation()
     e.preventDefault()
     e.dataTransfer.dropEffect = 'copy'
   }
 
-  this.drop = function (e) {
+  this.drop = (e) => {
     e.preventDefault()
     e.stopPropagation()
     const file = e.dataTransfer.files[0]
-    if (!file || !file.name || file.name.indexOf('.lisp') < 0) { console.warn('File', 'Not a .lisp file.'); return }
-    const reader = new FileReader()
-    reader.onload = function (e) {
-      ronin.commander.load(e.target.result)
+    if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
+    if (file.name.indexOf('.lisp') > -1) {
+      const reader = new FileReader()
+      reader.onload = function (e) {
+        ronin.commander.load(e.target.result)
+      }
+      reader.readAsText(file)
+    } else if (file.path) {
+      this.injectPath(file.path)
     }
-    reader.readAsText(file)
   }
 }
