@@ -112,4 +112,8 @@ function Library (ronin) {
   this.clamp = function (val, min, max) {
     return Math.min(max, Math.max(min, val))
   }
+
+  this.step = function (val, step) {
+    return Math.round(val / step) * step
+  }
 }
