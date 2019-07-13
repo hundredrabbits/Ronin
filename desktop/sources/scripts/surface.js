@@ -18,31 +18,38 @@ function Surface (ronin) {
 
   this.update = function () {
     for (const id in this.guides) {
-      this.drawRect(this.guides[id])
+      // this.drawRect(this.guides[id])
     }
   }
 
-  this.drawRect = function (u) {
-    console.log(u)
-    u.x = !u.x ? 0 : u.x
-    u.y = !u.y ? 0 : u.y
-
-    var offset = { x: u.x * 2, y: u.y * 2 }
-    var rect = { w: u.w * 2, h: u.h * 2 }
-
-    // Outline
-
+  this.stroke = (rect, width, color) => {
     this.context.beginPath()
-    this.context.moveTo(offset.x, offset.y)
-    this.context.lineTo(offset.x + rect.w, offset.y)
-    this.context.lineTo(offset.x + rect.w, offset.y + rect.h)
-    this.context.lineTo(offset.x, offset.y + rect.h)
-    this.context.lineTo(offset.x, offset.y)
-    this.context.lineCap = 'round'
-    this.context.lineWidth = 2
-    this.context.strokeStyle = '#f00'
+    this.context.moveTo(rect.x, rect.y)
+    this.context.lineTo(rect.x + rect.w, rect.y)
+    this.context.lineTo(rect.x + rect.w, rect.y + rect.h)
+    this.context.lineTo(rect.x, rect.y + rect.h)
+    this.context.lineTo(rect.x, rect.y)
+    this.context.lineWidth = width
+    this.context.strokeStyle = color
     this.context.stroke()
     this.context.closePath()
+  }
+
+  this.fill = (rect, width, color) => {
+    this.context.beginPath()
+    this.context.moveTo(rect.x, rect.y)
+    this.context.lineTo(rect.x + rect.w, rect.y)
+    this.context.lineTo(rect.x + rect.w, rect.y + rect.h)
+    this.context.lineTo(rect.x, rect.y + rect.h)
+    this.context.lineTo(rect.x, rect.y)
+    this.context.lineWidth = width
+    this.context.fillStyle = color
+    this.context.fill()
+    this.context.closePath()
+  }
+
+  this.clear = function (rect) {
+    this.context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
 
   this.addGuide = function (rect) {

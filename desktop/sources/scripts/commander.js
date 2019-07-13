@@ -15,8 +15,9 @@ function Commander (ronin) {
 
   this.start = function () {
     this._input.value = `
-(clear)
-(stroke (rect 15 15 120 80))
+(stroke (rect 15 15 120 80) 2 "red")
+(fill (rect 30 30 120 80) 2 "blue")
+(clear (rect 45 45 45 45))
 `.trim()
 
     this._status.textContent = 'Idle, RUN(cmd+enter).'
@@ -26,8 +27,10 @@ function Commander (ronin) {
   }
 
   this.run = function (txt = this._input.value) {
+    console.log('========')
     const inter = new Lisp(txt, ronin.library)
-    console.log(inter.toPixels())
+    console.log(inter)
+    inter.toPixels()
   }
 
   this.update = function () {
