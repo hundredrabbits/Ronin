@@ -78,7 +78,7 @@ function Library (ronin) {
     return arr
   }
 
-  // Rects
+  // Shapes
 
   this.pos = (x, y, t = 'pos') => {
     return { x, y }
@@ -90,6 +90,10 @@ function Library (ronin) {
 
   this.rect = (x, y, w, h, t = 'rect') => {
     return { x, y, w, h, t }
+  }
+
+  this.circle = (x, y, r, t = 'circle') => {
+    return { x, y, r, t }
   }
 
   this.line = (a, b, t = 'line') => {

@@ -29,6 +29,8 @@ function Surface (ronin) {
       this.strokeRect(shape, width, color)
     } else if (shape.t === 'line') {
       this.strokeLine(shape, width, color)
+    } else if (shape.t === 'circle') {
+      this.strokeCircle(shape, width, color)
     } else {
       console.warn('Unknown type')
     }
@@ -57,11 +59,22 @@ function Surface (ronin) {
     this.context.closePath()
   }
 
+  this.strokeCircle = function (circle, width, color) {
+    this.context.beginPath()
+    this.context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+    this.context.lineWidth = width
+    this.context.strokeStyle = color
+    this.context.stroke()
+    this.context.closePath()
+  }
+
   // Fill
 
   this.fill = (shape, color) => {
     if (shape.t === 'rect') {
       this.fillRect(shape, color)
+    } else if (shape.t === 'circle') {
+      this.fillCircle(shape, color)
     } else {
       console.warn('Unknown type')
     }
@@ -74,6 +87,14 @@ function Surface (ronin) {
     this.context.lineTo(rect.x + rect.w, rect.y + rect.h)
     this.context.lineTo(rect.x, rect.y + rect.h)
     this.context.lineTo(rect.x, rect.y)
+    this.context.fillStyle = color
+    this.context.fill()
+    this.context.closePath()
+  }
+
+  this.fillCircle = function (circle, color) {
+    this.context.beginPath()
+    this.context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
     this.context.fillStyle = color
     this.context.fill()
     this.context.closePath()
