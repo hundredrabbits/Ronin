@@ -28,8 +28,17 @@ function Library (ronin) {
     console.log(...args)
   }
 
+  // Arrays
   this.map = (fn, arr) => {
     return arr.map(fn)
+  }
+
+  this.first = (arr) => {
+    return arr[0]
+  }
+
+  this.rest = ([_, ...arr]) => {
+    return arr
   }
 
   // Rects
