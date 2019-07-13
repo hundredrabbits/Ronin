@@ -1,4 +1,4 @@
-function Commander () {
+function Commander (ronin) {
   this.el = document.createElement('yu')
   this.el.id = 'commander'
   this._input = document.createElement('textarea')
@@ -32,6 +32,10 @@ function Commander () {
     this._status.textContent = 'Idle, RUN(cmd+enter).'
 
     this._input.focus()
+  }
+
+  this.run = function (txt = this.el.value) {
+    console.log(new Lisp(txt, ronin.library))
   }
 
   this.update = function () {

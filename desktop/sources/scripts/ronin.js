@@ -15,16 +15,15 @@ function Ronin () {
   this.el.id = 'ronin'
 
   this.theme = new Theme(defaultTheme)
-  this.commander = new Commander()
-  this.surface = new Surface()
+  this.commander = new Commander(this)
+  this.surface = new Surface(this)
+  this.library = new Library(this)
 
   this.install = function (host = document.body) {
-    host.appendChild(this.el)
-
     this.commander.install(this.el)
     this.surface.install(this.el)
-
-    this.theme.install(host, () => { this.update() })
+    host.appendChild(this.el)
+    this.theme.install()
   }
 
   this.start = function () {
@@ -32,24 +31,11 @@ function Ronin () {
     this.commander.start()
     this.surface.start()
 
-    // window.addEventListener('dragover', ronin.io.drag_over)
-    // window.addEventListener('drop', ronin.io.drop)
-    // ronin.frame.el.addEventListener('mousedown', ronin.cursor.mouse_down)
-    // ronin.frame.el.addEventListener('mousemove', ronin.cursor.mouse_move)
-    // ronin.frame.el.addEventListener('mouseup', ronin.cursor.mouse_up)
-    // ronin.frame.el.addEventListener('contextmenu', ronin.cursor.mouse_alt)
-    // window.addEventListener('keydown', ronin.keyboard.key_down)
-    // window.addEventListener('keyup', ronin.keyboard.key_up)
-
     console.log('Ronin', 'Started')
   }
 
   this.reset = function () {
     this.theme.reset()
-  }
-
-  this.update = function () {
-
   }
 
   this.load = function (content = this.default()) {
