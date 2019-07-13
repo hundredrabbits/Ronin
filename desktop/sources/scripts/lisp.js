@@ -94,6 +94,7 @@ function Lisp (input, lib) {
   }
 
   this.toPixels = function () {
+    console.log(input)
     return interpret(this.parse(input))
   }
 }

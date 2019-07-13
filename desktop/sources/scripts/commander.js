@@ -32,10 +32,12 @@ function Commander (ronin) {
     this._status.textContent = 'Idle, RUN(cmd+enter).'
 
     this._input.focus()
+    this.run()
   }
 
-  this.run = function (txt = this.el.value) {
-    console.log(new Lisp(txt, ronin.library))
+  this.run = function (txt = this._input.value) {
+    const inter = new Lisp(txt, ronin.library)
+    console.log(inter.toPixels())
   }
 
   this.update = function () {

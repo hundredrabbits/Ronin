@@ -1,5 +1,5 @@
 function Library (ronin) {
-  this.hello = function () {
-
+  this.clear = function () {
+    console.log('clear')
   }
 }
