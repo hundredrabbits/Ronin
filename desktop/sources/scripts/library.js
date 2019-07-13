@@ -9,11 +9,11 @@ function Library (ronin) {
 
   // Rects
 
-  this.pos = (x, y) => {
+  this.pos = (x, y, t = 'pos') => {
     return { x, y }
   }
 
-  this.size = (w, h) => {
+  this.size = (w, h, t = 'size') => {
     return { w, h }
   }
 
@@ -26,11 +26,15 @@ function Library (ronin) {
   }
 
   this.frame = () => {
-    return { x: 0, y: 0, w: Math.floor(window.innerWidth / 2) - 15, h: Math.floor(window.innerHeight) - 30 }
+    return this.rect(0, 0, Math.floor(window.innerWidth / 2) - 15, Math.floor(window.innerHeight) - 30)
   }
 
   this.path = (path) => {
     return path
+  }
+
+  this.scale = (rect, w, h) => {
+    return { x: rect.x, y: rect.y, w: rect.w * w, h: rect.h * h }
   }
 
   // Copy/Paste
@@ -53,5 +57,10 @@ function Library (ronin) {
   this.clear = (rect = this.frame()) => {
     ronin.surface.clear(rect)
     return rect
+  }
+
+  this.echo = function (any) {
+    console.log(any)
+    return any
   }
 }

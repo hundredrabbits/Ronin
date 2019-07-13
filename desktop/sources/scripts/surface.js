@@ -4,8 +4,6 @@ function Surface (ronin) {
   this.ratio = window.devicePixelRatio
   this.context = this.el.getContext('2d')
 
-  this.guides = []
-
   this.install = function (host) {
     host.appendChild(this.el)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
@@ -21,9 +19,7 @@ function Surface (ronin) {
   }
 
   this.update = function () {
-    for (const id in this.guides) {
-      // this.drawRect(this.guides[id])
-    }
+
   }
 
   // Shape
@@ -95,11 +91,6 @@ function Surface (ronin) {
 
   this.clone = function (a, b) {
     this.context.drawImage(this.el, a.x, a.y, a.w, a.h, b.x, b.y, b.w, b.h)
-  }
-
-  this.addGuide = function (rect) {
-    this.guides.push(rect)
-    this.update()
   }
 
   this.resize = function (size) {
