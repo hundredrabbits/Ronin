@@ -15,81 +15,33 @@ function Ronin () {
   this.el.id = 'ronin'
 
   this.theme = new Theme(defaultTheme)
-
-  this.keyboard = new Keyboard()
   this.commander = new Commander()
-  this.cursor = new Cursor()
-  this.docs = new Docs()
+  this.surface = new Surface()
 
-  this.guide = new Guide()
-  this.above = new Layer('above')
-  this.below = new Layer('below')
-
-  this.io = new IO()
-  this.brush = new Brush()
-  this.frame = new Frame()
-  this.path = new Path()
-  this.filter = new Filter()
-  this.type = new Type()
-
-  this.layers = {
-    guide: this.guide,
-    above: this.above,
-    below: this.below,
-    cursor: this.cursor,
-    guide: this.guide
-  }
-
-  this.modules = {
-    brush: this.brush,
-    frame: this.frame,
-    io: this.io,
-    path: this.path,
-    filter: this.filter,
-    type: this.type
-  }
-
-  this.install = function (host) {
-    this.brush.swatch.start()
-
-    document.body.appendChild(this.el)
-
-    this.frame.width = window.innerWidth
-    this.frame.height = window.innerHeight
+  this.install = function (host = document.body) {
+    host.appendChild(this.el)
 
     this.commander.install(this.el)
-    this.frame.install()
+    this.surface.install(this.el)
 
-    this.cursor.target = this.layers.above
-
-    // this.guide.install();
-    this.above.install()
-    this.below.install()
-    this.guide.install()
-
-    this.guide.update()
     this.theme.install(host, () => { this.update() })
   }
 
   this.start = function () {
     this.theme.start()
     this.commander.start()
+    this.surface.start()
 
-    window.addEventListener('dragover', ronin.io.drag_over)
-    window.addEventListener('drop', ronin.io.drop)
-    ronin.frame.el.addEventListener('mousedown', ronin.cursor.mouse_down)
-    ronin.frame.el.addEventListener('mousemove', ronin.cursor.mouse_move)
-    ronin.frame.el.addEventListener('mouseup', ronin.cursor.mouse_up)
-    ronin.frame.el.addEventListener('contextmenu', ronin.cursor.mouse_alt)
-    window.addEventListener('keydown', ronin.keyboard.key_down)
-    window.addEventListener('keyup', ronin.keyboard.key_up)
+    // window.addEventListener('dragover', ronin.io.drag_over)
+    // window.addEventListener('drop', ronin.io.drop)
+    // ronin.frame.el.addEventListener('mousedown', ronin.cursor.mouse_down)
+    // ronin.frame.el.addEventListener('mousemove', ronin.cursor.mouse_move)
+    // ronin.frame.el.addEventListener('mouseup', ronin.cursor.mouse_up)
+    // ronin.frame.el.addEventListener('contextmenu', ronin.cursor.mouse_alt)
+    // window.addEventListener('keydown', ronin.keyboard.key_down)
+    // window.addEventListener('keyup', ronin.keyboard.key_up)
 
     console.log('Ronin', 'Started')
-    this.above.update()
-    this.below.update()
-    this.guide.update()
-
-    this.load()
   }
 
   this.reset = function () {
@@ -102,9 +54,5 @@ function Ronin () {
 
   this.load = function (content = this.default()) {
 
-  }
-
-  this.default = function () {
-    return 'select_layer:below ; fill:#fff ; select_layer:above ; add_cursor:1,1 ; add_cursor:-1,-1'
   }
 }

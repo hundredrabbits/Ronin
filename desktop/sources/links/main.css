@@ -5,19 +5,9 @@ yu { display:block; }
 
 :root { --background: "#222"; --f_high: "#fff";--f_med: "#777";--f_low: "#444";--f_inv: "#000";--b_high: "#000";--b_med: "#affec7";--b_low: "#000";--b_inv: "#affec7"; }  
 
-#cursor { z-index:899; position: absolute; }
-#guide { z-index:810;position: absolute; transition: opacity 250ms; opacity: 0}
-#above { z-index:800; position: absolute; }
-#below { z-index:799; position: absolute; }
-
 #ronin { background:var(--b_low); height: 100vh; width:100vw; }
-#commander { z-index: 9000; top: 15px; position: absolute; transition: all 150ms; left: 15px; width: calc(50vw - 60px); height: calc(100vh - 60px); padding: 15px; border-right: 1px solid #333;}
-#commander textarea { background: none; width: 100%; height: calc(100vh - 75px); resize: none; font-size: 12px;color: white; }
-#commander div#status { color:#555; }
+#ronin #commander { z-index: 9000; top: 15px; position: absolute; transition: all 150ms; left: 15px; width: calc(50vw - 60px); height: calc(100vh - 60px); padding: 15px; border-right: 1px solid #333;}
+#ronin #commander textarea { background: none; width: 100%; height: calc(100vh - 75px); resize: none; font-size: 12px;color: white; }
+#ronin #commander div#status { color:#555; }
 
-#commander.hidden { top:-40px; }
-#commander.visible { top:0px; }
-
-surface { display: block; background:var(--background); position: absolute; top:0px; transition: all 100ms; }
-surface .layer { border-radius: 4px; overflow: hidden; width:100%; height:100%;}
-
+#ronin canvas#surface { background:red; position: absolute; left:50vw; }

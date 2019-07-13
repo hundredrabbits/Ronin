@@ -15,6 +15,8 @@ function Commander () {
 
   this.start = function () {
     this._input.value = `
+(clear)
+
 ; Get Image
 
 (load "../media/test.png" 
@@ -27,7 +29,7 @@ function Commander () {
     (crop 
       (rect 0 0 300 300))))`.trim()
 
-    this._status.textContent = 'Idle.'
+    this._status.textContent = 'Idle, RUN(cmd+enter).'
 
     this._input.focus()
   }
