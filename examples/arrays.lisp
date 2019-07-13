@@ -1,11 +1,11 @@
-(print (map (lambda (a) (add a 1)) (1 2 3)))
+(echo (map (lambda (a) (add a 1)) (1 2 3)))
 
 (
-  (print (first (1 2 3)))
-  (print (rest (1 2 3)))
+  (echo (first (1 2 3)))
+  (echo (rest (1 2 3)))
 )
 
-(print 
+(echo
   (filter 
     (lambda (a) (eq 0 (mod a 2))) 
     (1 2 3 4 5))

@@ -1,11 +1,11 @@
 (
-  (print (lt 3 4))
+  (echo (lt 3 4))
 
-  (print (and 1 2 true 4))
+  (echo (and 1 2 true 4))
 
-  (print (and 1 false 2))
+  (echo (and 1 false 2))
 
-  (print (or false false 2 false))
+  (echo (or false false 2 false))
 
-  (if (gt 1 2) (print "ok") (print "not ok"))
+  (if (gt 1 2) (echo "ok") (echo "not ok"))
 )

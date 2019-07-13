@@ -24,10 +24,6 @@ function Library (ronin) {
     // TODO: Closes Ronin
   }
 
-  this.print = (...args) => {
-    console.log(...args)
-  }
-
   // Logic
 
   this.gt = (a, b) => {
