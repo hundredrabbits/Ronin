@@ -79,6 +79,16 @@ function Surface (ronin) {
     this.context.closePath()
   }
 
+  this.draw = function (path, rect = this.getRect()) {
+    const img = new Image()
+    img.src = path
+    img.onload = () => {
+      const ratio = img.width / img.height
+      const scale = rect.w / img.width
+      this.context.drawImage(img, rect.x, rect.y, rect.w, img.height * scale)
+    }
+  }
+
   this.clear = function (rect = this.getRect()) {
     this.context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }

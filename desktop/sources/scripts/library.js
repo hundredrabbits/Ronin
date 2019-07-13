@@ -2,8 +2,9 @@ function Library (ronin) {
   this.clear = (rect = this.select_all()) => {
   }
 
-  this.load = (path, rect) => {
-    console.log(path, rect)
+  this.draw = (path, rect) => {
+    ronin.surface.draw(path, rect)
+    return rect
   }
 
   // Rects
@@ -26,6 +27,10 @@ function Library (ronin) {
 
   this.frame = () => {
     return { x: 0, y: 0, w: Math.floor(window.innerWidth / 2) - 15, h: Math.floor(window.innerHeight) - 30 }
+  }
+
+  this.path = (path) => {
+    return path
   }
 
   // Copy/Paste
