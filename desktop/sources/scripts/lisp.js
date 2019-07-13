@@ -1,6 +1,9 @@
 'use strict'
 
 function Lisp (input, lib) {
+  const path = require('path')
+  const fs = require('fs')
+
   const TYPES = { identifier: 0, number: 1, string: 2, bool: 3 }
   const Context = function (scope, parent) {
     this.scope = scope
@@ -16,6 +19,13 @@ function Lisp (input, lib) {
   }
 
   const special = {
+    run: (input, context) => {
+      const file = fs.readFileSync(
+        path.resolve(input[1].value),
+        {encoding: "utf-8"})
+
+      return interpret(this.parse(file), context)
+    },
     let: function (input, context) {
       const letContext = input[1].reduce(function (acc, x) {
         acc.scope[x[0].value] = interpret(x[1], context)
