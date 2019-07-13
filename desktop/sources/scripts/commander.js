@@ -1,5 +1,5 @@
 function Commander (ronin) {
-  this.el = document.createElement('yu')
+  this.el = document.createElement('div')
   this.el.id = 'commander'
   this._input = document.createElement('textarea')
   this._status = document.createElement('div')

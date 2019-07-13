@@ -11,7 +11,7 @@ function Ronin () {
     b_inv: '#ffb545'
   }
 
-  this.el = document.createElement('yu')
+  this.el = document.createElement('div')
   this.el.id = 'ronin'
 
   this.theme = new Theme(defaultTheme)
