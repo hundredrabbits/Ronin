@@ -6,4 +6,6 @@
   (print (and 1 false 2))
 
   (print (or false false 2 false))
+
+  (if (gt 1 2) (print "ok") (print "not ok"))
 )

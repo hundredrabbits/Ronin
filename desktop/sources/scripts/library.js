@@ -66,6 +66,10 @@ function Library (ronin) {
     return arr.map(fn)
   }
 
+  this.filter = (fn, arr) => {
+    return arr.filter(fn)
+  }
+
   this.first = (arr) => {
     return arr[0]
   }
@@ -155,7 +159,12 @@ function Library (ronin) {
   this.mul = function (a, b) {
     return a * b
   }
+
   this.div = function (a, b) {
     return a / b
+  }
+
+  this.mod = function (a, b) {
+    return a % b
   }
 }

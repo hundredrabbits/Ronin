@@ -5,6 +5,12 @@
   (print (rest (1 2 3)))
 )
 
+(print 
+  (filter 
+    (lambda (a) (eq 0 (mod a 2))) 
+    (1 2 3 4 5))
+)
+
 (
   (clear) 
   (map (lambda (a)
