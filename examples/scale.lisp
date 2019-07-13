@@ -1,3 +1,3 @@
 ; scale file
 
-(echo (scale ($rect) 0.5 0.5))
+(open ($path) 0.25 0.25)

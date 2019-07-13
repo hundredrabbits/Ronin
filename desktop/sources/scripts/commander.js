@@ -20,9 +20,11 @@ function Commander (ronin) {
     this._status.textContent = 'Idle. (zoom 100%)'
     this._input.focus()
     this.run()
+    this.hide()
   }
 
   this.run = function (txt = this._input.value) {
+    if (txt.indexOf('$') > -1) { console.log('Contains $'); return }
     console.log('========')
     const inter = new Lisp(txt, ronin.library)
     inter.toPixels()
@@ -31,6 +33,10 @@ function Commander (ronin) {
   this.load = function (txt) {
     this._input.value = txt
     this.run()
+  }
+
+  this.setStatus = function (msg) {
+    this._status.textContent = `${msg}`
   }
 
   this.update = function () {
@@ -117,6 +123,26 @@ function Commander (ronin) {
     this._input.value = value
   }
 
+  // Display
+
+  this.show = function () {
+    console.log('show')
+    this.el.className = ''
+  }
+
+  this.hide = function () {
+    console.log('hide')
+    this.el.className = 'hidden'
+  }
+
+  this.toggle = function () {
+    if (this.el.className === 'hidden') {
+      this.show()
+    } else {
+      this.hide()
+    }
+  }
+
   // Events
 
   this.drag = (e) => {
@@ -132,12 +158,14 @@ function Commander (ronin) {
     if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
     if (file.name.indexOf('.lisp') > -1) {
       const reader = new FileReader()
-      reader.onload = function (e) {
-        ronin.commander.load(e.target.result)
+      reader.onload = (e) => {
+        this.load(e.target.result)
+        this.show()
       }
       reader.readAsText(file)
     } else if (file.path) {
       this.injectPath(file.path)
+      this.show()
     }
   }
 }

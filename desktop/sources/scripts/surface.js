@@ -29,6 +29,8 @@ function Surface (ronin) {
       this.strokeRect(shape, width, color)
     } else if (shape.t === 'line') {
       this.strokeLine(shape, width, color)
+    } else {
+      console.warn('Unknown type')
     }
   }
 
@@ -60,6 +62,8 @@ function Surface (ronin) {
   this.fill = (shape, color) => {
     if (shape.t === 'rect') {
       this.fillRect(shape, color)
+    } else {
+      console.warn('Unknown type')
     }
   }
 
@@ -75,7 +79,19 @@ function Surface (ronin) {
     this.context.closePath()
   }
 
-  this.draw = function (path, rect = this.getRect()) {
+  // IO
+
+  this.open = function (path, scale) {
+    const img = new Image()
+    img.src = path
+    img.onload = () => {
+      ronin.log(`Image(${img.width}x${img.height}), scale:${scale.w}:${scale.h}`)
+      this.resize({ w: img.width * scale.w, h: img.height * scale.h })
+      this.context.drawImage(img, 0, 0, img.width * scale.w, img.height * scale.h)
+    }
+  }
+
+  this.draw = function (path, rect = this.getFrame()) {
     const img = new Image()
     img.src = path
     img.onload = () => {
@@ -85,7 +101,7 @@ function Surface (ronin) {
     }
   }
 
-  this.clear = function (rect = this.getRect()) {
+  this.clear = function (rect = this.getFrame()) {
     this.context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
 
@@ -101,14 +117,16 @@ function Surface (ronin) {
   }
 
   this.maximize = function () {
-    this.resize(this.getRect())
+    this.resize(this.getFrame())
   }
 
   this.onResize = function () {
-    this.maximize()
+    if (ronin.commander._input.value === '') {
+      this.maximize()
+    }
   }
 
-  this.getRect = function () {
-    return { x: 0, y: 0, w: Math.floor(window.innerWidth / 2) - 30, h: Math.floor(window.innerHeight) - 60 }
+  this.getFrame = function () {
+    return { x: 0, y: 0, w: window.innerWidth - 60, h: window.innerHeight - 60, t: 'rect' }
   }
 }

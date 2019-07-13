@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="links/reset.css"/>
     <link rel="stylesheet" type="text/css" href="links/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="links/main.css"/>
+    <link rel="stylesheet" type="text/css" href="links/theme.css"/>
     <title>Ronin</title>
   </head>
   <body>
@@ -41,6 +42,7 @@
       ronin.controller.addRole('default', 'Edit', 'selectall')
 
       ronin.controller.add("default","Project","Run",() => { ronin.commander.run(); },"CmdOrCtrl+R");
+      ronin.controller.add("default","Commander","Toggle",() => { ronin.commander.toggle(); },"CmdOrCtrl+K");
 
       ronin.controller.commit();
 

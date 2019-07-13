@@ -2,9 +2,26 @@ function Library (ronin) {
   this.clear = (rect = this.select_all()) => {
   }
 
+  // IO
+
+  this.open = (path, w = 1, h = 1) => {
+    ronin.surface.open(path, { w, h })
+    return path
+  }
+
+  this.save = function (path, type = 'jpg') {
+    console.log('save', path)
+    // TODO: Save file
+    return path
+  }
+
   this.draw = (path, rect) => {
     ronin.surface.draw(path, rect)
     return rect
+  }
+
+  this.exit = () => {
+    // TODO: Closes Ronin
   }
 
   // Rects
@@ -26,7 +43,12 @@ function Library (ronin) {
   }
 
   this.frame = () => {
-    return this.rect(0, 0, Math.floor(window.innerWidth / 2) - 15, Math.floor(window.innerHeight) - 30)
+    return ronin.surface.getFrame()
+  }
+
+  this.center = () => {
+    const rect = this.frame()
+    return this.pos(rect.w / 2, rect.h / 2)
   }
 
   this.path = (path) => {
@@ -62,5 +84,11 @@ function Library (ronin) {
   this.echo = function (any) {
     console.log(any)
     return any
+  }
+
+  //
+
+  this.of = function (h, k) {
+    return h[k]
   }
 }

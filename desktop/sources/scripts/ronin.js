@@ -1,6 +1,6 @@
 function Ronin () {
   const defaultTheme = {
-    background: '#eee',
+    background: '#222',
     f_high: '#000',
     f_med: '#999',
     f_low: '#ccc',
@@ -20,8 +20,12 @@ function Ronin () {
   this.library = new Library(this)
 
   this.install = function (host = document.body) {
-    this.commander.install(this.el)
-    this.surface.install(this.el)
+    this._wrapper = document.createElement('div')
+    this._wrapper.id = 'wrapper'
+
+    this.commander.install(this._wrapper)
+    this.surface.install(this._wrapper)
+    this.el.appendChild(this._wrapper)
     host.appendChild(this.el)
     this.theme.install()
   }
@@ -36,6 +40,10 @@ function Ronin () {
 
   this.reset = function () {
     this.theme.reset()
+  }
+
+  this.log = function (msg) {
+    this.commander.setStatus(msg)
   }
 
   this.load = function (content = this.default()) {
