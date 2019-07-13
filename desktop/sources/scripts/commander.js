@@ -16,18 +16,8 @@ function Commander (ronin) {
   this.start = function () {
     this._input.value = `
 (clear)
-
-; Get Image
-
-(load "../media/test.png" 
-  (rect 0 0 600 600))
-
-; Some operations
-
-(scale 0.5 0.5 
-  (resize 150 150 
-    (crop 
-      (rect 0 0 300 300))))`.trim()
+(stroke (rect 15 15 120 80))
+`.trim()
 
     this._status.textContent = 'Idle, RUN(cmd+enter).'
 
