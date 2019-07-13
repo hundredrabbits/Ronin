@@ -11,17 +11,13 @@ function Commander (ronin) {
     host.appendChild(this.el)
 
     this._input.addEventListener('input', this.onInput)
+
+    window.addEventListener('dragover', this.drag)
+    window.addEventListener('drop', this.drop)
   }
 
   this.start = function () {
-    this._input.value = `
-(stroke (rect 15 15 120 80) 2 "red")
-(fill (rect 30 30 120 80) 2 "blue")
-(clear (rect 45 45 45 45))
-`.trim()
-
     this._status.textContent = 'Idle, RUN(cmd+enter).'
-
     this._input.focus()
     this.run()
   }
@@ -31,6 +27,11 @@ function Commander (ronin) {
     const inter = new Lisp(txt, ronin.library)
     console.log(inter)
     inter.toPixels()
+  }
+
+  this.load = function (txt) {
+    this._input.value = txt
+    this.run()
   }
 
   this.update = function () {
@@ -43,5 +44,25 @@ function Commander (ronin) {
 
   this.getQuery = function () {
 
+  }
+
+  // Events
+
+  this.drag = function (e) {
+    e.stopPropagation()
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+  }
+
+  this.drop = function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+    const file = e.dataTransfer.files[0]
+    if (!file || !file.name || file.name.indexOf('.lisp') < 0) { console.warn('File', 'Not a .lisp file.'); return }
+    const reader = new FileReader()
+    reader.onload = function (e) {
+      ronin.commander.load(e.target.result)
+    }
+    reader.readAsText(file)
   }
 }
