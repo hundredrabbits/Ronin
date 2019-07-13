@@ -94,18 +94,18 @@ function Library (ronin) {
 
   // Math
 
-  this.add = function (a, b) {
-    return a + b
+  this.add = function (...args) {
+    return args.reduce((sum, val) => sum + val)
   }
 
-  this.sub = function (a, b) {
-    return a - b
+  this.sub = function (...args) {
+    return args.reduce((sum, val) => sum - val)
   }
 
-  this.mul = function (a, b) {
-    return a * b
+  this.mul = function (...args) {
+    return args.reduce((sum, val) => sum * val)
   }
-  this.div = function (a, b) {
-    return a / b
+  this.div = function (...args) {
+    return args.reduce((sum, val) => sum / val)
   }
 }
