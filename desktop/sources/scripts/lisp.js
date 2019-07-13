@@ -45,6 +45,13 @@ function Lisp (input, lib) {
 
         return interpret(input[2], new Context(lambdaScope, context))
       }
+    },
+
+    if: function (input, context) {
+      if (interpret(input[1], context)) {
+        return interpret(input[2], context)
+      }
+      return interpret(input[3], context)
     }
   }
 
