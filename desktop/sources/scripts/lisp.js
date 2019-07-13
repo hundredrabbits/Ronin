@@ -22,7 +22,7 @@ function Lisp (input, lib) {
     run: (input, context) => {
       const file = fs.readFileSync(
         path.resolve(input[1].value),
-        {encoding: "utf-8"})
+        { encoding: 'utf-8' })
 
       return interpret(this.parse(file), context)
     },

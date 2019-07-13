@@ -60,7 +60,7 @@ function Theme (_default) {
     e.stopPropagation()
     const file = e.dataTransfer.files[0]
     if (!file || !file.name) { console.warn('Theme', 'Unnamed file.'); return }
-    if (file.name.indexOf('.thm') < 0 && file.name.indexOf('.svg') < 0) { console.warn('Theme', 'Skipped, not a theme'); return }
+    if (file.name.indexOf('.thm') < 0 && file.name.indexOf('.svg') < 0) { return }
     const reader = new FileReader()
     reader.onload = function (e) {
       themer.load(e.target.result)

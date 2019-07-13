@@ -4,16 +4,17 @@ Ronin is a graphic design tool under development.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>
 
-## Themes
+## Electron Build
 
-Drag a .thm file on the window to install it.
-
-## Controls
-
-<img src='https://cdn.rawgit.com/hundredrabbits/Ronin/master/LAYOUT.svg?v=1' width="600"/>
+```
+cd desktop
+npm install
+npm start
+```
 
 ## Extras
 
-- Download additional [themes](https://github.com/hundredrabbits/Themes).
+- This application supports the [Ecosystem Theme](https://github.com/hundredrabbits/Themes).
 - Support this project through [Patreon](https://patreon.com/100).
 - See the [License](LICENSE.md) file for license rights and limitations (MIT).
+- Pull Requests are welcome!

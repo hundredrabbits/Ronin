@@ -131,11 +131,6 @@ function Library (ronin) {
     return rect
   }
 
-  this.echo = function (any) {
-    console.log(any)
-    return any
-  }
-
   //
 
   this.of = function (h, k) {
@@ -155,7 +150,7 @@ function Library (ronin) {
   this.mul = function (...args) {
     return args.reduce((sum, val) => sum * val)
   }
-  
+
   this.div = function (...args) {
     return args.reduce((sum, val) => sum / val)
   }
@@ -170,5 +165,21 @@ function Library (ronin) {
 
   this.step = function (val, step) {
     return Math.round(val / step) * step
+  }
+
+  // Generics
+
+  this.echo = function (...args) {
+    console.log(args.reduce((acc, val) => { return acc + val + ' ' }, ''))
+    return args
+  }
+
+  this.test = function (name, a, b) {
+    if (a !== b) {
+      console.warn('failed ' + name, a, b)
+    } else {
+      console.log('passed ' + name, a, b)
+    }
+    return a === b
   }
 }
