@@ -24,6 +24,14 @@ function Library (ronin) {
     // TODO: Closes Ronin
   }
 
+  this.print = (...args) => {
+    console.log(...args)
+  }
+
+  this.map = (fn, arr) => {
+    return arr.map(fn)
+  }
+
   // Rects
 
   this.pos = (x, y, t = 'pos') => {
