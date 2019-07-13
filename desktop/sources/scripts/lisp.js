@@ -57,7 +57,6 @@ function Lisp (input, lib) {
   }
 
   const interpret = function (input, context) {
-    console.log(input, context)
     if (context === undefined) {
       return interpret(input, new Context(lib))
     } else if (input instanceof Array) {
