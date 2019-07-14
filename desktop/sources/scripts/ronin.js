@@ -49,6 +49,7 @@ function Ronin () {
   }
 
   this.log = function (msg) {
+    console.log(msg)
     this.commander.setStatus(msg)
   }
 

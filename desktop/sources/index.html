@@ -41,6 +41,7 @@
       ronin.controller.addRole('default', 'Edit', 'delete')
       ronin.controller.addRole('default', 'Edit', 'selectall')
       ronin.controller.add("default","Project","Run",() => { ronin.commander.run(); },"CmdOrCtrl+R");
+      ronin.controller.add("default","Project","Reload Run",() => { ronin.source.revert(); ronin.commander.run(); },"CmdOrCtrl+Shift+R");
       ronin.controller.add("default","Commander","Toggle",() => { ronin.commander.toggle(); },"CmdOrCtrl+K");
       ronin.controller.commit();
       ronin.install(document.body);
