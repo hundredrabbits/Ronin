@@ -14,6 +14,11 @@
 (
   (clear) 
   (map (lambda (a)
-    (stroke (rect (mul a 30) 20 50 50) 1 "red"))
-    (5 10 15 20))
+    (stroke 
+      (rect 
+        (mul a 10) 
+        (add 50 (mul (sin a) 40)) 
+        a 
+        (add 20 (mul (cos a) 50))) 1 "red"))
+    (range 0 200 5)))
 )
