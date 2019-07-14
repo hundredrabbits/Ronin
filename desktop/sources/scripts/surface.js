@@ -1,15 +1,19 @@
 function Surface (ronin) {
   this.el = document.createElement('canvas')
   this.el.id = 'surface'
+  this._guide = document.createElement('canvas')
+  this._guide.id = 'guide'
   this.ratio = window.devicePixelRatio
   this.context = this.el.getContext('2d')
+  this.guide = this.el.getContext('2d')
 
   this.install = function (host) {
     host.appendChild(this.el)
+    host.appendChild(this._guide)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
-    this.el.addEventListener('mousedown', ronin.commander.onMouseDown, false)
-    this.el.addEventListener('mousemove', ronin.commander.onMouseMove, false)
-    this.el.addEventListener('mouseup', ronin.commander.onMouseUp, false)
+    this._guide.addEventListener('mousedown', ronin.commander.onMouseDown, false)
+    this._guide.addEventListener('mousemove', ronin.commander.onMouseMove, false)
+    this._guide.addEventListener('mouseup', ronin.commander.onMouseUp, false)
   }
 
   this.start = function () {
@@ -32,54 +36,54 @@ function Surface (ronin) {
 
   // Shape
 
-  this.stroke = (shape, width, color) => {
-    this.context.beginPath()
-    this.trace(shape)
-    this.context.lineWidth = width
-    this.context.strokeStyle = color
-    this.context.stroke()
-    this.context.closePath()
+  this.stroke = (shape, width, color, context = this.context) => {
+    context.beginPath()
+    this.trace(shape, context)
+    context.lineWidth = width
+    context.strokeStyle = color
+    context.stroke()
+    context.closePath()
   }
 
   // Fill
 
-  this.fill = (shape, color) => {
-    this.context.beginPath()
-    this.trace(shape)
-    this.context.fillStyle = color
-    this.context.fill()
-    this.context.closePath()
+  this.fill = (shape, color, context) => {
+    context.beginPath()
+    this.trace(shape, context)
+    context.fillStyle = color
+    context.fill()
+    context.closePath()
   }
 
   // Tracers
 
-  this.trace = function (shape) {
+  this.trace = function (shape, context) {
     if (shape.t === 'rect') {
-      this.traceRect(shape)
+      this.traceRect(shape, context)
     } else if (shape.t === 'line') {
-      this.traceLine(shape)
+      this.traceLine(shape, context)
     } else if (shape.t === 'circle') {
-      this.traceCircle(shape)
+      this.traceCircle(shape, context)
     } else {
       console.warn('Unknown type')
     }
   }
 
-  this.traceRect = function (rect) {
-    this.context.moveTo(rect.x, rect.y)
-    this.context.lineTo(rect.x + rect.w, rect.y)
-    this.context.lineTo(rect.x + rect.w, rect.y + rect.h)
-    this.context.lineTo(rect.x, rect.y + rect.h)
-    this.context.lineTo(rect.x, rect.y)
+  this.traceRect = function (rect, context) {
+    context.moveTo(rect.x, rect.y)
+    context.lineTo(rect.x + rect.w, rect.y)
+    context.lineTo(rect.x + rect.w, rect.y + rect.h)
+    context.lineTo(rect.x, rect.y + rect.h)
+    context.lineTo(rect.x, rect.y)
   }
 
-  this.traceLine = function (line) {
-    this.context.moveTo(line.a.x, line.a.y)
-    this.context.lineTo(line.b.x, line.b.y)
+  this.traceLine = function (line, context) {
+    context.moveTo(line.a.x, line.a.y)
+    context.lineTo(line.b.x, line.b.y)
   }
 
-  this.traceCircle = function (circle) {
-    this.context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+  this.traceCircle = function (circle, context) {
+    context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
   }
 
   // IO
@@ -107,8 +111,12 @@ function Surface (ronin) {
     }
   }
 
-  this.clear = function (rect = this.getFrame()) {
-    this.context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  this.clear = function (rect = this.getFrame(), context = this.context) {
+    context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+
+  this.clearGuide = function () {
+    this.clear(ronin.surface.getFrame(), ronin.surface.guide)
   }
 
   this.clone = function (a, b) {
@@ -120,6 +128,10 @@ function Surface (ronin) {
     this.el.height = size.h
     this.el.style.width = size.w + 'px'
     this.el.style.height = size.h + 'px'
+    this._guide.width = size.w
+    this._guide.height = size.h
+    this._guide.style.width = size.w + 'px'
+    this._guide.style.height = size.h + 'px'
   }
 
   this.maximize = function () {
