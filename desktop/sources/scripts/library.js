@@ -15,8 +15,8 @@ function Library (ronin) {
     return path
   }
 
-  this.draw = (path, rect) => {
-    ronin.surface.draw(path, rect)
+  this.draw = (path, rect, callback) => {
+    ronin.surface.draw(path, rect, callback)
     return rect
   }
 
