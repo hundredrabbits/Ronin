@@ -132,6 +132,10 @@ function Library (ronin) {
     return { a, b, t }
   }
 
+  this.text = (x, y, g, s, f = 'Arial', t = 'text') => {
+    return { x, y, g, s, f, t }
+  }
+
   this.frame = () => {
     return ronin.surface.getFrame()
   }

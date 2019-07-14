@@ -41,17 +41,27 @@ function Surface (ronin) {
     this.trace(shape, context)
     context.lineWidth = width
     context.strokeStyle = color
-    context.stroke()
+    if (shape.t === 'text') {
+      context.font = `${shape.g}px ${shape.f}`
+      context.strokeText(shape.s, shape.x, shape.y)
+    } else {
+      context.stroke()
+    }
     context.closePath()
   }
 
   // Fill
 
-  this.fill = (shape, color, context) => {
+  this.fill = (shape, color, context = this.context) => {
     context.beginPath()
-    this.trace(shape, context)
     context.fillStyle = color
-    context.fill()
+    this.trace(shape, context)
+    if (shape.t === 'text') {
+      context.font = `${shape.g}px ${shape.f}`
+      context.fillText(shape.s, shape.x, shape.y)
+    } else {
+      context.fill()
+    }
     context.closePath()
   }
 
@@ -64,6 +74,8 @@ function Surface (ronin) {
       this.traceLine(shape, context)
     } else if (shape.t === 'circle') {
       this.traceCircle(shape, context)
+    } else if (shape.t === 'text') {
+      this.traceText(shape, context)
     } else {
       console.warn('Unknown type')
     }
@@ -84,6 +96,10 @@ function Surface (ronin) {
 
   this.traceCircle = function (circle, context) {
     context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+  }
+
+  this.traceText = function (text, context) {
+
   }
 
   // IO
