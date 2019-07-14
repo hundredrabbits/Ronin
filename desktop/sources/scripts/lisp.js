@@ -34,6 +34,10 @@ function Lisp (input, lib) {
 
       return interpret(input[2], letContext)
     },
+    def: function (input, context) {
+      context.scope[input[1].value] = input[2].value
+      return input[2]
+    },
     lambda: function (input, context) {
       return function () {
         const lambdaArguments = arguments

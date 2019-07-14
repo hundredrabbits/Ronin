@@ -14,7 +14,7 @@
   (test "clamp" (clamp 12 4 8) 8)
   (test "step" (step 12 10) 10)
   (test "PI" TWO_PI (mul 2 PI))
-  
+
 ; Logic
 
   (test "lt" (lt 3 4) true)
@@ -37,4 +37,9 @@
   (test "range simple" (range 0 4) (0 1 2 3 4))
   (test "range with step" (range 0 4 2) (0 2 4))
   (test "range with negative step" (range 0 -4 -1) (0 -1 -2 -3 -4))
+
+; Scope
+
+  (def aaa 123)
+  (test "def" aaa 123)
 )
