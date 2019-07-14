@@ -70,6 +70,10 @@ function Library (ronin) {
     return arr.filter(fn)
   }
 
+  this.reduce = (fn, arr, acc = 0) => {
+    return arr.reduce(fn, acc)
+  }
+
   this.first = (arr) => {
     return arr[0]
   }
