@@ -25,43 +25,8 @@ function Surface (ronin) {
   // Shape
 
   this.stroke = (shape, width, color) => {
-    if (shape.t === 'rect') {
-      this.strokeRect(shape, width, color)
-    } else if (shape.t === 'line') {
-      this.strokeLine(shape, width, color)
-    } else if (shape.t === 'circle') {
-      this.strokeCircle(shape, width, color)
-    } else {
-      console.warn('Unknown type')
-    }
-  }
-
-  this.strokeRect = (rect, width, color) => {
     this.context.beginPath()
-    this.context.moveTo(rect.x, rect.y)
-    this.context.lineTo(rect.x + rect.w, rect.y)
-    this.context.lineTo(rect.x + rect.w, rect.y + rect.h)
-    this.context.lineTo(rect.x, rect.y + rect.h)
-    this.context.lineTo(rect.x, rect.y)
-    this.context.lineWidth = width
-    this.context.strokeStyle = color
-    this.context.stroke()
-    this.context.closePath()
-  }
-
-  this.strokeLine = function (line, width, color) {
-    this.context.beginPath()
-    this.context.moveTo(line.a.x, line.a.y)
-    this.context.lineTo(line.b.x, line.b.y)
-    this.context.lineWidth = width
-    this.context.strokeStyle = color
-    this.context.stroke()
-    this.context.closePath()
-  }
-
-  this.strokeCircle = function (circle, width, color) {
-    this.context.beginPath()
-    this.context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+    this.trace(shape)
     this.context.lineWidth = width
     this.context.strokeStyle = color
     this.context.stroke()
@@ -71,33 +36,42 @@ function Surface (ronin) {
   // Fill
 
   this.fill = (shape, color) => {
+    this.context.beginPath()
+    this.trace(shape)
+    this.context.fillStyle = color
+    this.context.fill()
+    this.context.closePath()
+  }
+
+  // Tracers
+
+  this.trace = function (shape) {
     if (shape.t === 'rect') {
-      this.fillRect(shape, color)
+      this.traceRect(shape)
+    } else if (shape.t === 'line') {
+      this.traceLine(shape)
     } else if (shape.t === 'circle') {
-      this.fillCircle(shape, color)
+      this.traceCircle(shape)
     } else {
       console.warn('Unknown type')
     }
   }
 
-  this.fillRect = (rect, color) => {
-    this.context.beginPath()
+  this.traceRect = function (rect) {
     this.context.moveTo(rect.x, rect.y)
     this.context.lineTo(rect.x + rect.w, rect.y)
     this.context.lineTo(rect.x + rect.w, rect.y + rect.h)
     this.context.lineTo(rect.x, rect.y + rect.h)
     this.context.lineTo(rect.x, rect.y)
-    this.context.fillStyle = color
-    this.context.fill()
-    this.context.closePath()
   }
 
-  this.fillCircle = function (circle, color) {
-    this.context.beginPath()
+  this.traceLine = function (line) {
+    this.context.moveTo(line.a.x, line.a.y)
+    this.context.lineTo(line.b.x, line.b.y)
+  }
+
+  this.traceCircle = function (circle) {
     this.context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
-    this.context.fillStyle = color
-    this.context.fill()
-    this.context.closePath()
   }
 
   // IO

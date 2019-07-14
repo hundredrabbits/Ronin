@@ -34,7 +34,6 @@ function Lisp (input, lib) {
 
       return interpret(input[2], letContext)
     },
-
     lambda: function (input, context) {
       return function () {
         const lambdaArguments = arguments
@@ -46,7 +45,6 @@ function Lisp (input, lib) {
         return interpret(input[2], new Context(lambdaScope, context))
       }
     },
-
     if: function (input, context) {
       if (interpret(input[1], context)) {
         return interpret(input[2], context)
