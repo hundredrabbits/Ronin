@@ -207,7 +207,7 @@ function Library (ronin) {
 
   this.PI = Math.PI
 
-  this.TWO_PI = Math.PI
+  this.TWO_PI = Math.PI * 2
 
   // Generics
 

@@ -13,7 +13,8 @@
   (test "mod" (mod 6 4) 2)
   (test "clamp" (clamp 12 4 8) 8)
   (test "step" (step 12 10) 10)
-
+  (test "PI" TWO_PI (mul 2 PI))
+  
 ; Logic
 
   (test "lt" (lt 3 4) true)
