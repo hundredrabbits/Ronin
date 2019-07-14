@@ -15,13 +15,23 @@ function Controller () {
   this.add = function (mode, cat, label, fn, accelerator) {
     if (!this.menu[mode]) { this.menu[mode] = {} }
     if (!this.menu[mode][cat]) { this.menu[mode][cat] = {} }
-    this.menu[mode][cat][label] = { fn: fn, accelerator: accelerator }
+    this.menu[mode][cat][label] = { fn: function (_menuItem, browserWindow) {
+      browserWindow.webContents.focus()
+      fn.apply(this, arguments)
+    },
+    accelerator: accelerator }
   }
 
   this.addRole = function (mode, cat, label) {
     if (!this.menu[mode]) { this.menu[mode] = {} }
     if (!this.menu[mode][cat]) { this.menu[mode][cat] = {} }
     this.menu[mode][cat][label] = { role: label }
+  }
+
+  this.addSpacer = function (mode, cat, label, type = 'separator') {
+    if (!this.menu[mode]) { this.menu[mode] = {} }
+    if (!this.menu[mode][cat]) { this.menu[mode][cat] = {} }
+    this.menu[mode][cat][label] = { type: type }
   }
 
   this.clearCat = function (mode, cat) {
@@ -42,6 +52,8 @@ function Controller () {
         const option = m[cat][name]
         if (option.role) {
           submenu.push({ role: option.role })
+        } else if (option.type) {
+          submenu.push({ type: option.type })
         } else {
           submenu.push({ label: name, accelerator: option.accelerator, click: option.fn })
         }
@@ -52,10 +64,11 @@ function Controller () {
   }
 
   this.commit = function () {
+    console.log('Controller', 'Changing..')
     this.app.injectMenu(this.format())
   }
 
-  this.accelerator_for_key = function (key, menu) {
+  this.accelerator = function (key, menu) {
     const acc = { basic: null, ctrl: null }
     for (cat in menu) {
       const options = menu[cat]
@@ -67,6 +80,9 @@ function Controller () {
     }
     return acc
   }
-}
 
-module.exports = new Controller()
+  this.docs = function () {
+    // TODO
+    console.log(this.menu.default)
+  }
+}
