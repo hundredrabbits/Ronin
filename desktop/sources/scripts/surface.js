@@ -150,7 +150,7 @@ function Surface (ronin) {
     this.context.drawImage(this.el, a.x, a.y, a.w, a.h, b.x, b.y, b.w, b.h)
   }
 
-  this.resize = function (size) {
+  this.resize = function (size, fit = false) {
     this.el.width = size.w
     this.el.height = size.h
     this.el.style.width = size.w + 'px'
@@ -159,6 +159,15 @@ function Surface (ronin) {
     this._guide.height = size.h
     this._guide.style.width = size.w + 'px'
     this._guide.style.height = size.h + 'px'
+    if (fit === true) {
+      this.fitWindow(size)
+    }
+  }
+
+  this.fitWindow = function (size) {
+    const win = require('electron').remote.getCurrentWindow()
+    const pad = { w: 60, h: 60 }
+    win.setSize(size.w + pad.w, size.h + pad.h, false)
   }
 
   this.maximize = function () {

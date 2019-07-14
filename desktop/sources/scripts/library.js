@@ -26,6 +26,11 @@ function Library (ronin) {
     return rect
   }
 
+  this.resize = (rect) => {
+    ronin.surface.resize(rect, true)
+    return rect
+  }
+
   this.select = (rect = this.frame()) => {
     return ronin.surface.select(rect)
   }
@@ -132,13 +137,15 @@ function Library (ronin) {
     return { a, b, t }
   }
 
+  this.text = (x, y, g, s, f = 'Arial', t = 'text') => {
+    return { x, y, g, s, f, t }
+  }
+
   this.svg = (d, t = 'svg') => {
     return { d, t }
   }
 
-  this.text = (x, y, g, s, f = 'Arial', t = 'text') => {
-    return { x, y, g, s, f, t }
-  }
+  // Helpers
 
   this.frame = () => {
     return ronin.surface.getFrame()
