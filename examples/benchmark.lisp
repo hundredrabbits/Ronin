@@ -41,5 +41,7 @@
 ; Scope
 
   (def aaa 123)
-  (test "def" aaa 123)
+  (def addOne (lambda (a) (add a 1)))
+  (test "def - value" aaa 123)
+  (test "def - func" (addOne 4) 5)
 )
