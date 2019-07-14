@@ -132,6 +132,10 @@ function Library (ronin) {
     return { a, b, t }
   }
 
+  this.svg = (d, t = 'svg') => {
+    return { d, t }
+  }
+
   this.text = (x, y, g, s, f = 'Arial', t = 'text') => {
     return { x, y, g, s, f, t }
   }

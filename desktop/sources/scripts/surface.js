@@ -44,6 +44,10 @@ function Surface (ronin) {
     if (shape.t === 'text') {
       context.font = `${shape.g}px ${shape.f}`
       context.strokeText(shape.s, shape.x, shape.y)
+    } else if (shape.t === 'svg') {
+      context.lineWidth = width
+      context.strokeStyle = color
+      context.stroke(new Path2D(shape.d))
     } else {
       context.stroke()
     }
@@ -59,6 +63,10 @@ function Surface (ronin) {
     if (shape.t === 'text') {
       context.font = `${shape.g}px ${shape.f}`
       context.fillText(shape.s, shape.x, shape.y)
+    } else if (shape.t === 'svg') {
+      context.lineWidth = width
+      context.fillStyle = color
+      context.fill(new Path2D(shape.d))
     } else {
       context.fill()
     }
@@ -76,6 +84,8 @@ function Surface (ronin) {
       this.traceCircle(shape, context)
     } else if (shape.t === 'text') {
       this.traceText(shape, context)
+    } else if (shape.t === 'svg') {
+      this.traceSVG(shape, context)
     } else {
       console.warn('Unknown type')
     }
@@ -99,6 +109,10 @@ function Surface (ronin) {
   }
 
   this.traceText = function (text, context) {
+
+  }
+
+  this.traceSVG = function (text, context) {
 
   }
 
