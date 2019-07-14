@@ -56,6 +56,28 @@ function Ronin () {
   this.load = function (content = this.default()) {
 
   }
+
+  // Zoom
+
+  this.modZoom = function (mod = 0, set = false) {
+    try {
+      const { webFrame } = require('electron')
+      const currentZoomFactor = webFrame.getZoomFactor()
+      webFrame.setZoomFactor(set ? mod : currentZoomFactor + mod)
+      console.log(window.devicePixelRatio)
+    } catch (err) {
+      console.log('Cannot zoom')
+    }
+  }
+
+  this.setZoom = function (scale) {
+    try {
+      webFrame.setZoomFactor(scale)
+    } catch (err) {
+      console.log('Cannot zoom')
+    }
+  }
+
   // Events
 
   this.drag = (e) => {
