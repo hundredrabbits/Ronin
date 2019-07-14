@@ -19,9 +19,19 @@
   (test "lt" (lt 3 4) true)
   (test "gt" (gt 3 4) false)
 
+  (test "and - true" (and 1 2 true 4) 4)
+
+  (test "and - false" (and 1 false 2) false)
+
+  (test "or - true" (or false false 2 false) 2)
+
+  (test "if - branch 1" (if (gt 3 2) ("branch 1") ("branch 2")) "branch 1")
+  (test "if - branch 2" (if (lt 3 2) ("branch 1") ("branch 2")) "branch 2")
+
 ; Arrays
 
   (test "first" (first ("a" "b" "c")) "a")
+  (test "rest" (rest ("a" "b" "c")) ("b" "c"))
   (test "last" (last ("a" "b" "c")) "c")
   (test "range simple" (range 0 4) (0 1 2 3 4))
   (test "range with step" (range 0 4 2) (0 2 4))
