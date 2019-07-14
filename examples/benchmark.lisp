@@ -37,6 +37,9 @@
   (test "range simple" (range 0 4) (0 1 2 3 4))
   (test "range with step" (range 0 4 2) (0 2 4))
   (test "range with negative step" (range 0 -4 -1) (0 -1 -2 -3 -4))
+  (test "map" (map (lambda (a) (add 1 a)) (1 2 3)) (2 3 4))
+  (test "filter" (filter (lambda (a) (eq 0 (mod a 2))) (2 3 4 5 6)) (2 4 6))
+  (test "reduce" (reduce (lambda (acc val) (add acc val)) (1 2 3) 4) 10)
 
 ; Scope
 
