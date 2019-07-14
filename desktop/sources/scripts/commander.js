@@ -34,7 +34,8 @@ function Commander (ronin) {
   }
 
   this.setStatus = function (msg) {
-    this._status.textContent = `${msg.substr(0, 40)}`
+    if (!msg) { return }
+    this._status.textContent = `${(msg + '').substr(0, 40)}`
   }
 
   this.update = function () {
