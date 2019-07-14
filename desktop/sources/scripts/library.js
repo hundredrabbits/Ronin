@@ -82,6 +82,20 @@ function Library (ronin) {
     return arr
   }
 
+  this.range = (start, end, step = 1) => {
+    let arr = []
+    if (step > 0) {
+      for(let i = start; i <= end ; i+= step) {
+        arr.push(i)
+      }
+    } else {
+      for(let i = start; i >= end ; i+= step) {
+        arr.push(i)
+      }
+    }
+    return arr
+  }
+
   // Shapes
 
   this.pos = (x, y, t = 'pos') => {
@@ -179,6 +193,22 @@ function Library (ronin) {
     return Math.round(val / step) * step
   }
 
+  this.min = Math.min
+
+  this.max = Math.max
+
+  this.ceil = Math.ceil
+
+  this.floor = Math.floor
+
+  this.sin = Math.sin
+
+  this.cos = Math.cos
+
+  this.PI = Math.PI
+
+  this.TWO_PI = Math.PI
+
   // Generics
 
   this.echo = (...args) => {
@@ -192,11 +222,16 @@ function Library (ronin) {
   }
 
   this.test = (name, a, b) => {
-    if (a !== b) {
+    if (Array.isArray(a)) {
+      // TODO: make testing more solid
+      a = a.toString()
+      b = b.toString()
+    }
+    if (a != b) {
       console.warn('failed ' + name, a, b)
     } else {
       console.log('passed ' + name, a, b)
     }
-    return a === b
+    return a == b
   }
 }

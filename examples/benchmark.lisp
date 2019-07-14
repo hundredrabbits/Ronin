@@ -23,4 +23,7 @@
 
   (test "first" (first ("a" "b" "c")) "a")
   (test "last" (last ("a" "b" "c")) "c")
+  (test "range simple" (range 0 4) (0 1 2 3 4))
+  (test "range with step" (range 0 4 2) (0 2 4))
+  (test "range with negative step" (range 0 -4 -1) (0 -1 -2 -3 -4))
 )
