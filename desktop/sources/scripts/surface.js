@@ -94,13 +94,16 @@ function Surface (ronin) {
     }
   }
 
-  this.draw = function (path, rect = this.getFrame()) {
+  this.draw = function (path, rect = this.getFrame(), callback = () => {}) {
     const img = new Image()
     img.src = path
     img.onload = () => {
       const ratio = img.width / img.height
       const scale = rect.w / img.width
       this.context.drawImage(img, rect.x, rect.y, rect.w, img.height * scale)
+      if (typeof callback === 'function') {
+        callback()
+      }
     }
   }
 
