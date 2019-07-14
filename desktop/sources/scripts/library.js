@@ -9,7 +9,7 @@ function Library (ronin) {
     return path
   }
 
-  this.save = function (path, type = 'jpg') {
+  this.save = (path, type = 'jpg') => {
     console.log('save', path)
     // TODO: Save file
     return path
@@ -18,6 +18,10 @@ function Library (ronin) {
   this.draw = (path, rect) => {
     ronin.surface.draw(path, rect)
     return rect
+  }
+
+  this.select = (rect = this.frame()) => {
+    return ronin.surface.select(rect)
   }
 
   this.exit = () => {
@@ -141,48 +145,53 @@ function Library (ronin) {
 
   //
 
-  this.of = function (h, k) {
+  this.of = (h, k) => {
     return h[k]
   }
 
   // Math
 
-  this.add = function (...args) {
+  this.add = (...args) => {
     return args.reduce((sum, val) => sum + val)
   }
 
-  this.sub = function (...args) {
+  this.sub = (...args) => {
     return args.reduce((sum, val) => sum - val)
   }
 
-  this.mul = function (...args) {
+  this.mul = (...args) => {
     return args.reduce((sum, val) => sum * val)
   }
 
-  this.div = function (...args) {
+  this.div = (...args) => {
     return args.reduce((sum, val) => sum / val)
   }
 
-  this.mod = function (a, b) {
+  this.mod = (a, b) => {
     return a % b
   }
 
-  this.clamp = function (val, min, max) {
+  this.clamp = (val, min, max) => {
     return Math.min(max, Math.max(min, val))
   }
 
-  this.step = function (val, step) {
+  this.step = (val, step) => {
     return Math.round(val / step) * step
   }
 
   // Generics
 
-  this.echo = function (...args) {
+  this.echo = (...args) => {
     console.log(args.reduce((acc, val) => { return acc + val + ' ' }, ''))
     return args
   }
 
-  this.test = function (name, a, b) {
+  this.print = (arg) => {
+    console.log(arg)
+    return arg
+  }
+
+  this.test = (name, a, b) => {
     if (a !== b) {
       console.warn('failed ' + name, a, b)
     } else {

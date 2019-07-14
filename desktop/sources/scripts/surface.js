@@ -7,7 +7,6 @@ function Surface (ronin) {
   this.install = function (host) {
     host.appendChild(this.el)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
-
     this.el.addEventListener('mousedown', ronin.commander.onMouseDown, false)
     this.el.addEventListener('mousemove', ronin.commander.onMouseMove, false)
     this.el.addEventListener('mouseup', ronin.commander.onMouseUp, false)
@@ -20,6 +19,15 @@ function Surface (ronin) {
 
   this.update = function () {
 
+  }
+
+  this.select = function (rect) {
+    const img = this.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const pixels = []
+    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
+      pixels.push({ r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] })
+    }
+    return pixels
   }
 
   // Shape

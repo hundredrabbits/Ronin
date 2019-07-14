@@ -62,6 +62,7 @@ function Commander (ronin) {
     this.mouseRect.a.y = e.offsetY
     this._status.textContent = `${this.mouseRect.x},${this.mouseRect.y} ${this.mouseRect.w},${this.mouseRect.h}`
     this.capture()
+    this.show()
   }
 
   this.onMouseMove = (e) => {
@@ -83,6 +84,7 @@ function Commander (ronin) {
     this.mouseRect.b.y = e.offsetY
     this._status.textContent = `${this.mouseRect.x},${this.mouseRect.y} ${this.mouseRect.w},${this.mouseRect.h}`
     this.commit()
+    this._input.focus()
   }
 
   // Injection
@@ -124,11 +126,15 @@ function Commander (ronin) {
   // Display
 
   this.show = function () {
-    this.el.className = ''
+    if (this.el.className !== '') {
+      this.el.className = ''
+    }
   }
 
   this.hide = function () {
-    this.el.className = 'hidden'
+    if (this.el.className !== 'hidden') {
+      this.el.className = 'hidden'
+    }
   }
 
   this.toggle = function () {
