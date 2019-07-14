@@ -64,7 +64,6 @@ function Surface (ronin) {
       context.font = `${shape.g}px ${shape.f}`
       context.fillText(shape.s, shape.x, shape.y)
     } else if (shape.t === 'svg') {
-      context.lineWidth = width
       context.fillStyle = color
       context.fill(new Path2D(shape.d))
     } else {
