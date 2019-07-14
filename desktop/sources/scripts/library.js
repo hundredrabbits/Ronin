@@ -253,4 +253,8 @@ function Library (ronin) {
     }
     return a === b
   }
+
+  // Livecoding
+
+  this.time = Date.now
 }

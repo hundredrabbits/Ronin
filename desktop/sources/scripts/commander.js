@@ -4,6 +4,7 @@ function Commander (ronin) {
   this._input = document.createElement('textarea')
   this._status = document.createElement('div')
   this._status.id = 'status'
+  this.isAnimated = false
 
   this.install = function (host) {
     this.el.appendChild(this._input)
@@ -20,12 +21,18 @@ function Commander (ronin) {
     this.hide()
   }
 
-  this.run = function (txt = this._input.value) {
+  this.run = (txt = this._input.value) => {
     if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
-    console.log('========')
+    !this.isAnimated && console.log('========')
     ronin.surface.maximize()
     const inter = new Lisp(txt, ronin.library)
     inter.toPixels()
+    this.isAnimated && requestAnimationFrame(() => this.run(txt))
+  }
+
+  this.toggleAnimation = () => {
+    this.isAnimated = !this.isAnimated
+    this.run(this._input.value)
   }
 
   this.load = function (txt) {
