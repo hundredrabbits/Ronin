@@ -12,6 +12,14 @@
 )
 
 (
+  (clear)
+  (map (lambda (a)
+    (stroke (rect (mul a 30) 20 50 50)
+  1 "red"))
+  (range 0 20 5))
+)
+
+(
   (clear) 
   (map (lambda (a)
     (stroke 
