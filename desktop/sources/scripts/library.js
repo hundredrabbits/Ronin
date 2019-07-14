@@ -1,12 +1,18 @@
 function Library (ronin) {
-  this.clear = (rect = this.select_all()) => {
-  }
-
-  // IO
-
   this.open = (path, w = 1, h = 1) => {
     ronin.surface.open(path, { w, h })
     return path
+  }
+
+  this.folder = (path = ronin.source.path) => {
+    const a = []
+    if (path) {
+      const folder = ronin.source.folder(path)
+      if (fs.existsSync(folder)) {
+        return fs.readdirSync(folder)
+      }
+    }
+    return a
   }
 
   this.save = (path, type = 'jpg') => {
@@ -72,6 +78,10 @@ function Library (ronin) {
 
   this.reduce = (fn, arr, acc = 0) => {
     return arr.reduce(fn, acc)
+  }
+
+  this.len = (item) => {
+    return item.length
   }
 
   this.first = (arr) => {
@@ -236,11 +246,11 @@ function Library (ronin) {
       a = a.toString()
       b = b.toString()
     }
-    if (a != b) {
-      console.warn('failed ' + name, a, b)
+    if (a !== b) {
+      console.warn('failed ' + name, a)
     } else {
       console.log('passed ' + name, a, b)
     }
-    return a == b
+    return a === b
   }
 }

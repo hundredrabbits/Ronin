@@ -29,4 +29,3 @@
         a 
         (add 20 (mul (cos a) 50))) 1 "red"))
     (range 0 200 5)))
-)

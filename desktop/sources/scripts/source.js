@@ -138,8 +138,8 @@ function Source (ronin) {
     return this.path ? path.basename(this.path, '.lisp') : null
   }
 
-  this.folder = function () {
-    return this.path ? path.dirname(this.path) : null
+  this.folder = function (p = this.path) {
+    return p ? path.dirname(p) : null
   }
 
   this.toString = function () {

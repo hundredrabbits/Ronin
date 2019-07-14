@@ -102,9 +102,7 @@ function Surface (ronin) {
     const img = new Image()
     img.src = path
     img.onload = () => {
-      const ratio = img.width / img.height
-      const scale = rect.w / img.width
-      this.context.drawImage(img, rect.x, rect.y, rect.w, img.height * scale)
+      this.context.drawImage(img, rect.x, rect.y, rect.w, img.height * (rect.w / img.width))
       if (typeof callback === 'function') {
         callback()
       }
