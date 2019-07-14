@@ -181,6 +181,11 @@ function Library (ronin) {
     return h[k]
   }
 
+  this.theme = (variable, el = document.documentElement) => {
+    // ex. styleprop('--f_high') to get css variable value
+    return getComputedStyle(el).getPropertyValue(variable)
+  }
+
   // Math
 
   this.add = (...args) => {
