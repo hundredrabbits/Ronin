@@ -4,6 +4,7 @@
     <script type="text/javascript" src="scripts/lib/theme.js"></script>
     <script type="text/javascript" src="scripts/lib/controller.js"></script>
     <script type="text/javascript" src="scripts/ronin.js"></script>
+    <script type="text/javascript" src="scripts/source.js"></script>
     <script type="text/javascript" src="scripts/commander.js"></script>
     <script type="text/javascript" src="scripts/surface.js"></script>
     <script type="text/javascript" src="scripts/lisp.js"></script>
@@ -22,11 +23,16 @@
       const ronin = new Ronin();
       ronin.controller = new Controller();
       ronin.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Dotgrid'); },"CmdOrCtrl+,");
-      ronin.controller.add("default","*","Fullscreen",() => { app.toggleFullscreen(); },"CmdOrCtrl+Enter");
-      ronin.controller.add("default","*","Hide",() => { app.toggleVisible(); },"CmdOrCtrl+H");
-      ronin.controller.add("default","*","Inspect",() => { app.inspect(); },"CmdOrCtrl+.");
-      ronin.controller.add("default","*","Reset",() => { dotgrid.reset(); dotgrid.theme.reset(); },"CmdOrCtrl+Backspace");
-      ronin.controller.add("default","*","Quit",() => { app.exit(); },"CmdOrCtrl+Q");
+      ronin.controller.add("default","*","Fullscreen",() => { app.toggleFullscreen() },"CmdOrCtrl+Enter");
+      ronin.controller.add("default","*","Hide",() => { app.toggleVisible() },"CmdOrCtrl+H");
+      ronin.controller.add("default","*","Inspect",() => { app.inspect() },"CmdOrCtrl+.");
+      ronin.controller.add("default","*","Reset",() => { dotgrid.reset(); dotgrid.theme.reset() },"CmdOrCtrl+Backspace");
+      ronin.controller.add("default","*","Quit",() => { ronin.source.quit() },"CmdOrCtrl+Q");
+      ronin.controller.add("default","File","New",() => { ronin.source.new() },"CmdOrCtrl+N")
+      ronin.controller.add("default","File","Save",() => { ronin.source.save() },"CmdOrCtrl+S")
+      ronin.controller.add("default","File","Save As",() => { ronin.source.saveAs() },"CmdOrCtrl+Shift+S")
+      ronin.controller.add("default","File","Open",() => { ronin.source.open() },"CmdOrCtrl+O")
+      ronin.controller.add("default","File","Revert",() => { ronin.source.revert() },"CmdOrCtrl+W")
       ronin.controller.addRole('default', 'Edit', 'undo')
       ronin.controller.addRole('default', 'Edit', 'redo')
       ronin.controller.addRole('default', 'Edit', 'cut')

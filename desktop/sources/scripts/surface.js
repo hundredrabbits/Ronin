@@ -119,6 +119,8 @@ function Surface (ronin) {
     if (ronin.commander._input.value === '') {
       this.maximize()
     }
+    const f = this.getFrame()
+    ronin.log(`resize ${f.w}x${f.h}`)
   }
 
   this.getFrame = function () {

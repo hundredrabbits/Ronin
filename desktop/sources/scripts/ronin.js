@@ -15,6 +15,8 @@ function Ronin () {
   this.el.id = 'ronin'
 
   this.theme = new Theme(defaultTheme)
+
+  this.source = new Source(this)
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
@@ -28,10 +30,14 @@ function Ronin () {
     this.el.appendChild(this._wrapper)
     host.appendChild(this.el)
     this.theme.install()
+
+    window.addEventListener('dragover', this.drag)
+    window.addEventListener('drop', this.drop)
   }
 
   this.start = function () {
     this.theme.start()
+    this.source.start()
     this.commander.start()
     this.surface.start()
 
@@ -48,5 +54,27 @@ function Ronin () {
 
   this.load = function (content = this.default()) {
 
+  }
+  // Events
+
+  this.drag = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+  }
+
+  this.drop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const file = e.dataTransfer.files[0]
+    if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
+    const path = file.path ? file.path : file.name
+    if (path.indexOf('.lisp') > -1) {
+      this.source.read(path)
+      this.commander.show()
+    } else if (file.path) {
+      this.commander.injectPath(file.path)
+      this.commander.show()
+    }
   }
 }

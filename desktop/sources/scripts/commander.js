@@ -11,9 +11,6 @@ function Commander (ronin) {
     host.appendChild(this.el)
 
     this._input.addEventListener('input', this.onInput)
-
-    window.addEventListener('dragover', this.drag)
-    window.addEventListener('drop', this.drop)
   }
 
   this.start = function () {
@@ -24,8 +21,9 @@ function Commander (ronin) {
   }
 
   this.run = function (txt = this._input.value) {
-    if (txt.indexOf('$') > -1) { console.log('Contains $'); return }
+    if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
     console.log('========')
+    ronin.surface.maximize()
     const inter = new Lisp(txt, ronin.library)
     inter.toPixels()
   }
@@ -126,12 +124,10 @@ function Commander (ronin) {
   // Display
 
   this.show = function () {
-    console.log('show')
     this.el.className = ''
   }
 
   this.hide = function () {
-    console.log('hide')
     this.el.className = 'hidden'
   }
 
@@ -140,32 +136,6 @@ function Commander (ronin) {
       this.show()
     } else {
       this.hide()
-    }
-  }
-
-  // Events
-
-  this.drag = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'copy'
-  }
-
-  this.drop = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const file = e.dataTransfer.files[0]
-    if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
-    if (file.name.indexOf('.lisp') > -1) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        this.load(e.target.result)
-        this.show()
-      }
-      reader.readAsText(file)
-    } else if (file.path) {
-      this.injectPath(file.path)
-      this.show()
     }
   }
 }

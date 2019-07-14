@@ -11,8 +11,8 @@ app.on('ready', () => {
   app.win = new BrowserWindow({
     width: 780,
     height: 392,
-    minWidth: 320,
-    minHeight: 320,
+    minWidth: 380,
+    minHeight: 380,
     backgroundColor: '#000',
     icon: path.join(__dirname, { darwin: 'icon.icns', linux: 'icon.png', win32: 'icon.ico' }[process.platform] || 'icon.ico'),
     resizable: true,
