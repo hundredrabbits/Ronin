@@ -101,7 +101,7 @@ function Source (ronin) {
     console.log('Source', 'Looking for changes..')
     if (!this.path) {
       console.log('Source', 'File is unsaved..')
-      if (ronin.commander._input.value.length() > 2) {
+      if (ronin.commander._input.value.length > 2) {
         console.log('Source', `File is not empty.`)
         return true
       }
