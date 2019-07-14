@@ -221,6 +221,10 @@ function Library (ronin) {
     return arg
   }
 
+  this.str = (...args) => {
+    return args.reduce((acc, val) => { return acc + val }, '')
+  }
+
   this.test = (name, a, b) => {
     if (Array.isArray(a)) {
       // TODO: make testing more solid

@@ -44,4 +44,8 @@
   (def addOne (lambda (a) (add a 1)))
   (test "def - value" aaa 123)
   (test "def - func" (addOne 4) 5)
+
+; Generics
+
+  (test "str" (str 1 4 "-" (add 3 4) ".jpg") "14-7.jpg")
 )
