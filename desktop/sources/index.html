@@ -46,6 +46,10 @@
       ronin.controller.add("default","Project","Run",() => { ronin.commander.run(); },"CmdOrCtrl+R");
       ronin.controller.add("default","Project","Reload Run",() => { ronin.source.revert(); ronin.commander.run(); },"CmdOrCtrl+Shift+R");
       ronin.controller.add("default","Commander","Toggle",() => { ronin.commander.toggle(); },"CmdOrCtrl+K");
+      ronin.controller.add("default","Theme","Open Theme",() => { ronin.theme.open() },"CmdOrCtrl+Shift+O")
+      ronin.controller.add("default","Theme","Reset Theme",() => { ronin.theme.reset() },"CmdOrCtrl+Shift+Backspace")
+      ronin.controller.addSpacer('default', 'Theme', 'Download')
+      ronin.controller.add("default","Theme","Download Themes..",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Themes') })
       ronin.controller.commit();
       ronin.install(document.body);
       window.addEventListener('load', () => { ronin.start(); })
