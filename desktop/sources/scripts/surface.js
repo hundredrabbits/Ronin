@@ -112,13 +112,17 @@ function Surface (ronin) {
 
   // IO
 
-  this.open = function (path, scale) {
+  this.open = function (path, callback = () => {}) {
     const img = new Image()
     img.src = path
     img.onload = () => {
-      ronin.log(`Image(${img.width}x${img.height}), scale:${scale.w}:${scale.h}`)
-      this.resize({ w: img.width * scale.w, h: img.height * scale.h })
-      this.context.drawImage(img, 0, 0, img.width * scale.w, img.height * scale.h)
+      const rect = { w: img.width, h: img.height }
+      this.fitWindow(rect)
+      this.resize(rect)
+      this.context.drawImage(img, 0, 0, img.width, img.height)
+      if (typeof callback === 'function') {
+        callback()
+      }
     }
   }
 

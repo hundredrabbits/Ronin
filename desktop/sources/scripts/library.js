@@ -1,6 +1,6 @@
 function Library (ronin) {
-  this.open = (path, w = 1, h = 1) => {
-    ronin.surface.open(path, { w, h })
+  this.open = (path, callback) => {
+    ronin.surface.open(path, callback)
     return path
   }
 
@@ -288,9 +288,9 @@ function Library (ronin) {
       b = b.toString()
     }
     if (a !== b) {
-      console.warn('failed ' + name, a)
+      console.warn('failed ' + name, a, b)
     } else {
-      console.log('passed ' + name, a, b)
+      console.log('passed ' + name, a)
     }
     return a === b
   }
