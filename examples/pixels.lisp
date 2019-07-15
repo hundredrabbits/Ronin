@@ -1,10 +1,21 @@
 ; pixels
 
-((clear)
+(
+  (clear)
+
+  ; Filter
+
+  (def filter-action 
+    (lambda () (pixels 
+      (rect 0 0 500 500)
+      saturation
+      0.5)
+    ))
 
   ; Draw photo 
   
-  (draw "../../PREVIEW.jpg"
-  (frame)
-  (lambda () (echo (select (rect 660 344 10 10))))
-))
+  (draw 
+    "../../PREVIEW.jpg" 
+    (frame) 
+    filter-action)
+)

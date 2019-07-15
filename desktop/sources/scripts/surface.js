@@ -4,6 +4,8 @@ function Surface (ronin) {
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
   this.ratio = window.devicePixelRatio
+
+  // Contexts
   this.context = this.el.getContext('2d')
   this.guide = this.el.getContext('2d')
 
@@ -14,6 +16,8 @@ function Surface (ronin) {
     this._guide.addEventListener('mousedown', ronin.commander.onMouseDown, false)
     this._guide.addEventListener('mousemove', ronin.commander.onMouseMove, false)
     this._guide.addEventListener('mouseup', ronin.commander.onMouseUp, false)
+    this.context.scale(this.ratio, this.ratio)
+    this.guide.scale(this.ratio, this.ratio)
   }
 
   this.start = function () {
@@ -23,15 +27,6 @@ function Surface (ronin) {
 
   this.update = function () {
 
-  }
-
-  this.select = function (rect) {
-    const img = this.context.getImageData(rect.x, rect.y, rect.w, rect.h)
-    const pixels = []
-    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
-      pixels.push({ r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] })
-    }
-    return pixels
   }
 
   // Shape
@@ -44,6 +39,10 @@ function Surface (ronin) {
     if (shape.t === 'text') {
       context.font = `${shape.g}px ${shape.f}`
       context.strokeText(shape.s, shape.x, shape.y)
+    } else if (shape.t === 'svg') {
+      context.lineWidth = width
+      context.strokeStyle = color
+      context.stroke(new Path2D(shape.d))
     } else {
       context.stroke()
     }
@@ -59,6 +58,9 @@ function Surface (ronin) {
     if (shape.t === 'text') {
       context.font = `${shape.g}px ${shape.f}`
       context.fillText(shape.s, shape.x, shape.y)
+    } else if (shape.t === 'svg') {
+      context.fillStyle = color
+      context.fill(new Path2D(shape.d))
     } else {
       context.fill()
     }
@@ -76,6 +78,8 @@ function Surface (ronin) {
       this.traceCircle(shape, context)
     } else if (shape.t === 'text') {
       this.traceText(shape, context)
+    } else if (shape.t === 'svg') {
+      this.traceSVG(shape, context)
     } else {
       console.warn('Unknown type')
     }
@@ -99,6 +103,10 @@ function Surface (ronin) {
   }
 
   this.traceText = function (text, context) {
+
+  }
+
+  this.traceSVG = function (text, context) {
 
   }
 
@@ -137,7 +145,7 @@ function Surface (ronin) {
     this.context.drawImage(this.el, a.x, a.y, a.w, a.h, b.x, b.y, b.w, b.h)
   }
 
-  this.resize = function (size) {
+  this.resize = function (size, fit = false) {
     this.el.width = size.w
     this.el.height = size.h
     this.el.style.width = size.w + 'px'
@@ -146,6 +154,15 @@ function Surface (ronin) {
     this._guide.height = size.h
     this._guide.style.width = size.w + 'px'
     this._guide.style.height = size.h + 'px'
+    if (fit === true) {
+      this.fitWindow(size)
+    }
+  }
+
+  this.fitWindow = function (size) {
+    const win = require('electron').remote.getCurrentWindow()
+    const pad = { w: 60, h: 60 }
+    win.setSize(size.w + pad.w, size.h + pad.h, false)
   }
 
   this.maximize = function () {

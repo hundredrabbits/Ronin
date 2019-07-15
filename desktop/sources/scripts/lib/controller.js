@@ -16,7 +16,9 @@ function Controller () {
     if (!this.menu[mode]) { this.menu[mode] = {} }
     if (!this.menu[mode][cat]) { this.menu[mode][cat] = {} }
     this.menu[mode][cat][label] = { fn: function (_menuItem, browserWindow) {
-      browserWindow.webContents.focus()
+      if (browserWindow) {
+        browserWindow.webContents.focus()
+      }
       fn.apply(this, arguments)
     },
     accelerator: accelerator }
