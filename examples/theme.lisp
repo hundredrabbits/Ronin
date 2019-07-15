@@ -26,5 +26,6 @@
         (col i))
        (rec
         (sub v 3)
-        (add i 1))))))
+        (add i 1)))
+      (echo "done"))))
  (rec 40 0))
