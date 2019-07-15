@@ -35,18 +35,30 @@ function Lisp (input, lib) {
       return interpret(input[2], letContext)
     },
     def: function (input, context) {
-      context.scope[input[1].value] = interpret(input[2], context)
-      return input[2]
+      const identifier = input[1].value
+      const value = (input[2].type === TYPES.string) ? input[3] : input[2]
+      if (input[2].type === TYPES.string) {
+        // docstring
+        console.log(input[2].value)
+      }
+      context.scope[identifier] = interpret(value, context)
+      return value
     },
     defn: function(input, context) {
-      context.scope[input[1].value] = function() {
+      const identifier = input[1].value
+      const argumentNames = (input[2].type === TYPES.string) ? input[3] : input[2]
+      const functionBody = (input[2].type === TYPES.string) ? input[4] : input[3]
+      if (input[2].type === TYPES.string) {
+        // docstring
+        console.log(input[2].value)
+      }
+      context.scope[identifier] = function() {
         const lambdaArguments = arguments
-        const lambdaScope = input[2].reduce(function (acc, x, i) {
+        const lambdaScope = argumentNames.reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-
-        return interpret(input[3], new Context(lambdaScope, context))
+        return interpret(functionBody, new Context(lambdaScope, context))
       }
     },
     lambda: function (input, context) {

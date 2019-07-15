@@ -48,6 +48,8 @@
   (test "def - func" (addOne 4) 5)
   (defn addTwo (a) (add 2 a))
   (test "defn" (addTwo 4) 6)
+  (defn mulTwo "multiplies by two" (a) (mul 2 a))
+  (test "docstring" (mulTwo 4) 8)
 
 ; Generics
 
