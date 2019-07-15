@@ -145,19 +145,19 @@ function Commander (ronin) {
   // Display
 
   this.show = function () {
-    if (this.el.className !== '') {
-      this.el.className = ''
+    if (ronin.el.className !== '') {
+      ronin.el.className = ''
     }
   }
 
   this.hide = function () {
-    if (this.el.className !== 'hidden') {
-      this.el.className = 'hidden'
+    if (ronin.el.className !== 'hidden') {
+      ronin.el.className = 'hidden'
     }
   }
 
   this.toggle = function () {
-    if (this.el.className === 'hidden') {
+    if (ronin.el.className === 'hidden') {
       this.show()
     } else {
       this.hide()
