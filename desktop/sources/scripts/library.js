@@ -209,8 +209,13 @@ function Library (ronin) {
   }
 
   this.saturation = (pixel, q = 1) => {
-    var color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
+    const color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
     return [color, color, color, pixel.a]
+  }
+
+  this.contrast = (pixel, q = 1) => {
+    const intercept = 128 * (1 - q)
+    return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
   }
 
   // Math
