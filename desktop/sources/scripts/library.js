@@ -31,10 +31,6 @@ function Library (ronin) {
     return rect
   }
 
-  this.select = (rect = this.frame()) => {
-    return ronin.surface.select(rect)
-  }
-
   this.exit = () => {
     // TODO: Closes Ronin
   }
@@ -193,8 +189,28 @@ function Library (ronin) {
   }
 
   this.theme = (variable, el = document.documentElement) => {
-    // ex. styleprop('--f_high') to get css variable value
-    return getComputedStyle(el).getPropertyValue(variable)
+    return getComputedStyle(el).getPropertyValue(variable) // ex. styleprop('--f_high') to get css variable value
+  }
+
+  // Pixels
+
+  this.pixels = (rect, fn, q) => {
+    const img = ronin.surface.context.getImageData(0, 0, rect.w, rect.h)
+    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
+      const pixel = { r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] }
+      const processed = fn(pixel, q)
+      img.data[i] = processed[0]
+      img.data[i + 1] = processed[1]
+      img.data[i + 2] = processed[2]
+      img.data[i + 3] = processed[3]
+    }
+    ronin.surface.context.putImageData(img, 0, 0)
+    return rect
+  }
+
+  this.saturation = (pixel, q = 1) => {
+    var color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
+    return [color, color, color, pixel.a]
   }
 
   // Math

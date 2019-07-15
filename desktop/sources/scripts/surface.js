@@ -4,6 +4,8 @@ function Surface (ronin) {
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
   this.ratio = window.devicePixelRatio
+
+  // Contexts
   this.context = this.el.getContext('2d')
   this.guide = this.el.getContext('2d')
 
@@ -14,6 +16,8 @@ function Surface (ronin) {
     this._guide.addEventListener('mousedown', ronin.commander.onMouseDown, false)
     this._guide.addEventListener('mousemove', ronin.commander.onMouseMove, false)
     this._guide.addEventListener('mouseup', ronin.commander.onMouseUp, false)
+    this.context.scale(this.ratio, this.ratio)
+    this.guide.scale(this.ratio, this.ratio)
   }
 
   this.start = function () {
@@ -23,15 +27,6 @@ function Surface (ronin) {
 
   this.update = function () {
 
-  }
-
-  this.select = function (rect) {
-    const img = this.context.getImageData(rect.x, rect.y, rect.w, rect.h)
-    const pixels = []
-    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
-      pixels.push({ r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] })
-    }
-    return pixels
   }
 
   // Shape
