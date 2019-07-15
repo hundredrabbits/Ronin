@@ -184,8 +184,10 @@ function Library (ronin) {
 
   //
 
-  this.of = (h, k) => {
-    return h[k]
+  this.of = (h, ...keys) => {
+    return keys.reduce((acc, key) => {
+      return acc[key]
+    }, h)
   }
 
   this.theme = (variable, el = document.documentElement) => {
