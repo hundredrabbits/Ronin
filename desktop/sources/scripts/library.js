@@ -189,7 +189,8 @@ function Library (ronin) {
   }
 
   this.theme = (variable, el = document.documentElement) => {
-    return getComputedStyle(el).getPropertyValue(variable) // ex. styleprop('--f_high') to get css variable value
+    // ex. (theme "f_main") -> :root { --f_main: "#fff" }
+    return getComputedStyle(el).getPropertyValue(`--${variable}`)
   }
 
   // Pixels
