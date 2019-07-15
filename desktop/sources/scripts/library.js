@@ -265,6 +265,17 @@ function Library (ronin) {
 
   this.TWO_PI = Math.PI * 2
 
+  this.random = (...args) => {
+    if (args.length >= 2) {
+      // (random start end)
+      return args[0] + Math.random() * (args[1] - args[0])
+    } else if (args.length === 1) {
+      // (random max)
+      return Math.random() * args[0]
+    } 
+    return Math.random()
+  }
+
   // Generics
 
   this.echo = (...args) => {
@@ -299,4 +310,8 @@ function Library (ronin) {
   // Livecoding
 
   this.time = Date.now
+
+  // javascript interop
+  this.js = window
+
 }

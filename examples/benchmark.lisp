@@ -46,8 +46,13 @@
   (def addOne (lambda (a) (add a 1)))
   (test "def - value" aaa 123)
   (test "def - func" (addOne 4) 5)
+  (defn addTwo (a) (add 2 a))
+  (test "defn" (addTwo 4) 6)
 
 ; Generics
 
   (test "str" (str 1 4 "-" (add 3 4) ".jpg") "14-7.jpg")
+
+; Interop
+  (test "interop" ((of (of js "Math") "max") 2 4) 4)
 )
