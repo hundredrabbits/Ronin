@@ -53,7 +53,7 @@ function Lisp (input, lib) {
       if (interpret(input[1], context)) {
         return interpret(input[2], context)
       }
-      return interpret(input[3], context)
+      return input[3] ? interpret(input[3], context) : []
     }
   }
 
@@ -66,7 +66,7 @@ function Lisp (input, lib) {
   }
 
   const interpret = function (input, context) {
-    if (!input) { return null }
+    if (!input) { console.warn('error', context.scope); return null }
 
     if (context === undefined) {
       return interpret(input, new Context(lib))
