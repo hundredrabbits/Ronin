@@ -1,5 +1,4 @@
 (
-    (run "../examples/recursive.lisp")
-    (echo value)
-    (echo (addOne value))
+    (include "../examples/recursive.lisp")
+    (echo line-color)
 )
