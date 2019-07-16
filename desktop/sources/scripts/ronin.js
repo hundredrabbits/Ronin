@@ -1,6 +1,6 @@
 function Ronin () {
   const defaultTheme = {
-    background: '#222',
+    background: '#111',
     f_high: '#fff',
     f_med: '#999',
     f_low: '#444',

@@ -44,7 +44,7 @@ function Lisp (input, lib) {
       context.scope[identifier] = interpret(value, context)
       return value
     },
-    defn: function(input, context) {
+    defn: function (input, context) {
       const identifier = input[1].value
       const argumentNames = (input[2].type === TYPES.string) ? input[3] : input[2]
       const functionBody = (input[2].type === TYPES.string) ? input[4] : input[3]
@@ -52,7 +52,7 @@ function Lisp (input, lib) {
         // docstring
         console.log(input[2].value)
       }
-      context.scope[identifier] = function() {
+      context.scope[identifier] = function () {
         const lambdaArguments = arguments
         const lambdaScope = argumentNames.reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]

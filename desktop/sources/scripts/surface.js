@@ -116,9 +116,9 @@ function Surface (ronin) {
     const img = new Image()
     img.src = path
     img.onload = () => {
-      const rect = { w: img.width, h: img.height }
-      this.fitWindow(rect)
-      this.resize(rect)
+      console.log(`Open img: ${img.width}x${img.height}`)
+      const rect = { x: 0, y: 0, w: img.width, h: img.height }
+      this.resize(rect, true)
       this.context.drawImage(img, 0, 0, img.width, img.height)
       if (typeof callback === 'function') {
         callback()
@@ -126,11 +126,10 @@ function Surface (ronin) {
     }
   }
 
-  this.draw = function (path, rect = this.getFrame(), callback = () => {}) {
-    const img = new Image()
-    img.src = path
+  this.draw = function (img, rect = this.getFrame(), callback = () => {}) {
     img.onload = () => {
-      this.context.drawImage(img, rect.x, rect.y, rect.w, img.height * (rect.w / img.width))
+      console.log(`Drawing img: ${img.width}x${img.height}`)
+      this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h) // no strect: img.height * (rect.w / img.width)
       if (typeof callback === 'function') {
         callback()
       }
@@ -170,7 +169,7 @@ function Surface (ronin) {
   }
 
   this.maximize = function () {
-    this.resize(this.getFrame())
+    this.resize({ x: 0, y: 0, w: window.innerWidth - 60, h: window.innerHeight - 60, t: 'rect' })
   }
 
   this.onResize = function () {
@@ -182,6 +181,43 @@ function Surface (ronin) {
   }
 
   this.getFrame = function () {
-    return { x: 0, y: 0, w: window.innerWidth - 60, h: window.innerHeight - 60, t: 'rect' }
+    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect' }
+  }
+
+  this.resizeImage = function (src, dst, type = 'image/jpeg', quality = 0.92) {
+    var tmp = new Image()
+    var canvas
+    var context
+    var cW
+    var cH
+
+    cW = src.naturalWidth
+    cH = src.naturalHeight
+
+    tmp.src = src.src
+    tmp.onload = function () {
+      canvas = document.createElement('canvas')
+
+      cW /= 2
+      cH /= 2
+
+      if (cW < src.width) {
+        cW = src.width
+      }
+      if (cH < src.height) {
+        cH = src.height
+      }
+
+      canvas.width = cW
+      canvas.height = cH
+      context = canvas.getContext('2d')
+      context.drawImage(tmp, 0, 0, cW, cH)
+
+      dst.src = canvas.toDataURL(type, quality)
+
+      if (cW <= src.width || cH <= src.height) { return }
+
+      tmp.src = dst.src
+    }
   }
 }

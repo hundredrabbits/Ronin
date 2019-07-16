@@ -15,19 +15,31 @@ function Library (ronin) {
     return a
   }
 
-  this.save = (path, type = 'jpg') => {
-    console.log('save', path)
-    // TODO: Save file
+  this.save = (path = ronin.source.folder(), type = 'png', quality = 1.0) => {
+    if (!path) { console.warn('Missing save path'); return path }
+    var fullQuality = ronin.surface.el.toDataURL('image/png', quality)
+    const base64Data = url.replace(/^data:image\/png;base64,/, '')
+    fs.writeFile('image.png', base64Data, 'base64', function (err) {
+      console.warn('error', err)
+    })
     return path
   }
 
   this.draw = (path, rect, callback) => {
-    ronin.surface.draw(path, rect, callback)
+    const img = new Image()
+    img.src = path
+    ronin.surface.draw(img, rect, callback)
     return rect
   }
 
-  this.resize = (rect) => {
+  this.resize = (w = 1, h = 1, callback) => {
+    const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    ronin.surface.resizeImage(a, b)
     ronin.surface.resize(rect, true)
+    ronin.surface.draw(b, rect, callback)
     return rect
   }
 
@@ -114,11 +126,11 @@ function Library (ronin) {
   // Shapes
 
   this.pos = (x, y, t = 'pos') => {
-    return { x, y }
+    return { x, y, t }
   }
 
   this.size = (w, h, t = 'size') => {
-    return { w, h }
+    return { w, h, t }
   }
 
   this.rect = (x, y, w, h, t = 'rect') => {
@@ -274,7 +286,7 @@ function Library (ronin) {
     } else if (args.length === 1) {
       // (random max)
       return Math.random() * args[0]
-    } 
+    }
     return Math.random()
   }
 
@@ -315,5 +327,4 @@ function Library (ronin) {
 
   // javascript interop
   this.js = window
-
 }
