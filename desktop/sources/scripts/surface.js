@@ -116,7 +116,7 @@ function Surface (ronin) {
     const img = new Image()
     img.src = path
     img.onload = () => {
-      console.log(`Open img: ${img.width}x${img.height}`)
+      ronin.log(`Open ${img.width}x${img.height}`)
       const rect = { x: 0, y: 0, w: img.width, h: img.height }
       this.resize(rect, true)
       this.context.drawImage(img, 0, 0, img.width, img.height)
@@ -128,7 +128,7 @@ function Surface (ronin) {
 
   this.draw = function (img, rect = this.getFrame(), callback = () => {}) {
     img.onload = () => {
-      console.log(`Drawing img: ${img.width}x${img.height}`)
+      ronin.log(`Draw ${img.width}x${img.height}`)
       this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h) // no strect: img.height * (rect.w / img.width)
       if (typeof callback === 'function') {
         callback()
@@ -137,7 +137,7 @@ function Surface (ronin) {
   }
 
   this.crop = function (rect) {
-    console.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
+    ronin.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
     const crop = this.getCrop(rect)
     this.resize(rect, true)
     this.context.drawImage(crop, 0, 0)
@@ -200,38 +200,28 @@ function Surface (ronin) {
   }
 
   this.resizeImage = function (src, dst, type = 'image/jpeg', quality = 0.92) {
-    var tmp = new Image()
-    var canvas
-    var context
-    var cW
-    var cH
-
-    cW = src.naturalWidth
-    cH = src.naturalHeight
-
+    const tmp = new Image()
+    let canvas
+    let context
+    let cW = src.naturalWidth
+    let cH = src.naturalHeight
     tmp.src = src.src
     tmp.onload = function () {
       canvas = document.createElement('canvas')
-
       cW /= 2
       cH /= 2
-
       if (cW < src.width) {
         cW = src.width
       }
       if (cH < src.height) {
         cH = src.height
       }
-
       canvas.width = cW
       canvas.height = cH
       context = canvas.getContext('2d')
       context.drawImage(tmp, 0, 0, cW, cH)
-
       dst.src = canvas.toDataURL(type, quality)
-
       if (cW <= src.width || cH <= src.height) { return }
-
       tmp.src = dst.src
     }
   }
