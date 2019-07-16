@@ -4,13 +4,11 @@ function Library (ronin) {
     return path
   }
 
-  this.save = (path = ronin.source.folder(), type = 'png', quality = 1.0) => {
-    if (!path) { console.warn('Missing save path'); return path }
-    var fullQuality = ronin.surface.el.toDataURL('image/png', quality)
-    const base64Data = url.replace(/^data:image\/png;base64,/, '')
-    fs.writeFile('image.png', base64Data, 'base64', function (err) {
-      console.warn('error', err)
-    })
+  this.export = (path, type = 'image/png', quality = 1.0) => {
+    if (!path) { console.warn('Missing export path'); return path }
+    var dataUrl = ronin.surface.el.toDataURL(type, quality)
+    const data = dataUrl.replace(/^data:image\/png;base64,/, '')
+    fs.writeFileSync(path, data, 'base64')
     return path
   }
 
