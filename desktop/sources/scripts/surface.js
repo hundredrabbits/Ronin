@@ -106,28 +106,28 @@ function Surface (ronin) {
 
   // IO
 
-  this.open = function (path, callback = () => {}) {
-    const img = new Image()
-    img.src = path
-    img.onload = () => {
-      ronin.log(`Open ${img.width}x${img.height}`)
-      const rect = { x: 0, y: 0, w: img.width, h: img.height }
-      this.resize(rect, true)
-      this.context.drawImage(img, 0, 0, img.width, img.height)
-      if (typeof callback === 'function') {
-        callback()
+  this.open = function (path) {
+    return new Promise(resolve => {
+      const img = new Image()
+      img.src = path
+      img.onload = () => {
+        ronin.log(`Open ${img.width}x${img.height}`)
+        const rect = { x: 0, y: 0, w: img.width, h: img.height }
+        this.resize(rect, true)
+        this.context.drawImage(img, 0, 0, img.width, img.height)
+        resolve()
       }
-    }
+    })
   }
 
-  this.draw = function (img, rect = this.getFrame(), callback = () => {}) {
-    img.onload = () => {
+  this.draw = function (img, rect = this.getFrame()) {
+    return new Promise(resolve => {
+      img.onload = () => {
       ronin.log(`Draw ${img.width}x${img.height}`)
       this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h) // no strect: img.height * (rect.w / img.width)
-      if (typeof callback === 'function') {
-        callback()
-      }
+      resolve()
     }
+    });
   }
 
   this.crop = function (rect) {
