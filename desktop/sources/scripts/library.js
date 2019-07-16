@@ -43,6 +43,11 @@ function Library (ronin) {
     return rect
   }
 
+  this.crop = (rect, callback) => {
+    ronin.surface.crop(rect, callback)
+    return rect
+  }
+
   this.exit = () => {
     // TODO: Closes Ronin
   }

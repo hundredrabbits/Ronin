@@ -1,4 +1,4 @@
-; resize
+; crop
 
 (
   (clear)
@@ -6,7 +6,7 @@
   ; Filter
 
   (def filter-action 
-    (lambda () (resize 0.5 0.5)))
+    (lambda () (crop (rect 100 100 400 400))))
 
   ; Draw photo 
   

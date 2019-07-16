@@ -136,6 +136,13 @@ function Surface (ronin) {
     }
   }
 
+  this.crop = function (rect) {
+    console.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
+    const crop = this.getCrop(rect)
+    this.resize(rect, true)
+    this.context.drawImage(crop, 0, 0)
+  }
+
   this.clear = function (rect = this.getFrame(), context = this.context) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
@@ -182,6 +189,14 @@ function Surface (ronin) {
 
   this.getFrame = function () {
     return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect' }
+  }
+
+  this.getCrop = function (rect) {
+    const newCanvas = document.createElement('canvas')
+    newCanvas.width = rect.w
+    newCanvas.height = rect.h
+    newCanvas.getContext('2d').drawImage(this.el, rect.x, rect.y, rect.w, rect.h, 0, 0, rect.w, rect.h)
+    return newCanvas
   }
 
   this.resizeImage = function (src, dst, type = 'image/jpeg', quality = 0.92) {
