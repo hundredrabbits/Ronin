@@ -20,10 +20,9 @@ function Lisp (input, lib) {
 
   const special = {
     run: (input, context) => {
-      const file = fs.readFileSync(
-        path.resolve(input[1].value),
-        { encoding: 'utf-8' })
-
+      const p = input[1].value
+      if (!fs.existsSync(p)) { console.warn('Source', p); return [] }
+      const file = fs.readFileSync(p, { encoding: 'utf-8' })
       return interpret(this.parse(file), context)
     },
     let: function (input, context) {
@@ -31,7 +30,6 @@ function Lisp (input, lib) {
         acc.scope[x[0].value] = interpret(x[1], context)
         return acc
       }, new Context({}, context))
-
       return interpret(input[2], letContext)
     },
     def: function (input, context) {
@@ -68,7 +66,6 @@ function Lisp (input, lib) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-
         return interpret(input[2], new Context(lambdaScope, context))
       }
     },

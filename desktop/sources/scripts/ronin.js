@@ -92,11 +92,11 @@ function Ronin () {
     const file = e.dataTransfer.files[0]
     if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
     const path = file.path ? file.path : file.name
-    if (path.indexOf('.lisp') > -1) {
-      this.source.read(path)
-      this.commander.show()
-    } else if (file.path) {
+    if (this.commander.canInject()) {
       this.commander.injectPath(file.path)
+      this.commander.show()
+    } else if (path.indexOf('.lisp') > -1) {
+      this.source.read(path)
       this.commander.show()
     }
   }

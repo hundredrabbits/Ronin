@@ -7,9 +7,8 @@ function Library (ronin) {
   this.folder = (path = ronin.source.path) => {
     const a = []
     if (path) {
-      const folder = ronin.source.folder(path)
-      if (fs.existsSync(folder)) {
-        return fs.readdirSync(folder)
+      if (fs.existsSync(path)) {
+        return fs.readdirSync(path)
       }
     }
     return a
@@ -167,10 +166,6 @@ function Library (ronin) {
   this.center = () => {
     const rect = this.frame()
     return this.pos(rect.w / 2, rect.h / 2)
-  }
-
-  this.path = (path) => {
-    return path
   }
 
   this.scale = (rect, w, h) => {

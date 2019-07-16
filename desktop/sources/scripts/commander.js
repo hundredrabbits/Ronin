@@ -106,8 +106,14 @@ function Commander (ronin) {
     this.cache = this._input.value
   }
 
+  this.canInject = function () {
+    return this._input.value.indexOf('$path') > -1
+  }
+
   this.injectPath = function (path) {
-    this._input.value = this._input.value.replace('($path)', `(path "${path}")`)
+    if (this.canInject()) {
+      this._input.value = this._input.value.replace('$path', `"${path}"`)
+    }
   }
 
   this.commit = function () {
