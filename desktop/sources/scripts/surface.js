@@ -4,7 +4,6 @@ function Surface (ronin) {
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
   this.ratio = window.devicePixelRatio
-
   // Contexts
   this.context = this.el.getContext('2d')
   this.guide = this.el.getContext('2d')
@@ -22,11 +21,6 @@ function Surface (ronin) {
 
   this.start = function () {
     this.maximize()
-    console.log('Surface', `Ratio:${this.ratio}`)
-  }
-
-  this.update = function () {
-
   }
 
   // Shape

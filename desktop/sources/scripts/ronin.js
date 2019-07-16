@@ -40,7 +40,6 @@ function Ronin () {
     this.source.start()
     this.commander.start()
     this.surface.start()
-
     console.log('Ronin', 'Started')
   }
 
@@ -50,7 +49,7 @@ function Ronin () {
 
   this.log = function (msg) {
     console.log(msg)
-    this.commander.setStatus(msg)
+    this.commander.setStatus(msg.reduce((acc, val) => { return acc + val + ' ' }, ''))
   }
 
   this.load = function (content = this.default()) {

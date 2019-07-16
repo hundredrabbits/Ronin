@@ -4,16 +4,6 @@ function Library (ronin) {
     return path
   }
 
-  this.folder = (path = ronin.source.path) => {
-    const a = []
-    if (path) {
-      if (fs.existsSync(path)) {
-        return fs.readdirSync(path)
-      }
-    }
-    return a
-  }
-
   this.save = (path = ronin.source.folder(), type = 'png', quality = 1.0) => {
     if (!path) { console.warn('Missing save path'); return path }
     var fullQuality = ronin.surface.el.toDataURL('image/png', quality)
@@ -47,8 +37,12 @@ function Library (ronin) {
     return rect
   }
 
+  this.folder = (path = ronin.source.path) => {
+    return fs.existsSync(path) ? fs.readdirSync(path) : []
+  }
+
   this.exit = () => {
-    // TODO: Closes Ronin
+    ronin.source.quit()
   }
 
   // Logic
@@ -293,14 +287,8 @@ function Library (ronin) {
   // Generics
 
   this.echo = (...args) => {
-    const msg = args.reduce((acc, val) => { return acc + val + ' ' }, '')
-    ronin.log(msg)
+    ronin.log(args)
     return args
-  }
-
-  this.print = (msg) => {
-    ronin.log(msg)
-    return msg
   }
 
   this.str = (...args) => {
