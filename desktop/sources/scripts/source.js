@@ -14,6 +14,7 @@ function Source (ronin) {
   this.new = function () {
     console.log('Source', 'Make a new file..')
     this.path = null
+    ronin.surface.clear()
   }
 
   this.open = function () {
