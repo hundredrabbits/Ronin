@@ -1,7 +1,6 @@
 function Library (ronin) {
-  this.open = (path, callback) => {
-    ronin.surface.open(path, callback)
-    return path
+  this.open = async (path) => {
+    return ronin.surface.open(path)
   }
 
   this.export = (path, type = 'image/png', quality = 1.0) => {
@@ -12,27 +11,24 @@ function Library (ronin) {
     return path
   }
 
-  this.draw = (path, rect, callback) => {
+  this.draw = async (path, rect) => {
     const img = new Image()
     img.src = path
-    ronin.surface.draw(img, rect, callback)
-    return rect
+    return ronin.surface.draw(img, rect)
   }
 
-  this.resize = (w = 1, h = 1, callback) => {
+  this.resize = async (w = 1, h = 1) => {
     const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
     ronin.surface.resizeImage(a, b)
     ronin.surface.resize(rect, true)
-    ronin.surface.draw(b, rect, callback)
-    return rect
+    return ronin.surface.draw(b, rect)
   }
 
-  this.crop = (rect, callback) => {
-    ronin.surface.crop(rect, callback)
-    return rect
+  this.crop = async (rect) => {
+    return ronin.surface.crop(rect)
   }
 
   this.folder = (path = ronin.source.path) => {
@@ -77,12 +73,21 @@ function Library (ronin) {
 
   // Arrays
 
-  this.map = (fn, arr) => {
-    return arr.map(fn)
+  this.map = async (fn, arr) => {
+    return Promise.all(arr.map(fn))
   }
 
-  this.filter = (fn, arr) => {
+  this._filter = (fn, arr) => {
     return arr.filter(fn)
+  }
+  this.filter= (fn, arr) => {
+   const list = Array.from(arr);
+   return Promise.all(list.map((element, index) => fn(element, index, list)))
+     .then(result => {
+       return list.filter((_, index) => {
+         return result[index];
+       });
+    });
   }
 
   this.reduce = (fn, arr, acc = 0) => {
