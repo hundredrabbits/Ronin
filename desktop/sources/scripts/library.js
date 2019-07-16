@@ -57,12 +57,24 @@ function Library (ronin) {
     return a === b
   }
 
-  this.and = (...args) => {
-    return args.every((x) => x)
+  this.and = (a, b, ...rest) => {
+    let args = [a, b].concat(rest)
+    for (let i = 0; i < args.length; i++) {
+      if (!args[i]) {
+        return args[i]
+      }
+    }
+    return args[args.length - 1]
   }
 
-  this.or = (...args) => {
-    return args.some((x) => x)
+  this.or = (a, b, ...rest) => {
+    let args = [a, b].concat(rest)
+    for (let i = 0; i < args.length; i++) {
+      if (args[i]) {
+        return args[i]
+      }
+    }
+    return args[args.length - 1]
   }
 
   // Arrays
