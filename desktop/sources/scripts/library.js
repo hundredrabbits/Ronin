@@ -58,21 +58,11 @@ function Library (ronin) {
   }
 
   this.and = (...args) => {
-    for (let i = 0; i < args.length; i++) {
-      if (!args[i]) {
-        return args[i]
-      }
-    }
-    return args[args.length - 1]
+    return args.every((x) => x)
   }
 
   this.or = (...args) => {
-    for (let i = 0; i < args.length; i++) {
-      if (args[i]) {
-        return args[i]
-      }
-    }
-    return args[args.length - 1]
+    return args.some((x) => x)
   }
 
   // Arrays
