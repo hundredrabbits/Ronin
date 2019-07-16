@@ -57,7 +57,8 @@ function Library (ronin) {
     return a === b
   }
 
-  this.and = (...args) => {
+  this.and = (a, b, ...rest) => {
+    let args = [a, b].concat(rest)
     for (let i = 0; i < args.length; i++) {
       if (!args[i]) {
         return args[i]
@@ -66,7 +67,8 @@ function Library (ronin) {
     return args[args.length - 1]
   }
 
-  this.or = (...args) => {
+  this.or = (a, b, ...rest) => {
+    let args = [a, b].concat(rest)
     for (let i = 0; i < args.length; i++) {
       if (args[i]) {
         return args[i]
