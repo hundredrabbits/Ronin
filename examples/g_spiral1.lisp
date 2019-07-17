@@ -1,7 +1,8 @@
 ; animated recusive spiral
-; click on "toggle animation"
 ; by @local_guru
 (
+ (def start (get ronin "animate"))
+ (clear)
  (defn rec
   (v)
   (if (gt v 0)
@@ -23,5 +24,6 @@
    )
   )
  )
+(start)
 (rec 300)
 )
