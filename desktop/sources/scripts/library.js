@@ -79,9 +79,6 @@ function Library (ronin) {
     return Promise.all(arr.map(fn))
   }
 
-  this._filter = (fn, arr) => {
-    return arr.filter(fn)
-  }
   this.filter = (fn, arr) => {
     const list = Array.from(arr)
     return Promise.all(list.map((element, index) => fn(element, index, list)))
