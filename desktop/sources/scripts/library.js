@@ -1,5 +1,4 @@
 function Library (ronin) {
-  console.log(ronin)
   this.open = async (path) => {
     return ronin.surface.open(path)
   }
@@ -215,7 +214,7 @@ function Library (ronin) {
 
   // Gradients
 
-  this.gradient = ([x1,y1,x2,y2], colors=['white','black']) => {
+  this.gradient = ([x1, y1, x2, y2], colors = ['white', 'black']) => {
     return ronin.surface.linearGradient(x1, y1, x2, y2, colors)
   }
 
@@ -337,5 +336,4 @@ function Library (ronin) {
 
   // javascript interop
   this.js = window
-
 }

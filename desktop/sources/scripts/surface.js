@@ -61,11 +61,11 @@ function Surface (ronin) {
     context.closePath()
   }
 
-  this.linearGradient = function(x1, y1, x2, y2, colors, context = this.context) {
+  this.linearGradient = function (x1, y1, x2, y2, colors, context = this.context) {
     const gradient = context.createLinearGradient(x1, y1, x2, y2)
-    const step = 1/(colors.length - 1)
-    colors.forEach((color,i) => {
-      gradient.addColorStop(i*step, color)
+    const step = 1 / (colors.length - 1)
+    colors.forEach((color, i) => {
+      gradient.addColorStop(i * step, color)
     })
     return gradient
   }
