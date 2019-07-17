@@ -1,3 +1,6 @@
+; animated recusive spiral
+; click on "toggle animation"
+; by @local_guru
 (
  (defn rec
   (v)
