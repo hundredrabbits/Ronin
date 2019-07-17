@@ -4,6 +4,7 @@ function Commander (ronin) {
   this._input = document.createElement('textarea')
   this._status = document.createElement('div')
   this._status.id = 'status'
+  this.isVisible = true
 
   this.install = function (host) {
     this.el.appendChild(this._input)
@@ -22,7 +23,6 @@ function Commander (ronin) {
 
   this.run = (txt = this._input.value) => {
     if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
-    ronin.surface.maximize()
     const inter = new Lisp(txt, ronin.library)
     inter.toPixels()
     ronin.always && requestAnimationFrame(() => this.run(txt))
@@ -144,19 +144,19 @@ function Commander (ronin) {
   // Display
 
   this.show = function () {
-    if (ronin.el.className !== '') {
-      ronin.el.className = ''
-    }
+    if (this.isVisible === true) { return }
+    ronin.el.className = ''
+    this.isVisible = true
   }
 
   this.hide = function () {
-    if (ronin.el.className !== 'hidden') {
-      ronin.el.className = 'hidden'
-    }
+    if (this.isVisible !== true) { return }
+    ronin.el.className = 'hidden'
+    this.isVisible = false
   }
 
   this.toggle = function () {
-    if (ronin.el.className === 'hidden') {
+    if (this.isVisible !== true) {
       this.show()
     } else {
       this.hide()

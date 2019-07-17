@@ -150,6 +150,7 @@ function Surface (ronin) {
   }
 
   this.resize = function (size, fit = false) {
+    console.log('Surface', `Resize: ${size.w}x${size.h}`)
     this.el.width = size.w
     this.el.height = size.h
     this.el.style.width = size.w + 'px'
@@ -165,7 +166,7 @@ function Surface (ronin) {
 
   this.fitWindow = function (size) {
     const win = require('electron').remote.getCurrentWindow()
-    const pad = { w: 60, h: 60 }
+    const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
     win.setSize(size.w + pad.w, size.h + pad.h, false)
   }
 
