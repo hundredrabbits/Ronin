@@ -75,8 +75,8 @@ function Source (ronin) {
     ronin.commander._input.value = data
   }
 
-  this.quit = function () {
-    if (this.hasChanges() === true) {
+  this.quit = function (force = false) {
+    if (this.hasChanges() === true && force === false) {
       this.verify()
     } else {
       app.exit()

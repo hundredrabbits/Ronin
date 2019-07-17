@@ -31,25 +31,25 @@ function Library (ronin) {
     return ronin.surface.crop(rect)
   }
 
-  this.folder = (path = ronin.source.path) => {
+  this.folder = (path = ronin.source.path) => { // Returns the content of a folder path.
     return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 
-  this.exit = () => {
-    ronin.source.quit()
+  this.exit = (force = false) => { // Exits Ronin/
+    ronin.source.quit(force)
   }
 
   // Logic
 
-  this.gt = (a, b) => {
+  this.gt = (a, b) => { // Returns true if a is greater than b, else false.
     return a > b
   }
 
-  this.lt = (a, b) => {
+  this.lt = (a, b) => { // Returns true if a is less than b, else false.
     return a < b
   }
 
-  this.eq = (a, b) => {
+  this.eq = (a, b) => { // Returns true if a is equal to b, else false.
     return a === b
   }
 

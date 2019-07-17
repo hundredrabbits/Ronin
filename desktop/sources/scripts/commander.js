@@ -178,18 +178,22 @@ function Commander (ronin) {
       for (const id in payload) {
         const parts = payload[id].split(' = ')
         const name = parts[0]
-        const params = parts[1].match(/\(([^)]+)\)/)
-        if (!params) { console.warn('Docs', 'Misformatted ' + name); continue }
-        this.dict[name] = params[1].split(',').map((word) => { return word.trim() })
+        const parent = parts[1].match(/\(([^)]+)\)/)
+        const params = parent ? parent[1].split(',').map((word) => { return word.trim() }) : []
+        const note = payload[id].indexOf('// ') > -1 ? payload[id].split('//')[1].trim() : ''
+        this.dict[name] = { note, params }
+        if (params.length < 1) { console.warn('Docs', 'Missing params for ' + name) }
+        if (note === '') { console.warn('Docs', 'Missing note for ' + name) }
       }
-      console.log('Dict', `Loaded ${Object.keys(this.dict).length} functions.`)
+      console.log('Docs', `Loaded ${Object.keys(this.dict).length} functions.`)
       console.log(this.toMarkdown())
     },
     toMarkdown: function () {
       return Object.keys(this.dict).reduce((acc, item, key) => {
-        return `${acc}- \`(${item} ${this.dict[item].reduce((acc, item) => {
+        const example = `${item} ${this.dict[item].params.reduce((acc, item) => {
           return `${acc}${item} `
-        }, '').trim()})\`\n`
+        }, '').trim()}`
+        return `${acc}- \`(${example.trim()})\` ${this.dict[item].note}\n`
       }, '')
     }
   }
