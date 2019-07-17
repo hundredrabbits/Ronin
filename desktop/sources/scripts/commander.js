@@ -176,10 +176,9 @@ function Commander (ronin) {
     },
     install: function (payload = this.load()) {
       for (const id in payload) {
-        const parts = payload[id].split(' = ')
-        const name = parts[0]
-        const parent = parts[1].match(/\(([^)]+)\)/)
-        const params = parent ? parent[1].split(',').map((word) => { return word.trim() }) : []
+        const name = payload[id].substr(0, payload[id].indexOf(' = '))
+        const parent = payload[id].substr(payload[id].indexOf(' = ')).match(/\(([^)]+)\)/)
+        const params = parent ? parent[1].split(',').map((word) => { return word.indexOf(' = ') ? word.split(' = ')[0].trim() : word }) : []
         const note = payload[id].indexOf('// ') > -1 ? payload[id].split('//')[1].trim() : ''
         this.dict[name] = { note, params }
         if (params.length < 1) { console.warn('Docs', 'Missing params for ' + name) }
