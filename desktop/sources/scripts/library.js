@@ -215,6 +215,12 @@ function Library (ronin) {
     return getComputedStyle(el).getPropertyValue(`--${variable}`)
   }
 
+  // Gradients
+
+  this.gradient = ([x1,y1,x2,y2], colors=['white','black']) => {
+    return ronin.surface.linearGradient(x1, y1, x2, y2, colors)
+  }
+
   // Pixels
 
   this.pixels = (rect, fn, q) => {
