@@ -1,4 +1,5 @@
 function Library (ronin) {
+  console.log(ronin)
   this.open = async (path) => {
     return ronin.surface.open(path)
   }
@@ -326,12 +327,15 @@ function Library (ronin) {
     return a === b
   }
 
+  // Client
+  this.ronin = ronin
+
   // Livecoding
   this.time = Date.now
+
+  this.animate = (b = true) => ronin.animate(b)
 
   // javascript interop
   this.js = window
 
-  // Client
-  this.ronin = ronin
 }

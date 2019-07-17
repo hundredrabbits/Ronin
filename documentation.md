@@ -146,6 +146,10 @@
 
 `(time)` returns timestamp in milliseconds
 
+`(animate)` start animation
+
+`(animate false)` stop animation
+
 ## Javascript interop
 
 `js`
