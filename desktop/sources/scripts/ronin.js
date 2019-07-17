@@ -61,6 +61,7 @@ function Ronin () {
   }
 
   this.animate = (b = true) => {
+    if(this.always === b){ return }
     this.always = b
     this.commander.run()
   }
