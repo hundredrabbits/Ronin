@@ -4,17 +4,17 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "clean"        : "rm -r ~/Desktop/Ronin-darwin-x64/ ; rm -r ~/Desktop/Ronin-linux-x64/ ; rm -r ~/Desktop/Ronin-win32-x64/ ; echo 'cleaned build location'",
-    "build_osx"    : "electron-packager . Ronin --platform=darwin --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.icns ; echo 'Built for OSX'",
-    "build_linux"  : "electron-packager . Ronin --platform=linux  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for LINUX'",
-    "build_win"    : "electron-packager . Ronin --platform=win32  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for WIN'",
-    "build"        : "npm run clean ; npm run build_osx ; npm run build_linux ; npm run build_win",
-    "push_osx"     : "~/butler push ~/Desktop/Ronin-darwin-x64/ hundredrabbits/ronin:osx-64",
-    "push_linux"   : "~/butler push ~/Desktop/Ronin-linux-x64/ hundredrabbits/ronin:linux-64",
-    "push_win"     : "~/butler push ~/Desktop/Ronin-win32-x64/ hundredrabbits/ronin:windows-64",
-    "push_theme"   : "~/butler push ~/Github/HundredRabbits/Themes/themes/ hundredrabbits/ronin:themes",
-    "push_status"  : "~/butler status hundredrabbits/ronin",
-    "push"         : "npm run build ; npm run push_theme ; npm run push_osx ; npm run push_linux ; npm run push_win ; npm run clean ; npm run push_status"
+    "clean": "rm -r ~/Desktop/Ronin-darwin-x64/ ; rm -r ~/Desktop/Ronin-linux-x64/ ; rm -r ~/Desktop/Ronin-win32-x64/ ; echo 'cleaned build location'",
+    "build_osx": "electron-packager . Ronin --platform=darwin --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.icns ; echo 'Built for OSX'",
+    "build_linux": "electron-packager . Ronin --platform=linux  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for LINUX'",
+    "build_win": "electron-packager . Ronin --platform=win32  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for WIN'",
+    "build": "npm run clean ; npm run build_osx ; npm run build_linux ; npm run build_win",
+    "push_osx": "~/butler push ~/Desktop/Ronin-darwin-x64/ hundredrabbits/ronin:osx-64",
+    "push_linux": "~/butler push ~/Desktop/Ronin-linux-x64/ hundredrabbits/ronin:linux-64",
+    "push_win": "~/butler push ~/Desktop/Ronin-win32-x64/ hundredrabbits/ronin:windows-64",
+    "push_theme": "~/butler push ~/Github/HundredRabbits/Themes/themes/ hundredrabbits/ronin:themes",
+    "push_status": "~/butler status hundredrabbits/ronin",
+    "push": "npm run build ; npm run push_theme ; npm run push_osx ; npm run push_linux ; npm run push_win ; npm run clean ; npm run push_status"
   },
   "devDependencies": {
     "electron": "^5.0.6",

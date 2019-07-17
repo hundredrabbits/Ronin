@@ -19,11 +19,10 @@ function Lisp (input, lib) {
   }
 
   const special = {
-    run: (input, context) => {
-      const file = fs.readFileSync(
-        path.resolve(input[1].value),
-        { encoding: 'utf-8' })
-
+    include: (input, context) => {
+      const p = input[1].value
+      if (!fs.existsSync(p)) { console.warn('Source', p); return [] }
+      const file = fs.readFileSync(p, { encoding: 'utf-8' })
       return interpret(this.parse(file), context)
     },
     let: function (input, context) {
@@ -31,7 +30,6 @@ function Lisp (input, lib) {
         acc.scope[x[0].value] = interpret(x[1], context)
         return acc
       }, new Context({}, context))
-
       return interpret(input[2], letContext)
     },
     def: function (input, context) {
@@ -52,7 +50,7 @@ function Lisp (input, lib) {
         // docstring
         console.log(input[2].value)
       }
-      context.scope[identifier] = function () {
+      context.scope[identifier] = async function () {
         const lambdaArguments = arguments
         const lambdaScope = argumentNames.reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
@@ -62,33 +60,32 @@ function Lisp (input, lib) {
       }
     },
     lambda: function (input, context) {
-      return function () {
+      return async function () {
         const lambdaArguments = arguments
         const lambdaScope = input[1].reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-
         return interpret(input[2], new Context(lambdaScope, context))
       }
     },
-    if: function (input, context) {
-      if (interpret(input[1], context)) {
+    if: async function (input, context) {
+      if (await interpret(input[1], context)) {
         return interpret(input[2], context)
       }
       return input[3] ? interpret(input[3], context) : []
     }
   }
 
-  const interpretList = function (input, context) {
+  const interpretList = async function (input, context) {
     if (input.length > 0 && input[0].value in special) {
       return special[input[0].value](input, context)
     }
-    const list = input.map(function (x) { return interpret(x, context) })
+    const list = await Promise.all(input.map(function (x) { return interpret(x, context) }))
     return list[0] instanceof Function ? list[0].apply(undefined, list.slice(1)) : list
   }
 
-  const interpret = function (input, context) {
+  const interpret = async function (input, context) {
     if (!input) { console.warn('error', context.scope); return null }
 
     if (context === undefined) {
@@ -137,7 +134,7 @@ function Lisp (input, lib) {
     return parenthesize(tokenize(input))
   }
 
-  this.toPixels = function () {
+  this.toPixels = async function () {
     return interpret(this.parse(input))
   }
 }

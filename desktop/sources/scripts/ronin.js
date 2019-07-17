@@ -21,6 +21,10 @@ function Ronin () {
   this.surface = new Surface(this)
   this.library = new Library(this)
 
+  // Parameters
+
+  this.always = false
+
   this.install = function (host = document.body) {
     this._wrapper = document.createElement('div')
     this._wrapper.id = 'wrapper'
@@ -40,7 +44,6 @@ function Ronin () {
     this.source.start()
     this.commander.start()
     this.surface.start()
-
     console.log('Ronin', 'Started')
   }
 
@@ -48,13 +51,19 @@ function Ronin () {
     this.theme.reset()
   }
 
-  this.log = function (msg) {
-    console.log(msg)
-    this.commander.setStatus(msg)
+  this.log = function (...msg) {
+    console.log(...msg)
+    this.commander.setStatus(msg.reduce((acc, val) => { return acc + val + ' ' }, ''))
   }
 
   this.load = function (content = this.default()) {
 
+  }
+
+  this.animate = (b = true) => {
+    if (this.always === b) { return }
+    this.always = b
+    this.commander.run()
   }
 
   // Zoom
@@ -92,11 +101,11 @@ function Ronin () {
     const file = e.dataTransfer.files[0]
     if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
     const path = file.path ? file.path : file.name
-    if (path.indexOf('.lisp') > -1) {
-      this.source.read(path)
-      this.commander.show()
-    } else if (file.path) {
+    if (this.commander.canInject()) {
       this.commander.injectPath(file.path)
+      this.commander.show()
+    } else if (path.indexOf('.lisp') > -1) {
+      this.source.read(path)
       this.commander.show()
     }
   }

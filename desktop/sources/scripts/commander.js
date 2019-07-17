@@ -4,7 +4,7 @@ function Commander (ronin) {
   this._input = document.createElement('textarea')
   this._status = document.createElement('div')
   this._status.id = 'status'
-  this.isAnimated = false
+  this.isVisible = true
 
   this.install = function (host) {
     this.el.appendChild(this._input)
@@ -23,16 +23,9 @@ function Commander (ronin) {
 
   this.run = (txt = this._input.value) => {
     if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
-    !this.isAnimated && console.log('========')
-    ronin.surface.maximize()
     const inter = new Lisp(txt, ronin.library)
     inter.toPixels()
-    this.isAnimated && requestAnimationFrame(() => this.run(txt))
-  }
-
-  this.toggleAnimation = () => {
-    this.isAnimated = !this.isAnimated
-    this.run(this._input.value)
+    ronin.always && requestAnimationFrame(() => this.run(txt))
   }
 
   this.load = function (txt) {
@@ -106,8 +99,14 @@ function Commander (ronin) {
     this.cache = this._input.value
   }
 
+  this.canInject = function () {
+    return this._input.value.indexOf('$path') > -1
+  }
+
   this.injectPath = function (path) {
-    this._input.value = this._input.value.replace('($path)', `(path "${path}")`)
+    if (this.canInject()) {
+      this._input.value = this._input.value.replace('$path', `"${path}"`)
+    }
   }
 
   this.commit = function () {
@@ -145,19 +144,19 @@ function Commander (ronin) {
   // Display
 
   this.show = function () {
-    if (ronin.el.className !== '') {
-      ronin.el.className = ''
-    }
+    if (this.isVisible === true) { return }
+    ronin.el.className = ''
+    this.isVisible = true
   }
 
   this.hide = function () {
-    if (ronin.el.className !== 'hidden') {
-      ronin.el.className = 'hidden'
-    }
+    if (this.isVisible !== true) { return }
+    ronin.el.className = 'hidden'
+    this.isVisible = false
   }
 
   this.toggle = function () {
-    if (ronin.el.className === 'hidden') {
+    if (this.isVisible !== true) {
       this.show()
     } else {
       this.hide()

@@ -1,55 +1,42 @@
 function Library (ronin) {
-  this.open = (path, callback) => {
-    ronin.surface.open(path, callback)
+  this.open = async (path) => {
+    return ronin.surface.open(path)
+  }
+
+  this.export = (path, type = 'image/png', quality = 1.0) => {
+    if (!path) { console.warn('Missing export path'); return path }
+    var dataUrl = ronin.surface.el.toDataURL(type, quality)
+    const data = dataUrl.replace(/^data:image\/png;base64,/, '')
+    fs.writeFileSync(path, data, 'base64')
     return path
   }
 
-  this.folder = (path = ronin.source.path) => {
-    const a = []
-    if (path) {
-      const folder = ronin.source.folder(path)
-      if (fs.existsSync(folder)) {
-        return fs.readdirSync(folder)
-      }
-    }
-    return a
-  }
-
-  this.save = (path = ronin.source.folder(), type = 'png', quality = 1.0) => {
-    if (!path) { console.warn('Missing save path'); return path }
-    var fullQuality = ronin.surface.el.toDataURL('image/png', quality)
-    const base64Data = url.replace(/^data:image\/png;base64,/, '')
-    fs.writeFile('image.png', base64Data, 'base64', function (err) {
-      console.warn('error', err)
-    })
-    return path
-  }
-
-  this.draw = (path, rect, callback) => {
+  this.draw = async (path, rect) => {
     const img = new Image()
     img.src = path
-    ronin.surface.draw(img, rect, callback)
-    return rect
+    return ronin.surface.draw(img, rect)
   }
 
-  this.resize = (w = 1, h = 1, callback) => {
+  this.resize = async (w = 1, h = 1) => {
     const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
     ronin.surface.resizeImage(a, b)
     ronin.surface.resize(rect, true)
-    ronin.surface.draw(b, rect, callback)
-    return rect
+    return ronin.surface.draw(b, rect)
   }
 
-  this.crop = (rect, callback) => {
-    ronin.surface.crop(rect, callback)
-    return rect
+  this.crop = async (rect) => {
+    return ronin.surface.crop(rect)
+  }
+
+  this.folder = (path = ronin.source.path) => {
+    return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 
   this.exit = () => {
-    // TODO: Closes Ronin
+    ronin.source.quit()
   }
 
   // Logic
@@ -66,7 +53,8 @@ function Library (ronin) {
     return a === b
   }
 
-  this.and = (...args) => {
+  this.and = (a, b, ...rest) => {
+    let args = [a, b].concat(rest)
     for (let i = 0; i < args.length; i++) {
       if (!args[i]) {
         return args[i]
@@ -75,7 +63,8 @@ function Library (ronin) {
     return args[args.length - 1]
   }
 
-  this.or = (...args) => {
+  this.or = (a, b, ...rest) => {
+    let args = [a, b].concat(rest)
     for (let i = 0; i < args.length; i++) {
       if (args[i]) {
         return args[i]
@@ -86,12 +75,21 @@ function Library (ronin) {
 
   // Arrays
 
-  this.map = (fn, arr) => {
-    return arr.map(fn)
+  this.map = async (fn, arr) => {
+    return Promise.all(arr.map(fn))
   }
 
-  this.filter = (fn, arr) => {
+  this._filter = (fn, arr) => {
     return arr.filter(fn)
+  }
+  this.filter = (fn, arr) => {
+    const list = Array.from(arr)
+    return Promise.all(list.map((element, index) => fn(element, index, list)))
+      .then(result => {
+        return list.filter((_, index) => {
+          return result[index]
+        })
+      })
   }
 
   this.reduce = (fn, arr, acc = 0) => {
@@ -169,10 +167,6 @@ function Library (ronin) {
     return this.pos(rect.w / 2, rect.h / 2)
   }
 
-  this.path = (path) => {
-    return path
-  }
-
   this.scale = (rect, w, h) => {
     return { x: rect.x, y: rect.y, w: rect.w * w, h: rect.h * h }
   }
@@ -199,7 +193,16 @@ function Library (ronin) {
     return rect
   }
 
-  //
+  this.get = (item, key) => {
+    return item[key]
+  }
+
+  this.set = (item, key, val) => {
+    item[key] = val
+    return item[key]
+  }
+
+  // TODO: Should remove (of) for (get)?
 
   this.of = (h, ...keys) => {
     return keys.reduce((acc, key) => {
@@ -298,14 +301,8 @@ function Library (ronin) {
   // Generics
 
   this.echo = (...args) => {
-    const msg = args.reduce((acc, val) => { return acc + val + ' ' }, '')
-    ronin.log(msg)
+    ronin.log(args)
     return args
-  }
-
-  this.print = (msg) => {
-    ronin.log(msg)
-    return msg
   }
 
   this.str = (...args) => {
@@ -327,9 +324,11 @@ function Library (ronin) {
   }
 
   // Livecoding
-
   this.time = Date.now
 
   // javascript interop
   this.js = window
+
+  // Client
+  this.ronin = ronin
 }
