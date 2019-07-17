@@ -1,7 +1,7 @@
-; animation
-; click Project > Toggle Animation
+; animate
 
 (
+(ronin animate)
 (def t (sin (div (time) 100)))
 
 (def pos (add 200 (mul 30 t)))

@@ -123,11 +123,11 @@ function Surface (ronin) {
   this.draw = function (img, rect = this.getFrame()) {
     return new Promise(resolve => {
       img.onload = () => {
-      ronin.log(`Draw ${img.width}x${img.height}`)
-      this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h) // no strect: img.height * (rect.w / img.width)
-      resolve()
-    }
-    });
+        ronin.log(`Draw ${img.width}x${img.height}`)
+        this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h) // no strect: img.height * (rect.w / img.width)
+        resolve()
+      }
+    })
   }
 
   this.crop = function (rect) {

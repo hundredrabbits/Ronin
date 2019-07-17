@@ -82,14 +82,14 @@ function Library (ronin) {
   this._filter = (fn, arr) => {
     return arr.filter(fn)
   }
-  this.filter= (fn, arr) => {
-   const list = Array.from(arr);
-   return Promise.all(list.map((element, index) => fn(element, index, list)))
-     .then(result => {
-       return list.filter((_, index) => {
-         return result[index];
-       });
-    });
+  this.filter = (fn, arr) => {
+    const list = Array.from(arr)
+    return Promise.all(list.map((element, index) => fn(element, index, list)))
+      .then(result => {
+        return list.filter((_, index) => {
+          return result[index]
+        })
+      })
   }
 
   this.reduce = (fn, arr, acc = 0) => {
@@ -193,7 +193,16 @@ function Library (ronin) {
     return rect
   }
 
-  //
+  this.get = (item, key) => {
+    return item[key]
+  }
+
+  this.set = (item, key, val) => {
+    item[key] = val
+    return item[key]
+  }
+
+  // TODO: Should remove (of) for (get)?
 
   this.of = (h, ...keys) => {
     return keys.reduce((acc, key) => {
@@ -315,9 +324,11 @@ function Library (ronin) {
   }
 
   // Livecoding
-
   this.time = Date.now
 
   // javascript interop
   this.js = window
+
+  // Client
+  this.ronin = ronin
 }

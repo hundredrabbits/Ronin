@@ -21,6 +21,10 @@ function Ronin () {
   this.surface = new Surface(this)
   this.library = new Library(this)
 
+  // Parameters
+
+  this.always = false
+
   this.install = function (host = document.body) {
     this._wrapper = document.createElement('div')
     this._wrapper.id = 'wrapper'
@@ -54,6 +58,11 @@ function Ronin () {
 
   this.load = function (content = this.default()) {
 
+  }
+
+  this.animate = (b = true) => {
+    this.always = b
+    this.commander.run()
   }
 
   // Zoom
