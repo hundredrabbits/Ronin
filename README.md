@@ -14,6 +14,10 @@ npm install
 npm start
 ```
 
+## Documentation
+
+Documentation is accessible [here](./documentation.md)
+
 ## Extras
 
 - This application supports the [Ecosystem Theme](https://github.com/hundredrabbits/Themes).
