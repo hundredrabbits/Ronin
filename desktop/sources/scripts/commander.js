@@ -166,23 +166,31 @@ function Commander (ronin) {
   // Docs micro-module
 
   this.docs = {
+    dict: {},
     path: 'sources/scripts/library.js',
     load: function () {
       const fs = require('fs')
       if (!fs.existsSync(this.path)) { console.warn('Docs', 'File does not exist: ' + this.path); return }
       const lines = fs.readFileSync(this.path, 'utf8').split('\n').filter((line) => { return line.substr(0, 7) === '  this.' })
-      return lines.map((line) => { return line.trim().substr(5, line.length - 5).trim() })
+      return lines.map((line) => { return line.trim().substr(5).trim() })
     },
     install: function (payload = this.load()) {
-      const dict = {}
       for (const id in payload) {
         const parts = payload[id].split(' = ')
         const name = parts[0]
         const params = parts[1].match(/\(([^)]+)\)/)
         if (!params) { console.warn('Docs', 'Misformatted ' + name); continue }
-        dict[name] = params[1].split(',').map((word) => { return word.trim() })
+        this.dict[name] = params[1].split(',').map((word) => { return word.trim() })
       }
-      console.log(dict)
+      console.log('Dict', `Loaded ${Object.keys(this.dict).length} functions.`)
+      console.log(this.toMarkdown())
+    },
+    toMarkdown: function () {
+      return Object.keys(this.dict).reduce((acc, item, key) => {
+        return `${acc}- \`(${item} ${this.dict[item].reduce((acc, item) => {
+          return `${acc}${item} `
+        }, '').trim()})\`\n`
+      }, '')
     }
   }
 }
