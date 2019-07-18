@@ -11,32 +11,69 @@ function Library (ronin) {
     return path
   }
 
-  this.draw = async (path, rect) => {
-    const img = new Image()
-    img.src = path
-    return ronin.surface.draw(img, rect)
-  }
-
-  this.resize = async (w = 1, h = 1) => {
-    const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
-    const a = document.createElement('img')
-    const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, true)
-    return ronin.surface.draw(b, rect)
-  }
-
-  this.crop = async (rect) => {
-    return ronin.surface.crop(rect)
-  }
-
   this.folder = (path = ronin.source.path) => { // Returns the content of a folder path.
     return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 
   this.exit = (force = false) => { // Exits Ronin/
     ronin.source.quit(force)
+  }
+
+  // Math
+
+  this.add = (...args) => { // Adds values.
+    return args.reduce((sum, val) => sum + val)
+  }
+
+  this.sub = (...args) => { // Subtracts values.
+    return args.reduce((sum, val) => sum - val)
+  }
+
+  this.mul = (...args) => { // Multiplies values.
+    return args.reduce((sum, val) => sum * val)
+  }
+
+  this.div = (...args) => { // Divides values.
+    return args.reduce((sum, val) => sum / val)
+  }
+
+  this.mod = (a, b) => { // Returns the modulo of a and b.
+    return a % b
+  }
+
+  this.clamp = (val, min, max) => { // Clamps a value between min and max.
+    return Math.min(max, Math.max(min, val))
+  }
+
+  this.step = (val, step) => {
+    return Math.round(val / step) * step
+  }
+
+  this.min = Math.min
+
+  this.max = Math.max
+
+  this.ceil = Math.ceil
+
+  this.floor = Math.floor
+
+  this.sin = Math.sin
+
+  this.cos = Math.cos
+
+  this.PI = Math.PI
+
+  this.TWO_PI = Math.PI * 2
+
+  this.random = (...args) => {
+    if (args.length >= 2) {
+      // (random start end)
+      return args[0] + Math.random() * (args[1] - args[0])
+    } else if (args.length === 1) {
+      // (random max)
+      return Math.random() * args[0]
+    }
+    return Math.random()
   }
 
   // Logic
@@ -93,15 +130,15 @@ function Library (ronin) {
     return arr.reduce(fn, acc)
   }
 
-  this.len = (item) => {
+  this.len = (item) => { // Returns the length of a list.
     return item.length
   }
 
-  this.first = (arr) => {
+  this.first = (arr) => { // Returns the first item of a list.
     return arr[0]
   }
 
-  this.last = (arr) => {
+  this.last = (arr) => { // Returns the last
     return arr[arr.length - 1]
   }
 
@@ -125,41 +162,41 @@ function Library (ronin) {
 
   // Shapes
 
-  this.pos = (x, y, t = 'pos') => {
+  this.pos = (x, y, t = 'pos') => { // Returns a position shape.
     return { x, y, t }
   }
 
-  this.size = (w, h, t = 'size') => {
+  this.size = (w, h, t = 'size') => { // Returns a size shape.
     return { w, h, t }
   }
 
-  this.rect = (x, y, w, h, t = 'rect') => {
+  this.rect = (x, y, w, h, t = 'rect') => { // Returns a rect shape.
     return { x, y, w, h, t }
   }
 
-  this.circle = (x, y, r, t = 'circle') => {
+  this.circle = (x, y, r, t = 'circle') => { // Returns a circle shape.
     return { x, y, r, t }
   }
 
-  this.line = (a, b, t = 'line') => {
+  this.line = (a, b, t = 'line') => { // Returns a line shape.
     return { a, b, t }
   }
 
-  this.text = (x, y, g, s, f = 'Arial', t = 'text') => {
+  this.text = (x, y, g, s, f = 'Arial', t = 'text') => { // Returns a text shape.
     return { x, y, g, s, f, t }
   }
 
-  this.svg = (d, t = 'svg') => {
+  this.svg = (d, t = 'svg') => { // Returns a svg shape.
     return { d, t }
   }
 
   // Helpers
 
-  this.frame = () => {
+  this.frame = () => { // Returns a rect of the frame.
     return ronin.surface.getFrame()
   }
 
-  this.center = () => {
+  this.center = () => { // Returns a position of the center of the frame.
     const rect = this.frame()
     return this.pos(rect.w / 2, rect.h / 2)
   }
@@ -175,26 +212,26 @@ function Library (ronin) {
     return [a, b]
   }
 
-  this.stroke = (shape = this.frame(), thickness, color) => {
+  this.stroke = (shape = this.frame(), thickness, color) => { // Strokes a shape.
     ronin.surface.stroke(shape, thickness, color)
     return shape
   }
 
-  this.fill = (rect = this.frame(), color) => {
+  this.fill = (rect = this.frame(), color) => { // Fills a shape.
     ronin.surface.fill(rect, color)
     return rect
   }
 
-  this.clear = (rect = this.frame()) => {
+  this.clear = (rect = this.frame()) => { // Clears a rect.
     ronin.surface.clear(rect)
     return rect
   }
 
-  this.get = (item, key) => {
+  this.get = (item, key) => { // Gets an object's parameter with name.
     return item[key]
   }
 
-  this.set = (item, key, val) => {
+  this.set = (item, key, val) => { // Sets an object's parameter with name as value.
     item[key] = val
     return item[key]
   }
@@ -220,6 +257,12 @@ function Library (ronin) {
 
   // Pixels
 
+  this.draw = async (path, rect) => {
+    const img = new Image()
+    img.src = path
+    return ronin.surface.draw(img, rect)
+  }
+
   this.pixels = (rect, fn, q) => {
     const img = ronin.surface.context.getImageData(0, 0, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
@@ -244,61 +287,20 @@ function Library (ronin) {
     return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
   }
 
-  // Math
+  //
 
-  this.add = (...args) => {
-    return args.reduce((sum, val) => sum + val)
+  this.resize = async (w = 1, h = 1) => {
+    const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, true)
+    return ronin.surface.draw(b, rect)
   }
 
-  this.sub = (...args) => {
-    return args.reduce((sum, val) => sum - val)
-  }
-
-  this.mul = (...args) => {
-    return args.reduce((sum, val) => sum * val)
-  }
-
-  this.div = (...args) => {
-    return args.reduce((sum, val) => sum / val)
-  }
-
-  this.mod = (a, b) => {
-    return a % b
-  }
-
-  this.clamp = (val, min, max) => {
-    return Math.min(max, Math.max(min, val))
-  }
-
-  this.step = (val, step) => {
-    return Math.round(val / step) * step
-  }
-
-  this.min = Math.min
-
-  this.max = Math.max
-
-  this.ceil = Math.ceil
-
-  this.floor = Math.floor
-
-  this.sin = Math.sin
-
-  this.cos = Math.cos
-
-  this.PI = Math.PI
-
-  this.TWO_PI = Math.PI * 2
-
-  this.random = (...args) => {
-    if (args.length >= 2) {
-      // (random start end)
-      return args[0] + Math.random() * (args[1] - args[0])
-    } else if (args.length === 1) {
-      // (random max)
-      return Math.random() * args[0]
-    }
-    return Math.random()
+  this.crop = async (rect) => {
+    return ronin.surface.crop(rect)
   }
 
   // Generics
@@ -313,12 +315,7 @@ function Library (ronin) {
   }
 
   this.test = (name, a, b) => {
-    if (Array.isArray(a)) {
-      // TODO: make testing more solid
-      a = a.toString()
-      b = b.toString()
-    }
-    if (a !== b) {
+    if (`${a}` !== `${b}`) {
       console.warn('failed ' + name, a, b)
     } else {
       console.log('passed ' + name, a)
