@@ -206,29 +206,33 @@ function Surface (ronin) {
   }
 
   this.resizeImage = function (src, dst, type = 'image/png', quality = 1.0) {
-    const tmp = new Image()
-    let canvas
-    let context
-    let cW = src.naturalWidth
-    let cH = src.naturalHeight
-    tmp.src = src.src
-    tmp.onload = function () {
-      canvas = document.createElement('canvas')
-      cW /= 2
-      cH /= 2
-      if (cW < src.width) {
-        cW = src.width
+    return new Promise(resolve => {
+      const tmp = new Image()
+      let canvas
+      let context
+      let cW = src.naturalWidth
+      let cH = src.naturalHeight
+      tmp.src = src.src
+      // resolve()
+      tmp.onload = () => {
+        canvas = document.createElement('canvas')
+        cW /= 2
+        cH /= 2
+        if (cW < src.width) {
+          cW = src.width
+        }
+        if (cH < src.height) {
+          cH = src.height
+        }
+        canvas.width = cW
+        canvas.height = cH
+        context = canvas.getContext('2d')
+        context.drawImage(tmp, 0, 0, cW, cH)
+        dst.src = canvas.toDataURL(type, quality)
+        if (cW <= src.width || cH <= src.height) { return resolve()}
+        tmp.src = dst.src
+        return resolve()
       }
-      if (cH < src.height) {
-        cH = src.height
-      }
-      canvas.width = cW
-      canvas.height = cH
-      context = canvas.getContext('2d')
-      context.drawImage(tmp, 0, 0, cW, cH)
-      dst.src = canvas.toDataURL(type, quality)
-      if (cW <= src.width || cH <= src.height) { return }
-      tmp.src = dst.src
-    }
+    })
   }
 }

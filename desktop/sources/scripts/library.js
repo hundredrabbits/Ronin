@@ -238,13 +238,14 @@ function Library (ronin) {
     return { x: rect.x, y: rect.y, w: rect.w * w, h: rect.h * h }
   }
 
-  this.resize = async (w, h) => { // Resizes the canvas to target w and h, returns the rect.
+  this.resize = async (w, h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
-    ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, true)
+    await ronin.surface.resizeImage(a, b)
+    console.log(b)
+    ronin.surface.resize(rect, fit)
     return ronin.surface.draw(b, rect)
   }
 

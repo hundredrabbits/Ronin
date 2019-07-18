@@ -72,7 +72,10 @@ function Lisp (input, lib) {
     if (input.length > 0 && input[0].value in special) {
       return special[input[0].value](input, context)
     }
-    const list = await Promise.all(input.map(function (x) { return interpret(x, context) }))
+    const list = []
+    for(let i = 0; i < input.length; i++) {
+      list.push(await interpret(input[i], context))
+    }
     return list[0] instanceof Function ? list[0].apply(undefined, list.slice(1)) : list
   }
 
