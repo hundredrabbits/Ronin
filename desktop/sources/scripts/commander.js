@@ -8,15 +8,15 @@ function Commander (ronin) {
   this._log.id = 'log'
   this._source = document.createElement('div')
   this._source.id = 'source'
-  this._help = document.createElement('div')
-  this._help.id = 'help'
+  this._docs = document.createElement('div')
+  this._docs.id = 'help'
   this.isVisible = true
 
   this.install = function (host) {
     this.el.appendChild(this._input)
     this._status.appendChild(this._log)
     this._status.appendChild(this._source)
-    this._status.appendChild(this._help)
+    this._status.appendChild(this._docs)
     this.el.appendChild(this._status)
     host.appendChild(this.el)
     this._input.addEventListener('input', this.onInput)
@@ -64,10 +64,21 @@ function Commander (ronin) {
   }
 
   this.setStatus = function (msg) {
-    if (!msg || msg === this._log.textContent) { return }
-    this._log.textContent = `${msg}`
-    this._source.textContent = `${ronin.source} ${this._input.value.split('\n').length} lines`
-    console.log(msg)
+    // Logs
+    if (msg && msg !== this._log.textContent) {
+      this._log.textContent = `${msg}`
+      console.log(msg)
+    }
+    // Source
+    const _source = `${ronin.source} ${this._input.value.split('\n').length} lines`
+    if (_source !== this._source.textContent) {
+      this._source.textContent = _source
+    }
+    // Docs
+    const _docs = this.docs.print(this.getLastfn())
+    if (_docs !== this._docs.textContent) {
+      this._docs.textContent = `${_docs}`
+    }
   }
 
   this.update = function () {
@@ -75,11 +86,16 @@ function Commander (ronin) {
   }
 
   this.onInput = () => {
-    console.log('input', this._input.selectionStart)
+    this.setStatus()
   }
 
   this.onClick = () => {
-    console.log('click', this._input.selectionStart)
+    this.setStatus()
+  }
+
+  this.getLastfn = function () {
+    const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
+    return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
   }
 
   // Mouse
@@ -223,6 +239,9 @@ function Commander (ronin) {
         }, '').trim()}`
         return `${acc}- \`(${example.trim()})\` ${this.dict[item].note}\n`
       }, '')
+    },
+    print: function (name) {
+      return this.dict[name] ? `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})` : ''
     }
   }
 

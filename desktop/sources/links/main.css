@@ -5,7 +5,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin { height: calc(100vh - 60px); width:calc(100vw - 60px); -webkit-app-region: drag; padding: 30px;overflow: hidden; }
 #ronin #wrapper { overflow: hidden; position: relative; }
 #ronin #wrapper #commander { z-index: 9000;position: relative;width: 310px;height: calc(100vh - 60px);-webkit-app-region: no-drag;padding-right: 30px;transition: margin-left 250ms;}
-#ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 90px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
+#ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
 #ronin #wrapper #commander div#status { position: absolute; bottom: 0px; text-transform: lowercase;}
 #ronin.hidden #wrapper #commander { margin-left:-331px; }
 
