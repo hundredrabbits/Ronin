@@ -212,6 +212,12 @@ function Library (ronin) {
     return item[key]
   }
 
+  this.of = (h, ...keys) => {
+    return keys.reduce((acc, key) => {
+      return acc[key]
+    }, h)
+  }
+
   // Frame
 
   this.frame = () => { // Returns a rect of the frame.
@@ -227,8 +233,18 @@ function Library (ronin) {
     return { x: rect.x, y: rect.y, w: rect.w * w, h: rect.h * h }
   }
 
-  this.resize = async (w = 1, h = 1) => {
-    const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
+  this.resize = async (w, h) => { // Resizes the canvas to target w and h, returns the rect.
+    const rect = { x: 0, y: 0, w, h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, true)
+    return ronin.surface.draw(b, rect)
+  }
+
+  this.rescale = async (w, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+    const rect = { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
@@ -241,19 +257,9 @@ function Library (ronin) {
     return ronin.surface.crop(rect)
   }
 
-  // Copy/Paste
-
   this.clone = (a, b) => {
     ronin.surface.clone(a, b)
     return [a, b]
-  }
-
-  // TODO: Should remove (of) for (get)?
-
-  this.of = (h, ...keys) => {
-    return keys.reduce((acc, key) => {
-      return acc[key]
-    }, h)
   }
 
   this.theme = (variable, el = document.documentElement) => {
@@ -316,10 +322,6 @@ function Library (ronin) {
     ronin.source.quit(force)
   }
 
-  // Client
-  this.ronin = ronin
-
-  // Livecoding
   this.time = () => { // Returns timestamp in milliseconds.
     return Date.now
   }
@@ -328,8 +330,9 @@ function Library (ronin) {
     ronin.animate(play)
   }
 
-  // javascript interop
-  this.js = window
+  this.js = () => { // Javascript interop.
+    return window
+  }
 
   this.test = (name, a, b) => {
     if (`${a}` !== `${b}`) {
