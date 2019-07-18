@@ -173,7 +173,7 @@ function Library (ronin) {
     for (let i = acc === undefined ? 1 : 0; i < length; i++) {
       result = await fn(result, arr[i], i, arr)
     }
-    return result;
+    return result
   }
 
   this.len = (item) => { // Returns the length of a list.

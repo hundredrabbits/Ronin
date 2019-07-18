@@ -182,7 +182,8 @@ function Surface (ronin) {
   this.fitWindow = function (size) {
     const win = require('electron').remote.getCurrentWindow()
     const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
-    win.setSize(size.w + pad.w, size.h + pad.h, true)
+    if (size.w < 10 || size.h < 10) { return }
+    win.setSize(Math.floor(size.w + pad.w), Math.floor(size.h + pad.h), true)
   }
 
   this.maximize = function () {
@@ -229,7 +230,7 @@ function Surface (ronin) {
         context = canvas.getContext('2d')
         context.drawImage(tmp, 0, 0, cW, cH)
         dst.src = canvas.toDataURL(type, quality)
-        if (cW <= src.width || cH <= src.height) { return resolve()}
+        if (cW <= src.width || cH <= src.height) { return resolve() }
         tmp.src = dst.src
         return resolve()
       }
