@@ -244,7 +244,6 @@ function Library (ronin) {
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
     await ronin.surface.resizeImage(a, b)
-    console.log(b)
     ronin.surface.resize(rect, fit)
     return ronin.surface.draw(b, rect)
   }
@@ -254,7 +253,7 @@ function Library (ronin) {
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
-    ronin.surface.resizeImage(a, b)
+    await ronin.surface.resizeImage(a, b)
     ronin.surface.resize(rect, true)
     return ronin.surface.draw(b, rect)
   }
