@@ -212,11 +212,12 @@ function Commander (ronin) {
 
   this.docs = {
     dict: {},
-    path: 'sources/scripts/library.js',
     load: function () {
       const fs = require('fs')
-      if (!fs.existsSync(this.path)) { console.warn('Docs', 'File does not exist: ' + this.path); return }
-      const lines = fs.readFileSync(this.path, 'utf8').split('\n').filter((line) => { return line.substr(0, 7) === '  this.' })
+      const path = require('path')
+      const p = path.join(__dirname, 'scripts/', 'library.js')
+      if (!fs.existsSync(p)) { console.warn('Docs', 'File does not exist: ' + p); return }
+      const lines = fs.readFileSync(p, 'utf8').split('\n').filter((line) => { return line.substr(0, 7) === '  this.' })
       return lines.map((line) => { return line.trim().substr(5).trim() })
     },
     install: function (payload = this.load()) {
