@@ -22,7 +22,6 @@ function Lisp (input, lib) {
     include: (input, context) => {
       if (!input[1].value || !fs.existsSync(input[1].value)) { console.warn('Source', input[1].value); return [] }
       const file = fs.readFileSync(input[1].value, { encoding: 'utf-8' })
-      console.log(input, context)
       return interpret(this.parse(file), context)
     },
     let: function (input, context) {
