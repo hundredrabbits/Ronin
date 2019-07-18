@@ -73,7 +73,7 @@ function Lisp (input, lib) {
       return special[input[0].value](input, context)
     }
     const list = []
-    for(let i = 0; i < input.length; i++) {
+    for (let i = 0; i < input.length; i++) {
       list.push(await interpret(input[i], context))
     }
     return list[0] instanceof Function ? list[0].apply(undefined, list.slice(1)) : list
