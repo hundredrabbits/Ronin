@@ -1,22 +1,63 @@
 function Library (ronin) {
-  this.open = async (path) => {
-    return ronin.surface.open(path)
+  this.import = async (path, rect) => { // Imports a graphic file with format.
+    const img = new Image()
+    img.src = path
+    return ronin.surface.draw(img, rect)
   }
 
-  this.export = (path, type = 'image/png', quality = 1.0) => {
+  this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     if (!path) { console.warn('Missing export path'); return path }
-    var dataUrl = ronin.surface.el.toDataURL(type, quality)
+    var dataUrl = ronin.surface.el.toDataURL(format, quality)
     const data = dataUrl.replace(/^data:image\/png;base64,/, '')
     fs.writeFileSync(path, data, 'base64')
     return path
   }
 
-  this.folder = (path = ronin.source.path) => { // Returns the content of a folder path.
-    return fs.existsSync(path) ? fs.readdirSync(path) : []
+  // Shapes
+
+  this.pos = (x, y, t = 'pos') => { // Returns a position shape.
+    return { x, y, t }
   }
 
-  this.exit = (force = false) => { // Exits Ronin/
-    ronin.source.quit(force)
+  this.size = (w, h, t = 'size') => { // Returns a size shape.
+    return { w, h, t }
+  }
+
+  this.rect = (x, y, w, h, t = 'rect') => { // Returns a rect shape.
+    return { x, y, w, h, t }
+  }
+
+  this.circle = (x, y, r, t = 'circle') => { // Returns a circle shape.
+    return { x, y, r, t }
+  }
+
+  this.line = (a, b, t = 'line') => { // Returns a line shape.
+    return { a, b, t }
+  }
+
+  this.text = (x, y, g, s, f = 'Arial', t = 'text') => { // Returns a text shape.
+    return { x, y, g, s, f, t }
+  }
+
+  this.svg = (d, t = 'svg') => { // Returns a svg shape.
+    return { d, t }
+  }
+
+  // Actions
+
+  this.stroke = (shape = this.frame(), thickness, color) => { // Strokes a shape.
+    ronin.surface.stroke(shape, thickness, color)
+    return shape
+  }
+
+  this.fill = (rect = this.frame(), color) => { // Fills a shape.
+    ronin.surface.fill(rect, color)
+    return rect
+  }
+
+  this.clear = (rect = this.frame()) => { // Clears a rect.
+    ronin.surface.clear(rect)
+    return rect
   }
 
   // Math
@@ -160,37 +201,18 @@ function Library (ronin) {
     return arr
   }
 
-  // Shapes
+  // Objects
 
-  this.pos = (x, y, t = 'pos') => { // Returns a position shape.
-    return { x, y, t }
+  this.get = (item, key) => { // Gets an object's parameter with name.
+    return item[key]
   }
 
-  this.size = (w, h, t = 'size') => { // Returns a size shape.
-    return { w, h, t }
+  this.set = (item, key, val) => { // Sets an object's parameter with name as value.
+    item[key] = val
+    return item[key]
   }
 
-  this.rect = (x, y, w, h, t = 'rect') => { // Returns a rect shape.
-    return { x, y, w, h, t }
-  }
-
-  this.circle = (x, y, r, t = 'circle') => { // Returns a circle shape.
-    return { x, y, r, t }
-  }
-
-  this.line = (a, b, t = 'line') => { // Returns a line shape.
-    return { a, b, t }
-  }
-
-  this.text = (x, y, g, s, f = 'Arial', t = 'text') => { // Returns a text shape.
-    return { x, y, g, s, f, t }
-  }
-
-  this.svg = (d, t = 'svg') => { // Returns a svg shape.
-    return { d, t }
-  }
-
-  // Helpers
+  // Frame
 
   this.frame = () => { // Returns a rect of the frame.
     return ronin.surface.getFrame()
@@ -205,35 +227,25 @@ function Library (ronin) {
     return { x: rect.x, y: rect.y, w: rect.w * w, h: rect.h * h }
   }
 
+  this.resize = async (w = 1, h = 1) => {
+    const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, true)
+    return ronin.surface.draw(b, rect)
+  }
+
+  this.crop = async (rect) => {
+    return ronin.surface.crop(rect)
+  }
+
   // Copy/Paste
 
   this.clone = (a, b) => {
     ronin.surface.clone(a, b)
     return [a, b]
-  }
-
-  this.stroke = (shape = this.frame(), thickness, color) => { // Strokes a shape.
-    ronin.surface.stroke(shape, thickness, color)
-    return shape
-  }
-
-  this.fill = (rect = this.frame(), color) => { // Fills a shape.
-    ronin.surface.fill(rect, color)
-    return rect
-  }
-
-  this.clear = (rect = this.frame()) => { // Clears a rect.
-    ronin.surface.clear(rect)
-    return rect
-  }
-
-  this.get = (item, key) => { // Gets an object's parameter with name.
-    return item[key]
-  }
-
-  this.set = (item, key, val) => { // Sets an object's parameter with name as value.
-    item[key] = val
-    return item[key]
   }
 
   // TODO: Should remove (of) for (get)?
@@ -256,12 +268,6 @@ function Library (ronin) {
   }
 
   // Pixels
-
-  this.draw = async (path, rect) => {
-    const img = new Image()
-    img.src = path
-    return ronin.surface.draw(img, rect)
-  }
 
   this.pixels = (rect, fn, q) => {
     const img = ronin.surface.context.getImageData(0, 0, rect.w, rect.h)
@@ -287,23 +293,7 @@ function Library (ronin) {
     return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
   }
 
-  //
-
-  this.resize = async (w = 1, h = 1) => {
-    const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
-    const a = document.createElement('img')
-    const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, true)
-    return ronin.surface.draw(b, rect)
-  }
-
-  this.crop = async (rect) => {
-    return ronin.surface.crop(rect)
-  }
-
-  // Generics
+  // Misc
 
   this.echo = (...args) => {
     ronin.log(args)
@@ -314,13 +304,16 @@ function Library (ronin) {
     return args.reduce((acc, val) => { return acc + val }, '')
   }
 
-  this.test = (name, a, b) => {
-    if (`${a}` !== `${b}`) {
-      console.warn('failed ' + name, a, b)
-    } else {
-      console.log('passed ' + name, a)
-    }
-    return a === b
+  this.open = async (path) => { // Imports a graphic file and resizes the frame.
+    return ronin.surface.open(path)
+  }
+
+  this.folder = (path = ronin.source.path) => { // Returns the content of a folder path.
+    return fs.existsSync(path) ? fs.readdirSync(path) : []
+  }
+
+  this.exit = (force = false) => { // Exits Ronin.
+    ronin.source.quit(force)
   }
 
   // Client
@@ -337,4 +330,13 @@ function Library (ronin) {
 
   // javascript interop
   this.js = window
+  
+  this.test = (name, a, b) => {
+    if (`${a}` !== `${b}`) {
+      console.warn('failed ' + name, a, b)
+    } else {
+      console.log('passed ' + name, a)
+    }
+    return a === b
+  }
 }

@@ -19,10 +19,18 @@ npm start
 
 ## Library
 
-- `(open path)` 
-- `(export path type quality)` 
-- `(folder path)` Returns the content of a folder path.
-- `(exit force)` Exits Ronin/
+- `(import path rect)` Imports a graphic file with format.
+- `(export path format quality)` Exports a graphic file with format.
+- `(pos x y t)` Returns a position shape.
+- `(size w h t)` Returns a size shape.
+- `(rect x y w h t)` Returns a rect shape.
+- `(circle x y r t)` Returns a circle shape.
+- `(line a b t)` Returns a line shape.
+- `(text x y g s f t)` Returns a text shape.
+- `(svg d t)` Returns a svg shape.
+- `(stroke shape)` Strokes a shape.
+- `(fill rect)` Fills a shape.
+- `(clear rect)` Clears a rect.
 - `(add ...args)` Adds values.
 - `(sub ...args)` Subtracts values.
 - `(mul ...args)` Multiplies values.
@@ -52,38 +60,30 @@ npm start
 - `(last arr)` Returns the last
 - `(rest [_ ...arr])` 
 - `(range start end step)` 
-- `(pos x y t)` Returns a position shape.
-- `(size w h t)` Returns a size shape.
-- `(rect x y w h t)` Returns a rect shape.
-- `(circle x y r t)` Returns a circle shape.
-- `(line a b t)` Returns a line shape.
-- `(text x y g s f t)` Returns a text shape.
-- `(svg d t)` Returns a svg shape.
+- `(get item key)` Gets an object's parameter with name.
+- `(set item key val)` Sets an object's parameter with name as value.
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
 - `(scale rect w h)` 
+- `(resize w h)` 
+- `(crop rect)` 
 - `(clone a b)` 
-- `(stroke shape)` Strokes a shape.
-- `(fill rect)` Fills a shape.
-- `(clear rect)` Clears a rect.
-- `(get item key)` Gets an object's parameter with name.
-- `(set item key val)` Sets an object's parameter with name as value.
 - `(of h ...keys)` 
 - `(theme variable el)` 
 - `(gradient [x1 y1 x2 y2] colors 'black'])` 
-- `(draw path rect)` 
 - `(pixels rect fn q)` 
 - `(saturation pixel q)` 
 - `(contrast pixel q)` 
-- `(resize w h)` 
-- `(crop rect)` 
 - `(echo ...args)` 
 - `(str ...args)` 
-- `(test name a b)` 
+- `(open path)` Imports a graphic file and resizes the frame.
+- `(folder path)` Returns the content of a folder path.
+- `(exit force)` Exits Ronin.
 - `(ronin)` 
 - `(time)` Returns timestamp in milliseconds.
 - `(animate play)` Toggles animation.
-- `(js)`
+- `(js)` 
+- `(test name a b)` 
 
 ## Extras
 
