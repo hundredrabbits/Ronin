@@ -20,17 +20,17 @@ npm start
 ## Library
 
 - `(import path rect)` Imports a graphic file with format.
-- `(export path format quality)` Exports a graphic file with format.
-- `(pos x y t)` Returns a position shape.
-- `(size w h t)` Returns a size shape.
-- `(rect x y w h t)` Returns a rect shape.
-- `(circle x y r t)` Returns a circle shape.
-- `(line a b t)` Returns a line shape.
-- `(text x y g s f t)` Returns a text shape.
-- `(svg d t)` Returns a svg shape.
-- `(stroke shape)` Strokes a shape.
-- `(fill rect)` Fills a shape.
-- `(clear rect)` Clears a rect.
+- `(export path ~format ~quality)` Exports a graphic file with format.
+- `(pos x y ~t)` Returns a position shape.
+- `(size w h ~t)` Returns a size shape.
+- `(rect x y w h ~t)` Returns a rect shape.
+- `(circle x y r ~t)` Returns a circle shape.
+- `(line a b ~t)` Returns a line shape.
+- `(text x y g s ~f ~t)` Returns a text shape.
+- `(svg d ~t)` Returns a svg shape.
+- `(stroke ~shape)` Strokes a shape.
+- `(fill ~rect)` Fills a shape.
+- `(clear ~rect)` Clears a rect.
 - `(add ...args)` Adds values.
 - `(sub ...args)` Subtracts values.
 - `(mul ...args)` Multiplies values.
@@ -54,34 +54,34 @@ npm start
 - `(or a b ...rest)` Returns true if at least one condition is true.
 - `(map fn arr)` 
 - `(filter fn arr)` 
-- `(reduce fn arr acc)` 
+- `(reduce fn arr ~acc)` 
 - `(len item)` Returns the length of a list.
 - `(first arr)` Returns the first item of a list.
 - `(last arr)` Returns the last
 - `(rest [_ ...arr])` 
-- `(range start end step)` 
+- `(range start end ~step)` 
 - `(get item key)` Gets an object's parameter with name.
 - `(set item key val)` Sets an object's parameter with name as value.
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
 - `(scale rect w h)` 
-- `(resize w h)` 
+- `(resize ~w ~h)` 
 - `(crop rect)` 
 - `(clone a b)` 
 - `(of h ...keys)` 
-- `(theme variable el)` 
-- `(gradient [x1 y1 x2 y2] colors 'black'])` 
+- `(theme variable ~el)` 
+- `(gradient [x1 y1 x2 y2] ~colors 'black'])` 
 - `(pixels rect fn q)` 
-- `(saturation pixel q)` 
-- `(contrast pixel q)` 
+- `(saturation pixel ~q)` 
+- `(contrast pixel ~q)` 
 - `(echo ...args)` 
 - `(str ...args)` 
 - `(open path)` Imports a graphic file and resizes the frame.
-- `(folder path)` Returns the content of a folder path.
-- `(exit force)` Exits Ronin.
+- `(folder ~path)` Returns the content of a folder path.
+- `(exit ~force)` Exits Ronin.
 - `(ronin)` 
 - `(time)` Returns timestamp in milliseconds.
-- `(animate play)` Toggles animation.
+- `(animate ~play)` Toggles animation.
 - `(js)` 
 - `(test name a b)` 
 

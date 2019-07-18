@@ -330,7 +330,7 @@ function Library (ronin) {
 
   // javascript interop
   this.js = window
-  
+
   this.test = (name, a, b) => {
     if (`${a}` !== `${b}`) {
       console.warn('failed ' + name, a, b)

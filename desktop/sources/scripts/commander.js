@@ -178,7 +178,7 @@ function Commander (ronin) {
       for (const id in payload) {
         const name = payload[id].substr(0, payload[id].indexOf(' = '))
         const parent = payload[id].substr(payload[id].indexOf(' = ')).match(/\(([^)]+)\)/)
-        const params = parent ? parent[1].split(',').map((word) => { return word.indexOf(' = ') ? word.split(' = ')[0].trim() : word }) : []
+        const params = parent ? parent[1].split(',').map((word) => { return word.indexOf(' = ') > -1 ? '~' + (word.split(' = ')[0]).trim() : word.trim() }) : []
         const note = payload[id].indexOf('// ') > -1 ? payload[id].split('//')[1].trim() : ''
         this.dict[name] = { note, params }
         if (params.length < 1) { console.warn('Docs', 'Missing params for ' + name) }
