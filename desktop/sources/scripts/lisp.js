@@ -33,29 +33,21 @@ function Lisp (input, lib) {
     },
     def: function (input, context) {
       const identifier = input[1].value
-      const value = (input[2].type === TYPES.string) ? input[3] : input[2]
-      if (input[2].type === TYPES.string) {
-        // docstring
-        console.log(input[2].value)
-      }
+      const value = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
       context.scope[identifier] = interpret(value, context)
       return value
     },
     defn: function (input, context) {
-      const identifier = input[1].value
-      const argumentNames = (input[2].type === TYPES.string) ? input[3] : input[2]
-      const functionBody = (input[2].type === TYPES.string) ? input[4] : input[3]
-      if (input[2].type === TYPES.string) {
-        // docstring
-        console.log(input[2].value)
-      }
-      context.scope[identifier] = async function () {
+      const fnName = input[1].value
+      const fnParams = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
+      const fnBody = input[2].type === TYPES.string && input[4] ? input[4] : input[3]
+      context.scope[fnName] = async function () {
         const lambdaArguments = arguments
-        const lambdaScope = argumentNames.reduce(function (acc, x, i) {
+        const lambdaScope = fnParams.reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-        return interpret(functionBody, new Context(lambdaScope, context))
+        return interpret(fnBody, new Context(lambdaScope, context))
       }
     },
     lambda: function (input, context) {
