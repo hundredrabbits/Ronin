@@ -159,6 +159,8 @@ function Surface (ronin) {
   }
 
   this.resize = function (size, fit = false) {
+    const frame = this.getFrame()
+    if (frame.w === size.w && frame.h === size.h) { return }
     console.log('Surface', `Resize: ${size.w}x${size.h}`)
     this.el.width = size.w
     this.el.height = size.h
@@ -173,10 +175,14 @@ function Surface (ronin) {
     }
   }
 
+  this.getFrame = function () {
+    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect' }
+  }
+
   this.fitWindow = function (size) {
     const win = require('electron').remote.getCurrentWindow()
     const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
-    win.setSize(size.w + pad.w, size.h + pad.h, false)
+    win.setSize(size.w + pad.w, size.h + pad.h, true)
   }
 
   this.maximize = function () {
@@ -191,10 +197,6 @@ function Surface (ronin) {
     ronin.log(`resize ${f.w}x${f.h}`)
   }
 
-  this.getFrame = function () {
-    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect' }
-  }
-
   this.getCrop = function (rect) {
     const newCanvas = document.createElement('canvas')
     newCanvas.width = rect.w
@@ -203,7 +205,7 @@ function Surface (ronin) {
     return newCanvas
   }
 
-  this.resizeImage = function (src, dst, type = 'image/jpeg', quality = 0.92) {
+  this.resizeImage = function (src, dst, type = 'image/png', quality = 1.0) {
     const tmp = new Image()
     let canvas
     let context
