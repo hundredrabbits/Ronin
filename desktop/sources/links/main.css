@@ -5,12 +5,12 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin { height: calc(100vh - 60px); width:calc(100vw - 60px); -webkit-app-region: drag; padding: 30px;overflow: hidden; }
 #ronin #wrapper { overflow: hidden; position: relative; }
 #ronin #wrapper #commander { z-index: 9000;position: relative;width: 310px;height: calc(100vh - 60px);-webkit-app-region: no-drag;padding-right: 30px;transition: margin-left 250ms;}
-#ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 80px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
-#ronin #wrapper #commander div#status { position: absolute; bottom: 0px; }
+#ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
+#ronin #wrapper #commander div#status { position: absolute; bottom: 0px; text-transform: lowercase;}
 #ronin.hidden #wrapper #commander { margin-left:-331px; }
 
 #ronin canvas#surface,#ronin canvas#guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%; left:340px; transition: left 250ms}
 #ronin canvas#guide { background:none; }
 #ronin canvas#surface { border-radius: 2px }
 
-#ronin.hidden canvas#surface, #ronin.hidden canvas#guide { left:0px; }
+#ronin.hidden canvas#surface, #ronin.hidden canvas#guide { left:10px; }
