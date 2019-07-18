@@ -347,4 +347,11 @@ function Library (ronin) {
     }
     return a === b
   }
+
+  this.benchmark = async (fn) => { // logs time taken to execute a function
+    const start = Date.now()
+    const result = await fn()
+    console.log(`time taken: ${Date.now() - start}ms`)
+    return result
+  }
 }

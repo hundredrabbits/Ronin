@@ -25,5 +25,11 @@
       (2 1)
     )
   )
-  (dejong 1280 1.6 -2.3 2.4 -2.1)
+  (benchmark (lambda ()
+    (dejong 12800 
+      (random -2 2)
+      (random -2 2)
+      (random -2 2)
+      (random -2 2) 
+  )))
 )
