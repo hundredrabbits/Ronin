@@ -15,7 +15,6 @@ function Ronin () {
   this.el.id = 'ronin'
 
   this.theme = new Theme(defaultTheme)
-
   this.source = new Source(this)
   this.commander = new Commander(this)
   this.surface = new Surface(this)
@@ -52,7 +51,6 @@ function Ronin () {
   }
 
   this.log = function (...msg) {
-    console.log(...msg)
     this.commander.setStatus(msg.reduce((acc, val) => { return acc + val + ' ' }, ''))
   }
 
