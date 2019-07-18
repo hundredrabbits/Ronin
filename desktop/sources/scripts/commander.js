@@ -33,6 +33,26 @@ function Commander (ronin) {
     this.run()
   }
 
+  this.reindent = function () {
+    let val = this._input.value.replace(/\n/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').replace(/ {2}/g, ' ').trim()
+    let depth = 0
+    for (let i = 0; i < val.length; i++) {
+      const c = val.charAt(i)
+      if (c === '(') { depth++ } else if (c === ')') { depth-- }
+      if (c === ';') {
+        const indent = '\n' + ('  '.repeat(depth))
+        val = val.insert(indent, i)
+        i += indent.length
+      }
+      if (c === '(') {
+        const indent = '\n' + ('  '.repeat(depth - 1))
+        val = val.insert(indent, i)
+        i += indent.length
+      }
+    }
+    this._input.value = val.trim()
+  }
+
   this.setStatus = function (msg) {
     if (!msg) { return }
     this._status.textContent = `${(msg + '').substr(0, 40)}`
@@ -196,4 +216,6 @@ function Commander (ronin) {
       }, '')
     }
   }
+
+  String.prototype.insert = function (s, i) { return [this.slice(0, i), `${s}`, this.slice(i)].join('') }
 }

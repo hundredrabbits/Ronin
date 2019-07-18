@@ -13,4 +13,4 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin canvas#guide { background:none; }
 #ronin canvas#surface { border-radius: 2px }
 
-#ronin.hidden canvas#surface, #ronin.hidden canvas#guide { left:0px; }
+#ronin.hidden canvas#surface, #ronin.hidden canvas#guide { left:10px; }
