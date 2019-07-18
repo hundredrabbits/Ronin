@@ -4,18 +4,28 @@ function Commander (ronin) {
   this._input = document.createElement('textarea')
   this._status = document.createElement('div')
   this._status.id = 'status'
+  this._log = document.createElement('div')
+  this._log.id = 'log'
+  this._source = document.createElement('div')
+  this._source.id = 'source'
+  this._help = document.createElement('div')
+  this._help.id = 'help'
   this.isVisible = true
 
   this.install = function (host) {
     this.el.appendChild(this._input)
+    this._status.appendChild(this._log)
+    this._status.appendChild(this._source)
+    this._status.appendChild(this._help)
     this.el.appendChild(this._status)
     host.appendChild(this.el)
     this._input.addEventListener('input', this.onInput)
+    this._input.addEventListener('click', this.onClick)
     this.docs.install()
   }
 
   this.start = function () {
-    this._status.textContent = 'Idle. (zoom 100%)'
+    this.setStatus('Ready.')
     this._input.focus()
     this.run()
     this.hide()
@@ -54,21 +64,22 @@ function Commander (ronin) {
   }
 
   this.setStatus = function (msg) {
-    if (!msg || msg === this._status.textContent) { return }
-    this._status.textContent = `${(msg + '').substr(0, 40)}`
-    console.log(...msg)
+    if (!msg || msg === this._log.textContent) { return }
+    this._log.textContent = `${msg}`
+    this._source.textContent = `${ronin.source} ${this._input.value.split('\n').length} lines`
+    console.log(msg)
   }
 
   this.update = function () {
 
   }
 
-  this.onInput = function () {
-
+  this.onInput = () => {
+    console.log('input', this._input.selectionStart)
   }
 
-  this.getQuery = function () {
-
+  this.onClick = () => {
+    console.log('click', this._input.selectionStart)
   }
 
   // Mouse
@@ -83,7 +94,6 @@ function Commander (ronin) {
     this.mouseRect.a.x = e.offsetX
     this.mouseRect.a.y = e.offsetY
     this.mouseRect.t = 'pos'
-    this._status.textContent = `${this.mouseRect.x},${this.mouseRect.y} ${this.mouseRect.w},${this.mouseRect.h}`
     this.capture()
     this.show()
   }
@@ -94,7 +104,6 @@ function Commander (ronin) {
       this.mouseRect.h = e.offsetY - this.mouseRect.y
       this.mouseRect.b.x = e.offsetX
       this.mouseRect.b.y = e.offsetY
-      this._status.textContent = `${this.mouseRect.x},${this.mouseRect.y} ${this.mouseRect.w},${this.mouseRect.h}`
       this.commit()
     }
   }
@@ -106,7 +115,6 @@ function Commander (ronin) {
     this.mouseRect.b.x = e.offsetX
     this.mouseRect.b.y = e.offsetY
     this.mouseRect.t = ''
-    this._status.textContent = `${this.mouseRect.x},${this.mouseRect.y} ${this.mouseRect.w},${this.mouseRect.h}`
     this.commit()
     this._input.focus()
     ronin.surface.clearGuide()

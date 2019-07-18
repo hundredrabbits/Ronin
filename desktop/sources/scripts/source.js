@@ -15,6 +15,7 @@ function Source (ronin) {
     console.log('Source', 'Make a new file..')
     this.path = null
     ronin.surface.clear()
+    ronin.log(`New file.`)
   }
 
   this.open = function () {
@@ -57,6 +58,7 @@ function Source (ronin) {
     if (quitAfter === true) {
       app.exit()
     }
+    ronin.log(`Writing file.`)
   }
 
   this.read = function (loc = this.path) {
@@ -65,6 +67,7 @@ function Source (ronin) {
     console.log('Source', 'Reading ' + loc)
     this.path = loc
     this.load(fs.readFileSync(this.path, 'utf8'))
+    ronin.log(`Reading file.`)
   }
 
   this.run = function () {
@@ -144,7 +147,7 @@ function Source (ronin) {
   }
 
   this.toString = function () {
-    return this.path ? this.name() : 'unsaved'
+    return this.path ? this.name() + '.lisp' : 'unsaved'
   }
 
   function isDifferent (a, b) {
