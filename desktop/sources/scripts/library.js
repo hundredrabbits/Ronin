@@ -8,7 +8,7 @@ function Library (ronin) {
   this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     if (!path) { console.warn('Missing export path'); return path }
     var dataUrl = ronin.surface.el.toDataURL(format, quality)
-    const data = dataUrl.replace(/^data:image\/png;base64,/, '')
+    const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
     fs.writeFileSync(path, data, 'base64')
     return path
   }
