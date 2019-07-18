@@ -90,7 +90,7 @@ function Library (ronin) {
     return a === b
   }
 
-  this.and = (a, b, ...rest) => {
+  this.and = (a, b, ...rest) => { // Returns true if all conditions are true.
     let args = [a, b].concat(rest)
     for (let i = 0; i < args.length; i++) {
       if (!args[i]) {
@@ -100,7 +100,7 @@ function Library (ronin) {
     return args[args.length - 1]
   }
 
-  this.or = (a, b, ...rest) => {
+  this.or = (a, b, ...rest) => { // Returns true if at least one condition is true.
     let args = [a, b].concat(rest)
     for (let i = 0; i < args.length; i++) {
       if (args[i]) {
@@ -327,9 +327,13 @@ function Library (ronin) {
   this.ronin = ronin
 
   // Livecoding
-  this.time = Date.now
+  this.time = () => { // Returns timestamp in milliseconds.
+    return Date.now
+  }
 
-  this.animate = (b = true) => ronin.animate(b)
+  this.animate = (play = true) => { // Toggles animation.
+    ronin.animate(play)
+  }
 
   // javascript interop
   this.js = window
