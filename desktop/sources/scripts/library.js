@@ -90,8 +90,13 @@ function Library (ronin) {
       })
   }
 
-  this.reduce = (fn, arr, acc = 0) => {
-    return arr.reduce(fn, acc)
+  this.reduce = async (fn, arr, acc) => {
+    const length = arr.length
+    let result = acc === undefined ? subject[0] : acc
+    for (let i = acc === undefined ? 1 : 0; i < length; i++) {
+      result = await fn(result, arr[i], i, arr)
+    }
+    return result;
   }
 
   this.len = (item) => {
