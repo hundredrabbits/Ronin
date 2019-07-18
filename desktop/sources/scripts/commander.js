@@ -34,7 +34,7 @@ function Commander (ronin) {
   }
 
   this.reindent = function () {
-    let val = this._input.value.replace(/\n/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').replace(/ {2}/g, ' ').trim()
+    let val = this._input.value.replace(/\n/g, '').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
     let depth = 0
     for (let i = 0; i < val.length; i++) {
       const c = val.charAt(i)
