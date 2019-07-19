@@ -1,13 +1,15 @@
 ; dejong attractor
 
 (
-  (clear)
-  (defn point (x y color) (fill (circle x y 0.1) color))
+  (clear) 
+  (defn point (x y color) 
+    (fill (rect x y 1 1) color))
+
   (defn _dejong (x y a b c d)
     (rest ((point 
       (add 300 (mul 100 x))
       (add 400 (mul 100 y))
-      "rgba(255,0,0,0.5)")
+      "red")
     (add (sin (mul a y)) (mul x (cos (mul b x))))
     (add (mul x (sin (mul x c))) (cos (mul d y)))
     ))
@@ -23,5 +25,11 @@
       (2 1)
     )
   )
-  (dejong 128000 1.4 -2.3 2.4 -2.1)
+  (benchmark (lambda ()
+    (dejong 12800 
+      (random -2 2)
+      (random -2 2)
+      (random -2 2)
+      (random -2 2) 
+  )))
 )

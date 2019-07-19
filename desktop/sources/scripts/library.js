@@ -8,7 +8,7 @@ function Library (ronin) {
   this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     if (!path) { console.warn('Missing export path'); return path }
     var dataUrl = ronin.surface.el.toDataURL(format, quality)
-    const data = dataUrl.replace(/^data:image\/png;base64,/, '')
+    const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
     fs.writeFileSync(path, data, 'base64')
     return path
   }
@@ -167,8 +167,13 @@ function Library (ronin) {
       })
   }
 
-  this.reduce = (fn, arr, acc = 0) => {
-    return arr.reduce(fn, acc)
+  this.reduce = async (fn, arr, acc) => {
+    const length = arr.length
+    let result = acc === undefined ? subject[0] : acc
+    for (let i = acc === undefined ? 1 : 0; i < length; i++) {
+      result = await fn(result, arr[i], i, arr)
+    }
+    return result
   }
 
   this.len = (item) => { // Returns the length of a list.
@@ -212,6 +217,12 @@ function Library (ronin) {
     return item[key]
   }
 
+  this.of = (h, ...keys) => {
+    return keys.reduce((acc, key) => {
+      return acc[key]
+    }, h)
+  }
+
   // Frame
 
   this.frame = () => { // Returns a rect of the frame.
@@ -227,12 +238,22 @@ function Library (ronin) {
     return { x: rect.x, y: rect.y, w: rect.w * w, h: rect.h * h }
   }
 
-  this.resize = async (w = 1, h = 1) => {
-    const rect = w <= 1 || h <= 1 ? { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h } : { x: 0, y: 0, w, h }
+  this.resize = async (w, h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+    const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
-    ronin.surface.resizeImage(a, b)
+    await ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, fit)
+    return ronin.surface.draw(b, rect)
+  }
+
+  this.rescale = async (w, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+    const rect = { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    await ronin.surface.resizeImage(a, b)
     ronin.surface.resize(rect, true)
     return ronin.surface.draw(b, rect)
   }
@@ -241,19 +262,9 @@ function Library (ronin) {
     return ronin.surface.crop(rect)
   }
 
-  // Copy/Paste
-
   this.clone = (a, b) => {
     ronin.surface.clone(a, b)
     return [a, b]
-  }
-
-  // TODO: Should remove (of) for (get)?
-
-  this.of = (h, ...keys) => {
-    return keys.reduce((acc, key) => {
-      return acc[key]
-    }, h)
   }
 
   this.theme = (variable, el = document.documentElement) => {
@@ -316,20 +327,17 @@ function Library (ronin) {
     ronin.source.quit(force)
   }
 
-  // Client
-  this.ronin = ronin
-
-  // Livecoding
   this.time = () => { // Returns timestamp in milliseconds.
-    return Date.now
+    return Date.now()
   }
 
   this.animate = (play = true) => { // Toggles animation.
     ronin.animate(play)
   }
 
-  // javascript interop
-  this.js = window
+  this.js = () => { // Javascript interop.
+    return window
+  }
 
   this.test = (name, a, b) => {
     if (`${a}` !== `${b}`) {
@@ -338,5 +346,12 @@ function Library (ronin) {
       console.log('passed ' + name, a)
     }
     return a === b
+  }
+
+  this.benchmark = async (fn) => { // logs time taken to execute a function
+    const start = Date.now()
+    const result = await fn()
+    console.log(`time taken: ${Date.now() - start}ms`)
+    return result
   }
 }

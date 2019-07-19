@@ -62,13 +62,14 @@ npm start
 - `(range start end ~step)` 
 - `(get item key)` Gets an object's parameter with name.
 - `(set item key val)` Sets an object's parameter with name as value.
+- `(of h ...keys)` 
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
 - `(scale rect w h)` 
-- `(resize ~w ~h)` 
+- `(resize w h)` Resizes the canvas to target w and h, returns the rect.
+- `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
 - `(crop rect)` 
 - `(clone a b)` 
-- `(of h ...keys)` 
 - `(theme variable ~el)` 
 - `(gradient [x1 y1 x2 y2] ~colors 'black'])` 
 - `(pixels rect fn q)` 
@@ -79,10 +80,9 @@ npm start
 - `(open path)` Imports a graphic file and resizes the frame.
 - `(folder ~path)` Returns the content of a folder path.
 - `(exit ~force)` Exits Ronin.
-- `(ronin)` 
 - `(time)` Returns timestamp in milliseconds.
 - `(animate ~play)` Toggles animation.
-- `(js)` 
+- `(js)` Javascript interop.
 - `(test name a b)` 
 
 ## Extras

@@ -15,6 +15,7 @@ function Surface (ronin) {
     this._guide.addEventListener('mousedown', ronin.commander.onMouseDown, false)
     this._guide.addEventListener('mousemove', ronin.commander.onMouseMove, false)
     this._guide.addEventListener('mouseup', ronin.commander.onMouseUp, false)
+    // this.context.imageSmoothingEnabled = false
     this.context.scale(this.ratio, this.ratio)
     this.guide.scale(this.ratio, this.ratio)
   }
@@ -159,28 +160,35 @@ function Surface (ronin) {
   }
 
   this.resize = function (size, fit = false) {
+    const frame = this.getFrame()
+    if (frame.w === size.w && frame.h === size.h) { return }
     console.log('Surface', `Resize: ${size.w}x${size.h}`)
     this.el.width = size.w
     this.el.height = size.h
-    this.el.style.width = size.w + 'px'
-    this.el.style.height = size.h + 'px'
+    this.el.style.width = (size.w / this.ratio) + 'px'
+    this.el.style.height = (size.h / this.ratio) + 'px'
     this._guide.width = size.w
     this._guide.height = size.h
-    this._guide.style.width = size.w + 'px'
-    this._guide.style.height = size.h + 'px'
+    this._guide.style.width = (size.w / this.ratio) + 'px'
+    this._guide.style.height = (size.h / this.ratio) + 'px'
     if (fit === true) {
       this.fitWindow(size)
     }
   }
 
+  this.getFrame = function () {
+    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect' }
+  }
+
   this.fitWindow = function (size) {
     const win = require('electron').remote.getCurrentWindow()
     const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
-    win.setSize(size.w + pad.w, size.h + pad.h, false)
+    if (size.w < 10 || size.h < 10) { return }
+    win.setSize(Math.floor((size.w / this.ratio) + pad.w), Math.floor((size.h / this.ratio) + pad.h), true)
   }
 
   this.maximize = function () {
-    this.resize({ x: 0, y: 0, w: window.innerWidth - 60, h: window.innerHeight - 60, t: 'rect' })
+    this.resize({ x: 0, y: 0, w: (window.innerWidth * this.ratio) - 60, h: (window.innerHeight * this.ratio) - 60, t: 'rect' })
   }
 
   this.onResize = function () {
@@ -191,10 +199,6 @@ function Surface (ronin) {
     ronin.log(`resize ${f.w}x${f.h}`)
   }
 
-  this.getFrame = function () {
-    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect' }
-  }
-
   this.getCrop = function (rect) {
     const newCanvas = document.createElement('canvas')
     newCanvas.width = rect.w
@@ -203,30 +207,34 @@ function Surface (ronin) {
     return newCanvas
   }
 
-  this.resizeImage = function (src, dst, type = 'image/jpeg', quality = 0.92) {
-    const tmp = new Image()
-    let canvas
-    let context
-    let cW = src.naturalWidth
-    let cH = src.naturalHeight
-    tmp.src = src.src
-    tmp.onload = function () {
-      canvas = document.createElement('canvas')
-      cW /= 2
-      cH /= 2
-      if (cW < src.width) {
-        cW = src.width
+  this.resizeImage = function (src, dst, type = 'image/png', quality = 1.0) {
+    return new Promise(resolve => {
+      const tmp = new Image()
+      let canvas
+      let context
+      let cW = src.naturalWidth
+      let cH = src.naturalHeight
+      tmp.src = src.src
+      // resolve()
+      tmp.onload = () => {
+        canvas = document.createElement('canvas')
+        cW /= 2
+        cH /= 2
+        if (cW < src.width) {
+          cW = src.width
+        }
+        if (cH < src.height) {
+          cH = src.height
+        }
+        canvas.width = cW
+        canvas.height = cH
+        context = canvas.getContext('2d')
+        context.drawImage(tmp, 0, 0, cW, cH)
+        dst.src = canvas.toDataURL(type, quality)
+        if (cW <= src.width || cH <= src.height) { return resolve() }
+        tmp.src = dst.src
+        return resolve()
       }
-      if (cH < src.height) {
-        cH = src.height
-      }
-      canvas.width = cW
-      canvas.height = cH
-      context = canvas.getContext('2d')
-      context.drawImage(tmp, 0, 0, cW, cH)
-      dst.src = canvas.toDataURL(type, quality)
-      if (cW <= src.width || cH <= src.height) { return }
-      tmp.src = dst.src
-    }
+    })
   }
 }
