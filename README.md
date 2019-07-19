@@ -2,7 +2,7 @@
 
 _"All I wanted, was a quick way of resizing a few photos.."_
 
-Ronin is a [LISP](https://en.wikipedia.org/wiki/Lisp_(programming_language)) repl to create generative graphics currently under development. You can follow the daily progress on [Mastodon](https://merveilles.town/@neauoire/). 
+The application interprets a dialect of [LISP](https://en.wikipedia.org/wiki/Lisp_(programming_language)) to automate simple graphical tasks, like resizing, cropping, coloring, and generating procedural imagery. You can look at these [example files](https://github.com/hundredrabbits/Ronin/tree/master/examples) to better understand how this all works.
 
 ## Install & Run
 
