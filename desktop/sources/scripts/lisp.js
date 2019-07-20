@@ -60,6 +60,12 @@ function Lisp (input, lib) {
         return interpret(input[2], new Context(lambdaScope, context))
       }
     },
+    if: async function (input, context) {
+      if (await interpret(input[1], context)) {
+        return interpret(input[2], context)
+      }
+      return input[3] ? interpret(input[3], context) : []
+    },
     __fn: function (input, context) {
       return async function () {
         const lambdaArguments = arguments
@@ -70,11 +76,12 @@ function Lisp (input, lib) {
         return interpret(input.slice(1), new Context(lambdaScope, context))
       }
     },
-    if: async function (input, context) {
-      if (await interpret(input[1], context)) {
-        return interpret(input[2], context)
+    __obj: async function (input, context) {
+      const obj = {}
+      for (let i = 1 ; i<input.length ; i+=2) {
+        obj[await interpret(input[i] ,context)] = await interpret(input[i+1], context)
       }
-      return input[3] ? interpret(input[3], context) : []
+      return obj
     }
   }
 
@@ -124,10 +131,14 @@ function Lisp (input, lib) {
       input.unshift('__fn')
       list.push(parenthesize(input, []))
       return parenthesize(input, list)
+    } else if (token === '{') {
+      input.unshift('__obj')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
     } else if (token === '(') {
       list.push(parenthesize(input, []))
       return parenthesize(input, list)
-    } else if (token === ')') {
+    } else if (token === ')' || token === '}') {
       return list
     } else {
       return parenthesize(input, list.concat(categorize(token)))
@@ -138,7 +149,11 @@ function Lisp (input, lib) {
     const i = input.replace(/^\;.*\n?/gm, '').split('"')
     return i.map(function (x, i) { 
       return i % 2 === 0 ? 
-        x.replace(/\(/g, ' ( ').replace(/\)/g, ' ) ').replace(/' \( /g, ' \'( ')
+        x.replace(/\(/g, ' ( ')
+        .replace(/\)/g, ' ) ')
+        .replace(/' \( /g, ' \'( ') // '()
+        .replace(/\{/g, ' { ') // {}
+        .replace(/\}/g, ' } ') // {}
         : x.replace(/ /g, '!whitespace!') 
     })
     .join('"').trim().split(/\s+/)

@@ -233,6 +233,14 @@ function Library (ronin) {
     }, h)
   }
 
+  this.keys = (item) => { // Returns a list of the object's keys
+    return Object.keys(item)
+  }
+
+  this.values = (item) => { // Returns a list of the object's values
+    return Object.values(item)
+  }
+
   // Frame
 
   this.frame = () => { // Returns a rect of the frame.
