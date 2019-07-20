@@ -1,6 +1,5 @@
 ; benchmark
 
-(
 ; Basics
 
   (test "add" (add 8 4 2) 14)
@@ -53,9 +52,8 @@
 
 ; Generics
 
-  (test "str" (str 1 4 "-" (add 3 4) ".jpg") "14-7.jpg")
+  (test "concat" (concat 1 4 "-" (add 3 4) ".jpg") "14-7.jpg")
 
 ; Interop
-  (test "interop" ((of (of js "Math") "max") 2 4) 4)
-  (test "recursive key selector" ((of js "Math" "max") 2 4) 4)
-)
+  (test "interop" ((of (of (js) "Math") "max") 2 4) 4)
+  (test "recursive key selector" ((of (js) "Math" "max") 2 4) 4)

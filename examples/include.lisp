@@ -1,4 +1,3 @@
 ; include
-(
-  (include "../examples/recursive.lisp") 
-  (echo line-color))
+(include "../examples/recursive.lisp") 
+(echo line-color)

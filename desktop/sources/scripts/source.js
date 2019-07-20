@@ -66,16 +66,12 @@ function Source (ronin) {
     if (!fs.existsSync(loc)) { console.warn('Source', 'File does not exist: ' + loc); return }
     console.log('Source', 'Reading ' + loc)
     this.path = loc
-    this.load(fs.readFileSync(this.path, 'utf8'))
+    ronin.commander.load(fs.readFileSync(this.path, 'utf8'))
     ronin.log(`Reading file.`)
   }
 
   this.run = function () {
     ronin.commander.run()
-  }
-
-  this.load = function (data) {
-    ronin.commander._input.value = data
   }
 
   this.quit = function (force = false) {

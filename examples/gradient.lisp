@@ -1,4 +1,3 @@
-(
 ; gradients
 
 (clear)
@@ -13,4 +12,3 @@
   (gradient 
     (50 0 180 0)
     ("black" "white" "blue" "green")))
-)
