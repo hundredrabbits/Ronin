@@ -60,7 +60,7 @@ function Lisp (input, lib) {
         return interpret(input[2], new Context(lambdaScope, context))
       }
     },
-    fn: function (input, context) {
+    __fn: function (input, context) {
       return async function () {
         const lambdaArguments = arguments
         const lambdaScope = [].reduce(function (acc, x, i) {
@@ -121,7 +121,7 @@ function Lisp (input, lib) {
     if (token === undefined) {
       return list.pop()
     } else if (token === '\'(') {
-      input.unshift('fn')
+      input.unshift('__fn')
       list.push(parenthesize(input, []))
       return parenthesize(input, list)
     } else if (token === '(') {
