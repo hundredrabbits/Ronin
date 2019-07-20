@@ -10,6 +10,8 @@ function Ronin () {
     b_low: '#aaa',
     b_inv: '#ffb545'
   }
+  
+  this.includes = ['prelude']
 
   this.el = document.createElement('div')
   this.el.id = 'ronin'
@@ -19,11 +21,11 @@ function Ronin () {
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
+  this.interpreter = new Lisp(this.library, this.includes)
 
   // Parameters
 
   this.always = false
-  this.includes = ['prelude']
 
   this.install = function (host = document.body) {
     this._wrapper = document.createElement('div')

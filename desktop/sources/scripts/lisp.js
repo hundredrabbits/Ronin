@@ -1,14 +1,15 @@
 'use strict'
 
-function Lisp (input, lib, includes) {
+function Lisp (lib = {}, includes = []) {
+  console.log(includes)
   const path = require('path')
   const fs = require('fs')
 
   const TYPES = { identifier: 0, number: 1, string: 2, bool: 3 }
+
   const Context = function (scope, parent) {
     this.scope = scope
     this.parent = parent
-
     this.get = function (identifier) {
       if (identifier in this.scope) {
         return this.scope[identifier]
@@ -178,7 +179,7 @@ function Lisp (input, lib, includes) {
     return parenthesize(tokenize(input))
   }
 
-  this.run = async function () {
+  this.run = async function (input) {
     return interpret(this.parse(`(
       ${this.inc()}
       ${input})`))

@@ -33,7 +33,7 @@ function Commander (ronin) {
 
   this.run = (txt = this._input.value) => {
     if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
-    const inter = new Lisp(txt, ronin.library, ronin.includes).run()
+    ronin.interpreter.run(txt)
     ronin.always === true && requestAnimationFrame(() => this.run(txt))
   }
 
