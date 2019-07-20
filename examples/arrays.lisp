@@ -19,8 +19,8 @@
   '(stroke 
     (rect 
       (mul %1 10) 
-      (add 50 (mul (sin %1) 40)) 
-      %1
+      (add 250 (mul (sin %1) 250)) 
+      (mul 4 %1)
       (add 20 (mul (cos %1) 50))) 1 "red")
   (range 0 200 5))
 
