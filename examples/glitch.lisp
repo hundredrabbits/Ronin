@@ -5,12 +5,11 @@
 (defn glitch 
   (rec) 
   (if (gt rec 1)
-  ((clone 
-    (rect (random 400) (random 400) 2 2)
-    (rect (random 400) (random 400) 
-(random 10) (random 30)))
-    (glitch (sub rec 1))))
-)
+    (
+      (translate
+        (rect (random 400) (random 400) (random 10) (random 10))
+        (pos (random 400) (random 400)))
+      (glitch (sub rec 1)))))
 
 (import 
   "../static/crystal.jpg" 

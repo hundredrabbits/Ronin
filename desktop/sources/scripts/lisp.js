@@ -167,10 +167,12 @@ function Lisp (input, lib) {
   }
 
   this.parse = function (input) {
-    return parenthesize(tokenize(`(${input})`))
+    return parenthesize(tokenize(input))
   }
 
   this.toPixels = async function () {
-    return interpret(this.parse(input))
+    return interpret(this.parse(`(
+    (include "./sources/lisp/prelude.lisp") 
+    ${input})`))
   }
 }
