@@ -25,11 +25,11 @@
       (2 1)
     )
   )
-  (benchmark (lambda ()
-    (dejong 12800 
+  (benchmark 
+    '(dejong 12800 
       (random -2 2)
       (random -2 2)
       (random -2 2)
       (random -2 2) 
-  )))
+  ))
 )
