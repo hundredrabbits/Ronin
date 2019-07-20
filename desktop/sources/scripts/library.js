@@ -60,6 +60,12 @@ function Library (ronin) {
     return rect
   }
 
+  // Strings
+
+  this.concat = function (...items) {
+    return items.reduce((acc, item) => { return `${acc}${item}` }, '')
+  }
+
   // Math
 
   this.add = (...args) => { // Adds values.
@@ -319,7 +325,17 @@ function Library (ronin) {
     return ronin.surface.open(path)
   }
 
-  this.folder = (path = ronin.source.path) => { // Returns the content of a folder path.
+  // File System
+
+  this.path = (path = ronin.source.path) => { // Returns the content of a folder path.
+    return path
+  }
+
+  this.folder = (path = this.path()) => { // Returns the path of the current folder.
+    return require('path').dirname(path)
+  }
+
+  this.ls = (path = this.folder()) => { // Returns the content of a folder path.
     return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 

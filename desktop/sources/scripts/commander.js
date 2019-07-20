@@ -188,9 +188,9 @@ function Commander (ronin) {
 
   // Display
 
-  this.show = function () {
+  this.show = function (expand = false) {
     if (this.isVisible === true) { return }
-    ronin.el.className = ''
+    ronin.el.className = expand ? 'expand' : ''
     this.isVisible = true
   }
 
@@ -200,9 +200,9 @@ function Commander (ronin) {
     this.isVisible = false
   }
 
-  this.toggle = function () {
+  this.toggle = function (expand = false) {
     if (this.isVisible !== true) {
-      this.show()
+      this.show(expand)
     } else {
       this.hide()
     }
