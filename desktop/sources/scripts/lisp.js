@@ -60,6 +60,16 @@ function Lisp (input, lib) {
         return interpret(input[2], new Context(lambdaScope, context))
       }
     },
+    fn: function (input, context) {
+      return async function () {
+        const lambdaArguments = arguments
+        const lambdaScope = [].reduce(function (acc, x, i) {
+          acc[x.value] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(input.slice(1), new Context(lambdaScope, context))
+      }
+    },
     if: async function (input, context) {
       if (await interpret(input[1], context)) {
         return interpret(input[2], context)
@@ -110,6 +120,10 @@ function Lisp (input, lib) {
     const token = input.shift()
     if (token === undefined) {
       return list.pop()
+    } else if (token === '\'(') {
+      input.unshift('fn')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
     } else if (token === '(') {
       list.push(parenthesize(input, []))
       return parenthesize(input, list)
@@ -121,7 +135,14 @@ function Lisp (input, lib) {
   }
 
   const tokenize = function (input) {
-    return input.replace(/^\;.*\n?/gm, '').split('"').map(function (x, i) { return i % 2 === 0 ? x.replace(/\(/g, ' ( ').replace(/\)/g, ' ) ') : x.replace(/ /g, '!whitespace!') }).join('"').trim().split(/\s+/).map(function (x) { return x.replace(/!whitespace!/g, ' ') })
+    const i = input.replace(/^\;.*\n?/gm, '').split('"')
+    return i.map(function (x, i) { 
+      return i % 2 === 0 ? 
+        x.replace(/\(/g, ' ( ').replace(/\)/g, ' ) ').replace(/' \( /g, ' \'( ')
+        : x.replace(/ /g, '!whitespace!') 
+    })
+    .join('"').trim().split(/\s+/)
+    .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
   }
 
   this.parse = function (input) {
