@@ -324,7 +324,7 @@ function Library (ronin) {
   this.open = async (path) => { // Imports a graphic file and resizes the frame.
     return ronin.surface.open(path)
   }
-  
+
   // File System
 
   this.dir = (path = ronin.source.path) => { // Returns the content of a directory.

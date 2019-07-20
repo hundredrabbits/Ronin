@@ -35,12 +35,13 @@ function Commander (ronin) {
     if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
     const inter = new Lisp(txt, ronin.library)
     inter.toPixels()
-    ronin.always && requestAnimationFrame(() => this.run(txt))
+    ronin.always === true && requestAnimationFrame(() => this.run(txt))
   }
 
   this.load = function (txt) {
+    ronin.animate(false)
     this._input.value = txt
-    this.run()
+    this.run(txt)
   }
 
   this.reindent = function () {
