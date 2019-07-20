@@ -4,8 +4,11 @@
   (def files 
     (ls 
       (folder))) 
-  ; print files count 
+  ; pick a random file 
+  (def random-index 
+    (floor 
+      (random 
+        (len files)))) 
+  ; print random file name
   (echo 
-    (concat "Current folder: " 
-      (folder) " contains " 
-      (len files) " files"))))
+    (get files random-index)))
