@@ -324,18 +324,22 @@ function Library (ronin) {
   this.open = async (path) => { // Imports a graphic file and resizes the frame.
     return ronin.surface.open(path)
   }
-
+  
   // File System
 
-  this.path = (path = ronin.source.path) => { // Returns the content of a folder path.
-    return path
+  this.dir = (path = ronin.source.path) => { // Returns the content of a directory.
+    return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 
-  this.folder = (path = this.path()) => { // Returns the path of the current folder.
+  this.file = (path = ronin.source.path) => { // Returns the content of a file
+    return fs.existsSync(path) ? fs.readFileSync(p, 'utf8') : ''
+  }
+
+  this.dirpath = (path = ronin.source.path) => { // Returns the path of a directory.
     return require('path').dirname(path)
   }
 
-  this.ls = (path = this.folder()) => { // Returns the content of a folder path.
+  this.filepath = (path = ronin.source.path) => { // Returns the path of a file
     return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 

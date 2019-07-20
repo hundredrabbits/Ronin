@@ -85,9 +85,10 @@ npm start
 - `(echo ...args)` 
 - `(str ...args)` 
 - `(open path)` Imports a graphic file and resizes the frame.
-- `(path ~path)` Returns the content of a folder path.
-- `(folder ~path)` Returns the path of the current folder.
-- `(ls ~path)` Returns the content of a folder path.
+- `(dir ~path)` Returns the content of a directory.
+- `(file ~path)` Returns the content of a file
+- `(dirpath ~path)` Returns the path of a directory.
+- `(filepath ~path)` Returns the path of a file
 - `(exit ~force)` Exits Ronin.
 - `(time)` Returns timestamp in milliseconds.
 - `(animate ~play)` Toggles animation.

@@ -2,8 +2,8 @@
 ( 
   ; get files 
   (def files 
-    (ls 
-      (folder))) 
+    (dir 
+      (dirpath))) 
   ; pick a random file 
   (def random-index 
     (floor 
