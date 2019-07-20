@@ -9,7 +9,7 @@
       (
         (stroke 
           (circle 
-            (add 300 
+            (add 375 
               (mul 
                 (cos 
                   (add 
@@ -22,7 +22,7 @@
                 (sin 
                   (div v 11)) 
                 (div v 2))) 
-            (div v 2)) 1 "#fff") 
+            (div v 2)) 1 "rgba(114,222, 194,0.1)") 
         (rec 
           (sub v 0.3))))) 
   ; set false to stop 
