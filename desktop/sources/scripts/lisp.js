@@ -146,7 +146,7 @@ function Lisp (input, lib) {
   }
 
   this.parse = function (input) {
-    return parenthesize(tokenize(input))
+    return parenthesize(tokenize(`(${input})`))
   }
 
   this.toPixels = async function () {

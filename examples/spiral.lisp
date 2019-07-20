@@ -1,6 +1,6 @@
 ; animated recusive spiral
 ; by @local_guru
-(
+
   (clear) 
   (defn rec 
     (v) 
@@ -27,4 +27,4 @@
           (sub v 0.3))))) 
   ; set false to stop 
   (animate true) 
-  (rec 300))
+  (rec 300)
