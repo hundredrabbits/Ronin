@@ -22,7 +22,7 @@ function Lisp (input, lib) {
     include: (input, context) => {
       if (!input[1].value || !fs.existsSync(input[1].value)) { console.warn('Source', input[1].value); return [] }
       const file = fs.readFileSync(input[1].value, { encoding: 'utf-8' })
-      return interpret(this.parse(file), context)
+      return interpret(this.parse(`(${file})`), context)
     },
     let: function (input, context) {
       const letContext = input[1].reduce(function (acc, x) {
@@ -65,6 +65,27 @@ function Lisp (input, lib) {
         return interpret(input[2], context)
       }
       return input[3] ? interpret(input[3], context) : []
+    },
+    __fn: function (input, context) {
+      return async function () {
+        const lambdaArguments = arguments
+        const keys = [...new Set(input.slice(2).flat(100).filter(i => 
+          i.type === TYPES.identifier &&
+          i.value[0] === '%'
+        ).map(x => x.value).sort())]
+        const lambdaScope = keys.reduce(function (acc, x, i) {
+          acc[x] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(input.slice(1), new Context(lambdaScope, context))
+      }
+    },
+    __obj: async function (input, context) {
+      const obj = {}
+      for (let i = 1 ; i<input.length ; i+=2) {
+        obj[await interpret(input[i] ,context)] = await interpret(input[i+1], context)
+      }
+      return obj
     }
   }
 
@@ -98,6 +119,8 @@ function Lisp (input, lib) {
       return { type: TYPES.number, value: parseFloat(input) }
     } else if (input[0] === '"' && input.slice(-1) === '"') {
       return { type: TYPES.string, value: input.slice(1, -1) }
+    } else if (input[0] === ':') {
+      return { type: TYPES.string, value: input.slice(1) }
     } else if (input === 'true' || input === 'false') {
       return { type: TYPES.bool, value: input === 'true' }
     } else {
@@ -110,10 +133,18 @@ function Lisp (input, lib) {
     const token = input.shift()
     if (token === undefined) {
       return list.pop()
+    } else if (token === '\'(') {
+      input.unshift('__fn')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
+    } else if (token === '{') {
+      input.unshift('__obj')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
     } else if (token === '(') {
       list.push(parenthesize(input, []))
       return parenthesize(input, list)
-    } else if (token === ')') {
+    } else if (token === ')' || token === '}') {
       return list
     } else {
       return parenthesize(input, list.concat(categorize(token)))
@@ -121,7 +152,18 @@ function Lisp (input, lib) {
   }
 
   const tokenize = function (input) {
-    return input.replace(/^\;.*\n?/gm, '').split('"').map(function (x, i) { return i % 2 === 0 ? x.replace(/\(/g, ' ( ').replace(/\)/g, ' ) ') : x.replace(/ /g, '!whitespace!') }).join('"').trim().split(/\s+/).map(function (x) { return x.replace(/!whitespace!/g, ' ') })
+    const i = input.replace(/^\;.*\n?/gm, '').split('"')
+    return i.map(function (x, i) { 
+      return i % 2 === 0 ? 
+        x.replace(/\(/g, ' ( ')
+        .replace(/\)/g, ' ) ')
+        .replace(/' \( /g, ' \'( ') // '()
+        .replace(/\{/g, ' { ') // {}
+        .replace(/\}/g, ' } ') // {}
+        : x.replace(/ /g, '!whitespace!') 
+    })
+    .join('"').trim().split(/\s+/)
+    .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
   }
 
   this.parse = function (input) {
@@ -129,6 +171,8 @@ function Lisp (input, lib) {
   }
 
   this.toPixels = async function () {
-    return interpret(this.parse(input))
+    return interpret(this.parse(`(
+    (include "./sources/lisp/prelude.lisp") 
+    ${input})`))
   }
 }

@@ -27,6 +27,7 @@ npm start
 
 - `(import path rect)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
+- `(open path)` Imports a graphic file and resizes the frame.
 - `(pos x y ~t)` Returns a position shape.
 - `(size w h ~t)` Returns a size shape.
 - `(rect x y w h ~t)` Returns a rect shape.
@@ -37,7 +38,7 @@ npm start
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(clear ~rect)` Clears a rect.
-- `(concat ...items)` 
+- `(concat ...items)` Concat multiple strings.
 - `(add ...args)` Adds values.
 - `(sub ...args)` Subtracts values.
 - `(mul ...args)` Multiplies values.
@@ -69,32 +70,29 @@ npm start
 - `(range start end ~step)` 
 - `(get item key)` Gets an object's parameter with name.
 - `(set item key val)` Sets an object's parameter with name as value.
-- `(of h ...keys)` 
+- `(of h ...keys)` Gets object parameters with names.
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
-- `(scale rect w h)` 
 - `(resize w h ~fit)` Resizes the canvas to target w and h, returns the rect.
 - `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
-- `(crop rect)` 
+- `(crop rect)` Crop canvas to rect.
 - `(clone a b)` 
 - `(theme variable ~el)` 
 - `(gradient [x1 y1 x2 y2] ~colors 'black'])` 
 - `(pixels rect fn q)` 
 - `(saturation pixel ~q)` 
 - `(contrast pixel ~q)` 
-- `(echo ...args)` 
-- `(str ...args)` 
-- `(open path)` Imports a graphic file and resizes the frame.
 - `(dir ~path)` Returns the content of a directory.
-- `(file ~path)` Returns the content of a file
+- `(file ~path)` Returns the content of a file.
 - `(dirpath ~path)` Returns the path of a directory.
-- `(filepath ~path)` Returns the path of a file
+- `(filepath ~path)` Returns the path of a file.
 - `(exit ~force)` Exits Ronin.
-- `(time)` Returns timestamp in milliseconds.
+- `(echo ...args)` 
+- `(time ~rate)` Returns timestamp in milliseconds.
 - `(animate ~play)` Toggles animation.
 - `(js)` Javascript interop.
 - `(test name a b)` 
-- `(benchmark fn)` logs time taken to execute a function
+- `(benchmark fn)` logs time taken to execute a function.
 
 ## Extras
 
