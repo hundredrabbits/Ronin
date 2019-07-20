@@ -287,28 +287,61 @@ function Library (ronin) {
   // Pixels
 
   this.pixels = (rect, fn, q) => {
-    const img = ronin.surface.context.getImageData(0, 0, rect.w, rect.h)
+    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = { r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] }
       const processed = fn(pixel, q)
-      img.data[i] = processed[0]
-      img.data[i + 1] = processed[1]
-      img.data[i + 2] = processed[2]
-      img.data[i + 3] = processed[3]
+      img.data.set(processed, i);
     }
-    ronin.surface.context.putImageData(img, 0, 0)
+    ronin.surface.context.putImageData(img, rect.x, rect.y)
     return rect
   }
 
   this.saturation = (pixel, q = 1) => {
-    const color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
-    return [(color * (1 - q)) + (pixel.r * q), (color * (1 - q)) + (pixel.g * q), (color * (1 - q)) + (pixel.b * q), pixel.a]
+    const color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b * (1 - q)
+    return [color + (pixel.r * q), color + (pixel.g * q), color + (pixel.b * q), pixel.a]
   }
 
   this.contrast = (pixel, q = 1) => {
     const intercept = 128 * (1 - q)
     return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
   }
+
+  // Convolve
+
+  this.convolve = (rect, kernel) => {
+    const sigma = kernel.flat().reduce((a, x) => (a + x))
+    const kw = kernel[0].length, kh = kernel.length
+    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const out = new Uint8ClampedArray(rect.w * 4 * rect.h)
+    for (let i = 0, outer = img.data.length; i < outer; i++) { // bytes
+      const ix = Math.floor(i/4) % rect.w, iy = Math.floor((i/4) / rect.w)
+      let acc = 0.0
+      for (let k = 0, inner = kw*kh; k < inner; k++) { // kernel
+        const kx = (k%kw), ky = (Math.floor(k/kw))
+        const x = Math.ceil(ix + kx - kw/2), y = Math.ceil(iy + ky - kh/2)
+        if( x < 0 || x >= rect.w || y < 0 || y >= rect.h ) continue; // edge case
+        acc += img.data[x*4 + y*rect.w*4 + i%4] * kernel[kx][ky] / sigma
+      }
+      out[i] = acc
+      if (i%4 == 3) out[i] = 255
+    }
+    img.data.set(out, 0)
+    ronin.surface.context.putImageData(img, rect.x, rect.y)
+    return rect
+  }
+
+  this.blur = [[1, 2, 1],
+               [2, 4, 2],
+               [1, 2, 2]]
+
+  this.sharpen = [[ 0, -1,  0],
+                  [-1,  5, -1],
+                  [ 0, -1,  0]]
+
+  this.edge = [[-1, -1, -1],
+               [-1,  9, -1],
+               [-1, -1, -1]]
 
   // File System
 
