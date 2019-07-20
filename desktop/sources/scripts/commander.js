@@ -105,35 +105,41 @@ function Commander (ronin) {
 
   this.onMouseDown = (e) => {
     this.mouseDown = true
-    this.mouseRect.x = e.offsetX
-    this.mouseRect.y = e.offsetY
-    this.mouseRect.a.x = e.offsetX
-    this.mouseRect.a.y = e.offsetY
+    const offset = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY })
+    this.mouseRect.x = offset.x
+    this.mouseRect.y = offset.y
+    this.mouseRect.a.x = offset.x
+    this.mouseRect.a.y = offset.y
     this.mouseRect.t = 'pos'
     this.capture()
     this.show()
   }
 
   this.onMouseMove = (e) => {
-    if (this.mouseDown === true) {
-      this.mouseRect.w = e.offsetX - this.mouseRect.x
-      this.mouseRect.h = e.offsetY - this.mouseRect.y
-      this.mouseRect.b.x = e.offsetX
-      this.mouseRect.b.y = e.offsetY
-      this.commit()
-    }
+    if (this.mouseDown !== true) { return }
+    const offset = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY })
+    this.mouseRect.w = offset.x - this.mouseRect.x
+    this.mouseRect.h = offset.y - this.mouseRect.y
+    this.mouseRect.b.x = offset.x
+    this.mouseRect.b.y = offset.y
+    this.commit()
   }
 
   this.onMouseUp = (e) => {
     this.mouseDown = false
-    this.mouseRect.w = e.offsetX - this.mouseRect.x
-    this.mouseRect.h = e.offsetY - this.mouseRect.y
-    this.mouseRect.b.x = e.offsetX
-    this.mouseRect.b.y = e.offsetY
+    const offset = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY })
+    this.mouseRect.w = offset.x - this.mouseRect.x
+    this.mouseRect.h = offset.y - this.mouseRect.y
+    this.mouseRect.b.x = offset.x
+    this.mouseRect.b.y = offset.y
     this.mouseRect.t = ''
     this.commit()
     this._input.focus()
     ronin.surface.clearGuide()
+  }
+
+  this.makeMouseOffset = (pos) => {
+    return { x: pos.x * ronin.surface.ratio, y: pos.y * ronin.surface.ratio }
   }
 
   // Injection
@@ -188,9 +194,9 @@ function Commander (ronin) {
 
   // Display
 
-  this.show = function () {
+  this.show = function (expand = false) {
     if (this.isVisible === true) { return }
-    ronin.el.className = ''
+    ronin.el.className = expand ? 'expand' : ''
     this.isVisible = true
   }
 
@@ -200,9 +206,9 @@ function Commander (ronin) {
     this.isVisible = false
   }
 
-  this.toggle = function () {
+  this.toggle = function (expand = false) {
     if (this.isVisible !== true) {
-      this.show()
+      this.show(expand)
     } else {
       this.hide()
     }

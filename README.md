@@ -2,7 +2,13 @@
 
 _"All I wanted, was a quick way of resizing a few photos.."_
 
-Ronin is a [LISP](https://en.wikipedia.org/wiki/Lisp_(programming_language)) repl to create generative graphics currently under development. You can follow the daily progress on [Mastodon](https://merveilles.town/@neauoire/). 
+The application was created to automate basic graphical tasks using a dialect of [LISP](https://en.wikipedia.org/wiki/Lisp_(programming_language)), it all went south when we started adding animation tools. You can look at these [example files](https://github.com/hundredrabbits/Ronin/tree/master/examples) to better understand how this all works.
+
+```lisp
+; draw a red square
+(stroke 
+  (rect 30 30 100 100) 2 "red")
+```
 
 ## Install & Run
 
@@ -31,6 +37,7 @@ npm start
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(clear ~rect)` Clears a rect.
+- `(concat ...items)` 
 - `(add ...args)` Adds values.
 - `(sub ...args)` Subtracts values.
 - `(mul ...args)` Multiplies values.
@@ -54,7 +61,7 @@ npm start
 - `(or a b ...rest)` Returns true if at least one condition is true.
 - `(map fn arr)` 
 - `(filter fn arr)` 
-- `(reduce fn arr ~acc)` 
+- `(reduce fn arr acc)` 
 - `(len item)` Returns the length of a list.
 - `(first arr)` Returns the first item of a list.
 - `(last arr)` Returns the last
@@ -66,7 +73,7 @@ npm start
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
 - `(scale rect w h)` 
-- `(resize w h)` Resizes the canvas to target w and h, returns the rect.
+- `(resize w h ~fit)` Resizes the canvas to target w and h, returns the rect.
 - `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
 - `(crop rect)` 
 - `(clone a b)` 
@@ -78,12 +85,16 @@ npm start
 - `(echo ...args)` 
 - `(str ...args)` 
 - `(open path)` Imports a graphic file and resizes the frame.
-- `(folder ~path)` Returns the content of a folder path.
+- `(dir ~path)` Returns the content of a directory.
+- `(file ~path)` Returns the content of a file
+- `(dirpath ~path)` Returns the path of a directory.
+- `(filepath ~path)` Returns the path of a file
 - `(exit ~force)` Exits Ronin.
 - `(time)` Returns timestamp in milliseconds.
 - `(animate ~play)` Toggles animation.
 - `(js)` Javascript interop.
 - `(test name a b)` 
+- `(benchmark fn)` logs time taken to execute a function
 
 ## Extras
 
