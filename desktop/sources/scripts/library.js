@@ -337,8 +337,8 @@ function Library (ronin) {
     return args
   }
 
-  this.time = () => { // Returns timestamp in milliseconds.
-    return Date.now()
+  this.time = (rate = 1) => { // Returns timestamp in milliseconds.
+    return (Date.now() * rate)
   }
 
   this.animate = (play = true) => { // Toggles animation.
