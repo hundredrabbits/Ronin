@@ -6,7 +6,7 @@ function Surface (ronin) {
   this.ratio = window.devicePixelRatio
   // Contexts
   this.context = this.el.getContext('2d')
-  this.guide = this.el.getContext('2d')
+  this.guide = this._guide.getContext('2d')
 
   this.install = function (host) {
     host.appendChild(this.el)
@@ -15,9 +15,6 @@ function Surface (ronin) {
     this._guide.addEventListener('mousedown', ronin.commander.onMouseDown, false)
     this._guide.addEventListener('mousemove', ronin.commander.onMouseMove, false)
     this._guide.addEventListener('mouseup', ronin.commander.onMouseUp, false)
-    // this.context.imageSmoothingEnabled = false
-    this.context.scale(this.ratio, this.ratio)
-    this.guide.scale(this.ratio, this.ratio)
   }
 
   this.start = function () {
@@ -151,8 +148,8 @@ function Surface (ronin) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
 
-  this.clearGuide = function () {
-    this.clear(ronin.surface.getFrame(), ronin.surface.guide)
+  this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
+    context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
 
   this.clone = function (a, b) {
