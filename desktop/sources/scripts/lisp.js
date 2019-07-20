@@ -115,6 +115,8 @@ function Lisp (input, lib) {
       return { type: TYPES.number, value: parseFloat(input) }
     } else if (input[0] === '"' && input.slice(-1) === '"') {
       return { type: TYPES.string, value: input.slice(1, -1) }
+    } else if (input[0] === ':') {
+      return { type: TYPES.string, value: input.slice(1) }
     } else if (input === 'true' || input === 'false') {
       return { type: TYPES.bool, value: input === 'true' }
     } else {

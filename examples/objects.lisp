@@ -1,11 +1,15 @@
 ; objects
 
-(def ob {"a" 1 "b" 2})
+(test "symbols" :a "a")
 
-(echo (of ob "a"))
+(def ob {:a "fantastic" :b 2})
+
+((of (js) :console :log) ob)
+
+(echo (of ob :a))
 
 (echo (keys ob))
 (echo (values ob))
 
-(set ob "a" 4)
-(echo (of ob "a"))
+(set ob :a 4)
+(echo (of ob :a))
