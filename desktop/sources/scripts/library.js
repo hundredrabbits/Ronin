@@ -13,6 +13,10 @@ function Library (ronin) {
     return path
   }
 
+  this.open = async (path) => { // Imports a graphic file and resizes the frame.
+    return ronin.surface.open(path)
+  }
+
   // Shapes
 
   this.pos = (x, y, t = 'pos') => { // Returns a position shape.
@@ -62,7 +66,7 @@ function Library (ronin) {
 
   // Strings
 
-  this.concat = function (...items) {
+  this.concat = function (...items) { // Concat multiple strings.
     return items.reduce((acc, item) => { return `${acc}${item}` }, '')
   }
 
@@ -223,7 +227,7 @@ function Library (ronin) {
     return item[key]
   }
 
-  this.of = (h, ...keys) => {
+  this.of = (h, ...keys) => { // Gets object parameters with names.
     return keys.reduce((acc, key) => {
       return acc[key]
     }, h)
@@ -238,10 +242,6 @@ function Library (ronin) {
   this.center = () => { // Returns a position of the center of the frame.
     const rect = this.frame()
     return this.pos(rect.w / 2, rect.h / 2)
-  }
-
-  this.scale = (rect, w, h) => {
-    return { x: rect.x, y: rect.y, w: rect.w * w, h: rect.h * h }
   }
 
   this.resize = async (w, h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
@@ -264,7 +264,7 @@ function Library (ronin) {
     return ronin.surface.draw(b, rect)
   }
 
-  this.crop = async (rect) => {
+  this.crop = async (rect) => { // Crop canvas to rect.
     return ronin.surface.crop(rect)
   }
 
@@ -310,41 +310,31 @@ function Library (ronin) {
     return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
   }
 
-  // Misc
-
-  this.echo = (...args) => {
-    ronin.log(args)
-    return args
-  }
-
-  this.str = (...args) => {
-    return args.reduce((acc, val) => { return acc + val }, '')
-  }
-
-  this.open = async (path) => { // Imports a graphic file and resizes the frame.
-    return ronin.surface.open(path)
-  }
-
   // File System
 
-  this.dir = (path = ronin.source.path) => { // Returns the content of a directory.
+  this.dir = (path = this.dirpath()) => { // Returns the content of a directory.
     return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 
-  this.file = (path = ronin.source.path) => { // Returns the content of a file
-    return fs.existsSync(path) ? fs.readFileSync(p, 'utf8') : ''
+  this.file = (path = this.filepath()) => { // Returns the content of a file.
+    return fs.existsSync(path) ? fs.readFileSync(path, 'utf8') : ''
   }
 
-  this.dirpath = (path = ronin.source.path) => { // Returns the path of a directory.
+  this.dirpath = (path = this.filepath()) => { // Returns the path of a directory.
     return require('path').dirname(path)
   }
 
-  this.filepath = (path = ronin.source.path) => { // Returns the path of a file
-    return fs.existsSync(path) ? fs.readdirSync(path) : []
+  this.filepath = (path = ronin.source.path) => { // Returns the path of a file.
+    return path
   }
 
   this.exit = (force = false) => { // Exits Ronin.
     ronin.source.quit(force)
+  }
+
+  this.echo = (...args) => {
+    ronin.log(args)
+    return args
   }
 
   this.time = () => { // Returns timestamp in milliseconds.
@@ -368,7 +358,7 @@ function Library (ronin) {
     return a === b
   }
 
-  this.benchmark = async (fn) => { // logs time taken to execute a function
+  this.benchmark = async (fn) => { // logs time taken to execute a function.
     const start = Date.now()
     const result = await fn()
     console.log(`time taken: ${Date.now() - start}ms`)

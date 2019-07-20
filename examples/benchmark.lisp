@@ -53,7 +53,7 @@
 
 ; Generics
 
-  (test "str" (str 1 4 "-" (add 3 4) ".jpg") "14-7.jpg")
+  (test "concat" (concat 1 4 "-" (add 3 4) ".jpg") "14-7.jpg")
 
 ; Interop
   (test "interop" ((of (of (js) "Math") "max") 2 4) 4)
