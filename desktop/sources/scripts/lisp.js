@@ -69,8 +69,12 @@ function Lisp (input, lib) {
     __fn: function (input, context) {
       return async function () {
         const lambdaArguments = arguments
-        const lambdaScope = [].reduce(function (acc, x, i) {
-          acc[x.value] = lambdaArguments[i]
+        const keys = input.slice(2).filter(i => 
+          i.type === TYPES.identifier &&
+          i.value[0] === '%'
+        ).map(x => x.value).sort()
+        const lambdaScope = keys.reduce(function (acc, x, i) {
+          acc[x] = lambdaArguments[i]
           return acc
         }, {})
         return interpret(input.slice(1), new Context(lambdaScope, context))
