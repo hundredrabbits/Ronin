@@ -2,7 +2,7 @@
 
 _"All I wanted, was a quick way of resizing a few photos.."_
 
-The application is a simple [LISP repl](https://en.wikipedia.org/wiki/Lisp_(programming_language)) to automate simple graphical tasks, like resizing, cropping, coloring, and generating procedural imagery. You can look at these [example files](https://github.com/hundredrabbits/Ronin/tree/master/examples) to better understand how this all works.
+The application was created to automate basic graphical tasks using a dialect of [LISP](https://en.wikipedia.org/wiki/Lisp_(programming_language)), it all went south when we started adding animation tools. You can look at these [example files](https://github.com/hundredrabbits/Ronin/tree/master/examples) to better understand how this all works.
 
 ```lisp
 ; draw a red square
