@@ -23,6 +23,7 @@ function Ronin () {
   // Parameters
 
   this.always = false
+  this.includes = ['prelude']
 
   this.install = function (host = document.body) {
     this._wrapper = document.createElement('div')
