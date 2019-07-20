@@ -374,4 +374,11 @@ function Library (ronin) {
     console.log(`time taken: ${Date.now() - start}ms`)
     return result
   }
+
+  // osc
+
+  this.osc = () => { // Returns a rect of the frame.
+    return ronin.getOsc()
+  }
+
 }

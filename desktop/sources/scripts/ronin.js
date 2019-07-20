@@ -1,3 +1,5 @@
+const osc = require('osc')
+
 function Ronin () {
   const defaultTheme = {
     background: '#111',
@@ -20,6 +22,7 @@ function Ronin () {
   this.surface = new Surface(this)
   this.library = new Library(this)
 
+  this.oscMsg = {}
   // Parameters
 
   this.always = false
@@ -43,7 +46,29 @@ function Ronin () {
     this.source.start()
     this.commander.start()
     this.surface.start()
+
+    var udpPort = new osc.UDPPort({
+        localAddress: "0.0.0.0",
+        localPort: 57121,
+        metadata: true
+    });
+
+  udpPort.on("message", this.onOscMsg)
+
+  udpPort.open();
+    this.log("started")
+
     console.log('Ronin', 'Started')
+  }
+
+  this.onOscMsg = (oscMsg, timeTag, info) => {
+    this.oscMsg = oscMsg;
+    console.log("An OSC message just arrived!", oscMsg)
+    this.log("Remote info is: ", info);
+  }
+
+  this.getOsc = function() {
+      return this.oscMsg;
   }
 
   this.reset = function () {
