@@ -1,20 +1,6 @@
 ; stars
 (clear)
 ;
-(defn deg-rad 
-  (deg) 
-  (mul deg 
-    (div PI 180)))
-; 
-(defn circle-pos 
-  (cx cy r a) {:x 
-  (add cx 
-    (mul r 
-      (cos a))) :y 
-  (add cy 
-    (mul r 
-      (sin a)))})
-;
 (defn draw-spoke 
   (cx cy r a) 
   (

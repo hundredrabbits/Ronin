@@ -1,17 +1,34 @@
-; animate
-
-(clear) 
-(def t 
-  (sin 
-    (div 
-      (time) 100))) 
-(def pos 
-  (add 200 30 
-    (mul 30 t))) 
-(defn square 
-  (a) 
-  (rect a a a a)) 
-(stroke 
-  (square pos) 1 "red") 
-; set false to stop 
-(animate true)
+;
+(clear)
+;
+(def seg-count 20)
+; 
+(def center 
+  (div 
+    (of 
+      (frame) :h) 2)) 
+; 
+(def seg-width 
+  (div 
+    (of 
+      (frame) :w) count)) 
+;
+(defn draw-dash 
+  (i) 
+  (
+    (def x 
+      (mul 
+        (sub i 1) seg-width)) 
+    (def y 
+      (add 
+        (mul 
+          (sin 
+            (add 
+              (time 0.01) i)) 15) center)) 
+    (stroke 
+      (line 
+        (pos x y) 
+        (pos 
+          (add x seg-width) y)) 4 "red")))
+;
+(times seg-count draw-dash)

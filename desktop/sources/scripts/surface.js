@@ -185,7 +185,7 @@ function Surface (ronin) {
   }
 
   this.maximize = function () {
-    this.resize({ x: 0, y: 0, w: (window.innerWidth * this.ratio) - 60, h: (window.innerHeight * this.ratio) - 60, t: 'rect' })
+    this.resize({ x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio), t: 'rect' })
   }
 
   this.onResize = function () {
