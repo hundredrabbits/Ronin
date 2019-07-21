@@ -97,6 +97,7 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(js)` Javascript interop.
 - `(test name a b)` 
 - `(benchmark fn)` logs time taken to execute a function.
+- `(osc ~address)` returns the last received osc msg on port 12940
 
 ## Extras
 
