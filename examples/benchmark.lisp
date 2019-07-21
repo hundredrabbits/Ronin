@@ -35,14 +35,14 @@
   (test "range simple" (range 0 4) (0 1 2 3 4))
   (test "range with step" (range 0 4 2) (0 2 4))
   (test "range with negative step" (range 0 -4 -1) (0 -1 -2 -3 -4))
-  (test "map" (map (lambda (a) (add 1 a)) (1 2 3)) (2 3 4))
-  (test "filter" (filter (lambda (a) (eq 0 (mod a 2))) (2 3 4 5 6)) (2 4 6))
-  (test "reduce" (reduce (lambda (acc val) (add acc val)) (1 2 3) 4) 10)
+  (test "map" (map (λ (a) (add 1 a)) (1 2 3)) (2 3 4))
+  (test "filter" (filter (λ (a) (eq 0 (mod a 2))) (2 3 4 5 6)) (2 4 6))
+  (test "reduce" (reduce (λ (acc val) (add acc val)) (1 2 3) 4) 10)
 
 ; Scope
 
   (def aaa 123)
-  (def addOne (lambda (a) (add a 1)))
+  (def addOne (λ (a) (add a 1)))
   (test "def - value" aaa 123)
   (test "def - func" (addOne 4) 5)
   (defn addTwo (a) (add 2 a))

@@ -31,11 +31,21 @@ function Commander (ronin) {
     this.hide()
   }
 
+  this.cache = ''
+
   this.run = (txt = this._input.value) => {
     if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
-    const inter = new Lisp(txt, ronin.library)
-    inter.toPixels()
-    ronin.always === true && requestAnimationFrame(() => this.run(txt))
+    this.cache = txt
+    if (ronin.always !== true) {
+      ronin.surface.maximize()
+      ronin.interpreter.run(this.cache)
+    }
+  }
+
+  this.loop = () => {
+    ronin.surface.maximize()
+    ronin.interpreter.run(this.cache)
+    ronin.always === true && requestAnimationFrame(() => this.loop())
   }
 
   this.load = function (txt) {
@@ -47,6 +57,10 @@ function Commander (ronin) {
   this.reindent = function () {
     let val = this._input.value.replace(/\n/g, '').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
     let depth = 0
+    if (val.split('(').length !== val.split(')').length) {
+      ronin.log('Uneven number of parens.')
+      return
+    }
     for (let i = 0; i < val.length; i++) {
       const c = val.charAt(i)
       if (c === '(') { depth++ } else if (c === ')') { depth-- }
@@ -68,7 +82,7 @@ function Commander (ronin) {
     // Logs
     if (msg && msg !== this._log.textContent) {
       this._log.textContent = `${msg}`
-      console.log(msg)
+      // console.log(msg)
     }
     // Source
     const _source = `${ronin.source} ${this._input.value.split('\n').length} lines`

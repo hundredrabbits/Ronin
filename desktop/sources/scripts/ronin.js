@@ -11,6 +11,8 @@ function Ronin () {
     b_inv: '#ffb545'
   }
 
+  this.includes = ['prelude']
+
   this.el = document.createElement('div')
   this.el.id = 'ronin'
 
@@ -19,7 +21,8 @@ function Ronin () {
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
-
+  this.interpreter = new Lisp(this.library, this.includes)
+  this.osc = new Osc(this)
   // Parameters
 
   this.always = false
@@ -43,7 +46,7 @@ function Ronin () {
     this.source.start()
     this.commander.start()
     this.surface.start()
-    console.log('Ronin', 'Started')
+    this.osc.start()
   }
 
   this.reset = function () {
@@ -61,7 +64,7 @@ function Ronin () {
   this.animate = (b = true) => {
     if (this.always === b) { return }
     this.always = b
-    this.commander.run()
+    this.commander.loop()
   }
 
   // Zoom

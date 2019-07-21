@@ -126,12 +126,6 @@ function Source (ronin) {
     return `${str}`
   }
 
-  this.locate = function (name) {
-    if (!this.path) { return }
-    const loc = path.join(this.folder(), name)
-    return fs.existsSync(loc) ? loc : null
-  }
-
   // Etc
 
   this.name = function () {
