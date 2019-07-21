@@ -22,7 +22,7 @@ function Ronin () {
   this.surface = new Surface(this)
   this.library = new Library(this)
   this.interpreter = new Lisp(this.library, this.includes)
-
+  this.osc = new Osc(this)
   // Parameters
 
   this.always = false
@@ -46,7 +46,11 @@ function Ronin () {
     this.source.start()
     this.commander.start()
     this.surface.start()
-    console.log('Ronin', 'Started')
+    this.osc.start()
+  }
+
+  this.getOsc = function() {
+    return this.osc.oscMsg;
   }
 
   this.reset = function () {
