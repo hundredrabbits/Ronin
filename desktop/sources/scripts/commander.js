@@ -33,6 +33,7 @@ function Commander (ronin) {
 
   this.run = (txt = this._input.value) => {
     if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
+    ronin.surface.maximize()
     ronin.interpreter.run(txt)
     ronin.always === true && requestAnimationFrame(() => this.run(txt))
   }

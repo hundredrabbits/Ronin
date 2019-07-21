@@ -31,8 +31,8 @@ function Library (ronin) {
     return { x, y, w, h, t }
   }
 
-  this.circle = (x, y, r, t = 'circle') => { // Returns a circle shape.
-    return { x, y, r, t }
+  this.circle = (cx, cy, r, t = 'circle') => { // Returns a circle shape.
+    return { cx, cy, r, t }
   }
 
   this.line = (a, b, t = 'line') => { // Returns a line shape.
@@ -343,6 +343,11 @@ function Library (ronin) {
   this.echo = (...args) => {
     ronin.log(args)
     return args
+  }
+
+  this.table = (arg) => {
+    console.table(arg)
+    return arg
   }
 
   this.time = (rate = 1) => { // Returns timestamp in milliseconds.
