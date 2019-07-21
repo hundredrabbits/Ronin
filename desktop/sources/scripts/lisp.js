@@ -1,7 +1,6 @@
 'use strict'
 
 function Lisp (lib = {}, includes = []) {
-  console.log(includes)
   const path = require('path')
   const fs = require('fs')
 

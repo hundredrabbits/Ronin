@@ -100,7 +100,7 @@ function Surface (ronin) {
   }
 
   this.traceCircle = function (circle, context) {
-    context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI)
+    context.arc(circle.cx, circle.cy, circle.r, 0, 2 * Math.PI)
   }
 
   this.traceText = function (text, context) {
