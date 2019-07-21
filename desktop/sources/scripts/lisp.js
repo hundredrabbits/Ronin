@@ -153,7 +153,7 @@ function Lisp (lib = {}, includes = []) {
   }
 
   const tokenize = function (input) {
-    const i = input.replace(/^\;.*\n?/gm, '').split('"')
+    const i = input.replace(/^\;.*\n?/gm, '').replace('λ','lambda ').split('"')
     return i.map(function (x, i) {
       return i % 2 === 0
         ? x.replace(/\(/g, ' ( ')

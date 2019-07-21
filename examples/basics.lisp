@@ -8,9 +8,6 @@
 (defn add-two (a) (add 2 a)) 
 (echo (add-two 4))
 
-; run
+; use a lambda
 (times 5 
-  (lambda 
-    (a) 
-    (echo 
-      (concat "time:" a))))
+  (λ (a) (echo (concat "time:" a))))
