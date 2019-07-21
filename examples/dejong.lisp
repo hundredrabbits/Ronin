@@ -16,7 +16,7 @@
 
 (defn dejong (r a b c d)
   (reduce  
-    (lambda (acc val)
+    (λ (acc val)
       (first (
         (_dejong (first acc) (last acc) a b c d)
       )))

@@ -15,13 +15,12 @@ function Osc (ronin) {
         udpPort.on("message", this.onOscMsg)
 
         udpPort.open();
-        this.ronin.log("osc started")
+        ronin.log("osc started")
     }
 
-
     this.onOscMsg = (oscMsg, timeTag, info) => {
-      this.oscMsg = oscMsg;
-      this.ronin.log("An OSC message just arrived!", oscMsg)
-      this.ronin.log("Remote info is: ", info);
+      this.oscMsg[oscMsg.address] = oscMsg;
+      ronin.log("An OSC message just arrived!", oscMsg)
+      ronin.log("Remote info is: ", info);
     }
 }

@@ -25,6 +25,8 @@ npm start
 
 ## Library
 
+Additional functions can be found in the [includes](https://github.com/hundredrabbits/Ronin/tree/master/desktop/sources/lisp), you can also look at the [examples](https://github.com/hundredrabbits/Ronin/tree/master/examples) to see them in action.
+
 - `(import path rect)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
 - `(open path)` Imports a graphic file and resizes the frame.
@@ -38,6 +40,17 @@ npm start
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(clear ~rect)` Clears a rect.
+- `(frame)` Returns a rect of the frame.
+- `(center)` Returns a position of the center of the frame.
+- `(resize w h ~fit)` Resizes the canvas to target w and h, returns the rect.
+- `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
+- `(crop rect)` Crop canvas to rect.
+- `(clone a b)` 
+- `(theme variable ~el)` 
+- `(gradient [x1 y1 x2 y2] ~colors 'black'])` 
+- `(pixels rect fn q)` 
+- `(saturation pixel ~q)` 
+- `(contrast pixel ~q)` 
 - `(concat ...items)` Concat multiple strings.
 - `(add ...args)` Adds values.
 - `(sub ...args)` Subtracts values.
@@ -71,17 +84,8 @@ npm start
 - `(get item key)` Gets an object's parameter with name.
 - `(set item key val)` Sets an object's parameter with name as value.
 - `(of h ...keys)` Gets object parameters with names.
-- `(frame)` Returns a rect of the frame.
-- `(center)` Returns a position of the center of the frame.
-- `(resize w h ~fit)` Resizes the canvas to target w and h, returns the rect.
-- `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
-- `(crop rect)` Crop canvas to rect.
-- `(clone a b)` 
-- `(theme variable ~el)` 
-- `(gradient [x1 y1 x2 y2] ~colors 'black'])` 
-- `(pixels rect fn q)` 
-- `(saturation pixel ~q)` 
-- `(contrast pixel ~q)` 
+- `(keys item)` Returns a list of the object's keys
+- `(values item)` Returns a list of the object's values
 - `(dir ~path)` Returns the content of a directory.
 - `(file ~path)` Returns the content of a file.
 - `(dirpath ~path)` Returns the path of a directory.

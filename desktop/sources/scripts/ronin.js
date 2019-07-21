@@ -11,6 +11,8 @@ function Ronin () {
     b_inv: '#ffb545'
   }
 
+  this.includes = ['prelude']
+
   this.el = document.createElement('div')
   this.el.id = 'ronin'
 
@@ -19,9 +21,8 @@ function Ronin () {
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
+  this.interpreter = new Lisp(this.library, this.includes)
   this.osc = new Osc(this)
-
-  this.oscMsg = {}
   // Parameters
 
   this.always = false
