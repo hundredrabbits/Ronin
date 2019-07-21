@@ -49,8 +49,8 @@ function Ronin () {
     this.osc.start()
   }
 
-  this.getOsc = function() {
-    return this.osc.oscMsg;
+  this.getOsc = function () {
+    return this.osc.oscMsg
   }
 
   this.reset = function () {

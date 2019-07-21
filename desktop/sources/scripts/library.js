@@ -382,9 +382,9 @@ function Library (ronin) {
 
   this.osc = (...args) => { // Returns a rect of the frame.
     if (args.length >= 1) {
-        return ronin.getOsc()[args[0]]
+      return ronin.getOsc()[args[0]]
     } else {
-        return ronin.getOsc();
+      return ronin.getOsc()
     }
   }
 }

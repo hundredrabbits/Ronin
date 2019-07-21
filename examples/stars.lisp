@@ -27,7 +27,7 @@
   (cx cy r c) 
   (
     (times c 
-      (lambda 
+      (λ 
         (i) 
         (
           (draw-spoke cx cy r 
