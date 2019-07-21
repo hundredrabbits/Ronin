@@ -46,6 +46,10 @@ function Commander (ronin) {
   this.reindent = function () {
     let val = this._input.value.replace(/\n/g, '').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
     let depth = 0
+    if (val.split('(').length !== val.split(')').length) {
+      ronin.log('Uneven number of parens.')
+      return
+    }
     for (let i = 0; i < val.length; i++) {
       const c = val.charAt(i)
       if (c === '(') { depth++ } else if (c === ')') { depth-- }
