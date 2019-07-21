@@ -72,7 +72,7 @@ function Commander (ronin) {
     // Logs
     if (msg && msg !== this._log.textContent) {
       this._log.textContent = `${msg}`
-      console.log(msg)
+      // console.log(msg)
     }
     // Source
     const _source = `${ronin.source} ${this._input.value.split('\n').length} lines`

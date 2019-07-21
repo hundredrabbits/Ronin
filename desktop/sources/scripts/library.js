@@ -7,7 +7,7 @@ function Library (ronin) {
 
   this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     if (!path) { console.warn('Missing export path'); return path }
-    var dataUrl = ronin.surface.el.toDataURL(format, quality)
+    const dataUrl = ronin.surface.el.toDataURL(format, quality)
     const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
     fs.writeFileSync(path, data, 'base64')
     return path
@@ -350,6 +350,11 @@ function Library (ronin) {
     return arg
   }
 
+  this.log = (arg) => {
+    console.log(arg)
+    return arg
+  }
+
   this.time = (rate = 1) => { // Returns timestamp in milliseconds.
     return (Date.now() * rate)
   }
@@ -378,13 +383,9 @@ function Library (ronin) {
     return result
   }
 
-  // osc
+  // IO
 
-  this.osc = (...args) => { // Returns a rect of the frame.
-    if (args.length >= 1) {
-      return ronin.getOsc()[args[0]]
-    } else {
-      return ronin.getOsc()
-    }
+  this.osc = (path) => { // Returns the latest osc message at path
+    return path ? ronin.osc.msg[path] : ronin.osc.msg
   }
 }

@@ -3,24 +3,21 @@
 function Osc (ronin) {
   const osc = require('osc')
 
-  this.oscMsg = {}
+  this.msg = {}
 
   this.start = function () {
-    var udpPort = new osc.UDPPort({
+    const udpPort = new osc.UDPPort({
       localAddress: '0.0.0.0',
       localPort: 49162,
       metadata: true
     })
-
-    udpPort.on('message', this.onOscMsg)
-
+    udpPort.on('message', this.onMsg)
     udpPort.open()
-    ronin.log('osc started')
+    ronin.log('OSC','Started.')
   }
 
-  this.onOscMsg = (oscMsg, timeTag, info) => {
-    this.oscMsg[oscMsg.address] = oscMsg
-    ronin.log('An OSC message just arrived!', oscMsg)
-    ronin.log('Remote info is: ', info)
+  this.onMsg = (msg, timeTag, info) => {
+    this.msg[msg.address] = msg.args
+    // ronin.log(`${info.address}:${info.port} > ${msg.args}`, info)
   }
 }
