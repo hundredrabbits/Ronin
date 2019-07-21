@@ -18,10 +18,10 @@
   <body>
     <script type="text/javascript">
       const {dialog,app} = require('electron').remote;
-      const fs = require('fs');
-      const app_path = app.getAppPath();
-      const ronin = new Ronin();
-      ronin.controller = new Controller();
+      const fs = require('fs')
+      const ronin = new Ronin()
+
+      ronin.controller = new Controller()
       ronin.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Dotgrid'); },"CmdOrCtrl+,");
       ronin.controller.add("default","*","Fullscreen",() => { app.toggleFullscreen() },"CmdOrCtrl+Enter");
       ronin.controller.add("default","*","Hide",() => { app.toggleVisible() },"CmdOrCtrl+H");
@@ -53,9 +53,10 @@
       ronin.controller.add("default","Theme","Reset Theme",() => { ronin.theme.reset() },"CmdOrCtrl+Shift+Backspace")
       ronin.controller.addSpacer('default', 'Theme', 'Download')
       ronin.controller.add("default","Theme","Download Themes..",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Themes') })
-      ronin.controller.commit();
-      ronin.install(document.body);
-      window.addEventListener('load', () => { ronin.start(); })
+      ronin.controller.commit()
+
+      ronin.install(document.body)
+      window.addEventListener('load', () => { ronin.start() })
     </script>
   </body>
 </html>

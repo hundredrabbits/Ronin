@@ -64,6 +64,83 @@ function Library (ronin) {
     return rect
   }
 
+  // Frame
+
+  this.frame = () => { // Returns a rect of the frame.
+    return ronin.surface.getFrame()
+  }
+
+  this.center = () => { // Returns a position of the center of the frame.
+    const rect = this.frame()
+    return this.pos(rect.w / 2, rect.h / 2)
+  }
+
+  this.resize = async (w, h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+    const rect = { x: 0, y: 0, w, h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    await ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, fit)
+    return ronin.surface.draw(b, rect)
+  }
+
+  this.rescale = async (w, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+    const rect = { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    await ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, true)
+    return ronin.surface.draw(b, rect)
+  }
+
+  this.crop = async (rect) => { // Crop canvas to rect.
+    return ronin.surface.crop(rect)
+  }
+
+  this.clone = (a, b) => {
+    ronin.surface.clone(a, b)
+    return [a, b]
+  }
+
+  this.theme = (variable, el = document.documentElement) => {
+    // ex. (theme "f_main") -> :root { --f_main: "#fff" }
+    return getComputedStyle(el).getPropertyValue(`--${variable}`)
+  }
+
+  // Gradients
+
+  this.gradient = ([x1, y1, x2, y2], colors = ['white', 'black']) => {
+    return ronin.surface.linearGradient(x1, y1, x2, y2, colors)
+  }
+
+  // Pixels
+
+  this.pixels = (rect, fn, q) => {
+    const img = ronin.surface.context.getImageData(0, 0, rect.w, rect.h)
+    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
+      const pixel = { r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] }
+      const processed = fn(pixel, q)
+      img.data[i] = processed[0]
+      img.data[i + 1] = processed[1]
+      img.data[i + 2] = processed[2]
+      img.data[i + 3] = processed[3]
+    }
+    ronin.surface.context.putImageData(img, 0, 0)
+    return rect
+  }
+
+  this.saturation = (pixel, q = 1) => {
+    const color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
+    return [(color * (1 - q)) + (pixel.r * q), (color * (1 - q)) + (pixel.g * q), (color * (1 - q)) + (pixel.b * q), pixel.a]
+  }
+
+  this.contrast = (pixel, q = 1) => {
+    const intercept = 128 * (1 - q)
+    return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
+  }
+
   // Strings
 
   this.concat = function (...items) { // Concat multiple strings.
@@ -239,83 +316,6 @@ function Library (ronin) {
 
   this.values = (item) => { // Returns a list of the object's values
     return Object.values(item)
-  }
-
-  // Frame
-
-  this.frame = () => { // Returns a rect of the frame.
-    return ronin.surface.getFrame()
-  }
-
-  this.center = () => { // Returns a position of the center of the frame.
-    const rect = this.frame()
-    return this.pos(rect.w / 2, rect.h / 2)
-  }
-
-  this.resize = async (w, h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
-    const rect = { x: 0, y: 0, w, h }
-    const a = document.createElement('img')
-    const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    await ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, fit)
-    return ronin.surface.draw(b, rect)
-  }
-
-  this.rescale = async (w, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
-    const rect = { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h }
-    const a = document.createElement('img')
-    const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    await ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, true)
-    return ronin.surface.draw(b, rect)
-  }
-
-  this.crop = async (rect) => { // Crop canvas to rect.
-    return ronin.surface.crop(rect)
-  }
-
-  this.clone = (a, b) => {
-    ronin.surface.clone(a, b)
-    return [a, b]
-  }
-
-  this.theme = (variable, el = document.documentElement) => {
-    // ex. (theme "f_main") -> :root { --f_main: "#fff" }
-    return getComputedStyle(el).getPropertyValue(`--${variable}`)
-  }
-
-  // Gradients
-
-  this.gradient = ([x1, y1, x2, y2], colors = ['white', 'black']) => {
-    return ronin.surface.linearGradient(x1, y1, x2, y2, colors)
-  }
-
-  // Pixels
-
-  this.pixels = (rect, fn, q) => {
-    const img = ronin.surface.context.getImageData(0, 0, rect.w, rect.h)
-    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
-      const pixel = { r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] }
-      const processed = fn(pixel, q)
-      img.data[i] = processed[0]
-      img.data[i + 1] = processed[1]
-      img.data[i + 2] = processed[2]
-      img.data[i + 3] = processed[3]
-    }
-    ronin.surface.context.putImageData(img, 0, 0)
-    return rect
-  }
-
-  this.saturation = (pixel, q = 1) => {
-    const color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
-    return [(color * (1 - q)) + (pixel.r * q), (color * (1 - q)) + (pixel.g * q), (color * (1 - q)) + (pixel.b * q), pixel.a]
-  }
-
-  this.contrast = (pixel, q = 1) => {
-    const intercept = 128 * (1 - q)
-    return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
   }
 
   // File System

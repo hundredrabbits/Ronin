@@ -1,14 +1,15 @@
 'use strict'
 
-function Lisp (input, lib) {
+function Lisp (lib = {}, includes = []) {
+  console.log(includes)
   const path = require('path')
   const fs = require('fs')
 
   const TYPES = { identifier: 0, number: 1, string: 2, bool: 3 }
+
   const Context = function (scope, parent) {
     this.scope = scope
     this.parent = parent
-
     this.get = function (identifier) {
       if (identifier in this.scope) {
         return this.scope[identifier]
@@ -20,7 +21,7 @@ function Lisp (input, lib) {
 
   const special = {
     include: (input, context) => {
-      if (!input[1].value || !fs.existsSync(input[1].value)) { console.warn('Source', input[1].value); return [] }
+      if (!input[1].value || !fs.existsSync(input[1].value)) { console.warn('Lisp', 'No file: ' + input[1].value); return [] }
       const file = fs.readFileSync(input[1].value, { encoding: 'utf-8' })
       return interpret(this.parse(`(${file})`), context)
     },
@@ -69,7 +70,7 @@ function Lisp (input, lib) {
     __fn: function (input, context) {
       return async function () {
         const lambdaArguments = arguments
-        const keys = [...new Set(input.slice(2).flat(100).filter(i => 
+        const keys = [...new Set(input.slice(2).flat(100).filter(i =>
           i.type === TYPES.identifier &&
           i.value[0] === '%'
         ).map(x => x.value).sort())]
@@ -82,8 +83,8 @@ function Lisp (input, lib) {
     },
     __obj: async function (input, context) {
       const obj = {}
-      for (let i = 1 ; i<input.length ; i+=2) {
-        obj[await interpret(input[i] ,context)] = await interpret(input[i+1], context)
+      for (let i = 1; i < input.length; i += 2) {
+        obj[await interpret(input[i], context)] = await interpret(input[i + 1], context)
       }
       return obj
     }
@@ -101,7 +102,7 @@ function Lisp (input, lib) {
   }
 
   const interpret = async function (input, context) {
-    if (!input) { console.warn('error', context.scope); return null }
+    if (!input) { console.warn('Lisp', 'error', context.scope); return null }
 
     if (context === undefined) {
       return interpret(input, new Context(lib))
@@ -152,27 +153,35 @@ function Lisp (input, lib) {
   }
 
   const tokenize = function (input) {
-    const i = input.replace(/^\;.*\n?/gm, '').split('"')
-    return i.map(function (x, i) { 
-      return i % 2 === 0 ? 
-        x.replace(/\(/g, ' ( ')
-        .replace(/\)/g, ' ) ')
-        .replace(/' \( /g, ' \'( ') // '()
-        .replace(/\{/g, ' { ') // {}
-        .replace(/\}/g, ' } ') // {}
-        : x.replace(/ /g, '!whitespace!') 
+    const i = input.replace(/^\;.*\n?/gm, '').replace('λ', 'lambda ').split('"')
+    return i.map(function (x, i) {
+      return i % 2 === 0
+        ? x.replace(/\(/g, ' ( ')
+          .replace(/\)/g, ' ) ')
+          .replace(/' \( /g, ' \'( ') // '()
+          .replace(/\{/g, ' { ') // {}
+          .replace(/\}/g, ' } ') // {}
+        : x.replace(/ /g, '!whitespace!')
     })
-    .join('"').trim().split(/\s+/)
-    .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
+      .join('"').trim().split(/\s+/)
+      .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
+  }
+
+  this.inc = function () {
+    return includes.reduce((acc, item) => {
+      const p = path.join(__dirname, `lisp/${item}.lisp`)
+      if (!fs.existsSync(p)) { console.warn('Lisp', `Missing include: ${p}`); return acc }
+      return `${acc}(include "${p}") `
+    }, '')
   }
 
   this.parse = function (input) {
     return parenthesize(tokenize(input))
   }
 
-  this.toPixels = async function () {
+  this.run = async function (input) {
     return interpret(this.parse(`(
-    (include "./sources/lisp/prelude.lisp") 
-    ${input})`))
+      ${this.inc()}
+      ${input})`))
   }
 }

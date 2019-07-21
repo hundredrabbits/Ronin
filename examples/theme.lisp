@@ -2,7 +2,7 @@
 
 (clear) 
 (def col 
-  (lambda 
+  (λ 
     (i) 
     (of 
       (
@@ -16,7 +16,7 @@
         (theme "b_inv")) 
       (mod i 8)))) 
 (def rec 
-  (lambda 
+  (λ 
     (v i) 
     (if 
       (gt v 0) 
