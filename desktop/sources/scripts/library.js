@@ -350,7 +350,7 @@ function Library (ronin) {
     return arg
   }
 
-  this.log = (arg) => {
+  this.debug = (arg) => {
     console.log(arg)
     return arg
   }

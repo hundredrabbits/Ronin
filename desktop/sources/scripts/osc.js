@@ -13,7 +13,7 @@ function Osc (ronin) {
     })
     udpPort.on('message', this.onMsg)
     udpPort.open()
-    ronin.log('OSC','Started.')
+    ronin.log('OSC', 'Started.')
   }
 
   this.onMsg = (msg, timeTag, info) => {
