@@ -7,3 +7,10 @@
 ; define a function 
 (defn add-two (a) (add 2 a)) 
 (echo (add-two 4))
+
+; run
+(times 5 
+  (lambda 
+    (a) 
+    (echo 
+      (concat "time:" a))))

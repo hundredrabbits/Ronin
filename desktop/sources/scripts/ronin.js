@@ -10,7 +10,7 @@ function Ronin () {
     b_low: '#aaa',
     b_inv: '#ffb545'
   }
-  
+
   this.includes = ['prelude']
 
   this.el = document.createElement('div')
