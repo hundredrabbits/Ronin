@@ -322,20 +322,20 @@ function Library (ronin) {
 
   this.convolve = (rect, kernel) => {
     const sigma = kernel.flat().reduce((a, x) => (a + x))
-    const kw = kernel[0].length, kh = kernel.length
+    const kw = kernel[0].length; const kh = kernel.length
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     const out = new Uint8ClampedArray(rect.w * 4 * rect.h)
     for (let i = 0, outer = img.data.length; i < outer; i++) { // bytes
-      const ix = Math.floor(i/4) % rect.w, iy = Math.floor((i/4) / rect.w)
+      const ix = Math.floor(i / 4) % rect.w; const iy = Math.floor((i / 4) / rect.w)
       let acc = 0.0
-      for (let k = 0, inner = kw*kh; k < inner; k++) { // kernel
-        const kx = (k%kw), ky = (Math.floor(k/kw))
-        const x = Math.ceil(ix + kx - kw/2), y = Math.ceil(iy + ky - kh/2)
-        if( x < 0 || x >= rect.w || y < 0 || y >= rect.h ) continue; // edge case
-        acc += img.data[x*4 + y*rect.w*4 + i%4] * kernel[kx][ky] / sigma
+      for (let k = 0, inner = kw * kh; k < inner; k++) { // kernel
+        const kx = (k % kw); const ky = (Math.floor(k / kw))
+        const x = Math.ceil(ix + kx - kw / 2); const y = Math.ceil(iy + ky - kh / 2)
+        if (x < 0 || x >= rect.w || y < 0 || y >= rect.h) continue // edge case
+        acc += img.data[x * 4 + y * rect.w * 4 + i % 4] * kernel[kx][ky] / sigma
       }
       out[i] = acc
-      if (i%4 == 3) out[i] = 255
+      if (i % 4 == 3) out[i] = 255
     }
     img.data.set(out, 0)
     ronin.surface.context.putImageData(img, rect.x, rect.y)
@@ -343,16 +343,16 @@ function Library (ronin) {
   }
 
   this.blur = [[1, 2, 1],
-               [2, 4, 2],
-               [1, 2, 2]]
+    [2, 4, 2],
+    [1, 2, 2]]
 
-  this.sharpen = [[ 0, -1,  0],
-                  [-1,  5, -1],
-                  [ 0, -1,  0]]
+  this.sharpen = [[ 0, -1, 0],
+    [-1, 5, -1],
+    [ 0, -1, 0]]
 
   this.edge = [[-1, -1, -1],
-               [-1,  9, -1],
-               [-1, -1, -1]]
+    [-1, 9, -1],
+    [-1, -1, -1]]
 
   // File System
 
