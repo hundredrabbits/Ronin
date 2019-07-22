@@ -441,7 +441,7 @@ function Library (ronin) {
     return window
   }
 
-  this.on = (event, f) => {
+  this.on = (event, f) => { // Triggers on event.
     ronin.bind(event, f)
   }
 
@@ -459,11 +459,5 @@ function Library (ronin) {
     const result = await fn()
     console.log(`time taken: ${Date.now() - start}ms`)
     return result
-  }
-
-  // IO
-
-  this.osc = (path) => { // Returns the latest osc message at path
-    return path ? ronin.osc.msg[path] : ronin.osc.msg
   }
 }

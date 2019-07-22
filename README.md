@@ -30,13 +30,21 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(import path rect)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
 - `(open path)` Imports a graphic file and resizes the frame.
-- `(pos x y ~t)` Returns a position shape.
-- `(size w h ~t)` Returns a size shape.
-- `(rect x y w h ~t)` Returns a rect shape.
-- `(circle x y r ~t)` Returns a circle shape.
-- `(line a b ~t)` Returns a line shape.
-- `(text x y g s ~f ~t)` Returns a text shape.
-- `(svg d ~t)` Returns a svg shape.
+- `(move x y)` 
+- `(rotate angle)` 
+- `(scale x y)` 
+- `(transform a b c d e f)` 
+- `(setTransform a b c d e f)` 
+- `(resetTransform)` 
+- `(pushTransform)` 
+- `(popTransform)` 
+- `(pos x y)` Returns a position shape.
+- `(size w h)` Returns a size shape.
+- `(rect x y w h)` Returns a rect shape.
+- `(circle cx cy r)` Returns a circle shape.
+- `(line a b)` Returns a line shape.
+- `(text x y p t ~f)` Returns a text shape.
+- `(svg d)` Returns a svg shape.
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(clear ~rect)` Clears a rect.
@@ -82,22 +90,27 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(rest [_ ...arr])` 
 - `(range start end ~step)` 
 - `(get item key)` Gets an object's parameter with name.
-- `(set item key val)` Sets an object's parameter with name as value.
+- `(set item ...args)` Sets an object's parameter with name as value.
 - `(of h ...keys)` Gets object parameters with names.
 - `(keys item)` Returns a list of the object's keys
 - `(values item)` Returns a list of the object's values
+- `(convolve rect kernel)` 
+- `(blur)` 
+- `(sharpen)` 
+- `(edge)` 
 - `(dir ~path)` Returns the content of a directory.
 - `(file ~path)` Returns the content of a file.
 - `(dirpath ~path)` Returns the path of a directory.
 - `(filepath ~path)` Returns the path of a file.
 - `(exit ~force)` Exits Ronin.
 - `(echo ...args)` 
+- `(table arg)` 
+- `(debug arg)` 
 - `(time ~rate)` Returns timestamp in milliseconds.
-- `(animate ~play)` Toggles animation.
 - `(js)` Javascript interop.
+- `(on event f)` Triggers on event.
 - `(test name a b)` 
 - `(benchmark fn)` logs time taken to execute a function.
-- `(osc ~address)` returns the last received osc msg on port 12940
 
 ## Extras
 
