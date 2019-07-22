@@ -17,7 +17,8 @@ function Osc (ronin) {
   }
 
   this.onMsg = (msg, timeTag, info) => {
-    this.msg[msg.address] = msg.args
-    // ronin.log(`${info.address}:${info.port} > ${msg.args}`, info)
+    if (ronin.bindings[msg.address]) {
+      ronin.bindings[msg.address](msg.args)
+    }
   }
 }
