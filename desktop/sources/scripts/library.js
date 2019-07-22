@@ -17,6 +17,41 @@ function Library (ronin) {
     return ronin.surface.open(path)
   }
 
+  // Transforms
+
+  this.move = (x, y) => {
+    ronin.surface.context.translate(x, y)
+  }
+
+  this.rotate = (angle) => {
+    ronin.surface.context.rotate(angle)
+  }
+
+  this.scale = (x, y) => {
+    ronin.surface.context.scale(x, y === undefined ? x : y)
+  }
+
+  this.transform = (a, b, c, d, e, f) => {
+    // a:hscale b:hskew c:vskew d:vscale e:hmove f:vmove
+    ronin.surface.context.transform(a, b, c, d, e, f)
+  }
+
+  this.setTransform = (a, b, c, d, e, f) => {
+    ronin.surface.context.setTransform(a, b, c, d, e, f)
+  }
+
+  this.resetTransform = () => {
+    ronin.surface.context.resetTransform()
+  }
+
+  this.pushTransform = () => {
+    ronin.surface.context.save()
+  }
+
+  this.popTransform = () => {
+    ronin.surface.context.restore()
+  }
+
   // Shapes
 
   this.pos = (x, y, t = 'pos') => { // Returns a position shape.
@@ -241,7 +276,10 @@ function Library (ronin) {
   // Arrays
 
   this.map = async (fn, arr) => {
-    return Promise.all(arr.map(fn))
+    for (let i = 0; i < arr.length; i++) {
+      const arg = arr[i];
+      await fn(arg)
+    }
   }
 
   this.filter = (fn, arr) => {
