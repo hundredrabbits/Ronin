@@ -71,16 +71,15 @@ function Surface (ronin) {
   // Tracers
 
   this.trace = function (shape, context) {
-    console.log(this.findType(shape))
-    if (shape.t === 'rect') {
+    if (isRect(shape)) {
       this.traceRect(shape, context)
-    } else if (shape.t === 'line') {
+    } else if (isLine(shape)) {
       this.traceLine(shape, context)
-    } else if (shape.t === 'circle') {
+    } else if (isCircle(shape)) {
       this.traceCircle(shape, context)
-    } else if (shape.t === 'text') {
+    } else if (isText(shape)) {
       this.traceText(shape, context)
-    } else if (shape.t === 'svg') {
+    } else if (isSvg(shape)) {
       this.traceSVG(shape, context)
     } else {
       console.warn('Unknown type')
@@ -244,6 +243,9 @@ function Surface (ronin) {
   }
   function isSvg (shape) {
     return shape.d
+  }
+  function isText (shape) {
+    return shape.x && shape.y && shape.p && shape.t && shape.f
   }
   function isLine (shape) {
     return shape.a && shape.a.x && shape.a.y && shape.b && shape.b.x && shape.b.y
