@@ -5,7 +5,7 @@
 (defn stroke-color 
   (e) 
   (if 
-    (of e :is-down) "red" "#72dec2")) 
+    (of e :is-down) "#ffb545" "#72dec2")) 
 ;
 (defn draw-line 
   (e) 
