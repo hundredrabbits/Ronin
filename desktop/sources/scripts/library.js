@@ -299,9 +299,13 @@ function Library (ronin) {
     return item[key]
   }
 
-  this.set = (item, key, val) => { // Sets an object's parameter with name as value.
-    item[key] = val
-    return item[key]
+  this.set = (item, ...args) => { // Sets an object's parameter with name as value.
+    for (let i = 0; i < args.length; i += 2) {
+      const key = args[i]
+      const val = args[i + 1]
+      item[key] = val
+    }
+    return item
   }
 
   this.of = (h, ...keys) => { // Gets object parameters with names.
