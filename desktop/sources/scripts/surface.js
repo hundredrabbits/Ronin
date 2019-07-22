@@ -12,9 +12,9 @@ function Surface (ronin) {
     host.appendChild(this.el)
     host.appendChild(this._guide)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
-    this._guide.addEventListener('mousedown', ronin.commander.onMouseDown, false)
-    this._guide.addEventListener('mousemove', ronin.commander.onMouseMove, false)
-    this._guide.addEventListener('mouseup', ronin.commander.onMouseUp, false)
+    this._guide.addEventListener('mousedown', ronin.onMouseDown, false)
+    this._guide.addEventListener('mousemove', ronin.onMouseMove, false)
+    this._guide.addEventListener('mouseup', ronin.onMouseUp, false)
   }
 
   this.start = function () {

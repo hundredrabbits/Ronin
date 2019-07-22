@@ -113,50 +113,6 @@ function Commander (ronin) {
     return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
   }
 
-  // Mouse
-
-  this.mouseRect = { x: 0, y: 0, w: 0, h: 0, a: { x: 0, y: 0 }, b: { x: 0, y: 0 } }
-  this.mouseDown = false
-
-  this.onMouseDown = (e) => {
-    this.mouseDown = true
-    const offset = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY })
-    this.mouseRect.x = offset.x
-    this.mouseRect.y = offset.y
-    this.mouseRect.a.x = offset.x
-    this.mouseRect.a.y = offset.y
-    this.mouseRect.t = 'pos'
-    this.capture()
-    this.show()
-  }
-
-  this.onMouseMove = (e) => {
-    if (this.mouseDown !== true) { return }
-    const offset = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY })
-    this.mouseRect.w = offset.x - this.mouseRect.x
-    this.mouseRect.h = offset.y - this.mouseRect.y
-    this.mouseRect.b.x = offset.x
-    this.mouseRect.b.y = offset.y
-    this.commit()
-  }
-
-  this.onMouseUp = (e) => {
-    this.mouseDown = false
-    const offset = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY })
-    this.mouseRect.w = offset.x - this.mouseRect.x
-    this.mouseRect.h = offset.y - this.mouseRect.y
-    this.mouseRect.b.x = offset.x
-    this.mouseRect.b.y = offset.y
-    this.mouseRect.t = ''
-    this.commit()
-    this._input.focus()
-    ronin.surface.clearGuide()
-  }
-
-  this.makeMouseOffset = (pos) => {
-    return { x: pos.x * ronin.surface.ratio, y: pos.y * ronin.surface.ratio }
-  }
-
   // Injection
 
   this.cache = ''

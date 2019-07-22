@@ -23,9 +23,10 @@ function Ronin () {
   this.library = new Library(this)
   this.interpreter = new Lisp(this.library, this.includes)
   this.osc = new Osc(this)
-  // Parameters
 
+  // Parameters
   this.always = false
+  this.bindings = {}
 
   this.install = function (host = document.body) {
     this._wrapper = document.createElement('div')
@@ -65,6 +66,36 @@ function Ronin () {
     if (this.always === b) { return }
     this.always = b
     this.commander.loop()
+  }
+
+  this.bind = (event, fn) => {
+    this.bindings[event] = fn
+  }
+
+  this.mouseIsDown = false
+
+  this.onMouseDown = (e, id = 'mouse-down') => {
+    this.mouseIsDown = true
+    if (this.bindings[id]) {
+      this.bindings[id](this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, 'mouse-down'))
+    }
+  }
+
+  this.onMouseMove = (e, id = 'mouse-move') => {
+    if (this.bindings[id]) {
+      this.bindings[id](this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, 'mouse-move'))
+    }
+  }
+
+  this.onMouseUp = (e, id = 'mouse-up') => {
+    this.mouseIsDown = false
+    if (this.bindings[id]) {
+      this.bindings[id](this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, 'mouse-up'))
+    }
+  }
+
+  this.makeMouseOffset = (pos, type) => {
+    return { x: pos.x * ronin.surface.ratio, y: pos.y * ronin.surface.ratio, 'type': type, 'is-down': this.mouseIsDown }
   }
 
   // Zoom

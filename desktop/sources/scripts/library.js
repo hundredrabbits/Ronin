@@ -403,6 +403,10 @@ function Library (ronin) {
     return window
   }
 
+  this.on = (event, f) => {
+    ronin.bind(event, f)
+  }
+
   this.test = (name, a, b) => {
     if (`${a}` !== `${b}`) {
       console.warn('failed ' + name, a, b)
