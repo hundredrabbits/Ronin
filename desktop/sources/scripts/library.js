@@ -54,32 +54,32 @@ function Library (ronin) {
 
   // Shapes
 
-  this.pos = (x, y, t = 'pos') => { // Returns a position shape.
-    return { x, y, t }
+  this.pos = (x, y) => { // Returns a position shape.
+    return { x, y }
   }
 
-  this.size = (w, h, t = 'size') => { // Returns a size shape.
-    return { w, h, t }
+  this.size = (w, h) => { // Returns a size shape.
+    return { w, h }
   }
 
-  this.rect = (x, y, w, h, t = 'rect') => { // Returns a rect shape.
-    return { x, y, w, h, t }
+  this.rect = (x, y, w, h) => { // Returns a rect shape.
+    return { x, y, w, h }
   }
 
-  this.circle = (cx, cy, r, t = 'circle') => { // Returns a circle shape.
-    return { cx, cy, r, t }
+  this.circle = (cx, cy, r) => { // Returns a circle shape.
+    return { cx, cy, r }
   }
 
-  this.line = (a, b, t = 'line') => { // Returns a line shape.
-    return { a, b, t }
+  this.line = (a, b) => { // Returns a line shape.
+    return { a, b }
   }
 
-  this.text = (x, y, g, s, f = 'Arial', t = 'text') => { // Returns a text shape.
-    return { x, y, g, s, f, t }
+  this.text = (x, y, p, t, f = 'Arial') => { // Returns a text shape.
+    return { x, y, p, t, f }
   }
 
-  this.svg = (d, t = 'svg') => { // Returns a svg shape.
-    return { d, t }
+  this.svg = (d) => { // Returns a svg shape.
+    return { d }
   }
 
   // Actions

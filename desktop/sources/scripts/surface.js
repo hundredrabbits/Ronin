@@ -28,10 +28,10 @@ function Surface (ronin) {
     this.trace(shape, context)
     context.lineWidth = width
     context.strokeStyle = color
-    if (shape.t === 'text') {
-      context.font = `${shape.g}px ${shape.f}`
-      context.strokeText(shape.s, shape.x, shape.y)
-    } else if (shape.t === 'svg') {
+    if (isText(shape)) {
+      context.font = `${shape.p}px ${shape.f}`
+      context.strokeText(shape.t, shape.x, shape.y)
+    } else if (isSvg(shape)) {
       context.lineWidth = width
       context.strokeStyle = color
       context.stroke(new Path2D(shape.d))
@@ -47,10 +47,10 @@ function Surface (ronin) {
     context.beginPath()
     context.fillStyle = color
     this.trace(shape, context)
-    if (shape.t === 'text') {
+    if (isText(shape)) {
       context.font = `${shape.g}px ${shape.f}`
       context.fillText(shape.s, shape.x, shape.y)
-    } else if (shape.t === 'svg') {
+    } else if (isSvg(shape)) {
       context.fillStyle = color
       context.fill(new Path2D(shape.d))
     } else {
@@ -71,6 +71,7 @@ function Surface (ronin) {
   // Tracers
 
   this.trace = function (shape, context) {
+    console.log(this.findType(shape))
     if (shape.t === 'rect') {
       this.traceRect(shape, context)
     } else if (shape.t === 'line') {
@@ -233,5 +234,18 @@ function Surface (ronin) {
         return resolve()
       }
     })
+  }
+
+  function isRect (shape) {
+    return shape.x && shape.y && shape.w && shape.h
+  }
+  function isCircle (shape) {
+    return shape.cx && shape.cy && shape.r
+  }
+  function isSvg (shape) {
+    return shape.d
+  }
+  function isLine (shape) {
+    return shape.a && shape.a.x && shape.a.y && shape.b && shape.b.x && shape.b.y
   }
 }
