@@ -57,3 +57,12 @@
 ; Interop
   (test "interop" ((of (of (js) "Math") "max") 2 4) 4)
   (test "recursive key selector" ((of (js) "Math" "max") 2 4) 4)
+
+; fs
+
+; filesystem
+
+(echo (filepath))
+(echo (dirpath))
+(echo (file))
+(echo (dir))

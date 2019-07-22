@@ -277,7 +277,7 @@ function Library (ronin) {
 
   this.map = async (fn, arr) => {
     for (let i = 0; i < arr.length; i++) {
-      const arg = arr[i];
+      const arg = arr[i]
       await fn(arg)
     }
   }
@@ -435,10 +435,6 @@ function Library (ronin) {
 
   this.time = (rate = 1) => { // Returns timestamp in milliseconds.
     return (Date.now() * rate)
-  }
-
-  this.animate = (play = true) => { // Toggles animation.
-    ronin.animate(play)
   }
 
   this.js = () => { // Javascript interop.

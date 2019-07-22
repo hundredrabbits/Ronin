@@ -13,3 +13,5 @@
 
 (set ob :a 4)
 (echo (of ob :a))
+
+(echo (map '(add %1 2) (4 5 6))

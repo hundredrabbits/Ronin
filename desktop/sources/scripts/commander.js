@@ -31,25 +31,13 @@ function Commander (ronin) {
     this.hide()
   }
 
-  this.cache = ''
-
   this.run = (txt = this._input.value) => {
-    if (txt.indexOf('$') > -1) { ronin.log('Present: $'); return }
-    this.cache = txt
-    if (ronin.always !== true) {
-      ronin.surface.maximize()
-      ronin.interpreter.run(this.cache)
-    }
-  }
-
-  this.loop = () => {
+    ronin.bindings = {}
     ronin.surface.maximize()
-    ronin.interpreter.run(this.cache)
-    ronin.always === true && requestAnimationFrame(() => this.loop())
+    ronin.interpreter.run(txt)
   }
 
   this.load = function (txt) {
-    ronin.animate(false)
     this._input.value = txt
     this.run(txt)
   }

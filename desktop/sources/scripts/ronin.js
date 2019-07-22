@@ -24,8 +24,6 @@ function Ronin () {
   this.interpreter = new Lisp(this.library, this.includes)
   this.osc = new Osc(this)
 
-  // Parameters
-  this.always = false
   this.bindings = {}
 
   this.install = function (host = document.body) {
@@ -48,6 +46,14 @@ function Ronin () {
     this.commander.start()
     this.surface.start()
     this.osc.start()
+    this.loop()
+  }
+
+  this.loop = () => {
+    if (this.bindings['animate'] && typeof this.bindings['animate'] === 'function') {
+      this.bindings['animate']()
+    }
+    requestAnimationFrame(() => this.loop())
   }
 
   this.reset = function () {
@@ -60,12 +66,6 @@ function Ronin () {
 
   this.load = function (content = this.default()) {
 
-  }
-
-  this.animate = (b = true) => {
-    if (this.always === b) { return }
-    this.always = b
-    this.commander.loop()
   }
 
   this.bind = (event, fn) => {

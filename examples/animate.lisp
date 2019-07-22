@@ -1,6 +1,3 @@
-;
-(clear)
-;
 (def seg-count 50)
 ; 
 (def frame-middle 
@@ -47,4 +44,9 @@
             (frame) :w) 0) 
         ("rgba(255,255,255,0)" "white" "#72dec2" "red")))))
 ;
-(times seg-count draw-dash)
+(defn redraw 
+  () 
+  (
+    (clear) 
+    (times seg-count draw-dash)))
+(on "animate" redraw)
