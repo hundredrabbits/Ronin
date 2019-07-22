@@ -16,7 +16,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin.hidden canvas#surface, #ronin.hidden canvas#guide { left:0; }
 
 #ronin.hidden #wrapper #commander { margin-left:calc(-40vw - 30px); }
-#ronin canvas#surface,#ronin canvas#guide { left:40vw; }
+#ronin canvas#surface,#ronin canvas#guide { left:calc(40vw + 30px); }
 
 #ronin canvas#guide { background:none; }
 #ronin canvas#surface { border-radius: 2px }

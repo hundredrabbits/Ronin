@@ -82,7 +82,7 @@ function Surface (ronin) {
     } else if (isSvg(shape)) {
       this.traceSVG(shape, context)
     } else {
-      console.warn('Unknown type')
+      console.warn('Unknown type', shape)
     }
   }
 
@@ -236,18 +236,18 @@ function Surface (ronin) {
   }
 
   function isRect (shape) {
-    return shape.x && shape.y && shape.w && shape.h
+    return !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
   }
   function isCircle (shape) {
-    return shape.cx && shape.cy && shape.r
+    return !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r)
   }
   function isSvg (shape) {
     return shape.d
   }
   function isText (shape) {
-    return shape.x && shape.y && shape.p && shape.t && shape.f
+    return !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.p) && shape.t && shape.f
   }
   function isLine (shape) {
-    return shape.a && shape.a.x && shape.a.y && shape.b && shape.b.x && shape.b.y
+    return shape.a && !isNaN(shape.a.x) && !isNaN(shape.a.y) && shape.b && !isNaN(shape.b.x) && !isNaN(shape.b.y)
   }
 }
