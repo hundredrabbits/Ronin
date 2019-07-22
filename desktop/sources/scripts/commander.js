@@ -26,9 +26,8 @@ function Commander (ronin) {
 
   this.start = function () {
     this.setStatus('Ready.')
-    this._input.focus()
     this.run()
-    this.hide()
+    this.show()
   }
 
   this.run = (txt = this._input.value) => {
@@ -157,12 +156,14 @@ function Commander (ronin) {
     if (this.isVisible === true) { return }
     ronin.el.className = expand ? 'expand' : ''
     this.isVisible = true
+    this._input.focus()
   }
 
   this.hide = function () {
     if (this.isVisible !== true) { return }
     ronin.el.className = 'hidden'
     this.isVisible = false
+    this._input.blur()
   }
 
   this.toggle = function (expand = false) {
