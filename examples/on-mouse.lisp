@@ -1,3 +1,5 @@
+; this demo shows how to use the mouse events to draw make a simple drawing tool.
+;
 (clear)
 ;
 (def prev-pos {:x 0 :y 0})

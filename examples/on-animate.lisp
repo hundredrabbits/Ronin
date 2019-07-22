@@ -1,3 +1,5 @@
+; this demo shows how to use the animate event to animate lines into a sine wave.
+;
 (def seg-count 50)
 ; 
 (def frame-middle 
@@ -42,7 +44,7 @@
         (50 0 
           (of 
             (frame) :w) 0) 
-        ("rgba(255,255,255,0)" "white" "#72dec2" "red")))))
+        ("#ffb545" "#72dec2")))))
 ;
 (defn redraw 
   () 
