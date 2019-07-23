@@ -2,23 +2,17 @@
 
 function Osc (ronin) {
   const osc = require('node-osc')
-
-  this.msg = {}
+  this.port = 49162
 
   this.start = function () {
-
-    const udpPort = new osc.Server(
-      49162,
-      '0.0.0.0'
-    )
-
-    udpPort.on('message', this.onMsg)
-    ronin.log('OSC', 'Started.')
+    const server = new osc.Server(49162, '0.0.0.0')
+    server.on('message', this.onMsg)
   }
 
-  this.onMsg = (msg, timeTag, info) => {
-    if (ronin.bindings[msg.address]) {
-      ronin.bindings[msg.address](msg.args)
+  this.onMsg = (msg) => {
+    const address = msg.shift()
+    if (ronin.bindings[address]) {
+      ronin.bindings[address](msg)
     }
   }
 }
