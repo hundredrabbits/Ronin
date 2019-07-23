@@ -1,18 +1,18 @@
 'use strict'
 
 function Osc (ronin) {
-  const osc = require('osc')
+  const osc = require('node-osc')
 
   this.msg = {}
 
   this.start = function () {
-    const udpPort = new osc.UDPPort({
-      localAddress: '0.0.0.0',
-      localPort: 49162,
-      metadata: true
-    })
+
+    const udpPort = new osc.Server(
+      49162,
+      '0.0.0.0'
+    )
+
     udpPort.on('message', this.onMsg)
-    udpPort.open()
     ronin.log('OSC', 'Started.')
   }
 

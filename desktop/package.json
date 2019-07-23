@@ -4,7 +4,6 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "install": "electron-rebuild",
     "clean": "rm -r ~/Desktop/Ronin-darwin-x64/ ; rm -r ~/Desktop/Ronin-linux-x64/ ; rm -r ~/Desktop/Ronin-win32-x64/ ; echo 'cleaned build location'",
     "build_osx": "electron-packager . Ronin --platform=darwin --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.icns ; echo 'Built for OSX'",
     "build_linux": "electron-packager . Ronin --platform=linux  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for LINUX'",
@@ -18,11 +17,10 @@
     "push": "npm run build ; npm run push_theme ; npm run push_osx ; npm run push_linux ; npm run push_win ; npm run clean ; npm run push_status"
   },
   "dependencies": {
-    "osc": "^2.3.1"
+    "node-osc": "^4.1.0"
   },
   "devDependencies": {
-    "electron": "^5.0.6",
-    "electron-packager": "^13.1.1",
-    "electron-rebuild": "^1.8.5"
+    "electron": "^5.0.1",
+    "electron-packager": "^13.1.1"
   }
 }
