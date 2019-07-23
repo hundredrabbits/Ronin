@@ -222,8 +222,8 @@ function Commander (ronin) {
 (clear) 
 ; ronin path 
 (def align {
-    :x (sub (of (frame) :center) 500) 
-    :y (sub (of (frame) :middle) 150)})
+    :x (sub (of (frame) :c) 500) 
+    :y (sub (of (frame) :m) 150)})
 ; outline 
 (fill 
   (svg 
