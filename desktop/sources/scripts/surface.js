@@ -34,7 +34,10 @@ function Surface (ronin) {
     } else if (isSvg(shape)) {
       context.lineWidth = width
       context.strokeStyle = color
+      context.save()
+      context.translate(shape.x, shape.y)
       context.stroke(new Path2D(shape.d))
+      context.restore()
     } else {
       context.stroke()
     }
@@ -48,11 +51,14 @@ function Surface (ronin) {
     context.fillStyle = color
     this.trace(shape, context)
     if (isText(shape)) {
-      context.font = `${shape.g}px ${shape.f}`
-      context.fillText(shape.s, shape.x, shape.y)
+      context.font = `${shape.p}px ${shape.f}`
+      context.fillText(shape.t, shape.x, shape.y)
     } else if (isSvg(shape)) {
       context.fillStyle = color
+      context.save()
+      context.translate(shape.x, shape.y)
       context.fill(new Path2D(shape.d))
+      context.restore()
     } else {
       context.fill()
     }
@@ -174,7 +180,7 @@ function Surface (ronin) {
   }
 
   this.getFrame = function () {
-    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect' }
+    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect', c: this.el.width / 2, m: this.el.height / 2 }
   }
 
   this.fitWindow = function (size) {

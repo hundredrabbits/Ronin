@@ -15,6 +15,7 @@ function Source (ronin) {
     console.log('Source', 'Make a new file..')
     this.path = null
     ronin.surface.clear()
+    ronin.commander.clear()
     ronin.log(`New file.`)
   }
 

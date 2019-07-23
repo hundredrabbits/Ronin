@@ -78,8 +78,8 @@ function Library (ronin) {
     return { x, y, p, t, f }
   }
 
-  this.svg = (d) => { // Returns a svg shape.
-    return { d }
+  this.svg = (x, y, d) => { // Returns a svg shape.
+    return { x, y, d }
   }
 
   // Actions

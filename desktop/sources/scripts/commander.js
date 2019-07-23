@@ -26,7 +26,7 @@ function Commander (ronin) {
 
   this.start = function () {
     this.setStatus('Ready.')
-    this.run()
+    this.load(this.splash)
     this.show()
   }
 
@@ -39,6 +39,10 @@ function Commander (ronin) {
   this.load = function (txt) {
     this._input.value = txt
     this.run(txt)
+  }
+
+  this.clear = function () {
+    this.load('')
   }
 
   this.reindent = function () {
@@ -211,6 +215,25 @@ function Commander (ronin) {
       return this.dict[name] ? `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})` : ''
     }
   }
+
+  // Splash
+
+  this.splash = `; welcome to ronin - v2.1
+(clear) 
+; ronin path 
+(def align {
+    :x (sub (of (frame) :center) 500) 
+    :y (sub (of (frame) :middle) 150)})
+; outline 
+(fill 
+  (svg 
+    (of align :x) 
+    (of align :y) "M15,15 L15,15 L285,15 L285,285 L15,285 Z") "#fff")
+; stroke
+(stroke 
+  (svg 
+    (of align :x) 
+    (of align :y) "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ") 5 "#000")`
 
   String.prototype.insert = function (s, i) { return [this.slice(0, i), `${s}`, this.slice(i)].join('') }
 }
