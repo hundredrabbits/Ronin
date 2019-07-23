@@ -212,6 +212,8 @@ function Library (ronin) {
     return Math.round(val / step) * step
   }
 
+  this.floor = Math.floor // round down to the nearest integer
+
   this.min = Math.min
 
   this.max = Math.max
@@ -223,6 +225,18 @@ function Library (ronin) {
   this.sin = Math.sin
 
   this.cos = Math.cos
+
+  this.ln = Math.log // caclulates on the base of e
+
+  this.pow = (a, b) => { // calculates a^b
+    return Math.pow(a, b)
+  }
+
+  this.sqrt = Math.sqrt // calculate the square root
+
+  this.sq = (a) => { // calculate the square
+    return a * a;
+  }
 
   this.PI = Math.PI
 
