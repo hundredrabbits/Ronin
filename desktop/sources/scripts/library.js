@@ -226,7 +226,7 @@ function Library (ronin) {
 
   this.cos = Math.cos
 
-  this.ln = Math.log // caclulates on the base of e
+  this.log = Math.log // caclulates on the base of e
 
   this.pow = (a, b) => { // calculates a^b
     return Math.pow(a, b)
