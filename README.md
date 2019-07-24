@@ -42,7 +42,7 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(size w h)` Returns a size shape.
 - `(rect x y w h)` Returns a rect shape.
 - `(circle cx cy r)` Returns a circle shape.
-- `(line a b)` Returns a line shape.
+- `(line ax ay bx by)` Returns a line shape.
 - `(text x y p t ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
 - `(stroke ~shape)` Strokes a shape.
@@ -55,7 +55,7 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(crop rect)` Crop canvas to rect.
 - `(clone a b)` 
 - `(theme variable ~el)` 
-- `(gradient [x1 y1 x2 y2] ~colors 'black'])` 
+- `(gradient line ~colors 'black'])` 
 - `(pixels rect fn q)` 
 - `(saturation pixel ~q)` 
 - `(contrast pixel ~q)` 
@@ -67,10 +67,10 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(mod a b)` Returns the modulo of a and b.
 - `(clamp val min max)` Clamps a value between min and max.
 - `(step val step)` 
-- `(floor)` 
 - `(min)` 
 - `(max)` 
 - `(ceil)` 
+- `(floor)` round down to the nearest integer.
 - `(sin)` 
 - `(cos)` 
 - `(log)` caclulates on the base of e.

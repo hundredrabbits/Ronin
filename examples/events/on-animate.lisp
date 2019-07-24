@@ -33,15 +33,13 @@
     (def y 
       (elevation i)) 
     (stroke 
-      (line 
-        (pos x 
-          (elevation 
-            (sub i 1))) 
-        (pos 
-          (add x seg-width) 
-          (elevation i))) 4 
+      (line x 
+        (elevation 
+          (sub i 1)) 
+        (add x seg-width) 
+        (elevation i)) 4 
       (gradient 
-        (50 0 
+        (line 50 0 
           (of 
             (frame) :w) 0) 
         ("#ffb545" "#72dec2")))))

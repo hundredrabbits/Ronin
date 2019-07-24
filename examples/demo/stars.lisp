@@ -5,9 +5,8 @@
   (cx cy r a) 
   (
     (stroke 
-      (line 
-        (pos cx cy) 
-        (circle-pos cx cy r a)) 2 "white")))
+      (line cx cy (of (circle-pos cx cy r a) :x) (of (circle-pos cx cy r a) :y)
+        ) 2 "white")))
 ;
 (defn draw-star 
   (cx cy r c) 

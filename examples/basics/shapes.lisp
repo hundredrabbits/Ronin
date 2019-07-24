@@ -18,7 +18,5 @@
 
 ; draw line
 (stroke 
-  (line 
-    (pos (sub center-w rad) center-h)
-    (pos (add center-w rad) center-h)))
+  (line (sub center-w rad) center-h (add center-w rad) center-h))
 (stroke (text 10 170 200 "HELL") 2 "pink")

@@ -16,7 +16,7 @@
       (of e :is-down) 
       (
         (stroke 
-          (line prev-pos e) 2 "white") 
+          (line (of prev-pos :x) (of prev-pos :y) (of e :x) (of e :y)) 2 "white") 
         (set prev-pos :x 
           (of e :x) :y 
           (of e :y))))))

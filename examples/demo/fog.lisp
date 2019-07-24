@@ -13,7 +13,7 @@
 ))
 ;
 (defn when-animate () (
-  (stroke (line prev-pos mouse-pos) 4 "#72dec2")
+  (stroke (line (of prev-pos :x) (of prev-pos :y) (of mouse-pos :x) (of mouse-pos :y)) 4 "#72dec2")
   (move w h)
   (rotate 0.002)
   (scale 0.998)

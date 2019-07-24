@@ -70,8 +70,8 @@ function Library (ronin) {
     return { cx, cy, r }
   }
 
-  this.line = (a, b) => { // Returns a line shape.
-    return { a, b }
+  this.line = (ax, ay, bx, by) => { // Returns a line shape.
+    return { a: this.pos(ax, ay), b: this.pos(bx, by) }
   }
 
   this.text = (x, y, p, t, f = 'Arial') => { // Returns a text shape.
@@ -146,8 +146,8 @@ function Library (ronin) {
 
   // Gradients
 
-  this.gradient = ([x1, y1, x2, y2], colors = ['white', 'black']) => {
-    return ronin.surface.linearGradient(x1, y1, x2, y2, colors)
+  this.gradient = (line, colors = ['white', 'black']) => {
+    return ronin.surface.linearGradient(line.a.x, line.a.y, line.b.x, line.b.y, colors)
   }
 
   // Pixels
