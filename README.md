@@ -112,6 +112,8 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(test name a b)` 
 - `(benchmark fn)` logs time taken to execute a function.
 
+<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW2.jpg' width='600'/>
+
 ## Extras
 
 - This application supports the [Ecosystem Theme](https://github.com/hundredrabbits/Themes).
