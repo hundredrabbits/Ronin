@@ -76,7 +76,7 @@ function Commander (ronin) {
       // console.log(msg)
     }
     // Source
-    const _source = `${ronin.source} ${this._input.value.split('\n').length} lines`
+    const _source = `${ronin.source}[${this._input.value.split('\n').length}]`
     if (_source !== this._source.textContent) {
       this._source.textContent = _source
     }

@@ -2,4 +2,5 @@ body { background:var(--background);  }
 #ronin #wrapper { background: var(--background); }
 #ronin #wrapper #commander { background:var(--background); }
 #ronin #wrapper #commander textarea { color:var(--f_high); }
-#ronin #wrapper #commander div#status { color:var(--f_med); }
+#ronin #wrapper #commander #status { color:var(--f_med); }
+#ronin #wrapper #commander #status #source { color:var(--f_low); }

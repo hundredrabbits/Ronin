@@ -138,7 +138,7 @@ function Source (ronin) {
   }
 
   this.toString = function () {
-    return this.path ? this.name() + '.lisp' : 'unsaved'
+    return this.path ? this.name() + '.lisp' : '*new'
   }
 
   function isDifferent (a, b) {

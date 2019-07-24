@@ -6,17 +6,18 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin #wrapper { overflow: hidden; position: relative; }
 #ronin #wrapper #commander { z-index: 9000;position: relative;width: 310px;height: calc(100vh - 60px);-webkit-app-region: no-drag;padding-right: 30px;transition: margin-left 250ms;}
 #ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
-#ronin #wrapper #commander div#status { position: absolute; bottom: 0px; text-transform: lowercase;}
+#ronin #wrapper #commander #status { position: absolute; bottom: 0px; text-transform: lowercase; line-height: 15px; height: 30px; overflow: hidden; width: calc(100% - 30px);}
+#ronin #wrapper #commander #source { position: absolute;right: 0px;bottom: 0px; }
 #ronin.expand #wrapper #commander { width:100%; }
-#ronin canvas#surface,#ronin canvas#guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms}
+#ronin #surface,#ronin #guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms}
 
 /* Default */
 
 #ronin.hidden #wrapper #commander { margin-left:-40vw; }
-#ronin.hidden canvas#surface, #ronin.hidden canvas#guide { left:0; }
+#ronin.hidden #surface, #ronin.hidden #guide { left:0; }
 
 #ronin.hidden #wrapper #commander { margin-left:calc(-40vw - 30px); }
-#ronin canvas#surface,#ronin canvas#guide { left:calc(40vw + 30px); }
+#ronin #surface,#ronin #guide { left:calc(40vw + 30px); }
 
-#ronin canvas#guide { background:none; }
-#ronin canvas#surface { border-radius: 2px }
+#ronin #guide { background:none; }
+#ronin #surface { border-radius: 2px }
