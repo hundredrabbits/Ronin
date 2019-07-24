@@ -212,7 +212,7 @@ function Commander (ronin) {
       }, '')
     },
     print: function (name) {
-      return this.dict[name] ? `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})` : ''
+      return this.dict[name] ? `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})` : 'idle.'
     }
   }
 
