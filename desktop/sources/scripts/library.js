@@ -235,7 +235,7 @@ function Library (ronin) {
   this.sqrt = Math.sqrt // calculate the square root
 
   this.sq = (a) => { // calculate the square
-    return a * a;
+    return a * a
   }
 
   this.PI = Math.PI

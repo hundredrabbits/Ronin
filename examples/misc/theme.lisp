@@ -1,5 +1,5 @@
 ; theme
-
+; reads color from the theme.
 (clear) 
 (def col 
   (λ 
