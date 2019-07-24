@@ -1,7 +1,8 @@
-; pixels
-
-(clear) 
-(import "../../PREVIEW.jpg" 
-  (frame)) 
+(clear)
+; drag an image on the window
+(open $path)
+;
 (pixels 
-  (rect 0 0 500 500) saturation 0.5)
+  (rect 100 100 400 400) saturation 0)
+(pixels 
+  (rect 300 300 400 400) contrast 0.5)

@@ -44,7 +44,7 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(circle cx cy r)` Returns a circle shape.
 - `(line a b)` Returns a line shape.
 - `(text x y p t ~f)` Returns a text shape.
-- `(svg d)` Returns a svg shape.
+- `(svg x y d)` Returns a svg shape.
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(clear ~rect)` Clears a rect.
@@ -67,12 +67,16 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(mod a b)` Returns the modulo of a and b.
 - `(clamp val min max)` Clamps a value between min and max.
 - `(step val step)` 
+- `(floor)` 
 - `(min)` 
 - `(max)` 
 - `(ceil)` 
-- `(floor)` 
 - `(sin)` 
 - `(cos)` 
+- `(log)` caclulates on the base of e.
+- `(pow a b)` calculates a^b.
+- `(sqrt)` calculate the square root.
+- `(sq a)` calculate the square.
 - `(PI)` 
 - `(TWO_PI)` 
 - `(random ...args)` 

@@ -153,7 +153,7 @@ function Library (ronin) {
   // Pixels
 
   this.pixels = (rect, fn, q) => {
-    const img = ronin.surface.context.getImageData(0, 0, rect.w, rect.h)
+    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = { r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] }
       const processed = fn(pixel, q)
@@ -162,7 +162,7 @@ function Library (ronin) {
       img.data[i + 2] = processed[2]
       img.data[i + 3] = processed[3]
     }
-    ronin.surface.context.putImageData(img, 0, 0)
+    ronin.surface.context.putImageData(img, rect.x, rect.y)
     return rect
   }
 
@@ -212,29 +212,27 @@ function Library (ronin) {
     return Math.round(val / step) * step
   }
 
-  this.floor = Math.floor // round down to the nearest integer
-
   this.min = Math.min
 
   this.max = Math.max
 
   this.ceil = Math.ceil
 
-  this.floor = Math.floor
+  this.floor = Math.floor // round down to the nearest integer.
 
   this.sin = Math.sin
 
   this.cos = Math.cos
 
-  this.log = Math.log // caclulates on the base of e
+  this.log = Math.log // caclulates on the base of e.
 
-  this.pow = (a, b) => { // calculates a^b
+  this.pow = (a, b) => { // calculates a^b.
     return Math.pow(a, b)
   }
 
-  this.sqrt = Math.sqrt // calculate the square root
+  this.sqrt = Math.sqrt // calculate the square root.
 
-  this.sq = (a) => { // calculate the square
+  this.sq = (a) => { // calculate the square.
     return a * a
   }
 
