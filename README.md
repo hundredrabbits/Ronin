@@ -1,5 +1,7 @@
 # Ronin
 
+<img src="https://raw.githubusercontent.com/hundredrabbits/100r.co/master/media/content/characters/ronin.hello.png" width="300"/>
+
 _"All I wanted, was a quick way of resizing a few photos.."_
 
 The application was created to automate basic graphical tasks using a dialect of [LISP](https://en.wikipedia.org/wiki/Lisp_(programming_language)), it all went south when we started adding animation tools. You can look at these [example files](https://github.com/hundredrabbits/Ronin/tree/master/examples) to better understand how this all works.
