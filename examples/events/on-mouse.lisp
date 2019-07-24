@@ -1,38 +1,25 @@
-; this demo shows how to use the mouse events to draw make a simple drawing tool.
+; this demo shows how to use the mouse events.
 ;
-(clear)
-;
-(def prev-pos {:x 0 :y 0})
-;
-(defn stroke-color 
-  (e) 
-  (if 
-    (of e :is-down) "#ffb545" "#72dec2")) 
-;
-(defn draw-line 
+(defn redraw 
   (e) 
   (
-    (if 
-      (of e :is-down) 
-      (
-        (stroke 
-          (line prev-pos e) 2 "white") 
-        (set prev-pos :x 
-          (of e :x) :y 
-          (of e :y))))))
-;
-(defn draw-circle 
-  (e) 
-  (
-    (set prev-pos :x 
-      (of e :x) :y 
-      (of e :y)) 
+    (clear) 
+    ; vertical line 
+    (stroke 
+      (line 
+        (pos 
+          (of e :x) 0) e) 2 "#ff0000") 
+    ; horizontal line 
+    (stroke 
+      (line 
+        (pos 0 
+          (of e :y)) e) 2 "#72dec2") 
+    ; circle 
     (stroke 
       (circle 
         (of e :x) 
-        (of e :y) 10) 4 
-      (stroke-color e))))
+        (of e :y) 30) 2 "#ffffff")))
 ;
-(on "mouse-down" draw-circle)
-(on "mouse-up" draw-circle)
-(on "mouse-move" draw-line)
+(on "mouse-down" redraw)
+(on "mouse-up" redraw)
+(on "mouse-move" redraw)
