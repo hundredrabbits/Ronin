@@ -93,7 +93,7 @@ function Library (ronin) {
     ronin.surface.fill(rect, color)
     return rect
   }
-  
+
   this.gradient = (line, colors = ['white', 'black']) => {
     return ronin.surface.linearGradient(line.a.x, line.a.y, line.b.x, line.b.y, colors)
   }

@@ -35,6 +35,24 @@ The previous code will import an image, and position it at `50,100`, at a size o
   (pos 50 100))
 ```
 
+### Crop
+
+To crop the canvas, type the following text, drag an image file onto the Ronin window press `cmd+r`:
+
+```
+(import "~/Desktop/photo.jpg" 
+  (pos 50 100))
+(crop (rect 50 50 300 300)
+```
+
+Alternatively, you could select the cropping area with the cursor with the following code, and selecting an area in the canvas:
+
+```
+(import "~/Desktop/photo.jpg" 
+  (pos 50 100))
+(crop $rect)
+```
+
 ### Export
 
 To export the resulting image, type the following text, drag an image file onto the Ronin window, then drag a folder and add the new file's name, and press `cmd+r`:
@@ -45,7 +63,13 @@ To export the resulting image, type the following text, drag an image file onto 
 (export $path)
 ```
 
-### Crop
+For example, a version of that same code with file paths, might look something like:
+
+```
+(import "~/Desktop/photo.jpg" 
+  (pos 50 100))
+(export "~/Desktop/export.png")
+```
 
 ## Draw
 

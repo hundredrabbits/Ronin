@@ -79,16 +79,16 @@ function Surface (ronin) {
   this.trace = function (shape, context) {
     if (isRect(shape)) {
       this.traceRect(shape, context)
-    } else if (isLine(shape)) {
+    }
+    if (isLine(shape)) {
       this.traceLine(shape, context)
-    } else if (isCircle(shape)) {
+    }
+    if (isCircle(shape)) {
       this.traceCircle(shape, context)
     } else if (isText(shape)) {
       this.traceText(shape, context)
     } else if (isSvg(shape)) {
       this.traceSVG(shape, context)
-    } else {
-      console.warn('Unknown type', shape)
     }
   }
 
@@ -156,6 +156,12 @@ function Surface (ronin) {
 
   this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+
+  this.drawGuide = function (shape, context = this.guide) {
+    this.clearGuide()
+    this.stroke(shape, 5, 'black', context)
+    this.stroke(shape, 2, 'white', context)
   }
 
   this.clone = function (a, b) {

@@ -106,52 +106,20 @@ function Commander (ronin) {
 
   // Injection
 
-  this.cache = ''
+  this.cache = this._input.value
 
   this.capture = function () {
+    console.log('capture')
     this.cache = this._input.value
   }
 
-  this.canInject = function () {
-    return this._input.value.indexOf('$path') > -1
-  }
-
   this.injectPath = function (path) {
-    if (this.canInject()) {
-      this._input.value = this._input.value.replace('$path', `"${path}"`)
-    }
+    this._input.value = this._input.value.replace('$path', `"${path}"`)
   }
 
-  this.commit = function () {
-    let value = this.cache
-
-    if (value.indexOf('$') < 0) {
-      return
-    }
-
-    ronin.surface.clearGuide()
-
-    const next = value.split('$')[1]
-
-    if (next.substr(0, 4) === 'pos)') {
-      value = value.replace('($pos)', `(pos ${this.mouseRect.x} ${this.mouseRect.y})`)
-      this.mouseRect.t = 'pos'
-      ronin.surface.stroke(this.mouseRect, 2, 'white', ronin.surface.guide)
-    }
-
-    if (next.substr(0, 5) === 'rect)') {
-      value = value.replace('($rect)', `(rect ${this.mouseRect.x} ${this.mouseRect.y} ${this.mouseRect.w} ${this.mouseRect.h})`)
-      this.mouseRect.t = 'rect'
-      ronin.surface.stroke(this.mouseRect, 2, 'white', ronin.surface.guide)
-    }
-
-    if (next.substr(0, 5) === 'line)') {
-      value = value.replace('($line)', `(line (pos ${this.mouseRect.a.x} ${this.mouseRect.a.y}) (pos ${this.mouseRect.b.x} ${this.mouseRect.b.y}))`)
-      this.mouseRect.t = 'line'
-      ronin.surface.stroke(this.mouseRect, 2, 'white', ronin.surface.guide)
-    }
-
-    this._input.value = value
+  this.commit = function (shape) {
+    console.log('inject')
+    this._input.value = this.cache.replace('$rect', `(rect ${shape.x} ${shape.y} ${shape.w} ${shape.h})`).replace('$pos', `(pos ${shape.x} ${shape.y})`).replace('$line', `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})`)
   }
 
   // Display

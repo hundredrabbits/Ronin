@@ -72,30 +72,49 @@ function Ronin () {
     this.bindings[event] = fn
   }
 
-  this.mouseIsDown = false
+  // Cursor
+
+  this.mouseTouch = null
 
   this.onMouseDown = (e, id = 'mouse-down') => {
-    this.mouseIsDown = true
+    this.mouseTouch = { x: e.offsetX, y: e.offsetY }
+    const shape = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, id)
     if (this.bindings[id]) {
-      this.bindings[id](this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, 'mouse-down'))
+      this.bindings[id](shape)
     }
+    this.commander.capture()
+    this.surface.drawGuide(shape)
   }
 
   this.onMouseMove = (e, id = 'mouse-move') => {
+    const shape = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, id)
     if (this.bindings[id]) {
-      this.bindings[id](this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, 'mouse-move'))
+      this.bindings[id](shape)
+    }
+    if (this.mouseTouch) {
+      this.commander.commit(shape)
+      this.surface.drawGuide(shape)
     }
   }
 
   this.onMouseUp = (e, id = 'mouse-up') => {
-    this.mouseIsDown = false
+    this.mouseTouch = null
+    const shape = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, id)
     if (this.bindings[id]) {
-      this.bindings[id](this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, 'mouse-up'))
+      this.bindings[id](shape)
     }
+    this.surface.clearGuide()
   }
 
   this.makeMouseOffset = (pos, type) => {
-    return { x: pos.x * ronin.surface.ratio, y: pos.y * ronin.surface.ratio, 'type': type, 'is-down': this.mouseIsDown }
+    if (!this.mouseTouch) { return }
+    const x = this.mouseTouch.x * ronin.surface.ratio
+    const y = this.mouseTouch.y * ronin.surface.ratio
+    const w = this.mouseTouch.x ? (pos.x * ronin.surface.ratio) - (this.mouseTouch.x * ronin.surface.ratio) : 0
+    const h = this.mouseTouch.y ? (pos.y * ronin.surface.ratio) - (this.mouseTouch.y * ronin.surface.ratio) : 0
+    const a = { x, y }
+    const b = { x: x + w, y: y + h }
+    return { x, y, w, h, a, b, type, 'is-down': this.mouseTouch !== null }
   }
 
   // Zoom
@@ -133,7 +152,7 @@ function Ronin () {
     const file = e.dataTransfer.files[0]
     if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
     const path = file.path ? file.path : file.name
-    if (this.commander.canInject()) {
+    if (this.commander._input.value.indexOf('$path') > -1) {
       this.commander.injectPath(file.path)
       this.commander.show()
     } else if (path.indexOf('.lisp') > -1) {
