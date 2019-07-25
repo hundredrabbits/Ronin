@@ -51,6 +51,8 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(svg x y d)` Returns a svg shape.
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
+- `(gradient line ~colors 'black'])` Defines a gradient color.
+- `(guide shape)` Draws a shape on the guide layer.
 - `(clear ~rect)` Clears a rect.
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
@@ -59,7 +61,6 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(crop rect)` Crop canvas to rect.
 - `(clone a b)` 
 - `(theme variable ~el)` 
-- `(gradient line ~colors 'black'])` 
 - `(pixels rect fn q)` 
 - `(saturation pixel ~q)` 
 - `(contrast pixel ~q)` 

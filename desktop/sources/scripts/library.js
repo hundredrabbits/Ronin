@@ -94,11 +94,17 @@ function Library (ronin) {
     return rect
   }
 
-  this.gradient = (line, colors = ['white', 'black']) => {
+  this.gradient = (line, colors = ['white', 'black']) => { // Defines a gradient color.
     return ronin.surface.linearGradient(line.a.x, line.a.y, line.b.x, line.b.y, colors)
   }
 
+  this.guide = (shape) => { // Draws a shape on the guide layer.
+    ronin.surface.drawGuide(shape)
+    return shape
+  }
+
   this.clear = (rect = this.frame()) => { // Clears a rect.
+    ronin.surface.clearGuide(rect)
     ronin.surface.clear(rect)
     return rect
   }
