@@ -55,7 +55,7 @@ To export the resulting image, type the following text, drag an image file onto 
 (export $path)
 ```
 
-For example, a version of that same code with file paths, might look something like the following, notice how the `(rect)` is omitted:
+For example, a version of that same code with file paths, might look something like the following, notice how the `(rect)` is omitted, if a `(rect)` is not present, the entire canvas size will be exported:
 
 ```
 (import "~/Desktop/photo.jpg")
