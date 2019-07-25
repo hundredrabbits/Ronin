@@ -95,8 +95,15 @@ function Lisp (lib = {}, includes = []) {
     }
     const list = []
     for (let i = 0; i < input.length; i++) {
-      if (i === 0 && input[i].type === TYPES.symbol && input.length === 2) {
-        list.push(obj => obj[input[i].value])
+      if (input[i].type === TYPES.symbol) {
+        if (input[i].host) {
+          const host = await context.get(input[i].host)
+          if (host) {
+            list.push(host[input[i].value])
+          }
+        } else {
+          list.push(obj => obj[input[i].value])
+        }
       } else {
         list.push(await interpret(input[i], context))
       }
@@ -113,10 +120,7 @@ function Lisp (lib = {}, includes = []) {
       return interpretList(input, context)
     } else if (input.type === TYPES.identifier) {
       return context.get(input.value)
-    } else if (
-      input.type === TYPES.number || input.type === TYPES.symbol ||
-        input.type === TYPES.string || input.type === TYPES.bool
-    ) {
+    } else if (input.type === TYPES.number || input.type === TYPES.symbol || input.type === TYPES.string || input.type === TYPES.bool) {
       return input.value
     }
   }
@@ -128,6 +132,8 @@ function Lisp (lib = {}, includes = []) {
       return { type: TYPES.string, value: input.slice(1, -1) }
     } else if (input[0] === ':') {
       return { type: TYPES.symbol, value: input.slice(1) }
+    } else if (input.indexOf(':') > 0) {
+      return { type: TYPES.symbol, host: input.split(':')[0], value: input.split(':')[1] }
     } else if (input === 'true' || input === 'false') {
       return { type: TYPES.bool, value: input === 'true' }
     } else {
