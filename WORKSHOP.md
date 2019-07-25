@@ -64,13 +64,61 @@ For example, a version of that same code with file paths, might look something l
 
 ## Draw
 
+This section will show how to draw some basic shapes and colorize them.
+
 ### Stroke
+
+To draw the outline of any shape, wrap the shape(rect, line, circle, ..) inside of a `(stroke shape width color)` function, like:
+
+```
+(stroke 
+  (rect 100 100 300 200) 10 "red")
+```
 
 ### Fill
 
+To fill the inside of any shape, wrap the shape(rect, line, circle, ..) inside of a `(fill shape color)` function, like:
+
+```
+(fill 
+  (rect 100 100 300 200) "orange")
+```
+
 ### Gradient
 
+To colorize a stroke or a fill with a gradient, use the `(gradient line color)`:
+
+```
+(clear)
+(fill 
+  (circle 300 300 200) 
+  (gradient 
+    (line 0 0 500 500) 
+    ("white" "black")))
+```
+
+To better understand how the line affects the coloring of the circle, wrap the `$line` inside a `(guide)`, as follows:
+
+```
+(clear)
+(fill 
+  (circle 300 300 200) 
+  (gradient 
+    (guide $line)
+    ("white" "black")))
+```
+
 ### Clear
+
+In the previous example, we used the `(clear)` function which clears the canvas, but it can also be used to clear only a part of the canvas:
+
+```
+(clear)
+(fill 
+  (frame) "red")
+(clear 
+  (rect 100 100 300 300))
+```
 
 ## Pixels
 
