@@ -93,6 +93,10 @@ function Library (ronin) {
     ronin.surface.fill(rect, color)
     return rect
   }
+  
+  this.gradient = (line, colors = ['white', 'black']) => {
+    return ronin.surface.linearGradient(line.a.x, line.a.y, line.b.x, line.b.y, colors)
+  }
 
   this.clear = (rect = this.frame()) => { // Clears a rect.
     ronin.surface.clear(rect)
@@ -142,12 +146,6 @@ function Library (ronin) {
   this.theme = (variable, el = document.documentElement) => {
     // ex. (theme "f_main") -> :root { --f_main: "#fff" }
     return getComputedStyle(el).getPropertyValue(`--${variable}`)
-  }
-
-  // Gradients
-
-  this.gradient = (line, colors = ['white', 'black']) => {
-    return ronin.surface.linearGradient(line.a.x, line.a.y, line.b.x, line.b.y, colors)
   }
 
   // Pixels
