@@ -61,8 +61,8 @@ function Ronin () {
   }
 
   this.log = function (...msg) {
-    this.commander.setStatus(msg.reduce((acc, val) => { 
-      return acc + JSON.stringify(val).replace(/\"/g,'').trim() + ' ' 
+    this.commander.setStatus(msg.reduce((acc, val) => {
+      return acc + JSON.stringify(val).replace(/\"/g, '').trim() + ' '
     }, ''))
   }
 
@@ -100,12 +100,13 @@ function Ronin () {
   }
 
   this.onMouseUp = (e, id = 'mouse-up') => {
-    this.mouseTouch = null
     const shape = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, id)
+    this.mouseTouch = null
     if (this.bindings[id]) {
       this.bindings[id](shape)
     }
     this.surface.clearGuide()
+    console.log(this.bindings)
   }
 
   this.makeMouseOffset = (pos, type) => {

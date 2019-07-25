@@ -109,15 +109,18 @@ function Commander (ronin) {
   this.cache = this._input.value
 
   this.capture = function () {
+    if (this._input.value.indexOf('$') < 1) { return }
     console.log('capture')
     this.cache = this._input.value
   }
 
   this.injectPath = function (path) {
+    if (this._input.value.indexOf('$') < 1) { return }
     this._input.value = this._input.value.replace('$path', `"${path}"`)
   }
 
   this.commit = function (shape) {
+    if (this._input.value.indexOf('$') < 1) { return }
     console.log('inject')
     this._input.value = this.cache.replace('$rect', `(rect ${shape.x} ${shape.y} ${shape.w} ${shape.h})`).replace('$pos', `(pos ${shape.x} ${shape.y})`).replace('$line', `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})`)
   }

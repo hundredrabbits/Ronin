@@ -202,14 +202,9 @@ We can define a function that triggers when the `mouse-down` event is detected, 
 ; define the function
 (defn draw-rect 
   (e) 
-  (
-    (clear) 
-    (fill 
-      (rect 
-        (of e :x) 
-        (of e :y) 100 100) "red")))
+  (fill e "red"))
 ; use the function
-(on "mouse-down" draw-rect)
+(on "mouse-up" draw-rect)
 ```
 
 For more examples of functions, see the [examples](https://github.com/hundredrabbits/Ronin/tree/master/examples).
