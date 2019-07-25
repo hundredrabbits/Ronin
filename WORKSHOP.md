@@ -127,7 +127,7 @@ In the previous example, we used the `(clear)` function, which clears the canvas
   (rect 100 100 300 300))
 ```
 
-## Pixels
+## Filters
 
 This section will cover how to manipulate the pixels of an image.
 
