@@ -9,11 +9,11 @@ This workshop is designed to go over the **most commonly used functions** with [
 
 ## Images
 
-This section will teach the basics of opening, cropping and saving an image file. You can use the `$path` help to quickly get an image's path into Ronin, by writing `$path` and dragging a file onto the Ronin window.
+This section will teach the basics of opening, cropping and saving an image file. You can use the `$path` helper to quickly get an image's path into Ronin, by writing `$path` and dragging a file onto the Ronin window.
 
 ### Open
 
-To import an image, and resize the canvas to fit the image size, type the following text, drag an image file onto the Ronin window and press `cmd+r`:
+To open an image, **and resize the canvas to fit the image size**, type the following text, drag an image file onto the Ronin window and press `cmd+r`:
 
 ```
 (open $path)
@@ -64,20 +64,27 @@ For example, a version of that same code with file paths, might look something l
 
 ## Draw
 
-This section will show how to draw some basic shapes and colorize them.
+This section will teach you how to draw some basic shapes and colorize them.
 
 ### Stroke
 
-To draw the outline of any shape, wrap the shape(rect, line, circle, ..) inside of a `(stroke shape width color)` function, like:
+In Ronin, a shape is either a `(rect)`, a `(line)`, a `(circle)` or a `(pos)`. To draw the outline of any shape, wrap the shape inside of a `(stroke shape width color)` function, like:
 
 ```
 (stroke 
   (rect 100 100 300 200) 10 "red")
 ```
 
+Or, if you would like to trace the shape with your mouse:
+
+```
+(stroke 
+  $rect 10 "red")
+```
+
 ### Fill
 
-To fill the inside of any shape, wrap the shape(rect, line, circle, ..) inside of a `(fill shape color)` function, like:
+To fill the inside of any shape, wrap it inside of a `(fill shape color)` function, like:
 
 ```
 (fill 
@@ -86,7 +93,7 @@ To fill the inside of any shape, wrap the shape(rect, line, circle, ..) inside o
 
 ### Gradient
 
-To colorize a stroke or a fill with a gradient, use the `(gradient line color)`:
+To colorize a stroke or a fill, with a gradient, use the `(gradient line colors)` where the colors is a list of colors like `("blue" "red" "yellow")`:
 
 ```
 (clear)
@@ -97,7 +104,7 @@ To colorize a stroke or a fill with a gradient, use the `(gradient line color)`:
     ("white" "black")))
 ```
 
-To better understand how the line affects the coloring of the circle, wrap the `$line` inside a `(guide)`, as follows:
+To better understand how the `(line)` affects the coloring of the circle, wrap the `$line` inside a `(guide)`, as follows to preserve the guide interface:
 
 ```
 (clear)
@@ -110,7 +117,7 @@ To better understand how the line affects the coloring of the circle, wrap the `
 
 ### Clear
 
-In the previous example, we used the `(clear)` function which clears the canvas, but it can also be used to clear only a part of the canvas:
+In the previous example, we used the `(clear)` function, which clears the canvas, but it can also be used to clear only a part of the canvas:
 
 ```
 (clear)
@@ -126,7 +133,7 @@ This section will cover how to manipulate the pixels of an image.
 
 ### Pixels
 
-First let's open an image, ideally one in color, and change every pixel of a selected area:
+First let's open an image, ideally one in color, and change every pixel of a selected area at `(rect 100 100 200 200)`:
 
 ```
 (open $path)
@@ -136,7 +143,7 @@ First let's open an image, ideally one in color, and change every pixel of a sel
 
 ### saturation
 
-In the previous example, we boosted the saturation of a region of the image, to desaturate an entire image, you can first use `(frame)` which returns the size of the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`:
+In the previous example, we increased the saturation of a region of the image, to desaturate an entire image, you can first use `(frame)` which will select the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`(50% saturation):
 
 ```
 (open $path)
@@ -146,7 +153,7 @@ In the previous example, we boosted the saturation of a region of the image, to 
 
 ### convolve
 
-Effects which use the surrounding pixels, or convolution matrix, are used with the `(convolve)` function, you can learn more about it [here](https://en.wikipedia.org/wiki/Kernel_(image_processing)).
+Effects which use the surrounding pixels, or convolution matrix, are used with the `(convolve)` function, you can learn more about this family of filters [here](https://en.wikipedia.org/wiki/Kernel_(image_processing)).
 
 ### sharpen
 
@@ -175,7 +182,7 @@ This section will demonstrate how to use events in Ronin to create interactive s
 
 ### Echo
 
-You can print some content to the screen in Ronin, by using the `(echo)` function, for example:
+You can print some content to the screen in Ronin, by using the `(echo)` function, for example, the following script will write the word `hello` at the bottom left of the interface:
 
 ```
 (echo "hello")
@@ -189,7 +196,7 @@ Let's use the `(debug)` function to display the position of the mouse cursor in 
 (on "mouse-down" echo)
 ```
 
-We can define a function that happens when the `mouse-down` event is detected:
+We can define a function that triggers when the `mouse-down` event is detected, or when you click on the canvas:
 
 ```
 ; define the function
@@ -224,6 +231,8 @@ The `animate` event fires around 30 times per second, and is a perfect tool to c
 ; use the function
 (on "animate" wob-rect)
 ```
+
+You can find a more elaborate version of this example [here](https://github.com/hundredrabbits/Ronin/blob/master/examples/events/on-animate.lisp).
 
 ### OSC
 

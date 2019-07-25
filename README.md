@@ -6,7 +6,7 @@ Ronin is a <b>procedural graphics tool</b> designed to automate simple graphical
 
 The library updates is constantly revealing new applications to Ronin, you can see the list of available functions <a href="https://github.com/hundredrabbits/Ronin#library" target="_blank" rel="noreferrer" class="external ">here</a>. Most of our iconography and designs were created with both <a href="https://hundredrabbits.itch.io/Ronin" target="_blank">Ronin</a> and <a href="https://hundredrabbits.itch.io/dotgrid">Dotgrid</a>.
 
-Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>.
+Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>, or follow the [Workshop](https://github.com/hundredrabbits/Ronin/blob/master/WORKSHOP.md).
 
 ```lisp
 ; draw a red square
@@ -31,7 +31,7 @@ npm start
 
 Additional functions can be found in the [includes](https://github.com/hundredrabbits/Ronin/tree/master/desktop/sources/lisp), you can also look at the [examples](https://github.com/hundredrabbits/Ronin/tree/master/examples) to see them in action.
 
-- `(import path rect)` Imports a graphic file with format.
+- `(import path shape)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
 - `(open path)` Imports a graphic file and resizes the frame.
 - `(move x y)` 
