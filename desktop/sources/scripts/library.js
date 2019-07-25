@@ -1,8 +1,8 @@
 function Library (ronin) {
-  this.import = async (path, rect) => { // Imports a graphic file with format.
+  this.import = async (path, shape) => { // Imports a graphic file with format.
     const img = new Image()
     img.src = path
-    return ronin.surface.draw(img, rect)
+    return ronin.surface.draw(img, shape)
   }
 
   this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.

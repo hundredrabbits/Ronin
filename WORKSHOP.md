@@ -25,14 +25,14 @@ To import an image onto the current canvas, type the following text, drag an ima
 
 ```
 (import $path 
-  (rect 50 100 250 200))
+  (guide $rect))
 ```
 
-The previous code will import an image, and position it at `50,100`, at a size of `250x200`. Alternatively, you could use a `(pos)` to position the image and not resize it.
+The previous code will import an image, and position it at `50,100`, at a size of `250x200`. Alternatively, you could use a `(line)` to stretch the image.
 
 ```
 (import $path 
-  (pos 50 100))
+  (guide $line))
 ```
 
 ### Crop

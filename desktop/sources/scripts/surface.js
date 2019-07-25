@@ -133,11 +133,17 @@ function Surface (ronin) {
     })
   }
 
-  this.draw = function (img, rect = this.getFrame()) {
+  this.draw = function (img, shape = this.getFrame()) {
     return new Promise(resolve => {
       img.onload = () => {
         ronin.log(`Draw ${img.width}x${img.height}`)
-        this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h) // no strect: img.height * (rect.w / img.width)
+        if (isLine(shape)) {
+          this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
+        } else if (isRect(shape)) {
+          this.context.drawImage(img, shape.x, shape.y, shape.w, img.height * (shape.w / img.width))
+        } else {
+          this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
+        }
         resolve()
       }
     })
