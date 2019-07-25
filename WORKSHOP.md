@@ -5,7 +5,7 @@ This workshop is designed to go over the **most commonly used functions** with [
 - **Part 1**: [Images](#Images) `(open)`, `(import)`, `(crop)`, `(export)`
 - **Part 2**: [Draw](#Draw) `(stroke)`, `(fill)`, `(gradient)`, `(clear)`
 - **Part 3**: [Filters](#Filters) `(pixels)`, `(saturation)`, `(convolve)`, `(sharpen)`
-- **Part 4**: [Events](#Events) `(on)`, `(on "mouse-move")`, `(on "animate")`, `(on "/a")`
+- **Part 4**: [Events](#Events) `(echo)`, `(on "mouse-down")`, `(on "animate")`, `(on "/a")`
 
 ## Images
 
@@ -122,21 +122,115 @@ In the previous example, we used the `(clear)` function which clears the canvas,
 
 ## Pixels
 
+This section will cover how to manipulate the pixels of an image.
+
 ### Pixels
+
+First let's open an image, ideally one in color, and change every pixel of a selected area:
+
+```
+(open $path)
+(pixels 
+  (rect 100 100 200 200) saturation 10)
+```
 
 ### saturation
 
+In the previous example, we boosted the saturation of a region of the image, to desaturate an entire image, you can first use `(frame)` which returns the size of the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`:
+
+```
+(open $path)
+(pixels 
+  (frame) saturation 0.5)
+```
+
 ### convolve
+
+Effects which use the surrounding pixels, or convolution matrix, are used with the `(convolve)` function, you can learn more about it [here](https://en.wikipedia.org/wiki/Kernel_(image_processing)).
 
 ### sharpen
 
+```
+(open $path)
+(convolve 
+  (frame) sharpen)
+```
+
+Custom convolve kernels can also be created like this:
+
+```
+(open $path)
+(def blur 
+  (
+    (-1 -1 -1) 
+    (-1 5 -1) 
+    (-1 -1 -1)))
+(convolve 
+  (frame) blur)
+```
+
 ## Events
 
-### On
+This section will demonstrate how to use events in Ronin to create interactive scripts.
 
-### MouseMove
+### Echo
+
+You can print some content to the screen in Ronin, by using the `(echo)` function, for example:
+
+```
+(echo "hello")
+```
+
+### MouseDown
+
+Let's use the `(debug)` function to display the position of the mouse cursor in the interface.
+
+```
+(on "mouse-down" echo)
+```
+
+We can define a function that happens when the `mouse-down` event is detected:
+
+```
+; define the function
+(defn draw-rect 
+  (e) 
+  (
+    (clear) 
+    (fill 
+      (rect 
+        (of e :x) 
+        (of e :y) 100 100) "red")))
+; use the function
+(on "mouse-down" draw-rect)
+```
+
+For more examples of functions, see the [examples](https://github.com/hundredrabbits/Ronin/tree/master/examples).
 
 ### Animate
 
+The `animate` event fires around 30 times per second, and is a perfect tool to create animations. Following the previous example, and the pattern of creating a function and binding it to the event, let's make a function that will use the `(time)` to animate a box:
+
+```
+; define the function
+(defn wob-rect 
+  () 
+  (
+    (clear) 
+    (def rect-x 300)
+    (def rect-y (add (mul (sin (time 0.005)) 50) 300))
+    (fill 
+      (rect rect-x rect-y 100 100) "red")))
+; use the function
+(on "animate" wob-rect)
+```
+
 ### OSC
 
+Other programs can communicate with Ronin via OSC with the previous pattern. For example, if you send OSC data to the port `49162`, at the path `/a`, the event can be used in Ronin to trigger a function:
+
+```
+(on "/a" echo)
+```
+
+I hope this workshop has been enlightening, if you have questions or suggestions, please visit the [community](https://hundredrabbits.itch.io/ronin/community). Enjoy!

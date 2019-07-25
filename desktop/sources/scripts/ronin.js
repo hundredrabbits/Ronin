@@ -61,7 +61,9 @@ function Ronin () {
   }
 
   this.log = function (...msg) {
-    this.commander.setStatus(msg.reduce((acc, val) => { return acc + val + ' ' }, ''))
+    this.commander.setStatus(msg.reduce((acc, val) => { 
+      return acc + JSON.stringify(val).replace(/\"/g,'').trim() + ' ' 
+    }, ''))
   }
 
   this.load = function (content = this.default()) {
