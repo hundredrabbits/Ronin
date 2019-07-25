@@ -1,10 +1,10 @@
-# Ronin
-
 <img src="https://raw.githubusercontent.com/hundredrabbits/100r.co/master/media/content/characters/ronin.hello.png" width="300"/>
 
-_"All I wanted, was a quick way of resizing a few photos.."_
+Ronin is a <b>procedural graphics tool</b> designed to automate simple graphical tasks, like resizing, cropping, coloring, and generating algorithmic images. It interprets a minimal <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)" target="_blank" rel="noreferrer" class="external ">dialect of LISP</a>, look at these <a href="https://github.com/hundredrabbits/Ronin/tree/master/examples" target="_blank" rel="noreferrer" class="external ">examples</a> to better understand how this all works.
 
-The application was created to automate basic graphical tasks using a dialect of [LISP](https://en.wikipedia.org/wiki/Lisp_(programming_language)), it all went south when we started adding animation tools. You can look at these [example files](https://github.com/hundredrabbits/Ronin/tree/master/examples) to better understand how this all works.
+The library updates is constantly revealing new applications to Ronin, you can see the list of available functions <a href="https://github.com/hundredrabbits/Ronin#library" target="_blank" rel="noreferrer" class="external ">here</a>. Most of our iconography and designs were created with both <a href="https://hundredrabbits.itch.io/Ronin" target="_blank">Ronin</a> and <a href="https://hundredrabbits.itch.io/dotgrid">Dotgrid</a>.
+
+Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>.
 
 ```lisp
 ; draw a red square
