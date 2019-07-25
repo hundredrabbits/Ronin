@@ -21,14 +21,14 @@ To import an image, and resize the canvas to fit the image size, type the follow
 
 ### Import
 
-To import an image onto the current canvas, type the following text, drag an image file onto the Ronin window and press `cmd+r`:
+To import an image onto the current canvas, type the following text, drag an image file onto the Ronin window, trace a shape in the canvas and press `cmd+r`:
 
 ```
 (import $path 
   (guide $rect))
 ```
 
-The previous code will import an image, and position it at `50,100`, at a size of `250x200`. Alternatively, you could use a `(line)` to stretch the image.
+The previous code will import an image, and preserve its ratio. Alternatively, you could use a `$line` to stretch the image, or a `$pos` to simply draw the image at its original size.
 
 ```
 (import $path 
@@ -40,17 +40,10 @@ The previous code will import an image, and position it at `50,100`, at a size o
 To crop the canvas, type the following text, drag an image file onto the Ronin window press `cmd+r`:
 
 ```
-(import "~/Desktop/photo.jpg" 
-  (pos 50 100))
-(crop (rect 50 50 300 300)
-```
-
-Alternatively, you could select the cropping area with the cursor with the following code, and selecting an area in the canvas:
-
-```
-(import "~/Desktop/photo.jpg" 
-  (pos 50 100))
-(crop $rect)
+(import $path 
+  (pos 0 0))
+(crop 
+  (rect 50 50 300 300))
 ```
 
 ### Export
@@ -58,16 +51,14 @@ Alternatively, you could select the cropping area with the cursor with the follo
 To export the resulting image, type the following text, drag an image file onto the Ronin window, then drag a folder and add the new file's name, and press `cmd+r`:
 
 ```
-(import $path 
-  (pos 50 100))
+(import $path)
 (export $path)
 ```
 
-For example, a version of that same code with file paths, might look something like:
+For example, a version of that same code with file paths, might look something like the following, notice how the `(rect)` is omitted:
 
 ```
-(import "~/Desktop/photo.jpg" 
-  (pos 50 100))
+(import "~/Desktop/photo.jpg")
 (export "~/Desktop/export.png")
 ```
 
