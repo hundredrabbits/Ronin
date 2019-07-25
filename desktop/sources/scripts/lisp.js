@@ -114,9 +114,9 @@ function Lisp (lib = {}, includes = []) {
     } else if (input.type === TYPES.identifier) {
       return context.get(input.value)
     } else if (
-        input.type === TYPES.number || input.type === TYPES.symbol 
-        || input.type === TYPES.string || input.type === TYPES.bool
-      ) {
+      input.type === TYPES.number || input.type === TYPES.symbol ||
+        input.type === TYPES.string || input.type === TYPES.bool
+    ) {
       return input.value
     }
   }
