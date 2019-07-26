@@ -1,6 +1,6 @@
 # Workshop
 
-This workshop is designed to go over the **most commonly used functions** with [Ronin](https://github.com/hundredrabbits/Ronin). The list of all available functions and their usage is located [here](https://github.com/hundredrabbits/Ronin/#library).
+This workshop is designed to go over the **most commonly used functions** with [Ronin](https://github.com/hundredrabbits/Ronin). The list of all available functions and their usage is located [here](https://github.com/hundredrabbits/Ronin/#library). You can also follow along our [video tutorial](https://youtu.be/SgAWGh1s9zg).
 
 - **Part 1**: [Images](#Images) `(open)`, `(import)`, `(crop)`, `(export)`
 - **Part 2**: [Draw](#Draw) `(stroke)`, `(fill)`, `(gradient)`, `(clear)`
