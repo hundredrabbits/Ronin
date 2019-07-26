@@ -393,7 +393,7 @@ function Library (ronin) {
         acc += img.data[x * 4 + y * rect.w * 4 + i % 4] * kernel[kx][ky] / sigma
       }
       out[i] = acc
-      if (i % 4 == 3) out[i] = 255
+      if (i % 4 === 3) out[i] = 255
     }
     img.data.set(out, 0)
     ronin.surface.context.putImageData(img, rect.x, rect.y)

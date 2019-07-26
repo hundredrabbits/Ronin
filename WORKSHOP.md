@@ -202,12 +202,14 @@ We can define a function that triggers when the `mouse-down` event is detected, 
 ; define the function
 (defn draw-rect 
   (e) 
-  (fill e "red"))
+  (fill e:circle "red"))
 ; use the function
 (on "mouse-up" draw-rect)
 ```
 
 For more examples of functions, see the [examples](https://github.com/hundredrabbits/Ronin/tree/master/examples).
+
+You can find a more elaborate version of this example [here](https://github.com/hundredrabbits/Ronin/blob/master/examples/events/on-mouse.lisp).
 
 ### Animate
 
@@ -236,5 +238,7 @@ Other programs can communicate with Ronin via OSC with the previous pattern. For
 ```
 (on "/a" echo)
 ```
+
+You can find a more elaborate version of this example [here](https://github.com/hundredrabbits/Ronin/blob/master/examples/events/on-osc.lisp).
 
 I hope this workshop has been enlightening, if you have questions or suggestions, please visit the [community](https://hundredrabbits.itch.io/ronin/community). Enjoy!

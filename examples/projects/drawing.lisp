@@ -7,30 +7,29 @@
 (defn stroke-color 
   (e) 
   (if 
-    (of e :is-down) "#ffb545" "#72dec2")) 
+    (eq e:is-down true) "#ffb545" "#72dec2")) 
 ;
 (defn draw-line 
   (e) 
   (
     (if 
-      (of e :is-down) 
+      (eq e:is-down true) 
       (
+        (debug e:is-down) 
         (stroke 
-          (line (of prev-pos :x) (of prev-pos :y) (of e :x) (of e :y)) 2 "white") 
-        (set prev-pos :x 
-          (of e :x) :y 
-          (of e :y))))))
+          (line prev-pos:x prev-pos:y e:x e:y) 2 "white") 
+        (set prev-pos "x" e:x "y" e:y) 
+        (debug prev-pos) 
+        (debug e)))))
 ;
 (defn draw-circle 
   (e) 
   (
-    (set prev-pos :x 
-      (of e :x) :y 
-      (of e :y)) 
+    (debug e) 
+    (set prev-pos "x" e:x "y" e:y) 
+    (debug e:x) 
     (stroke 
-      (circle 
-        (of e :x) 
-        (of e :y) 10) 4 
+      (circle e:x e:y 10) 4 
       (stroke-color e))))
 ;
 (on "mouse-down" draw-circle)

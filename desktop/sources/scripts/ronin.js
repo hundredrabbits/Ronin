@@ -76,11 +76,12 @@ function Ronin () {
 
   // Cursor
 
-  this.mouseTouch = null
+  this.mouseOrigin = null
 
   this.onMouseDown = (e, id = 'mouse-down') => {
-    this.mouseTouch = { x: e.offsetX, y: e.offsetY }
-    const shape = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, id)
+    const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
+    this.mouseOrigin = pos
+    const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
     }
@@ -89,35 +90,49 @@ function Ronin () {
   }
 
   this.onMouseMove = (e, id = 'mouse-move') => {
-    const shape = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, id)
+    const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
+    const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
     }
-    if (this.mouseTouch) {
+    if (this.mouseOrigin) {
       this.commander.commit(shape)
       this.surface.drawGuide(shape)
     }
   }
 
   this.onMouseUp = (e, id = 'mouse-up') => {
-    const shape = this.makeMouseOffset({ x: e.offsetX, y: e.offsetY }, id)
-    this.mouseTouch = null
+    const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
+    const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
     }
+    this.mouseOrigin = null
     this.surface.clearGuide()
-    console.log(this.bindings)
   }
 
-  this.makeMouseOffset = (pos, type) => {
-    if (!this.mouseTouch) { return }
-    const x = this.mouseTouch.x * ronin.surface.ratio
-    const y = this.mouseTouch.y * ronin.surface.ratio
-    const w = this.mouseTouch.x ? (pos.x * ronin.surface.ratio) - (this.mouseTouch.x * ronin.surface.ratio) : 0
-    const h = this.mouseTouch.y ? (pos.y * ronin.surface.ratio) - (this.mouseTouch.y * ronin.surface.ratio) : 0
-    const a = { x, y }
-    const b = { x: x + w, y: y + h }
-    return { x, y, w, h, a, b, type, 'is-down': this.mouseTouch !== null }
+  this.mouseShape = (position, type) => {
+    if (!this.mouseOrigin) { return }
+    const x = position.x
+    const y = position.y
+    const pos = { x, y }
+    const rect = {
+      x: this.mouseOrigin.x,
+      y: this.mouseOrigin.y,
+      w: this.mouseOrigin.x ? pos.x - this.mouseOrigin.x : 0,
+      h: this.mouseOrigin.y ? pos.y - this.mouseOrigin.y : 0
+    }
+    const line = {
+      a: { x: this.mouseOrigin.x, y: this.mouseOrigin.y },
+      b: { x: pos.x, y: pos.y }
+    }
+    const distance = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y)))
+    const circle = {
+      cx: this.mouseOrigin.x,
+      cy: this.mouseOrigin.y,
+      r: distance
+    }
+    return { x, y, line, rect, pos, circle, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
 
   // Zoom

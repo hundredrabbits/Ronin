@@ -166,8 +166,12 @@ function Surface (ronin) {
 
   this.drawGuide = function (shape, context = this.guide) {
     this.clearGuide()
-    this.stroke(shape, 3, 'black', context)
-    this.stroke(shape, 1.5, 'white', context)
+    this.stroke(shape.rect, 3, 'black', context)
+    this.stroke(shape.line, 3, 'black', context)
+    this.stroke(shape.circle, 3, 'black', context)
+    this.stroke(shape.rect, 1.5, 'white', context)
+    this.stroke(shape.line, 1.5, 'white', context)
+    this.stroke(shape.circle, 1.5, 'white', context)
   }
 
   this.clone = function (a, b) {

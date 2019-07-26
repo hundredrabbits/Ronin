@@ -109,20 +109,35 @@ function Commander (ronin) {
   this.cache = this._input.value
 
   this.capture = function () {
-    if (this._input.value.indexOf('$') < 1) { return }
-    console.log('capture')
+    if (this._input.value.indexOf('$') < 0) { return }
     this.cache = this._input.value
   }
 
   this.injectPath = function (path) {
-    if (this._input.value.indexOf('$') < 1) { return }
+    if (this._input.value.indexOf('$') < 0) { return }
     this._input.value = this._input.value.replace('$path', `"${path}"`)
   }
 
   this.commit = function (shape) {
-    if (this._input.value.indexOf('$') < 1) { return }
-    console.log('inject')
-    this._input.value = this.cache.replace('$rect', `(rect ${shape.x} ${shape.y} ${shape.w} ${shape.h})`).replace('$pos', `(pos ${shape.x} ${shape.y})`).replace('$line', `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})`)
+    if (this._input.value.indexOf('$') < 0) { return }
+    const segs = this.cache.split('$')
+    const seg = segs[1]
+    const words = seg.split(' ')
+    const word = words[0]
+    if (word === 'rect' && shape.rect) {
+      const rect = shape.rect
+      this._input.value = this.cache.replace('$rect', `(rect ${rect.x} ${rect.y} ${rect.w} ${rect.h})`)
+    } else if (word === 'pos' && shape.pos) {
+      const pos = shape.pos
+      this._input.value = this.cache.replace('$pos', `(pos ${pos.x} ${pos.y})`)
+    } else if (word === 'line' && shape.line) {
+      const line = shape.line
+      this._input.value = this.cache.replace('$line', `(line ${line.a.x} ${line.a.y} ${line.b.x} ${line.b.y})`)
+    } else if (word === 'circle' && shape.circle) {
+      const circle = shape.circle
+      console.log(circle)
+      this._input.value = this.cache.replace('$circle', `(circle ${circle.cx} ${circle.cy} ${circle.r})`)
+    }
   }
 
   // Display
