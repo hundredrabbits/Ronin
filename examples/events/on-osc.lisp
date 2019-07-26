@@ -1,4 +1,4 @@
-;
+; send OSC msg to port:49162, at "/a"
 (def frame-rect 
   (frame))
 (def disc 
