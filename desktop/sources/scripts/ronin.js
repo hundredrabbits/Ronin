@@ -114,6 +114,16 @@ function Ronin () {
     this.surface.clearGuide()
   }
 
+  this.onMouseOver = (e) => {
+    this.mouseOrigin = null
+    this.surface.clearGuide()
+  }
+
+  this.onMouseOut = (e) => {
+    this.mouseOrigin = null
+    this.surface.clearGuide()
+  }
+
   this.mouseShape = (position, type) => {
     if (!this.mouseOrigin) { return }
     const x = position.x

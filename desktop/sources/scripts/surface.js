@@ -15,6 +15,8 @@ function Surface (ronin) {
     this._guide.addEventListener('mousedown', ronin.onMouseDown, false)
     this._guide.addEventListener('mousemove', ronin.onMouseMove, false)
     this._guide.addEventListener('mouseup', ronin.onMouseUp, false)
+    this._guide.addEventListener('mouseover', ronin.onMouseOver, false)
+    this._guide.addEventListener('mouseout', ronin.onMouseOut, false)
   }
 
   this.start = function () {
