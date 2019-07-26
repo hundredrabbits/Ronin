@@ -119,7 +119,7 @@ function Commander (ronin) {
   }
 
   this.commit = function (shape) {
-    if (this._input.value.indexOf('$') < 0) { return }
+    if (this.cache.indexOf('$') < 0) { return }
     const segs = this.cache.split('$')
     const seg = segs[1]
     const words = seg.split(' ')
