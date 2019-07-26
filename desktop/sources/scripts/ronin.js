@@ -96,7 +96,7 @@ function Ronin () {
       this.bindings[id](shape)
     }
     if (this.mouseOrigin) {
-      this.commander.commit(shape)
+      this.commander.commit(shape, false)
       this.surface.drawGuide(shape)
     }
   }
@@ -106,6 +106,9 @@ function Ronin () {
     const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
+    }
+    if (this.mouseOrigin) {
+      this.commander.commit(shape, true)
     }
     this.mouseOrigin = null
     this.surface.clearGuide()

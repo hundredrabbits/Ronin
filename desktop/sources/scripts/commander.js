@@ -118,25 +118,27 @@ function Commander (ronin) {
     this._input.value = this._input.value.replace('$path', `"${path}"`)
   }
 
-  this.commit = function (shape) {
+  this.commit = function (shape, end = false) {
     if (this.cache.indexOf('$') < 0) { return }
     const segs = this.cache.split('$')
     const seg = segs[1]
     const words = seg.split(' ')
     const word = words[0]
-    if (word === 'rect' && shape.rect) {
+    if (word.substr(0, 4) === 'rect' && shape.rect) {
       const rect = shape.rect
       this._input.value = this.cache.replace('$rect', `(rect ${rect.x} ${rect.y} ${rect.w} ${rect.h})`)
-    } else if (word === 'pos' && shape.pos) {
+    } else if (word.substr(0, 3) === 'pos' && shape.pos) {
       const pos = shape.pos
       this._input.value = this.cache.replace('$pos', `(pos ${pos.x} ${pos.y})`)
-    } else if (word === 'line' && shape.line) {
+    } else if (word.substr(0, 4) === 'line' && shape.line) {
       const line = shape.line
       this._input.value = this.cache.replace('$line', `(line ${line.a.x} ${line.a.y} ${line.b.x} ${line.b.y})`)
-    } else if (word === 'circle' && shape.circle) {
+    } else if (word.substr(0, 6) === 'circle' && shape.circle) {
       const circle = shape.circle
-      console.log(circle)
       this._input.value = this.cache.replace('$circle', `(circle ${circle.cx} ${circle.cy} ${circle.r})`)
+    }
+    if (end === true) {
+      this.cache = this._input.value
     }
   }
 
