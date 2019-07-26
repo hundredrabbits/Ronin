@@ -142,7 +142,13 @@ function Surface (ronin) {
         if (isLine(shape)) {
           this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
         } else if (isRect(shape)) {
-          this.context.drawImage(img, shape.x, shape.y, shape.w, img.height * (shape.w / img.width))
+          if (img.width > img.height) {
+            console.log('w bigger')
+            this.context.drawImage(img, shape.x, shape.y, shape.w, img.height * (shape.w / img.width))
+          } else {
+            console.log('h bigger')
+            this.context.drawImage(img, shape.x, shape.y, img.width * (shape.h / img.height), shape.h)
+          }
         } else {
           this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
         }
@@ -167,7 +173,6 @@ function Surface (ronin) {
   }
 
   this.drawGuide = function (shape, context = this.guide) {
-    this.clearGuide()
     if (!shape) { return }
     this.stroke(shape.rect || shape, 3, 'black', context)
     if (shape.line) { this.stroke(shape.line, 3, 'black', context) }

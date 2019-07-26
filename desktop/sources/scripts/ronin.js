@@ -86,6 +86,7 @@ function Ronin () {
       this.bindings[id](shape)
     }
     this.commander.capture()
+    this.surface.clearGuide()
     this.surface.drawGuide(shape)
   }
 
@@ -97,6 +98,7 @@ function Ronin () {
     }
     if (this.mouseOrigin) {
       this.commander.commit(shape, false)
+      this.surface.clearGuide()
       this.surface.drawGuide(shape)
     }
   }

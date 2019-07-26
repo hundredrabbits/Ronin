@@ -31,6 +31,7 @@ function Commander (ronin) {
   }
 
   this.run = (txt = this._input.value) => {
+    if (this._input.value.indexOf('$') > -1) { console.warn('$ is present.'); return }
     ronin.bindings = {}
     ronin.surface.maximize()
     ronin.interpreter.run(txt)

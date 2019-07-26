@@ -1,5 +1,5 @@
 ; crop
-
 (clear)
-(open "../static/crystal.jpg")
-(crop (rect 100 100 400 400))
+(open $path)
+(crop 
+  (rect 100 100 400 400))

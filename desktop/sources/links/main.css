@@ -4,7 +4,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 
 #ronin { height: calc(100vh - 60px); width:calc(100vw - 60px); -webkit-app-region: drag; padding: 30px;overflow: hidden; }
 #ronin #wrapper { overflow: hidden; position: relative; }
-#ronin #wrapper #commander { z-index: 9000;position: relative;width: 310px;height: calc(100vh - 60px);-webkit-app-region: no-drag;padding-right: 30px;transition: margin-left 250ms;}
+#ronin #wrapper #commander { z-index: 9000;position: relative;width: calc(50vw - 30px);height: calc(100vh - 60px);-webkit-app-region: no-drag;padding-right: 30px;transition: margin-left 250ms;}
 #ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
 #ronin #wrapper #commander #status { position: absolute; bottom: 0px; text-transform: lowercase; line-height: 15px; height: 30px; overflow: hidden; width: calc(100% - 30px);}
 #ronin #wrapper #commander #source { position: absolute;right: 0px;bottom: 0px; }
@@ -16,8 +16,8 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin.hidden #wrapper #commander { margin-left:-40vw; }
 #ronin.hidden #surface, #ronin.hidden #guide { left:0; }
 
-#ronin.hidden #wrapper #commander { margin-left:calc(-40vw - 30px); }
-#ronin #surface,#ronin #guide { left:calc(40vw + 30px); }
+#ronin.hidden #wrapper #commander { margin-left:-50vw; }
+#ronin #surface,#ronin #guide { left:50vw; }
 
 #ronin #guide { background:none; }
 #ronin #surface { border-radius: 2px }
