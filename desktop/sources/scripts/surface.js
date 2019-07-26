@@ -142,13 +142,8 @@ function Surface (ronin) {
         if (isLine(shape)) {
           this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
         } else if (isRect(shape)) {
-          if (img.width > img.height) {
-            console.log('w bigger')
-            this.context.drawImage(img, shape.x, shape.y, shape.w, img.height * (shape.w / img.width))
-          } else {
-            console.log('h bigger')
-            this.context.drawImage(img, shape.x, shape.y, img.width * (shape.h / img.height), shape.h)
-          }
+          const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
+          this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
         } else {
           this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
         }
@@ -279,5 +274,14 @@ function Surface (ronin) {
   }
   function isLine (shape) {
     return shape.a && !isNaN(shape.a.x) && !isNaN(shape.a.y) && shape.b && !isNaN(shape.b.x) && !isNaN(shape.b.y)
+  }
+
+  function fitRect (image, container) {
+    image.ratio = image.w / image.h
+    container.ratio = container.w / container.h
+    return {
+      w: image.ratio < container.ratio ? container.h * image.ratio : container.w,
+      h: image.ratio > container.ratio ? container.w / image.ratio : container.h
+    }
   }
 }
