@@ -126,13 +126,13 @@ function Ronin () {
       a: { x: this.mouseOrigin.x, y: this.mouseOrigin.y },
       b: { x: pos.x, y: pos.y }
     }
-    const distance = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y)))
+    const d = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y)))
     const circle = {
       cx: this.mouseOrigin.x,
       cy: this.mouseOrigin.y,
-      r: distance
+      r: d
     }
-    return { x, y, line, rect, pos, circle, type, 'is-down': type !== 'mouse-up' ? true : null }
+    return { x, y, d, line, rect, pos, circle, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
 
   // Zoom

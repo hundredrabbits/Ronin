@@ -113,7 +113,6 @@ function Lisp (lib = {}, includes = []) {
 
   const interpret = async function (input, context) {
     if (!input) { console.warn('Lisp', 'error', context.scope); return null }
-
     if (context === undefined) {
       return interpret(input, new Context(lib))
     } else if (input instanceof Array) {
