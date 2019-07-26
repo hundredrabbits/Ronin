@@ -25,8 +25,7 @@
           (circle 
             (add 
               (div 
-                (of 
-                  (frame) "w") 1.6) 
+                frame-rect:w 1.6) 
               (mul 1.5 v)) 
             (mul 10 v) 
             (mul v 

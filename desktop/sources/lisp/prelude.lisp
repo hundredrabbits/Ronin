@@ -1,16 +1,10 @@
 ; 
 (echo "Loading prelude.lisp")
-;
-(def frame-rect (frame))
 ; translate
 (defn translate 
   (r p) 
   (clone r 
-    (rect 
-      (of p :x) 
-      (of p :y) 
-      (of r :w) 
-      (of r :h))))
+    (rect p:x p:y r:w r:h)))
 ; times
 (defn times 
   (v f) 

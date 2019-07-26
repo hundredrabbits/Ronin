@@ -3,9 +3,9 @@
 (clear)
 
 ; variables
-(def center-w (div (of (frame) "w") 2))
-(def center-h (div (of (frame) "h") 2))
-(def rad (div (of (frame) "h") 4))
+(def center-w (div frame-rect:w 2))
+(def center-h (div frame-rect:h 2))
+(def rad (div frame-rect:h 4))
 
 ; draw circle
 (stroke 

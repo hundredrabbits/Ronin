@@ -4,13 +4,11 @@
 ; 
 (def frame-middle 
   (div 
-    (of 
-      (frame) :h) 2)) 
+    frame-rect:h 2)) 
 ; 
 (def seg-width 
   (div 
-    (of 
-      (frame) :w) seg-count)) 
+    frame-rect:w seg-count)) 
 ;
 (defn elevation 
   (i) 
@@ -21,8 +19,7 @@
           (time 0.001) 
           (div i 5))) 
       (div 
-        (of 
-          (frame) :h) 5)) frame-middle))
+        frame-rect:h 5)) frame-middle))
 ;
 (defn draw-dash 
   (i) 
@@ -40,8 +37,7 @@
         (elevation i)) 4 
       (gradient 
         (line 50 0 
-          (of 
-            (frame) :w) 0) 
+          frame-rect:w 0) 
         ("#ffb545" "#72dec2")))))
 ;
 (defn redraw 

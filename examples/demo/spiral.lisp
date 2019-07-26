@@ -1,6 +1,5 @@
 ; animated recusive spiral
 ; by @local_guru 
-(def frame-rect (frame))
 (defn rec 
   (v) 
   (if (gt v 0) 

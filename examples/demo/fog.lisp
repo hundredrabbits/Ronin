@@ -2,7 +2,6 @@
 (resetTransform)
 (clear)
 ;
-(def frame-rect (frame))
 (def mouse-pos (pos))
 (def prev-pos (pos))
 ;
