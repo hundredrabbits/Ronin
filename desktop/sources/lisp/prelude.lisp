@@ -1,5 +1,7 @@
 ; 
 (echo "Loading prelude.lisp")
+;
+(def frame-rect (frame))
 ; translate
 (defn translate 
   (r p) 

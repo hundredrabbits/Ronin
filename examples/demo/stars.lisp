@@ -5,7 +5,7 @@
   (cx cy r a) 
   (
     (stroke 
-      (line cx cy (of (circle-pos cx cy r a) :x) (of (circle-pos cx cy r a) :y)
+      (line cx cy (:x (circle-pos cx cy r a)) (:y (circle-pos cx cy r a))
         ) 2 "white")))
 ;
 (defn draw-star 
@@ -25,12 +25,8 @@
     () 
     (
       (draw-star 
-        (random 100 
-          (of 
-            (frame) :w)) 
-        (random 100 
-          (of 
-            (frame) :h)) 
+        (random 100 frame-rect:w) 
+        (random 100 frame-rect:h) 
         (random 10 100) 
         (floor 
           (random 3 32))))))

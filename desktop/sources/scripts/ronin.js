@@ -11,7 +11,7 @@ function Ronin () {
     b_inv: '#ffb545'
   }
 
-  this.includes = [] // ['prelude']
+  this.includes = ['prelude']
 
   this.el = document.createElement('div')
   this.el.id = 'ronin'
