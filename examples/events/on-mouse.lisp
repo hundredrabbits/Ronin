@@ -7,7 +7,7 @@
     (stroke (line e:x 0 e:x e:y) 2 "#ff0000") 
     ; horizontal line 
     (stroke 
-      (line 0 (of e :y) e:x e:y) 2 "#72dec2") 
+      (line 0 e:y e:x e:y) 2 "#72dec2") 
     ; circle 
     (stroke 
       (circle 

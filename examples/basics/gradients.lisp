@@ -1,11 +1,11 @@
 ; gradients
 (clear)
 ;
-(def radius frame-rect:m)
+(def radius 
+  (frame-rect:m))
 ;
 (def gradient-line 
-  (line frame-rect:c 0 frame-rect:c 
-    frame-rect:h))
+  (line frame-rect:c 0 frame-rect:c frame-rect:h))
 ;
 (fill 
   (circle frame-rect:c frame-rect:m radius) 
