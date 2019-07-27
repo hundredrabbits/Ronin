@@ -40,7 +40,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 
 - `(import path shape)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
-- `(open path)` Imports a graphic file and resizes the frame.
+- `(open path ~ratio)` Imports a graphic file and resizes the frame.
 - `(move x y)` 
 - `(rotate angle)` 
 - `(scale x y)` 
@@ -49,7 +49,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(resetTransform)` 
 - `(pushTransform)` 
 - `(popTransform)` 
-- `(pos x y)` Returns a position shape.
+- `(pos ~x ~y)` Returns a position shape.
 - `(size w h)` Returns a size shape.
 - `(rect x y w h)` Returns a rect shape.
 - `(circle cx cy r)` Returns a circle shape.
@@ -60,7 +60,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
-- `(guide shape)` Draws a shape on the guide layer.
+- `(guide shape color)` Draws a shape on the guide layer.
 - `(clear ~rect)` Clears a rect.
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
@@ -68,7 +68,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
 - `(crop rect)` Crop canvas to rect.
 - `(clone a b)` 
-- `(drag x y ~rect)` 
+- `(drag ~rect)` 
 - `(theme variable ~el)` 
 - `(pixels rect fn q)` 
 - `(saturation pixel ~q)` 

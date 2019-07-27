@@ -121,15 +121,15 @@ function Surface (ronin) {
 
   // IO
 
-  this.open = function (path) {
+  this.open = function (path, ratio = 1) {
     return new Promise(resolve => {
       const img = new Image()
       img.src = path
       img.onload = () => {
-        ronin.log(`Open ${img.width}x${img.height}`)
-        const rect = { x: 0, y: 0, w: img.width, h: img.height }
+        const rect = { x: 0, y: 0, w: parseInt(img.width * ratio), h: parseInt(img.height * ratio) }
+        ronin.log(`Open ${rect.w}x${rect.h}`)
         this.resize(rect, true)
-        this.context.drawImage(img, 0, 0, img.width, img.height)
+        this.context.drawImage(img, 0, 0, rect.w, rect.h)
         resolve()
       }
     })
