@@ -172,28 +172,41 @@ function Library (ronin) {
 
   // Pixels
 
-  this.pixels = (rect, fn, q) => {
+  this.pixels = (rect, fn, q = 1) => {
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = { r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] }
       const processed = fn(pixel, q)
-      img.data[i] = processed[0]
-      img.data[i + 1] = processed[1]
-      img.data[i + 2] = processed[2]
-      img.data[i + 3] = processed[3]
+      img.data[i] = this.clamp(parseInt(processed[0]), 0, 255)
+      img.data[i + 1] = this.clamp(parseInt(processed[1]), 0, 255)
+      img.data[i + 2] = this.clamp(parseInt(processed[2]), 0, 255)
+      img.data[i + 3] = this.clamp(parseInt(processed[3]), 0, 255)
     }
     ronin.surface.context.putImageData(img, rect.x, rect.y)
     return rect
   }
 
-  this.saturation = (pixel, q = 1) => {
+  this.saturation = (pixel, q) => { // Change the saturation of pixels.
     const color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
     return [(color * (1 - q)) + (pixel.r * q), (color * (1 - q)) + (pixel.g * q), (color * (1 - q)) + (pixel.b * q), pixel.a]
   }
 
-  this.contrast = (pixel, q = 1) => {
+  this.contrast = (pixel, q) => { // Change the contrast of pixels.
     const intercept = 128 * (1 - q)
     return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
+  }
+
+  this.brightness = (pixel, q) => { // Change the brightness of pixels.
+    const range = 255 - -q
+    return [((pixel.r / 255) * range), ((pixel.g / 255) * range), ((pixel.b / 255) * range), pixel.a]
+  }
+
+  this.condense = (pixel, q) => { // Condense the data of pixels.
+    return [pixel.r + q, pixel.g + q, pixel.b + q, pixel.a]
+  }
+
+  this.balance = (pixel, q) => { // Change the color balance of pixels.
+    return [pixel.r * q[0], pixel.g * q[1], pixel.b * q[2], pixel.a]
   }
 
   // Strings

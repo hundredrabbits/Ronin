@@ -70,9 +70,12 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(clone a b)` 
 - `(drag ~rect)` 
 - `(theme variable ~el)` 
-- `(pixels rect fn q)` 
-- `(saturation pixel ~q)` 
-- `(contrast pixel ~q)` 
+- `(pixels rect fn ~q)` 
+- `(saturation pixel q)` Change the saturation of pixels.
+- `(contrast pixel q)` Change the contrast of pixels.
+- `(brightness pixel q)` Change the brightness of pixels.
+- `(condense pixel q)` Condense the data of pixels.
+- `(balance pixel q)` Change the color balance of pixels.
 - `(concat ...items)` Concat multiple strings.
 - `(add ...args)` Adds values.
 - `(sub ...args)` Subtracts values.
