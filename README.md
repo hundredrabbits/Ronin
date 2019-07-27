@@ -33,8 +33,6 @@ npm start
 
 ## Library
 
-Additional functions can be found in the [includes](https://github.com/hundredrabbits/Ronin/tree/master/desktop/sources/lisp), you can also look at the [examples](https://github.com/hundredrabbits/Ronin/tree/master/examples) to see them in action.
-
 - `(import path shape)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
 - `(open path)` Imports a graphic file and resizes the frame.

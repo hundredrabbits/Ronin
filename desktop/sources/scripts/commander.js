@@ -213,15 +213,15 @@ function Commander (ronin) {
 
   // Splash
 
-  this.splash = `; welcome to ronin - v2.2
+  this.splash = `; welcome to ronin - v2.21
 (clear) 
-(def align { :x 
-  (sub frame-rect:c 150) :y 
-  (sub frame-rect:m 150)})
-; outline 
+(def frame-rect 
+  (frame))
+(def align { 
+  :x (sub (div frame-rect:c 2) 150) 
+  :y (sub frame-rect:m 150)})
 (fill 
   (svg align:x align:y "M15,15 L15,15 L285,15 L285,285 L15,285 Z") "#fff")
-; stroke
 (stroke 
   (svg align:x align:y "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ") 5 "#000")`
 

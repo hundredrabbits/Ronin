@@ -162,7 +162,6 @@ function Library (ronin) {
     this.guide({ a: { x: rect.x, y: rect.y }, b: { x: pos.x + rect.x, y: pos.y + rect.y } })
     this.guide(rect)
     this.guide(this.offset(rect, { x: pos.x, y: pos.y }))
-
     ronin.surface.context.drawImage(crop, rect.x, rect.y)
   }
 

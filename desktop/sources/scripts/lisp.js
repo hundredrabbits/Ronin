@@ -1,6 +1,6 @@
 'use strict'
 
-function Lisp (lib = {}, includes = []) {
+function Lisp (lib = {}) {
   const path = require('path')
   const fs = require('fs')
 
@@ -178,21 +178,12 @@ function Lisp (lib = {}, includes = []) {
       .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
   }
 
-  this.inc = function () {
-    return includes.reduce((acc, item) => {
-      const p = path.join(__dirname, `lisp/${item}.lisp`)
-      if (!fs.existsSync(p)) { console.warn('Lisp', `Missing include: ${p}`); return acc }
-      return `${acc}(include "${p}") `
-    }, '')
-  }
-
   this.parse = function (input) {
     return parenthesize(tokenize(input))
   }
 
   this.run = async function (input) {
     return interpret(this.parse(`(
-      ${this.inc()}
       ${input})`))
   }
 }
