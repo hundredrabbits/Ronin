@@ -35,9 +35,9 @@
   (test "range simple" (range 0 4) (0 1 2 3 4))
   (test "range with step" (range 0 4 2) (0 2 4))
   (test "range with negative step" (range 0 -4 -1) (0 -1 -2 -3 -4))
-  (test "map" (map (λ (a) (add 1 a)) (1 2 3)) (2 3 4))
-  (test "filter" (filter (λ (a) (eq 0 (mod a 2))) (2 3 4 5 6)) (2 4 6))
-  (test "reduce" (reduce (λ (acc val) (add acc val)) (1 2 3) 4) 10)
+  (test "map" (map (1 2 3) (λ (a) (add 1 a))) (2 3 4))
+  (test "filter" (filter (2 3 4 5 6)) (λ (a) (eq 0 (mod a 2))) (2 4 6))
+  (test "reduce" (reduce (1 2 3) (λ (acc val) (add acc val)) 4) 10)
 
 ; Scope
 

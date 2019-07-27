@@ -16,11 +16,11 @@
 
 (defn dejong (r a b c d)
   (reduce  
+    (range 0 r)
     (λ (acc val)
       (first (
         (_dejong (first acc) (last acc) a b c d)
       )))
-    (range 0 r)
     (2 1)
   )
 )

@@ -77,6 +77,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(condense pixel q)` Condense the data of pixels.
 - `(balance pixel q)` Change the color balance of pixels.
 - `(concat ...items)` Concat multiple strings.
+- `(split string char)` Split string at character.
 - `(add ...args)` Adds values.
 - `(sub ...args)` Subtracts values.
 - `(mul ...args)` Multiplies values.
@@ -102,9 +103,10 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(eq a b)` Returns true if a is equal to b, else false.
 - `(and a b ...rest)` Returns true if all conditions are true.
 - `(or a b ...rest)` Returns true if at least one condition is true.
-- `(map fn arr)` 
-- `(filter fn arr)` 
-- `(reduce fn arr acc)` 
+- `(each arr fn)` Run a function for each element in a list.
+- `(map arr fn)` Run a function on each element in a list.
+- `(filter arr fn)` Remove from list, when function returns false.
+- `(reduce arr fn acc)` 
 - `(len item)` Returns the length of a list.
 - `(first arr)` Returns the first item of a list.
 - `(last arr)` Returns the last
@@ -124,9 +126,8 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(dirpath ~path)` Returns the path of a directory.
 - `(filepath ~path)` Returns the path of a file.
 - `(exit ~force)` Exits Ronin.
-- `(echo ...args)` 
-- `(table arg)` 
-- `(debug arg)` 
+- `(echo ...args)` Print arguments to interface.
+- `(debug arg)` Print arguments to console.
 - `(time ~rate)` Returns timestamp in milliseconds.
 - `(js)` Javascript interop.
 - `(on event f)` Triggers on event.

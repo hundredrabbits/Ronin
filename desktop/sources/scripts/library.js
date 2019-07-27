@@ -215,6 +215,10 @@ function Library (ronin) {
     return items.reduce((acc, item) => { return `${acc}${item}` }, '')
   }
 
+  this.split = function (string, char) { // Split string at character.
+    return string.split(char)
+  }
+
   // Math
 
   this.add = (...args) => { // Adds values.
@@ -320,14 +324,21 @@ function Library (ronin) {
 
   // Arrays
 
-  this.map = async (fn, arr) => {
+  this.each = async (arr, fn) => { // Run a function for each element in a list.
     for (let i = 0; i < arr.length; i++) {
       const arg = arr[i]
       await fn(arg)
     }
   }
 
-  this.filter = (fn, arr) => {
+  this.map = async (arr, fn) => { // Run a function on each element in a list.
+    for (let i = 0; i < arr.length; i++) {
+      const arg = arr[i]
+      arr[i] = await fn(arg)
+    }
+  }
+
+  this.filter = (arr, fn) => { // Remove from list, when function returns false.
     const list = Array.from(arr)
     return Promise.all(list.map((element, index) => fn(element, index, list)))
       .then(result => {
@@ -337,7 +348,7 @@ function Library (ronin) {
       })
   }
 
-  this.reduce = async (fn, arr, acc) => {
+  this.reduce = async (arr, fn, acc) => {
     const length = arr.length
     let result = acc === undefined ? subject[0] : acc
     for (let i = acc === undefined ? 1 : 0; i < length; i++) {
@@ -463,17 +474,12 @@ function Library (ronin) {
     ronin.source.quit(force)
   }
 
-  this.echo = (...args) => {
+  this.echo = (...args) => { // Print arguments to interface.
     ronin.log(args)
     return args
   }
 
-  this.table = (arg) => {
-    console.table(arg)
-    return arg
-  }
-
-  this.debug = (arg) => {
+  this.debug = (arg) => { // Print arguments to console.
     console.log(arg)
     return arg
   }
