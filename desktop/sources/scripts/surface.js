@@ -179,14 +179,14 @@ function Surface (ronin) {
 
   this.drawGuide = function (shape, color = 'white', context = this.guide) {
     if (!shape) { return }
-    this.stroke(shape.rect || shape, 4, 'black', context)
-    if (shape.pos) { this.stroke(shape.pos, 4, 'black', context) }
-    if (shape.line) { this.stroke(shape.line, 4, 'black', context) }
-    if (shape.circle) { this.stroke(shape.circle, 4, 'black', context) }
-    this.stroke(shape.rect || shape, 1.5, color, context)
-    if (shape.pos) { this.stroke(shape.pos, 1.5, color, context) }
-    if (shape.line) { this.stroke(shape.line, 1.5, color, context) }
-    if (shape.circle) { this.stroke(shape.circle, 1.5, color, context) }
+    this.stroke(shape.rect || shape, 'black', 4, context)
+    if (shape.pos) { this.stroke(shape.pos, 'black', 4, context) }
+    if (shape.line) { this.stroke(shape.line, 'black', 4, context) }
+    if (shape.circle) { this.stroke(shape.circle, 'black', 4, context) }
+    this.stroke(shape.rect || shape, color, 1.5, context)
+    if (shape.pos) { this.stroke(shape.pos, color, 1.5, context) }
+    if (shape.line) { this.stroke(shape.line, color, 1.5, context) }
+    if (shape.circle) { this.stroke(shape.circle, color, 1.5, context) }
   }
 
   this.clone = function (a, b) {

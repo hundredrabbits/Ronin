@@ -213,7 +213,7 @@ function Commander (ronin) {
 
   // Splash
 
-  this.splash = `; welcome to ronin - v2.21
+  this.splash = `; welcome to ronin - v2.23
 (clear) 
 (def frame-rect 
   (frame))
