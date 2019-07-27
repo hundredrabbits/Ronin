@@ -167,14 +167,14 @@ function Surface (ronin) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
 
-  this.drawGuide = function (shape, context = this.guide) {
+  this.drawGuide = function (shape, color = 'white', context = this.guide) {
     if (!shape) { return }
     this.stroke(shape.rect || shape, 3, 'black', context)
     if (shape.line) { this.stroke(shape.line, 3, 'black', context) }
     if (shape.circle) { this.stroke(shape.circle, 3, 'black', context) }
-    this.stroke(shape.rect || shape, 1.5, 'white', context)
-    if (shape.line) { this.stroke(shape.line, 1.5, 'white', context) }
-    if (shape.circle) { this.stroke(shape.circle, 1.5, 'white', context) }
+    this.stroke(shape.rect || shape, 1.5, color, context)
+    if (shape.line) { this.stroke(shape.line, 1.5, color, context) }
+    if (shape.circle) { this.stroke(shape.circle, 1.5, color, context) }
   }
 
   this.clone = function (a, b) {

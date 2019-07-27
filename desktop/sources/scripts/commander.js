@@ -139,12 +139,12 @@ function Commander (ronin) {
       this._input.value = this.cache.replace('$circle', `(circle ${circle.cx} ${circle.cy} ${circle.r})`)
     } else if (word.substr(0, 4) === 'drag' && shape.line) {
       const rect = shape.rect
-      this._input.value = this.cache.replace('$drag', `(drag ${rect.w} ${rect.h})`)
-      this.run()
+      this._input.value = this.cache.replace('$drag', `(drag (rect ${rect.x} ${rect.y} ${rect.w} ${rect.h}) $line)`)
     }
     if (end === true) {
       this.cache = this._input.value
     }
+    this.run()
   }
 
   // Display

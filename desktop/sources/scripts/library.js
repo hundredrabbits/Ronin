@@ -54,7 +54,7 @@ function Library (ronin) {
 
   // Shapes
 
-  this.pos = (x, y) => { // Returns a position shape.
+  this.pos = (x = 0, y = 0) => { // Returns a position shape.
     return { x, y }
   }
 
@@ -104,8 +104,8 @@ function Library (ronin) {
     return ronin.surface.linearGradient(line.a.x, line.a.y, line.b.x, line.b.y, colors)
   }
 
-  this.guide = (shape) => { // Draws a shape on the guide layer.
-    ronin.surface.drawGuide(shape)
+  this.guide = (shape, color) => { // Draws a shape on the guide layer.
+    ronin.surface.drawGuide(shape, color)
     return shape
   }
 
@@ -155,10 +155,15 @@ function Library (ronin) {
     return [a, b]
   }
 
-  this.drag = (x, y, rect = this.frame()) => {
-    this.guide({ a: { x: rect.x, y: rect.y }, b: { x: x + rect.x, y: y + rect.y } })
+  this.drag = (rect = this.frame(), line = this.line()) => {
+    const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
+    const crop = ronin.surface.getCrop(rect)
+    ronin.surface.clear(rect)
+    this.guide({ a: { x: rect.x, y: rect.y }, b: { x: pos.x + rect.x, y: pos.y + rect.y } })
     this.guide(rect)
-    this.guide(this.offset(rect, { x, y }))
+    this.guide(this.offset(rect, { x: pos.x, y: pos.y }))
+
+    ronin.surface.context.drawImage(crop, rect.x, rect.y)
   }
 
   this.theme = (variable, el = document.documentElement) => {
