@@ -119,7 +119,7 @@ function Commander (ronin) {
     this._input.value = this._input.value.replace('$path', `"${path}"`)
   }
 
-  this.commit = function (shape, end = false) {
+  this.commit = function (shape, end = false, run = false) {
     if (this.cache.indexOf('$') < 0) { return }
     const segs = this.cache.split('$')
     const seg = segs[1]
@@ -144,7 +144,9 @@ function Commander (ronin) {
     if (end === true) {
       this.cache = this._input.value
     }
-    this.run()
+    if (run === true) {
+      this.run()
+    }
   }
 
   // Display

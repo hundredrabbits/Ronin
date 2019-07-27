@@ -27,6 +27,10 @@ npm start
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>
 
+## Buttons
+
+- Holding right-click while using $helpers will run the script as the mouse is used.
+
 ## Library
 
 Additional functions can be found in the [includes](https://github.com/hundredrabbits/Ronin/tree/master/desktop/sources/lisp), you can also look at the [examples](https://github.com/hundredrabbits/Ronin/tree/master/examples) to see them in action.
