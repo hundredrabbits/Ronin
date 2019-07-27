@@ -81,12 +81,11 @@ function Surface (ronin) {
   this.trace = function (shape, context) {
     if (isRect(shape)) {
       this.traceRect(shape, context)
+    } else if (isPos(shape)) {
+      this.tracePos(shape, context)
     }
     if (isLine(shape)) {
       this.traceLine(shape, context)
-    }
-    if (isPos(shape)) {
-      this.tracePos(shape, context)
     }
     if (isCircle(shape)) {
       this.traceCircle(shape, context)
