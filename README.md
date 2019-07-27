@@ -27,9 +27,14 @@ npm start
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>
 
-## Buttons
+## Helpers
 
-- Holding right-click while using $helpers will run the script as the mouse is used.
+Ronin helpers are keywords that facilitates adding coordinates from the canvas into your script. The currently supported helpers are `$rect`, `$pos`, `$circle`, `$line` and `$drag`. Holding right-click while using a $helper will run the script as the mouse is injecting coordinates into the script. Paste the following script, and trace a shape in the canvas:
+
+```lisp
+; draw a red circle
+(fill $circle "red")
+```
 
 ## Library
 
