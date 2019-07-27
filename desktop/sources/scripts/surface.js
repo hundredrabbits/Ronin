@@ -85,6 +85,9 @@ function Surface (ronin) {
     if (isLine(shape)) {
       this.traceLine(shape, context)
     }
+    if (isPos(shape)) {
+      this.tracePos(shape, context)
+    }
     if (isCircle(shape)) {
       this.traceCircle(shape, context)
     } else if (isText(shape)) {
@@ -105,6 +108,14 @@ function Surface (ronin) {
   this.traceLine = function (line, context) {
     context.moveTo(line.a.x, line.a.y)
     context.lineTo(line.b.x, line.b.y)
+  }
+
+  this.tracePos = function (pos, context, radius = 7.5) {
+    context.lineCap = 'round'
+    context.moveTo(pos.x - radius, pos.y)
+    context.lineTo(pos.x + radius, pos.y)
+    context.moveTo(pos.x, pos.y - radius)
+    context.lineTo(pos.x, pos.y + radius)
   }
 
   this.traceCircle = function (circle, context) {
@@ -169,10 +180,12 @@ function Surface (ronin) {
 
   this.drawGuide = function (shape, color = 'white', context = this.guide) {
     if (!shape) { return }
-    this.stroke(shape.rect || shape, 3, 'black', context)
-    if (shape.line) { this.stroke(shape.line, 3, 'black', context) }
-    if (shape.circle) { this.stroke(shape.circle, 3, 'black', context) }
+    this.stroke(shape.rect || shape, 4, 'black', context)
+    if (shape.pos) { this.stroke(shape.pos, 4, 'black', context) }
+    if (shape.line) { this.stroke(shape.line, 4, 'black', context) }
+    if (shape.circle) { this.stroke(shape.circle, 4, 'black', context) }
     this.stroke(shape.rect || shape, 1.5, color, context)
+    if (shape.pos) { this.stroke(shape.pos, 1.5, color, context) }
     if (shape.line) { this.stroke(shape.line, 1.5, color, context) }
     if (shape.circle) { this.stroke(shape.circle, 1.5, color, context) }
   }
@@ -265,6 +278,9 @@ function Surface (ronin) {
   }
   function isCircle (shape) {
     return !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r)
+  }
+  function isPos (shape) {
+    return !isNaN(shape.x) && !isNaN(shape.y)
   }
   function isSvg (shape) {
     return shape.d
