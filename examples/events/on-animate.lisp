@@ -34,11 +34,11 @@
         (elevation 
           (sub i 1)) 
         (add x seg-width) 
-        (elevation i)) 4 
+        (elevation i))
       (gradient 
         (line 50 0 
           frame-rect:w 0) 
-        ("#ffb545" "#72dec2")))))
+        ("#ffb545" "#72dec2")) 4 )))
 ;
 (defn redraw 
   () 

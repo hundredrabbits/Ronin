@@ -80,14 +80,14 @@ In Ronin, a shape is either a `(rect)`, a `(line)`, a `(circle)` or a `(pos)`. T
 
 ```lisp
 (stroke 
-  (rect 100 100 300 200) 10 "red")
+  (rect 100 100 300 200) "red" 10)
 ```
 
 Or, if you would like to trace the shape with your mouse:
 
 ```lisp
 (stroke 
-  $rect 10 "red")
+  $rect "red" 10)
 ```
 
 ### Fill

@@ -25,7 +25,7 @@ function Surface (ronin) {
 
   // Shape
 
-  this.stroke = (shape, width, color, context = this.context) => {
+  this.stroke = (shape, color, width, context = this.context) => {
     context.beginPath()
     this.trace(shape, context)
     context.lineWidth = width

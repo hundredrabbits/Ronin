@@ -9,14 +9,14 @@
 
 ; draw circle
 (stroke 
-  (circle center-w center-h rad) 2 "white")
+  (circle center-w center-h rad) "white" 2)
 
 ; draw rect
 (stroke 
   (rect 
-    (sub center-w rad) (sub center-h rad) center-h center-h) 2 "white")
+    (sub center-w rad) (sub center-h rad) center-h center-h) "white" 2)
 
 ; draw line
 (stroke 
   (line (sub center-w rad) center-h (add center-w rad) center-h))
-(stroke (text 10 170 200 "HELL") 2 "pink")
+(stroke (text 10 170 200 "HELL") "pink" 2)

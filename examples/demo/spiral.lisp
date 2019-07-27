@@ -9,7 +9,7 @@
       (def spiral-y (add frame-rect:m (mul (sin (div v 11)) (div v 2))))
       (def spiral-r (div v 2))
       ; draw
-      (stroke (circle spiral-x spiral-y spiral-r) 1 "rgba(114,222,194,0.1)") (rec (sub v 0.3))))) 
+      (stroke (circle spiral-x spiral-y spiral-r) "rgba(114,222,194,0.1)" 1) (rec (sub v 0.3))))) 
 ;
 (defn redraw () (
   (clear) 

@@ -7,7 +7,7 @@
     (
       (scale 0.95) 
       (stroke 
-        (line 0 0 100 100) 2 "white") 
+        (line 0 0 100 100) "white" 2) 
       (move 100 100) 
       (pushTransform) 
       (rotate 

@@ -9,7 +9,7 @@
   (e) 
   (
     (stroke 
-      (circle e:x e:y e:d) 1 
+      (circle e:x e:y e:d) 
       (gradient gradient-line 
         ("black" "#ffb545")))))
 ;

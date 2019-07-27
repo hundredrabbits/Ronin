@@ -90,8 +90,8 @@ function Library (ronin) {
 
   // Actions
 
-  this.stroke = (shape = this.frame(), thickness, color) => { // Strokes a shape.
-    ronin.surface.stroke(shape, thickness, color)
+  this.stroke = (shape, color, thickness = 2) => { // Strokes a shape.
+    ronin.surface.stroke(shape, color, thickness)
     return shape
   }
 

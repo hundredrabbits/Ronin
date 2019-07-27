@@ -11,7 +11,7 @@ Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" targ
 ```lisp
 ; draw a red square
 (stroke 
-  (rect 30 30 100 100) 2 "red")
+  (rect 30 30 100 100) "red" 2)
 ```
 
 ## Install & Run
@@ -57,7 +57,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(text x y p t ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
 - `(offset a b)` Returns the offset between two pos.
-- `(stroke ~shape)` Strokes a shape.
+- `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
 - `(guide shape color)` Draws a shape on the guide layer.

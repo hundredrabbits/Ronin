@@ -223,7 +223,7 @@ function Commander (ronin) {
 (fill 
   (svg align:x align:y "M15,15 L15,15 L285,15 L285,285 L15,285 Z") "#fff")
 (stroke 
-  (svg align:x align:y "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ") 5 "#000")`
+  (svg align:x align:y "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ") "#000" 5)`
 
   String.prototype.insert = function (s, i) { return [this.slice(0, i), `${s}`, this.slice(i)].join('') }
 }

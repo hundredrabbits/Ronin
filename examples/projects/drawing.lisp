@@ -17,7 +17,7 @@
       (
         (debug e:is-down) 
         (stroke 
-          (line prev-pos:x prev-pos:y e:x e:y) 2 "white") 
+          (line prev-pos:x prev-pos:y e:x e:y) "white") 
         (set prev-pos "x" e:x "y" e:y) 
         (debug prev-pos) 
         (debug e)))))
@@ -29,7 +29,7 @@
     (set prev-pos "x" e:x "y" e:y) 
     (debug e:x) 
     (stroke 
-      (circle e:x e:y 10) 4 
+      (circle e:x e:y 10) 
       (stroke-color e))))
 ;
 (on "mouse-down" draw-circle)

@@ -29,7 +29,7 @@
   (
     (stroke 
       (line cx cy (:x (circle-pos cx cy r a)) (:y (circle-pos cx cy r a))
-        ) 2 "white")))
+        ) "white" 2)))
 ;
 (defn draw-star 
   (cx cy r c) 
