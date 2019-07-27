@@ -82,6 +82,12 @@ function Library (ronin) {
     return { x, y, d }
   }
 
+  this.offset = (a, b) => { // Returns the offset between two pos.
+    a.x += b.x
+    a.y += b.y
+    return a
+  }
+
   // Actions
 
   this.stroke = (shape = this.frame(), thickness, color) => { // Strokes a shape.
@@ -147,6 +153,12 @@ function Library (ronin) {
   this.clone = (a, b) => {
     ronin.surface.clone(a, b)
     return [a, b]
+  }
+
+  this.drag = (x, y, rect = this.frame()) => {
+    this.guide({ a: { x: rect.x, y: rect.y }, b: { x: x + rect.x, y: y + rect.y } })
+    this.guide(rect)
+    this.guide(this.offset(rect, { x, y }))
   }
 
   this.theme = (variable, el = document.documentElement) => {

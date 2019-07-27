@@ -49,6 +49,7 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(line ax ay bx by)` Returns a line shape.
 - `(text x y p t ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
+- `(offset a b)` Returns the offset between two pos.
 - `(stroke ~shape)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
@@ -60,6 +61,7 @@ Additional functions can be found in the [includes](https://github.com/hundredra
 - `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
 - `(crop rect)` Crop canvas to rect.
 - `(clone a b)` 
+- `(drag x y ~rect)` 
 - `(theme variable ~el)` 
 - `(pixels rect fn q)` 
 - `(saturation pixel ~q)` 

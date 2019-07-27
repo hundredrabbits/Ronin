@@ -137,6 +137,10 @@ function Commander (ronin) {
     } else if (word.substr(0, 6) === 'circle' && shape.circle) {
       const circle = shape.circle
       this._input.value = this.cache.replace('$circle', `(circle ${circle.cx} ${circle.cy} ${circle.r})`)
+    } else if (word.substr(0, 4) === 'drag' && shape.line) {
+      const rect = shape.rect
+      this._input.value = this.cache.replace('$drag', `(drag ${rect.w} ${rect.h})`)
+      this.run()
     }
     if (end === true) {
       this.cache = this._input.value
@@ -209,34 +213,6 @@ function Commander (ronin) {
 
   this.splash = `; welcome to ronin - v2.2
 (clear) 
-; ronin path 
-(defn rec 
-  (v) 
-  (if 
-    (gt v 0) 
-    ( 
-      ; params 
-      (def spiral-x 
-        (add frame-rect:c 
-          (mul 
-            (cos 
-              (add 
-                (div v 17) 
-                (time 0.001))) 
-            (div v 2)))) 
-      (def spiral-y 
-        (add frame-rect:m 
-          (mul 
-            (sin 
-              (div v 11)) 
-            (div v 2)))) 
-      (def spiral-r v) 
-      ; draw 
-      (stroke 
-        (circle spiral-x spiral-y spiral-r) 1 "#72dec211") 
-      (rec 
-        (sub v 0.3))))) 
-(rec 300)
 (def align { :x 
   (sub frame-rect:c 150) :y 
   (sub frame-rect:m 150)})

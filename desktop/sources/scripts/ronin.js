@@ -118,12 +118,10 @@ function Ronin () {
 
   this.onMouseOver = (e) => {
     this.mouseOrigin = null
-    this.surface.clearGuide()
   }
 
   this.onMouseOut = (e) => {
     this.mouseOrigin = null
-    this.surface.clearGuide()
   }
 
   this.mouseShape = (position, type) => {
