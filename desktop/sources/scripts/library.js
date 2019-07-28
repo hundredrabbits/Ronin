@@ -155,7 +155,7 @@ function Library (ronin) {
     return [a, b]
   }
 
-  this.drag = (rect = this.frame(), line = this.line()) => {
+  this.drag = (rect = this.frame(), line = this.line()) => { // Drag a part of the canvas.
     const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
     const crop = ronin.surface.getCrop(rect)
     ronin.surface.clear(rect)
@@ -163,6 +163,13 @@ function Library (ronin) {
     this.guide(rect)
     this.guide(this.offset(rect, { x: pos.x, y: pos.y }))
     ronin.surface.context.drawImage(crop, rect.x, rect.y)
+  }
+
+  this.view = (a, b) => { // View a part of the canvas.
+    this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
+    this.guide(a)
+    this.guide(b)
+    ronin.surface.context.drawImage(ronin.surface.getCrop(a), b.x, b.y, b.w, b.h)
   }
 
   this.theme = (variable, el = document.documentElement) => {

@@ -130,6 +130,8 @@ function Commander (ronin) {
     this._input.value = this._input.value.replace('$path', `"${path}"`)
   }
 
+  // Helpers
+
   this.commit = function (shape, end = false, run = false) {
     if (this.cache.indexOf('$') < 0) { return }
     const segs = this.cache.split('$')
@@ -151,6 +153,9 @@ function Commander (ronin) {
     } else if (word.substr(0, 4) === 'drag' && shape.line) {
       const rect = shape.rect
       this._input.value = this.cache.replace('$drag', `(drag (rect ${rect.x} ${rect.y} ${rect.w} ${rect.h}) $line)`)
+    } else if (word.substr(0, 4) === 'view' && shape.line) {
+      const rect = shape.rect
+      this._input.value = this.cache.replace('$view', `(view (rect ${rect.x} ${rect.y} ${rect.w} ${rect.h}) $rect)`)
     }
     if (end === true) {
       this.cache = this._input.value
