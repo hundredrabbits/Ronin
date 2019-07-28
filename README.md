@@ -62,13 +62,16 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(gradient line ~colors 'black'])` Defines a gradient color.
 - `(guide shape color)` Draws a shape on the guide layer.
 - `(clear ~rect)` Clears a rect.
+- `(rgba r g b ~a)` Defines a color r, g, b values are from 0 to 255, a from 0 to 1
+- `(hsla h s l ~a)` Defines a color h from 0 to 360, s and l from 0 to 100, a from 0 to 1
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
 - `(resize w h ~fit)` Resizes the canvas to target w and h, returns the rect.
 - `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
 - `(crop rect)` Crop canvas to rect.
 - `(clone a b)` 
-- `(drag ~rect)` 
+- `(drag ~rect)` Drag a part of the canvas.
+- `(view a b)` View a part of the canvas.
 - `(theme variable ~el)` 
 - `(pixels rect fn ~q)` 
 - `(saturation pixel q)` Change the saturation of pixels.
@@ -88,13 +91,13 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(min)` 
 - `(max)` 
 - `(ceil)` 
-- `(floor)` round down to the nearest integer.
+- `(floor)` Round down to the nearest integer.
 - `(sin)` 
 - `(cos)` 
-- `(log)` caclulates on the base of e.
-- `(pow a b)` calculates a^b.
-- `(sqrt)` calculate the square root.
-- `(sq a)` calculate the square.
+- `(log)` Caclulates on the base of e.
+- `(pow a b)` Calculates a^b.
+- `(sqrt)` Calculate the square root.
+- `(sq a)` Calculate the square.
 - `(PI)` 
 - `(TWO_PI)` 
 - `(random ...args)` 
@@ -132,7 +135,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(js)` Javascript interop.
 - `(on event f)` Triggers on event.
 - `(test name a b)` 
-- `(benchmark fn)` logs time taken to execute a function.
+- `(benchmark fn)` Logs time taken to execute a function.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW2.jpg' width='600'/>
 

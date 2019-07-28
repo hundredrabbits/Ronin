@@ -117,15 +117,13 @@ function Library (ronin) {
 
   // colors
 
-  this.rgba = (r, g, b, a) => { // defines a color r, g, b values are from 0 to 255, a from 0 to 1
-     return "rgba("+r+","+g+","+b+","+a+")";
+  this.rgba = (r, g, b, a = 1) => { // Defines a color r, g, b values are from 0 to 255, a from 0 to 1
+    return `rgba(${r},${g},${b},${a})`
   }
 
-
-  this.hsla = (h, s, l, a) => { // defines a color h from 0 to 360, s and l from 0 to 100, a from 0 to 1
-     return "hsla("+h+","+s+"%,"+l+"%,"+a+")";
+  this.hsla = (h, s, l, a = 1) => { // Defines a color h from 0 to 360, s and l from 0 to 100, a from 0 to 1
+    return `hsla(${h},${s}%,${l}%,${a})`
   }
-
 
   // Frame
 
@@ -274,21 +272,21 @@ function Library (ronin) {
 
   this.ceil = Math.ceil
 
-  this.floor = Math.floor // round down to the nearest integer.
+  this.floor = Math.floor // Round down to the nearest integer.
 
   this.sin = Math.sin
 
   this.cos = Math.cos
 
-  this.log = Math.log // caclulates on the base of e.
+  this.log = Math.log // Caclulates on the base of e.
 
-  this.pow = (a, b) => { // calculates a^b.
+  this.pow = (a, b) => { // Calculates a^b.
     return Math.pow(a, b)
   }
 
-  this.sqrt = Math.sqrt // calculate the square root.
+  this.sqrt = Math.sqrt // Calculate the square root.
 
-  this.sq = (a) => { // calculate the square.
+  this.sq = (a) => { // Calculate the square.
     return a * a
   }
 
@@ -524,7 +522,7 @@ function Library (ronin) {
     return a === b
   }
 
-  this.benchmark = async (fn) => { // logs time taken to execute a function.
+  this.benchmark = async (fn) => { // Logs time taken to execute a function.
     const start = Date.now()
     const result = await fn()
     console.log(`time taken: ${Date.now() - start}ms`)
