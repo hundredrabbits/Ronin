@@ -82,7 +82,8 @@ function Commander (ronin) {
       // console.log(msg)
     }
     // Source
-    const _source = `${ronin.source}[${this._input.value.split('\n').length}]`
+    const rect = ronin.surface.getFrame()
+    const _source = `${ronin.source}[${this._input.value.split('\n').length}]\n${rect.w}x${rect.h}`
     if (_source !== this._source.textContent) {
       this._source.textContent = _source
     }

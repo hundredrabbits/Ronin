@@ -137,7 +137,6 @@ function Surface (ronin) {
       img.src = path
       img.onload = () => {
         const rect = { x: 0, y: 0, w: parseInt(img.width * ratio), h: parseInt(img.height * ratio) }
-        ronin.log(`Open ${rect.w}x${rect.h}`)
         this.resize(rect, true)
         this.context.drawImage(img, 0, 0, rect.w, rect.h)
         resolve()
@@ -148,7 +147,6 @@ function Surface (ronin) {
   this.draw = function (img, shape = this.getFrame()) {
     return new Promise(resolve => {
       img.onload = () => {
-        ronin.log(`Draw ${img.width}x${img.height}`)
         if (isLine(shape)) {
           this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
         } else if (isRect(shape)) {
