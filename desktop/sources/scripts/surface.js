@@ -31,6 +31,7 @@ function Surface (ronin) {
     context.lineWidth = width
     context.strokeStyle = color
     if (isText(shape)) {
+      context.textAlign = shape.a
       context.font = `${shape.p}px ${shape.f}`
       context.strokeText(shape.t, shape.x, shape.y)
     } else if (isSvg(shape)) {
@@ -53,6 +54,8 @@ function Surface (ronin) {
     context.fillStyle = color
     this.trace(shape, context)
     if (isText(shape)) {
+      context.textAlign = shape.a
+      console.log(shape)
       context.font = `${shape.p}px ${shape.f}`
       context.fillText(shape.t, shape.x, shape.y)
     } else if (isSvg(shape)) {
@@ -293,7 +296,7 @@ function Surface (ronin) {
     return shape.d
   }
   function isText (shape) {
-    return !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.p) && shape.t && shape.f
+    return !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
   }
   function isLine (shape) {
     return shape.a && !isNaN(shape.a.x) && !isNaN(shape.a.y) && shape.b && !isNaN(shape.b.x) && !isNaN(shape.b.y)

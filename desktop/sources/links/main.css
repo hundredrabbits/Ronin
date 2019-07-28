@@ -21,3 +21,9 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 
 #ronin #guide { background:none; }
 #ronin #surface { border-radius: 2px }
+
+@media (min-width: 720px) {
+  #ronin #wrapper #commander { width:400px; }
+  #ronin.hidden #wrapper #commander { margin-left:-430px; }
+  #ronin #surface,#ronin #guide { left:430px; }
+}

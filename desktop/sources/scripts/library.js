@@ -74,8 +74,8 @@ function Library (ronin) {
     return { a: this.pos(ax, ay), b: this.pos(bx, by) }
   }
 
-  this.text = (x, y, p, t, f = 'Arial') => { // Returns a text shape.
-    return { x, y, p, t, f }
+  this.text = (x, y, p, t, a = 'left', f = 'Arial') => { // Returns a text shape.
+    return { x, y, p, t, a, f }
   }
 
   this.svg = (x, y, d) => { // Returns a svg shape.

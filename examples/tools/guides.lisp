@@ -1,6 +1,4 @@
-(clear)
 ; guides
-(fill (frame) "white")
 (def frame-rect (frame))
 (defn draw-cross 
   (pos) 
