@@ -115,6 +115,18 @@ function Library (ronin) {
     return rect
   }
 
+  // colors
+
+  this.rgba = (r, g, b, a) => { // defines a color r, g, b values are from 0 to 255, a from 0 to 1
+     return "rgba("+r+","+g+","+b+","+a+")";
+  }
+
+
+  this.hsla = (h, s, l, a) => { // defines a color h from 0 to 360, s and l from 0 to 100, a from 0 to 1
+     return "hsla("+h+","+s+"%,"+l+"%,"+a+")";
+  }
+
+
   // Frame
 
   this.frame = () => { // Returns a rect of the frame.
