@@ -56,7 +56,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(line ax ay bx by)` Returns a line shape.
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
-- `(offset a b)` Returns the offset between two pos.
+- `(offset a b)` Offsets pos a with pos b, returns a.
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
@@ -88,13 +88,13 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(mod a b)` Returns the modulo of a and b.
 - `(clamp val min max)` Clamps a value between min and max.
 - `(step val step)` 
-- `(min)` 
-- `(max)` 
-- `(ceil)` 
+- `(min)` Clamp value from.
+- `(max)` Clamp value at.
+- `(ceil)` Round up to the nearest integer.
 - `(floor)` Round down to the nearest integer.
 - `(sin)` 
 - `(cos)` 
-- `(log)` Caclulates on the base of e.
+- `(log)` Caclulates on the base.
 - `(pow a b)` Calculates a^b.
 - `(sqrt)` Calculate the square root.
 - `(sq a)` Calculate the square.

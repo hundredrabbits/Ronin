@@ -82,7 +82,7 @@ function Library (ronin) {
     return { x, y, d }
   }
 
-  this.offset = (a, b) => { // Returns the offset between two pos.
+  this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
     a.x += b.x
     a.y += b.y
     return a
@@ -266,11 +266,11 @@ function Library (ronin) {
     return Math.round(val / step) * step
   }
 
-  this.min = Math.min
+  this.min = Math.min // Clamp value from.
 
-  this.max = Math.max
+  this.max = Math.max // Clamp value at.
 
-  this.ceil = Math.ceil
+  this.ceil = Math.ceil // Round up to the nearest integer.
 
   this.floor = Math.floor // Round down to the nearest integer.
 
@@ -278,7 +278,7 @@ function Library (ronin) {
 
   this.cos = Math.cos
 
-  this.log = Math.log // Caclulates on the base of e.
+  this.log = Math.log // Caclulates on the base.
 
   this.pow = (a, b) => { // Calculates a^b.
     return Math.pow(a, b)
