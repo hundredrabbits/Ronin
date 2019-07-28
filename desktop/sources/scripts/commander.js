@@ -21,6 +21,11 @@ function Commander (ronin) {
     host.appendChild(this.el)
     this._input.addEventListener('input', this.onInput)
     this._input.addEventListener('click', this.onClick)
+
+    this._input.onkeydown = (e) => {
+      if (e.keyCode == 9 || e.which == 9) { e.preventDefault(); this.inject('  ') }
+    }
+
     this.docs.install()
   }
 
@@ -112,6 +117,11 @@ function Commander (ronin) {
   this.capture = function () {
     if (this._input.value.indexOf('$') < 0) { return }
     this.cache = this._input.value
+  }
+
+  this.inject = function (injection, at = this._input.selectionStart) {
+    this._input.value = this._input.value.substring(0, this._input.selectionStart) + injection + this._input.value.substring(this._input.selectionEnd)
+    this._input.selectionEnd = at + injection.length
   }
 
   this.injectPath = function (path) {
