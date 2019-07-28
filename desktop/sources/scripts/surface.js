@@ -154,6 +154,11 @@ function Surface (ronin) {
         } else if (isRect(shape)) {
           const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
           this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
+        } else if (isCircle(shape)) {
+          const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
+          const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
+          const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
+          this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
         } else {
           this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
         }
@@ -182,11 +187,16 @@ function Surface (ronin) {
     this.stroke(shape.rect || shape, 'black', 4, context)
     if (shape.pos) { this.stroke(shape.pos, 'black', 4, context) }
     if (shape.line) { this.stroke(shape.line, 'black', 4, context) }
-    if (shape.circle) { this.stroke(shape.circle, 'black', 4, context) }
+    if (shape.circle) {
+      this.stroke(shape.circle, 'black', 4, context)
+    }
+
     this.stroke(shape.rect || shape, color, 1.5, context)
     if (shape.pos) { this.stroke(shape.pos, color, 1.5, context) }
     if (shape.line) { this.stroke(shape.line, color, 1.5, context) }
-    if (shape.circle) { this.stroke(shape.circle, color, 1.5, context) }
+    if (shape.circle) {
+      this.stroke(shape.circle, color, 1.5, context)
+    }
   }
 
   this.clone = function (a, b) {

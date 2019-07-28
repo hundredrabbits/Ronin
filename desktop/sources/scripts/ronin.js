@@ -141,7 +141,8 @@ function Ronin () {
     const circle = {
       cx: this.mouseOrigin.x,
       cy: this.mouseOrigin.y,
-      r: d
+      r: d,
+      edge: { x: rect.x - rect.w, y: rect.y - rect.h, w: rect.w * 2, h: rect.h * 2 }
     }
     return { x, y, d, line, rect, pos, circle, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
