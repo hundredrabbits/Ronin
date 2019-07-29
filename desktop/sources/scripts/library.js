@@ -70,6 +70,10 @@ function Library (ronin) {
     return { cx, cy, r }
   }
 
+  this.ellipse = (cx, cy, rx, ry) => { // Returns a ellipse shape.
+    return { cx, cy, rx, ry }
+  }
+
   this.line = (ax, ay, bx, by) => { // Returns a line shape.
     return { a: this.pos(ax, ay), b: this.pos(bx, by) }
   }

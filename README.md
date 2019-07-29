@@ -53,6 +53,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(size w h)` Returns a size shape.
 - `(rect x y w h)` Returns a rect shape.
 - `(circle cx cy r)` Returns a circle shape.
+- `(ellipse cx cy rx ry)` Returns an ellipse shape.
 - `(line ax ay bx by)` Returns a line shape.
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
