@@ -156,6 +156,10 @@ function Commander (ronin) {
     } else if (word.substr(0, 4) === 'view' && shape.line) {
       const rect = shape.rect
       this._input.value = this.cache.replace('$view', `(view (rect ${rect.x} ${rect.y} ${rect.w} ${rect.h}) $rect)`)
+    } else if (word.substr(0, 1) === 'x' && shape.x) {
+      this._input.value = this.cache.replace('$x', `${shape.x}`)
+    } else if (word.substr(0, 1) === 'y' && shape.y) {
+      this._input.value = this.cache.replace('$y', `${shape.y}`)
     }
     if (end === true) {
       this.cache = this._input.value

@@ -182,6 +182,24 @@ function Library (ronin) {
     ronin.surface.context.drawImage(ronin.surface.getCrop(a), b.x, b.y, b.w, b.h)
   }
 
+  this.pick = (shape) => { // Pick the color of a pos or the average color of a rect.
+    const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
+    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const sum = [0, 0, 0]
+    const count = img.data.length / 4
+    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
+      sum[0] += img.data[i]
+      sum[1] += img.data[i + 1]
+      sum[2] += img.data[i + 2]
+    }
+    return this.color(sum[0] / count, sum[1] / count, sum[2] / count)
+  }
+
+  this.color = (r, g, b, a = 1) => {
+    const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
+    return { r, g, b, a, hex }
+  }
+
   this.theme = (variable, el = document.documentElement) => {
     // ex. (theme "f_main") -> :root { --f_main: "#fff" }
     return getComputedStyle(el).getPropertyValue(`--${variable}`)
@@ -192,7 +210,7 @@ function Library (ronin) {
   this.pixels = (rect, fn, q = 1) => {
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
-      const pixel = { r: img.data[i], g: img.data[i + 1], b: img.data[i + 2], a: img.data[i + 3] }
+      const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
       const processed = fn(pixel, q)
       img.data[i] = this.clamp(parseInt(processed[0]), 0, 255)
       img.data[i + 1] = this.clamp(parseInt(processed[1]), 0, 255)
@@ -204,26 +222,26 @@ function Library (ronin) {
   }
 
   this.saturation = (pixel, q) => { // Change the saturation of pixels.
-    const color = 0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b
-    return [(color * (1 - q)) + (pixel.r * q), (color * (1 - q)) + (pixel.g * q), (color * (1 - q)) + (pixel.b * q), pixel.a]
+    const color = 0.2126 * pixel[0] + 0.7152 * pixel[1] + 0.0722 * pixel[2]
+    return [(color * (1 - q)) + (pixel[0] * q), (color * (1 - q)) + (pixel[1] * q), (color * (1 - q)) + (pixel[2] * q), pixel[3]]
   }
 
   this.contrast = (pixel, q) => { // Change the contrast of pixels.
     const intercept = 128 * (1 - q)
-    return [pixel.r * q + intercept, pixel.g * q + intercept, pixel.b * q + intercept, pixel.a]
+    return [pixel[0] * q + intercept, pixel[1] * q + intercept, pixel[2] * q + intercept, pixel[3]]
   }
 
   this.brightness = (pixel, q) => { // Change the brightness of pixels.
     const range = 255 - -q
-    return [((pixel.r / 255) * range), ((pixel.g / 255) * range), ((pixel.b / 255) * range), pixel.a]
+    return [((pixel[0] / 255) * range), ((pixel[1] / 255) * range), ((pixel[2] / 255) * range), pixel[3]]
   }
 
   this.condense = (pixel, q) => { // Condense the data of pixels.
-    return [pixel.r + q, pixel.g + q, pixel.b + q, pixel.a]
+    return [pixel[0] + q, pixel[1] + q, pixel[2] + q, pixel[3]]
   }
 
   this.balance = (pixel, q) => { // Change the color balance of pixels.
-    return [pixel.r * q[0], pixel.g * q[1], pixel.b * q[2], pixel.a]
+    return [pixel[0] * q[0], pixel[1] * q[1], pixel[2] * q[2], pixel[3]]
   }
 
   // Strings
