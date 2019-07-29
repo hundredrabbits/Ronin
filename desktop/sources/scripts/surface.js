@@ -3,6 +3,7 @@ function Surface (ronin) {
   this.el.id = 'surface'
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
+  this._guide.setAttribute('tabindex', '1'); // focus is necessary to capture keyboard events
   this.ratio = window.devicePixelRatio
   // Contexts
   this.context = this.el.getContext('2d')
@@ -17,6 +18,9 @@ function Surface (ronin) {
     this._guide.addEventListener('mouseup', ronin.onMouseUp, false)
     this._guide.addEventListener('mouseover', ronin.onMouseOver, false)
     this._guide.addEventListener('mouseout', ronin.onMouseOut, false)
+    this._guide.addEventListener('keydown', ronin.onKeyDown, false)
+    this._guide.addEventListener('keyup', ronin.onKeyUp, false)
+    this._guide.addEventListener('keypress', ronin.onKeyPress, false)
   }
 
   this.start = function () {

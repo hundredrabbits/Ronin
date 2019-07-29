@@ -88,6 +88,24 @@ function Ronin () {
     this.surface.drawGuide(shape)
   }
 
+  this.onKeyPress = (e, id = 'key-press') => {
+    if (this.bindings[id]) {
+      this.bindings[id](e)
+    }
+  }
+
+  this.onKeyUp = (e, id = 'key-up') => {
+    if (this.bindings[id]) {
+      this.bindings[id](e)
+    }
+  }
+
+  this.onKeyDown = (e, id = 'key-down') => {
+    if (this.bindings[id]) {
+      this.bindings[id](e)
+    }
+  }
+
   this.onMouseMove = (e, id = 'mouse-move') => {
     const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
     const shape = this.mouseShape(pos, id)
