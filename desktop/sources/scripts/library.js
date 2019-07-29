@@ -195,9 +195,8 @@ function Library (ronin) {
     return this.color(sum[0] / count, sum[1] / count, sum[2] / count)
   }
 
-  this.color = (r, g, b, a = 1) => {
-    const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
-    return { r, g, b, a, hex }
+  this.color = (r, g, b, a = 1) => { // Convert an RGBa value to hex.
+    return '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
   }
 
   this.theme = (variable, el = document.documentElement) => {

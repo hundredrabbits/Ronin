@@ -29,14 +29,13 @@ function Surface (ronin) {
     context.beginPath()
     this.trace(shape, context)
     context.lineWidth = width
-    context.strokeStyle = color
+    context.strokeStyle = `${color}`
     if (isText(shape)) {
       context.textAlign = shape.a
       context.font = `${shape.p}px ${shape.f}`
       context.strokeText(shape.t, shape.x, shape.y)
     } else if (isSvg(shape)) {
       context.lineWidth = width
-      context.strokeStyle = color
       context.save()
       context.translate(shape.x, shape.y)
       context.stroke(new Path2D(shape.d))
@@ -51,7 +50,7 @@ function Surface (ronin) {
 
   this.fill = (shape, color, context = this.context) => {
     context.beginPath()
-    context.fillStyle = color
+    context.fillStyle = `${color}`
     this.trace(shape, context)
     if (isText(shape)) {
       context.textAlign = shape.a
@@ -59,7 +58,6 @@ function Surface (ronin) {
       context.font = `${shape.p}px ${shape.f}`
       context.fillText(shape.t, shape.x, shape.y)
     } else if (isSvg(shape)) {
-      context.fillStyle = color
       context.save()
       context.translate(shape.x, shape.y)
       context.fill(new Path2D(shape.d))

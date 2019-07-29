@@ -72,6 +72,8 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(clone a b)` 
 - `(drag ~rect)` Drag a part of the canvas.
 - `(view a b)` View a part of the canvas.
+- `(pick shape)` Pick the color of a pos or the average color of a rect.
+- `(color r g b ~a)` Convert an RGBa value to hex.
 - `(theme variable ~el)` 
 - `(pixels rect fn ~q)` 
 - `(saturation pixel q)` Change the saturation of pixels.
