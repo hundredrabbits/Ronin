@@ -90,6 +90,8 @@ function Surface (ronin) {
     }
     if (isCircle(shape)) {
       this.traceCircle(shape, context)
+    } else if (isEllipse(shape)) {
+      this.traceEllipse(shape, context)
     } else if (isText(shape)) {
       this.traceText(shape, context)
     } else if (isSvg(shape)) {
@@ -120,6 +122,10 @@ function Surface (ronin) {
 
   this.traceCircle = function (circle, context) {
     context.arc(circle.cx, circle.cy, circle.r, 0, 2 * Math.PI)
+  }
+
+  this.traceEllipse = function (ellipse, context) {
+    context.ellipse(ellipse.cx, ellipse.cy, ellipse.rx, ellipse.ry, 0, 2 * Math.PI, false)
   }
 
   this.traceText = function (text, context) {
@@ -286,6 +292,9 @@ function Surface (ronin) {
   }
   function isCircle (shape) {
     return !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r)
+  }
+  function isEllipse (shape) {
+    return !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.rx) && !isNaN(shape.ry)
   }
   function isPos (shape) {
     return !isNaN(shape.x) && !isNaN(shape.y)
