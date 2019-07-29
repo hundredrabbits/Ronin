@@ -24,7 +24,7 @@
       const ronin = new Ronin()
 
       ronin.controller = new Controller()
-      ronin.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Dotgrid'); },"CmdOrCtrl+,");
+      ronin.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Ronin'); },"CmdOrCtrl+,");
       ronin.controller.add("default","*","Fullscreen",() => { app.toggleFullscreen() },"CmdOrCtrl+Enter");
       ronin.controller.add("default","*","Hide",() => { app.toggleVisible() },"CmdOrCtrl+H");
       ronin.controller.add("default","*","Inspect",() => { app.inspect() },"CmdOrCtrl+.");
