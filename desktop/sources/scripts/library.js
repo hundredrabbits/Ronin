@@ -82,6 +82,11 @@ function Library (ronin) {
     return { x, y, d }
   }
 
+  this.color = (r, g, b, a = 1) => { // Returns a color object.
+    const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
+    return { r, g, b, a, hex, toString: () => { return hex }, 0: r, 1: g, 2: b, 3: a }
+  }
+
   this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
     a.x += b.x
     a.y += b.y
@@ -182,7 +187,7 @@ function Library (ronin) {
     ronin.surface.context.drawImage(ronin.surface.getCrop(a), b.x, b.y, b.w, b.h)
   }
 
-  this.pick = (shape) => { // Pick the color of a pos or the average color of a rect.
+  this.pick = (shape) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
     const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     const sum = [0, 0, 0]
@@ -192,11 +197,7 @@ function Library (ronin) {
       sum[1] += img.data[i + 1]
       sum[2] += img.data[i + 2]
     }
-    return this.color(sum[0] / count, sum[1] / count, sum[2] / count)
-  }
-
-  this.color = (r, g, b, a = 1) => { // Convert an RGBa value to hex.
-    return '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
+    return this.color(Math.floor(sum[0] / count), Math.floor(sum[1] / count), Math.floor(sum[2] / count))
   }
 
   this.theme = (variable, el = document.documentElement) => {
@@ -207,6 +208,7 @@ function Library (ronin) {
   // Pixels
 
   this.pixels = (rect, fn, q = 1) => {
+    if (!fn) { console.warn('Unknown function'); return rect }
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
@@ -235,12 +237,22 @@ function Library (ronin) {
     return [((pixel[0] / 255) * range), ((pixel[1] / 255) * range), ((pixel[2] / 255) * range), pixel[3]]
   }
 
-  this.condense = (pixel, q) => { // Condense the data of pixels.
+  this.additive = (pixel, q) => { // Condense the data of pixels.
     return [pixel[0] + q, pixel[1] + q, pixel[2] + q, pixel[3]]
   }
 
-  this.balance = (pixel, q) => { // Change the color balance of pixels.
+  this.multiply = (pixel, q) => { // Change the color balance of pixels.
     return [pixel[0] * q[0], pixel[1] * q[1], pixel[2] * q[2], pixel[3]]
+  }
+
+  this.normalize = (pixel, q) => { // Normalize the color of pixels with another color.
+    const averaged = [128 - q.r + pixel[0], 128 - q.g + pixel[1], 128 - q.b + pixel[2], pixel[3]]
+    const offset = this.luminance(pixel) - this.luminance(averaged)
+    return this.additive(averaged, offset)
+  }
+
+  this.luminance = (color) => { // Get the luminance of a color.
+    return 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2]
   }
 
   // Strings

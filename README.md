@@ -56,6 +56,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(line ax ay bx by)` Returns a line shape.
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
+- `(color r g b ~a)` Returns a color object.
 - `(offset a b)` Offsets pos a with pos b, returns a.
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
@@ -72,15 +73,16 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(clone a b)` 
 - `(drag ~rect)` Drag a part of the canvas.
 - `(view a b)` View a part of the canvas.
-- `(pick shape)` Pick the color of a pos or the average color of a rect.
-- `(color r g b ~a)` Convert an RGBa value to hex.
+- `(pick shape)` Returns the color of a pixel at pos, or of the average of the pixels in rect.
 - `(theme variable ~el)` 
 - `(pixels rect fn ~q)` 
 - `(saturation pixel q)` Change the saturation of pixels.
 - `(contrast pixel q)` Change the contrast of pixels.
 - `(brightness pixel q)` Change the brightness of pixels.
-- `(condense pixel q)` Condense the data of pixels.
-- `(balance pixel q)` Change the color balance of pixels.
+- `(additive pixel q)` Condense the data of pixels.
+- `(multiply pixel q)` Change the color balance of pixels.
+- `(normalize pixel q)` Normalize the color of pixels with another color.
+- `(luminance color)` Get the luminance of a color.
 - `(concat ...items)` Concat multiple strings.
 - `(split string char)` Split string at character.
 - `(add ...args)` Adds values.
