@@ -53,7 +53,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(size w h)` Returns a size shape.
 - `(rect x y w h)` Returns a rect shape.
 - `(circle cx cy r)` Returns a circle shape.
-- `(ellipse cx cy rx ry)` Returns an ellipse shape.
+- `(ellipse cx cy rx ry)` Returns a ellipse shape.
 - `(line ax ay bx by)` Returns a line shape.
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
@@ -74,9 +74,9 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(clone a b)` 
 - `(drag ~rect)` Drag a part of the canvas.
 - `(view a b)` View a part of the canvas.
-- `(pick shape)` Returns the color of a pixel at pos, or of the average of the pixels in rect.
+- `(pick ~shape)` Returns the color of a pixel at pos, or of the average of the pixels in rect.
 - `(theme variable ~el)` 
-- `(pixels rect fn ~q)` 
+- `(pixels fn ~q ~rect)` 
 - `(saturation pixel q)` Change the saturation of pixels.
 - `(contrast pixel q)` Change the contrast of pixels.
 - `(brightness pixel q)` Change the brightness of pixels.
@@ -125,7 +125,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(of h ...keys)` Gets object parameters with names.
 - `(keys item)` Returns a list of the object's keys
 - `(values item)` Returns a list of the object's values
-- `(convolve rect kernel)` 
+- `(convolve kernel ~rect)` 
 - `(blur)` 
 - `(sharpen)` 
 - `(edge)` 

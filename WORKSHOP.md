@@ -145,18 +145,17 @@ First let's open an image, ideally one in color, and change every pixel of a sel
 
 ```lisp
 (open $path)
-(pixels 
-  (rect 100 100 200 200) saturation 10)
+(pixels saturation 10 
+  (rect 100 100 200 200))
 ```
 
 ### saturation
 
-In the previous example, we increased the saturation of a region of the image, to desaturate an entire image, you can first use `(frame)` which will select the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`(50% saturation):
+In the previous example, we increased the saturation of a region of the image, to desaturate an entire image, you can simply omit the  `(frame)` which will select the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`(50% saturation):
 
 ```lisp
 (open $path)
-(pixels 
-  (frame) saturation 0.5)
+(pixels saturation 0.5)
 ```
 
 ### convolve
@@ -167,8 +166,7 @@ Effects which use the surrounding pixels, or convolution matrix, are used with t
 
 ```lisp
 (open $path)
-(convolve 
-  (frame) sharpen)
+(convolve sharpen $rect)
 ```
 
 Custom convolve kernels can also be created like this:
@@ -180,8 +178,7 @@ Custom convolve kernels can also be created like this:
     (-1 -1 -1) 
     (-1 5 -1) 
     (-1 -1 -1)))
-(convolve 
-  (frame) blur)
+(convolve blur)
 ```
 
 ## Events

@@ -191,7 +191,7 @@ function Library (ronin) {
     ronin.surface.context.drawImage(ronin.surface.getCrop(a), b.x, b.y, b.w, b.h)
   }
 
-  this.pick = (shape) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
+  this.pick = (shape = this.frame()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
     const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     const sum = [0, 0, 0]
@@ -211,7 +211,7 @@ function Library (ronin) {
 
   // Pixels
 
-  this.pixels = (rect, fn, q = 1) => {
+  this.pixels = (fn, q = 1, rect = this.frame()) => {
     if (!fn) { console.warn('Unknown function'); return rect }
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
@@ -382,7 +382,7 @@ function Library (ronin) {
   }
 
   this.map = (arr, fn) => { // Run a function on each element in a list.
-    return Promise.all(arr.map(fn)).then( result => { return result } )
+    return Promise.all(arr.map(fn)).then(result => { return result })
   }
 
   this.filter = (arr, fn) => { // Remove from list, when function returns false.
@@ -465,7 +465,7 @@ function Library (ronin) {
 
   // Convolve
 
-  this.convolve = (rect, kernel) => {
+  this.convolve = (kernel, rect = this.frame()) => {
     const sigma = kernel.flat().reduce((a, x) => (a + x))
     const kw = kernel[0].length; const kh = kernel.length
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)

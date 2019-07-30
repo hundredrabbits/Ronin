@@ -3,7 +3,7 @@ function Surface (ronin) {
   this.el.id = 'surface'
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
-  this._guide.setAttribute('tabindex', '1'); // focus is necessary to capture keyboard events
+  this._guide.setAttribute('tabindex', '1') // focus is necessary to capture keyboard events
   this.ratio = window.devicePixelRatio
   // Contexts
   this.context = this.el.getContext('2d')
