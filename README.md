@@ -133,6 +133,8 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(file ~path)` Returns the content of a file.
 - `(dirpath ~path)` Returns the path of a directory.
 - `(filepath ~path)` Returns the path of a file.
+- `(dirname ~path)` Returns the name of a folder.
+- `(filename ~path)` Returns the name of a file.
 - `(exit ~force)` Exits Ronin.
 - `(echo ...args)` Print arguments to interface.
 - `(debug arg)` Print arguments to console.

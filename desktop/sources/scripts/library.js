@@ -517,6 +517,10 @@ function Library (ronin) {
     return path
   }
 
+  this.dirname = (path = this.filepath()) => { // Returns the name of a folder.
+    return require('path').basename(require('path').dirname(path))
+  }
+
   this.filename = (path = this.filepath()) => { // Returns the name of a file.
     return require('path').parse(path).name
   }
