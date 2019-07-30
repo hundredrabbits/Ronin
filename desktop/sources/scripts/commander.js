@@ -38,7 +38,9 @@ function Commander (ronin) {
   this.run = (txt = this._input.value) => {
     if (this._input.value.indexOf('$') > -1) { console.warn('$ is present.'); return }
     ronin.bindings = {}
-    ronin.surface.maximize()
+    if (this._input.value.trim() === '') {
+      ronin.surface.maximize()
+    }
     ronin.interpreter.run(txt)
   }
 
@@ -149,7 +151,7 @@ function Commander (ronin) {
       this._input.value = this.cache.replace('$line', `(line ${line.a.x} ${line.a.y} ${line.b.x} ${line.b.y})`)
     } else if (word.substr(0, 6) === 'circle' && shape.circle) {
       const circle = shape.circle
-      this._input.value = this.cache.replace('$circle', `(circle ${circle.cx} ${circle.cy} ${circle.r})`)
+      this._input.value = this.cache.replace('$circle', `(circle ${circle.cx} ${circle.cy} ${circle.r.toFixed(2)})`)
     } else if (word.substr(0, 4) === 'drag' && shape.line) {
       const rect = shape.rect
       this._input.value = this.cache.replace('$drag', `(drag (rect ${rect.x} ${rect.y} ${rect.w} ${rect.h}) $line)`)

@@ -145,7 +145,8 @@ function Library (ronin) {
     return this.pos(rect.w / 2, rect.h / 2)
   }
 
-  this.resize = async (w, h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+  this.resize = async (w = ronin.surface.bounds().w, h = ronin.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+    if (w === this.frame().w && h === this.frame().h) { return }
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')

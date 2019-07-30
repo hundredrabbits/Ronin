@@ -58,7 +58,6 @@ function Surface (ronin) {
     this.trace(shape, context)
     if (isText(shape)) {
       context.textAlign = shape.a
-      console.log(shape)
       context.font = `${shape.p}px ${shape.f}`
       context.fillText(shape.t, shape.x, shape.y)
     } else if (isSvg(shape)) {
@@ -241,7 +240,11 @@ function Surface (ronin) {
   }
 
   this.maximize = function () {
-    this.resize({ x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio), t: 'rect' })
+    this.resize(this.bounds())
+  }
+
+  this.bounds = function () {
+    return { x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio), t: 'rect' }
   }
 
   this.onResize = function () {
