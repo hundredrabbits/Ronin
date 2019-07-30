@@ -212,12 +212,14 @@ function Library (ronin) {
 
   // Pixels
 
-  this.pixels = (fn, q = 1, rect = this.frame()) => {
+  this.pixels = async (fn, q = 1, rect = this.frame()) => {
     if (!fn) { console.warn('Unknown function'); return rect }
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
-      const processed = fn(pixel, q)
+
+      const processed = await fn(pixel, q)
+      console.log(processed)
       img.data[i] = this.clamp(parseInt(processed[0]), 0, 255)
       img.data[i + 1] = this.clamp(parseInt(processed[1]), 0, 255)
       img.data[i + 2] = this.clamp(parseInt(processed[2]), 0, 255)
