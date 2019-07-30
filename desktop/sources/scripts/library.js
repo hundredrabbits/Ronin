@@ -517,6 +517,10 @@ function Library (ronin) {
     return path
   }
 
+  this.filename = (path = this.filepath()) => { // Returns the name of a file.
+    return require('path').parse(path).name
+  }
+
   this.exit = (force = false) => { // Exits Ronin.
     ronin.source.quit(force)
   }
