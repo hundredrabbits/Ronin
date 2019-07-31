@@ -1,8 +1,8 @@
 function Library (ronin) {
-  this.import = async (path, shape) => { // Imports a graphic file with format.
+  this.import = async (path, shape, alpha = 1) => { // Imports a graphic file with format.
     const img = new Image()
     img.src = path
-    return ronin.surface.draw(img, shape)
+    return ronin.surface.draw(img, shape, alpha)
   }
 
   this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
@@ -217,9 +217,7 @@ function Library (ronin) {
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
-
       const processed = await fn(pixel, q)
-      console.log(processed)
       img.data[i] = this.clamp(parseInt(processed[0]), 0, 255)
       img.data[i + 1] = this.clamp(parseInt(processed[1]), 0, 255)
       img.data[i + 2] = this.clamp(parseInt(processed[2]), 0, 255)

@@ -154,9 +154,10 @@ function Surface (ronin) {
     })
   }
 
-  this.draw = function (img, shape = this.getFrame()) {
+  this.draw = function (img, shape = this.getFrame(), alpha = 1) {
     return new Promise(resolve => {
       img.onload = () => {
+        this.context.globalAlpha = alpha
         if (isLine(shape)) {
           this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
         } else if (isRect(shape)) {
@@ -170,6 +171,7 @@ function Surface (ronin) {
         } else {
           this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
         }
+        this.context.globalAlpha = 1
         resolve()
       }
     })
