@@ -71,7 +71,9 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(center)` Returns a position of the center of the frame.
 - `(resize ~w)` Resizes the canvas to target w and h, returns the rect.
 - `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
-- `(crop rect)` Crop canvas to rect.
+- `(crop ~rect)` Crop canvas to rect.
+- `(copy ~rect)` Copy a section of the canvas.
+- `(paste copy ~rect)` Paste a section of the canvas.
 - `(clone a b)` 
 - `(drag ~rect)` Drag a part of the canvas.
 - `(view a b)` View a part of the canvas.

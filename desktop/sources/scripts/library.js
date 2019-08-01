@@ -170,8 +170,16 @@ function Library (ronin) {
     return ronin.surface.draw(b, rect)
   }
 
-  this.crop = async (rect) => { // Crop canvas to rect.
+  this.crop = async (rect = this.frame()) => { // Crop canvas to rect.
     return ronin.surface.crop(rect)
+  }
+
+  this.copy = async (rect = this.frame()) => { // Copy a section of the canvas.
+    return ronin.surface.copy(rect)
+  }
+
+  this.paste = async (copy, rect = this.frame()) => { // Paste a section of the canvas.
+    return ronin.surface.paste(copy, rect)
   }
 
   this.clone = (a, b) => {
@@ -181,7 +189,7 @@ function Library (ronin) {
 
   this.drag = (rect = this.frame(), line = this.line()) => { // Drag a part of the canvas.
     const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
-    const crop = ronin.surface.getCrop(rect)
+    const crop = ronin.surface.copy(rect)
     ronin.surface.clear(rect)
     this.guide({ a: { x: rect.x, y: rect.y }, b: { x: pos.x + rect.x, y: pos.y + rect.y } })
     this.guide(rect)
@@ -193,7 +201,7 @@ function Library (ronin) {
     this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
     this.guide(a)
     this.guide(b)
-    ronin.surface.context.drawImage(ronin.surface.getCrop(a), b.x, b.y, b.w, b.h)
+    ronin.surface.context.drawImage(ronin.surface.copy(a), b.x, b.y, b.w, b.h)
   }
 
   this.pick = (shape = this.frame()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.

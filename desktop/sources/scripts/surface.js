@@ -183,7 +183,7 @@ function Surface (ronin) {
 
   this.crop = function (rect) {
     ronin.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
-    const crop = this.getCrop(rect)
+    const crop = this.copy(rect)
     this.resize(rect, true)
     this.context.drawImage(crop, 0, 0)
   }
@@ -261,12 +261,17 @@ function Surface (ronin) {
     ronin.log(`resize ${f.w}x${f.h}`)
   }
 
-  this.getCrop = function (rect) {
+  this.copy = function (rect) {
     const newCanvas = document.createElement('canvas')
     newCanvas.width = rect.w
     newCanvas.height = rect.h
     newCanvas.getContext('2d').drawImage(this.el, rect.x, rect.y, rect.w, rect.h, 0, 0, rect.w, rect.h)
     return newCanvas
+  }
+
+  this.paste = function (copy, rect) {
+    console.log('paste')
+    return this.context.drawImage(copy, 0, 0, rect.w, rect.h, rect.x, rect.y, rect.w, rect.h)
   }
 
   this.resizeImage = function (src, dst, type = 'image/png', quality = 1.0) {
