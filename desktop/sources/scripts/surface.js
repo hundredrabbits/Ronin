@@ -270,7 +270,6 @@ function Surface (ronin) {
   }
 
   this.paste = function (copy, rect) {
-    console.log('paste')
     return this.context.drawImage(copy, 0, 0, rect.w, rect.h, rect.x, rect.y, rect.w, rect.h)
   }
 
