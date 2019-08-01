@@ -152,13 +152,13 @@ function Commander (ronin) {
     if (this.cache.indexOf('$') < 0) { return }
     const segs = this.cache.split('$')
     const words = segs[1].split(' ')
-    const word = words[0].replace(/[^0-9a-z]/gi, '')
+    const word = words[0].split(/[^A-Za-z]/)[0]
     const append = words[0].indexOf('+') > -1
 
     if (word === 'drag') {
       this.cache = this.cache.replace('$drag', `(drag $rect $line)`)
     } else if (word === 'view') {
-      this.cache = this.cache.replace('$view', `(drag $rect $rect)`)
+      this.cache = this.cache.replace('$view', `(view $rect $rect)`)
     } else if (word === 'poly') {
       this.cache = this.cache.replace('$poly', `(poly $pos+)`)
     }

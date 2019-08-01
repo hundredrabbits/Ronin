@@ -112,7 +112,7 @@ function Surface (ronin) {
 
   this.traceLine = function (line, context) {
     const positions = Object.values(line)
-    const origin = positions.pop()
+    const origin = positions.shift()
     context.moveTo(origin.x, origin.y)
     for (pos of positions) {
       context.lineTo(pos.x, pos.y)
@@ -301,26 +301,26 @@ function Surface (ronin) {
   }
 
   function isRect (shape) {
-    return !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
+    return shape && !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
   }
   function isCircle (shape) {
-    return !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r)
+    return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r)
   }
   function isEllipse (shape) {
-    return !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.rx) && !isNaN(shape.ry)
+    return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.rx) && !isNaN(shape.ry)
   }
   function isPos (shape) {
-    return !isNaN(shape.x) && !isNaN(shape.y)
+    return shape && !isNaN(shape.x) && !isNaN(shape.y)
   }
   function isSvg (shape) {
-    return shape.d
+    return shape && shape.d
   }
   function isText (shape) {
-    return !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
+    return shape && !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
   }
   function isLine (shape) {
     const positions = Object.values(shape)
-    return !isNaN(positions[0].x) && !isNaN(positions[0].y) && !isNaN(positions[1].x) && !isNaN(positions[1].y)
+    return positions[0] && positions[1] && !isNaN(positions[0].x) && !isNaN(positions[0].y) && !isNaN(positions[1].x) && !isNaN(positions[1].y)
   }
 
   function fitRect (image, container) {
