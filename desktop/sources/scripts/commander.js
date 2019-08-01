@@ -6,21 +6,23 @@ function Commander (ronin) {
   this._status.id = 'status'
   this._log = document.createElement('div')
   this._log.id = 'log'
-  this._source = document.createElement('div')
-  this._source.id = 'source'
   this._docs = document.createElement('div')
   this._docs.id = 'help'
+  this._run = document.createElement('a')
+  this._run.id = 'run'
+  this._run.setAttribute('title', 'Run(c-R)')
   this.isVisible = true
 
   this.install = function (host) {
     this.el.appendChild(this._input)
     this._status.appendChild(this._log)
-    this._status.appendChild(this._source)
     this._status.appendChild(this._docs)
+    this._status.appendChild(this._run)
     this.el.appendChild(this._status)
     host.appendChild(this.el)
     this._input.addEventListener('input', this.onInput)
     this._input.addEventListener('click', this.onClick)
+    this._run.addEventListener('click', () => { this.run() })
 
     this._input.onkeydown = (e) => {
       if (e.keyCode == 9 || e.which == 9) { e.preventDefault(); this.inject('  ') }
@@ -42,6 +44,7 @@ function Commander (ronin) {
       ronin.surface.maximize()
     }
     ronin.interpreter.run(txt)
+    this.feedback()
   }
 
   this.load = function (txt) {
@@ -95,16 +98,11 @@ function Commander (ronin) {
     // Logs
     if (msg && msg !== this._log.textContent) {
       this._log.textContent = `${msg}`
-      // console.log(msg)
-    }
-    // Source
-    const rect = ronin.surface.getFrame()
-    const _source = `${ronin.source}[${this._input.value.split('\n').length}]\n${rect.w}x${rect.h}`
-    if (_source !== this._source.textContent) {
-      this._source.textContent = _source
     }
     // Docs
-    const _docs = this.docs.print(this.getLastfn())
+    const lstFn = this.getLastfn()
+    const rect = ronin.surface.getFrame()
+    const _docs = this.docs.hasDocs(lstFn) === true ? this.docs.print(lstFn) : `${ronin.source}:${this.length()} ${rect.w}x${rect.h}`
     if (_docs !== this._docs.textContent) {
       this._docs.textContent = `${_docs}`
     }
@@ -212,6 +210,15 @@ function Commander (ronin) {
     }
   }
 
+  this.length = function () {
+    return this._input.value.split('\n').length
+  }
+
+  this.feedback = function () {
+    this._run.className = 'active'
+    setTimeout(() => { this._run.className = '' }, 150)
+  }
+
   // Docs micro-module
 
   this.docs = {
@@ -245,24 +252,22 @@ function Commander (ronin) {
         return `${acc}- \`(${example.trim()})\` ${this.dict[item].note}\n`
       }, '')
     },
+    hasDocs: function (name) {
+      return !!this.dict[name]
+    },
     print: function (name) {
-      return this.dict[name] ? `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})` : 'idle.'
+      return `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})`
     }
   }
 
   // Splash
 
-  this.splash = `; welcome to ronin - v2.24
+  this.splash = `; welcome to ronin
+; v2.25
 (clear) 
-(def frame-rect 
-  (frame))
-(def align { 
-  :x (sub (div frame-rect:c 2) 150) 
-  :y (sub frame-rect:m 150)})
-(fill 
-  (svg align:x align:y "M15,15 L15,15 L285,15 L285,285 L15,285 Z") "#fff")
+(def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
 (stroke 
-  (svg align:x align:y "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ") "#000" 5)`
+  (svg 185 180 logo-path) "white" 5)`
 
   String.prototype.insert = function (s, i) { return [this.slice(0, i), `${s}`, this.slice(i)].join('') }
 }

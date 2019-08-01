@@ -4,3 +4,5 @@ body { background:var(--background);  }
 #ronin #wrapper #commander textarea { color:var(--f_high); }
 #ronin #wrapper #commander #status { color:var(--f_med); }
 #ronin #wrapper #commander #status #source { color:var(--f_low); }
+#ronin #wrapper #commander #status #run { background-color: var(--b_inv); border-color: var(--b_inv) }
+#ronin #wrapper #commander #status #run.active { background:var(--f_high); border-color:var(--f_high); transition: none }
