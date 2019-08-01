@@ -29,7 +29,7 @@ function Surface (ronin) {
 
   // Shape
 
-  this.stroke = (shape, color = ronin.theme.get('b_high'), width = 2, context = this.context) => {
+  this.stroke = (shape, color = ronin.theme.get('f_high'), width = 2, context = this.context) => {
     context.beginPath()
     this.trace(shape, context)
     context.lineWidth = width
