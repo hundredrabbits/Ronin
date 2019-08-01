@@ -55,19 +55,23 @@ To export the resulting image, type the following text, drag an image file onto 
 (export $path)
 ```
 
-For example, a version of that same code with file paths, might look something like the following, notice how the `(rect)` is omitted, if a `(rect)` is not present, the entire canvas size will be exported:
+For example, a version of that same code with file paths, might look something like the following:
 
 ```lisp
 (import "~/Desktop/photo.jpg")
 (export "~/Desktop/export.png")
 ```
 
-If you are working on from a saved `.lisp` file, you can also export directly into the working directory with:
+You could also **generate the export path from the import path**, like this:
 
 ```lisp
-(export 
+(def import-path $path)
+(def export-path 
   (concat 
-    (dirpath) "/" "hello.jpg"))
+    (dirpath import-path) "/" 
+    (filename import-path) "-export.jpg"))
+(import import-path) ; "~/Desktop/photo.jpg"
+(export export-path) ; "~/Desktop/photo-export.jpg"
 ```
 
 ## Draw
