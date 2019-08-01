@@ -33,7 +33,7 @@ function Surface (ronin) {
     context.beginPath()
     this.trace(shape, context)
     context.lineWidth = width
-    context.strokeStyle = `${color}`
+    context.strokeStyle = color.hex ? color.hex : color
     if (isText(shape)) {
       context.textAlign = shape.a
       context.font = `${shape.p}px ${shape.f}`
@@ -54,7 +54,7 @@ function Surface (ronin) {
 
   this.fill = (shape, color, context = this.context) => {
     context.beginPath()
-    context.fillStyle = `${color}`
+    context.fillStyle = color.hex ? color.hex : color
     this.trace(shape, context)
     if (isText(shape)) {
       context.textAlign = shape.a
