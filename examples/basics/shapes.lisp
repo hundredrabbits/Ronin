@@ -1,26 +1,35 @@
-; Shapes
 
 (clear)
-
-; variables
-(def center-w (div frame-rect:w 2))
-(def center-h (div frame-rect:h 2))
-(def rad (div frame-rect:h 4))
-
-; draw circle
+; stroke rect
 (stroke 
-  (circle center-w center-h rad) "white" 2)
-
-; draw rect
+  (rect 0 0 300 300) "red")
 (stroke 
-  (rect 
-    (sub center-w rad) (sub center-h rad) center-h center-h) "white" 2)
-
-; draw line
+  (circle 150 150 150) "white")
 (stroke 
-  (line (sub center-w rad) center-h (add center-w rad) center-h))
-(stroke (text 10 170 200 "HELL") "pink" 2)
-
-; draw ellipse
+  (ellipse 150 150 75 150) "red")
 (stroke 
-  (ellipse center-w center-h rad (div rad 2)) "white" 2)
+  (line 0 150 300 150) "red")
+(stroke 
+  (text 600 300 60 "hell") "white")
+(stroke 
+  (poly 
+    (pos 300 300) 
+    (pos 600 0) 
+    (pos 600 300)) "red")
+(move 0 300)
+(fill 
+  (rect 0 0 300 300) "red")
+(fill 
+  (circle 150 150 150) "white")
+(fill 
+  (ellipse 150 150 75 150) "red")
+(fill 
+  (line 0 150 300 150) "red")
+(fill 
+  (text 600 300 60 "hell") "white")
+(fill 
+  (poly 
+    (pos 300 300) 
+    (pos 600 0) 
+    (pos 600 300)) "red")
+(resetTransform)

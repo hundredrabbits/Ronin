@@ -37,7 +37,7 @@ function Surface (ronin) {
     if (isText(shape)) {
       context.textAlign = shape.a
       context.font = `${shape.p}px ${shape.f}`
-      context.strokeText(shape.t, shape.x, shape.y)
+      context.strokeText(`${shape.t}`, shape.x, shape.y)
     } else if (isSvg(shape)) {
       context.lineWidth = width
       context.save()
@@ -59,7 +59,7 @@ function Surface (ronin) {
     if (isText(shape)) {
       context.textAlign = shape.a
       context.font = `${shape.p}px ${shape.f}`
-      context.fillText(shape.t, shape.x, shape.y)
+      context.fillText(`${shape.t}`, shape.x, shape.y)
     } else if (isSvg(shape)) {
       context.save()
       context.translate(shape.x, shape.y)
