@@ -42,6 +42,10 @@ function Theme (_default) {
     this.load(_default)
   }
 
+  this.get = function (key) {
+    return this.active[key]
+  }
+
   function parse (any) {
     if (any && any.background) { return any } else if (any && any.data) { return any.data } else if (any && isJson(any)) { return JSON.parse(any) } else if (any && isHtml(any)) { return extract(any) }
     return null

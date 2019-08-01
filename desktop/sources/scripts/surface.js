@@ -29,7 +29,7 @@ function Surface (ronin) {
 
   // Shape
 
-  this.stroke = (shape, color, width, context = this.context) => {
+  this.stroke = (shape, color = ronin.theme.get('b_high'), width = 2, context = this.context) => {
     context.beginPath()
     this.trace(shape, context)
     context.lineWidth = width
@@ -52,9 +52,9 @@ function Surface (ronin) {
 
   // Fill
 
-  this.fill = (shape, color, context = this.context) => {
+  this.fill = (shape, color = ronin.theme.get('b_high'), context = this.context) => {
     context.beginPath()
-    context.fillStyle = color.hex ? color.hex : color
+    context.fillStyle = typeof color === 'object' && color.hex ? color.hex : color
     this.trace(shape, context)
     if (isText(shape)) {
       context.textAlign = shape.a

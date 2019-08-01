@@ -5,7 +5,7 @@ function Ronin () {
     f_med: '#999',
     f_low: '#444',
     f_inv: '#000',
-    b_high: '#000',
+    b_high: '#72dec2',
     b_med: '#888',
     b_low: '#aaa',
     b_inv: '#ffb545'
