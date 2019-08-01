@@ -43,6 +43,7 @@
       ronin.controller.addRole('default', 'Edit', 'delete')
       ronin.controller.addRole('default', 'Edit', 'selectall')
       ronin.controller.add("default","Edit","Re-Indent",() => { ronin.commander.reindent() },"CmdOrCtrl+Shift+I")
+      ronin.controller.add("default","Edit","Clean",() => { ronin.commander.cleanup() },"Escape")
       ronin.controller.add("default","View","Zoom In",() => { ronin.modZoom(0.25) },"CmdOrCtrl+=")
       ronin.controller.add("default","View","Zoom Out",() => { ronin.modZoom(-0.25) },"CmdOrCtrl+-")
       ronin.controller.add("default","View","Zoom Reset",() => { ronin.modZoom(1,true) },"CmdOrCtrl+0")

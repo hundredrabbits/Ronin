@@ -36,7 +36,7 @@ function Commander (ronin) {
   }
 
   this.run = (txt = this._input.value) => {
-    if (this._input.value.indexOf('$') > -1) { console.warn('$ is present.'); return }
+    if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
     ronin.bindings = {}
     if (this._input.value.trim() === '') {
       ronin.surface.maximize()
@@ -75,6 +75,20 @@ function Commander (ronin) {
       }
     }
     this._input.value = val.trim()
+  }
+
+  this.clean = function (input) {
+    const keywords = ['$pos+', '$pos', '$rect', '$line', '$x', '$y', '$xy']
+    for (word of keywords) {
+      input = input.replace(word, '').trim()
+    }
+    return input
+  }
+
+  this.cleanup = function () {
+    this._input.value = this.clean(this._input.value)
+    this.reindent()
+    this.run()
   }
 
   this.setStatus = function (msg) {
@@ -137,40 +151,41 @@ function Commander (ronin) {
   this.commit = function (shape, end = false, run = false) {
     if (this.cache.indexOf('$') < 0) { return }
     const segs = this.cache.split('$')
-    const seg = segs[1]
-    const words = seg.split(' ')
-    const word = words[0]
-    if (word.substr(0, 4) === 'rect' && shape.rect) {
-      const rect = shape.rect
-      this._input.value = this.cache.replace('$rect', `(rect ${rect.x} ${rect.y} ${rect.w} ${rect.h})`)
-    } else if (word.substr(0, 3) === 'pos' && shape.pos) {
-      const pos = shape.pos
-      this._input.value = this.cache.replace('$pos', `(pos ${pos.x} ${pos.y})`)
-    } else if (word.substr(0, 4) === 'line' && shape.line) {
-      const line = shape.line
-      this._input.value = this.cache.replace('$line', `(line ${line.a.x} ${line.a.y} ${line.b.x} ${line.b.y})`)
-    } else if (word.substr(0, 6) === 'circle' && shape.circle) {
-      const circle = shape.circle
-      this._input.value = this.cache.replace('$circle', `(circle ${circle.cx} ${circle.cy} ${circle.r.toFixed(2)})`)
-    } else if (word.substr(0, 4) === 'drag' && shape.line) {
-      const rect = shape.rect
-      this._input.value = this.cache.replace('$drag', `(drag (rect ${rect.x} ${rect.y} ${rect.w} ${rect.h}) $line)`)
-    } else if (word.substr(0, 4) === 'view' && shape.line) {
-      const rect = shape.rect
-      this._input.value = this.cache.replace('$view', `(view (rect ${rect.x} ${rect.y} ${rect.w} ${rect.h}) $rect)`)
-    } else if (word.substr(0, 2) === 'xy' && shape.x) {
-      this._input.value = this.cache.replace('$xy', `${shape.x} ${shape.y}`)
-    } else if (word.substr(0, 1) === 'x' && shape.x) {
-      this._input.value = this.cache.replace('$x', `${shape.x}`)
-    } else if (word.substr(0, 1) === 'y' && shape.y) {
-      this._input.value = this.cache.replace('$y', `${shape.y}`)
+    const words = segs[1].split(' ')
+    const word = words[0].replace(/[^0-9a-z]/gi, '')
+    const append = words[0].indexOf('+') > -1
+
+    if (word === 'drag') {
+      this.cache = this.cache.replace('$drag', `(drag $rect $line)`)
+    } else if (word === 'view') {
+      this.cache = this.cache.replace('$view', `(drag $rect $rect)`)
+    } else if (word === 'poly') {
+      this.cache = this.cache.replace('$poly', `(poly $pos+)`)
     }
+
+    if (shape[word]) {
+      if (append) {
+        this._input.value = this.cache.replace('$' + word + '+', this.template(shape[word], word) + ' $' + word + '+')
+      } else {
+        this._input.value = this.cache.replace('$' + word, this.template(shape[word], word))
+      }
+    }
+
     if (end === true) {
       this.cache = this._input.value
     }
     if (run === true) {
       this.run()
     }
+  }
+
+  this.template = function (shape, word) {
+    if (word === 'rect') { return `(rect ${shape.x} ${shape.y} ${shape.w} ${shape.h})` }
+    if (word === 'pos') { return `(pos ${shape.x} ${shape.y})` }
+    if (word === 'line') { return `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})` }
+    if (word === 'circle') { return `(circle ${shape.cx} ${shape.cy} ${shape.r})` }
+    if (word === 'x' || word === 'y' || word === 'xy') { return `${shape}` }
+    return ''
   }
 
   // Display
@@ -237,7 +252,7 @@ function Commander (ronin) {
 
   // Splash
 
-  this.splash = `; welcome to ronin - v2.23
+  this.splash = `; welcome to ronin - v2.24
 (clear) 
 (def frame-rect 
   (frame))

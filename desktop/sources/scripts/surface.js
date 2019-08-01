@@ -111,8 +111,12 @@ function Surface (ronin) {
   }
 
   this.traceLine = function (line, context) {
-    context.moveTo(line.a.x, line.a.y)
-    context.lineTo(line.b.x, line.b.y)
+    const positions = Object.values(line)
+    const origin = positions.pop()
+    context.moveTo(origin.x, origin.y)
+    for (pos of positions) {
+      context.lineTo(pos.x, pos.y)
+    }
   }
 
   this.tracePos = function (pos, context, radius = 7.5) {
@@ -315,7 +319,8 @@ function Surface (ronin) {
     return !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
   }
   function isLine (shape) {
-    return shape.a && !isNaN(shape.a.x) && !isNaN(shape.a.y) && shape.b && !isNaN(shape.b.x) && !isNaN(shape.b.y)
+    const positions = Object.values(shape)
+    return !isNaN(positions[0].x) && !isNaN(positions[0].y) && !isNaN(positions[1].x) && !isNaN(positions[1].y)
   }
 
   function fitRect (image, container) {

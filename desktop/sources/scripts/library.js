@@ -63,7 +63,7 @@ function Library (ronin) {
   }
 
   this.rect = (x, y, w, h) => { // Returns a rect shape.
-    return { x, y, w, h }
+    return { x, y, w, h, pos: { x, y }, size: { w, h } }
   }
 
   this.circle = (cx, cy, r) => { // Returns a circle shape.
@@ -78,6 +78,10 @@ function Library (ronin) {
     return { a: this.pos(ax, ay), b: this.pos(bx, by) }
   }
 
+  this.poly = (...pos) => { // Returns a poly shape.
+    return pos
+  }
+
   this.text = (x, y, p, t, a = 'left', f = 'Arial') => { // Returns a text shape.
     return { x, y, p, t, a, f }
   }
@@ -88,7 +92,7 @@ function Library (ronin) {
 
   this.color = (r, g, b, a = 1) => { // Returns a color object.
     const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
-    return { r, g, b, a, hex, toString: () => { return hex }, 0: r, 1: g, 2: b, 3: a }
+    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a }
   }
 
   this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
@@ -488,17 +492,23 @@ function Library (ronin) {
     return rect
   }
 
-  this.blur = [[1, 2, 1],
-    [2, 4, 2],
-    [1, 2, 2]]
+  this.blur = () => { // Returns the blur kernel.
+    return [[1, 2, 1],
+      [2, 4, 2],
+      [1, 2, 2]]
+  }
 
-  this.sharpen = [[ 0, -1, 0],
-    [-1, 5, -1],
-    [ 0, -1, 0]]
+  this.sharpen = () => { // Returns the sharpen kernel.
+    return [[ 0, -1, 0],
+      [-1, 5, -1],
+      [ 0, -1, 0]]
+  }
 
-  this.edge = [[-1, -1, -1],
-    [-1, 9, -1],
-    [-1, -1, -1]]
+  this.edge = () => { // Returns the edge kernel.
+    return [[-1, -1, -1],
+      [-1, 9, -1],
+      [-1, -1, -1]]
+  }
 
   // File System
 

@@ -38,7 +38,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 
 ## Library
 
-- `(import path shape)` Imports a graphic file with format.
+- `(import path shape ~alpha)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
 - `(open path ~ratio)` Imports a graphic file and resizes the frame.
 - `(move x y)` 
@@ -55,6 +55,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(circle cx cy r)` Returns a circle shape.
 - `(ellipse cx cy rx ry)` Returns a ellipse shape.
 - `(line ax ay bx by)` Returns a line shape.
+- `(poly ...pos)` Returns a poly shape.
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
 - `(color r g b ~a)` Returns a color object.
@@ -68,7 +69,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(hsla h s l ~a)` Defines a color h from 0 to 360, s and l from 0 to 100, a from 0 to 1
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
-- `(resize w h ~fit)` Resizes the canvas to target w and h, returns the rect.
+- `(resize ~w)` Resizes the canvas to target w and h, returns the rect.
 - `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
 - `(crop rect)` Crop canvas to rect.
 - `(clone a b)` 
@@ -126,9 +127,9 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(keys item)` Returns a list of the object's keys
 - `(values item)` Returns a list of the object's values
 - `(convolve kernel ~rect)` 
-- `(blur)` 
-- `(sharpen)` 
-- `(edge)` 
+- `(blur)` Returns the blur kernel.
+- `(sharpen)` Returns the sharpen kernel.
+- `(edge)` Returns the edge kernel.
 - `(dir ~path)` Returns the content of a directory.
 - `(file ~path)` Returns the content of a file.
 - `(dirpath ~path)` Returns the path of a directory.
