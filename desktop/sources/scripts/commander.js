@@ -182,7 +182,7 @@ function Commander (ronin) {
     if (word === 'pos') { return `(pos ${shape.x} ${shape.y})` }
     if (word === 'line') { return `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})` }
     if (word === 'circle') { return `(circle ${shape.cx} ${shape.cy} ${shape.r})` }
-    if (word === 'x' || word === 'y' || word === 'xy') { return `${shape}` }
+    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh') { return `${shape}` }
     return ''
   }
 

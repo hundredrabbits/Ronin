@@ -152,6 +152,7 @@ function Ronin () {
       w: this.mouseOrigin.x ? pos.x - this.mouseOrigin.x : 0,
       h: this.mouseOrigin.y ? pos.y - this.mouseOrigin.y : 0
     }
+    const wh = rect.w + ' ' + rect.h
     const line = {
       a: { x: this.mouseOrigin.x, y: this.mouseOrigin.y },
       b: { x: pos.x, y: pos.y }
@@ -163,7 +164,7 @@ function Ronin () {
       r: d.toFixed(2),
       edge: { x: rect.x - rect.w, y: rect.y - rect.h, w: rect.w * 2, h: rect.h * 2 }
     }
-    return { x, y, xy, d, line, rect, pos, circle, type, 'is-down': type !== 'mouse-up' ? true : null }
+    return { x, y, xy, wh, d, line, rect, pos, circle, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
 
   // Zoom

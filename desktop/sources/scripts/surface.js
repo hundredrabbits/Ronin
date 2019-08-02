@@ -71,15 +71,6 @@ function Surface (ronin) {
     context.closePath()
   }
 
-  this.linearGradient = function (x1, y1, x2, y2, colors, context = this.context) {
-    const gradient = context.createLinearGradient(x1, y1, x2, y2)
-    const step = 1 / (colors.length - 1)
-    colors.forEach((color, i) => {
-      gradient.addColorStop(i * step, color)
-    })
-    return gradient
-  }
-
   // Tracers
 
   this.trace = function (shape, context) {
@@ -113,13 +104,11 @@ function Surface (ronin) {
   }
 
   this.traceLine = function (line, context) {
-    console.log(line)
     context.moveTo(line.a.x, line.a.y)
     context.lineTo(line.b.x, line.b.y)
   }
 
   this.tracePoly = function (poly, context) {
-    console.log('poly?')
     const positions = Object.values(poly)
     const origin = positions.shift()
     context.moveTo(origin.x, origin.y)
@@ -206,7 +195,6 @@ function Surface (ronin) {
   }
 
   this.drawGuide = function (shape, color = 'white', context = this.guide) {
-    console.log(shape)
     if (!shape) { return }
     this.stroke(shape.rect || shape, 'black', 4, context)
     if (shape.pos) { this.stroke(shape.pos, 'black', 4, context) }
@@ -221,10 +209,6 @@ function Surface (ronin) {
     if (shape.circle) {
       this.stroke(shape.circle, color, 1.5, context)
     }
-  }
-
-  this.clone = function (a, b) {
-    this.context.drawImage(this.el, a.x, a.y, a.w, a.h, b.x, b.y, b.w, b.h)
   }
 
   this.resize = function (size, fit = false) {
@@ -280,7 +264,7 @@ function Surface (ronin) {
   }
 
   this.paste = function (copy, rect) {
-    return this.context.drawImage(copy, 0, 0, rect.w, rect.h, rect.x, rect.y, rect.w, rect.h)
+    return this.context.drawImage(copy, rect.x, rect.y, rect.w, rect.h)
   }
 
   this.resizeImage = function (src, dst, type = 'image/png', quality = 1.0) {

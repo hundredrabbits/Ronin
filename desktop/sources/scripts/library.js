@@ -21,6 +21,75 @@ function Library (ronin) {
     return ronin.surface.open(path, ratio)
   }
 
+  // Frame
+
+  this.frame = () => { // Returns a rect of the frame.
+    return ronin.surface.getFrame()
+  }
+
+  this.resize = async (w = ronin.surface.bounds().w, h = ronin.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+    if (w === this.frame().w && h === this.frame().h) { return }
+    const rect = { x: 0, y: 0, w, h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    await ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, fit)
+    return ronin.surface.draw(b, rect)
+  }
+
+  this.rescale = async (w = 1, h = 1) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+    const rect = { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = ronin.surface.el.toDataURL()
+    await ronin.surface.resizeImage(a, b)
+    ronin.surface.resize(rect, true)
+    return ronin.surface.draw(b, rect)
+  }
+
+  this.crop = async (rect = this.frame()) => { // Crop canvas to rect.
+    return ronin.surface.crop(rect)
+  }
+
+  this.copy = async (rect = this.frame()) => { // Copy a section of the canvas.
+    return ronin.surface.copy(rect)
+  }
+
+  this.paste = async (copy, rect = this.frame()) => { // Paste a section of the canvas.
+    return ronin.surface.paste(copy, rect)
+  }
+
+  this.drag = (rect = this.frame(), line = this.line()) => { // Drag a part of the canvas.
+    const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
+    const crop = ronin.surface.copy(rect)
+    ronin.surface.clear(rect)
+    this.guide({ a: { x: rect.x, y: rect.y }, b: { x: pos.x + rect.x, y: pos.y + rect.y } })
+    this.guide(rect)
+    this.guide(this.offset(rect, { x: pos.x, y: pos.y }))
+    ronin.surface.context.drawImage(crop, rect.x, rect.y)
+  }
+
+  this.view = (a, b) => { // View a part of the canvas.
+    this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
+    this.guide(a)
+    this.guide(b)
+    ronin.surface.context.drawImage(this.copy(a), b.x, b.y, b.w, b.h)
+  }
+
+  this.pick = (shape = this.frame()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
+    const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
+    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const sum = [0, 0, 0]
+    const count = img.data.length / 4
+    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
+      sum[0] += img.data[i]
+      sum[1] += img.data[i + 1]
+      sum[2] += img.data[i + 2]
+    }
+    return this.color(this.floor(sum[0] / count), this.floor(sum[1] / count), this.floor(sum[2] / count))
+  }
+
   // Transforms
 
   this.move = (x, y) => {
@@ -31,8 +100,8 @@ function Library (ronin) {
     ronin.surface.context.rotate(angle)
   }
 
-  this.scale = (x, y) => {
-    ronin.surface.context.scale(x, y === undefined ? x : y)
+  this.scale = (w, h) => {
+    ronin.surface.context.scale(w, h === undefined ? w : h)
   }
 
   this.transform = (a, b, c, d, e, f) => {
@@ -96,17 +165,7 @@ function Library (ronin) {
 
   this.color = (r, g, b, a = 1) => { // Returns a color object.
     const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
-    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255] }
-  }
-
-  this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
-    a.x += b.x
-    a.y += b.y
-    return a
-  }
-
-  this.distance = (a, b) => { // Get distance between positions.
-    return Math.sqrt(((ax - bx) * (ax - bx)) + ((ay - by) * (ay - by)))
+    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
   }
 
   // Actions
@@ -122,7 +181,11 @@ function Library (ronin) {
   }
 
   this.gradient = (line, colors = ['white', 'black']) => { // Defines a gradient color.
-    return ronin.surface.linearGradient(line.a.x, line.a.y, line.b.x, line.b.y, colors)
+    const gradient = ronin.surface.context.createLinearGradient(line.a.x, line.a.y, line.b.x, line.b.y)
+    colors.forEach((color, i) => {
+      gradient.addColorStop(i * (1 / (colors.length - 1)), color)
+    })
+    return gradient
   }
 
   this.guide = (shape, color) => { // Draws a shape on the guide layer.
@@ -134,85 +197,6 @@ function Library (ronin) {
     ronin.surface.clearGuide(rect)
     ronin.surface.clear(rect)
     return rect
-  }
-
-  // Frame
-
-  this.frame = () => { // Returns a rect of the frame.
-    return ronin.surface.getFrame()
-  }
-
-  this.center = () => { // Returns a position of the center of the frame.
-    const rect = this.frame()
-    return this.pos(rect.w / 2, rect.h / 2)
-  }
-
-  this.resize = async (w = ronin.surface.bounds().w, h = ronin.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
-    if (w === this.frame().w && h === this.frame().h) { return }
-    const rect = { x: 0, y: 0, w, h }
-    const a = document.createElement('img')
-    const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    await ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, fit)
-    return ronin.surface.draw(b, rect)
-  }
-
-  this.rescale = async (w, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
-    const rect = { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h }
-    const a = document.createElement('img')
-    const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    await ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, true)
-    return ronin.surface.draw(b, rect)
-  }
-
-  this.crop = async (rect = this.frame()) => { // Crop canvas to rect.
-    return ronin.surface.crop(rect)
-  }
-
-  this.copy = async (rect = this.frame()) => { // Copy a section of the canvas.
-    return ronin.surface.copy(rect)
-  }
-
-  this.paste = async (copy, rect = this.frame()) => { // Paste a section of the canvas.
-    return ronin.surface.paste(copy, rect)
-  }
-
-  this.clone = (a, b) => {
-    ronin.surface.clone(a, b)
-    return [a, b]
-  }
-
-  this.drag = (rect = this.frame(), line = this.line()) => { // Drag a part of the canvas.
-    const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
-    const crop = ronin.surface.copy(rect)
-    ronin.surface.clear(rect)
-    this.guide({ a: { x: rect.x, y: rect.y }, b: { x: pos.x + rect.x, y: pos.y + rect.y } })
-    this.guide(rect)
-    this.guide(this.offset(rect, { x: pos.x, y: pos.y }))
-    ronin.surface.context.drawImage(crop, rect.x, rect.y)
-  }
-
-  this.view = (a, b) => { // View a part of the canvas.
-    this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
-    this.guide(a)
-    this.guide(b)
-    ronin.surface.context.drawImage(ronin.surface.copy(a), b.x, b.y, b.w, b.h)
-  }
-
-  this.pick = (shape = this.frame()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
-    const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
-    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
-    const sum = [0, 0, 0]
-    const count = img.data.length / 4
-    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
-      sum[0] += img.data[i]
-      sum[1] += img.data[i + 1]
-      sum[2] += img.data[i + 2]
-    }
-    return this.color(this.floor(sum[0] / count), this.floor(sum[1] / count), this.floor(sum[2] / count))
   }
 
   this.theme = (variable, el = document.documentElement) => {
@@ -545,6 +529,16 @@ function Library (ronin) {
 
   this.exit = (force = false) => { // Exits Ronin.
     ronin.source.quit(force)
+  }
+
+  this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
+    a.x += b.x
+    a.y += b.y
+    return a
+  }
+
+  this.distance = (a, b) => { // Get distance between positions.
+    return Math.sqrt(((ax - bx) * (ax - bx)) + ((ay - by) * (ay - by)))
   }
 
   this.echo = (...args) => { // Print arguments to interface.

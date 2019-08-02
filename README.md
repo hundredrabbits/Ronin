@@ -41,9 +41,18 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(import path shape ~alpha)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
 - `(open path ~ratio)` Imports a graphic file and resizes the frame.
+- `(frame)` Returns a rect of the frame.
+- `(resize ~w)` Resizes the canvas to target w and h, returns the rect.
+- `(rescale ~w ~h)` Rescales the canvas to target ratio of w and h, returns the rect.
+- `(crop ~rect)` Crop canvas to rect.
+- `(copy ~rect)` Copy a section of the canvas.
+- `(paste copy ~rect)` Paste a section of the canvas.
+- `(drag ~rect)` Drag a part of the canvas.
+- `(view a b)` View a part of the canvas.
+- `(pick ~shape)` Returns the color of a pixel at pos, or of the average of the pixels in rect.
 - `(move x y)` 
 - `(rotate angle)` 
-- `(scale x y)` 
+- `(scale w h)` 
 - `(transform a b c d e f)` 
 - `(setTransform a b c d e f)` 
 - `(resetTransform)` 
@@ -59,24 +68,11 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
 - `(color r g b ~a)` Returns a color object.
-- `(offset a b)` Offsets pos a with pos b, returns a.
-- `(distance a b)` Get distance between positions.
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
 - `(guide shape color)` Draws a shape on the guide layer.
 - `(clear ~rect)` Clears a rect.
-- `(frame)` Returns a rect of the frame.
-- `(center)` Returns a position of the center of the frame.
-- `(resize ~w)` Resizes the canvas to target w and h, returns the rect.
-- `(rescale w h)` Rescales the canvas to target ratio of w and h, returns the rect.
-- `(crop ~rect)` Crop canvas to rect.
-- `(copy ~rect)` Copy a section of the canvas.
-- `(paste copy ~rect)` Paste a section of the canvas.
-- `(clone a b)` 
-- `(drag ~rect)` Drag a part of the canvas.
-- `(view a b)` View a part of the canvas.
-- `(pick ~shape)` Returns the color of a pixel at pos, or of the average of the pixels in rect.
 - `(theme variable ~el)` 
 - `(pixels fn ~q ~rect)` 
 - `(saturation pixel q)` Change the saturation of pixels.
@@ -139,6 +135,8 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(dirname ~path)` Returns the name of a folder.
 - `(filename ~path)` Returns the name of a file.
 - `(exit ~force)` Exits Ronin.
+- `(offset a b)` Offsets pos a with pos b, returns a.
+- `(distance a b)` Get distance between positions.
 - `(echo ...args)` Print arguments to interface.
 - `(debug arg)` Print arguments to console.
 - `(time ~rate)` Returns timestamp in milliseconds.
