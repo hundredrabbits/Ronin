@@ -304,6 +304,10 @@ function Surface (ronin) {
     })
   }
 
+  this.toggleGuides = function () {
+    this._guide.className = this._guide.className === 'hidden' ? '' : 'hidden'
+  }
+
   function isRect (shape) {
     return shape && !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
   }

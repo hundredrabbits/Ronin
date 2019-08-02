@@ -75,7 +75,7 @@ function Library (ronin) {
   }
 
   this.hsl = (h, s, l, a = 1) => { // returns a HSL color object
-    return { h, s, l, a, toString: () =>  { return `hsla(${h},${s}%,${l}%,${a})` }, 0: h, 1: s, 2: l, 3: a, f: [h / 360, s / 100, l / 100, a] }
+    return { h, s, l, a, toString: () => { return `hsla(${h},${s}%,${l}%,${a})` }, 0: h, 1: s, 2: l, 3: a, f: [h / 360, s / 100, l / 100, a] }
   }
 
   // Frame
@@ -149,9 +149,13 @@ function Library (ronin) {
 
   // Transforms
 
-  this.transform = {
-    push: () => { ronin.surface.context.save() },
-    pop: () => { ronin.surface.context.restore() },
+  this.transform = { // The transform toolkit, use like (transform:move 10 10).
+    push: () => {
+      ronin.surface.context.save()
+    },
+    pop: () => {
+      ronin.surface.context.restore()
+    },
     reset: () => {
       ronin.surface.context.resetTransform()
       ronin.surface.guide.resetTransform()

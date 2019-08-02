@@ -53,7 +53,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
 - `(color r g b ~a)` Returns a color object.
-- `(hsl r g b ~a)` Returns a HSL color object.
+- `(hsl h s l ~a)` returns a HSL color object
 - `(frame)` Returns a rect of the frame.
 - `(resize ~w)` Resizes the canvas to target w and h, returns the rect.
 - `(rescale ~w ~h)` Rescales the canvas to target ratio of w and h, returns the rect.
@@ -63,14 +63,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(drag ~rect)` Drag a part of the canvas.
 - `(view a b)` View a part of the canvas.
 - `(pick ~shape)` Returns the color of a pixel at pos, or of the average of the pixels in rect.
-- `(move x y)` 
-- `(rotate angle)` 
-- `(scale w h)` 
-- `(transform a b c d e f)` 
-- `(setTransform a b c d e f)` 
-- `(resetTransform)` 
-- `(pushTransform)` 
-- `(popTransform)` 
+- `(transform)` The transform toolkit, see examples.
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(clear ~rect)` Clears a rect.
