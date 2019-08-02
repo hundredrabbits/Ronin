@@ -65,8 +65,6 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(gradient line ~colors 'black'])` Defines a gradient color.
 - `(guide shape color)` Draws a shape on the guide layer.
 - `(clear ~rect)` Clears a rect.
-- `(rgba r g b ~a)` Defines a color r, g, b values are from 0 to 255, a from 0 to 1
-- `(hsla h s l ~a)` Defines a color h from 0 to 360, s and l from 0 to 100, a from 0 to 1
 - `(frame)` Returns a rect of the frame.
 - `(center)` Returns a position of the center of the frame.
 - `(resize ~w)` Resizes the canvas to target w and h, returns the rect.
@@ -86,7 +84,8 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(additive pixel q)` Condense the data of pixels.
 - `(multiply pixel q)` Change the color balance of pixels.
 - `(normalize pixel q)` Normalize the color of pixels with another color.
-- `(luminance color)` Get the luminance of a color.
+- `(lum color)` Return the luminance of a color.
+- `(hue color)` Return the hue of a color.
 - `(concat ...items)` Concat multiple strings.
 - `(split string char)` Split string at character.
 - `(add ...args)` Adds values.
@@ -96,13 +95,14 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(mod a b)` Returns the modulo of a and b.
 - `(clamp val min max)` Clamps a value between min and max.
 - `(step val step)` 
-- `(min)` Clamp value from.
-- `(max)` Clamp value at.
-- `(ceil)` Round up to the nearest integer.
-- `(floor)` Round down to the nearest integer.
-- `(sin)` 
-- `(cos)` 
-- `(log)` Caclulates on the base.
+- `(min ...values)` Returns lowest value.
+- `(max ...values)` Returns highest value.
+- `(ceil val)` Rounds up to the nearest integer.
+- `(floor val)` Rounds down to the nearest integer.
+- `(round val)` Rounds to the nearest integer
+- `(sin val)` 
+- `(cos val)` 
+- `(log val)` 
 - `(pow a b)` Calculates a^b.
 - `(sqrt)` Calculate the square root.
 - `(sq a)` Calculate the square.
@@ -112,7 +112,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(gt a b)` Returns true if a is greater than b, else false.
 - `(lt a b)` Returns true if a is less than b, else false.
 - `(eq a b)` Returns true if a is equal to b, else false.
-- `(and a b ...rest)` Returns true if all conditions are true.
+- `(and ...args)` Returns true if all conditions are true.
 - `(or a b ...rest)` Returns true if at least one condition is true.
 - `(each arr fn)` Run a function for each element in a list.
 - `(map arr fn)` Run a function on each element in a list.

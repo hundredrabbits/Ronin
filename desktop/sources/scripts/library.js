@@ -1,4 +1,8 @@
 function Library (ronin) {
+  // Modularity: Write simple parts connected by clean interfaces.
+  // Composition: Design programs to be connected to other programs.
+  // Parsimony: Write a big program only when it is clear by demonstration that nothing else will do.
+
   this.import = async (path, shape, alpha = 1) => { // Imports a graphic file with format.
     const img = new Image()
     img.src = path
@@ -67,11 +71,11 @@ function Library (ronin) {
   }
 
   this.circle = (cx, cy, r) => { // Returns a circle shape.
-    return { cx, cy, r }
+    return { x: cx - r, y: cy - r, cx, cy, r }
   }
 
   this.ellipse = (cx, cy, rx, ry) => { // Returns a ellipse shape.
-    return { cx, cy, rx, ry }
+    return { x: cx - r, y: cy - r, cx, cy, rx, ry }
   }
 
   this.line = (ax, ay, bx, by) => { // Returns a line shape.
@@ -92,7 +96,7 @@ function Library (ronin) {
 
   this.color = (r, g, b, a = 1) => { // Returns a color object.
     const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
-    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a }
+    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255] }
   }
 
   this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
@@ -126,16 +130,6 @@ function Library (ronin) {
     ronin.surface.clearGuide(rect)
     ronin.surface.clear(rect)
     return rect
-  }
-
-  // colors
-
-  this.rgba = (r, g, b, a = 1) => { // Defines a color r, g, b values are from 0 to 255, a from 0 to 1
-    return `rgba(${r},${g},${b},${a})`
-  }
-
-  this.hsla = (h, s, l, a = 1) => { // Defines a color h from 0 to 360, s and l from 0 to 100, a from 0 to 1
-    return `hsla(${h},${s}%,${l}%,${a})`
   }
 
   // Frame
@@ -214,7 +208,7 @@ function Library (ronin) {
       sum[1] += img.data[i + 1]
       sum[2] += img.data[i + 2]
     }
-    return this.color(Math.floor(sum[0] / count), Math.floor(sum[1] / count), Math.floor(sum[2] / count))
+    return this.color(this.floor(sum[0] / count), this.floor(sum[1] / count), this.floor(sum[2] / count))
   }
 
   this.theme = (variable, el = document.documentElement) => {
@@ -264,12 +258,22 @@ function Library (ronin) {
 
   this.normalize = (pixel, q) => { // Normalize the color of pixels with another color.
     const averaged = [128 - q.r + pixel[0], 128 - q.g + pixel[1], 128 - q.b + pixel[2], pixel[3]]
-    const offset = this.luminance(pixel) - this.luminance(averaged)
+    const offset = this.lum(pixel) - this.lum(averaged)
     return this.additive(averaged, offset)
   }
 
-  this.luminance = (color) => { // Get the luminance of a color.
+  // Color
+
+  this.lum = (color) => { // Return the luminance of a color.
     return 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2]
+  }
+
+  this.hue = (color) => { // Return the hue of a color.
+    const min = this.min(color.f[0], color.f[1], color.f[2])
+    const max = this.max(color.f[0], color.f[1], color.f[2])
+    if (min === max) { return 0 }
+    const hue = max == color.f[0] ? (color.f[1] - color.f[2]) / (max - min) : max == color.f[1] ? 2.0 + (color.f[2] - color.f[0]) / (max - min) : 4.0 + (color.f[0] - color.f[1]) / (max - min)
+    return this.round(hue < 0 ? hue * 60 + 360 : hue * 60)
   }
 
   // Strings
@@ -305,26 +309,44 @@ function Library (ronin) {
   }
 
   this.clamp = (val, min, max) => { // Clamps a value between min and max.
-    return Math.min(max, Math.max(min, val))
+    return this.min(max, this.max(min, val))
   }
 
   this.step = (val, step) => {
-    return Math.round(val / step) * step
+    return this.round(val / step) * step
   }
 
-  this.min = Math.min // Clamp value from.
+  this.min = (...values) => { // Returns lowest value.
+    return Math.min(values)
+  }
 
-  this.max = Math.max // Clamp value at.
+  this.max = (...values) => { // Returns highest value.
+    return Math.max(values)
+  }
 
-  this.ceil = Math.ceil // Round up to the nearest integer.
+  this.ceil = (val) => { // Rounds up to the nearest integer.
+    return Math.ceil
+  }
 
-  this.floor = Math.floor // Round down to the nearest integer.
+  this.floor = (val) => { // Rounds down to the nearest integer.
+    return Math.floor(val)
+  }
 
-  this.sin = Math.sin
+  this.round = (val) => { // Rounds to the nearest integer
+    return Math.round(val)
+  }
 
-  this.cos = Math.cos
+  this.sin = (val) => {
+    return Math.sin(val)
+  }
 
-  this.log = Math.log // Caclulates on the base.
+  this.cos = (val) => {
+    return Math.cos(val)
+  }
+
+  this.log = (val) => {
+    return Math.log(val)
+  }
 
   this.pow = (a, b) => { // Calculates a^b.
     return Math.pow(a, b)
@@ -365,8 +387,7 @@ function Library (ronin) {
     return a === b
   }
 
-  this.and = (a, b, ...rest) => { // Returns true if all conditions are true.
-    let args = [a, b].concat(rest)
+  this.and = (...args) => { // Returns true if all conditions are true.
     for (let i = 0; i < args.length; i++) {
       if (!args[i]) {
         return args[i]
