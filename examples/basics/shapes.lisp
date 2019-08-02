@@ -1,5 +1,5 @@
+; shapes
 (clear)
-; stroke rect
 (stroke 
   (rect 0 0 300 300) "red")
 (stroke 
@@ -19,7 +19,7 @@
     (pos 300 300) 
     (pos 600 0) 
     (pos 600 300)) "red")
-(move 0 300)
+(transform:move 0 300)
 (fill 
   (rect 0 0 300 300) "red")
 (fill 
@@ -39,4 +39,4 @@
     (pos 300 300) 
     (pos 600 0) 
     (pos 600 300)) "red")
-(resetTransform)
+(transform:reset)
