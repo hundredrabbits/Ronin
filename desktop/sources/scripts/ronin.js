@@ -158,19 +158,19 @@ function Ronin () {
       h: size.h
     }
     const wh = rect.w + ' ' + rect.h
-    const d = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y)))
-    const a = Math.atan2(pos.y - line.a.y, pos.x - line.a.x)
+    const d = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y))).toFixed(2)
+    const a = Math.atan2(pos.y - line.a.y, pos.x - line.a.x).toFixed(2)
     const circle = {
       cx: line.a.x,
       cy: line.a.y,
-      r: d.toFixed(2)
+      r: d
     }
     const arc = {
       cx: line.a.x,
       cy: line.a.y,
-      r: d.toFixed(2),
+      r: d,
       sa: 0,
-      ea: a.toFixed(2)
+      ea: a
     }
     return { x, y, xy, wh, d, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
