@@ -217,7 +217,7 @@ function Surface (ronin) {
     }
   }
 
-  this.resize = function (size, fit = false) {
+  this.resize = (size, fit = false) => {
     const frame = this.getFrame()
     if (frame.w === size.w && frame.h === size.h) { return }
     console.log('Surface', `Resize: ${size.w}x${size.h}`)
@@ -234,10 +234,6 @@ function Surface (ronin) {
     }
   }
 
-  this.getFrame = function () {
-    return { x: 0, y: 0, w: this.el.width, h: this.el.height, t: 'rect', c: this.el.width / 2, m: this.el.height / 2 }
-  }
-
   this.fitWindow = function (size) {
     const win = require('electron').remote.getCurrentWindow()
     const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
@@ -245,12 +241,16 @@ function Surface (ronin) {
     win.setSize(Math.floor((size.w / this.ratio) + pad.w), Math.floor((size.h / this.ratio) + pad.h), true)
   }
 
-  this.maximize = function () {
+  this.maximize = () => {
     this.resize(this.bounds())
   }
 
-  this.bounds = function () {
-    return { x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio), t: 'rect' }
+  this.bounds = () => {
+    return { x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio) }
+  }
+
+  this.getFrame = () => {
+    return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2 }
   }
 
   this.onResize = function () {
@@ -326,10 +326,10 @@ function Surface (ronin) {
     return shape && !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
   }
   function isLine (shape) {
-    return shape.a && shape.b && !isNaN(shape.a.x) && !isNaN(shape.a.y) && !isNaN(shape.b.x) && !isNaN(shape.b.y)
+    return shape && shape.a && shape.b && !isNaN(shape.a.x) && !isNaN(shape.a.y) && !isNaN(shape.b.x) && !isNaN(shape.b.y)
   }
   function isPoly (shape) {
-    return shape[0] && shape[1] && !isNaN(shape[0].x) && !isNaN(shape[0].y) && !isNaN(shape[1].x) && !isNaN(shape[1].y)
+    return shape && shape[0] && shape[1] && !isNaN(shape[0].x) && !isNaN(shape[0].y) && !isNaN(shape[1].x) && !isNaN(shape[1].y)
   }
 
   function fitRect (image, container) {

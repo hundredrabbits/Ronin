@@ -38,20 +38,21 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 
 ## Library
 
+- `(import path shape ~alpha)` Imports a graphic file with format.
+- `(export path ~format ~quality)` Exports a graphic file with format.
+- `(open path ~ratio)` Imports a graphic file and resizes the frame.
+- `(exit ~force)` Exits Ronin.
 - `(pos ~x ~y)` Returns a position shape.
+- `(line ax ay bx by)` Returns a line shape.
 - `(size w h)` Returns a size shape.
 - `(rect x y w h)` Returns a rect shape.
 - `(circle cx cy r)` Returns a circle shape.
 - `(ellipse cx cy rx ry)` Returns a ellipse shape.
-- `(line ax ay bx by)` Returns a line shape.
+- `(arc cx cy r sa ea)` Returns an arc shape.
 - `(poly ...pos)` Returns a poly shape.
 - `(text x y p t ~a ~f)` Returns a text shape.
 - `(svg x y d)` Returns a svg shape.
-- `(arc cx cy r sa ea)` Returns an arc shape.
 - `(color r g b ~a)` Returns a color object.
-- `(import path shape ~alpha)` Imports a graphic file with format.
-- `(export path ~format ~quality)` Exports a graphic file with format.
-- `(open path ~ratio)` Imports a graphic file and resizes the frame.
 - `(frame)` Returns a rect of the frame.
 - `(resize ~w)` Resizes the canvas to target w and h, returns the rect.
 - `(rescale ~w ~h)` Rescales the canvas to target ratio of w and h, returns the rect.
@@ -71,10 +72,9 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(popTransform)` 
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
+- `(clear ~rect)` Clears a rect.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
 - `(guide shape color)` Draws a shape on the guide layer.
-- `(clear ~rect)` Clears a rect.
-- `(theme variable ~el)` 
 - `(pixels fn ~q ~rect)` 
 - `(saturation pixel q)` Change the saturation of pixels.
 - `(contrast pixel q)` Change the contrast of pixels.
@@ -137,7 +137,6 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(filepath ~path)` Returns the path of a file.
 - `(dirname ~path)` Returns the name of a folder.
 - `(filename ~path)` Returns the name of a file.
-- `(exit ~force)` Exits Ronin.
 - `(offset a b)` Offsets pos a with pos b, returns a.
 - `(distance a b)` Get distance between positions.
 - `(echo ...args)` Print arguments to interface.
@@ -147,6 +146,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(on event f)` Triggers on event.
 - `(test name a b)` 
 - `(benchmark fn)` Logs time taken to execute a function.
+- `(theme)` Get theme values.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW2.jpg' width='600'/>
 

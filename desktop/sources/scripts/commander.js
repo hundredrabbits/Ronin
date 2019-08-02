@@ -159,6 +159,10 @@ function Commander (ronin) {
       this.cache = this.cache.replace('$view', `(view $rect $rect)`)
     } else if (word === 'poly') {
       this.cache = this.cache.replace('$poly', `(poly $pos+)`)
+    } else if (word === 'move') {
+      this.cache = this.cache.replace('$move', `(transform:move $wh)`)
+    } else if (word === 'rotate') {
+      this.cache = this.cache.replace('$rotate', `(transform:rotate $a)`)
     }
 
     if (shape[word]) {
@@ -183,7 +187,7 @@ function Commander (ronin) {
     if (word === 'line') { return `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})` }
     if (word === 'circle') { return `(circle ${shape.cx} ${shape.cy} ${shape.r})` }
     if (word === 'arc') { return `(arc ${shape.cx} ${shape.cy} ${shape.r} ${shape.sa} ${shape.ea})` }
-    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh') { return `${shape}` }
+    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh' || word === 'a') { return `${shape}` }
     return ''
   }
 
@@ -264,7 +268,7 @@ function Commander (ronin) {
   // Splash
 
   this.splash = `; welcome to ronin
-; v2.26
+; v2.28
 (clear) 
 (def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
 (stroke 

@@ -146,31 +146,33 @@ function Ronin () {
     const y = position.y
     const xy = x + ' ' + y
     const pos = { x, y }
-    const rect = {
-      x: this.mouseOrigin.x,
-      y: this.mouseOrigin.y,
-      w: this.mouseOrigin.x ? pos.x - this.mouseOrigin.x : 0,
-      h: this.mouseOrigin.y ? pos.y - this.mouseOrigin.y : 0
-    }
-    const wh = rect.w + ' ' + rect.h
     const line = {
       a: { x: this.mouseOrigin.x, y: this.mouseOrigin.y },
       b: { x: pos.x, y: pos.y }
     }
+    const size = { w: line.a.x ? pos.x - line.a.x : 0, h: line.a.y ? pos.y - line.a.y : 0 }
+    const rect = {
+      x: line.a.x,
+      y: line.a.y,
+      w: size.w,
+      h: size.h
+    }
+    const wh = rect.w + ' ' + rect.h
     const d = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y)))
+    const a = Math.atan2(pos.y - line.a.y, pos.x - line.a.x)
     const circle = {
-      cx: this.mouseOrigin.x,
-      cy: this.mouseOrigin.y,
+      cx: line.a.x,
+      cy: line.a.y,
       r: d.toFixed(2)
     }
     const arc = {
-      cx: this.mouseOrigin.x,
-      cy: this.mouseOrigin.y,
+      cx: line.a.x,
+      cy: line.a.y,
       r: d.toFixed(2),
       sa: 0,
-      ea: Math.atan2(position.y - this.mouseOrigin.y, position.x - this.mouseOrigin.x).toFixed(2)
+      ea: a.toFixed(2)
     }
-    return { x, y, xy, wh, d, line, rect, pos, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
+    return { x, y, xy, wh, d, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
 
   // Zoom

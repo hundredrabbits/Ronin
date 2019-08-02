@@ -3,10 +3,38 @@ function Library (ronin) {
   // Composition: Design programs to be connected to other programs.
   // Parsimony: Write a big program only when it is clear by demonstration that nothing else will do.
 
+  // IO
+
+  this.import = async (path, shape, alpha = 1) => { // Imports a graphic file with format.
+    const img = new Image()
+    img.src = path
+    return ronin.surface.draw(img, shape, alpha)
+  }
+
+  this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+    if (!path) { console.warn('Missing export path'); return path }
+    const dataUrl = ronin.surface.el.toDataURL(path.indexOf('.jpg') > -1 ? 'image/jpeg' : path.indexOf('.png') > -1 ? 'image/png' : format, quality)
+    const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
+    fs.writeFileSync(path, data, 'base64')
+    return path
+  }
+
+  this.open = async (path, ratio = 1) => { // Imports a graphic file and resizes the frame.
+    return ronin.surface.open(path, ratio)
+  }
+
+  this.exit = (force = false) => { // Exits Ronin.
+    ronin.source.quit(force)
+  }
+
   // Shapes
 
   this.pos = (x = 0, y = 0) => { // Returns a position shape.
     return { x, y }
+  }
+
+  this.line = (ax, ay, bx, by) => { // Returns a line shape.
+    return { a: this.pos(ax, ay), b: this.pos(bx, by) }
   }
 
   this.size = (w, h) => { // Returns a size shape.
@@ -25,8 +53,8 @@ function Library (ronin) {
     return { cx, cy, rx, ry }
   }
 
-  this.line = (ax, ay, bx, by) => { // Returns a line shape.
-    return { a: this.pos(ax, ay), b: this.pos(bx, by) }
+  this.arc = (cx, cy, r, sa, ea) => { // Returns an arc shape.
+    return { cx, cy, r, sa, ea }
   }
 
   this.poly = (...pos) => { // Returns a poly shape.
@@ -41,33 +69,9 @@ function Library (ronin) {
     return { x, y, d }
   }
 
-  this.arc = (cx, cy, r, sa, ea) => { // Returns an arc shape.
-    return { cx, cy, r, sa, ea }
-  }
-
   this.color = (r, g, b, a = 1) => { // Returns a color object.
     const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
     return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
-  }
-
-  //
-
-  this.import = async (path, shape, alpha = 1) => { // Imports a graphic file with format.
-    const img = new Image()
-    img.src = path
-    return ronin.surface.draw(img, shape, alpha)
-  }
-
-  this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
-    if (!path) { console.warn('Missing export path'); return path }
-    const dataUrl = ronin.surface.el.toDataURL(path.indexOf('.jpg') > -1 ? 'image/jpeg' : path.indexOf('.png') > -1 ? 'image/png' : format, quality)
-    const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
-    fs.writeFileSync(path, data, 'base64')
-    return path
-  }
-
-  this.open = async (path, ratio = 1) => { // Imports a graphic file and resizes the frame.
-    return ronin.surface.open(path, ratio)
   }
 
   // Frame
@@ -141,37 +145,28 @@ function Library (ronin) {
 
   // Transforms
 
-  this.move = (x, y) => {
-    ronin.surface.context.translate(x, y)
-  }
-
-  this.rotate = (angle) => {
-    ronin.surface.context.rotate(angle)
-  }
-
-  this.scale = (w, h) => {
-    ronin.surface.context.scale(w, h === undefined ? w : h)
-  }
-
-  this.transform = (a, b, c, d, e, f) => {
-    // a:hscale b:hskew c:vskew d:vscale e:hmove f:vmove
-    ronin.surface.context.transform(a, b, c, d, e, f)
-  }
-
-  this.setTransform = (a, b, c, d, e, f) => {
-    ronin.surface.context.setTransform(a, b, c, d, e, f)
-  }
-
-  this.resetTransform = () => {
-    ronin.surface.context.resetTransform()
-  }
-
-  this.pushTransform = () => {
-    ronin.surface.context.save()
-  }
-
-  this.popTransform = () => {
-    ronin.surface.context.restore()
+  this.transform = {
+    push: () => { ronin.surface.context.save() },
+    pop: () => { ronin.surface.context.restore() },
+    reset: () => {
+      ronin.surface.context.resetTransform()
+      ronin.surface.guide.resetTransform()
+    },
+    move: (x, y) => {
+      ronin.surface.context.translate(x, y)
+      this.guide(this.line(0, 0, x, y))
+      ronin.surface.guide.translate(x, y)
+    },
+    scale: (w, h) => {
+      ronin.surface.context.scale(w, h === undefined ? w : h)
+      this.guide(this.rect(0, 0, 50 * w, 50 * h))
+      ronin.surface.guide.scale(w, h === undefined ? w : h)
+    },
+    rotate: (a) => {
+      ronin.surface.context.rotate(a)
+      this.guide(this.arc(0, 0, 50, 0, a))
+      ronin.surface.guide.rotate(a)
+    }
   }
 
   // Actions
@@ -186,6 +181,12 @@ function Library (ronin) {
     return rect
   }
 
+  this.clear = (rect = this.frame()) => { // Clears a rect.
+    ronin.surface.clearGuide(rect)
+    ronin.surface.clear(rect)
+    return rect
+  }
+
   this.gradient = (line, colors = ['white', 'black']) => { // Defines a gradient color.
     const gradient = ronin.surface.context.createLinearGradient(line.a.x, line.a.y, line.b.x, line.b.y)
     colors.forEach((color, i) => {
@@ -197,17 +198,6 @@ function Library (ronin) {
   this.guide = (shape, color) => { // Draws a shape on the guide layer.
     ronin.surface.drawGuide(shape, color)
     return shape
-  }
-
-  this.clear = (rect = this.frame()) => { // Clears a rect.
-    ronin.surface.clearGuide(rect)
-    ronin.surface.clear(rect)
-    return rect
-  }
-
-  this.theme = (variable, el = document.documentElement) => {
-    // ex. (theme "f_main") -> :root { --f_main: "#fff" }
-    return getComputedStyle(el).getPropertyValue(`--${variable}`)
   }
 
   // Pixels
@@ -541,10 +531,6 @@ function Library (ronin) {
     return require('path').parse(path).name
   }
 
-  this.exit = (force = false) => { // Exits Ronin.
-    ronin.source.quit(force)
-  }
-
   this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
     a.x += b.x
     a.y += b.y
@@ -592,4 +578,8 @@ function Library (ronin) {
     console.log(`time taken: ${Date.now() - start}ms`)
     return result
   }
+
+  // Accessors
+
+  this.theme = ronin.theme.active // Get theme values.
 }

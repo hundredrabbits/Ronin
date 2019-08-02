@@ -1,6 +1,7 @@
 ; gradients
 (clear)
 ;
+(def frame-rect (frame))
 (def radius 
   (frame-rect:m))
 ;
