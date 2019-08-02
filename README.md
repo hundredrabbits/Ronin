@@ -60,6 +60,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(svg x y d)` Returns a svg shape.
 - `(color r g b ~a)` Returns a color object.
 - `(offset a b)` Offsets pos a with pos b, returns a.
+- `(distance a b)` Get distance between positions.
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
@@ -85,7 +86,6 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(multiply pixel q)` Change the color balance of pixels.
 - `(normalize pixel q)` Normalize the color of pixels with another color.
 - `(lum color)` Return the luminance of a color.
-- `(hue color)` Return the hue of a color.
 - `(concat ...items)` Concat multiple strings.
 - `(split string char)` Split string at character.
 - `(add ...args)` Adds values.
@@ -95,15 +95,15 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(mod a b)` Returns the modulo of a and b.
 - `(clamp val min max)` Clamps a value between min and max.
 - `(step val step)` 
-- `(min ...values)` Returns lowest value.
-- `(max ...values)` Returns highest value.
-- `(ceil val)` Rounds up to the nearest integer.
-- `(floor val)` Rounds down to the nearest integer.
-- `(round val)` Rounds to the nearest integer
-- `(sin val)` 
-- `(cos val)` 
-- `(log val)` 
-- `(pow a b)` Calculates a^b.
+- `(min)` Returns lowest value.
+- `(max)` Returns highest value.
+- `(ceil)` Rounds up to the nearest integer.
+- `(floor)` Rounds down to the nearest integer.
+- `(round)` Rounds to the nearest integer
+- `(sin)` 
+- `(cos)` 
+- `(log)` 
+- `(pow)` 
 - `(sqrt)` Calculate the square root.
 - `(sq a)` Calculate the square.
 - `(PI)` 

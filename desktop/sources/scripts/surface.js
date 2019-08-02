@@ -90,6 +90,8 @@ function Surface (ronin) {
     }
     if (isLine(shape)) {
       this.traceLine(shape, context)
+    } else if (isPoly(shape)) {
+      this.tracePoly(shape, context)
     }
     if (isCircle(shape)) {
       this.traceCircle(shape, context)
@@ -111,7 +113,14 @@ function Surface (ronin) {
   }
 
   this.traceLine = function (line, context) {
-    const positions = Object.values(line)
+    console.log(line)
+    context.moveTo(line.a.x, line.a.y)
+    context.lineTo(line.b.x, line.b.y)
+  }
+
+  this.tracePoly = function (poly, context) {
+    console.log('poly?')
+    const positions = Object.values(poly)
     const origin = positions.shift()
     context.moveTo(origin.x, origin.y)
     for (pos of positions) {
@@ -197,6 +206,7 @@ function Surface (ronin) {
   }
 
   this.drawGuide = function (shape, color = 'white', context = this.guide) {
+    console.log(shape)
     if (!shape) { return }
     this.stroke(shape.rect || shape, 'black', 4, context)
     if (shape.pos) { this.stroke(shape.pos, 'black', 4, context) }
@@ -323,8 +333,10 @@ function Surface (ronin) {
     return shape && !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
   }
   function isLine (shape) {
-    const positions = Object.values(shape)
-    return positions[0] && positions[1] && !isNaN(positions[0].x) && !isNaN(positions[0].y) && !isNaN(positions[1].x) && !isNaN(positions[1].y)
+    return shape.a && shape.b && !isNaN(shape.a.x) && !isNaN(shape.a.y) && !isNaN(shape.b.x) && !isNaN(shape.b.y)
+  }
+  function isPoly (shape) {
+    return shape[0] && shape[1] && !isNaN(shape[0].x) && !isNaN(shape[0].y) && !isNaN(shape[1].x) && !isNaN(shape[1].y)
   }
 
   function fitRect (image, container) {

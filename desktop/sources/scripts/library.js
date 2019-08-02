@@ -71,11 +71,11 @@ function Library (ronin) {
   }
 
   this.circle = (cx, cy, r) => { // Returns a circle shape.
-    return { x: cx - r, y: cy - r, cx, cy, r }
+    return { cx, cy, r }
   }
 
   this.ellipse = (cx, cy, rx, ry) => { // Returns a ellipse shape.
-    return { x: cx - r, y: cy - r, cx, cy, rx, ry }
+    return { cx, cy, rx, ry }
   }
 
   this.line = (ax, ay, bx, by) => { // Returns a line shape.
@@ -103,6 +103,10 @@ function Library (ronin) {
     a.x += b.x
     a.y += b.y
     return a
+  }
+
+  this.distance = (a, b) => { // Get distance between positions.
+    return Math.sqrt(((ax - bx) * (ax - bx)) + ((ay - by) * (ay - by)))
   }
 
   // Actions
@@ -234,7 +238,7 @@ function Library (ronin) {
   }
 
   this.saturation = (pixel, q) => { // Change the saturation of pixels.
-    const color = 0.2126 * pixel[0] + 0.7152 * pixel[1] + 0.0722 * pixel[2]
+    const color = this.lum(pixel)
     return [(color * (1 - q)) + (pixel[0] * q), (color * (1 - q)) + (pixel[1] * q), (color * (1 - q)) + (pixel[2] * q), pixel[3]]
   }
 
@@ -268,21 +272,13 @@ function Library (ronin) {
     return 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2]
   }
 
-  this.hue = (color) => { // Return the hue of a color.
-    const min = this.min(color.f[0], color.f[1], color.f[2])
-    const max = this.max(color.f[0], color.f[1], color.f[2])
-    if (min === max) { return 0 }
-    const hue = max == color.f[0] ? (color.f[1] - color.f[2]) / (max - min) : max == color.f[1] ? 2.0 + (color.f[2] - color.f[0]) / (max - min) : 4.0 + (color.f[0] - color.f[1]) / (max - min)
-    return this.round(hue < 0 ? hue * 60 + 360 : hue * 60)
-  }
-
   // Strings
 
-  this.concat = function (...items) { // Concat multiple strings.
+  this.concat = (...items) => { // Concat multiple strings.
     return items.reduce((acc, item) => { return `${acc}${item}` }, '')
   }
 
-  this.split = function (string, char) { // Split string at character.
+  this.split = (string, char) => { // Split string at character.
     return string.split(char)
   }
 
@@ -316,41 +312,23 @@ function Library (ronin) {
     return this.round(val / step) * step
   }
 
-  this.min = (...values) => { // Returns lowest value.
-    return Math.min(values)
-  }
+  this.min = Math.min // Returns lowest value.
 
-  this.max = (...values) => { // Returns highest value.
-    return Math.max(values)
-  }
+  this.max = Math.max // Returns highest value.
 
-  this.ceil = (val) => { // Rounds up to the nearest integer.
-    return Math.ceil
-  }
+  this.ceil = Math.ceil // Rounds up to the nearest integer.
 
-  this.floor = (val) => { // Rounds down to the nearest integer.
-    return Math.floor(val)
-  }
+  this.floor = Math.floor // Rounds down to the nearest integer.
 
-  this.round = (val) => { // Rounds to the nearest integer
-    return Math.round(val)
-  }
+  this.round = Math.round // Rounds to the nearest integer
 
-  this.sin = (val) => {
-    return Math.sin(val)
-  }
+  this.sin = Math.sin
 
-  this.cos = (val) => {
-    return Math.cos(val)
-  }
+  this.cos = Math.cos
 
-  this.log = (val) => {
-    return Math.log(val)
-  }
+  this.log = Math.log
 
-  this.pow = (a, b) => { // Calculates a^b.
-    return Math.pow(a, b)
-  }
+  this.pow = Math.pow
 
   this.sqrt = Math.sqrt // Calculate the square root.
 
