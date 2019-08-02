@@ -74,6 +74,10 @@ function Library (ronin) {
     return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
   }
 
+  this.hsl = (h, s, l, a = 1) => { // returns a HSL color object
+    return { h, s, l, a, toString: () =>  { return `hsla(${h},${s}%,${l}%,${a})` }, 0: h, 1: s, 2: l, 3: a, f: [h / 360, s / 100, l / 100, a] }
+  }
+
   // Frame
 
   this.frame = () => { // Returns a rect of the frame.
