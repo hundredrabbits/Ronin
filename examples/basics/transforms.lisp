@@ -1,7 +1,5 @@
 ; transforms
 (clear)
-(def f 
-  (frame))
 (transform:move 150 150)
 (fill 
   (circle 0 0 150) "#ffb545")
