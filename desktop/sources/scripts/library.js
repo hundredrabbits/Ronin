@@ -3,6 +3,55 @@ function Library (ronin) {
   // Composition: Design programs to be connected to other programs.
   // Parsimony: Write a big program only when it is clear by demonstration that nothing else will do.
 
+  // Shapes
+
+  this.pos = (x = 0, y = 0) => { // Returns a position shape.
+    return { x, y }
+  }
+
+  this.size = (w, h) => { // Returns a size shape.
+    return { w, h }
+  }
+
+  this.rect = (x, y, w, h) => { // Returns a rect shape.
+    return { x, y, w, h, pos: { x, y }, size: { w, h } }
+  }
+
+  this.circle = (cx, cy, r) => { // Returns a circle shape.
+    return { cx, cy, r }
+  }
+
+  this.ellipse = (cx, cy, rx, ry) => { // Returns a ellipse shape.
+    return { cx, cy, rx, ry }
+  }
+
+  this.line = (ax, ay, bx, by) => { // Returns a line shape.
+    return { a: this.pos(ax, ay), b: this.pos(bx, by) }
+  }
+
+  this.poly = (...pos) => { // Returns a poly shape.
+    return pos
+  }
+
+  this.text = (x, y, p, t, a = 'left', f = 'Arial') => { // Returns a text shape.
+    return { x, y, p, t, a, f }
+  }
+
+  this.svg = (x, y, d) => { // Returns a svg shape.
+    return { x, y, d }
+  }
+
+  this.arc = (cx, cy, r, sa, ea) => { // Returns an arc shape.
+    return { cx, cy, r, sa, ea }
+  }
+
+  this.color = (r, g, b, a = 1) => { // Returns a color object.
+    const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
+    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
+  }
+
+  //
+
   this.import = async (path, shape, alpha = 1) => { // Imports a graphic file with format.
     const img = new Image()
     img.src = path
@@ -125,49 +174,6 @@ function Library (ronin) {
     ronin.surface.context.restore()
   }
 
-  // Shapes
-
-  this.pos = (x = 0, y = 0) => { // Returns a position shape.
-    return { x, y }
-  }
-
-  this.size = (w, h) => { // Returns a size shape.
-    return { w, h }
-  }
-
-  this.rect = (x, y, w, h) => { // Returns a rect shape.
-    return { x, y, w, h, pos: { x, y }, size: { w, h } }
-  }
-
-  this.circle = (cx, cy, r) => { // Returns a circle shape.
-    return { cx, cy, r }
-  }
-
-  this.ellipse = (cx, cy, rx, ry) => { // Returns a ellipse shape.
-    return { cx, cy, rx, ry }
-  }
-
-  this.line = (ax, ay, bx, by) => { // Returns a line shape.
-    return { a: this.pos(ax, ay), b: this.pos(bx, by) }
-  }
-
-  this.poly = (...pos) => { // Returns a poly shape.
-    return pos
-  }
-
-  this.text = (x, y, p, t, a = 'left', f = 'Arial') => { // Returns a text shape.
-    return { x, y, p, t, a, f }
-  }
-
-  this.svg = (x, y, d) => { // Returns a svg shape.
-    return { x, y, d }
-  }
-
-  this.color = (r, g, b, a = 1) => { // Returns a color object.
-    const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
-    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
-  }
-
   // Actions
 
   this.stroke = (shape, color, thickness = 2) => { // Strokes a shape.
@@ -286,6 +292,14 @@ function Library (ronin) {
 
   this.mod = (a, b) => { // Returns the modulo of a and b.
     return a % b
+  }
+
+  this.rad = (degrees) => { // Convert radians to degrees.
+    return degrees * (Math.PI / 180)
+  }
+
+  this.deg = (radians) => { // Convert degrees to radians.
+    return radians * (180 / Math.PI)
   }
 
   this.clamp = (val, min, max) => { // Clamps a value between min and max.

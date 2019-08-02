@@ -1,4 +1,3 @@
-
 (clear)
 ; stroke rect
 (stroke 
@@ -11,6 +10,10 @@
   (line 0 150 300 150) "red")
 (stroke 
   (text 600 300 60 "hell") "white")
+(stroke 
+  (arc 600 298 296 
+    (rad 180) 
+    (rad -90)) "white")
 (stroke 
   (poly 
     (pos 300 300) 
@@ -27,6 +30,10 @@
   (line 0 150 300 150) "red")
 (fill 
   (text 600 300 60 "hell") "white")
+(fill 
+  (arc 600 298 296 
+    (rad 180) 
+    (rad -90)) "white")
 (fill 
   (poly 
     (pos 300 300) 

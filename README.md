@@ -38,6 +38,17 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 
 ## Library
 
+- `(pos ~x ~y)` Returns a position shape.
+- `(size w h)` Returns a size shape.
+- `(rect x y w h)` Returns a rect shape.
+- `(circle cx cy r)` Returns a circle shape.
+- `(ellipse cx cy rx ry)` Returns a ellipse shape.
+- `(line ax ay bx by)` Returns a line shape.
+- `(poly ...pos)` Returns a poly shape.
+- `(text x y p t ~a ~f)` Returns a text shape.
+- `(svg x y d)` Returns a svg shape.
+- `(arc cx cy r sa ea)` Returns an arc shape.
+- `(color r g b ~a)` Returns a color object.
 - `(import path shape ~alpha)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
 - `(open path ~ratio)` Imports a graphic file and resizes the frame.
@@ -58,16 +69,6 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(resetTransform)` 
 - `(pushTransform)` 
 - `(popTransform)` 
-- `(pos ~x ~y)` Returns a position shape.
-- `(size w h)` Returns a size shape.
-- `(rect x y w h)` Returns a rect shape.
-- `(circle cx cy r)` Returns a circle shape.
-- `(ellipse cx cy rx ry)` Returns a ellipse shape.
-- `(line ax ay bx by)` Returns a line shape.
-- `(poly ...pos)` Returns a poly shape.
-- `(text x y p t ~a ~f)` Returns a text shape.
-- `(svg x y d)` Returns a svg shape.
-- `(color r g b ~a)` Returns a color object.
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(gradient line ~colors 'black'])` Defines a gradient color.
@@ -89,6 +90,8 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(mul ...args)` Multiplies values.
 - `(div ...args)` Divides values.
 - `(mod a b)` Returns the modulo of a and b.
+- `(rad degrees)` Convert radians to degrees.
+- `(deg radians)` Convert degrees to radians.
 - `(clamp val min max)` Clamps a value between min and max.
 - `(step val step)` 
 - `(min)` Returns lowest value.

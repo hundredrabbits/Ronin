@@ -161,10 +161,16 @@ function Ronin () {
     const circle = {
       cx: this.mouseOrigin.x,
       cy: this.mouseOrigin.y,
-      r: d.toFixed(2),
-      edge: { x: rect.x - rect.w, y: rect.y - rect.h, w: rect.w * 2, h: rect.h * 2 }
+      r: d.toFixed(2)
     }
-    return { x, y, xy, wh, d, line, rect, pos, circle, type, 'is-down': type !== 'mouse-up' ? true : null }
+    const arc = {
+      cx: this.mouseOrigin.x,
+      cy: this.mouseOrigin.y,
+      r: d.toFixed(2),
+      sa: 0,
+      ea: Math.atan2(position.y - this.mouseOrigin.y, position.x - this.mouseOrigin.x).toFixed(2)
+    }
+    return { x, y, xy, wh, d, line, rect, pos, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
 
   // Zoom

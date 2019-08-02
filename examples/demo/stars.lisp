@@ -1,6 +1,8 @@
 ; stars
 (clear)
 ; times
+
+(def frame-rect (frame))
 (defn times 
   (v f) 
   (
@@ -28,8 +30,11 @@
   (cx cy r a) 
   (
     (stroke 
-      (line cx cy (:x (circle-pos cx cy r a)) (:y (circle-pos cx cy r a))
-        ) "white" 2)))
+      (line cx cy 
+        (:x 
+          (circle-pos cx cy r a)) 
+        (:y 
+          (circle-pos cx cy r a))) "white" 2)))
 ;
 (defn draw-star 
   (cx cy r c) 
