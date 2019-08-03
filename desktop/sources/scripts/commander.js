@@ -1,4 +1,5 @@
 function Commander (ronin) {
+  this.docs = new Docs(ronin)
   this.el = document.createElement('div')
   this.el.id = 'commander'
   this._input = document.createElement('textarea')
@@ -222,47 +223,6 @@ function Commander (ronin) {
   this.feedback = function () {
     this._run.className = 'active'
     setTimeout(() => { this._run.className = '' }, 150)
-  }
-
-  // Docs micro-module
-
-  this.docs = {
-    dict: {},
-    load: function () {
-      const fs = require('fs')
-      const path = require('path')
-      const p = path.join(__dirname, 'scripts/', 'library.js')
-      if (!fs.existsSync(p)) { console.warn('Docs', 'File does not exist: ' + p); return }
-      const lines = fs.readFileSync(p, 'utf8').split('\n').filter((line) => { return line.substr(0, 7) === '  this.' })
-      return lines.map((line) => { return line.trim().substr(5).trim() })
-    },
-    install: function (payload = this.load()) {
-      for (const id in payload) {
-        const name = payload[id].substr(0, payload[id].indexOf(' = '))
-        const parent = payload[id].substr(payload[id].indexOf(' = ')).match(/\(([^)]+)\)/)
-        const params = parent ? parent[1].split(',').map((word) => { return word.indexOf(' = ') > -1 ? '~' + (word.split(' = ')[0]).trim() : word.trim() }) : []
-        const note = payload[id].indexOf('// ') > -1 ? payload[id].split('//')[1].trim() : ''
-        this.dict[name] = { note, params }
-        if (params.length < 1) { console.warn('Docs', 'Missing params for ' + name) }
-        if (note === '') { console.warn('Docs', 'Missing note for ' + name) }
-      }
-      console.log('Docs', `Loaded ${Object.keys(this.dict).length} functions.`)
-      console.log(this.toMarkdown())
-    },
-    toMarkdown: function () {
-      return Object.keys(this.dict).reduce((acc, item, key) => {
-        const example = `${item} ${this.dict[item].params.reduce((acc, item) => {
-          return `${acc}${item} `
-        }, '').trim()}`
-        return `${acc}- \`(${example.trim()})\` ${this.dict[item].note}\n`
-      }, '')
-    },
-    hasDocs: function (name) {
-      return !!this.dict[name]
-    },
-    print: function (name) {
-      return `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})`
-    }
   }
 
   // Splash

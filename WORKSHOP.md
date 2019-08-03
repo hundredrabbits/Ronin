@@ -1,5 +1,7 @@
 # Workshop
 
+<img src="https://raw.githubusercontent.com/hundredrabbits/100r.co/master/media/content/characters/ronin.pose.png" width="300"/>
+
 This workshop is designed to go over the **most commonly used functions** with [Ronin](https://github.com/hundredrabbits/Ronin). The list of all available functions and their usage is located [here](https://github.com/hundredrabbits/Ronin/#library). You can also follow along our [video tutorial](https://youtu.be/SgAWGh1s9zg).
 
 - **Part 1**: [Images](#Images) `(open)`, `(import)`, `(crop)`, `(export)`
@@ -62,7 +64,7 @@ For example, a version of that same code with file paths, might look something l
 (export "~/Desktop/export.png")
 ```
 
-You could also **generate the export path from the import path**, like this:
+You could also **generate the export path from the import path**. To import `~/Desktop/photo.jpg`, and automatically generate the export path `~/Desktop/photo-export.jpg`, use this:
 
 ```lisp
 (def import-path $path)
@@ -70,8 +72,8 @@ You could also **generate the export path from the import path**, like this:
   (concat 
     (dirpath import-path) "/" 
     (filename import-path) "-export.jpg"))
-(import import-path) ; "~/Desktop/photo.jpg"
-(export export-path) ; "~/Desktop/photo-export.jpg"
+(import import-path)
+(export export-path)
 ```
 
 ## Draw
@@ -184,6 +186,8 @@ Custom convolve kernels can also be created like this:
     (-1 -1 -1)))
 (convolve blur)
 ```
+
+<img src="https://raw.githubusercontent.com/hundredrabbits/100r.co/master/media/content/characters/ronin.idle.png" width="300"/>
 
 ## Events
 
