@@ -27,6 +27,14 @@ function Surface (ronin) {
     this.maximize()
   }
 
+  this.onResize = function () {
+    if (ronin.commander._input.value === '') {
+      this.maximize()
+    }
+    const f = this.getFrame()
+    ronin.log(`resize ${f.w}x${f.h}`)
+  }
+
   // Shape
 
   this.stroke = (shape, color = ronin.theme.get('f_high'), width = 2, context = this.context) => {
@@ -69,6 +77,16 @@ function Surface (ronin) {
       context.fill()
     }
     context.closePath()
+  }
+
+  // Clear
+
+  this.clear = function (rect = this.getFrame(), context = this.context) {
+    context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+
+  this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
+    context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
 
   // Tracers
@@ -192,14 +210,6 @@ function Surface (ronin) {
     this.context.drawImage(crop, 0, 0)
   }
 
-  this.clear = function (rect = this.getFrame(), context = this.context) {
-    context.clearRect(rect.x, rect.y, rect.w, rect.h)
-  }
-
-  this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
-    context.clearRect(rect.x, rect.y, rect.w, rect.h)
-  }
-
   this.drawGuide = function (shape, color = 'white', context = this.guide) {
     if (!shape) { return }
     this.stroke(shape.rect || shape, 'black', 4, context)
@@ -231,33 +241,6 @@ function Surface (ronin) {
     if (fit === true) {
       this.fitWindow(size)
     }
-  }
-
-  this.fitWindow = function (size) {
-    const win = require('electron').remote.getCurrentWindow()
-    const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
-    if (size.w < 10 || size.h < 10) { return }
-    win.setSize(Math.floor((size.w / this.ratio) + pad.w), Math.floor((size.h / this.ratio) + pad.h), true)
-  }
-
-  this.maximize = () => {
-    this.resize(this.bounds())
-  }
-
-  this.bounds = () => {
-    return { x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio) }
-  }
-
-  this.getFrame = () => {
-    return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2 }
-  }
-
-  this.onResize = function () {
-    if (ronin.commander._input.value === '') {
-      this.maximize()
-    }
-    const f = this.getFrame()
-    ronin.log(`resize ${f.w}x${f.h}`)
   }
 
   this.copy = function (rect) {
@@ -301,6 +284,25 @@ function Surface (ronin) {
         return resolve()
       }
     })
+  }
+
+  this.fitWindow = function (size) {
+    const win = require('electron').remote.getCurrentWindow()
+    const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
+    if (size.w < 10 || size.h < 10) { return }
+    win.setSize(Math.floor((size.w / this.ratio) + pad.w), Math.floor((size.h / this.ratio) + pad.h), true)
+  }
+
+  this.maximize = () => {
+    this.resize(this.bounds())
+  }
+
+  this.bounds = () => {
+    return { x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio) }
+  }
+
+  this.getFrame = () => {
+    return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2 }
   }
 
   this.toggleGuides = function () {
