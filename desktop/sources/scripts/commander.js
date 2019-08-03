@@ -76,7 +76,6 @@ function Commander (ronin) {
     const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
     return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
   }
-  
 
   this.reindent = function () {
     let val = this._input.value.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()

@@ -1,5 +1,4 @@
 function Docs (ronin) {
-  
   this.dict = {}
 
   this.load = () => {

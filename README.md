@@ -40,7 +40,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 
 - `(import path shape ~alpha)` Imports a graphic file with format.
 - `(export path ~format ~quality)` Exports a graphic file with format.
-- `(open path ~ratio ~orientation ~mirrorx ~mirrory)` Imports a graphic file and resizes the frame.
+- `(open path ~ratio)` Imports a graphic file and resizes the frame.
 - `(exit ~force)` Exits Ronin.
 - `(pos ~x ~y)` Returns a position shape.
 - `(line ax ay bx by)` Returns a line shape.
@@ -62,7 +62,9 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(drag ~rect)` Drag a part of the canvas.
 - `(view a b)` View a part of the canvas.
 - `(pick ~shape)` Returns the color of a pixel at pos, or of the average of the pixels in rect.
-- `(transform)` The transform toolkit.
+- `(orient ~deg)` Orient canvas with angle in degrees.
+- `(mirror)` Mirror canvas, methods: `x`, `y`.
+- `(transform)` The transform toolkit, methods `push`, `pop`, `reset`, `move`, `scale`, `rotate`.
 - `(stroke shape color ~thickness)` Strokes a shape.
 - `(fill ~rect)` Fills a shape.
 - `(clear ~rect)` Clears a rect.

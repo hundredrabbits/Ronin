@@ -19,8 +19,8 @@ function Library (ronin) {
     return path
   }
 
-  this.open = async (path, ratio = 1, orientation = 0, mirrorx = 1, mirrory = 1) => { // Imports a graphic file and resizes the frame.
-    return ronin.surface.open(path, ratio, orientation, mirrorx, mirrory)
+  this.open = async (path, ratio = 1) => { // Imports a graphic file and resizes the frame.
+    return ronin.surface.open(path, ratio)
   }
 
   this.exit = (force = false) => { // Exits Ronin.
@@ -144,9 +144,46 @@ function Library (ronin) {
     return this.color(this.floor(sum[0] / count), this.floor(sum[1] / count), this.floor(sum[2] / count))
   }
 
+  this.orient = async (deg = 0) => { // Orient canvas with angle in degrees.
+    const mode = Math.floor(deg / 90) % 4
+    const img = document.createElement('img')
+    img.onload = () => {
+      const offset = { x: [0, 0, -img.width, -img.width], y: [0, -img.height, -img.height, 0] }
+      const rect = { x: 0, y: 0, w: (mode === 1 || mode === 3 ? img.height : img.width), h: (mode === 1 || mode === 3 ? img.width : img.height) }
+      ronin.surface.resize(rect, false)
+      ronin.surface.context.save()
+      ronin.surface.context.rotate(this.rad(mode * 90))
+      ronin.surface.context.translate(offset.x[mode], offset.y[mode])
+      ronin.surface.context.drawImage(img, 0, 0)
+      ronin.surface.context.restore()
+    }
+    img.src = ronin.surface.el.toDataURL()
+  }
+
+  this.mirror = { // Mirror canvas, methods: `x`, `y`.
+    x: async (j = 0) => {
+      const img = document.createElement('img')
+      img.src = ronin.surface.el.toDataURL()
+      ronin.surface.context.save()
+      ronin.surface.context.translate(img.width, 0)
+      ronin.surface.context.scale(-1, 1)
+      ronin.surface.context.drawImage(img, 0, 0)
+      ronin.surface.context.restore()
+    },
+    y: async (j = 0) => {
+      const img = document.createElement('img')
+      img.src = ronin.surface.el.toDataURL()
+      ronin.surface.context.save()
+      ronin.surface.context.translate(0, img.height)
+      ronin.surface.context.scale(1, -1)
+      ronin.surface.context.drawImage(img, 0, 0)
+      ronin.surface.context.restore()
+    }
+  }
+
   // Transforms
 
-  this.transform = { // The transform toolkit.
+  this.transform = { // The transform toolkit, methods `push`, `pop`, `reset`, `move`, `scale`, `rotate`.
     push: () => {
       ronin.surface.context.save()
     },
