@@ -145,38 +145,36 @@ function Library (ronin) {
   }
 
   this.orient = async (deg = 0) => { // Orient canvas with angle in degrees.
+    const copy = await this.copy()
+    const frame = this['get-frame']()
     const mode = Math.floor(deg / 90) % 4
-    const img = document.createElement('img')
-    img.onload = () => {
-      const offset = { x: [0, 0, -img.width, -img.width], y: [0, -img.height, -img.height, 0] }
-      const rect = { x: 0, y: 0, w: (mode === 1 || mode === 3 ? img.height : img.width), h: (mode === 1 || mode === 3 ? img.width : img.height) }
-      ronin.surface.resize(rect, false)
-      ronin.surface.context.save()
-      ronin.surface.context.rotate(this.rad(mode * 90))
-      ronin.surface.context.translate(offset.x[mode], offset.y[mode])
-      ronin.surface.context.drawImage(img, 0, 0)
-      ronin.surface.context.restore()
-    }
-    img.src = ronin.surface.el.toDataURL()
+    const offset = { x: [0, 0, -frame.w, -frame.w], y: [0, -frame.h, -frame.h, 0] }
+    const rect = { x: 0, y: 0, w: (mode === 1 || mode === 3 ? frame.h : frame.w), h: (mode === 1 || mode === 3 ? frame.w : frame.h) }
+    ronin.surface.resize(rect, false)
+    ronin.surface.context.save()
+    ronin.surface.context.rotate(this.rad(mode * 90))
+    ronin.surface.context.translate(offset.x[mode], offset.y[mode])
+    ronin.surface.context.drawImage(copy, 0, 0)
+    ronin.surface.context.restore()
   }
 
   this.mirror = { // Mirror canvas, methods: `x`, `y`.
     x: async (j = 0) => {
-      const img = document.createElement('img')
-      img.src = ronin.surface.el.toDataURL()
+      const copy = await this.copy()
+      const frame = this['get-frame']()
       ronin.surface.context.save()
-      ronin.surface.context.translate(img.width, 0)
+      ronin.surface.context.translate(frame.w, 0)
       ronin.surface.context.scale(-1, 1)
-      ronin.surface.context.drawImage(img, 0, 0)
+      ronin.surface.context.drawImage(copy, 0, 0)
       ronin.surface.context.restore()
     },
     y: async (j = 0) => {
-      const img = document.createElement('img')
-      img.src = ronin.surface.el.toDataURL()
+      const copy = await this.copy()
+      const frame = this['get-frame']()
       ronin.surface.context.save()
-      ronin.surface.context.translate(0, img.height)
+      ronin.surface.context.translate(0, frame.h)
       ronin.surface.context.scale(1, -1)
-      ronin.surface.context.drawImage(img, 0, 0)
+      ronin.surface.context.drawImage(copy, 0, 0)
       ronin.surface.context.restore()
     }
   }
