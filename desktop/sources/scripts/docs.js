@@ -1,5 +1,7 @@
 function Docs (ronin) {
+  
   this.dict = {}
+
   this.load = () => {
     const fs = require('fs')
     const path = require('path')
@@ -8,6 +10,7 @@ function Docs (ronin) {
     const lines = fs.readFileSync(p, 'utf8').split('\n').filter((line) => { return line.substr(0, 7) === '  this.' })
     return lines.map((line) => { return line.trim().substr(5).trim() })
   }
+
   this.install = (payload = this.load()) => {
     for (const id in payload) {
       const name = payload[id].substr(0, payload[id].indexOf(' = '))
@@ -21,6 +24,7 @@ function Docs (ronin) {
     console.log('Docs', `Loaded ${Object.keys(this.dict).length} functions.`)
     console.log(this.toMarkdown())
   }
+
   this.toMarkdown = () => {
     return Object.keys(this.dict).reduce((acc, item, key) => {
       const example = `${item} ${this.dict[item].params.reduce((acc, item) => {
@@ -29,9 +33,11 @@ function Docs (ronin) {
       return `${acc}- \`(${example.trim()})\` ${this.dict[item].note}\n`
     }, '')
   }
+
   this.hasDocs = (name) => {
     return !!this.dict[name]
   }
+
   this.print = (name) => {
     return `(${name} ${this.dict[name].params.reduce((acc, item) => { return `${acc}${item} ` }, '').trim()})`
   }

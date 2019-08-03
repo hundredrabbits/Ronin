@@ -11,7 +11,6 @@
     <script type="text/javascript" src="scripts/lisp.js"></script>
     <script type="text/javascript" src="scripts/library.js"></script>
     <script type="text/javascript" src="scripts/osc.js"></script>
-
     <link rel="stylesheet" type="text/css" href="links/reset.css"/>
     <link rel="stylesheet" type="text/css" href="links/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="links/main.css"/>
@@ -23,7 +22,6 @@
       const {dialog,app} = require('electron').remote;
       const fs = require('fs')
       const ronin = new Ronin()
-
       ronin.controller = new Controller()
       ronin.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Ronin'); },"CmdOrCtrl+,");
       ronin.controller.add("default","*","Fullscreen",() => { app.toggleFullscreen() },"CmdOrCtrl+Enter");
@@ -58,7 +56,6 @@
       ronin.controller.addSpacer('default', 'Theme', 'Download')
       ronin.controller.add("default","Theme","Download Themes..",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Themes') })
       ronin.controller.commit()
-
       ronin.install(document.body)
       window.addEventListener('load', () => { ronin.start() })
     </script>

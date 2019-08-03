@@ -3,15 +3,11 @@ function Commander (ronin) {
   this.el = document.createElement('div')
   this.el.id = 'commander'
   this._input = document.createElement('textarea')
-  this._status = document.createElement('div')
-  this._status.id = 'status'
-  this._log = document.createElement('div')
-  this._log.id = 'log'
-  this._docs = document.createElement('div')
-  this._docs.id = 'help'
-  this._run = document.createElement('a')
-  this._run.id = 'run'
-  this._run.setAttribute('title', 'Run(c-R)')
+  this._status = document.createElement('div'); this._status.id = 'status'
+  this._log = document.createElement('div'); this._log.id = 'log'
+  this._docs = document.createElement('div'); this._docs.id = 'help'
+  this._run = document.createElement('a'); this._run.id = 'run'
+
   this.isVisible = true
 
   this.install = function (host) {
@@ -21,6 +17,7 @@ function Commander (ronin) {
     this._status.appendChild(this._run)
     this.el.appendChild(this._status)
     host.appendChild(this.el)
+    this._run.setAttribute('title', 'Run(c-R)')
     this._input.addEventListener('input', this.onInput)
     this._input.addEventListener('click', this.onClick)
     this._run.addEventListener('click', () => { this.run() })
@@ -57,8 +54,32 @@ function Commander (ronin) {
     this.load('')
   }
 
+  this.cleanup = function () {
+    this._input.value = this.clean(this._input.value)
+    this.reindent()
+    this.run()
+  }
+
+  this.update = function () {
+
+  }
+
+  this.onInput = () => {
+    this.setStatus()
+  }
+
+  this.onClick = () => {
+    this.setStatus()
+  }
+
+  this.getLastfn = function () {
+    const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
+    return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
+  }
+  
+
   this.reindent = function () {
-    let val = this._input.value.replace(/\n/g, '').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
+    let val = this._input.value.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
     let depth = 0
     if (val.split('(').length !== val.split(')').length) {
       ronin.log('Uneven number of parens.')
@@ -89,12 +110,6 @@ function Commander (ronin) {
     return input
   }
 
-  this.cleanup = function () {
-    this._input.value = this.clean(this._input.value)
-    this.reindent()
-    this.run()
-  }
-
   this.setStatus = function (msg) {
     // Logs
     if (msg && msg !== this._log.textContent) {
@@ -107,23 +122,6 @@ function Commander (ronin) {
     if (_docs !== this._docs.textContent) {
       this._docs.textContent = `${_docs}`
     }
-  }
-
-  this.update = function () {
-
-  }
-
-  this.onInput = () => {
-    this.setStatus()
-  }
-
-  this.onClick = () => {
-    this.setStatus()
-  }
-
-  this.getLastfn = function () {
-    const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
-    return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
   }
 
   // Injection

@@ -146,7 +146,7 @@ function Library (ronin) {
 
   // Transforms
 
-  this.transform = { // The transform toolkit, use like (transform:move 10 10).
+  this.transform = { // The transform toolkit.
     push: () => {
       ronin.surface.context.save()
     },
