@@ -7,23 +7,23 @@ function Source (ronin) {
 
   this.path = null
 
-  this.start = function () {
-    this.new()
+  this.start = async () => {
+    await this.new()
   }
 
-  this.new = function () {
+  this.new = async () => {
     console.log('Source', 'Make a new file..')
     this.path = null
     ronin.surface.clear()
-    ronin.commander.clear()
+    await ronin.commander.clear()
     ronin.log(`New file.`)
   }
 
-  this.open = function () {
+  this.open = async () => {
     console.log('Source', 'Open a file..')
     let paths = dialog.showOpenDialog(app.win, { properties: ['openFile'], filters: [{ name: 'Ronin Lisp', extensions: ['lisp'] }] })
     if (!paths) { console.log('Nothing to load'); return }
-    this.read(paths[0])
+    await this.read(paths[0])
   }
 
   this.save = function (quitAfter = false) {
@@ -45,10 +45,10 @@ function Source (ronin) {
     })
   }
 
-  this.revert = function () {
+  this.revert = async () => {
     if (!this.path) { return }
     console.log('Source', 'Revert a file..')
-    this.read(this.path)
+    await this.read(this.path)
   }
 
   // I/O
@@ -62,17 +62,17 @@ function Source (ronin) {
     ronin.log(`Writing file.`)
   }
 
-  this.read = function (loc = this.path) {
+  this.read = async (loc = this.path) => {
     if (!loc) { return }
     if (!fs.existsSync(loc)) { console.warn('Source', 'File does not exist: ' + loc); return }
     console.log('Source', 'Reading ' + loc)
     this.path = loc
-    ronin.commander.load(fs.readFileSync(this.path, 'utf8'))
+    await ronin.commander.load(fs.readFileSync(this.path, 'utf8'))
     ronin.log(`Reading file.`)
   }
 
-  this.run = function () {
-    ronin.commander.run()
+  this.run = async () => {
+    await ronin.commander.run()
   }
 
   this.quit = function (force = false) {

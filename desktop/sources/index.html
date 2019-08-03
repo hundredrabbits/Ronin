@@ -29,11 +29,11 @@
       ronin.controller.add("default","*","Inspect",() => { app.inspect() },"CmdOrCtrl+.");
       ronin.controller.add("default","*","Reset",() => { ronin.reset(); ronin.theme.reset() },"CmdOrCtrl+Backspace");
       ronin.controller.add("default","*","Quit",() => { ronin.source.quit() },"CmdOrCtrl+Q");
-      ronin.controller.add("default","File","New",() => { ronin.source.new() },"CmdOrCtrl+N")
+      ronin.controller.add("default","File","New",async () => { await ronin.source.new() },"CmdOrCtrl+N")
       ronin.controller.add("default","File","Save",() => { ronin.source.save() },"CmdOrCtrl+S")
       ronin.controller.add("default","File","Save As",() => { ronin.source.saveAs() },"CmdOrCtrl+Shift+S")
-      ronin.controller.add("default","File","Open",() => { ronin.source.open() },"CmdOrCtrl+O")
-      ronin.controller.add("default","File","Revert",() => { ronin.source.revert() },"CmdOrCtrl+W")
+      ronin.controller.add("default","File","Open",async () => { await ronin.source.open() },"CmdOrCtrl+O")
+      ronin.controller.add("default","File","Revert",async () => { await ronin.source.revert() },"CmdOrCtrl+W")
       ronin.controller.addRole('default', 'Edit', 'undo')
       ronin.controller.addRole('default', 'Edit', 'redo')
       ronin.controller.addRole('default', 'Edit', 'cut')
@@ -42,22 +42,22 @@
       ronin.controller.addRole('default', 'Edit', 'delete')
       ronin.controller.addRole('default', 'Edit', 'selectall')
       ronin.controller.add("default","Edit","Re-Indent",() => { ronin.commander.reindent() },"CmdOrCtrl+Shift+I")
-      ronin.controller.add("default","Edit","Clean",() => { ronin.commander.cleanup() },"Escape")
+      ronin.controller.add("default","Edit","Clean",async () => { await ronin.commander.cleanup() },"Escape")
       ronin.controller.add("default","View","Zoom In",() => { ronin.modZoom(0.25) },"CmdOrCtrl+=")
       ronin.controller.add("default","View","Zoom Out",() => { ronin.modZoom(-0.25) },"CmdOrCtrl+-")
       ronin.controller.add("default","View","Zoom Reset",() => { ronin.modZoom(1,true) },"CmdOrCtrl+0")
       ronin.controller.add("default","View","Toggle Commander",() => { ronin.commander.toggle(); },"CmdOrCtrl+K");
       ronin.controller.add("default","View","Toggle Guides",() => { ronin.surface.toggleGuides(); },"CmdOrCtrl+Shift+H");
       ronin.controller.add("default","View","Expand Commander",() => { ronin.commander.toggle(true); },"CmdOrCtrl+Shift+K");
-      ronin.controller.add("default","Project","Run",() => { ronin.commander.run(); },"CmdOrCtrl+R");
-      ronin.controller.add("default","Project","Reload Run",() => { ronin.source.revert(); ronin.commander.run(); },"CmdOrCtrl+Shift+R");
+      ronin.controller.add("default","Project","Run",async () => { await ronin.commander.run(); },"CmdOrCtrl+R");
+      ronin.controller.add("default","Project","Reload Run",async () => { await ronin.source.revert(); await ronin.commander.run(); },"CmdOrCtrl+Shift+R");
       ronin.controller.add("default","Theme","Open Theme",() => { ronin.theme.open() },"CmdOrCtrl+Shift+O")
       ronin.controller.add("default","Theme","Reset Theme",() => { ronin.theme.reset() },"CmdOrCtrl+Shift+Backspace")
       ronin.controller.addSpacer('default', 'Theme', 'Download')
       ronin.controller.add("default","Theme","Download Themes..",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Themes') })
       ronin.controller.commit()
       ronin.install(document.body)
-      window.addEventListener('load', () => { ronin.start() })
+      window.addEventListener('load', async () => { await ronin.start() })
     </script>
   </body>
 </html>

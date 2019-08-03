@@ -20,7 +20,7 @@ function Commander (ronin) {
     this._run.setAttribute('title', 'Run(c-R)')
     this._input.addEventListener('input', this.onInput)
     this._input.addEventListener('click', this.onClick)
-    this._run.addEventListener('click', () => { this.run() })
+    this._run.addEventListener('click', async () => { await this.run() })
 
     this._input.onkeydown = (e) => {
       if (e.keyCode == 9 || e.which == 9) { e.preventDefault(); this.inject('  ') }
@@ -29,35 +29,36 @@ function Commander (ronin) {
     this.docs.install()
   }
 
-  this.start = function () {
+  this.start = async () => {
     this.setStatus('Ready.')
-    this.load(this.splash)
+    await this.load(this.splash)
     this.show()
   }
 
-  this.run = (txt = this._input.value) => {
+  this.run = async (txt = this._input.value) => {
     if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
     ronin.bindings = {}
     if (this._input.value.trim() === '') {
       ronin.surface.maximize()
     }
-    ronin.interpreter.run(txt)
-    this.feedback()
+    this._run.className = 'active'
+    await ronin.interpreter.run(txt)
+    this._run.className = ''
   }
 
-  this.load = function (txt) {
+  this.load = async (txt) => {
     this._input.value = txt
-    this.run(txt)
+    await this.run(txt)
   }
 
-  this.clear = function () {
-    this.load('')
+  this.clear = async () => {
+    await this.load('')
   }
 
-  this.cleanup = function () {
+  this.cleanup = async () => {
     this._input.value = this.clean(this._input.value)
     this.reindent()
-    this.run()
+    await this.run()
   }
 
   this.update = function () {
@@ -144,7 +145,7 @@ function Commander (ronin) {
 
   // Helpers
 
-  this.commit = function (shape, end = false, run = false) {
+  this.commit = async (shape, end = false, run = false) => {
     if (this.cache.indexOf('$') < 0) { return }
     const segs = this.cache.split('$')
     const words = segs[1].split(' ')
@@ -175,7 +176,7 @@ function Commander (ronin) {
       this.cache = this._input.value
     }
     if (run === true) {
-      this.run()
+      await this.run()
     }
   }
 
@@ -215,11 +216,6 @@ function Commander (ronin) {
 
   this.length = function () {
     return this._input.value.split('\n').length
-  }
-
-  this.feedback = function () {
-    this._run.className = 'active'
-    setTimeout(() => { this._run.className = '' }, 150)
   }
 
   // Splash

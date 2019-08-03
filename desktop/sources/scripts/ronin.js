@@ -35,13 +35,13 @@ function Ronin () {
     this.theme.install()
 
     window.addEventListener('dragover', this.drag)
-    window.addEventListener('drop', this.drop)
+    window.addEventListener('drop', async () => { await this.drop() })
   }
 
-  this.start = function () {
+  this.start = async () => {
     this.theme.start()
-    this.source.start()
-    this.commander.start()
+    await this.source.start()
+    await this.commander.start()
     this.surface.start()
     this.osc.start()
     this.loop()
@@ -106,27 +106,27 @@ function Ronin () {
     }
   }
 
-  this.onMouseMove = (e, id = 'mouse-move') => {
+  this.onMouseMove = async (e, id = 'mouse-move') => {
     const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
     const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
     }
     if (this.mouseOrigin) {
-      this.commander.commit(shape, false, e.which !== 1)
+      await this.commander.commit(shape, false, e.which !== 1)
       this.surface.clearGuide()
       this.surface.drawGuide(shape)
     }
   }
 
-  this.onMouseUp = (e, id = 'mouse-up') => {
+  this.onMouseUp = async (e, id = 'mouse-up') => {
     const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
     const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
     }
     if (this.mouseOrigin) {
-      this.commander.commit(shape, true, e.which !== 1)
+      await this.commander.commit(shape, true, e.which !== 1)
     }
     this.mouseOrigin = null
     this.surface.clearGuide()
@@ -204,7 +204,7 @@ function Ronin () {
     e.dataTransfer.dropEffect = 'copy'
   }
 
-  this.drop = (e) => {
+  this.drop = async (e) => {
     e.preventDefault()
     e.stopPropagation()
     const file = e.dataTransfer.files[0]
@@ -214,7 +214,7 @@ function Ronin () {
       this.commander.injectPath(file.path)
       this.commander.show()
     } else if (path.indexOf('.lisp') > -1) {
-      this.source.read(path)
+      await this.source.read(path)
       this.commander.show()
     }
   }
