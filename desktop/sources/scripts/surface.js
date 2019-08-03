@@ -173,7 +173,7 @@ function Surface (ronin) {
       img.src = path
       img.onload = () => {
         const rect = { x: 0, y: 0, w: img.width * ratio, h: img.height * ratio }
-        this.resize(rect)
+        this.resize(rect,true)
         this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h)
         resolve()
       }
