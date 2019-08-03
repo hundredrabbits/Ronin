@@ -268,11 +268,15 @@ function Commander (ronin) {
   // Splash
 
   this.splash = `; welcome to ronin
-; v2.29
+; v2.30
 (clear) 
 (def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
+(def pos-x 
+  (mul frame:c 0.25))
+(def pos-y 
+  (sub frame:m 150))
 (stroke 
-  (svg 185 180 logo-path) "white" 5)`
+  (svg pos-x pos-y logo-path) theme:b_high 5)`
 
   String.prototype.insert = function (s, i) { return [this.slice(0, i), `${s}`, this.slice(i)].join('') }
 }

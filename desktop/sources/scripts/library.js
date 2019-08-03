@@ -71,7 +71,8 @@ function Library (ronin) {
 
   this.color = (r, g, b, a = 1) => { // Returns a color object.
     const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
-    return { r, g, b, a, hex, toString: () => { return `rgba(${r},${g},${b},${a})` }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
+    const rgba = `rgba(${r},${g},${b},${a})`
+    return { r, g, b, a, hex, rgba, toString: () => { return rgba }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
   }
 
   this.hsl = (h, s, l, a = 1) => { // returns a HSL color object
@@ -80,12 +81,8 @@ function Library (ronin) {
 
   // Frame
 
-  this.frame = () => { // Returns a rect of the frame.
-    return ronin.surface.getFrame()
-  }
-
   this.resize = async (w = ronin.surface.bounds().w, h = ronin.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
-    if (w === this.frame().w && h === this.frame().h) { return }
+    if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
@@ -96,7 +93,7 @@ function Library (ronin) {
   }
 
   this.rescale = async (w = 1, h = 1) => { // Rescales the canvas to target ratio of w and h, returns the rect.
-    const rect = { x: 0, y: 0, w: this.frame().w * w, h: this.frame().h * h }
+    const rect = { x: 0, y: 0, w: this['get-frame']().w * w, h: this['get-frame']().h * h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = ronin.surface.el.toDataURL()
@@ -105,19 +102,19 @@ function Library (ronin) {
     return ronin.surface.draw(b, rect)
   }
 
-  this.crop = async (rect = this.frame()) => { // Crop canvas to rect.
+  this.crop = async (rect = this['get-frame']()) => { // Crop canvas to rect.
     return ronin.surface.crop(rect)
   }
 
-  this.copy = async (rect = this.frame()) => { // Copy a section of the canvas.
+  this.copy = async (rect = this['get-frame']()) => { // Copy a section of the canvas.
     return ronin.surface.copy(rect)
   }
 
-  this.paste = async (copy, rect = this.frame()) => { // Paste a section of the canvas.
+  this.paste = async (copy, rect = this['get-frame']()) => { // Paste a section of the canvas.
     return ronin.surface.paste(copy, rect)
   }
 
-  this.drag = (rect = this.frame(), line = this.line()) => { // Drag a part of the canvas.
+  this.drag = (rect = this['get-frame'](), line = this.line()) => { // Drag a part of the canvas.
     const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
     const crop = ronin.surface.copy(rect)
     ronin.surface.clear(rect)
@@ -134,7 +131,7 @@ function Library (ronin) {
     ronin.surface.context.drawImage(this.copy(a), b.x, b.y, b.w, b.h)
   }
 
-  this.pick = (shape = this.frame()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
+  this.pick = (shape = this['get-frame']()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
     const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     const sum = [0, 0, 0]
@@ -184,12 +181,12 @@ function Library (ronin) {
     return shape
   }
 
-  this.fill = (rect = this.frame(), color) => { // Fills a shape.
+  this.fill = (rect = this['get-frame'](), color) => { // Fills a shape.
     ronin.surface.fill(rect, color)
     return rect
   }
 
-  this.clear = (rect = this.frame()) => { // Clears a rect.
+  this.clear = (rect = this['get-frame']()) => { // Clears a rect.
     ronin.surface.clearGuide(rect)
     ronin.surface.clear(rect)
     return rect
@@ -210,7 +207,7 @@ function Library (ronin) {
 
   // Pixels
 
-  this.pixels = async (fn, q = 1, rect = this.frame()) => {
+  this.pixels = async (fn, q = 1, rect = this['get-frame']()) => {
     if (!fn) { console.warn('Unknown function'); return rect }
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
@@ -473,7 +470,7 @@ function Library (ronin) {
 
   // Convolve
 
-  this.convolve = (kernel, rect = this.frame()) => {
+  this.convolve = (kernel, rect = this['get-frame']()) => {
     const sigma = kernel.flat().reduce((a, x) => (a + x))
     const kw = kernel[0].length; const kh = kernel.length
     const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
@@ -589,5 +586,11 @@ function Library (ronin) {
 
   // Accessors
 
-  this.theme = ronin.theme.active // Get theme values.
+  this['get-theme'] = () => { // Get theme values.
+    return ronin.theme.active
+  }
+
+  this['get-frame'] = () => { // Get theme values.
+    return ronin.surface.getFrame()
+  }
 }

@@ -21,6 +21,8 @@ function Surface (ronin) {
     this._guide.addEventListener('keydown', ronin.onKeyDown, false)
     this._guide.addEventListener('keyup', ronin.onKeyUp, false)
     this._guide.addEventListener('keypress', ronin.onKeyPress, false)
+
+    this.frame = this.getFrame()
   }
 
   this.start = function () {
@@ -33,7 +35,7 @@ function Surface (ronin) {
     context.beginPath()
     this.trace(shape, context)
     context.lineWidth = width
-    context.strokeStyle = color.hex ? color.hex : color
+    context.strokeStyle = color.rgba ? color.rgba : color
     if (isText(shape)) {
       context.textAlign = shape.a
       context.font = `${shape.p}px ${shape.f}`
@@ -54,7 +56,7 @@ function Surface (ronin) {
 
   this.fill = (shape, color = ronin.theme.get('b_high'), context = this.context) => {
     context.beginPath()
-    context.fillStyle = typeof color === 'object' && color.hex ? color.hex : color
+    context.fillStyle = typeof color === 'object' && color.rgba ? color.rgba : color
     this.trace(shape, context)
     if (isText(shape)) {
       context.textAlign = shape.a
@@ -246,6 +248,7 @@ function Surface (ronin) {
     this._guide.height = size.h
     this._guide.style.width = (size.w / this.ratio) + 'px'
     this._guide.style.height = (size.h / this.ratio) + 'px'
+    this.frame = this.getFrame()
     if (fit === true) {
       this.fitWindow(size)
     }

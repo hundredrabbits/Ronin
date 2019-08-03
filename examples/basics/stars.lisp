@@ -1,8 +1,6 @@
 ; stars
 (clear)
 ; times
-
-(def frame-rect (frame))
 (defn times 
   (v f) 
   (
@@ -53,8 +51,8 @@
     () 
     (
       (draw-star 
-        (random 100 frame-rect:w) 
-        (random 100 frame-rect:h) 
+        (random 100 frame:w) 
+        (random 100 frame:h) 
         (random 10 100) 
         (floor 
           (random 3 32))))))

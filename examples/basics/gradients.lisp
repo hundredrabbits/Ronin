@@ -1,26 +1,19 @@
 ; gradients
 (clear)
-;
-(def frame-rect (frame))
-(def radius 
-  (frame-rect:m))
-;
-(def gradient-line 
-  (line frame-rect:c 0 frame-rect:c frame-rect:h))
-;
+(def gl 
+  (line 0 0 frame:h frame:h))
+(def cl1 
+  (gradient gl 
+    (theme:b_med theme:b_high)))
+(def cl2 
+  (gradient gl 
+    (theme:b_high theme:b_med)))
+(guide gl)
 (fill 
-  (circle frame-rect:c frame-rect:m radius) 
-  (gradient gradient-line 
-    ("#72dec2" "white")))
-;
+  (circle frame:m frame:m frame:m) cl1)
 (fill 
-  (circle frame-rect:c frame-rect:m 
-    (mul radius 0.75)) 
-  (gradient gradient-line 
-    ("white" "#72dec2")))
-;
+  (circle frame:m frame:m 
+    (mul frame:m 0.75)) cl2)
 (fill 
-  (circle frame-rect:c frame-rect:m 
-    (mul radius 0.5)) 
-  (gradient gradient-line 
-    ("#72dec2" "white")))
+  (circle frame:m frame:m 
+    (mul frame:m 0.5)) cl1)

@@ -1,8 +1,6 @@
 ; send OSC msg to port:49162, at "/a"
-(def frame-rect 
-  (frame))
 (def disc 
-  (circle frame-rect:c frame-rect:m 200))
+  (circle frame:c frame:m 200))
 ;
 (defn on-animate 
   () 

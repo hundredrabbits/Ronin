@@ -2,13 +2,8 @@
 ;
 (def seg-count 50)
 ; 
-(def frame-middle 
-  (div 
-    frame-rect:h 2)) 
-; 
 (def seg-width 
-  (div 
-    frame-rect:w seg-count)) 
+  (div frame:w seg-count)) 
 ;
 (defn elevation 
   (i) 
@@ -18,8 +13,7 @@
         (add 
           (time 0.001) 
           (div i 5))) 
-      (div 
-        frame-rect:h 5)) frame-middle))
+      (div frame:h 5)) frame:m))
 ;
 (defn draw-dash 
   (i) 
@@ -34,10 +28,9 @@
         (elevation 
           (sub i 1)) 
         (add x seg-width) 
-        (elevation i))
+        (elevation i)) 
       (gradient 
-        (line 50 0 
-          frame-rect:w 0) 
+        (line 50 0 frame:w 0) 
         ("#ffb545" "#72dec2")) 4 )))
 ;
 (defn redraw 

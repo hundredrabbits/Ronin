@@ -134,7 +134,7 @@ In the previous example, we used the `(clear)` function, which clears the canvas
 ```lisp
 (clear)
 (fill 
-  (frame) "red")
+  frame "red")
 (clear 
   (rect 100 100 300 300))
 ```
@@ -155,7 +155,7 @@ First let's open an image, ideally one in color, and change every pixel of a sel
 
 ### saturation
 
-In the previous example, we increased the saturation of a region of the image, to desaturate an entire image, you can simply omit the  `(frame)` which will select the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`(50% saturation):
+In the previous example, we increased the saturation of a region of the image, to desaturate an entire image, you can simply omit the  `(rect)` which will select the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`(50% saturation):
 
 ```lisp
 (open $path)

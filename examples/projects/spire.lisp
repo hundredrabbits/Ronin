@@ -3,7 +3,7 @@
 (clear)
 ;
 (def gradient-line 
-  (line frame-rect:c 0 frame-rect:c frame-rect:h))
+  (line frame:c 0 frame:c frame:h))
 ;
 (defn draw-circle 
   (e) 
