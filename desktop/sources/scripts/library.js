@@ -145,25 +145,31 @@ function Library (ronin) {
   }
 
   this.orient = async (deg = 0) => { // Orient canvas with angle in degrees.
+    const img = await new Promise((resolve, reject) => {
+      const img = document.createElement('img')
+      img.onload = () => { resolve(img) }
+      img.onerror = (_message, _source, _lineno, _colno, error) => { reject(error) }
+      img.src = ronin.surface.el.toDataURL()
+    })
     const mode = Math.floor(deg / 90) % 4
-    const img = document.createElement('img')
-    img.onload = () => {
-      const offset = { x: [0, 0, -img.width, -img.width], y: [0, -img.height, -img.height, 0] }
-      const rect = { x: 0, y: 0, w: (mode === 1 || mode === 3 ? img.height : img.width), h: (mode === 1 || mode === 3 ? img.width : img.height) }
-      ronin.surface.resize(rect, false)
-      ronin.surface.context.save()
-      ronin.surface.context.rotate(this.rad(mode * 90))
-      ronin.surface.context.translate(offset.x[mode], offset.y[mode])
-      ronin.surface.context.drawImage(img, 0, 0)
-      ronin.surface.context.restore()
-    }
-    img.src = ronin.surface.el.toDataURL()
+    const offset = { x: [0, 0, -img.width, -img.width], y: [0, -img.height, -img.height, 0] }
+    const rect = { x: 0, y: 0, w: (mode === 1 || mode === 3 ? img.height : img.width), h: (mode === 1 || mode === 3 ? img.width : img.height) }
+    ronin.surface.resize(rect, false)
+    ronin.surface.context.save()
+    ronin.surface.context.rotate(this.rad(mode * 90))
+    ronin.surface.context.translate(offset.x[mode], offset.y[mode])
+    ronin.surface.context.drawImage(img, 0, 0)
+    ronin.surface.context.restore()
   }
 
   this.mirror = { // Mirror canvas, methods: `x`, `y`.
     x: async (j = 0) => {
-      const img = document.createElement('img')
-      img.src = ronin.surface.el.toDataURL()
+      const img = await new Promise((resolve, reject) => {
+        const img = document.createElement('img')
+        img.onload = () => { resolve(img) }
+        img.onerror = (_message, _source, _lineno, _colno, error) => { reject(error) }
+        img.src = ronin.surface.el.toDataURL()
+      })
       ronin.surface.context.save()
       ronin.surface.context.translate(img.width, 0)
       ronin.surface.context.scale(-1, 1)
@@ -171,8 +177,12 @@ function Library (ronin) {
       ronin.surface.context.restore()
     },
     y: async (j = 0) => {
-      const img = document.createElement('img')
-      img.src = ronin.surface.el.toDataURL()
+      const img = await new Promise((resolve, reject) => {
+        const img = document.createElement('img')
+        img.onload = () => { resolve(img) }
+        img.onerror = (_message, _source, _lineno, _colno, error) => { reject(error) }
+        img.src = ronin.surface.el.toDataURL()
+      })
       ronin.surface.context.save()
       ronin.surface.context.translate(0, img.height)
       ronin.surface.context.scale(1, -1)
