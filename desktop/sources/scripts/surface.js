@@ -149,17 +149,34 @@ function Surface (ronin) {
 
   // IO
 
-  this.open = function (path, ratio = 1) {
+  this.open = function (path, ratio = 1, orientation = 0, mirrorx = 1, mirrory = 1) {
     return new Promise(resolve => {
       const img = new Image()
       img.src = path
       img.onload = () => {
-        const rect = { x: 0, y: 0, w: parseInt(img.width * ratio), h: parseInt(img.height * ratio) }
-        this.resize(rect, true)
-        this.context.drawImage(img, 0, 0, rect.w, rect.h)
+        this.drawWithOrientation(img, ratio, orientation, mirrorx, mirrory)
         resolve()
       }
     })
+  }
+
+  this.drawWithOrientation = function (img, ratio, orientation = 0, mirrorx = 1, mirrory = 1) { // x, y, w, h, degrees
+    const outputRect = { x: 0, y: 0, w: parseInt((orientation === 1 || orientation === 3 ? img.height : img.width) * ratio), h: parseInt((orientation === 1 || orientation === 3 ? img.width : img.height) * ratio) }
+    const rect = { x: 0, y: 0, w: parseInt(img.width * ratio), h: parseInt(img.height * ratio) }
+    this.resize(outputRect, true)
+    this.context.save()
+
+    this.context.rotate((orientation * 90) * Math.PI / 180.0)
+    if (orientation === 1) {
+      this.context.translate(0, -rect.h)
+    } else if (orientation === 2) {
+      this.context.translate(-rect.w, -rect.h)
+    } else if (orientation === 3) {
+      this.context.translate(-rect.w, 0)
+    }
+    this.context.scale(mirrorx, mirrorx)
+    this.context.drawImage(img, rect.x, rect.y, rect.w * mirrorx, rect.h * mirrory)
+    this.context.restore()
   }
 
   this.draw = function (img, shape = this.getFrame(), alpha = 1) {

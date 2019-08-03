@@ -268,7 +268,7 @@ function Commander (ronin) {
   // Splash
 
   this.splash = `; welcome to ronin
-; v2.28
+; v2.29
 (clear) 
 (def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
 (stroke 

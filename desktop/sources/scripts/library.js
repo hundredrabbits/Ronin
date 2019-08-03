@@ -19,8 +19,8 @@ function Library (ronin) {
     return path
   }
 
-  this.open = async (path, ratio = 1) => { // Imports a graphic file and resizes the frame.
-    return ronin.surface.open(path, ratio)
+  this.open = async (path, ratio = 1, orientation = 0, mirrorx = 1, mirrory = 1) => { // Imports a graphic file and resizes the frame.
+    return ronin.surface.open(path, ratio, orientation, mirrorx, mirrory)
   }
 
   this.exit = (force = false) => { // Exits Ronin.
