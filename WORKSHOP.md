@@ -155,6 +155,18 @@ First let's open an image, ideally one in color, and change every pixel of a sel
   (rect 100 100 200 200))
 ```
 
+The `(pixels)` function expects a function that returns 4 values(r,g,b,a), and so you can define a custom filter like:
+
+```
+(defn invert 
+  (pixel) 
+  (
+    (sub 255 pixel:0) 
+    (sub 255 pixel:1) 
+    (sub 255 pixel:2) pixel:3))
+(pixels invert)
+```
+
 ### saturation
 
 In the previous example, we increased the saturation of a region of the image, to desaturate an entire image, you can simply omit the  `(rect)` which will select the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`(50% saturation):
