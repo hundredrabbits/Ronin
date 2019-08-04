@@ -31,3 +31,16 @@ Use: `(pixels erase-color (255 0 0))`.
         (eq a:1 b:1) 
         (eq a:2 b:2)) 0 255)))
 ```
+
+### Posterize
+
+Use: `(pixels posterize 40)`.
+
+```
+(defn posterize 
+  (a q) 
+  (
+    (step a:0 q) 
+    (step a:1 q) 
+    (step a:2 q) a:3))
+```
