@@ -11,7 +11,7 @@ function Library (ronin) {
     return ronin.surface.draw(img, shape, alpha)
   }
 
-  this.export = (path, format = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+  this.export = (path, quality = 1.0) => { // Exports a graphic file with format.
     if (!path) { console.warn('Missing export path'); return path }
     const dataUrl = ronin.surface.el.toDataURL(path.indexOf('.jpg') > -1 ? 'image/jpeg' : path.indexOf('.png') > -1 ? 'image/png' : format, quality)
     const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
