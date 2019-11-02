@@ -9,9 +9,13 @@ The library updates is constantly revealing new applications to Ronin, you can s
 Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>, follow the [workshop](https://github.com/hundredrabbits/Ronin/blob/master/WORKSHOP.md) or watch the [video tutorial](https://www.youtube.com/watch?v=SgAWGh1s9zg).
 
 ```lisp
-; draw a red square
+; clear screen
+(clear)
+; draw red square
 (stroke 
   (rect 30 30 100 100) "red" 2)
+; download result
+(export)
 ```
 
 ## Install & Run
@@ -36,8 +40,23 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 (fill $circle "red")
 ```
 
+## Importing an image
+
+To save an image in memory, open an image file with Ronin, or drag an image file on the window. You will then be able to import it by using the file image's name. If the image file is `preview.png`, you can import it as follow:
+
+```lisp
+; import image at position
+(import "preview.jpg" 
+  (pos 100 100))
+
+; import image at position, with size
+(import "preview.jpg" 
+  (rect 100 100 400 400))
+```
+
 ## Library
 
+- `(import ~name ~shape)` Imports a graphic file with format.
 - `(export ~name ~format ~quality)` Exports a graphic file with format.
 - `(pos ~x ~y)` Returns a position shape.
 - `(line ax ay bx by)` Returns a line shape.
@@ -132,19 +151,6 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(on event f)` Triggers on event.
 - `(test name a b)` 
 - `(benchmark fn)` Logs time taken to execute a function.
-
-### In Development
-
-- `(import path shape ~alpha)` Imports a graphic file with format.
-- `(export path ~format ~quality)` Exports a graphic file with format.
-- `(open path ~ratio)` Imports a graphic file and resizes the frame.
-- `(exit ~force)` Exits Ronin.
-- `(dir ~path)` Returns the content of a directory.
-- `(file ~path)` Returns the content of a file.
-- `(dirpath ~path)` Returns the path of a directory.
-- `(filepath ~path)` Returns the path of a file.
-- `(dirname ~path)` Returns the name of a folder.
-- `(filename ~path)` Returns the name of a file.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW2.jpg' width='600'/>
 

@@ -39,7 +39,7 @@ function Ronin () {
     this.acels.set('File', 'New', 'CmdOrCtrl+N', () => { this.source.new(); this.surface.clear(); this.commander.clear() })
     this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.save('export.lisp', this.commander._input.value, 'text/plain') })
     this.acels.set('File', 'Save As', 'CmdOrCtrl+Shift+S', () => { this.source.saveAs() })
-    this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open(this.whenOpen) })
+    this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open('lisp', this.whenOpen) })
     this.acels.set('File', 'Revert', 'CmdOrCtrl+W', () => { this.source.revert() })
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
@@ -174,7 +174,29 @@ function Ronin () {
   this.onDrop = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.source.load(e.dataTransfer.files[0], this.whenOpen)
+    const file = e.dataTransfer.files[0]
+
+    if (file.name.indexOf('.lisp') > -1) {
+      this.source.load(e.dataTransfer.files[0], this.whenOpen)
+    }
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const img = new Image()
+      img.onload = () => {
+        this.cache.set(file.name, img.src)
+      }
+      img.src = URL.createObjectURL(file)
+    }
+  }
+
+  this.cache = {
+    data: {},
+    set: (key, content) => {
+      this.log((this.cache.data[key] ? 'Updated ' : 'Stored ') + key)
+      this.cache.data[key] = content
+    },
+    get: (key) => {
+      return this.cache.data[key]
+    }
   }
 
   this.mouseShape = (position, type) => {

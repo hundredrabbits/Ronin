@@ -18,12 +18,14 @@ function Source () {
     this.cache = {}
   }
 
-  this.open = (callback) => {
+  this.open = (ext, callback) => {
     console.log('Source', 'Open file..')
     const input = document.createElement('input')
     input.type = 'file'
     input.onchange = (e) => {
-      this.cache = e.target.files[0]
+      const file = e.target.files[0]
+      if (file.name.indexOf(ext) < 0) { console.warn('Source', 'File is not ' + ext); return }
+      this.cache = file
       this.load(this.cache, callback)
     }
     input.click()

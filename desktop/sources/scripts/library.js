@@ -3,32 +3,22 @@
 /* global Image */
 
 function Library (ronin) {
-  // Modularity: Write simple parts connected by clean interfaces.
-  // Composition: Design programs to be connected to other programs.
-  // Parsimony: Write a big program only when it is clear by demonstration that nothing else will do.
-
   // IO
 
-  this.import = async (path, shape, alpha = 1) => { // Imports a graphic file with format.
-    // const img = new Image()
-    // img.src = path
-    // return ronin.surface.draw(img, shape, alpha)
+  this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
+    const src = ronin.cache.get(name)
+    if (!src) { ronin.log('No data for ' + name); return }
+    const img = new Image()
+    img.src = src
+    return ronin.surface.draw(img, shape, alpha)
   }
 
-  this.export = (name = 'export', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+  this.export = async (name = 'export', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     const base64 = ronin.surface.el.toDataURL(type, quality)
     const link = document.createElement('a')
     link.setAttribute('href', base64)
     link.setAttribute('download', type === 'image/png' ? name + '.png' : name + '.jpg')
     link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
-  }
-
-  this.open = async (path, ratio = 1) => { // Imports a graphic file and resizes the frame.
-    return ronin.surface.open(path, ratio)
-  }
-
-  this.exit = (force = false) => { // Exits Ronin.
-    ronin.source.quit(force)
   }
 
   // Shapes
