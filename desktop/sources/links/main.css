@@ -8,7 +8,6 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
 #ronin #wrapper #commander #status { position: absolute; bottom: 0px; text-transform: lowercase; line-height: 15px; height: 30px; overflow: hidden; width: calc(100% - 75px); padding-left:45px;}
 #ronin #wrapper #commander #status #run { display: block; width: 26px; height: 26px; position: absolute; top: 0px; border-radius: 15px; left:0px; cursor: pointer; border:2px solid #fff; transition: background-color 250ms, border-color 250ms}
-#ronin #wrapper #commander #status #run:hover { background: none; transition: none }
 #ronin.expand #wrapper #commander { width:100%; }
 #ronin #surface, #ronin #guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms, opacity 250ms; opacity: 1; }
 

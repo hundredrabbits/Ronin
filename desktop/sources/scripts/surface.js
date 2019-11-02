@@ -1,3 +1,8 @@
+'use strict'
+
+/* global Path2D */
+/* global Image */
+
 function Surface (ronin) {
   this.el = document.createElement('canvas')
   this.el.id = 'surface'
@@ -5,6 +10,7 @@ function Surface (ronin) {
   this._guide.id = 'guide'
   this._guide.setAttribute('tabindex', '1') // focus is necessary to capture keyboard events
   this.ratio = window.devicePixelRatio
+
   // Contexts
   this.context = this.el.getContext('2d')
   this.guide = this._guide.getContext('2d')
@@ -132,7 +138,7 @@ function Surface (ronin) {
     const positions = Object.values(poly)
     const origin = positions.shift()
     context.moveTo(origin.x, origin.y)
-    for (pos of positions) {
+    for (const pos of positions) {
       context.lineTo(pos.x, pos.y)
     }
   }
@@ -173,7 +179,7 @@ function Surface (ronin) {
       img.src = path
       img.onload = () => {
         const rect = { x: 0, y: 0, w: img.width * ratio, h: img.height * ratio }
-        this.resize(rect,true)
+        this.resize(rect, true)
         this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h)
         resolve()
       }

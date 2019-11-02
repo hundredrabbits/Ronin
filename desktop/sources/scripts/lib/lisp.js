@@ -1,9 +1,6 @@
 'use strict'
 
 function Lisp (lib = {}) {
-  const path = require('path')
-  const fs = require('fs')
-
   const TYPES = { identifier: 0, number: 1, string: 2, bool: 3, symbol: 4 }
 
   const Context = function (scope, parent) {
@@ -19,11 +16,6 @@ function Lisp (lib = {}) {
   }
 
   const special = {
-    include: (input, context) => {
-      if (!input[1].value || !fs.existsSync(input[1].value)) { console.warn('Lisp', 'No file: ' + input[1].value); return [] }
-      const file = fs.readFileSync(input[1].value, { encoding: 'utf-8' })
-      return interpret(this.parse(`(${file})`), context)
-    },
     let: function (input, context) {
       const letContext = input[1].reduce(function (acc, x) {
         acc.scope[x[0].value] = interpret(x[1], context)
@@ -164,7 +156,7 @@ function Lisp (lib = {}) {
   }
 
   const tokenize = function (input) {
-    const i = input.replace(/^\;.*\n?/gm, '').replace(/λ /g, 'lambda ').split('"')
+    const i = input.replace(/^;.*\n?/gm, '').replace(/λ /g, 'lambda ').split('"')
     return i.map(function (x, i) {
       return i % 2 === 0
         ? x.replace(/\(/g, ' ( ')

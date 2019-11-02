@@ -1,5 +1,4 @@
 function Commander (ronin) {
-  this.docs = new Docs(ronin)
   this.el = document.createElement('div')
   this.el.id = 'commander'
   this._input = document.createElement('textarea')
@@ -18,15 +17,17 @@ function Commander (ronin) {
     this.el.appendChild(this._status)
     host.appendChild(this.el)
     this._run.setAttribute('title', 'Run(c-R)')
+    this._input.setAttribute('autocomplete', 'off')
+    this._input.setAttribute('autocorrect', 'off')
+    this._input.setAttribute('autocapitalize', 'off')
+    this._input.setAttribute('spellcheck', 'false')
     this._input.addEventListener('input', this.onInput)
     this._input.addEventListener('click', this.onClick)
     this._run.addEventListener('click', () => { this.run() })
 
     this._input.onkeydown = (e) => {
-      if (e.keyCode == 9 || e.which == 9) { e.preventDefault(); this.inject('  ') }
+      if (e.keyCode === 9 || e.which === 9) { e.preventDefault(); this.inject('  ') }
     }
-
-    this.docs.install()
   }
 
   this.start = function () {
@@ -41,7 +42,7 @@ function Commander (ronin) {
     if (this._input.value.trim() === '') {
       ronin.surface.maximize()
     }
-    ronin.interpreter.run(txt)
+    ronin.lisp.run(txt)
     this.feedback()
   }
 
@@ -89,12 +90,12 @@ function Commander (ronin) {
       if (c === '(') { depth++ } else if (c === ')') { depth-- }
       if (c === ';') {
         const indent = '\n' + ('  '.repeat(depth))
-        val = val.insert(indent, i)
+        val = insert(val, indent, i)
         i += indent.length
       }
       if (c === '(') {
         const indent = '\n' + ('  '.repeat(depth - 1))
-        val = val.insert(indent, i)
+        val = insert(val, indent, i)
         i += indent.length
       }
     }
@@ -103,7 +104,7 @@ function Commander (ronin) {
 
   this.clean = function (input) {
     const keywords = ['$pos+', '$pos', '$rect', '$line', '$x', '$y', '$xy']
-    for (word of keywords) {
+    for (const word of keywords) {
       input = input.replace(word, '').trim()
     }
     return input
@@ -115,12 +116,13 @@ function Commander (ronin) {
       this._log.textContent = `${msg}`
     }
     // Docs
-    const lstFn = this.getLastfn()
-    const rect = ronin.surface.getFrame()
-    const _docs = this.docs.hasDocs(lstFn) === true ? this.docs.print(lstFn) : `${ronin.source}:${this.length()} ${rect.w}x${rect.h}`
-    if (_docs !== this._docs.textContent) {
-      this._docs.textContent = `${_docs}`
-    }
+    // const lstFn = this.getLastfn()
+    // const rect = ronin.surface.getFrame()
+    // TODO
+    // const _docs = this.docs.hasDocs(lstFn) === true ? this.docs.print(lstFn) : `${ronin.source}:${this.length()} ${rect.w}x${rect.h}`
+    // if (_docs !== this._docs.textContent) {
+    //   this._docs.textContent = `${_docs}`
+    // }
   }
 
   // Injection
@@ -152,15 +154,15 @@ function Commander (ronin) {
     const append = words[0].indexOf('+') > -1
 
     if (word === 'drag') {
-      this.cache = this.cache.replace('$drag', `(drag $rect $line)`)
+      this.cache = this.cache.replace('$drag', '(drag $rect $line)')
     } else if (word === 'view') {
-      this.cache = this.cache.replace('$view', `(view $rect $rect)`)
+      this.cache = this.cache.replace('$view', '(view $rect $rect)')
     } else if (word === 'poly') {
-      this.cache = this.cache.replace('$poly', `(poly $pos+)`)
+      this.cache = this.cache.replace('$poly', '(poly $pos+)')
     } else if (word === 'move') {
-      this.cache = this.cache.replace('$move', `(transform:move $wh)`)
+      this.cache = this.cache.replace('$move', '(transform:move $wh)')
     } else if (word === 'rotate') {
-      this.cache = this.cache.replace('$rotate', `(transform:rotate $a)`)
+      this.cache = this.cache.replace('$rotate', '(transform:rotate $a)')
     }
 
     if (shape[word]) {
@@ -225,7 +227,7 @@ function Commander (ronin) {
   // Splash
 
   this.splash = `; welcome to ronin
-; v2.30
+; v2.40
 (clear) 
 (def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
 (def pos-x 
@@ -235,5 +237,7 @@ function Commander (ronin) {
 (stroke 
   (svg pos-x pos-y logo-path) theme:b_high 5)`
 
-  String.prototype.insert = function (s, i) { return [this.slice(0, i), `${s}`, this.slice(i)].join('') }
+  function insert (str, add, i) {
+    return [str.slice(0, i), `${add}`, str.slice(i)].join('')
+  }
 }

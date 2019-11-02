@@ -10,7 +10,6 @@
     <script type="text/javascript" src="scripts/surface.js"></script>
     <script type="text/javascript" src="scripts/lisp.js"></script>
     <script type="text/javascript" src="scripts/library.js"></script>
-    <script type="text/javascript" src="scripts/osc.js"></script>
     <link rel="stylesheet" type="text/css" href="links/reset.css"/>
     <link rel="stylesheet" type="text/css" href="links/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="links/main.css"/>
@@ -19,6 +18,7 @@
   </head>
   <body>
     <script type="text/javascript">
+      const remote = require('electron').remote
       const {dialog,app} = require('electron').remote;
       const fs = require('fs')
       const ronin = new Ronin()

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset='UTF-8'>
+    <script type="text/javascript" src="desktop/sources/scripts/lib/theme.js"></script>
+    <script type="text/javascript" src="desktop/sources/scripts/lib/acels.js"></script>
+    <script type="text/javascript" src="desktop/sources/scripts/lib/lisp.js"></script>
+    <script type="text/javascript" src="desktop/sources/scripts/lib/source.js"></script>
+    <script type="text/javascript" src="desktop/sources/scripts/ronin.js"></script>
+    <script type="text/javascript" src="desktop/sources/scripts/commander.js"></script>
+    <script type="text/javascript" src="desktop/sources/scripts/surface.js"></script>
+    <script type="text/javascript" src="desktop/sources/scripts/library.js"></script>
+    <link rel="stylesheet" type="text/css" href="desktop/sources/links/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="desktop/sources/links/fonts.css"/>
+    <link rel="stylesheet" type="text/css" href="desktop/sources/links/main.css"/>
+    <link rel="stylesheet" type="text/css" href="desktop/sources/links/theme.css"/>
+    <title>Ronin</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      const ronin = new Ronin()
+
+      ronin.install(document.body)
+
+      window.addEventListener('load', () => { 
+        ronin.start() 
+      })
+    </script>
+  </body>
+</html>

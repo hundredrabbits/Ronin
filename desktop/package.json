@@ -16,9 +16,6 @@
     "push_status": "~/butler status hundredrabbits/ronin",
     "push": "npm run build ; npm run push_theme ; npm run push_osx ; npm run push_linux ; npm run push_win ; npm run clean ; npm run push_status"
   },
-  "dependencies": {
-    "node-osc": "^4.1.0"
-  },
   "devDependencies": {
     "electron": "^5.0.8",
     "electron-packager": "^13.1.1"

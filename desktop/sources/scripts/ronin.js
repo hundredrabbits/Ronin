@@ -1,26 +1,25 @@
-function Ronin () {
-  const defaultTheme = {
-    background: '#111',
-    f_high: '#fff',
-    f_med: '#999',
-    f_low: '#444',
-    f_inv: '#000',
-    b_high: '#ffffff',
-    b_med: '#72dec2',
-    b_low: '#aaaaaa',
-    b_inv: '#ffb545'
-  }
+'use strict'
 
+/* global Acels */
+/* global Theme */
+/* global Source */
+/* global Commander */
+/* global Surface */
+/* global Library */
+/* global Lisp */
+/* global requestAnimationFrame */
+
+function Ronin () {
   this.el = document.createElement('div')
   this.el.id = 'ronin'
 
-  this.theme = new Theme(defaultTheme)
-  this.source = new Source(this)
+  this.acels = new Acels()
+  this.theme = new Theme()
+  this.source = new Source()
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
-  this.interpreter = new Lisp(this.library)
-  this.osc = new Osc(this)
+  this.lisp = new Lisp(this.library)
 
   this.bindings = {}
 
@@ -34,22 +33,52 @@ function Ronin () {
     host.appendChild(this.el)
     this.theme.install()
 
-    window.addEventListener('dragover', this.drag)
-    window.addEventListener('drop', this.drop)
+    window.addEventListener('dragover', this.onDrag)
+    window.addEventListener('drop', this.onDrop)
+
+    this.acels.set('File', 'New', 'CmdOrCtrl+N', () => { this.source.new(); this.surface.clear(); this.commander.clear() })
+    this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.save('export.lisp', this.commander._input.value, 'text/plain') })
+    this.acels.set('File', 'Save As', 'CmdOrCtrl+Shift+S', () => { this.source.saveAs() })
+    this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open(this.whenOpen) })
+    this.acels.set('File', 'Revert', 'CmdOrCtrl+W', () => { this.source.revert() })
+    this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
+    this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
+    this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
+    this.acels.set('Project', 'Run', 'CmdOrCtrl+R', () => { this.commander.run() })
+    this.acels.set('Project', 'Reload Run', 'CmdOrCtrl+Shift+R', () => { this.source.revert(); this.commander.run() })
+    this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.reindent() })
+    this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
+    this.acels.install(window)
   }
 
   this.start = function () {
-    this.theme.start()
+    console.log('Ronin', 'Starting..')
+    console.info(`${this.acels}`)
+    this.theme.start({
+      background: '#111',
+      f_high: '#fff',
+      f_med: '#999',
+      f_low: '#444',
+      f_inv: '#000',
+      b_high: '#ffffff',
+      b_med: '#72dec2',
+      b_low: '#aaaaaa',
+      b_inv: '#ffb545'
+    })
     this.source.start()
     this.commander.start()
     this.surface.start()
-    this.osc.start()
     this.loop()
   }
 
+  this.whenOpen = (res) => {
+    this.commander.load(res)
+    this.commander.show()
+  }
+
   this.loop = () => {
-    if (this.bindings['animate'] && typeof this.bindings['animate'] === 'function') {
-      this.bindings['animate']()
+    if (this.bindings.animate && typeof this.bindings.animate === 'function') {
+      this.bindings.animate()
     }
     requestAnimationFrame(() => this.loop())
   }
@@ -60,7 +89,7 @@ function Ronin () {
 
   this.log = function (...msg) {
     this.commander.setStatus(msg.reduce((acc, val) => {
-      return acc + JSON.stringify(val).replace(/\"/g, '').trim() + ' '
+      return acc + JSON.stringify(val).replace(/"/g, '').trim() + ' '
     }, ''))
   }
 
@@ -77,7 +106,7 @@ function Ronin () {
   this.mouseOrigin = null
 
   this.onMouseDown = (e, id = 'mouse-down') => {
-    const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
+    const pos = { x: e.offsetX * this.surface.ratio, y: e.offsetY * this.surface.ratio }
     this.mouseOrigin = pos
     const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
@@ -94,20 +123,20 @@ function Ronin () {
     }
   }
 
-  this.onKeyUp = (e, id = 'key-up') => {
-    if (this.bindings[id]) {
-      this.bindings[id](e)
-    }
-  }
-
   this.onKeyDown = (e, id = 'key-down') => {
     if (this.bindings[id]) {
       this.bindings[id](e)
     }
   }
 
+  this.onKeyUp = (e, id = 'key-up') => {
+    if (this.bindings[id]) {
+      this.bindings[id](e)
+    }
+  }
+
   this.onMouseMove = (e, id = 'mouse-move') => {
-    const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
+    const pos = { x: e.offsetX * this.surface.ratio, y: e.offsetY * this.surface.ratio }
     const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
@@ -120,7 +149,7 @@ function Ronin () {
   }
 
   this.onMouseUp = (e, id = 'mouse-up') => {
-    const pos = { x: e.offsetX * ronin.surface.ratio, y: e.offsetY * ronin.surface.ratio }
+    const pos = { x: e.offsetX * this.surface.ratio, y: e.offsetY * this.surface.ratio }
     const shape = this.mouseShape(pos, id)
     if (this.bindings[id]) {
       this.bindings[id](shape)
@@ -138,6 +167,18 @@ function Ronin () {
 
   this.onMouseOut = (e) => {
     this.mouseOrigin = null
+  }
+
+  this.onDrag = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+  }
+
+  this.onDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.source.load(e.dataTransfer.files[0], this.whenOpen)
   }
 
   this.mouseShape = (position, type) => {
@@ -173,49 +214,5 @@ function Ronin () {
       ea: a
     }
     return { x, y, xy, wh, d, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
-  }
-
-  // Zoom
-
-  this.modZoom = function (mod = 0, set = false) {
-    try {
-      const { webFrame } = require('electron')
-      const currentZoomFactor = webFrame.getZoomFactor()
-      webFrame.setZoomFactor(set ? mod : currentZoomFactor + mod)
-      console.log(window.devicePixelRatio)
-    } catch (err) {
-      console.log('Cannot zoom')
-    }
-  }
-
-  this.setZoom = function (scale) {
-    try {
-      webFrame.setZoomFactor(scale)
-    } catch (err) {
-      console.log('Cannot zoom')
-    }
-  }
-
-  // Events
-
-  this.drag = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'copy'
-  }
-
-  this.drop = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const file = e.dataTransfer.files[0]
-    if (!file || !file.name) { console.warn('File', 'Not a valid file.'); return }
-    const path = file.path ? file.path : file.name
-    if (this.commander._input.value.indexOf('$path') > -1) {
-      this.commander.injectPath(file.path)
-      this.commander.show()
-    } else if (path.indexOf('.lisp') > -1) {
-      this.source.read(path)
-      this.commander.show()
-    }
   }
 }

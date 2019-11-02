@@ -1,3 +1,7 @@
+'use strict'
+
+/* global Image */
+
 function Library (ronin) {
   // Modularity: Write simple parts connected by clean interfaces.
   // Composition: Design programs to be connected to other programs.
@@ -12,11 +16,11 @@ function Library (ronin) {
   }
 
   this.export = (path, quality = 1.0) => { // Exports a graphic file with format.
-    if (!path) { console.warn('Missing export path'); return path }
-    const dataUrl = ronin.surface.el.toDataURL(path.indexOf('.jpg') > -1 ? 'image/jpeg' : path.indexOf('.png') > -1 ? 'image/png' : format, quality)
-    const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
-    fs.writeFileSync(path, data, 'base64')
-    return path
+    // if (!path) { console.warn('Missing export path'); return path }
+    // const dataUrl = ronin.surface.el.toDataURL(path.indexOf('.jpg') > -1 ? 'image/jpeg' : path.indexOf('.png') > -1 ? 'image/png' : format, quality)
+    // const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
+    // fs.writeFileSync(path, data, 'base64')
+    // return path
   }
 
   this.open = async (path, ratio = 1) => { // Imports a graphic file and resizes the frame.
@@ -403,7 +407,7 @@ function Library (ronin) {
   }
 
   this.or = (a, b, ...rest) => { // Returns true if at least one condition is true.
-    let args = [a, b].concat(rest)
+    const args = [a, b].concat(rest)
     for (let i = 0; i < args.length; i++) {
       if (args[i]) {
         return args[i]
@@ -437,7 +441,7 @@ function Library (ronin) {
 
   this.reduce = async (arr, fn, acc) => {
     const length = arr.length
-    let result = acc === undefined ? subject[0] : acc
+    let result = acc === undefined ? arr[0] : acc
     for (let i = acc === undefined ? 1 : 0; i < length; i++) {
       result = await fn(result, arr[i], i, arr)
     }
@@ -461,7 +465,7 @@ function Library (ronin) {
   }
 
   this.range = (start, end, step = 1) => {
-    let arr = []
+    const arr = []
     if (step > 0) {
       for (let i = start; i <= end; i += step) {
         arr.push(i)
@@ -534,9 +538,9 @@ function Library (ronin) {
   }
 
   this.sharpen = () => { // Returns the sharpen kernel.
-    return [[ 0, -1, 0],
+    return [[0, -1, 0],
       [-1, 5, -1],
-      [ 0, -1, 0]]
+      [0, -1, 0]]
   }
 
   this.edge = () => { // Returns the edge kernel.
@@ -548,27 +552,27 @@ function Library (ronin) {
   // File System
 
   this.dir = (path = this.dirpath()) => { // Returns the content of a directory.
-    return fs.existsSync(path) ? fs.readdirSync(path) : []
+    // return fs.existsSync(path) ? fs.readdirSync(path) : []
   }
 
   this.file = (path = this.filepath()) => { // Returns the content of a file.
-    return fs.existsSync(path) ? fs.readFileSync(path, 'utf8') : ''
+    // return fs.existsSync(path) ? fs.readFileSync(path, 'utf8') : ''
   }
 
   this.dirpath = (path = this.filepath()) => { // Returns the path of a directory.
-    return require('path').dirname(path)
+    // return require('path').dirname(path)
   }
 
   this.filepath = (path = ronin.source.path) => { // Returns the path of a file.
-    return path
+    // return path
   }
 
   this.dirname = (path = this.filepath()) => { // Returns the name of a folder.
-    return require('path').basename(require('path').dirname(path))
+    // return require('path').basename(require('path').dirname(path))
   }
 
   this.filename = (path = this.filepath()) => { // Returns the name of a file.
-    return require('path').parse(path).name
+    // return require('path').parse(path).name
   }
 
   this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
@@ -578,7 +582,7 @@ function Library (ronin) {
   }
 
   this.distance = (a, b) => { // Get distance between positions.
-    return Math.sqrt(((ax - bx) * (ax - bx)) + ((ay - by) * (ay - by)))
+    return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))
   }
 
   this.echo = (...args) => { // Print arguments to interface.
