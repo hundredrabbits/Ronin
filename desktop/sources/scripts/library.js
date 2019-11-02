@@ -10,17 +10,17 @@ function Library (ronin) {
   // IO
 
   this.import = async (path, shape, alpha = 1) => { // Imports a graphic file with format.
-    const img = new Image()
-    img.src = path
-    return ronin.surface.draw(img, shape, alpha)
+    // const img = new Image()
+    // img.src = path
+    // return ronin.surface.draw(img, shape, alpha)
   }
 
-  this.export = (path, quality = 1.0) => { // Exports a graphic file with format.
-    // if (!path) { console.warn('Missing export path'); return path }
-    // const dataUrl = ronin.surface.el.toDataURL(path.indexOf('.jpg') > -1 ? 'image/jpeg' : path.indexOf('.png') > -1 ? 'image/png' : format, quality)
-    // const data = dataUrl.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, '')
-    // fs.writeFileSync(path, data, 'base64')
-    // return path
+  this.export = (name = 'export', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+    const base64 = ronin.surface.el.toDataURL(type, quality)
+    const link = document.createElement('a')
+    link.setAttribute('href', base64)
+    link.setAttribute('download', type === 'image/png' ? name + '.png' : name + '.jpg')
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
   }
 
   this.open = async (path, ratio = 1) => { // Imports a graphic file and resizes the frame.

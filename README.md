@@ -38,10 +38,7 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 
 ## Library
 
-- `(import path shape ~alpha)` Imports a graphic file with format.
-- `(export path ~format ~quality)` Exports a graphic file with format.
-- `(open path ~ratio)` Imports a graphic file and resizes the frame.
-- `(exit ~force)` Exits Ronin.
+- `(export ~name ~format ~quality)` Exports a graphic file with format.
 - `(pos ~x ~y)` Returns a position shape.
 - `(line ax ay bx by)` Returns a line shape.
 - `(size w h)` Returns a size shape.
@@ -126,12 +123,6 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(blur)` Returns the blur kernel.
 - `(sharpen)` Returns the sharpen kernel.
 - `(edge)` Returns the edge kernel.
-- `(dir ~path)` Returns the content of a directory.
-- `(file ~path)` Returns the content of a file.
-- `(dirpath ~path)` Returns the path of a directory.
-- `(filepath ~path)` Returns the path of a file.
-- `(dirname ~path)` Returns the name of a folder.
-- `(filename ~path)` Returns the name of a file.
 - `(offset a b)` Offsets pos a with pos b, returns a.
 - `(distance a b)` Get distance between positions.
 - `(echo ...args)` Print arguments to interface.
@@ -141,6 +132,19 @@ Ronin helpers are keywords that facilitates adding coordinates from the canvas i
 - `(on event f)` Triggers on event.
 - `(test name a b)` 
 - `(benchmark fn)` Logs time taken to execute a function.
+
+### In Development
+
+- `(import path shape ~alpha)` Imports a graphic file with format.
+- `(export path ~format ~quality)` Exports a graphic file with format.
+- `(open path ~ratio)` Imports a graphic file and resizes the frame.
+- `(exit ~force)` Exits Ronin.
+- `(dir ~path)` Returns the content of a directory.
+- `(file ~path)` Returns the content of a file.
+- `(dirpath ~path)` Returns the path of a directory.
+- `(filepath ~path)` Returns the path of a file.
+- `(dirname ~path)` Returns the name of a folder.
+- `(filename ~path)` Returns the name of a file.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW2.jpg' width='600'/>
 

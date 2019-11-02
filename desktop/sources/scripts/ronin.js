@@ -83,11 +83,7 @@ function Ronin () {
     requestAnimationFrame(() => this.loop())
   }
 
-  this.reset = function () {
-    this.theme.reset()
-  }
-
-  this.log = function (...msg) {
+  this.log = (...msg) => {
     this.commander.setStatus(msg.reduce((acc, val) => {
       return acc + JSON.stringify(val).replace(/"/g, '').trim() + ' '
     }, ''))

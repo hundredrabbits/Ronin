@@ -293,10 +293,11 @@ function Surface (ronin) {
   }
 
   this.fitWindow = function (size) {
-    const win = require('electron').remote.getCurrentWindow()
-    const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
-    if (size.w < 10 || size.h < 10) { return }
-    win.setSize(Math.floor((size.w / this.ratio) + pad.w), Math.floor((size.h / this.ratio) + pad.h), true)
+    console.log('TODO')
+    // const win = require('electron').remote.getCurrentWindow()
+    // const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
+    // if (size.w < 10 || size.h < 10) { return }
+    // win.setSize(Math.floor((size.w / this.ratio) + pad.w), Math.floor((size.h / this.ratio) + pad.h), true)
   }
 
   this.maximize = () => {
