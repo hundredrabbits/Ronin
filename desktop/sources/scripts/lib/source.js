@@ -56,9 +56,14 @@ function Source () {
   }
 
   this.download = (name, content, type) => {
-    const pom = document.createElement('a')
-    pom.setAttribute('download', name)
-    pom.setAttribute('href', 'data:' + type + ';charset=utf-8,' + encodeURIComponent(content))
-    pom.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
+    console.info('Source', `Downloading ${name}(${type})`)
+    const link = document.createElement('a')
+    link.setAttribute('download', name)
+    if (type === 'image/png' || type === 'image/jpeg') {
+      link.setAttribute('href', content)
+    } else {
+      link.setAttribute('href', 'data:' + type + ';charset=utf-8,' + encodeURIComponent(content))
+    }
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
   }
 }
