@@ -27,7 +27,7 @@ function Acels () {
   }
 
   this.convert = (event) => {
-    const accelerator = event.accelerator.substr(0, 1).toUpperCase() + event.accelerator.substr(1)
+    const accelerator = event.key.substr(0, 1).toUpperCase() + event.key.substr(1)
     if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
       return `CmdOrCtrl+Shift+${accelerator}`
     }
@@ -77,8 +77,25 @@ function Acels () {
     return text.trim()
   }
 
-  this.inject = () => {
+  // Electron specifics
+
+  this.inject = (name = 'Untitled') => {
+    const app = require('electron').remote.app
     const injection = []
+
+    injection.push({
+      label: name,
+      submenu: [
+        { label: 'About', click: () => { require('electron').shell.openExternal('https://github.com/hundredrabbits/' + name) } },
+        { label: 'Download Themes', click: () => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Themes') } },
+        { label: 'Fullscreen', accelerator: 'CmdOrCtrl+Enter', click: () => { app.toggleFullscreen() } },
+        { label: 'Hide', accelerator: 'CmdOrCtrl+H', click: () => { app.toggleVisible() } },
+        { label: 'Toggle Menubar', accelerator: 'Alt+H', click: () => { app.toggleMenubar() } },
+        { label: 'Inspect', accelerator: 'CmdOrCtrl+.', click: () => { app.inspect() } },
+        { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => { app.exit() } }
+      ]
+    })
+
     const sorted = this.sort()
     for (const cat of Object.keys(sorted)) {
       const submenu = []
@@ -93,6 +110,6 @@ function Acels () {
       }
       injection.push({ label: cat, submenu: submenu })
     }
-    require('electron').remote.app.injectMenu(injection)
+    app.injectMenu(injection)
   }
 }

@@ -7,6 +7,7 @@
 function Theme () {
   const themer = this
 
+  this.default = { background: '#eee', f_high: '#000', f_med: '#999', f_low: '#ccc', f_inv: '#000', b_high: '#000', b_med: '#888', b_low: '#aaa', b_inv: '#ffb545' }
   this.active = {}
 
   this.el = document.createElement('style')
@@ -17,8 +18,8 @@ function Theme () {
     this.callback = callback
   }
 
-  this.start = (defaultTheme) => {
-    this.active = defaultTheme
+  this.start = () => {
+    this.active = this.default
     console.log('Theme', 'Starting..')
     if (isJson(localStorage.theme)) {
       const storage = JSON.parse(localStorage.theme)
@@ -44,7 +45,7 @@ function Theme () {
   }
 
   this.reset = () => {
-    this.load(_default)
+    this.load(this.default)
   }
 
   this.get = (key) => {

@@ -17,6 +17,7 @@ function Ronin () {
   this.acels = new Acels()
   this.theme = new Theme()
   this.source = new Source()
+
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
@@ -55,17 +56,7 @@ function Ronin () {
   this.start = function () {
     console.log('Ronin', 'Starting..')
     console.info(`${this.acels}`)
-    this.theme.start({
-      background: '#111',
-      f_high: '#fff',
-      f_med: '#999',
-      f_low: '#444',
-      f_inv: '#000',
-      b_high: '#ffffff',
-      b_med: '#72dec2',
-      b_low: '#aaaaaa',
-      b_inv: '#ffb545'
-    })
+    this.theme.start()
     this.source.start()
     this.commander.start()
     this.surface.start()

@@ -55,14 +55,14 @@ function Source () {
     reader.readAsText(file, 'UTF-8')
   }
 
-  this.download = (name, content, type) => {
+  this.download = (name, content, type, settings = 'charset=utf-8') => {
     console.info('Source', `Downloading ${name}(${type})`)
     const link = document.createElement('a')
     link.setAttribute('download', name)
     if (type === 'image/png' || type === 'image/jpeg') {
       link.setAttribute('href', content)
     } else {
-      link.setAttribute('href', 'data:' + type + ';charset=utf-8,' + encodeURIComponent(content))
+      link.setAttribute('href', 'data:' + type + ';' + settings + ',' + encodeURIComponent(content))
     }
     link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
   }
