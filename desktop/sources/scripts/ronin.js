@@ -7,6 +7,7 @@
 /* global Surface */
 /* global Library */
 /* global Lisp */
+/* global Image */
 /* global requestAnimationFrame */
 
 function Ronin () {
@@ -38,7 +39,7 @@ function Ronin () {
 
     this.acels.set('File', 'New', 'CmdOrCtrl+N', () => { this.source.new(); this.surface.clear(); this.commander.clear() })
     this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.save('export.lisp', this.commander._input.value, 'text/plain') })
-    this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.download('export.png', ronin.surface.el.toDataURL('image/png', 1.0), 'image/png') })
+    this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.download('export.png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open('lisp', this.whenOpen) })
     this.acels.set('File', 'Revert', 'CmdOrCtrl+W', () => { this.source.revert() })
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })

@@ -73,11 +73,6 @@ function Commander (ronin) {
     this.setStatus()
   }
 
-  this.getLastfn = function () {
-    const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
-    return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
-  }
-
   this.reindent = function () {
     let val = this._input.value.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
     let depth = 0
@@ -115,14 +110,7 @@ function Commander (ronin) {
     if (msg && msg !== this._log.textContent) {
       this._log.textContent = `${msg}`
     }
-    // Docs
-    // const lstFn = this.getLastfn()
-    // const rect = ronin.surface.getFrame()
-    // TODO
-    // const _docs = this.docs.hasDocs(lstFn) === true ? this.docs.print(lstFn) : `${ronin.source}:${this.length()} ${rect.w}x${rect.h}`
-    // if (_docs !== this._docs.textContent) {
-    //   this._docs.textContent = `${_docs}`
-    // }
+    this._docs.textContent = this.getDocs()
   }
 
   // Injection
@@ -224,10 +212,38 @@ function Commander (ronin) {
     setTimeout(() => { this._run.className = '' }, 150)
   }
 
+  // Docs
+
+  this.getCurrentWord = () => {
+    const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
+    return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
+  }
+
+  this.getCurrentFunction = () => {
+    const word = this.getCurrentWord()
+    let mostSimilar = ''
+    for (const id of Object.keys(ronin.library)) {
+      if (id.substr(0, word.length) === word) {
+        mostSimilar = id
+      }
+    }
+    return mostSimilar
+  }
+
+  this.getDocs = (id) => {
+    const name = this.getCurrentFunction()
+    const fn = ronin.library[name]
+    if (!fn) { return }
+    const fnString = fn.toString()
+    if (fnString.indexOf(') => {') < 0) { return }
+    const fnParams = fnString.split(') => {')[0].substr(1).replace(/,/g, '').trim()
+    return `(${name} ${fnParams})`
+  }
+
   // Splash
 
-  this.splash = `; welcome to ronin
-; v2.40
+  this.splash = `
+; Ronin v2.40
 (clear) 
 (def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
 (def pos-x 
@@ -235,7 +251,8 @@ function Commander (ronin) {
 (def pos-y 
   (sub frame:m 150))
 (stroke 
-  (svg pos-x pos-y logo-path) theme:b_high 5)`
+  (svg pos-x pos-y logo-path) theme:b_high 5)
+`
 
   function insert (str, add, i) {
     return [str.slice(0, i), `${add}`, str.slice(i)].join('')

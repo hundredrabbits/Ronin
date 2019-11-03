@@ -4,7 +4,6 @@
 
 function Library (ronin) {
   // IO
-
   this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
     const src = ronin.cache.get(name)
     if (!src) { ronin.log('No data for ' + name); return }

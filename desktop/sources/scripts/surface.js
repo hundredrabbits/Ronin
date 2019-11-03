@@ -244,9 +244,6 @@ function Surface (ronin) {
     this._guide.height = size.h
     this._guide.style.width = (size.w / this.ratio) + 'px'
     this._guide.style.height = (size.h / this.ratio) + 'px'
-    if (fit === true) {
-      this.fitWindow(size)
-    }
   }
 
   this.copy = function (rect) {
@@ -290,14 +287,6 @@ function Surface (ronin) {
         return resolve()
       }
     })
-  }
-
-  this.fitWindow = function (size) {
-    console.log('TODO')
-    // const win = require('electron').remote.getCurrentWindow()
-    // const pad = { w: ronin.commander.isVisible === true ? 400 : 60, h: 60 }
-    // if (size.w < 10 || size.h < 10) { return }
-    // win.setSize(Math.floor((size.w / this.ratio) + pad.w), Math.floor((size.h / this.ratio) + pad.h), true)
   }
 
   this.maximize = () => {
