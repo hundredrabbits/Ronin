@@ -4,10 +4,10 @@
 /* global FileReader */
 /* global DOMParser */
 
-function Theme (_default) {
+function Theme () {
   const themer = this
 
-  this.active = _default
+  this.active = {}
 
   this.el = document.createElement('style')
   this.el.type = 'text/css'
@@ -17,7 +17,8 @@ function Theme (_default) {
     this.callback = callback
   }
 
-  this.start = () => {
+  this.start = (defaultTheme) => {
+    this.active = defaultTheme
     console.log('Theme', 'Starting..')
     if (isJson(localStorage.theme)) {
       const storage = JSON.parse(localStorage.theme)
@@ -27,7 +28,7 @@ function Theme (_default) {
         return
       }
     }
-    this.load(_default)
+    this.load(this.active)
   }
 
   this.load = (data) => {
