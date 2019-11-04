@@ -35,9 +35,9 @@ function Source () {
     this.saveAs(name, content, type, callback)
   }
 
-  this.saveAs = (name, content, type = 'text/plain', callback) => {
+  this.saveAs = (name, ext, content, type = 'text/plain', callback) => {
     console.log('Source', 'Save new file..')
-    this.download(name, content, type, callback)
+    this.download(name, ext, content, type, callback)
   }
 
   this.revert = () => {
@@ -55,15 +55,19 @@ function Source () {
     reader.readAsText(file, 'UTF-8')
   }
 
-  this.download = (name, content, type, settings = 'charset=utf-8') => {
-    console.info('Source', `Downloading ${name}(${type})`)
+  this.download = (name, ext, content, type, settings = 'charset=utf-8') => {
     const link = document.createElement('a')
-    link.setAttribute('download', name)
+    link.setAttribute('download', `${name}-${timestamp()}.${ext}`)
     if (type === 'image/png' || type === 'image/jpeg') {
       link.setAttribute('href', content)
     } else {
       link.setAttribute('href', 'data:' + type + ';' + settings + ',' + encodeURIComponent(content))
     }
     link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
+  }
+
+  function timestamp (d = new Date(), e = new Date(d)) {
+    const ms = e - d.setHours(0, 0, 0, 0)
+    return (ms / 8640 / 10000).toFixed(6).substr(2, 6)
   }
 }
