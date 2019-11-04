@@ -1,7 +1,9 @@
-const { app, BrowserWindow, webFrame, Menu } = require('electron')
+'use strict'
+
+/* global createWindow */
+
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
-const url = require('url')
-const shell = require('electron').shell
 
 let isShown = true
 
@@ -10,7 +12,7 @@ app.win = null
 app.on('ready', () => {
   app.win = new BrowserWindow({
     width: 780,
-    height: 392,
+    height: 462,
     minWidth: 380,
     minHeight: 360,
     backgroundColor: '#000',
@@ -22,13 +24,10 @@ app.on('ready', () => {
     webPreferences: { zoomFactor: 1.0, nodeIntegration: true, backgroundThrottling: false }
   })
 
-  app.win.webContents.removeAllListeners('devtools-reload-page')
-
   app.win.loadURL(`file://${__dirname}/sources/index.html`)
   // app.inspect()
 
   app.win.on('closed', () => {
-    win = null
     app.quit()
   })
 
