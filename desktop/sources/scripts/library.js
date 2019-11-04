@@ -470,7 +470,7 @@ function Library (ronin) {
   // Objects
 
   this.get = (item, key) => { // Gets an object's parameter with name.
-    return item[key]
+    return item && key ? item[key] : null
   }
 
   this.set = (item, ...args) => { // Sets an object's parameter with name as value.

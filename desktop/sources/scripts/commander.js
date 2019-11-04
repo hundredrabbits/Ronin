@@ -222,6 +222,7 @@ function Commander (ronin) {
   this.getCurrentFunction = () => {
     const word = this.getCurrentWord()
     let mostSimilar = ''
+    if (ronin.library[word]) { return word }
     for (const id of Object.keys(ronin.library)) {
       if (id.substr(0, word.length) === word) {
         mostSimilar = id
@@ -234,10 +235,10 @@ function Commander (ronin) {
     const name = this.getCurrentFunction()
     const fn = ronin.library[name]
     if (!fn) { return }
-    const fnString = fn.toString()
+    const fnString = fn.toString().replace('async ', '')
     if (fnString.indexOf(') => {') < 0) { return }
-    const fnParams = fnString.split(') => {')[0].substr(1).replace(/,/g, '').trim()
-    return `(${name} ${fnParams})`
+    const fnParams = fnString.split(') => {')[0].substr(1).split(',').reduce((acc, item) => { return `${acc}${item.indexOf('=') > -1 ? '~' + item.split('=')[0].trim() : item} ` }, '').trim()
+    return `(${(name + ' ' + fnParams).trim()})`
   }
 
   // Splash
