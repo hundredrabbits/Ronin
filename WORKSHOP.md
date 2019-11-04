@@ -184,19 +184,19 @@ Effects which use the surrounding pixels, or convolution matrix, are used with t
 
 ```lisp
 (open $path)
-(convolve sharpen $rect)
+(convolve (sharpen) $rect)
 ```
 
 Custom convolve kernels can also be created like this:
 
 ```lisp
 (open $path)
-(def blur 
+(def (blur) 
   (
     (-1 -1 -1) 
     (-1 5 -1) 
     (-1 -1 -1)))
-(convolve blur)
+(convolve (blur))
 ```
 
 <img src="https://raw.githubusercontent.com/hundredrabbits/100r.co/master/media/content/characters/ronin.idle.png" width="300"/>
