@@ -43,13 +43,20 @@ function Ronin () {
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.download('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open('lisp', this.whenOpen) })
     this.acels.set('File', 'Revert', 'CmdOrCtrl+W', () => { this.source.revert() })
+
+    this.acels.add('Edit', 'cut')
+    this.acels.add('Edit', 'copy')
+    this.acels.add('Edit', 'paste')
+
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
     this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
+
     this.acels.set('Project', 'Run', 'CmdOrCtrl+R', () => { this.commander.run() })
     this.acels.set('Project', 'Reload Run', 'CmdOrCtrl+Shift+R', () => { this.source.revert(); this.commander.run() })
     this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.reindent() })
     this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
+    
     this.acels.install(window)
     this.acels.pipe(this)
   }
