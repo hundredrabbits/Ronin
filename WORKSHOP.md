@@ -4,7 +4,7 @@
 
 This workshop is designed to go over the **most commonly used functions** with [Ronin](https://github.com/hundredrabbits/Ronin). The list of all available functions and their usage is located [here](https://github.com/hundredrabbits/Ronin/#library). You can also follow along our [video tutorial](https://youtu.be/SgAWGh1s9zg).
 
-- **Part 1**: [Images](#Images) `(open)`, `(import)`, `(crop)`, `(export)`
+- **Part 1**: [Images](#Images) `(import)`, `(crop)`, `(export)`
 - **Part 2**: [Draw](#Draw) `(stroke)`, `(fill)`, `(gradient)`, `(clear)`
 - **Part 3**: [Filters](#Filters) `(pixels)`, `(saturation)`, `(convolve)`, `(sharpen)`
 - **Part 4**: [Events](#Events) `(echo)`, `(on "mouse-down")`, `(on "animate")`, `(on "/a")`
@@ -12,14 +12,6 @@ This workshop is designed to go over the **most commonly used functions** with [
 ## Images
 
 This section will teach the basics of opening, cropping and saving an image file. You can use the `$path` helper to quickly get an image's path into Ronin, by writing `$path` and dragging a file onto the Ronin window.
-
-### Open
-
-To open an image, **and resize the canvas to fit the image size**, type the following text, drag an image file onto the Ronin window and press `cmd+r`:
-
-```lisp
-(open $path)
-```
 
 ### Import
 
@@ -150,7 +142,7 @@ This section will cover how to manipulate the pixels of an image.
 First let's open an image, ideally one in color, and change every pixel of a selected area at `(rect 100 100 200 200)`:
 
 ```lisp
-(open $path)
+(import $path)
 (pixels saturation 10 
   (rect 100 100 200 200))
 ```
@@ -172,7 +164,7 @@ The `(pixels)` function expects a function that returns 4 values(r,g,b,a), and s
 In the previous example, we increased the saturation of a region of the image, to desaturate an entire image, you can simply omit the  `(rect)` which will select the entire canvas, and set the pixel filter to `saturation` and the value to `0.5`(50% saturation):
 
 ```lisp
-(open $path)
+(import $path)
 (pixels saturation 0.5)
 ```
 
@@ -183,14 +175,14 @@ Effects which use the surrounding pixels, or convolution matrix, are used with t
 ### sharpen
 
 ```lisp
-(open $path)
+(import $path)
 (convolve (sharpen) $rect)
 ```
 
 Custom convolve kernels can also be created like this:
 
 ```lisp
-(open $path)
+(import $path)
 (def (blur) 
   (
     (-1 -1 -1) 
