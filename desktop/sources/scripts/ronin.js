@@ -14,9 +14,9 @@ function Ronin () {
   this.el = document.createElement('div')
   this.el.id = 'ronin'
 
-  this.acels = new Acels()
-  this.theme = new Theme()
-  this.source = new Source()
+  this.acels = new Acels(this)
+  this.theme = new Theme(this)
+  this.source = new Source(this)
 
   this.commander = new Commander(this)
   this.surface = new Surface(this)
@@ -51,6 +51,7 @@ function Ronin () {
     this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.reindent() })
     this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
     this.acels.install(window)
+    this.acels.pipe(this)
   }
 
   this.start = function () {
@@ -63,7 +64,8 @@ function Ronin () {
     this.loop()
   }
 
-  this.whenOpen = (res) => {
+  this.whenOpen = (file,res) => {
+    console.log(file,res)
     this.commander.load(res)
     this.commander.show()
   }
@@ -79,10 +81,6 @@ function Ronin () {
     this.commander.setStatus(msg.reduce((acc, val) => {
       return acc + JSON.stringify(val).replace(/"/g, '').trim() + ' '
     }, ''))
-  }
-
-  this.load = function (content = this.default()) {
-
   }
 
   this.bind = (event, fn) => {
@@ -169,12 +167,16 @@ function Ronin () {
     const file = e.dataTransfer.files[0]
 
     if (file.name.indexOf('.lisp') > -1) {
-      this.source.load(e.dataTransfer.files[0], this.whenOpen)
+      this.source.read(file, this.whenOpen)
+      this.log('Loaded '+file.name)
     }
+
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
       const img = new Image()
       img.onload = () => {
         this.cache.set(file.name, img.src)
+        this.commander.injectPath(file.name)
+        this.log('Loaded '+file.name)
       }
       img.src = URL.createObjectURL(file)
     }
