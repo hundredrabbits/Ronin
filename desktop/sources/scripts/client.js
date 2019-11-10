@@ -10,7 +10,7 @@
 /* global Image */
 /* global requestAnimationFrame */
 
-function Ronin () {
+function Client () {
   this.el = document.createElement('div')
   this.el.id = 'ronin'
 
@@ -42,7 +42,6 @@ function Ronin () {
     this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.download('ronin', 'lisp', this.commander._input.value, 'text/plain') })
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.download('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open('lisp', this.whenOpen) })
-    this.acels.set('File', 'Revert', 'CmdOrCtrl+W', () => { this.source.revert() })
 
     this.acels.add('Edit', 'cut')
     this.acels.add('Edit', 'copy')
@@ -56,7 +55,7 @@ function Ronin () {
     this.acels.set('Project', 'Reload Run', 'CmdOrCtrl+Shift+R', () => { this.source.revert(); this.commander.run() })
     this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.reindent() })
     this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
-    
+
     this.acels.install(window)
     this.acels.pipe(this)
   }
@@ -71,8 +70,8 @@ function Ronin () {
     this.loop()
   }
 
-  this.whenOpen = (file,res) => {
-    console.log(file,res)
+  this.whenOpen = (file, res) => {
+    console.log(file, res)
     this.commander.load(res)
     this.commander.show()
   }
@@ -175,7 +174,7 @@ function Ronin () {
 
     if (file.name.indexOf('.lisp') > -1) {
       this.source.read(file, this.whenOpen)
-      this.log('Loaded '+file.name)
+      this.log('Loaded ' + file.name)
     }
 
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
@@ -183,7 +182,7 @@ function Ronin () {
       img.onload = () => {
         this.cache.set(file.name, img.src)
         this.commander.injectPath(file.name)
-        this.log('Loaded '+file.name)
+        this.log('Loaded ' + file.name)
       }
       img.src = URL.createObjectURL(file)
     }

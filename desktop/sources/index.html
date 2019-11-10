@@ -5,7 +5,7 @@
     <script type="text/javascript" src="scripts/lib/acels.js"></script>
     <script type="text/javascript" src="scripts/lib/lisp.js"></script>
     <script type="text/javascript" src="scripts/lib/source.js"></script>
-    <script type="text/javascript" src="scripts/ronin.js"></script>
+    <script type="text/javascript" src="scripts/client.js"></script>
     <script type="text/javascript" src="scripts/commander.js"></script>
     <script type="text/javascript" src="scripts/surface.js"></script>
     <script type="text/javascript" src="scripts/library.js"></script>
@@ -17,13 +17,13 @@
   </head>
   <body>
     <script type="text/javascript">
-      const ronin = new Ronin()
+      const client = new Client()
 
-      ronin.install(document.body)
+      client.install(document.body)
 
       window.addEventListener('load', () => { 
-        ronin.start() 
-        ronin.acels.inject('Ronin')
+        client.start() 
+        client.acels.inject('Ronin')
       })
     </script>
   </body>

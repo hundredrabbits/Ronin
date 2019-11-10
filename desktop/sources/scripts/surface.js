@@ -3,7 +3,7 @@
 /* global Path2D */
 /* global Image */
 
-function Surface (ronin) {
+function Surface (client) {
   this.el = document.createElement('canvas')
   this.el.id = 'surface'
   this._guide = document.createElement('canvas')
@@ -19,14 +19,14 @@ function Surface (ronin) {
     host.appendChild(this.el)
     host.appendChild(this._guide)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
-    this._guide.addEventListener('mousedown', ronin.onMouseDown, false)
-    this._guide.addEventListener('mousemove', ronin.onMouseMove, false)
-    this._guide.addEventListener('mouseup', ronin.onMouseUp, false)
-    this._guide.addEventListener('mouseover', ronin.onMouseOver, false)
-    this._guide.addEventListener('mouseout', ronin.onMouseOut, false)
-    this._guide.addEventListener('keydown', ronin.onKeyDown, false)
-    this._guide.addEventListener('keyup', ronin.onKeyUp, false)
-    this._guide.addEventListener('keypress', ronin.onKeyPress, false)
+    this._guide.addEventListener('mousedown', client.onMouseDown, false)
+    this._guide.addEventListener('mousemove', client.onMouseMove, false)
+    this._guide.addEventListener('mouseup', client.onMouseUp, false)
+    this._guide.addEventListener('mouseover', client.onMouseOver, false)
+    this._guide.addEventListener('mouseout', client.onMouseOut, false)
+    this._guide.addEventListener('keydown', client.onKeyDown, false)
+    this._guide.addEventListener('keyup', client.onKeyUp, false)
+    this._guide.addEventListener('keypress', client.onKeyPress, false)
   }
 
   this.start = function () {
@@ -34,16 +34,16 @@ function Surface (ronin) {
   }
 
   this.onResize = function () {
-    if (ronin.commander._input.value === '') {
+    if (client.commander._input.value === '') {
       this.maximize()
     }
     const f = this.getFrame()
-    ronin.log(`resize ${f.w}x${f.h}`)
+    client.log(`resize ${f.w}x${f.h}`)
   }
 
   // Shape
 
-  this.stroke = (shape, color = ronin.theme.get('f_high'), width = 2, context = this.context) => {
+  this.stroke = (shape, color = client.theme.get('f_high'), width = 2, context = this.context) => {
     context.beginPath()
     this.trace(shape, context)
     context.lineWidth = width
@@ -66,7 +66,7 @@ function Surface (ronin) {
 
   // Fill
 
-  this.fill = (shape, color = ronin.theme.get('b_high'), context = this.context) => {
+  this.fill = (shape, color = client.theme.get('b_high'), context = this.context) => {
     context.beginPath()
     context.fillStyle = typeof color === 'object' && color.rgba ? color.rgba : color
     this.trace(shape, context)
@@ -210,7 +210,7 @@ function Surface (ronin) {
   }
 
   this.crop = function (rect) {
-    ronin.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
+    client.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
     const crop = this.copy(rect)
     this.resize(rect, true)
     this.context.drawImage(crop, 0, 0)

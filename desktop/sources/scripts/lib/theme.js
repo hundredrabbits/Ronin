@@ -10,16 +10,19 @@ function Theme (client) {
 
   this.active = {}
   this.default = {
-    background: '#eee',
-    f_high: '#000',
-    f_med: '#999',
-    f_low: '#ccc',
-    f_inv: '#000',
-    b_high: '#000',
-    b_med: '#888',
-    b_low: '#aaa',
+    background: '#eeeeee',
+    f_high: '#0a0a0a',
+    f_med: '#4a4a4a',
+    f_low: '#6a6a6a',
+    f_inv: '#111111',
+    b_high: '#a1a1a1',
+    b_med: '#c1c1c1',
+    b_low: '#ffffff',
     b_inv: '#ffb545'
   }
+
+  // Callbacks
+  this.onLoad = () => {}
 
   this.install = (host = document.body) => {
     window.addEventListener('dragover', this.drag)
@@ -67,10 +70,20 @@ function Theme (client) {
     }`
     localStorage.setItem('theme', JSON.stringify(theme))
     this.active = theme
+    if (this.onLoad) {
+      this.onLoad(data)
+    }
   }
 
   this.reset = () => {
     this.load(this.default)
+  }
+
+  this.set = (key, val) => {
+    if (!val) { return }
+    const hex = (`${val}`.substr(0, 1) !== '#' ? '#' : '') + `${val}`
+    if (!isColor(hex)) { console.warn('Theme', `${hex} is not a valid color.`); return }
+    this.active[key] = hex
   }
 
   this.read = (key) => {
@@ -131,16 +144,20 @@ function Theme (client) {
 
   function isValid (json) {
     if (!json) { return false }
-    if (!json.background) { return false }
-    if (!json.f_high) { return false }
-    if (!json.f_med) { return false }
-    if (!json.f_low) { return false }
-    if (!json.f_inv) { return false }
-    if (!json.b_high) { return false }
-    if (!json.b_med) { return false }
-    if (!json.b_low) { return false }
-    if (!json.b_inv) { return false }
+    if (!json.background || !isColor(json.background)) { return false }
+    if (!json.f_high || !isColor(json.f_high)) { return false }
+    if (!json.f_med || !isColor(json.f_med)) { return false }
+    if (!json.f_low || !isColor(json.f_low)) { return false }
+    if (!json.f_inv || !isColor(json.f_inv)) { return false }
+    if (!json.b_high || !isColor(json.b_high)) { return false }
+    if (!json.b_med || !isColor(json.b_med)) { return false }
+    if (!json.b_low || !isColor(json.b_low)) { return false }
+    if (!json.b_inv || !isColor(json.b_inv)) { return false }
     return true
+  }
+
+  function isColor (hex) {
+    return /^#([0-9A-F]{3}){1,2}$/i.test(hex)
   }
 
   function isJson (text) {

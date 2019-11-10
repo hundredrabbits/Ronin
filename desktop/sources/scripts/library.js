@@ -2,18 +2,18 @@
 
 /* global Image */
 
-function Library (ronin) {
+function Library (client) {
   // IO
   this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
-    const src = ronin.cache.get(name)
-    if (!src) { ronin.log('No data for ' + name); return }
+    const src = client.cache.get(name)
+    if (!src) { client.log('No data for ' + name); return }
     const img = new Image()
     img.src = src
-    return ronin.surface.draw(img, shape, alpha)
+    return client.surface.draw(img, shape, alpha)
   }
 
   this.export = async (name = 'export', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
-    const base64 = ronin.surface.el.toDataURL(type, quality)
+    const base64 = client.surface.el.toDataURL(type, quality)
     const link = document.createElement('a')
     link.setAttribute('href', base64)
     link.setAttribute('download', type === 'image/png' ? name + '.png' : name + '.jpg')
@@ -74,59 +74,59 @@ function Library (ronin) {
 
   // Frame
 
-  this.resize = async (w = ronin.surface.bounds().w, h = ronin.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+  this.resize = async (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
     if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    await ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, fit)
-    return ronin.surface.draw(b, rect)
+    a.src = client.surface.el.toDataURL()
+    await client.surface.resizeImage(a, b)
+    client.surface.resize(rect, fit)
+    return client.surface.draw(b, rect)
   }
 
   this.rescale = async (w = 1, h = 1) => { // Rescales the canvas to target ratio of w and h, returns the rect.
     const rect = { x: 0, y: 0, w: this['get-frame']().w * w, h: this['get-frame']().h * h }
     const a = document.createElement('img')
     const b = document.createElement('img')
-    a.src = ronin.surface.el.toDataURL()
-    await ronin.surface.resizeImage(a, b)
-    ronin.surface.resize(rect, true)
-    return ronin.surface.draw(b, rect)
+    a.src = client.surface.el.toDataURL()
+    await client.surface.resizeImage(a, b)
+    client.surface.resize(rect, true)
+    return client.surface.draw(b, rect)
   }
 
   this.crop = async (rect = this['get-frame']()) => { // Crop canvas to rect.
-    return ronin.surface.crop(rect)
+    return client.surface.crop(rect)
   }
 
   this.copy = async (rect = this['get-frame']()) => { // Copy a section of the canvas.
-    return ronin.surface.copy(rect)
+    return client.surface.copy(rect)
   }
 
   this.paste = async (copy, rect = this['get-frame']()) => { // Paste a section of the canvas.
-    return ronin.surface.paste(copy, rect)
+    return client.surface.paste(copy, rect)
   }
 
   this.drag = (rect = this['get-frame'](), line = this.line()) => { // Drag a part of the canvas.
     const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
-    const crop = ronin.surface.copy(rect)
-    ronin.surface.clear(rect)
+    const crop = client.surface.copy(rect)
+    client.surface.clear(rect)
     this.guide({ a: { x: rect.x, y: rect.y }, b: { x: pos.x + rect.x, y: pos.y + rect.y } })
     this.guide(rect)
     this.guide(this.offset(rect, { x: pos.x, y: pos.y }))
-    ronin.surface.context.drawImage(crop, rect.x, rect.y)
+    client.surface.context.drawImage(crop, rect.x, rect.y)
   }
 
   this.view = (a, b) => { // View a part of the canvas.
     this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
     this.guide(a)
     this.guide(b)
-    ronin.surface.context.drawImage(this.copy(a), b.x, b.y, b.w, b.h)
+    client.surface.context.drawImage(this.copy(a), b.x, b.y, b.w, b.h)
   }
 
   this.pick = (shape = this['get-frame']()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
     const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
-    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     const sum = [0, 0, 0]
     const count = img.data.length / 4
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
@@ -143,32 +143,32 @@ function Library (ronin) {
     const mode = Math.floor(deg / 90) % 4
     const offset = { x: [0, 0, -frame.w, -frame.w], y: [0, -frame.h, -frame.h, 0] }
     const rect = { x: 0, y: 0, w: (mode === 1 || mode === 3 ? frame.h : frame.w), h: (mode === 1 || mode === 3 ? frame.w : frame.h) }
-    ronin.surface.resize(rect, false)
-    ronin.surface.context.save()
-    ronin.surface.context.rotate(this.rad(mode * 90))
-    ronin.surface.context.translate(offset.x[mode], offset.y[mode])
-    ronin.surface.context.drawImage(copy, 0, 0)
-    ronin.surface.context.restore()
+    client.surface.resize(rect, false)
+    client.surface.context.save()
+    client.surface.context.rotate(this.rad(mode * 90))
+    client.surface.context.translate(offset.x[mode], offset.y[mode])
+    client.surface.context.drawImage(copy, 0, 0)
+    client.surface.context.restore()
   }
 
   this.mirror = { // Mirror canvas, methods: `x`, `y`.
     x: async (j = 0) => {
       const copy = await this.copy()
       const frame = this['get-frame']()
-      ronin.surface.context.save()
-      ronin.surface.context.translate(frame.w, 0)
-      ronin.surface.context.scale(-1, 1)
-      ronin.surface.context.drawImage(copy, 0, 0)
-      ronin.surface.context.restore()
+      client.surface.context.save()
+      client.surface.context.translate(frame.w, 0)
+      client.surface.context.scale(-1, 1)
+      client.surface.context.drawImage(copy, 0, 0)
+      client.surface.context.restore()
     },
     y: async (j = 0) => {
       const copy = await this.copy()
       const frame = this['get-frame']()
-      ronin.surface.context.save()
-      ronin.surface.context.translate(0, frame.h)
-      ronin.surface.context.scale(1, -1)
-      ronin.surface.context.drawImage(copy, 0, 0)
-      ronin.surface.context.restore()
+      client.surface.context.save()
+      client.surface.context.translate(0, frame.h)
+      client.surface.context.scale(1, -1)
+      client.surface.context.drawImage(copy, 0, 0)
+      client.surface.context.restore()
     }
   }
 
@@ -176,52 +176,52 @@ function Library (ronin) {
 
   this.transform = { // The transform toolkit, methods `push`, `pop`, `reset`, `move`, `scale`, `rotate`.
     push: () => {
-      ronin.surface.context.save()
+      client.surface.context.save()
     },
     pop: () => {
-      ronin.surface.context.restore()
+      client.surface.context.restore()
     },
     reset: () => {
-      ronin.surface.context.resetTransform()
-      ronin.surface.guide.resetTransform()
+      client.surface.context.resetTransform()
+      client.surface.guide.resetTransform()
     },
     move: (x, y) => {
-      ronin.surface.context.translate(x, y)
+      client.surface.context.translate(x, y)
       this.guide(this.line(0, 0, x, y))
-      ronin.surface.guide.translate(x, y)
+      client.surface.guide.translate(x, y)
     },
     scale: (w, h) => {
-      ronin.surface.context.scale(w, h === undefined ? w : h)
+      client.surface.context.scale(w, h === undefined ? w : h)
       this.guide(this.rect(0, 0, 50 * w, 50 * h))
-      ronin.surface.guide.scale(w, h === undefined ? w : h)
+      client.surface.guide.scale(w, h === undefined ? w : h)
     },
     rotate: (a) => {
-      ronin.surface.context.rotate(a)
+      client.surface.context.rotate(a)
       this.guide(this.arc(0, 0, 50, 0, a))
-      ronin.surface.guide.rotate(a)
+      client.surface.guide.rotate(a)
     }
   }
 
   // Actions
 
   this.stroke = (shape, color, thickness = 2) => { // Strokes a shape.
-    ronin.surface.stroke(shape, color, thickness)
+    client.surface.stroke(shape, color, thickness)
     return shape
   }
 
   this.fill = (rect = this['get-frame'](), color) => { // Fills a shape.
-    ronin.surface.fill(rect, color)
+    client.surface.fill(rect, color)
     return rect
   }
 
   this.clear = (rect = this['get-frame']()) => { // Clears a rect.
-    ronin.surface.clearGuide(rect)
-    ronin.surface.clear(rect)
+    client.surface.clearGuide(rect)
+    client.surface.clear(rect)
     return rect
   }
 
   this.gradient = (line, colors = ['white', 'black']) => { // Defines a gradient color.
-    const gradient = ronin.surface.context.createLinearGradient(line.a.x, line.a.y, line.b.x, line.b.y)
+    const gradient = client.surface.context.createLinearGradient(line.a.x, line.a.y, line.b.x, line.b.y)
     colors.forEach((color, i) => {
       gradient.addColorStop(i * (1 / (colors.length - 1)), color)
     })
@@ -229,7 +229,7 @@ function Library (ronin) {
   }
 
   this.guide = (shape, color) => { // Draws a shape on the guide layer.
-    ronin.surface.drawGuide(shape, color)
+    client.surface.drawGuide(shape, color)
     return shape
   }
 
@@ -237,7 +237,7 @@ function Library (ronin) {
 
   this.pixels = async (fn, q = 1, rect = this['get-frame']()) => {
     if (!fn) { console.warn('Unknown function'); return rect }
-    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
       const processed = await fn(pixel, q)
@@ -246,7 +246,7 @@ function Library (ronin) {
       img.data[i + 2] = this.clamp(parseInt(processed[2]), 0, 255)
       img.data[i + 3] = this.clamp(parseInt(processed[3]), 0, 255)
     }
-    ronin.surface.context.putImageData(img, rect.x, rect.y)
+    client.surface.context.putImageData(img, rect.x, rect.y)
     return rect
   }
 
@@ -501,7 +501,7 @@ function Library (ronin) {
   this.convolve = (kernel, rect = this['get-frame']()) => {
     const sigma = kernel.flat().reduce((a, x) => (a + x))
     const kw = kernel[0].length; const kh = kernel.length
-    const img = ronin.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     const out = new Uint8ClampedArray(rect.w * 4 * rect.h)
     for (let i = 0, outer = img.data.length; i < outer; i++) { // bytes
       const ix = Math.floor(i / 4) % rect.w; const iy = Math.floor((i / 4) / rect.w)
@@ -516,7 +516,7 @@ function Library (ronin) {
       if (i % 4 === 3) out[i] = 255
     }
     img.data.set(out, 0)
-    ronin.surface.context.putImageData(img, rect.x, rect.y)
+    client.surface.context.putImageData(img, rect.x, rect.y)
     return rect
   }
 
@@ -552,7 +552,7 @@ function Library (ronin) {
     // return require('path').dirname(path)
   }
 
-  this.filepath = (path = ronin.source.path) => { // Returns the path of a file.
+  this.filepath = (path = client.source.path) => { // Returns the path of a file.
     // return path
   }
 
@@ -575,7 +575,7 @@ function Library (ronin) {
   }
 
   this.echo = (...args) => { // Print arguments to interface.
-    ronin.log(args)
+    client.log(args)
     return args
   }
 
@@ -593,7 +593,7 @@ function Library (ronin) {
   }
 
   this.on = (event, f) => { // Triggers on event.
-    ronin.bind(event, f)
+    client.bind(event, f)
   }
 
   this.test = (name, a, b) => {
@@ -615,10 +615,10 @@ function Library (ronin) {
   // Accessors
 
   this['get-theme'] = () => { // Get theme values.
-    return ronin.theme.active
+    return client.theme.active
   }
 
   this['get-frame'] = () => { // Get theme values.
-    return ronin.surface.getFrame()
+    return client.surface.getFrame()
   }
 }

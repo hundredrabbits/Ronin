@@ -1,4 +1,6 @@
-function Commander (ronin) {
+'use strict'
+
+function Commander (client) {
   this.el = document.createElement('div')
   this.el.id = 'commander'
   this._input = document.createElement('textarea')
@@ -38,11 +40,11 @@ function Commander (ronin) {
 
   this.run = (txt = this._input.value) => {
     if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
-    ronin.bindings = {}
+    client.bindings = {}
     if (this._input.value.trim() === '') {
-      ronin.surface.maximize()
+      client.surface.maximize()
     }
-    ronin.lisp.run(txt)
+    client.lisp.run(txt)
     this.feedback()
   }
 
@@ -77,7 +79,7 @@ function Commander (ronin) {
     let val = this._input.value.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
     let depth = 0
     if (val.split('(').length !== val.split(')').length) {
-      ronin.log('Uneven number of parens.')
+      client.log('Uneven number of parens.')
       return
     }
     for (let i = 0; i < val.length; i++) {
@@ -183,14 +185,14 @@ function Commander (ronin) {
 
   this.show = function (expand = false) {
     if (this.isVisible === true) { return }
-    ronin.el.className = expand ? 'expand' : ''
+    client.el.className = expand ? 'expand' : ''
     this.isVisible = true
     this._input.focus()
   }
 
   this.hide = function () {
     if (this.isVisible !== true) { return }
-    ronin.el.className = 'hidden'
+    client.el.className = 'hidden'
     this.isVisible = false
     this._input.blur()
   }
@@ -222,8 +224,8 @@ function Commander (ronin) {
   this.getCurrentFunction = () => {
     const word = this.getCurrentWord()
     let mostSimilar = ''
-    if (ronin.library[word]) { return word }
-    for (const id of Object.keys(ronin.library)) {
+    if (client.library[word]) { return word }
+    for (const id of Object.keys(client.library)) {
       if (id.substr(0, word.length) === word) {
         mostSimilar = id
       }
@@ -233,7 +235,7 @@ function Commander (ronin) {
 
   this.getDocs = (id) => {
     const name = this.getCurrentFunction()
-    const fn = ronin.library[name]
+    const fn = client.library[name]
     if (!fn) { return }
     const fnString = fn.toString().replace('async ', '')
     if (fnString.indexOf(') => {') < 0) { return }
@@ -252,7 +254,7 @@ function Commander (ronin) {
 (def pos-y 
   (sub frame:m 150))
 (stroke 
-  (svg pos-x pos-y logo-path) theme:b_high 5)
+  (svg pos-x pos-y logo-path) theme:f_high 5)
 `
 
   function insert (str, add, i) {
