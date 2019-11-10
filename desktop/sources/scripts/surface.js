@@ -173,43 +173,29 @@ function Surface (client) {
 
   // IO
 
-  this.open = (path, ratio = 1) => {
-    return new Promise(resolve => {
-      const img = new Image()
-      img.src = path
-      img.onload = () => {
-        const rect = { x: 0, y: 0, w: img.width * ratio, h: img.height * ratio }
-        this.resize(rect, true)
-        this.context.drawImage(img, rect.x, rect.y, rect.w, rect.h)
-        resolve()
-      }
-    })
-  }
-
   this.draw = function (img, shape = this.getFrame(), alpha = 1) {
     return new Promise(resolve => {
-      img.onload = () => {
-        this.context.globalAlpha = alpha
-        if (isLine(shape)) {
-          this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
-        } else if (isRect(shape)) {
-          const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
-          this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
-        } else if (isCircle(shape)) {
-          const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
-          const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
-          const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
-          this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
-        } else {
-          this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
-        }
-        this.context.globalAlpha = 1
-        resolve()
+      this.context.globalAlpha = alpha
+      if (isLine(shape)) {
+        this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
+      } else if (isRect(shape)) {
+        const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
+        this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
+      } else if (isCircle(shape)) {
+        const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
+        const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
+        const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
+        this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
+      } else {
+        this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
       }
+      this.context.globalAlpha = 1
+      resolve()
     })
   }
 
   this.crop = function (rect) {
+    if (!isRect(rect)) { return }
     client.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
     const crop = this.copy(rect)
     this.resize(rect, true)

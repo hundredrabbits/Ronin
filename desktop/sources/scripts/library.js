@@ -5,11 +5,10 @@
 function Library (client) {
   // IO
   this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
-    const src = client.cache.get(name)
-    if (!src) { client.log('No data for ' + name); return }
-    const img = new Image()
-    img.src = src
-    return client.surface.draw(img, shape, alpha)
+    const img = client.cache.get(name)
+    if (!img) { client.log('No data for ' + name); return }
+    client.surface.draw(img, shape, alpha)
+    return shape || this.rect(0, 0, img.width, img.height)
   }
 
   this.export = async (name = 'export', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.

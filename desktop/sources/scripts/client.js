@@ -180,7 +180,7 @@ function Client () {
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
       const img = new Image()
       img.onload = () => {
-        this.cache.set(file.name, img.src)
+        this.cache.set(file.name, img)
         this.commander.injectPath(file.name)
         this.log('Loaded ' + file.name)
       }
