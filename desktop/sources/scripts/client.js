@@ -43,9 +43,12 @@ function Client () {
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.download('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open('lisp', this.whenOpen) })
 
+    this.acels.add('Edit', 'undo')
+    this.acels.add('Edit', 'redo')
     this.acels.add('Edit', 'cut')
     this.acels.add('Edit', 'copy')
     this.acels.add('Edit', 'paste')
+    this.acels.add('Edit', 'selectAll')
 
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
