@@ -18,14 +18,14 @@ function Source (client) {
     this.cache = {}
   }
 
-  this.open = (ext, callback) => {
+  this.open = (ext, callback, store = false) => {
     console.log('Source', 'Open file..')
     const input = document.createElement('input')
     input.type = 'file'
     input.onchange = (e) => {
       const file = e.target.files[0]
       if (file.name.indexOf('.' + ext) < 0) { console.warn('Source', `Skipped ${file.name}`); return }
-      this.read(file, callback)
+      this.read(file, callback, store)
     }
     input.click()
   }
@@ -37,7 +37,7 @@ function Source (client) {
     input.setAttribute('multiple', 'multiple')
     input.onchange = (e) => {
       for (const file of e.target.files) {
-        if (file.name.indexOf('.' + ext) < 0) { console.warn('Source', `Skipped ${file.name}`); return }
+        if (file.name.indexOf('.' + ext) < 0) { console.warn('Source', `Skipped ${file.name}`); continue }
         this.read(file, this.store)
       }
     }
@@ -60,11 +60,12 @@ function Source (client) {
 
   // I/O
 
-  this.read = (file, callback) => {
+  this.read = (file, callback, store = false) => {
     const reader = new FileReader()
     reader.onload = (event) => {
       const res = event.target.result
       if (callback) { callback(file, res) }
+      if (store) { this.store(file, res) }
     }
     reader.readAsText(file, 'UTF-8')
   }

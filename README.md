@@ -6,7 +6,7 @@ Ronin is a <b>procedural graphics tool</b> designed to automate simple graphical
 
 The library updates is constantly revealing new applications to Ronin, you can see the list of available functions <a href="https://github.com/hundredrabbits/Ronin#library" target="_blank" rel="noreferrer" class="external ">here</a>. Most of our iconography and designs were created with both <a href="https://hundredrabbits.itch.io/Ronin" target="_blank">Ronin</a> and <a href="https://hundredrabbits.itch.io/dotgrid">Dotgrid</a>.
 
-Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>, follow the [workshop](https://github.com/hundredrabbits/Ronin/blob/master/WORKSHOP.md) or watch the [video tutorial](https://www.youtube.com/watch?v=SgAWGh1s9zg).
+Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>, follow the [workshop](https://github.com/hundredrabbits/Ronin/blob/master/resources/WORKSHOP.md) or watch the [video tutorial](https://www.youtube.com/watch?v=SgAWGh1s9zg).
 
 ```lisp
 ; clear screen
@@ -29,7 +29,7 @@ npm install
 npm start
 ```
 
-<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW.jpg' width='600'/>
+<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/resources/PREVIEW.jpg' width='600'/>
 
 ## Helpers
 
@@ -152,9 +152,9 @@ To save an image in memory, open an image file with Ronin, or drag an image file
 - `(test name a b)` 
 - `(benchmark fn)` Logs time taken to execute a function.
 
-<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW2.jpg' width='600'/>
+<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/resources/PREVIEW2.jpg' width='600'/>
 
-<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/PREVIEW3.jpg' width='600'/>
+<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/resources/PREVIEW3.jpg' width='600'/>
 
 ## Extras
 

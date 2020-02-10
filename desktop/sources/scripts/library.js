@@ -1,6 +1,7 @@
 'use strict'
 
 /* global Image */
+/* global Image */
 
 function Library (client) {
   // IO
@@ -11,12 +12,9 @@ function Library (client) {
     return shape || this.rect(0, 0, img.width, img.height)
   }
 
-  this.export = async (name = 'export', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
-    const base64 = client.surface.el.toDataURL(type, quality)
-    const link = document.createElement('a')
-    link.setAttribute('href', base64)
-    link.setAttribute('download', type === 'image/png' ? name + '.png' : name + '.jpg')
-    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
+  this.export = async (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+    const ext = type === 'image/png' ? name + '.png' : name + '.jpg'
+    client.source.write(name, ext, client.surface.el.toDataURL(type, 1.0), type)
   }
 
   // Shapes
