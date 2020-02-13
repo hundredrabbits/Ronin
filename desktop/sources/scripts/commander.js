@@ -125,7 +125,7 @@ function Commander (client) {
   }
 
   this.inject = function (injection, at = this._input.selectionStart) {
-    this._input.value = this._input.value.substring(0, this._input.selectionStart) + injection + this._input.value.substring(this._input.selectionEnd)
+    document.execCommand('insertText', false, injection)
     this._input.selectionEnd = at + injection.length
   }
 
