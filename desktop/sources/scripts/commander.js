@@ -96,6 +96,9 @@ function Commander (client) {
         i += indent.length
       }
     }
+    // Space out comments
+    val = val.split('\n').map((line) => { return line.substr(0, 2) === '; ' ? `\n${line}\n` : line }).join('\n')
+
     this._input.value = val.trim()
   }
 
