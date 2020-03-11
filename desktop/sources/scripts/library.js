@@ -8,6 +8,7 @@ function Library (client) {
 
   this.open = async (name, scale = 1) => { // Import a graphic and scale canvas to fit.
     const img = client.cache.get(name)
+    if (!img) { client.log('No data for ' + name); return }
     const rect = this.rect(0, 0, img.width * scale, img.height * scale)
     await this.resize(rect.w, rect.h).then(this.import(name, rect))
     return rect
@@ -79,13 +80,13 @@ function Library (client) {
 
   // Frame
 
-  this.resize = (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+  this.resize = async (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
     if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = client.surface.el.toDataURL()
-    client.surface.resizeImage(a, b)
+    await client.surface.resizeImage(a, b)
     client.surface.resize(rect, fit)
     return client.surface.draw(b, rect)
   }
