@@ -56,6 +56,7 @@ To save an image in memory, open an image file with Ronin, or drag an image file
 
 ## Library
 
+- `(open ~name ~scale)` Imports a graphic file with format.
 - `(import ~name ~shape)` Imports a graphic file with format.
 - `(export ~name ~format ~quality)` Exports a graphic file with format.
 - `(pos ~x ~y)` Returns a position shape.

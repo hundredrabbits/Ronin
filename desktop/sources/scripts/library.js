@@ -5,6 +5,14 @@
 
 function Library (client) {
   // IO
+
+  this.open = async (name, scale = 1) => { // Import a graphic and scale canvas to fit.
+    const img = client.cache.get(name)
+    const rect = this.rect(0, 0, img.width * scale, img.height * scale)
+    await this.resize(rect.w, rect.h).then(this.import(name, rect))
+    return rect
+  }
+
   this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
     const img = client.cache.get(name)
     if (!img) { client.log('No data for ' + name); return }
@@ -71,19 +79,19 @@ function Library (client) {
 
   // Frame
 
-  this.resize = async (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+  this.resize = (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
     if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = client.surface.el.toDataURL()
-    await client.surface.resizeImage(a, b)
+    client.surface.resizeImage(a, b)
     client.surface.resize(rect, fit)
     return client.surface.draw(b, rect)
   }
 
-  this.rescale = async (w = 1, h = 1) => { // Rescales the canvas to target ratio of w and h, returns the rect.
-    const rect = { x: 0, y: 0, w: this['get-frame']().w * w, h: this['get-frame']().h * h }
+  this.rescale = async (w = 1, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+    const rect = { x: 0, y: 0, w: this['get-frame']().w * w, h: this['get-frame']().h * (h || w) }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = client.surface.el.toDataURL()
