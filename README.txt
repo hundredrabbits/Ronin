@@ -11,6 +11,22 @@ The library updates is constantly revealing new applications to Ronin, you can s
 - Demos: https://twitter.com/neauoire/status/1152481692193419267
 - Community: https://hundredrabbits.itch.io/ronin/community
 
+Controls
+
+∷        Toggle Menubar   Tab
+∷        Open Theme       ^Shift+O
+∷        Reset Theme      ^Backspace
+File     New              ^N
+File     Save             ^S
+File     Export Image     ^E
+File     Open             ^O
+View     Toggle Guides    ^Shift+H
+View     Toggle Commander ^K
+View     Expand Commander ^Shift+K
+Project  Run              ^R
+Project  Re-Indent        ^Shift+I
+Project  Clean            Escape
+
 Example
 
 ; clear screen
