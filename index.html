@@ -10,15 +10,38 @@
     <script>
 'use strict'
 function Acels (client) {
+  this.el = document.createElement('ul')
+  this.el.id = 'acels'
+  this.order = []
   this.all = {}
   this.roles = {}
   this.pipe = null
-  this.install = (host = window) => {
-    host.addEventListener('keydown', this.onKeyDown, false)
-    host.addEventListener('keyup', this.onKeyUp, false)
+  this.install = (host = document.body) => {
+    window.addEventListener('keydown', this.onKeyDown, false)
+    window.addEventListener('keyup', this.onKeyUp, false)
+    host.appendChild(this.el)
+  }
+  this.start = () => {
+    const cats = this.sort()
+    for (const cat of this.order) {
+      const main = document.createElement('li')
+      const head = document.createElement('a')
+      head.innerText = cat
+      const subs = document.createElement('ul')
+      for (const item of cats[cat]) {
+        const option = document.createElement('li')
+        option.onclick = item.downfn
+        option.innerHTML = item.accelerator ? `${item.name} <i>${item.accelerator.replace('CmdOrCtrl+', '^')}</i>` : `${item.name}`
+        subs.appendChild(option)
+      }
+      main.appendChild(head)
+      main.appendChild(subs)
+      this.el.appendChild(main)
+    }
   }
   this.set = (cat, name, accelerator, downfn, upfn) => {
     if (this.all[accelerator]) { console.warn('Acels', `Trying to overwrite ${this.all[accelerator].name}, with ${name}.`) }
+    if (this.order.indexOf(cat) < 0) { this.order.push(cat) }
     this.all[accelerator] = { cat, name, downfn, upfn, accelerator }
   }
   this.add = (cat, role) => {
@@ -51,7 +74,7 @@ function Acels (client) {
     }
     return accelerator
   }
-  this.pipe = (obj) => {
+  this.route = (obj) => {
     this.pipe = obj
   }
   this.onKeyDown = (e) => {
@@ -80,12 +103,15 @@ function Acels (client) {
   this.toString = () => {
     const cats = this.sort()
     let text = ''
-    for (const cat in cats) {
+    for (const cat of this.order) {
       for (const item of cats[cat]) {
-        text += item.accelerator ? `${cat}: ${item.name} | ${item.accelerator}\n` : ''
+        text += item.accelerator ? `${cat.padEnd(8, ' ')} ${item.name.padEnd(16, ' ')} ${item.accelerator.replace('CmdOrCtrl+', '^')}\n` : ''
       }
     }
     return text.trim()
+  }
+  this.toggle = () => {
+    this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
   }
 }
 'use strict'
@@ -502,9 +528,13 @@ function Client () {
     this.surface.install(this._wrapper)
     this.el.appendChild(this._wrapper)
     host.appendChild(this.el)
-    this.theme.install()
+    this.theme.install(host)
+    this.acels.install(host)
     window.addEventListener('dragover', this.onDrag)
     window.addEventListener('drop', this.onDrop)
+    this.acels.set('∷', 'Toggle Menubar', 'Tab', () => { this.acels.toggle() })
+    this.acels.set('∷', 'Open Theme', 'CmdOrCtrl+Shift+O', () => { this.theme.open() })
+    this.acels.set('∷', 'Reset Theme', 'CmdOrCtrl+Backspace', () => { this.theme.reset() })
     this.acels.set('File', 'New', 'CmdOrCtrl+N', () => { this.source.new(); this.surface.clear(); this.commander.clear() })
     this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.write('ronin', 'lisp', this.commander._input.value, 'text/plain') })
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.write('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
@@ -522,13 +552,13 @@ function Client () {
     this.acels.set('Project', 'Reload Run', 'CmdOrCtrl+Shift+R', () => { this.source.revert(); this.commander.run() })
     this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.reindent() })
     this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
-    this.acels.install(window)
-    this.acels.pipe(this)
+    this.acels.route(this)
   }
   this.start = function () {
     console.log('Ronin', 'Starting..')
     console.info(`${this.acels}`)
     this.theme.start()
+    this.acels.start()
     this.source.start()
     this.commander.start()
     this.surface.start()
@@ -1699,6 +1729,16 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
   #ronin.hidden #wrapper #commander { margin-left:-380px; }
   #ronin #surface,#ronin #guide { left:380px; }
 }
+#acels { position: fixed;width: 30px;background: red;top: 0;left: 0; width: 100vw; color:black; background:white; font-size:11px; line-height: 20px; transition: margin-top 0.25s; z-index: 9999; padding-left: 25px; }
+#acels.hidden { margin-top:-20px; }
+#acels.hidden > li > ul > li { display: none }
+#acels > li { float: left; position: relative; cursor: pointer; padding:0px 5px; display: inline-block; }
+#acels > li:hover { background: black; color:white; }
+#acels > li > ul { display: none; position: absolute; background:white; position: absolute; top:20px; left:0px; color:black; width: 200px}
+#acels > li:hover > ul { display: block; }
+#acels > li > ul > li { padding: 0px 10px; display: block }
+#acels > li > ul > li:hover { background: #ccc; }
+#acels > li > ul > li > i { display: inline-block; float: right; color: #aaa; }
 body { background:var(--background);  }
 #ronin #wrapper { background: var(--background); }
 #ronin #wrapper #commander { background:var(--background); }

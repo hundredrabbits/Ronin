@@ -41,3 +41,16 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
   #ronin.hidden #wrapper #commander { margin-left:-380px; }
   #ronin #surface,#ronin #guide { left:380px; }
 }
+
+/* Acels */
+
+#acels { position: fixed;width: 30px;background: red;top: 0;left: 0; width: 100vw; color:black; background:white; font-size:11px; line-height: 20px; transition: margin-top 0.25s; z-index: 9999; padding-left: 25px; }
+#acels.hidden { margin-top:-20px; }
+#acels.hidden > li > ul > li { display: none }
+#acels > li { float: left; position: relative; cursor: pointer; padding:0px 5px; display: inline-block; }
+#acels > li:hover { background: black; color:white; }
+#acels > li > ul { display: none; position: absolute; background:white; position: absolute; top:20px; left:0px; color:black; width: 200px}
+#acels > li:hover > ul { display: block; }
+#acels > li > ul > li { padding: 0px 10px; display: block }
+#acels > li > ul > li:hover { background: #ccc; }
+#acels > li > ul > li > i { display: inline-block; float: right; color: #aaa; }

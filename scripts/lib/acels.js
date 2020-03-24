@@ -1,17 +1,42 @@
 'use strict'
 
 function Acels (client) {
+  this.el = document.createElement('ul')
+  this.el.id = 'acels'
+
+  this.order = []
   this.all = {}
   this.roles = {}
   this.pipe = null
 
-  this.install = (host = window) => {
-    host.addEventListener('keydown', this.onKeyDown, false)
-    host.addEventListener('keyup', this.onKeyUp, false)
+  this.install = (host = document.body) => {
+    window.addEventListener('keydown', this.onKeyDown, false)
+    window.addEventListener('keyup', this.onKeyUp, false)
+    host.appendChild(this.el)
+  }
+
+  this.start = () => {
+    const cats = this.sort()
+    for (const cat of this.order) {
+      const main = document.createElement('li')
+      const head = document.createElement('a')
+      head.innerText = cat
+      const subs = document.createElement('ul')
+      for (const item of cats[cat]) {
+        const option = document.createElement('li')
+        option.onclick = item.downfn
+        option.innerHTML = item.accelerator ? `${item.name} <i>${item.accelerator.replace('CmdOrCtrl+', '^')}</i>` : `${item.name}`
+        subs.appendChild(option)
+      }
+      main.appendChild(head)
+      main.appendChild(subs)
+      this.el.appendChild(main)
+    }
   }
 
   this.set = (cat, name, accelerator, downfn, upfn) => {
     if (this.all[accelerator]) { console.warn('Acels', `Trying to overwrite ${this.all[accelerator].name}, with ${name}.`) }
+    if (this.order.indexOf(cat) < 0) { this.order.push(cat) }
     this.all[accelerator] = { cat, name, downfn, upfn, accelerator }
   }
 
@@ -49,7 +74,7 @@ function Acels (client) {
     return accelerator
   }
 
-  this.pipe = (obj) => {
+  this.route = (obj) => {
     this.pipe = obj
   }
 
@@ -82,11 +107,15 @@ function Acels (client) {
   this.toString = () => {
     const cats = this.sort()
     let text = ''
-    for (const cat in cats) {
+    for (const cat of this.order) {
       for (const item of cats[cat]) {
-        text += item.accelerator ? `${cat}: ${item.name} | ${item.accelerator}\n` : ''
+        text += item.accelerator ? `${cat.padEnd(8, ' ')} ${item.name.padEnd(16, ' ')} ${item.accelerator.replace('CmdOrCtrl+', '^')}\n` : ''
       }
     }
     return text.trim()
+  }
+
+  this.toggle = () => {
+    this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
   }
 }

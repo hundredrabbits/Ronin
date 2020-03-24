@@ -18,7 +18,9 @@ function cleanup (txt) {
   return output
 }
 
-const wrapper = `
+// Create release
+
+const release_body = `
 <!DOCTYPE html>
 <html lang="en">
 <html>
@@ -43,6 +45,33 @@ const wrapper = `
   </body>
 </html>`
 
-fs.writeFileSync('index.html', cleanup(wrapper))
+fs.writeFileSync('index.html', cleanup(release_body))
+
+// Create debug
+
+const debug_body = `
+<!DOCTYPE html>
+<html lang="en">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${id}</title>
+    ${styles.reduce((acc, item) => { return `${acc}<link rel="stylesheet" type="text/css" href="./links/${item}"/>\n` }, '')}
+    ${libs.reduce((acc, item) => { return `${acc}<script type="text/javascript" src="./scripts/lib/${item}"></script>\n` }, '')}
+    ${scripts.reduce((acc, item) => { return `${acc}<script type="text/javascript" src="./scripts/${item}"></script>\n` }, '')}
+  </head>
+  <body>
+    <script>
+      const client = new Client()
+      client.install(document.body)
+      window.addEventListener('load', () => { 
+        client.start()
+      })
+    </script>
+  </body>
+</html>`
+
+fs.writeFileSync('debug.html', debug_body)
 
 console.log(`Built ${id}`)
