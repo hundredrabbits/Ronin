@@ -1,29 +1,1712 @@
 <!DOCTYPE html>
+<html lang="en">
+<html>
   <head>
-    <meta charset='UTF-8'>
-    <script type="text/javascript" src="desktop/sources/scripts/lib/theme.js"></script>
-    <script type="text/javascript" src="desktop/sources/scripts/lib/acels.js"></script>
-    <script type="text/javascript" src="desktop/sources/scripts/lib/lisp.js"></script>
-    <script type="text/javascript" src="desktop/sources/scripts/lib/source.js"></script>
-    <script type="text/javascript" src="desktop/sources/scripts/client.js"></script>
-    <script type="text/javascript" src="desktop/sources/scripts/commander.js"></script>
-    <script type="text/javascript" src="desktop/sources/scripts/surface.js"></script>
-    <script type="text/javascript" src="desktop/sources/scripts/library.js"></script>
-    <link rel="stylesheet" type="text/css" href="desktop/sources/links/reset.css"/>
-    <link rel="stylesheet" type="text/css" href="desktop/sources/links/fonts.css"/>
-    <link rel="stylesheet" type="text/css" href="desktop/sources/links/main.css"/>
-    <link rel="stylesheet" type="text/css" href="desktop/sources/links/theme.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ronin</title>
   </head>
   <body>
-    <script type="text/javascript">
+    <script>
+'use strict'
+function Acels (client) {
+  this.all = {}
+  this.roles = {}
+  this.pipe = null
+  this.install = (host = window) => {
+    host.addEventListener('keydown', this.onKeyDown, false)
+    host.addEventListener('keyup', this.onKeyUp, false)
+  }
+  this.set = (cat, name, accelerator, downfn, upfn) => {
+    if (this.all[accelerator]) { console.warn('Acels', `Trying to overwrite ${this.all[accelerator].name}, with ${name}.`) }
+    this.all[accelerator] = { cat, name, downfn, upfn, accelerator }
+  }
+  this.add = (cat, role) => {
+    this.all[':' + role] = { cat, name: role, role }
+  }
+  this.get = (accelerator) => {
+    return this.all[accelerator]
+  }
+  this.sort = () => {
+    const h = {}
+    for (const item of Object.values(this.all)) {
+      if (!h[item.cat]) { h[item.cat] = [] }
+      h[item.cat].push(item)
+    }
+    return h
+  }
+  this.convert = (event) => {
+    const accelerator = event.key === ' ' ? 'Space' : event.key.substr(0, 1).toUpperCase() + event.key.substr(1)
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
+      return `CmdOrCtrl+Shift+${accelerator}`
+    }
+    if (event.shiftKey && event.key.toUpperCase() !== event.key) {
+      return `Shift+${accelerator}`
+    }
+    if (event.altKey && event.key.length !== 1) {
+      return `Alt+${accelerator}`
+    }
+    if (event.ctrlKey || event.metaKey) {
+      return `CmdOrCtrl+${accelerator}`
+    }
+    return accelerator
+  }
+  this.pipe = (obj) => {
+    this.pipe = obj
+  }
+  this.onKeyDown = (e) => {
+    const target = this.get(this.convert(e))
+    if (!target || !target.downfn) { return this.pipe ? this.pipe.onKeyDown(e) : null }
+    target.downfn()
+    e.preventDefault()
+  }
+  this.onKeyUp = (e) => {
+    const target = this.get(this.convert(e))
+    if (!target || !target.upfn) { return this.pipe ? this.pipe.onKeyUp(e) : null }
+    target.upfn()
+    e.preventDefault()
+  }
+  this.toMarkdown = () => {
+    const cats = this.sort()
+    let text = ''
+    for (const cat in cats) {
+      text += `\n### ${cat}\n\n`
+      for (const item of cats[cat]) {
+        text += item.accelerator ? `- \`${item.accelerator}\`: ${item.name}\n` : ''
+      }
+    }
+    return text.trim()
+  }
+  this.toString = () => {
+    const cats = this.sort()
+    let text = ''
+    for (const cat in cats) {
+      for (const item of cats[cat]) {
+        text += item.accelerator ? `${cat}: ${item.name} | ${item.accelerator}\n` : ''
+      }
+    }
+    return text.trim()
+  }
+}
+'use strict'
+function Lisp (lib = {}) {
+  const TYPES = { identifier: 0, number: 1, string: 2, bool: 3, symbol: 4 }
+  const Context = function (scope, parent) {
+    this.scope = scope
+    this.parent = parent
+    this.get = function (identifier) {
+      if (identifier in this.scope) {
+        return this.scope[identifier]
+      } else if (this.parent !== undefined) {
+        return this.parent.get(identifier)
+      }
+    }
+  }
+  const special = {
+    let: function (input, context) {
+      const letContext = input[1].reduce(function (acc, x) {
+        acc.scope[x[0].value] = interpret(x[1], context)
+        return acc
+      }, new Context({}, context))
+      return interpret(input[2], letContext)
+    },
+    def: function (input, context) {
+      const identifier = input[1].value
+      const value = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
+      context.scope[identifier] = interpret(value, context)
+      return value
+    },
+    defn: function (input, context) {
+      const fnName = input[1].value
+      const fnParams = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
+      const fnBody = input[2].type === TYPES.string && input[4] ? input[4] : input[3]
+      context.scope[fnName] = async function () {
+        const lambdaArguments = arguments
+        const lambdaScope = fnParams.reduce(function (acc, x, i) {
+          acc[x.value] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(fnBody, new Context(lambdaScope, context))
+      }
+    },
+    lambda: function (input, context) {
+      return async function () {
+        const lambdaArguments = arguments
+        const lambdaScope = input[1].reduce(function (acc, x, i) {
+          acc[x.value] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(input[2], new Context(lambdaScope, context))
+      }
+    },
+    if: async function (input, context) {
+      if (await interpret(input[1], context)) {
+        return interpret(input[2], context)
+      }
+      return input[3] ? interpret(input[3], context) : []
+    },
+    __fn: function (input, context) {
+      return async function () {
+        const lambdaArguments = arguments
+        const keys = [...new Set(input.slice(2).flat(100).filter(i =>
+          i.type === TYPES.identifier &&
+          i.value[0] === '%'
+        ).map(x => x.value).sort())]
+        const lambdaScope = keys.reduce(function (acc, x, i) {
+          acc[x] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(input.slice(1), new Context(lambdaScope, context))
+      }
+    },
+    __obj: async function (input, context) {
+      const obj = {}
+      for (let i = 1; i < input.length; i += 2) {
+        obj[await interpret(input[i], context)] = await interpret(input[i + 1], context)
+      }
+      return obj
+    }
+  }
+  const interpretList = async function (input, context) {
+    if (input.length > 0 && input[0].value in special) {
+      return special[input[0].value](input, context)
+    }
+    const list = []
+    for (let i = 0; i < input.length; i++) {
+      if (input[i].type === TYPES.symbol) {
+        if (input[i].host) {
+          const host = await context.get(input[i].host)
+          if (host) {
+            list.push(host[input[i].value])
+          }
+        } else {
+          list.push(obj => obj[input[i].value])
+        }
+      } else {
+        list.push(await interpret(input[i], context))
+      }
+    }
+    return list[0] instanceof Function ? list[0].apply(undefined, list.slice(1)) : list
+  }
+  const interpret = async function (input, context) {
+    if (!input) { console.warn('Lisp', 'error', context.scope); return null }
+    if (context === undefined) {
+      return interpret(input, new Context(lib))
+    } else if (input instanceof Array) {
+      return interpretList(input, context)
+    } else if (input.type === TYPES.identifier) {
+      return context.get(input.value)
+    } else if (input.type === TYPES.number || input.type === TYPES.symbol || input.type === TYPES.string || input.type === TYPES.bool) {
+      return input.value
+    }
+  }
+  const categorize = function (input) {
+    if (!isNaN(parseFloat(input))) {
+      return { type: TYPES.number, value: parseFloat(input) }
+    } else if (input[0] === '"' && input.slice(-1) === '"') {
+      return { type: TYPES.string, value: input.slice(1, -1) }
+    } else if (input[0] === ':') {
+      return { type: TYPES.symbol, value: input.slice(1) }
+    } else if (input.indexOf(':') > 0) {
+      return { type: TYPES.symbol, host: input.split(':')[0], value: input.split(':')[1] }
+    } else if (input === 'true' || input === 'false') {
+      return { type: TYPES.bool, value: input === 'true' }
+    } else {
+      return { type: TYPES.identifier, value: input }
+    }
+  }
+  const parenthesize = function (input, list) {
+    if (list === undefined) { return parenthesize(input, []) }
+    const token = input.shift()
+    if (token === undefined) {
+      return list.pop()
+    } else if (token === '\'(') {
+      input.unshift('__fn')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
+    } else if (token === '{') {
+      input.unshift('__obj')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
+    } else if (token === '(') {
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
+    } else if (token === ')' || token === '}') {
+      return list
+    } else {
+      return parenthesize(input, list.concat(categorize(token)))
+    }
+  }
+  const tokenize = function (input) {
+    const i = input.replace(/^;.*\n?/gm, '').replace(/λ /g, 'lambda ').split('"')
+    return i.map(function (x, i) {
+      return i % 2 === 0
+        ? x.replace(/\(/g, ' ( ')
+          .replace(/\)/g, ' ) ')
+          .replace(/' \( /g, ' \'( ') // '()
+          .replace(/\{/g, ' { ') // {}
+          .replace(/\}/g, ' } ') // {}
+        : x.replace(/ /g, '!whitespace!')
+    })
+      .join('"').trim().split(/\s+/)
+      .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
+  }
+  this.parse = function (input) {
+    return parenthesize(tokenize(input))
+  }
+  this.run = async function (input) {
+    return interpret(this.parse(`((def theme (get-theme))(def frame (get-frame))(${input}))`))
+  }
+}
+'use strict'
+function Source (client) {
+  this.cache = {}
+  this.install = () => {
+  }
+  this.start = () => {
+    this.new()
+  }
+  this.new = () => {
+    console.log('Source', 'New file..')
+    this.cache = {}
+  }
+  this.open = (ext, callback, store = false) => {
+    console.log('Source', 'Open file..')
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.onchange = (e) => {
+      const file = e.target.files[0]
+      if (file.name.indexOf('.' + ext) < 0) { console.warn('Source', `Skipped ${file.name}`); return }
+      this.read(file, callback, store)
+    }
+    input.click()
+  }
+  this.load = (ext, callback) => {
+    console.log('Source', 'Load files..')
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.setAttribute('multiple', 'multiple')
+    input.onchange = (e) => {
+      for (const file of e.target.files) {
+        if (file.name.indexOf('.' + ext) < 0) { console.warn('Source', `Skipped ${file.name}`); continue }
+        this.read(file, this.store)
+      }
+    }
+    input.click()
+  }
+  this.store = (file, content) => {
+    console.info('Source', 'Stored ' + file.name)
+    this.cache[file.name] = content
+  }
+  this.save = (name, content, type = 'text/plain', callback) => {
+    this.saveAs(name, content, type, callback)
+  }
+  this.saveAs = (name, ext, content, type = 'text/plain', callback) => {
+    console.log('Source', 'Save new file..')
+    this.write(name, ext, content, type, callback)
+  }
+  this.read = (file, callback, store = false) => {
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const res = event.target.result
+      if (callback) { callback(file, res) }
+      if (store) { this.store(file, res) }
+    }
+    reader.readAsText(file, 'UTF-8')
+  }
+  this.write = (name, ext, content, type, settings = 'charset=utf-8') => {
+    const link = document.createElement('a')
+    link.setAttribute('download', `${name}-${timestamp()}.${ext}`)
+    if (type === 'image/png' || type === 'image/jpeg') {
+      link.setAttribute('href', content)
+    } else {
+      link.setAttribute('href', 'data:' + type + ';' + settings + ',' + encodeURIComponent(content))
+    }
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
+  }
+  function timestamp (d = new Date(), e = new Date(d)) {
+    return `${arvelie()}-${neralie()}`
+  }
+  function arvelie (date = new Date()) {
+    const start = new Date(date.getFullYear(), 0, 0)
+    const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000)
+    const doty = Math.floor(diff / 86400000) - 1
+    const y = date.getFullYear().toString().substr(2, 2)
+    const m = doty === 364 || doty === 365 ? '+' : String.fromCharCode(97 + Math.floor(doty / 14)).toUpperCase()
+    const d = `${(doty === 365 ? 1 : doty === 366 ? 2 : (doty % 14)) + 1}`.padStart(2, '0')
+    return `${y}${m}${d}`
+  }
+  function neralie (d = new Date(), e = new Date(d)) {
+    const ms = e - d.setHours(0, 0, 0, 0)
+    return (ms / 8640 / 10000).toFixed(6).substr(2, 6)
+  }
+}
+'use strict'
+function Theme (client) {
+  this.el = document.createElement('style')
+  this.el.type = 'text/css'
+  this.active = {}
+  this.default = {
+    background: '#eeeeee',
+    f_high: '#0a0a0a',
+    f_med: '#4a4a4a',
+    f_low: '#6a6a6a',
+    f_inv: '#111111',
+    b_high: '#a1a1a1',
+    b_med: '#c1c1c1',
+    b_low: '#ffffff',
+    b_inv: '#ffb545'
+  }
+  this.onLoad = () => {}
+  this.install = (host = document.body) => {
+    window.addEventListener('dragover', this.drag)
+    window.addEventListener('drop', this.drop)
+    host.appendChild(this.el)
+  }
+  this.start = () => {
+    console.log('Theme', 'Starting..')
+    if (isJson(localStorage.theme)) {
+      const storage = JSON.parse(localStorage.theme)
+      if (isValid(storage)) {
+        console.log('Theme', 'Loading theme in localStorage..')
+        this.load(storage)
+        return
+      }
+    }
+    this.load(this.default)
+  }
+  this.open = () => {
+    console.log('Theme', 'Open theme..')
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.onchange = (e) => {
+      this.read(e.target.files[0], this.load)
+    }
+    input.click()
+  }
+  this.load = (data) => {
+    const theme = this.parse(data)
+    if (!isValid(theme)) { console.warn('Theme', 'Invalid format'); return }
+    console.log('Theme', 'Loaded theme!')
+    this.el.innerHTML = `:root { 
+      --background: ${theme.background}; 
+      --f_high: ${theme.f_high}; 
+      --f_med: ${theme.f_med}; 
+      --f_low: ${theme.f_low}; 
+      --f_inv: ${theme.f_inv}; 
+      --b_high: ${theme.b_high}; 
+      --b_med: ${theme.b_med}; 
+      --b_low: ${theme.b_low}; 
+      --b_inv: ${theme.b_inv};
+    }`
+    localStorage.setItem('theme', JSON.stringify(theme))
+    this.active = theme
+    if (this.onLoad) {
+      this.onLoad(data)
+    }
+  }
+  this.reset = () => {
+    this.load(this.default)
+  }
+  this.set = (key, val) => {
+    if (!val) { return }
+    const hex = (`${val}`.substr(0, 1) !== '#' ? '#' : '') + `${val}`
+    if (!isColor(hex)) { console.warn('Theme', `${hex} is not a valid color.`); return }
+    this.active[key] = hex
+  }
+  this.read = (key) => {
+    return this.active[key]
+  }
+  this.parse = (any) => {
+    if (isValid(any)) { return any }
+    if (isJson(any)) { return JSON.parse(any) }
+    if (isHtml(any)) { return extract(any) }
+  }
+  this.drag = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+  }
+  this.drop = (e) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+    if (file.name.indexOf('.svg') > -1) {
+      this.read(file, this.load)
+    }
+    e.stopPropagation()
+  }
+  this.read = (file, callback) => {
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      callback(event.target.result)
+    }
+    reader.readAsText(file, 'UTF-8')
+  }
+  function extract (xml) {
+    const svg = new DOMParser().parseFromString(xml, 'text/xml')
+    try {
+      return {
+        background: svg.getElementById('background').getAttribute('fill'),
+        f_high: svg.getElementById('f_high').getAttribute('fill'),
+        f_med: svg.getElementById('f_med').getAttribute('fill'),
+        f_low: svg.getElementById('f_low').getAttribute('fill'),
+        f_inv: svg.getElementById('f_inv').getAttribute('fill'),
+        b_high: svg.getElementById('b_high').getAttribute('fill'),
+        b_med: svg.getElementById('b_med').getAttribute('fill'),
+        b_low: svg.getElementById('b_low').getAttribute('fill'),
+        b_inv: svg.getElementById('b_inv').getAttribute('fill')
+      }
+    } catch (err) {
+      console.warn('Theme', 'Incomplete SVG Theme', err)
+    }
+  }
+  function isValid (json) {
+    if (!json) { return false }
+    if (!json.background || !isColor(json.background)) { return false }
+    if (!json.f_high || !isColor(json.f_high)) { return false }
+    if (!json.f_med || !isColor(json.f_med)) { return false }
+    if (!json.f_low || !isColor(json.f_low)) { return false }
+    if (!json.f_inv || !isColor(json.f_inv)) { return false }
+    if (!json.b_high || !isColor(json.b_high)) { return false }
+    if (!json.b_med || !isColor(json.b_med)) { return false }
+    if (!json.b_low || !isColor(json.b_low)) { return false }
+    if (!json.b_inv || !isColor(json.b_inv)) { return false }
+    return true
+  }
+  function isColor (hex) {
+    return /^#([0-9A-F]{3}){1,2}$/i.test(hex)
+  }
+  function isJson (text) {
+    try { JSON.parse(text); return true } catch (error) { return false }
+  }
+  function isHtml (text) {
+    try { new DOMParser().parseFromString(text, 'text/xml'); return true } catch (error) { return false }
+  }
+}
+'use strict'
+function Client () {
+  this.el = document.createElement('div')
+  this.el.id = 'ronin'
+  this.acels = new Acels(this)
+  this.theme = new Theme(this)
+  this.source = new Source(this)
+  this.commander = new Commander(this)
+  this.surface = new Surface(this)
+  this.library = new Library(this)
+  this.lisp = new Lisp(this.library)
+  this.bindings = {}
+  this.install = function (host = document.body) {
+    this._wrapper = document.createElement('div')
+    this._wrapper.id = 'wrapper'
+    this.commander.install(this._wrapper)
+    this.surface.install(this._wrapper)
+    this.el.appendChild(this._wrapper)
+    host.appendChild(this.el)
+    this.theme.install()
+    window.addEventListener('dragover', this.onDrag)
+    window.addEventListener('drop', this.onDrop)
+    this.acels.set('File', 'New', 'CmdOrCtrl+N', () => { this.source.new(); this.surface.clear(); this.commander.clear() })
+    this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.write('ronin', 'lisp', this.commander._input.value, 'text/plain') })
+    this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.write('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
+    this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open('lisp', this.whenOpen) })
+    this.acels.add('Edit', 'undo')
+    this.acels.add('Edit', 'redo')
+    this.acels.add('Edit', 'cut')
+    this.acels.add('Edit', 'copy')
+    this.acels.add('Edit', 'paste')
+    this.acels.add('Edit', 'selectAll')
+    this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
+    this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
+    this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
+    this.acels.set('Project', 'Run', 'CmdOrCtrl+R', () => { this.commander.run() })
+    this.acels.set('Project', 'Reload Run', 'CmdOrCtrl+Shift+R', () => { this.source.revert(); this.commander.run() })
+    this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.reindent() })
+    this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
+    this.acels.install(window)
+    this.acels.pipe(this)
+  }
+  this.start = function () {
+    console.log('Ronin', 'Starting..')
+    console.info(`${this.acels}`)
+    this.theme.start()
+    this.source.start()
+    this.commander.start()
+    this.surface.start()
+    this.loop()
+  }
+  this.whenOpen = (file, res) => {
+    console.log(file, res)
+    this.commander.load(res)
+    this.commander.show()
+  }
+  this.loop = () => {
+    if (this.bindings.animate && typeof this.bindings.animate === 'function') {
+      this.bindings.animate()
+    }
+    requestAnimationFrame(() => this.loop())
+  }
+  this.log = (...msg) => {
+    this.commander.setStatus(msg.reduce((acc, val) => {
+      return acc + JSON.stringify(val).replace(/"/g, '').trim() + ' '
+    }, ''))
+  }
+  this.bind = (event, fn) => {
+    this.bindings[event] = fn
+  }
+  this.mouseOrigin = null
+  this.onMouseDown = (e, id = 'mouse-down') => {
+    const pos = { x: e.offsetX * this.surface.ratio, y: e.offsetY * this.surface.ratio }
+    this.mouseOrigin = pos
+    const shape = this.mouseShape(pos, id)
+    if (this.bindings[id]) {
+      this.bindings[id](shape)
+    }
+    this.commander.capture()
+    this.surface.clearGuide()
+    this.surface.drawGuide(shape)
+  }
+  this.onKeyPress = (e, id = 'key-press') => {
+    if (this.bindings[id]) {
+      this.bindings[id](e)
+    }
+  }
+  this.onKeyDown = (e, id = 'key-down') => {
+    if (this.bindings[id]) {
+      this.bindings[id](e)
+    }
+  }
+  this.onKeyUp = (e, id = 'key-up') => {
+    if (this.bindings[id]) {
+      this.bindings[id](e)
+    }
+  }
+  this.onMouseMove = (e, id = 'mouse-move') => {
+    const pos = { x: e.offsetX * this.surface.ratio, y: e.offsetY * this.surface.ratio }
+    const shape = this.mouseShape(pos, id)
+    if (this.bindings[id]) {
+      this.bindings[id](shape)
+    }
+    if (this.mouseOrigin) {
+      this.commander.commit(shape, false, e.which !== 1)
+      this.surface.clearGuide()
+      this.surface.drawGuide(shape)
+    }
+  }
+  this.onMouseUp = (e, id = 'mouse-up') => {
+    const pos = { x: e.offsetX * this.surface.ratio, y: e.offsetY * this.surface.ratio }
+    const shape = this.mouseShape(pos, id)
+    if (this.bindings[id]) {
+      this.bindings[id](shape)
+    }
+    if (this.mouseOrigin) {
+      this.commander.commit(shape, true, e.which !== 1)
+    }
+    this.mouseOrigin = null
+    this.surface.clearGuide()
+  }
+  this.onMouseOver = (e) => {
+    this.mouseOrigin = null
+  }
+  this.onMouseOut = (e) => {
+    this.mouseOrigin = null
+  }
+  this.onDrag = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+  }
+  this.onDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const file = e.dataTransfer.files[0]
+    if (file.name.indexOf('.lisp') > -1) {
+      this.source.read(file, this.whenOpen)
+      this.log('Loaded ' + file.name)
+    }
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const img = new Image()
+      img.onload = () => {
+        this.cache.set(file.name, img)
+        this.commander.injectPath(file.name)
+        this.log('Loaded ' + file.name)
+      }
+      img.src = URL.createObjectURL(file)
+    }
+  }
+  this.cache = {
+    data: {},
+    set: (key, content) => {
+      this.log((this.cache.data[key] ? 'Updated ' : 'Stored ') + key)
+      this.cache.data[key] = content
+    },
+    get: (key) => {
+      return this.cache.data[key]
+    }
+  }
+  this.mouseShape = (position, type) => {
+    if (!this.mouseOrigin) { return }
+    const x = position.x
+    const y = position.y
+    const xy = x + ' ' + y
+    const pos = { x, y }
+    const line = {
+      a: { x: this.mouseOrigin.x, y: this.mouseOrigin.y },
+      b: { x: pos.x, y: pos.y }
+    }
+    const size = { w: line.a.x ? pos.x - line.a.x : 0, h: line.a.y ? pos.y - line.a.y : 0 }
+    const rect = {
+      x: line.a.x,
+      y: line.a.y,
+      w: size.w,
+      h: size.h
+    }
+    const wh = rect.w + ' ' + rect.h
+    const d = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y))).toFixed(2)
+    const a = Math.atan2(pos.y - line.a.y, pos.x - line.a.x).toFixed(2)
+    const circle = {
+      cx: line.a.x,
+      cy: line.a.y,
+      r: d
+    }
+    const arc = {
+      cx: line.a.x,
+      cy: line.a.y,
+      r: d,
+      sa: 0,
+      ea: a
+    }
+    return { x, y, xy, wh, d, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
+  }
+}
+'use strict'
+function Commander (client) {
+  this.el = document.createElement('div')
+  this.el.id = 'commander'
+  this._input = document.createElement('textarea')
+  this._status = document.createElement('div'); this._status.id = 'status'
+  this._log = document.createElement('div'); this._log.id = 'log'
+  this._docs = document.createElement('div'); this._docs.id = 'help'
+  this._run = document.createElement('a'); this._run.id = 'run'
+  this.isVisible = true
+  this.install = function (host) {
+    this.el.appendChild(this._input)
+    this._status.appendChild(this._log)
+    this._status.appendChild(this._docs)
+    this._status.appendChild(this._run)
+    this.el.appendChild(this._status)
+    host.appendChild(this.el)
+    this._run.setAttribute('title', 'Run(c-R)')
+    this._input.setAttribute('autocomplete', 'off')
+    this._input.setAttribute('autocorrect', 'off')
+    this._input.setAttribute('autocapitalize', 'off')
+    this._input.setAttribute('spellcheck', 'false')
+    this._input.addEventListener('input', this.onInput)
+    this._input.addEventListener('click', this.onClick)
+    this._run.addEventListener('click', () => { this.run() })
+    this._input.onkeydown = (e) => {
+      if (e.keyCode === 9 || e.which === 9) { e.preventDefault(); this.inject('  ') }
+    }
+  }
+  this.start = function () {
+    this.setStatus('Ready.')
+    this.load(this.splash)
+    this.show()
+  }
+  this.run = (txt = this._input.value) => {
+    if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
+    client.bindings = {}
+    if (this._input.value.trim() === '') {
+      client.surface.maximize()
+    }
+    client.lisp.run(txt)
+    this.feedback()
+  }
+  this.load = function (txt) {
+    this._input.value = txt
+    this.run(txt)
+  }
+  this.clear = function () {
+    this.load('')
+  }
+  this.cleanup = function () {
+    this._input.value = this.clean(this._input.value)
+    this.reindent()
+    this.run()
+  }
+  this.update = function () {
+  }
+  this.onInput = () => {
+    this.setStatus()
+  }
+  this.onClick = () => {
+    this.setStatus()
+  }
+  this.reindent = function () {
+    let val = this._input.value.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
+    let depth = 0
+    if (val.split('(').length !== val.split(')').length) {
+      client.log('Uneven number of parens.')
+      return
+    }
+    for (let i = 0; i < val.length; i++) {
+      const c = val.charAt(i)
+      if (c === '(') { depth++ } else if (c === ')') { depth-- }
+      if (c === ';') {
+        const indent = '\n' + ('  '.repeat(depth))
+        val = insert(val, indent, i)
+        i += indent.length
+      }
+      if (c === '(') {
+        const indent = '\n' + ('  '.repeat(depth - 1))
+        val = insert(val, indent, i)
+        i += indent.length
+      }
+    }
+    val = val.split('\n').map((line) => { return line.substr(0, 2) === '; ' ? `\n${line}\n` : line }).join('\n')
+    this._input.value = val.trim()
+  }
+  this.clean = function (input) {
+    const keywords = ['$pos+', '$pos', '$rect', '$line', '$x', '$y', '$xy']
+    for (const word of keywords) {
+      input = input.replace(word, '').trim()
+    }
+    return input
+  }
+  this.setStatus = function (msg) {
+    if (msg && msg !== this._log.textContent) {
+      this._log.textContent = `${msg}`
+    }
+    this._docs.textContent = this.getDocs()
+  }
+  this.cache = this._input.value
+  this.capture = function () {
+    if (this._input.value.indexOf('$') < 0) { return }
+    this.cache = this._input.value
+  }
+  this.inject = function (injection, at = this._input.selectionStart) {
+    this._input.value = this._input.value.substring(0, this._input.selectionStart) + injection + this._input.value.substring(this._input.selectionEnd)
+    this._input.selectionEnd = at + injection.length
+  }
+  this.injectPath = function (path) {
+    if (this._input.value.indexOf('$') < 0) { return }
+    this._input.value = this._input.value.replace('$path', `"${path}"`)
+  }
+  this.commit = function (shape, end = false, run = false) {
+    if (this.cache.indexOf('$') < 0) { return }
+    const segs = this.cache.split('$')
+    const words = segs[1].split(' ')
+    const word = words[0].split(/[^A-Za-z]/)[0]
+    const append = words[0].indexOf('+') > -1
+    if (word === 'drag') {
+      this.cache = this.cache.replace('$drag', '(drag $rect $line)')
+    } else if (word === 'view') {
+      this.cache = this.cache.replace('$view', '(view $rect $rect)')
+    } else if (word === 'poly') {
+      this.cache = this.cache.replace('$poly', '(poly $pos+)')
+    } else if (word === 'move') {
+      this.cache = this.cache.replace('$move', '(transform:move $wh)')
+    } else if (word === 'rotate') {
+      this.cache = this.cache.replace('$rotate', '(transform:rotate $a)')
+    }
+    if (shape[word]) {
+      if (append) {
+        this._input.value = this.cache.replace('$' + word + '+', this.template(shape[word], word) + ' $' + word + '+')
+      } else {
+        this._input.value = this.cache.replace('$' + word, this.template(shape[word], word))
+      }
+    }
+    if (end === true) {
+      this.cache = this._input.value
+    }
+    if (run === true) {
+      this.run()
+    }
+  }
+  this.template = function (shape, word) {
+    if (word === 'rect') { return `(rect ${shape.x} ${shape.y} ${shape.w} ${shape.h})` }
+    if (word === 'pos') { return `(pos ${shape.x} ${shape.y})` }
+    if (word === 'line') { return `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})` }
+    if (word === 'circle') { return `(circle ${shape.cx} ${shape.cy} ${shape.r})` }
+    if (word === 'arc') { return `(arc ${shape.cx} ${shape.cy} ${shape.r} ${shape.sa} ${shape.ea})` }
+    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh' || word === 'a') { return `${shape}` }
+    return ''
+  }
+  this.show = function (expand = false) {
+    if (this.isVisible === true) { return }
+    client.el.className = expand ? 'expand' : ''
+    this.isVisible = true
+    this._input.focus()
+  }
+  this.hide = function () {
+    if (this.isVisible !== true) { return }
+    client.el.className = 'hidden'
+    this.isVisible = false
+    this._input.blur()
+  }
+  this.toggle = function (expand = false) {
+    if (this.isVisible !== true) {
+      this.show(expand)
+    } else {
+      this.hide()
+    }
+  }
+  this.length = function () {
+    return this._input.value.split('\n').length
+  }
+  this.feedback = function () {
+    this._run.className = 'active'
+    setTimeout(() => { this._run.className = '' }, 150)
+  }
+  this.getCurrentWord = () => {
+    const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
+    return this._input.value.substr(pos).split(' ')[0].replace(/\(/g, '').replace(/\)/g, '').trim()
+  }
+  this.getCurrentFunction = () => {
+    const word = this.getCurrentWord()
+    let mostSimilar = ''
+    if (client.library[word]) { return word }
+    for (const id of Object.keys(client.library)) {
+      if (id.substr(0, word.length) === word) {
+        mostSimilar = id
+      }
+    }
+    return mostSimilar
+  }
+  this.getDocs = (id) => {
+    const name = this.getCurrentFunction()
+    const fn = client.library[name]
+    if (!fn) { return }
+    const fnString = fn.toString().replace('async ', '')
+    if (fnString.indexOf(') => {') < 0) { return }
+    const fnParams = fnString.split(') => {')[0].substr(1).split(',').reduce((acc, item) => { return `${acc}${item.indexOf('=') > -1 ? '~' + item.split('=')[0].trim() : item} ` }, '').trim()
+    return `(${(name + ' ' + fnParams).trim()})`
+  }
+  this.splash = `
+; Ronin v2.40
+(clear) 
+(def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
+(def pos-x 
+  (mul frame:c 0.25))
+(def pos-y 
+  (sub frame:m 150))
+(stroke 
+  (svg pos-x pos-y logo-path) theme:f_high 5)
+`
+  function insert (str, add, i) {
+    return [str.slice(0, i), `${add}`, str.slice(i)].join('')
+  }
+}
+'use strict'
+function Library (client) {
+  this.open = async (name, scale = 1) => { // Import a graphic and scale canvas to fit.
+    const img = client.cache.get(name)
+    if (!img) { client.log('No data for ' + name); return }
+    const rect = this.rect(0, 0, img.width * scale, img.height * scale)
+    await this.resize(rect.w, rect.h).then(this.import(name, rect))
+    return rect
+  }
+  this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
+    const img = client.cache.get(name)
+    if (!img) { client.log('No data for ' + name); return }
+    client.surface.draw(img, shape, alpha)
+    return shape || this.rect(0, 0, img.width, img.height)
+  }
+  this.export = async (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+    const ext = type === 'image/png' ? name + '.png' : name + '.jpg'
+    client.source.write(name, ext, client.surface.el.toDataURL(type, 1.0), type)
+  }
+  this.pos = (x = 0, y = 0) => { // Returns a position shape.
+    return { x, y }
+  }
+  this.line = (ax, ay, bx, by) => { // Returns a line shape.
+    return { a: this.pos(ax, ay), b: this.pos(bx, by) }
+  }
+  this.size = (w, h) => { // Returns a size shape.
+    return { w, h }
+  }
+  this.rect = (x, y, w, h) => { // Returns a rect shape.
+    return { x, y, w, h, pos: { x, y }, size: { w, h } }
+  }
+  this.circle = (cx, cy, r) => { // Returns a circle shape.
+    return { cx, cy, r }
+  }
+  this.ellipse = (cx, cy, rx, ry) => { // Returns a ellipse shape.
+    return { cx, cy, rx, ry }
+  }
+  this.arc = (cx, cy, r, sa, ea) => { // Returns an arc shape.
+    return { cx, cy, r, sa, ea }
+  }
+  this.poly = (...pos) => { // Returns a poly shape.
+    return pos
+  }
+  this.text = (x, y, p, t, a = 'left', f = 'Arial') => { // Returns a text shape.
+    return { x, y, p, t, a, f }
+  }
+  this.svg = (x, y, d) => { // Returns a svg shape.
+    return { x, y, d }
+  }
+  this.color = (r, g, b, a = 1) => { // Returns a color object.
+    const hex = '#' + ('0' + parseInt(r, 10).toString(16)).slice(-2) + ('0' + parseInt(g, 10).toString(16)).slice(-2) + ('0' + parseInt(b, 10).toString(16)).slice(-2)
+    const rgba = `rgba(${r},${g},${b},${a})`
+    return { r, g, b, a, hex, rgba, toString: () => { return rgba }, 0: r, 1: g, 2: b, 3: a, f: [r / 255, g / 255, b / 255, a] }
+  }
+  this.hsl = (h, s, l, a = 1) => { // returns a HSL color object
+    return { h, s, l, a, toString: () => { return `hsla(${h},${s}%,${l}%,${a})` }, 0: h, 1: s, 2: l, 3: a, f: [h / 360, s / 100, l / 100, a] }
+  }
+  this.resize = async (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+    if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
+    const rect = { x: 0, y: 0, w, h }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = client.surface.el.toDataURL()
+    await client.surface.resizeImage(a, b)
+    client.surface.resize(rect, fit)
+    return client.surface.draw(b, rect)
+  }
+  this.rescale = async (w = 1, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+    const rect = { x: 0, y: 0, w: this['get-frame']().w * w, h: this['get-frame']().h * (h || w) }
+    const a = document.createElement('img')
+    const b = document.createElement('img')
+    a.src = client.surface.el.toDataURL()
+    await client.surface.resizeImage(a, b)
+    client.surface.resize(rect, true)
+    return client.surface.draw(b, rect)
+  }
+  this.crop = async (rect = this['get-frame']()) => { // Crop canvas to rect.
+    return client.surface.crop(rect)
+  }
+  this.copy = async (rect = this['get-frame']()) => { // Copy a section of the canvas.
+    return client.surface.copy(rect)
+  }
+  this.paste = async (copy, rect = this['get-frame']()) => { // Paste a section of the canvas.
+    return client.surface.paste(copy, rect)
+  }
+  this.drag = (rect = this['get-frame'](), line = this.line()) => { // Drag a part of the canvas.
+    const pos = { x: line.b.x - line.a.x, y: line.b.y - line.a.y }
+    const crop = client.surface.copy(rect)
+    client.surface.clear(rect)
+    this.guide({ a: { x: rect.x, y: rect.y }, b: { x: pos.x + rect.x, y: pos.y + rect.y } })
+    this.guide(rect)
+    this.guide(this.offset(rect, { x: pos.x, y: pos.y }))
+    client.surface.context.drawImage(crop, rect.x, rect.y)
+  }
+  this.view = (a, b) => { // View a part of the canvas.
+    this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
+    this.guide(a)
+    this.guide(b)
+    client.surface.context.drawImage(this.copy(a), b.x, b.y, b.w, b.h)
+  }
+  this.pick = (shape = this['get-frame']()) => { // Returns the color of a pixel at pos, or of the average of the pixels in rect.
+    const rect = shape.w && shape.h ? shape : this.rect(shape.x, shape.y, 1, 1)
+    const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const sum = [0, 0, 0]
+    const count = img.data.length / 4
+    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
+      sum[0] += img.data[i]
+      sum[1] += img.data[i + 1]
+      sum[2] += img.data[i + 2]
+    }
+    return this.color(this.floor(sum[0] / count), this.floor(sum[1] / count), this.floor(sum[2] / count))
+  }
+  this.orient = async (deg = 0) => { // Orient canvas with angle in degrees.
+    const copy = await this.copy()
+    const frame = this['get-frame']()
+    const mode = Math.floor(deg / 90) % 4
+    const offset = { x: [0, 0, -frame.w, -frame.w], y: [0, -frame.h, -frame.h, 0] }
+    const rect = { x: 0, y: 0, w: (mode === 1 || mode === 3 ? frame.h : frame.w), h: (mode === 1 || mode === 3 ? frame.w : frame.h) }
+    client.surface.resize(rect, false)
+    client.surface.context.save()
+    client.surface.context.rotate(this.rad(mode * 90))
+    client.surface.context.translate(offset.x[mode], offset.y[mode])
+    client.surface.context.drawImage(copy, 0, 0)
+    client.surface.context.restore()
+  }
+  this.mirror = { // Mirror canvas, methods: `x`, `y`.
+    x: async (j = 0) => {
+      const copy = await this.copy()
+      const frame = this['get-frame']()
+      client.surface.context.save()
+      client.surface.context.translate(frame.w, 0)
+      client.surface.context.scale(-1, 1)
+      client.surface.context.drawImage(copy, 0, 0)
+      client.surface.context.restore()
+    },
+    y: async (j = 0) => {
+      const copy = await this.copy()
+      const frame = this['get-frame']()
+      client.surface.context.save()
+      client.surface.context.translate(0, frame.h)
+      client.surface.context.scale(1, -1)
+      client.surface.context.drawImage(copy, 0, 0)
+      client.surface.context.restore()
+    }
+  }
+  this.transform = { // The transform toolkit, methods `push`, `pop`, `reset`, `move`, `scale`, `rotate`.
+    push: () => {
+      client.surface.context.save()
+    },
+    pop: () => {
+      client.surface.context.restore()
+    },
+    reset: () => {
+      client.surface.context.resetTransform()
+      client.surface.guide.resetTransform()
+    },
+    move: (x, y) => {
+      client.surface.context.translate(x, y)
+      this.guide(this.line(0, 0, x, y))
+      client.surface.guide.translate(x, y)
+    },
+    scale: (w, h) => {
+      client.surface.context.scale(w, h === undefined ? w : h)
+      this.guide(this.rect(0, 0, 50 * w, 50 * h))
+      client.surface.guide.scale(w, h === undefined ? w : h)
+    },
+    rotate: (a) => {
+      client.surface.context.rotate(a)
+      this.guide(this.arc(0, 0, 50, 0, a))
+      client.surface.guide.rotate(a)
+    }
+  }
+  this.stroke = (shape, color, thickness = 2) => { // Strokes a shape.
+    client.surface.stroke(shape, color, thickness)
+    return shape
+  }
+  this.fill = (rect = this['get-frame'](), color) => { // Fills a shape.
+    client.surface.fill(rect, color)
+    return rect
+  }
+  this.clear = (rect = this['get-frame']()) => { // Clears a rect.
+    client.surface.clearGuide(rect)
+    client.surface.clear(rect)
+    return rect
+  }
+  this.gradient = (line, colors = ['white', 'black']) => { // Defines a gradient color.
+    const gradient = client.surface.context.createLinearGradient(line.a.x, line.a.y, line.b.x, line.b.y)
+    colors.forEach((color, i) => {
+      gradient.addColorStop(i * (1 / (colors.length - 1)), color)
+    })
+    return gradient
+  }
+  this.guide = (shape, color) => { // Draws a shape on the guide layer.
+    client.surface.drawGuide(shape, color)
+    return shape
+  }
+  this.pixels = async (fn, q = 1, rect = this['get-frame']()) => {
+    if (!fn) { console.warn('Unknown function'); return rect }
+    const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    for (let i = 0, loop = img.data.length; i < loop; i += 4) {
+      const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
+      const processed = await fn(pixel, q)
+      img.data[i] = this.clamp(parseInt(processed[0]), 0, 255)
+      img.data[i + 1] = this.clamp(parseInt(processed[1]), 0, 255)
+      img.data[i + 2] = this.clamp(parseInt(processed[2]), 0, 255)
+      img.data[i + 3] = this.clamp(parseInt(processed[3]), 0, 255)
+    }
+    client.surface.context.putImageData(img, rect.x, rect.y)
+    return rect
+  }
+  this.saturation = (pixel, q) => { // Change the saturation of pixels.
+    const color = this.lum(pixel)
+    return [(color * (1 - q)) + (pixel[0] * q), (color * (1 - q)) + (pixel[1] * q), (color * (1 - q)) + (pixel[2] * q), pixel[3]]
+  }
+  this.contrast = (pixel, q) => { // Change the contrast of pixels.
+    const intercept = 128 * (1 - q)
+    return [pixel[0] * q + intercept, pixel[1] * q + intercept, pixel[2] * q + intercept, pixel[3]]
+  }
+  this.brightness = (pixel, q) => { // Change the brightness of pixels.
+    const range = 255 - -q
+    return [((pixel[0] / 255) * range), ((pixel[1] / 255) * range), ((pixel[2] / 255) * range), pixel[3]]
+  }
+  this.additive = (pixel, q) => { // Condense the data of pixels.
+    return [pixel[0] + q, pixel[1] + q, pixel[2] + q, pixel[3]]
+  }
+  this.multiply = (pixel, q) => { // Change the color balance of pixels.
+    return [pixel[0] * q[0], pixel[1] * q[1], pixel[2] * q[2], pixel[3]]
+  }
+  this.normalize = (pixel, q) => { // Normalize the color of pixels with another color.
+    const averaged = [128 - q.r + pixel[0], 128 - q.g + pixel[1], 128 - q.b + pixel[2], pixel[3]]
+    const offset = this.lum(pixel) - this.lum(averaged)
+    return this.additive(averaged, offset)
+  }
+  this.lum = (color) => { // Return the luminance of a color.
+    return 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2]
+  }
+  this.concat = (...items) => { // Concat multiple strings.
+    return items.reduce((acc, item) => { return `${acc}${item}` }, '')
+  }
+  this.split = (string, char) => { // Split string at character.
+    return string.split(char)
+  }
+  this.add = (...args) => { // Adds values.
+    return args.reduce((sum, val) => sum + val)
+  }
+  this.sub = (...args) => { // Subtracts values.
+    return args.reduce((sum, val) => sum - val)
+  }
+  this.mul = (...args) => { // Multiplies values.
+    return args.reduce((sum, val) => sum * val)
+  }
+  this.div = (...args) => { // Divides values.
+    return args.reduce((sum, val) => sum / val)
+  }
+  this.mod = (a, b) => { // Returns the modulo of a and b.
+    return a % b
+  }
+  this.rad = (degrees) => { // Convert radians to degrees.
+    return degrees * (Math.PI / 180)
+  }
+  this.deg = (radians) => { // Convert degrees to radians.
+    return radians * (180 / Math.PI)
+  }
+  this.clamp = (val, min, max) => { // Clamps a value between min and max.
+    return this.min(max, this.max(min, val))
+  }
+  this.step = (val, step) => {
+    return this.round(val / step) * step
+  }
+  this.min = Math.min // Returns lowest value.
+  this.max = Math.max // Returns highest value.
+  this.ceil = Math.ceil // Rounds up to the nearest integer.
+  this.floor = Math.floor // Rounds down to the nearest integer.
+  this.round = Math.round // Rounds to the nearest integer
+  this.sin = Math.sin
+  this.cos = Math.cos
+  this.log = Math.log
+  this.pow = Math.pow
+  this.sqrt = Math.sqrt // Calculate the square root.
+  this.sq = (a) => { // Calculate the square.
+    return a * a
+  }
+  this.PI = Math.PI
+  this.TWO_PI = Math.PI * 2
+  this.random = (...args) => {
+    if (args.length >= 2) {
+      return args[0] + Math.random() * (args[1] - args[0])
+    } else if (args.length === 1) {
+      return Math.random() * args[0]
+    }
+    return Math.random()
+  }
+  this.gt = (a, b) => { // Returns true if a is greater than b, else false.
+    return a > b
+  }
+  this.lt = (a, b) => { // Returns true if a is less than b, else false.
+    return a < b
+  }
+  this.eq = (a, b) => { // Returns true if a is equal to b, else false.
+    return a === b
+  }
+  this.and = (...args) => { // Returns true if all conditions are true.
+    for (let i = 0; i < args.length; i++) {
+      if (!args[i]) {
+        return args[i]
+      }
+    }
+    return args[args.length - 1]
+  }
+  this.or = (a, b, ...rest) => { // Returns true if at least one condition is true.
+    const args = [a, b].concat(rest)
+    for (let i = 0; i < args.length; i++) {
+      if (args[i]) {
+        return args[i]
+      }
+    }
+    return args[args.length - 1]
+  }
+  this.each = async (arr, fn) => { // Run a function for each element in a list.
+    for (let i = 0; i < arr.length; i++) {
+      const arg = arr[i]
+      await fn(arg)
+    }
+  }
+  this.map = (arr, fn) => { // Run a function on each element in a list.
+    return Promise.all(arr.map(fn)).then(result => { return result })
+  }
+  this.filter = (arr, fn) => { // Remove from list, when function returns false.
+    const list = Array.from(arr)
+    return Promise.all(list.map((element, index) => fn(element, index, list)))
+      .then(result => {
+        return list.filter((_, index) => {
+          return result[index]
+        })
+      })
+  }
+  this.reduce = async (arr, fn, acc) => {
+    const length = arr.length
+    let result = acc === undefined ? arr[0] : acc
+    for (let i = acc === undefined ? 1 : 0; i < length; i++) {
+      result = await fn(result, arr[i], i, arr)
+    }
+    return result
+  }
+  this.len = (item) => { // Returns the length of a list.
+    return item.length
+  }
+  this.first = (arr) => { // Returns the first item of a list.
+    return arr[0]
+  }
+  this.last = (arr) => { // Returns the last
+    return arr[arr.length - 1]
+  }
+  this.rest = ([_, ...arr]) => {
+    return arr
+  }
+  this.range = (start, end, step = 1) => {
+    const arr = []
+    if (step > 0) {
+      for (let i = start; i <= end; i += step) {
+        arr.push(i)
+      }
+    } else {
+      for (let i = start; i >= end; i += step) {
+        arr.push(i)
+      }
+    }
+    return arr
+  }
+  this.get = (item, key) => { // Gets an object's parameter with name.
+    return item && key ? item[key] : null
+  }
+  this.set = (item, ...args) => { // Sets an object's parameter with name as value.
+    for (let i = 0; i < args.length; i += 2) {
+      const key = args[i]
+      const val = args[i + 1]
+      item[key] = val
+    }
+    return item
+  }
+  this.of = (h, ...keys) => { // Gets object parameters with names.
+    return keys.reduce((acc, key) => {
+      return acc[key]
+    }, h)
+  }
+  this.keys = (item) => { // Returns a list of the object's keys
+    return Object.keys(item)
+  }
+  this.values = (item) => { // Returns a list of the object's values
+    return Object.values(item)
+  }
+  this.convolve = (kernel, rect = this['get-frame']()) => {
+    const sigma = kernel.flat().reduce((a, x) => (a + x))
+    const kw = kernel[0].length; const kh = kernel.length
+    const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    const out = new Uint8ClampedArray(rect.w * 4 * rect.h)
+    for (let i = 0, outer = img.data.length; i < outer; i++) { // bytes
+      const ix = Math.floor(i / 4) % rect.w; const iy = Math.floor((i / 4) / rect.w)
+      let acc = 0.0
+      for (let k = 0, inner = kw * kh; k < inner; k++) { // kernel
+        const kx = (k % kw); const ky = (Math.floor(k / kw))
+        const x = Math.ceil(ix + kx - kw / 2); const y = Math.ceil(iy + ky - kh / 2)
+        if (x < 0 || x >= rect.w || y < 0 || y >= rect.h) continue // edge case
+        acc += img.data[x * 4 + y * rect.w * 4 + i % 4] * kernel[kx][ky] / sigma
+      }
+      out[i] = acc
+      if (i % 4 === 3) out[i] = 255
+    }
+    img.data.set(out, 0)
+    client.surface.context.putImageData(img, rect.x, rect.y)
+    return rect
+  }
+  this.blur = () => { // Returns the blur kernel.
+    return [[1, 2, 1],
+      [2, 4, 2],
+      [1, 2, 2]]
+  }
+  this.sharpen = () => { // Returns the sharpen kernel.
+    return [[0, -1, 0],
+      [-1, 5, -1],
+      [0, -1, 0]]
+  }
+  this.edge = () => { // Returns the edge kernel.
+    return [[-1, -1, -1],
+      [-1, 9, -1],
+      [-1, -1, -1]]
+  }
+  this.dir = (path = this.dirpath()) => { // Returns the content of a directory.
+  }
+  this.file = (path = this.filepath()) => { // Returns the content of a file.
+  }
+  this.dirpath = (path = this.filepath()) => { // Returns the path of a directory.
+  }
+  this.filepath = (path = client.source.path) => { // Returns the path of a file.
+  }
+  this.dirname = (path = this.filepath()) => { // Returns the name of a folder.
+  }
+  this.filename = (path = this.filepath()) => { // Returns the name of a file.
+  }
+  this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
+    a.x += b.x
+    a.y += b.y
+    return a
+  }
+  this.distance = (a, b) => { // Get distance between positions.
+    return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))
+  }
+  this.echo = (...args) => { // Print arguments to interface.
+    client.log(args)
+    return args
+  }
+  this.debug = (arg) => { // Print arguments to console.
+    console.log(arg)
+    return arg
+  }
+  this.time = (rate = 1) => { // Returns timestamp in milliseconds.
+    return (Date.now() * rate)
+  }
+  this.js = () => { // Javascript interop.
+    return window
+  }
+  this.on = (event, f) => { // Triggers on event.
+    client.bind(event, f)
+  }
+  this.test = (name, a, b) => {
+    if (`${a}` !== `${b}`) {
+      console.warn('failed ' + name, a, b)
+    } else {
+      console.log('passed ' + name, a)
+    }
+    return a === b
+  }
+  this.benchmark = async (fn) => { // Logs time taken to execute a function.
+    const start = Date.now()
+    const result = await fn()
+    console.log(`time taken: ${Date.now() - start}ms`)
+    return result
+  }
+  this['get-theme'] = () => { // Get theme values.
+    return client.theme.active
+  }
+  this['get-frame'] = () => { // Get theme values.
+    return client.surface.getFrame()
+  }
+}
+'use strict'
+function Surface (client) {
+  this.el = document.createElement('canvas')
+  this.el.id = 'surface'
+  this._guide = document.createElement('canvas')
+  this._guide.id = 'guide'
+  this._guide.setAttribute('tabindex', '1') // focus is necessary to capture keyboard events
+  this.ratio = window.devicePixelRatio
+  this.context = this.el.getContext('2d')
+  this.guide = this._guide.getContext('2d')
+  this.install = function (host) {
+    host.appendChild(this.el)
+    host.appendChild(this._guide)
+    window.addEventListener('resize', (e) => { this.onResize() }, false)
+    this._guide.addEventListener('mousedown', client.onMouseDown, false)
+    this._guide.addEventListener('mousemove', client.onMouseMove, false)
+    this._guide.addEventListener('mouseup', client.onMouseUp, false)
+    this._guide.addEventListener('mouseover', client.onMouseOver, false)
+    this._guide.addEventListener('mouseout', client.onMouseOut, false)
+    this._guide.addEventListener('keydown', client.onKeyDown, false)
+    this._guide.addEventListener('keyup', client.onKeyUp, false)
+    this._guide.addEventListener('keypress', client.onKeyPress, false)
+  }
+  this.start = function () {
+    this.maximize()
+  }
+  this.onResize = function () {
+    if (client.commander._input.value === '') {
+      this.maximize()
+    }
+    const f = this.getFrame()
+    client.log(`resize ${f.w}x${f.h}`)
+  }
+  this.stroke = (shape, color = client.theme.get('f_high'), width = 2, context = this.context) => {
+    context.beginPath()
+    this.trace(shape, context)
+    context.lineWidth = width
+    context.strokeStyle = color.rgba ? color.rgba : color
+    if (isText(shape)) {
+      context.textAlign = shape.a
+      context.font = `${shape.p}px ${shape.f}`
+      context.strokeText(`${shape.t}`, shape.x, shape.y)
+    } else if (isSvg(shape)) {
+      context.lineWidth = width
+      context.save()
+      context.translate(shape.x, shape.y)
+      context.stroke(new Path2D(shape.d))
+      context.restore()
+    } else {
+      context.stroke()
+    }
+    context.closePath()
+  }
+  this.fill = (shape, color = client.theme.get('b_high'), context = this.context) => {
+    context.beginPath()
+    context.fillStyle = typeof color === 'object' && color.rgba ? color.rgba : color
+    this.trace(shape, context)
+    if (isText(shape)) {
+      context.textAlign = shape.a
+      context.font = `${shape.p}px ${shape.f}`
+      context.fillText(`${shape.t}`, shape.x, shape.y)
+    } else if (isSvg(shape)) {
+      context.save()
+      context.translate(shape.x, shape.y)
+      context.fill(new Path2D(shape.d))
+      context.restore()
+    } else {
+      context.fill()
+    }
+    context.closePath()
+  }
+  this.clear = function (rect = this.getFrame(), context = this.context) {
+    context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+  this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
+    context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+  this.trace = function (shape, context) {
+    if (isRect(shape)) {
+      this.traceRect(shape, context)
+    } else if (isPos(shape)) {
+      this.tracePos(shape, context)
+    }
+    if (isLine(shape)) {
+      this.traceLine(shape, context)
+    } else if (isPoly(shape)) {
+      this.tracePoly(shape, context)
+    }
+    if (isArc(shape)) {
+      this.traceArc(shape, context)
+    } else if (isCircle(shape)) {
+      this.traceCircle(shape, context)
+    } else if (isEllipse(shape)) {
+      this.traceEllipse(shape, context)
+    } else if (isText(shape)) {
+      this.traceText(shape, context)
+    } else if (isSvg(shape)) {
+      this.traceSVG(shape, context)
+    }
+  }
+  this.traceRect = function (rect, context) {
+    context.moveTo(rect.x, rect.y)
+    context.lineTo(rect.x + rect.w, rect.y)
+    context.lineTo(rect.x + rect.w, rect.y + rect.h)
+    context.lineTo(rect.x, rect.y + rect.h)
+    context.lineTo(rect.x, rect.y)
+  }
+  this.traceLine = function (line, context) {
+    context.moveTo(line.a.x, line.a.y)
+    context.lineTo(line.b.x, line.b.y)
+  }
+  this.tracePoly = function (poly, context) {
+    const positions = Object.values(poly)
+    const origin = positions.shift()
+    context.moveTo(origin.x, origin.y)
+    for (const pos of positions) {
+      context.lineTo(pos.x, pos.y)
+    }
+  }
+  this.tracePos = function (pos, context, radius = 7.5) {
+    context.lineCap = 'round'
+    context.moveTo(pos.x - radius, pos.y)
+    context.lineTo(pos.x + radius, pos.y)
+    context.moveTo(pos.x, pos.y - radius)
+    context.lineTo(pos.x, pos.y + radius)
+  }
+  this.traceCircle = function (circle, context) {
+    context.arc(circle.cx, circle.cy, circle.r, 0, 2 * Math.PI)
+  }
+  this.traceArc = function (arc, context) {
+    context.arc(arc.cx, arc.cy, arc.r, arc.sa, arc.ea)
+  }
+  this.traceEllipse = function (ellipse, context) {
+    context.ellipse(ellipse.cx, ellipse.cy, ellipse.rx, ellipse.ry, 0, 2 * Math.PI, false)
+  }
+  this.traceText = function (text, context) {
+  }
+  this.traceSVG = function (text, context) {
+  }
+  this.draw = function (img, shape = this.getFrame(), alpha = 1) {
+    return new Promise(resolve => {
+      this.context.globalAlpha = alpha
+      if (isLine(shape)) {
+        this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
+      } else if (isRect(shape)) {
+        const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
+        this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
+      } else if (isCircle(shape)) {
+        const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
+        const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
+        const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
+        this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
+      } else {
+        this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
+      }
+      this.context.globalAlpha = 1
+      resolve()
+    })
+  }
+  this.crop = function (rect) {
+    if (!isRect(rect)) { return }
+    client.log(`Crop ${rect.w}x${rect.h} from ${rect.x}x${rect.y}`)
+    const crop = this.copy(rect)
+    this.resize(rect, true)
+    this.context.drawImage(crop, 0, 0)
+  }
+  this.drawGuide = function (shape, color = 'white', context = this.guide) {
+    if (!shape) { return }
+    this.stroke(shape.rect || shape, 'black', 4, context)
+    if (shape.pos) { this.stroke(shape.pos, 'black', 4, context) }
+    if (shape.line) { this.stroke(shape.line, 'black', 4, context) }
+    if (shape.circle) {
+      this.stroke(shape.circle, 'black', 4, context)
+    }
+    this.stroke(shape.rect || shape, color, 1.5, context)
+    if (shape.pos) { this.stroke(shape.pos, color, 1.5, context) }
+    if (shape.line) { this.stroke(shape.line, color, 1.5, context) }
+    if (shape.circle) {
+      this.stroke(shape.circle, color, 1.5, context)
+    }
+  }
+  this.resize = (size, fit = false) => {
+    const frame = this.getFrame()
+    if (frame.w === size.w && frame.h === size.h) { return }
+    console.log('Surface', `Resize: ${size.w}x${size.h}`)
+    this.el.width = size.w
+    this.el.height = size.h
+    this.el.style.width = (size.w / this.ratio) + 'px'
+    this.el.style.height = (size.h / this.ratio) + 'px'
+    this._guide.width = size.w
+    this._guide.height = size.h
+    this._guide.style.width = (size.w / this.ratio) + 'px'
+    this._guide.style.height = (size.h / this.ratio) + 'px'
+  }
+  this.copy = function (rect) {
+    const newCanvas = document.createElement('canvas')
+    newCanvas.width = rect.w
+    newCanvas.height = rect.h
+    newCanvas.getContext('2d').drawImage(this.el, rect.x, rect.y, rect.w, rect.h, 0, 0, rect.w, rect.h)
+    return newCanvas
+  }
+  this.paste = function (copy, rect) {
+    return this.context.drawImage(copy, rect.x, rect.y, rect.w, rect.h)
+  }
+  this.resizeImage = function (src, dst, type = 'image/png', quality = 1.0) {
+    return new Promise(resolve => {
+      const tmp = new Image()
+      let canvas
+      let context
+      let cW = src.naturalWidth
+      let cH = src.naturalHeight
+      tmp.src = src.src
+      tmp.onload = () => {
+        canvas = document.createElement('canvas')
+        cW /= 2
+        cH /= 2
+        if (cW < src.width) {
+          cW = src.width
+        }
+        if (cH < src.height) {
+          cH = src.height
+        }
+        canvas.width = cW
+        canvas.height = cH
+        context = canvas.getContext('2d')
+        context.drawImage(tmp, 0, 0, cW, cH)
+        dst.src = canvas.toDataURL(type, quality)
+        if (cW <= src.width || cH <= src.height) { return resolve() }
+        tmp.src = dst.src
+        return resolve()
+      }
+    })
+  }
+  this.maximize = () => {
+    this.resize(this.bounds())
+  }
+  this.bounds = () => {
+    return { x: 0, y: 0, w: ((window.innerWidth - 60) * this.ratio), h: ((window.innerHeight - 60) * this.ratio) }
+  }
+  this.getFrame = () => {
+    return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2 }
+  }
+  this.toggleGuides = function () {
+    this._guide.className = this._guide.className === 'hidden' ? '' : 'hidden'
+  }
+  function isRect (shape) {
+    return shape && !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
+  }
+  function isCircle (shape) {
+    return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r)
+  }
+  function isArc (shape) {
+    return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r) && !isNaN(shape.sa) && !isNaN(shape.ea)
+  }
+  function isEllipse (shape) {
+    return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.rx) && !isNaN(shape.ry)
+  }
+  function isPos (shape) {
+    return shape && !isNaN(shape.x) && !isNaN(shape.y)
+  }
+  function isSvg (shape) {
+    return shape && shape.d
+  }
+  function isText (shape) {
+    return shape && !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
+  }
+  function isLine (shape) {
+    return shape && shape.a && shape.b && !isNaN(shape.a.x) && !isNaN(shape.a.y) && !isNaN(shape.b.x) && !isNaN(shape.b.y)
+  }
+  function isPoly (shape) {
+    return shape && shape[0] && shape[1] && !isNaN(shape[0].x) && !isNaN(shape[0].y) && !isNaN(shape[1].x) && !isNaN(shape[1].y)
+  }
+  function fitRect (image, container) {
+    image.ratio = image.w / image.h
+    container.ratio = container.w / container.h
+    return {
+      w: image.ratio < container.ratio ? container.h * image.ratio : container.w,
+      h: image.ratio > container.ratio ? container.w / image.ratio : container.h
+    }
+  }
+}
       const client = new Client()
-
       client.install(document.body)
-
       window.addEventListener('load', () => { 
-        client.start() 
+        client.start()
       })
     </script>
+    <style>
+* { margin:0;padding:0;border:0;outline:0;text-decoration:none;font-weight:inherit;font-style:inherit;color:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;list-style:none;border-collapse:collapse;border-spacing:0; -webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+@font-face {
+    font-family: 'input_mono_regular';
+    src: url(data:application/font-woff2;charset=utf-8;base64,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) format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular",courier,monospace; background:000; -webkit-app-region: drag; -webkit-user-select: none; font-size:12px; transition: background 500ms}
+*:focus {outline: none; }
+#ronin { height: calc(100vh - 60px); width:calc(100vw - 60px); -webkit-app-region: drag; padding: 30px;overflow: hidden; }
+#ronin #wrapper { overflow: hidden; position: relative; }
+#ronin #wrapper #commander { z-index: 9000;position: relative;width: calc(50vw - 30px);height: calc(100vh - 60px);-webkit-app-region: no-drag;padding-right: 30px;transition: margin-left 250ms;}
+#ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
+#ronin #wrapper #commander #status { position: absolute; bottom: 0px; line-height: 15px; height: 30px; overflow: hidden; width: calc(100% - 75px); padding-left:45px;}
+#ronin #wrapper #commander #status #run { display: block; width: 26px; height: 26px; position: absolute; top: 0px; border-radius: 15px; left:0px; cursor: pointer; border:2px solid #fff; transition: background-color 250ms, border-color 250ms}
+#ronin.expand #wrapper #commander { width:100%; }
+#ronin #surface, #ronin #guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms, opacity 250ms; opacity: 1; }
+#ronin.hidden #wrapper #commander { margin-left:-40vw; }
+#ronin.hidden #surface, #ronin.hidden #guide { left:0; }
+#ronin #guide.hidden { opacity: 0 }
+#ronin.hidden #wrapper #commander { margin-left:-50vw; }
+#ronin #surface,#ronin #guide { left:50vw; }
+#ronin #guide { background:none; }
+#ronin #surface { border-radius: 2px }
+@media (min-width: 720px) {
+  #ronin #wrapper #commander { width:350px; }
+  #ronin.hidden #wrapper #commander { margin-left:-380px; }
+  #ronin #surface,#ronin #guide { left:380px; }
+}
+body { background:var(--background);  }
+#ronin #wrapper { background: var(--background); }
+#ronin #wrapper #commander { background:var(--background); }
+#ronin #wrapper #commander textarea { color:var(--f_high); }
+#ronin #wrapper #commander #status { color:var(--f_med); }
+#ronin #wrapper #commander #status #source { color:var(--f_low); }
+#ronin #wrapper #commander #status #run { background-color: var(--b_inv); border-color: var(--b_inv) }
+#ronin #wrapper #commander #status #run.active { background:var(--f_high); border-color:var(--f_high); transition: none }
+    </style>
   </body>
 </html>

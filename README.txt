@@ -1,10 +1,12 @@
-# Ronin
+RONIN
+
+---------------
 
 <img src="https://raw.githubusercontent.com/hundredrabbits/100r.co/master/media/content/characters/ronin.hello.png" width="300"/>
 
-Ronin is a <b>procedural graphics tool</b> designed to automate simple graphical tasks, like resizing, cropping, coloring, and generating algorithmic images. It interprets a minimal <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)" target="_blank" rel="noreferrer" class="external ">dialect of LISP</a>, look at these <a href="https://github.com/hundredrabbits/Ronin/tree/master/examples" target="_blank" rel="noreferrer" class="external ">examples</a> to better understand how this all works.
+Ronin is a procedural graphics tool designed to automate simple graphical tasks, like resizing, cropping, coloring, and generating algorithmic images. It interprets a minimal dialect of LISP, look at the examplesto better understand how this all works.
 
-The library updates is constantly revealing new applications to Ronin, you can see the list of available functions <a href="https://github.com/hundredrabbits/Ronin#library" target="_blank" rel="noreferrer" class="external ">here</a>. Most of our iconography and designs were created with both <a href="https://hundredrabbits.itch.io/Ronin" target="_blank">Ronin</a> and <a href="https://hundredrabbits.itch.io/dotgrid">Dotgrid</a>.
+The library updates is constantly revealing new applications to Ronin, you can see the list of available functions here. Most of our iconography and designs were created with both Ronin and Dotgrid.
 
 Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>, follow the [workshop](https://github.com/hundredrabbits/Ronin/blob/master/resources/WORKSHOP.md) or watch the [video tutorial](https://www.youtube.com/watch?v=SgAWGh1s9zg).
 
@@ -17,19 +19,6 @@ Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" targ
 ; download result
 (export)
 ```
-
-## Install & Run
-
-You can download [builds](https://hundredrabbits.itch.io/ronin) for **OSX, Windows and Linux**, or if you wish to build it yourself, follow these steps:
-
-```
-git clone https://github.com/hundredrabbits/Ronin.git
-cd Ronin/desktop/
-npm install
-npm start
-```
-
-<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/resources/PREVIEW.jpg' width='600'/>
 
 ## Helpers
 
@@ -153,13 +142,8 @@ To save an image in memory, open an image file with Ronin, or drag an image file
 - `(test name a b)` 
 - `(benchmark fn)` Logs time taken to execute a function.
 
-<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/resources/PREVIEW2.jpg' width='600'/>
+Extras
 
-<img src='https://raw.githubusercontent.com/hundredrabbits/Ronin/master/resources/PREVIEW3.jpg' width='600'/>
-
-## Extras
-
-- This application supports the [Ecosystem Theme](https://github.com/hundredrabbits/Themes).
-- Support this project through [Patreon](https://patreon.com/100).
-- See the [License](LICENSE.md) file for license rights and limitations (MIT).
+- Themes: https://github.com/hundredrabbits/Themes
+- Support: https://patreon.com/100
 - Pull Requests are welcome!

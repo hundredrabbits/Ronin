@@ -73,7 +73,7 @@ function Acels (client) {
     for (const cat in cats) {
       text += `\n### ${cat}\n\n`
       for (const item of cats[cat]) {
-        text += item.accelerator ? `- \`${item.accelerator.replace('`', 'tilde')}\`: ${item.name}\n` : ''
+        text += item.accelerator ? `- \`${item.accelerator}\`: ${item.name}\n` : ''
       }
     }
     return text.trim()
@@ -83,54 +83,10 @@ function Acels (client) {
     const cats = this.sort()
     let text = ''
     for (const cat in cats) {
-      text += `\n${cat}\n\n`
       for (const item of cats[cat]) {
-        text += item.accelerator ? `${item.name.padEnd(25, '.')} ${item.accelerator}\n` : ''
+        text += item.accelerator ? `${cat}: ${item.name} | ${item.accelerator}\n` : ''
       }
     }
     return text.trim()
-  }
-
-  // Electron specifics
-
-  this.inject = (name = 'Untitled') => {
-    const app = require('electron').remote.app
-    const injection = []
-
-    injection.push({
-      label: name,
-      submenu: [
-        { label: 'About', click: () => { require('electron').shell.openExternal('https://github.com/hundredrabbits/' + name) } },
-        {
-          label: 'Theme',
-          submenu: [
-            { label: 'Download Themes', click: () => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Themes') } },
-            { label: 'Open Theme', click: () => { client.theme.open() } },
-            { label: 'Reset Theme', accelerator: 'CmdOrCtrl+Escape', click: () => { client.theme.reset() } }
-          ]
-        },
-        { label: 'Fullscreen', accelerator: 'CmdOrCtrl+Enter', click: () => { app.toggleFullscreen() } },
-        { label: 'Hide', accelerator: 'CmdOrCtrl+H', click: () => { app.toggleVisible() } },
-        { label: 'Toggle Menubar', accelerator: 'Alt+H', click: () => { app.toggleMenubar() } },
-        { label: 'Inspect', accelerator: 'CmdOrCtrl+Tab', click: () => { app.inspect() } },
-        { role: 'quit' }
-      ]
-    })
-
-    const sorted = this.sort()
-    for (const cat of Object.keys(sorted)) {
-      const submenu = []
-      for (const option of sorted[cat]) {
-        if (option.role) {
-          submenu.push({ role: option.role })
-        } else if (option.type) {
-          submenu.push({ type: option.type })
-        } else {
-          submenu.push({ label: option.name, accelerator: option.accelerator, click: option.downfn })
-        }
-      }
-      injection.push({ label: cat, submenu: submenu })
-    }
-    app.injectMenu(injection)
   }
 }
