@@ -2,48 +2,50 @@ RONIN
 
 ---------------
 
-<img src="https://raw.githubusercontent.com/hundredrabbits/100r.co/master/media/content/characters/ronin.hello.png" width="300"/>
-
 Ronin is a procedural graphics tool designed to automate simple graphical tasks, like resizing, cropping, coloring, and generating algorithmic images. It interprets a minimal dialect of LISP, look at the examplesto better understand how this all works.
 
 The library updates is constantly revealing new applications to Ronin, you can see the list of available functions here. Most of our iconography and designs were created with both Ronin and Dotgrid.
 
-Learn more by reading the <a href="https://github.com/Hundredrabbits/Ronin" target="_blank" rel="noreferrer" class="external ">manual</a>, or have a look at some experiments on <a href="https://twitter.com/neauoire/status/1152481692193419267" target="_blank" rel="noreferrer" class="external ">twitter</a>. If you need <b>help</b>, visit the <a href="https://hundredrabbits.itch.io/ronin/community" target="_blank" rel="noreferrer" class="external ">Community</a>, follow the [workshop](https://github.com/hundredrabbits/Ronin/blob/master/resources/WORKSHOP.md) or watch the [video tutorial](https://www.youtube.com/watch?v=SgAWGh1s9zg).
+- Guide: https://100r.co/site/ronin.html
+- Video Tutorial: https://www.youtube.com/watch?v=SgAWGh1s9zg
+- Demos: https://twitter.com/neauoire/status/1152481692193419267
+- Community: https://hundredrabbits.itch.io/ronin/community
 
-```lisp
+Example
+
 ; clear screen
 (clear)
+
 ; draw red square
 (stroke 
   (rect 30 30 100 100) "red" 2)
+
 ; download result
 (export)
-```
 
-## Helpers
+Helpers
 
 Ronin helpers are keywords that facilitates adding coordinates from the canvas into your script. The currently supported helpers are `$rect`, `$pos`, `$circle`, `$line`, `$drag` and `$view`. Holding right-click while using a $helper will run the script as the mouse is injecting coordinates into the script. Paste the following script, and trace a shape in the canvas:
 
-```lisp
 ; draw a red circle
 (fill $circle "red")
-```
 
-## Importing an image
+Import/Export
 
 To save an image in memory, open an image file with Ronin, or drag an image file on the window. You will then be able to import it by using the file image's name. If the image file is `preview.png`, you can import it as follow:
 
-```lisp
 ; import image at position
-(import "preview.jpg" 
+(import $path 
   (pos 100 100))
 
 ; import image at position, with size
 (import "preview.jpg" 
   (rect 100 100 400 400))
-```
 
-## Library
+; export
+(export)
+
+Library
 
 - `(open name ~scale)` Imports a graphic file with format.
 - `(import name ~shape)` Imports a graphic file with format.
