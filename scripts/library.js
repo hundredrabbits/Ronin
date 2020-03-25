@@ -5,7 +5,6 @@
 
 function Library (client) {
   // IO
-
   this.open = async (name, scale = 1) => { // Import a graphic and scale canvas to fit.
     const img = client.cache.get(name)
     if (!img) { client.log('No data for ' + name); return }
@@ -544,32 +543,6 @@ function Library (client) {
       [-1, -1, -1]]
   }
 
-  // File System
-
-  this.dir = (path = this.dirpath()) => { // Returns the content of a directory.
-    // return fs.existsSync(path) ? fs.readdirSync(path) : []
-  }
-
-  this.file = (path = this.filepath()) => { // Returns the content of a file.
-    // return fs.existsSync(path) ? fs.readFileSync(path, 'utf8') : ''
-  }
-
-  this.dirpath = (path = this.filepath()) => { // Returns the path of a directory.
-    // return require('path').dirname(path)
-  }
-
-  this.filepath = (path = client.source.path) => { // Returns the path of a file.
-    // return path
-  }
-
-  this.dirname = (path = this.filepath()) => { // Returns the name of a folder.
-    // return require('path').basename(require('path').dirname(path))
-  }
-
-  this.filename = (path = this.filepath()) => { // Returns the name of a file.
-    // return require('path').parse(path).name
-  }
-
   this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
     a.x += b.x
     a.y += b.y
@@ -578,6 +551,11 @@ function Library (client) {
 
   this.distance = (a, b) => { // Get distance between positions.
     return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))
+  }
+
+  this.print = (value) => {
+    client.source.write('ronin-print', 'txt', value, 'text/plain')
+    return value
   }
 
   this.echo = (...args) => { // Print arguments to interface.

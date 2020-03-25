@@ -47,7 +47,7 @@ function Client () {
     this.acels.set('File', 'New', 'CmdOrCtrl+N', () => { this.source.new(); this.surface.clear(); this.commander.clear() })
     this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.write('ronin', 'lisp', this.commander._input.value, 'text/plain') })
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.write('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
-    this.acels.set('File', 'Open', 'CmdOrCtrl+O', () => { this.source.open('lisp', this.whenOpen) })
+    this.acels.set('File', 'Open', 'CmdOrCtrl+U', () => { this.source.open('lisp', this.whenOpen) })
 
     this.acels.add('Edit', 'undo')
     this.acels.add('Edit', 'redo')
