@@ -58,7 +58,7 @@ function Acels (client) {
   }
 
   this.convert = (event) => {
-    const accelerator = event.key === ' ' ? 'Space' : event.key.substr(0, 1).toUpperCase() + event.key.substr(1)
+    const accelerator = event.key === ' ' ? 'Space' : capitalize(event.key.replace('Arrow', ''))
     if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
       return `CmdOrCtrl+Shift+${accelerator}`
     }
@@ -81,6 +81,7 @@ function Acels (client) {
   this.onKeyDown = (e) => {
     const target = this.get(this.convert(e))
     if (!target || !target.downfn) { return this.pipe ? this.pipe.onKeyDown(e) : null }
+
     target.downfn()
     e.preventDefault()
   }
@@ -118,4 +119,6 @@ function Acels (client) {
   this.toggle = () => {
     this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
   }
+
+  function capitalize (s) { return s.substr(0, 1).toUpperCase() + s.substr(1) }
 }

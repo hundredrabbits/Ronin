@@ -20,7 +20,7 @@ function cleanup (txt) {
 
 // Create release
 
-const release_body = `
+fs.writeFileSync('index.html', cleanup(`
 <!DOCTYPE html>
 <html lang="en">
 <html>
@@ -43,13 +43,11 @@ const release_body = `
     ${styles.reduce((acc, item) => { return `${acc}/* Including Style ${item} */ \n\n${fs.readFileSync('./links/' + item, 'utf8')}\n` }, '')}
     </style>
   </body>
-</html>`
-
-fs.writeFileSync('index.html', cleanup(release_body))
+</html>`))
 
 // Create debug
 
-const debug_body = `
+fs.writeFileSync('debug.html', `
 <!DOCTYPE html>
 <html lang="en">
 <html>
@@ -70,8 +68,6 @@ const debug_body = `
       })
     </script>
   </body>
-</html>`
-
-fs.writeFileSync('debug.html', debug_body)
+</html>`)
 
 console.log(`Built ${id}`)
