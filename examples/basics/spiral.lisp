@@ -1,5 +1,9 @@
 ; animated recusive spiral
-; by @local_guru 
+
+(def frame 
+  (get-frame))
+
+;
 (defn rec 
   (v) 
   (if 
@@ -27,12 +31,14 @@
         (circle spiral-x spiral-y spiral-r) 
         (color 114 222 194 0.1) 1) 
       (rec 
-        (sub v 0.3))))) 
+        (sub v 0.3)))))
+ 
 ;
 (defn redraw 
   () 
   (
     (clear) 
     (rec 300)))
+
 ;
 (on "animate" redraw)

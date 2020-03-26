@@ -27,13 +27,6 @@ Project  Run              ^R
 Project  Re-Indent        ^Shift+I
 Project  Clean            Escape
 
-Example
-
-(clear)
-(stroke 
-  (rect 30 30 100 100) "red" 2)
-(export)
-
 Helpers
 
 Ronin helpers are keywords that facilitates adding coordinates from the canvas into your script. The currently supported helpers are $rect, $pos, $line, $circle & $arc. Holding right-click while using a $helper will run the script as the mouse is injecting coordinates into the script. Paste the following script, and trace a shape in the canvas:
@@ -56,15 +49,12 @@ Import/Export
 
 To save an image in memory, open an image file with Ronin, or drag an image file on the window. You will then be able to import it by using the file image's name. If the image file is `preview.png`, you can import it as follow:
 
-; import image at position
 (import $path 
   (pos 100 100))
 
-; import image at position, with size
 (import "preview.jpg" 
   (rect 100 100 400 400))
 
-; export
 (export)
 
 Library

@@ -61,7 +61,7 @@ function Commander (client) {
 
   this.cleanup = function () {
     this._input.value = this.clean(this._input.value)
-    this.reindent()
+    this.lint()
     this.run()
   }
 
@@ -75,33 +75,6 @@ function Commander (client) {
 
   this.onClick = () => {
     this.setStatus()
-  }
-
-  this.reindent = function () {
-    let val = this._input.value.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
-    let depth = 0
-    if (val.split('(').length !== val.split(')').length) {
-      client.log('Uneven number of parens.')
-      return
-    }
-    for (let i = 0; i < val.length; i++) {
-      const c = val.charAt(i)
-      if (c === '(') { depth++ } else if (c === ')') { depth-- }
-      if (c === ';') {
-        const indent = '\n' + ('  '.repeat(depth))
-        val = insert(val, indent, i)
-        i += indent.length
-      }
-      if (c === '(') {
-        const indent = '\n' + ('  '.repeat(depth - 1))
-        val = insert(val, indent, i)
-        i += indent.length
-      }
-    }
-    // Space out comments
-    val = val.split('\n').map((line) => { return line.substr(0, 2) === '; ' ? `\n${line}\n` : line }).join('\n')
-
-    this._input.value = val.trim()
   }
 
   this.clean = function (input) {
@@ -248,6 +221,41 @@ function Commander (client) {
     return `(${(name + ' ' + fnParams).trim()})`
   }
 
+  this.lint = function () {
+    let val = this._input.value.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
+    let depth = 0
+    if (val.split('(').length !== val.split(')').length) {
+      client.log('Uneven number of parens.')
+      return
+    }
+    for (let i = 0; i < val.length; i++) {
+      const c = val.charAt(i)
+      if (c === '(') { depth++ } else if (c === ')') { depth-- }
+      if (c === ';') {
+        const indent = '\n' + ('  '.repeat(depth))
+        val = insert(val, indent, i)
+        i += indent.length
+      }
+      if (c === '(') {
+        const indent = '\n' + ('  '.repeat(depth - 1))
+        val = insert(val, indent, i)
+        i += indent.length
+      }
+      // add linebreak after paren at depth 0
+      if (c === ')' && depth === 0) {
+        val = insert(val, '\n', i + 1)
+      }
+    }
+    // Space out comments
+    val = val.split('\n').map((line) => { return line.substr(0, 2) === '; ' ? `\n${line}\n` : line }).join('\n')
+
+    this._input.value = val.trim()
+
+    function insert (str, add, i) {
+      return [str.slice(0, i), `${add}`, str.slice(i)].join('')
+    }
+  }
+
   // Splash
 
   this.splash = `; Ronin v2.50
@@ -258,8 +266,4 @@ function Commander (client) {
 (resize 600 600)
 (stroke 
   (svg 140 140 logo-path) "black" 7)`
-
-  function insert (str, add, i) {
-    return [str.slice(0, i), `${add}`, str.slice(i)].join('')
-  }
 }

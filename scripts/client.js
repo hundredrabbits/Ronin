@@ -61,7 +61,7 @@ function Client () {
     this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
 
     this.acels.set('Project', 'Run', 'CmdOrCtrl+R', () => { this.commander.run() })
-    this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.reindent() })
+    this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.lint() })
     this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
 
     this.acels.route(this)

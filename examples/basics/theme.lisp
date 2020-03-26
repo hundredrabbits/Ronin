@@ -1,9 +1,18 @@
 ; display color from the theme.
+
+(def theme 
+  (get-theme))
+
+
 ; ex: theme:f_high
-(clear) 
+
+(clear)
+ 
 (fill frame theme:background)
+
 (def color-box 
   (div frame:h 10))
+
 (defn print-value 
   (item id) 
   (
@@ -22,5 +31,6 @@
           (keys theme) id)) theme:f_high) 
     (fill 
       (text 400 box-y 30 item) theme:f_high)))
+
 (map 
   (values theme) print-value)

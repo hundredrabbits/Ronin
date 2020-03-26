@@ -1,4 +1,5 @@
 (clear)
+
 (defn branch 
   (v) 
   (if 
@@ -20,5 +21,7 @@
       (branch 
         (sub v 1)) 
       (transform:pop))))
+
 (branch 10)
+
 (transform:reset)
