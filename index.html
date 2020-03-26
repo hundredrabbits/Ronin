@@ -116,7 +116,7 @@ function Acels (client) {
   function capitalize (s) { return s.substr(0, 1).toUpperCase() + s.substr(1) }
 }
 'use strict'
-function Lisp (lib = {}) {
+function Lain (lib = {}) {
   const TYPES = { identifier: 0, number: 1, string: 2, bool: 3, symbol: 4 }
   const Context = function (scope, parent) {
     this.scope = scope
@@ -138,16 +138,22 @@ function Lisp (lib = {}) {
       return interpret(input[2], letContext)
     },
     def: function (input, context) {
-      const identifier = input[1].value
-      const value = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
-      context.scope[identifier] = interpret(value, context)
-      return value
+      if (input.length !== 3) { console.warn('Lain', 'Invalid definition.'); return }
+      const identifier = input[1].host ? input[1].host : input[1].value
+      if (input[1].host) {
+        if (!context.scope[identifier]) { context.scope[identifier] = {} }
+        context.scope[identifier][input[1].value] = interpret(input[2], context)
+        return context.scope[identifier][input[1].value]
+      }
+      context.scope[identifier] = interpret(input[2], context)
+      return context.scope[identifier]
     },
     defn: function (input, context) {
-      const fnName = input[1].value
+      const identifier = input[1].value
+      if (context.scope[identifier]) { console.warn('Lain', `Redefining function: ${identifier}`) }
       const fnParams = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
       const fnBody = input[2].type === TYPES.string && input[4] ? input[4] : input[3]
-      context.scope[fnName] = async function () {
+      context.scope[identifier] = function () {
         const lambdaArguments = arguments
         const lambdaScope = fnParams.reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
@@ -156,8 +162,8 @@ function Lisp (lib = {}) {
         return interpret(fnBody, new Context(lambdaScope, context))
       }
     },
-    lambda: function (input, context) {
-      return async function () {
+    λ: function (input, context) {
+      return function () {
         const lambdaArguments = arguments
         const lambdaScope = input[1].reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
@@ -166,35 +172,11 @@ function Lisp (lib = {}) {
         return interpret(input[2], new Context(lambdaScope, context))
       }
     },
-    if: async function (input, context) {
-      if (await interpret(input[1], context)) {
-        return interpret(input[2], context)
-      }
-      return input[3] ? interpret(input[3], context) : []
-    },
-    __fn: function (input, context) {
-      return async function () {
-        const lambdaArguments = arguments
-        const keys = [...new Set(input.slice(2).flat(100).filter(i =>
-          i.type === TYPES.identifier &&
-          i.value[0] === '%'
-        ).map(x => x.value).sort())]
-        const lambdaScope = keys.reduce(function (acc, x, i) {
-          acc[x] = lambdaArguments[i]
-          return acc
-        }, {})
-        return interpret(input.slice(1), new Context(lambdaScope, context))
-      }
-    },
-    __obj: async function (input, context) {
-      const obj = {}
-      for (let i = 1; i < input.length; i += 2) {
-        obj[await interpret(input[i], context)] = await interpret(input[i + 1], context)
-      }
-      return obj
+    if: function (input, context) {
+      return interpret(input[1], context) ? interpret(input[2], context) : input[3] ? interpret(input[3], context) : []
     }
   }
-  const interpretList = async function (input, context) {
+  const interpretList = function (input, context) {
     if (input.length > 0 && input[0].value in special) {
       return special[input[0].value](input, context)
     }
@@ -202,7 +184,7 @@ function Lisp (lib = {}) {
     for (let i = 0; i < input.length; i++) {
       if (input[i].type === TYPES.symbol) {
         if (input[i].host) {
-          const host = await context.get(input[i].host)
+          const host = context.get(input[i].host)
           if (host) {
             list.push(host[input[i].value])
           }
@@ -210,13 +192,13 @@ function Lisp (lib = {}) {
           list.push(obj => obj[input[i].value])
         }
       } else {
-        list.push(await interpret(input[i], context))
+        list.push(interpret(input[i], context))
       }
     }
     return list[0] instanceof Function ? list[0].apply(undefined, list.slice(1)) : list
   }
-  const interpret = async function (input, context) {
-    if (!input) { console.warn('Lisp', 'error', context.scope); return null }
+  const interpret = function (input, context) {
+    if (!input) { console.warn('Lain', context.scope); return null }
     if (context === undefined) {
       return interpret(input, new Context(lib))
     } else if (input instanceof Array) {
@@ -247,42 +229,23 @@ function Lisp (lib = {}) {
     const token = input.shift()
     if (token === undefined) {
       return list.pop()
-    } else if (token === '\'(') {
-      input.unshift('__fn')
-      list.push(parenthesize(input, []))
-      return parenthesize(input, list)
-    } else if (token === '{') {
-      input.unshift('__obj')
-      list.push(parenthesize(input, []))
-      return parenthesize(input, list)
     } else if (token === '(') {
       list.push(parenthesize(input, []))
       return parenthesize(input, list)
-    } else if (token === ')' || token === '}') {
+    } else if (token === ')') {
       return list
     } else {
       return parenthesize(input, list.concat(categorize(token)))
     }
   }
   const tokenize = function (input) {
-    const i = input.replace(/^;.*\n?/gm, '').replace(/λ /g, 'lambda ').split('"')
+    const i = input.replace(/^[\s]*;.*\n?/gm, '').split('"')
     return i.map(function (x, i) {
-      return i % 2 === 0
-        ? x.replace(/\(/g, ' ( ')
-          .replace(/\)/g, ' ) ')
-          .replace(/' \( /g, ' \'( ') // '()
-          .replace(/\{/g, ' { ') // {}
-          .replace(/\}/g, ' } ') // {}
-        : x.replace(/ /g, '!whitespace!')
-    })
-      .join('"').trim().split(/\s+/)
-      .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
+      return i % 2 === 0 ? x.replace(/\(/g, ' ( ').replace(/\)/g, ' ) ') : x.replace(/ /g, '!ws!')
+    }).join('"').trim().split(/\s+/).map(function (x) { return x.replace(/!ws!/g, ' ') })
   }
-  this.parse = function (input) {
-    return parenthesize(tokenize(input))
-  }
-  this.run = async function (input) {
-    return interpret(this.parse(`((def theme (get-theme))(def frame (get-frame))(${input}))`))
+  this.run = (input) => {
+    return interpret(parenthesize(tokenize(input)))
   }
 }
 'use strict'
@@ -441,7 +404,7 @@ function Theme (client) {
     if (!isColor(hex)) { console.warn('Theme', `${hex} is not a valid color.`); return }
     this.active[key] = hex
   }
-  this.read = (key) => {
+  this.get = (key) => {
     return this.active[key]
   }
   this.parse = (any) => {
@@ -520,7 +483,7 @@ function Client () {
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
-  this.lisp = new Lisp(this.library)
+  this.lain = new Lain(this.library)
   this.bindings = {}
   this.install = function (host = document.body) {
     this._wrapper = document.createElement('div')
@@ -692,6 +655,7 @@ function Client () {
     }
     const wh = rect.w + ' ' + rect.h
     const d = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y))).toFixed(2)
+    const r = d
     const a = Math.atan2(pos.y - line.a.y, pos.x - line.a.x).toFixed(2)
     const circle = {
       cx: line.a.x,
@@ -705,7 +669,7 @@ function Client () {
       sa: 0,
       ea: a
     }
-    return { x, y, xy, wh, d, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
+    return { x, y, xy, wh, d, r, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
 }
 'use strict'
@@ -736,19 +700,20 @@ function Commander (client) {
     this._input.onkeydown = (e) => {
       if (e.keyCode === 9 || e.which === 9) { e.preventDefault(); this.inject('  ') }
     }
+    client.surface.maximize()
   }
   this.start = function () {
-    this.setStatus('Ready.')
-    this.load(this.splash)
     this.show()
+    this._input.value = this.splash
+    setTimeout(() => { this.run() }, 1000)
+    this.setStatus('Ready.')
   }
   this.run = (txt = this._input.value) => {
     if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
     client.bindings = {}
     if (this._input.value.trim() === '') {
-      client.surface.maximize()
     }
-    client.lisp.run(txt)
+    client.lain.run(`(${txt})`)
     this.feedback()
   }
   this.load = function (txt) {
@@ -858,7 +823,7 @@ function Commander (client) {
     if (word === 'line') { return `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})` }
     if (word === 'circle') { return `(circle ${shape.cx} ${shape.cy} ${shape.r})` }
     if (word === 'arc') { return `(arc ${shape.cx} ${shape.cy} ${shape.r} ${shape.sa} ${shape.ea})` }
-    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh' || word === 'a') { return `${shape}` }
+    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh' || word === 'a' || word === 'r') { return `${shape}` }
     return ''
   }
   this.show = function (expand = false) {
@@ -906,42 +871,209 @@ function Commander (client) {
     const name = this.getCurrentFunction()
     const fn = client.library[name]
     if (!fn) { return }
-    const fnString = fn.toString().replace('async ', '')
+    const fnString = fn.toString()
     if (fnString.indexOf(') => {') < 0) { return }
     const fnParams = fnString.split(') => {')[0].substr(1).split(',').reduce((acc, item) => { return `${acc}${item.indexOf('=') > -1 ? '~' + item.split('=')[0].trim() : item} ` }, '').trim()
     return `(${(name + ' ' + fnParams).trim()})`
   }
-  this.splash = `
-; Ronin v2.40
-(clear) 
+  this.splash = `; Ronin v2.50
 (def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
-(def pos-x 
-  (mul frame:c 0.25))
-(def pos-y 
-  (sub frame:m 150))
+;
+(clear) 
+(resize 600 600)
 (stroke 
-  (svg pos-x pos-y logo-path) theme:f_high 5)
-`
+  (svg 140 140 logo-path) "black" 7)`
   function insert (str, add, i) {
     return [str.slice(0, i), `${add}`, str.slice(i)].join('')
   }
 }
 'use strict'
+function Lisp (lib = {}) {
+  const TYPES = { identifier: 0, number: 1, string: 2, bool: 3, symbol: 4 }
+  const Context = function (scope, parent) {
+    this.scope = scope
+    this.parent = parent
+    this.get = function (identifier) {
+      if (identifier in this.scope) {
+        return this.scope[identifier]
+      } else if (this.parent !== undefined) {
+        return this.parent.get(identifier)
+      }
+    }
+  }
+  const special = {
+    let: function (input, context) {
+      const letContext = input[1].reduce(function (acc, x) {
+        acc.scope[x[0].value] = interpret(x[1], context)
+        return acc
+      }, new Context({}, context))
+      return interpret(input[2], letContext)
+    },
+    def: function (input, context) {
+      const identifier = input[1].value
+      const value = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
+      context.scope[identifier] = interpret(value, context)
+      return value
+    },
+    defn: function (input, context) {
+      const fnName = input[1].value
+      const fnParams = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
+      const fnBody = input[2].type === TYPES.string && input[4] ? input[4] : input[3]
+      context.scope[fnName] = async function () {
+        const lambdaArguments = arguments
+        const lambdaScope = fnParams.reduce(function (acc, x, i) {
+          acc[x.value] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(fnBody, new Context(lambdaScope, context))
+      }
+    },
+    lambda: function (input, context) {
+      return async function () {
+        const lambdaArguments = arguments
+        const lambdaScope = input[1].reduce(function (acc, x, i) {
+          acc[x.value] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(input[2], new Context(lambdaScope, context))
+      }
+    },
+    if: async function (input, context) {
+      if (await interpret(input[1], context)) {
+        return interpret(input[2], context)
+      }
+      return input[3] ? interpret(input[3], context) : []
+    },
+    __fn: function (input, context) {
+      return async function () {
+        const lambdaArguments = arguments
+        const keys = [...new Set(input.slice(2).flat(100).filter(i =>
+          i.type === TYPES.identifier &&
+          i.value[0] === '%'
+        ).map(x => x.value).sort())]
+        const lambdaScope = keys.reduce(function (acc, x, i) {
+          acc[x] = lambdaArguments[i]
+          return acc
+        }, {})
+        return interpret(input.slice(1), new Context(lambdaScope, context))
+      }
+    },
+    __obj: async function (input, context) {
+      const obj = {}
+      for (let i = 1; i < input.length; i += 2) {
+        obj[await interpret(input[i], context)] = await interpret(input[i + 1], context)
+      }
+      return obj
+    }
+  }
+  const interpretList = async function (input, context) {
+    if (input.length > 0 && input[0].value in special) {
+      return special[input[0].value](input, context)
+    }
+    const list = []
+    for (let i = 0; i < input.length; i++) {
+      if (input[i].type === TYPES.symbol) {
+        if (input[i].host) {
+          const host = await context.get(input[i].host)
+          if (host) {
+            list.push(host[input[i].value])
+          }
+        } else {
+          list.push(obj => obj[input[i].value])
+        }
+      } else {
+        list.push(await interpret(input[i], context))
+      }
+    }
+    return list[0] instanceof Function ? list[0].apply(undefined, list.slice(1)) : list
+  }
+  const interpret = async function (input, context) {
+    if (!input) { console.warn('Lisp', 'error', context.scope); return null }
+    if (context === undefined) {
+      return interpret(input, new Context(lib))
+    } else if (input instanceof Array) {
+      return interpretList(input, context)
+    } else if (input.type === TYPES.identifier) {
+      return context.get(input.value)
+    } else if (input.type === TYPES.number || input.type === TYPES.symbol || input.type === TYPES.string || input.type === TYPES.bool) {
+      return input.value
+    }
+  }
+  const categorize = function (input) {
+    if (!isNaN(parseFloat(input))) {
+      return { type: TYPES.number, value: parseFloat(input) }
+    } else if (input[0] === '"' && input.slice(-1) === '"') {
+      return { type: TYPES.string, value: input.slice(1, -1) }
+    } else if (input[0] === ':') {
+      return { type: TYPES.symbol, value: input.slice(1) }
+    } else if (input.indexOf(':') > 0) {
+      return { type: TYPES.symbol, host: input.split(':')[0], value: input.split(':')[1] }
+    } else if (input === 'true' || input === 'false') {
+      return { type: TYPES.bool, value: input === 'true' }
+    } else {
+      return { type: TYPES.identifier, value: input }
+    }
+  }
+  const parenthesize = function (input, list) {
+    if (list === undefined) { return parenthesize(input, []) }
+    const token = input.shift()
+    if (token === undefined) {
+      return list.pop()
+    } else if (token === '\'(') {
+      input.unshift('__fn')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
+    } else if (token === '{') {
+      input.unshift('__obj')
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
+    } else if (token === '(') {
+      list.push(parenthesize(input, []))
+      return parenthesize(input, list)
+    } else if (token === ')' || token === '}') {
+      return list
+    } else {
+      return parenthesize(input, list.concat(categorize(token)))
+    }
+  }
+  const tokenize = function (input) {
+    const i = input.replace(/^;.*\n?/gm, '').replace(/λ /g, 'lambda ').split('"')
+    return i.map(function (x, i) {
+      return i % 2 === 0
+        ? x.replace(/\(/g, ' ( ')
+          .replace(/\)/g, ' ) ')
+          .replace(/' \( /g, ' \'( ') // '()
+          .replace(/\{/g, ' { ') // {}
+          .replace(/\}/g, ' } ') // {}
+        : x.replace(/ /g, '!whitespace!')
+    })
+      .join('"').trim().split(/\s+/)
+      .map(function (x) { return x.replace(/!whitespace!/g, ' ') })
+  }
+  this.parse = function (input) {
+    return parenthesize(tokenize(input))
+  }
+  this.run = async function (input) {
+    return interpret(this.parse(`((def theme (get-theme))(def frame (get-frame))(${input}))`))
+  }
+}
+'use strict'
 function Library (client) {
-  this.open = async (name, scale = 1) => { // Import a graphic and scale canvas to fit.
+  this.open = (name, scale = 1) => { // Import a graphic and scale canvas to fit.
     const img = client.cache.get(name)
     if (!img) { client.log('No data for ' + name); return }
     const rect = this.rect(0, 0, img.width * scale, img.height * scale)
-    await this.resize(rect.w, rect.h).then(this.import(name, rect))
+    this.resize(rect.w, rect.h)
+    this.import(name, rect)
     return rect
   }
-  this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
+  this.import = (name, shape, alpha = 1) => { // Imports a graphic file with format.
     const img = client.cache.get(name)
     if (!img) { client.log('No data for ' + name); return }
     client.surface.draw(img, shape, alpha)
     return shape || this.rect(0, 0, img.width, img.height)
   }
-  this.export = async (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+  this.export = (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     const ext = type === 'image/png' ? name + '.png' : name + '.jpg'
     client.source.write(name, ext, client.surface.el.toDataURL(type, 1.0), type)
   }
@@ -983,32 +1115,32 @@ function Library (client) {
   this.hsl = (h, s, l, a = 1) => { // returns a HSL color object
     return { h, s, l, a, toString: () => { return `hsla(${h},${s}%,${l}%,${a})` }, 0: h, 1: s, 2: l, 3: a, f: [h / 360, s / 100, l / 100, a] }
   }
-  this.resize = async (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+  this.resize = (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
     if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = client.surface.el.toDataURL()
-    await client.surface.resizeImage(a, b)
+    client.surface.resizeImage(a, b)
     client.surface.resize(rect, fit)
     return client.surface.draw(b, rect)
   }
-  this.rescale = async (w = 1, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+  this.rescale = (w = 1, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
     const rect = { x: 0, y: 0, w: this['get-frame']().w * w, h: this['get-frame']().h * (h || w) }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = client.surface.el.toDataURL()
-    await client.surface.resizeImage(a, b)
+    client.surface.resizeImage(a, b)
     client.surface.resize(rect, true)
     return client.surface.draw(b, rect)
   }
-  this.crop = async (rect = this['get-frame']()) => { // Crop canvas to rect.
+  this.crop = (rect = this['get-frame']()) => { // Crop canvas to rect.
     return client.surface.crop(rect)
   }
-  this.copy = async (rect = this['get-frame']()) => { // Copy a section of the canvas.
+  this.copy = (rect = this['get-frame']()) => { // Copy a section of the canvas.
     return client.surface.copy(rect)
   }
-  this.paste = async (copy, rect = this['get-frame']()) => { // Paste a section of the canvas.
+  this.paste = (copy, rect = this['get-frame']()) => { // Paste a section of the canvas.
     return client.surface.paste(copy, rect)
   }
   this.drag = (rect = this['get-frame'](), line = this.line()) => { // Drag a part of the canvas.
@@ -1021,6 +1153,7 @@ function Library (client) {
     client.surface.context.drawImage(crop, rect.x, rect.y)
   }
   this.view = (a, b) => { // View a part of the canvas.
+    if (!a || !b) { return }
     this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
     this.guide(a)
     this.guide(b)
@@ -1038,8 +1171,8 @@ function Library (client) {
     }
     return this.color(this.floor(sum[0] / count), this.floor(sum[1] / count), this.floor(sum[2] / count))
   }
-  this.orient = async (deg = 0) => { // Orient canvas with angle in degrees.
-    const copy = await this.copy()
+  this.orient = (deg = 0) => { // Orient canvas with angle in degrees.
+    const copy = this.copy()
     const frame = this['get-frame']()
     const mode = Math.floor(deg / 90) % 4
     const offset = { x: [0, 0, -frame.w, -frame.w], y: [0, -frame.h, -frame.h, 0] }
@@ -1052,8 +1185,8 @@ function Library (client) {
     client.surface.context.restore()
   }
   this.mirror = { // Mirror canvas, methods: `x`, `y`.
-    x: async (j = 0) => {
-      const copy = await this.copy()
+    x: (j = 0) => {
+      const copy = this.copy()
       const frame = this['get-frame']()
       client.surface.context.save()
       client.surface.context.translate(frame.w, 0)
@@ -1061,8 +1194,8 @@ function Library (client) {
       client.surface.context.drawImage(copy, 0, 0)
       client.surface.context.restore()
     },
-    y: async (j = 0) => {
-      const copy = await this.copy()
+    y: (j = 0) => {
+      const copy = this.copy()
       const frame = this['get-frame']()
       client.surface.context.save()
       client.surface.context.translate(0, frame.h)
@@ -1122,12 +1255,12 @@ function Library (client) {
     client.surface.drawGuide(shape, color)
     return shape
   }
-  this.pixels = async (fn, q = 1, rect = this['get-frame']()) => {
+  this.pixels = (fn, q = 1, rect = this['get-frame']()) => {
     if (!fn) { console.warn('Unknown function'); return rect }
     const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
-      const processed = await fn(pixel, q)
+      const processed = fn(pixel, q)
       img.data[i] = this.clamp(parseInt(processed[0]), 0, 255)
       img.data[i + 1] = this.clamp(parseInt(processed[1]), 0, 255)
       img.data[i + 2] = this.clamp(parseInt(processed[2]), 0, 255)
@@ -1244,10 +1377,10 @@ function Library (client) {
     }
     return args[args.length - 1]
   }
-  this.each = async (arr, fn) => { // Run a function for each element in a list.
+  this.each = (arr, fn) => { // Run a function for each element in a list.
     for (let i = 0; i < arr.length; i++) {
       const arg = arr[i]
-      await fn(arg)
+      fn(arg)
     }
   }
   this.map = (arr, fn) => { // Run a function on each element in a list.
@@ -1262,11 +1395,11 @@ function Library (client) {
         })
       })
   }
-  this.reduce = async (arr, fn, acc) => {
+  this.reduce = (arr, fn, acc) => {
     const length = arr.length
     let result = acc === undefined ? arr[0] : acc
     for (let i = acc === undefined ? 1 : 0; i < length; i++) {
-      result = await fn(result, arr[i], i, arr)
+      result = fn(result, arr[i], i, arr)
     }
     return result
   }
@@ -1390,9 +1523,9 @@ function Library (client) {
     }
     return a === b
   }
-  this.benchmark = async (fn) => { // Logs time taken to execute a function.
+  this.benchmark = (fn) => { // Logs time taken to execute a function.
     const start = Date.now()
-    const result = await fn()
+    const result = fn()
     console.log(`time taken: ${Date.now() - start}ms`)
     return result
   }
@@ -1543,24 +1676,21 @@ function Surface (client) {
   this.traceSVG = function (text, context) {
   }
   this.draw = function (img, shape = this.getFrame(), alpha = 1) {
-    return new Promise(resolve => {
-      this.context.globalAlpha = alpha
-      if (isLine(shape)) {
-        this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
-      } else if (isRect(shape)) {
-        const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
-        this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
-      } else if (isCircle(shape)) {
-        const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
-        const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
-        const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
-        this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
-      } else {
-        this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
-      }
-      this.context.globalAlpha = 1
-      resolve()
-    })
+    this.context.globalAlpha = alpha
+    if (isLine(shape)) {
+      this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
+    } else if (isRect(shape)) {
+      const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
+      this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
+    } else if (isCircle(shape)) {
+      const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
+      const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
+      const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
+      this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
+    } else {
+      this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
+    }
+    this.context.globalAlpha = 1
   }
   this.crop = function (rect) {
     if (!isRect(rect)) { return }
@@ -1707,6 +1837,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
 #ronin #wrapper #commander #status { position: absolute; bottom: 0px; line-height: 15px; height: 30px; overflow: hidden; width: calc(100% - 75px); padding-left:45px;}
 #ronin #wrapper #commander #status #run { display: block; width: 26px; height: 26px; position: absolute; top: 0px; border-radius: 15px; left:0px; cursor: pointer; border:2px solid #fff; transition: background-color 250ms, border-color 250ms}
+#ronin #wrapper #commander #status #run:hover { background: none }
 #ronin.expand #wrapper #commander { width:100%; }
 #ronin #surface, #ronin #guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms, opacity 250ms; opacity: 1; }
 #ronin.hidden #wrapper #commander { margin-left:-40vw; }

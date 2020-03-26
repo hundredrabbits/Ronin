@@ -30,21 +30,23 @@ function Commander (client) {
     this._input.onkeydown = (e) => {
       if (e.keyCode === 9 || e.which === 9) { e.preventDefault(); this.inject('  ') }
     }
+    client.surface.maximize()
   }
 
   this.start = function () {
-    this.setStatus('Ready.')
-    this.load(this.splash)
     this.show()
+    this._input.value = this.splash
+    setTimeout(() => { this.run() }, 1000)
+    this.setStatus('Ready.')
   }
 
   this.run = (txt = this._input.value) => {
     if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
     client.bindings = {}
     if (this._input.value.trim() === '') {
-      client.surface.maximize()
+
     }
-    client.lisp.run(txt)
+    client.lain.run(`(${txt})`)
     this.feedback()
   }
 
@@ -180,7 +182,7 @@ function Commander (client) {
     if (word === 'line') { return `(line ${shape.a.x} ${shape.a.y} ${shape.b.x} ${shape.b.y})` }
     if (word === 'circle') { return `(circle ${shape.cx} ${shape.cy} ${shape.r})` }
     if (word === 'arc') { return `(arc ${shape.cx} ${shape.cy} ${shape.r} ${shape.sa} ${shape.ea})` }
-    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh' || word === 'a') { return `${shape}` }
+    if (word === 'x' || word === 'y' || word === 'xy' || word === 'wh' || word === 'a' || word === 'r') { return `${shape}` }
     return ''
   }
 
@@ -240,7 +242,7 @@ function Commander (client) {
     const name = this.getCurrentFunction()
     const fn = client.library[name]
     if (!fn) { return }
-    const fnString = fn.toString().replace('async ', '')
+    const fnString = fn.toString()
     if (fnString.indexOf(') => {') < 0) { return }
     const fnParams = fnString.split(') => {')[0].substr(1).split(',').reduce((acc, item) => { return `${acc}${item.indexOf('=') > -1 ? '~' + item.split('=')[0].trim() : item} ` }, '').trim()
     return `(${(name + ' ' + fnParams).trim()})`
@@ -248,17 +250,14 @@ function Commander (client) {
 
   // Splash
 
-  this.splash = `
-; Ronin v2.40
-(clear) 
+  this.splash = `; Ronin v2.50
+
 (def logo-path "M60,60 L195,60 A45,45 0 0,1 240,105 A45,45 0 0,1 195,150 L60,150 M195,150 A45,45 0 0,1 240,195 L240,240 ")
-(def pos-x 
-  (mul frame:c 0.25))
-(def pos-y 
-  (sub frame:m 150))
+;
+(clear) 
+(resize 600 600)
 (stroke 
-  (svg pos-x pos-y logo-path) theme:f_high 5)
-`
+  (svg 140 140 logo-path) "black" 7)`
 
   function insert (str, add, i) {
     return [str.slice(0, i), `${add}`, str.slice(i)].join('')

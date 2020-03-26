@@ -5,22 +5,23 @@
 
 function Library (client) {
   // IO
-  this.open = async (name, scale = 1) => { // Import a graphic and scale canvas to fit.
+  this.open = (name, scale = 1) => { // Import a graphic and scale canvas to fit.
     const img = client.cache.get(name)
     if (!img) { client.log('No data for ' + name); return }
     const rect = this.rect(0, 0, img.width * scale, img.height * scale)
-    await this.resize(rect.w, rect.h).then(this.import(name, rect))
+    this.resize(rect.w, rect.h)
+    this.import(name, rect)
     return rect
   }
 
-  this.import = async (name, shape, alpha = 1) => { // Imports a graphic file with format.
+  this.import = (name, shape, alpha = 1) => { // Imports a graphic file with format.
     const img = client.cache.get(name)
     if (!img) { client.log('No data for ' + name); return }
     client.surface.draw(img, shape, alpha)
     return shape || this.rect(0, 0, img.width, img.height)
   }
 
-  this.export = async (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
+  this.export = (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     const ext = type === 'image/png' ? name + '.png' : name + '.jpg'
     client.source.write(name, ext, client.surface.el.toDataURL(type, 1.0), type)
   }
@@ -79,36 +80,36 @@ function Library (client) {
 
   // Frame
 
-  this.resize = async (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
+  this.resize = (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
     if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
     const rect = { x: 0, y: 0, w, h }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = client.surface.el.toDataURL()
-    await client.surface.resizeImage(a, b)
+    client.surface.resizeImage(a, b)
     client.surface.resize(rect, fit)
     return client.surface.draw(b, rect)
   }
 
-  this.rescale = async (w = 1, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
+  this.rescale = (w = 1, h) => { // Rescales the canvas to target ratio of w and h, returns the rect.
     const rect = { x: 0, y: 0, w: this['get-frame']().w * w, h: this['get-frame']().h * (h || w) }
     const a = document.createElement('img')
     const b = document.createElement('img')
     a.src = client.surface.el.toDataURL()
-    await client.surface.resizeImage(a, b)
+    client.surface.resizeImage(a, b)
     client.surface.resize(rect, true)
     return client.surface.draw(b, rect)
   }
 
-  this.crop = async (rect = this['get-frame']()) => { // Crop canvas to rect.
+  this.crop = (rect = this['get-frame']()) => { // Crop canvas to rect.
     return client.surface.crop(rect)
   }
 
-  this.copy = async (rect = this['get-frame']()) => { // Copy a section of the canvas.
+  this.copy = (rect = this['get-frame']()) => { // Copy a section of the canvas.
     return client.surface.copy(rect)
   }
 
-  this.paste = async (copy, rect = this['get-frame']()) => { // Paste a section of the canvas.
+  this.paste = (copy, rect = this['get-frame']()) => { // Paste a section of the canvas.
     return client.surface.paste(copy, rect)
   }
 
@@ -123,6 +124,7 @@ function Library (client) {
   }
 
   this.view = (a, b) => { // View a part of the canvas.
+    if (!a || !b) { return }
     this.guide({ a: { x: a.x, y: a.y }, b: { x: b.x, y: b.y } })
     this.guide(a)
     this.guide(b)
@@ -142,8 +144,8 @@ function Library (client) {
     return this.color(this.floor(sum[0] / count), this.floor(sum[1] / count), this.floor(sum[2] / count))
   }
 
-  this.orient = async (deg = 0) => { // Orient canvas with angle in degrees.
-    const copy = await this.copy()
+  this.orient = (deg = 0) => { // Orient canvas with angle in degrees.
+    const copy = this.copy()
     const frame = this['get-frame']()
     const mode = Math.floor(deg / 90) % 4
     const offset = { x: [0, 0, -frame.w, -frame.w], y: [0, -frame.h, -frame.h, 0] }
@@ -157,8 +159,8 @@ function Library (client) {
   }
 
   this.mirror = { // Mirror canvas, methods: `x`, `y`.
-    x: async (j = 0) => {
-      const copy = await this.copy()
+    x: (j = 0) => {
+      const copy = this.copy()
       const frame = this['get-frame']()
       client.surface.context.save()
       client.surface.context.translate(frame.w, 0)
@@ -166,8 +168,8 @@ function Library (client) {
       client.surface.context.drawImage(copy, 0, 0)
       client.surface.context.restore()
     },
-    y: async (j = 0) => {
-      const copy = await this.copy()
+    y: (j = 0) => {
+      const copy = this.copy()
       const frame = this['get-frame']()
       client.surface.context.save()
       client.surface.context.translate(0, frame.h)
@@ -240,12 +242,12 @@ function Library (client) {
 
   // Pixels
 
-  this.pixels = async (fn, q = 1, rect = this['get-frame']()) => {
+  this.pixels = (fn, q = 1, rect = this['get-frame']()) => {
     if (!fn) { console.warn('Unknown function'); return rect }
     const img = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
     for (let i = 0, loop = img.data.length; i < loop; i += 4) {
       const pixel = [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]
-      const processed = await fn(pixel, q)
+      const processed = fn(pixel, q)
       img.data[i] = this.clamp(parseInt(processed[0]), 0, 255)
       img.data[i + 1] = this.clamp(parseInt(processed[1]), 0, 255)
       img.data[i + 2] = this.clamp(parseInt(processed[2]), 0, 255)
@@ -412,10 +414,10 @@ function Library (client) {
 
   // Arrays
 
-  this.each = async (arr, fn) => { // Run a function for each element in a list.
+  this.each = (arr, fn) => { // Run a function for each element in a list.
     for (let i = 0; i < arr.length; i++) {
       const arg = arr[i]
-      await fn(arg)
+      fn(arg)
     }
   }
 
@@ -433,11 +435,11 @@ function Library (client) {
       })
   }
 
-  this.reduce = async (arr, fn, acc) => {
+  this.reduce = (arr, fn, acc) => {
     const length = arr.length
     let result = acc === undefined ? arr[0] : acc
     for (let i = acc === undefined ? 1 : 0; i < length; i++) {
-      result = await fn(result, arr[i], i, arr)
+      result = fn(result, arr[i], i, arr)
     }
     return result
   }
@@ -589,9 +591,9 @@ function Library (client) {
     return a === b
   }
 
-  this.benchmark = async (fn) => { // Logs time taken to execute a function.
+  this.benchmark = (fn) => { // Logs time taken to execute a function.
     const start = Date.now()
-    const result = await fn()
+    const result = fn()
     console.log(`time taken: ${Date.now() - start}ms`)
     return result
   }

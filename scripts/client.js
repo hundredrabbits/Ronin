@@ -6,7 +6,7 @@
 /* global Commander */
 /* global Surface */
 /* global Library */
-/* global Lisp */
+/* global Lain */
 /* global Image */
 /* global requestAnimationFrame */
 
@@ -21,7 +21,7 @@ function Client () {
   this.commander = new Commander(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
-  this.lisp = new Lisp(this.library)
+  this.lain = new Lain(this.library)
 
   this.bindings = {}
 
@@ -226,6 +226,7 @@ function Client () {
     }
     const wh = rect.w + ' ' + rect.h
     const d = Math.sqrt(((line.a.x - line.b.x) * (line.a.x - line.b.x)) + ((line.a.y - line.b.y) * (line.a.y - line.b.y))).toFixed(2)
+    const r = d
     const a = Math.atan2(pos.y - line.a.y, pos.x - line.a.x).toFixed(2)
     const circle = {
       cx: line.a.x,
@@ -239,6 +240,6 @@ function Client () {
       sa: 0,
       ea: a
     }
-    return { x, y, xy, wh, d, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
+    return { x, y, xy, wh, d, r, a, line, rect, pos, size, circle, arc, type, 'is-down': type !== 'mouse-up' ? true : null }
   }
 }

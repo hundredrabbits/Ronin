@@ -29,22 +29,28 @@ Project  Clean            Escape
 
 Example
 
-; clear screen
 (clear)
-
-; draw red square
 (stroke 
   (rect 30 30 100 100) "red" 2)
-
-; download result
 (export)
 
 Helpers
 
-Ronin helpers are keywords that facilitates adding coordinates from the canvas into your script. The currently supported helpers are `$rect`, `$pos`, `$circle`, `$line`, `$drag` and `$view`. Holding right-click while using a $helper will run the script as the mouse is injecting coordinates into the script. Paste the following script, and trace a shape in the canvas:
+Ronin helpers are keywords that facilitates adding coordinates from the canvas into your script. The currently supported helpers are $rect, $pos, $line, $circle & $arc. Holding right-click while using a $helper will run the script as the mouse is injecting coordinates into the script. Paste the following script, and trace a shape in the canvas:
 
-; draw a red circle
 (fill $circle "red")
+
+Additional helpers are also available to change parts of a shape, these are as follow: $x, $y, $xy, $wh, $a & $r. Paste the following script, and change the position and radius of a circle:
+
+(clear)
+(fill 
+  (circle $xy $r) "red")
+
+Extra helpers are available for various transformations, these are as follow: $drag, $view, $poly, $move & $rotate. Paste the following script, and draw the vertices of a line, press escape to stop:
+
+(clear)
+(stroke 
+  $poly "red")
 
 Import/Export
 

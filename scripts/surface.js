@@ -174,24 +174,21 @@ function Surface (client) {
   // IO
 
   this.draw = function (img, shape = this.getFrame(), alpha = 1) {
-    return new Promise(resolve => {
-      this.context.globalAlpha = alpha
-      if (isLine(shape)) {
-        this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
-      } else if (isRect(shape)) {
-        const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
-        this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
-      } else if (isCircle(shape)) {
-        const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
-        const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
-        const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
-        this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
-      } else {
-        this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
-      }
-      this.context.globalAlpha = 1
-      resolve()
-    })
+    this.context.globalAlpha = alpha
+    if (isLine(shape)) {
+      this.context.drawImage(img, shape.a.x, shape.a.y, shape.b.x - shape.a.x, shape.b.y - shape.a.y)
+    } else if (isRect(shape)) {
+      const fit = fitRect({ w: img.width, h: img.height }, { w: shape.w, h: shape.h })
+      this.context.drawImage(img, shape.x, shape.y, fit.w, fit.h)
+    } else if (isCircle(shape)) {
+      const side = Math.sqrt(Math.pow(shape.r, 2) / 2)
+      const rect = { x: shape.cx - (side), y: shape.cy - (side), w: side * 2, h: side * 2 }
+      const fit = fitRect({ w: img.width, h: img.height }, { w: rect.w, h: rect.h })
+      this.context.drawImage(img, rect.x, rect.y, fit.w, fit.h)
+    } else {
+      this.context.drawImage(img, shape.x, shape.y, img.width, img.height)
+    }
+    this.context.globalAlpha = 1
   }
 
   this.crop = function (rect) {

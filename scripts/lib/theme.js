@@ -86,7 +86,7 @@ function Theme (client) {
     this.active[key] = hex
   }
 
-  this.read = (key) => {
+  this.get = (key) => {
     return this.active[key]
   }
 
