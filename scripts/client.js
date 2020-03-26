@@ -172,9 +172,7 @@ function Client () {
     if (file.name.indexOf('.lisp') > -1) {
       this.source.read(file, this.whenOpen)
       this.log('Loaded ' + file.name)
-    }
-
-    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+    } else if (file.type.substr(0, 5) === 'image') {
       const img = new Image()
       img.onload = () => {
         this.cache.set(file.name, img)
@@ -182,6 +180,8 @@ function Client () {
         this.log('Loaded ' + file.name)
       }
       img.src = URL.createObjectURL(file)
+    } else {
+      console.warn('Unknown format', file)
     }
   }
 
