@@ -6,7 +6,6 @@ function Acels (client) {
 
   this.order = []
   this.all = {}
-  this.roles = {}
   this.pipe = null
 
   this.install = (host = document.body) => {
@@ -38,10 +37,6 @@ function Acels (client) {
     if (this.all[accelerator]) { console.warn('Acels', `Trying to overwrite ${this.all[accelerator].name}, with ${name}.`) }
     if (this.order.indexOf(cat) < 0) { this.order.push(cat) }
     this.all[accelerator] = { cat, name, downfn, upfn, accelerator }
-  }
-
-  this.add = (cat, role) => {
-    this.all[':' + role] = { cat, name: role, role }
   }
 
   this.get = (accelerator) => {

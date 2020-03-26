@@ -1,7 +1,6 @@
 'use strict'
 
 /* global Image */
-/* global Image */
 
 function Library (client) {
   // IO

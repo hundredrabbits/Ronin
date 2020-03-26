@@ -43,27 +43,16 @@ function Client () {
     this.acels.set('∷', 'Toggle Menubar', 'Tab', () => { this.acels.toggle() })
     this.acels.set('∷', 'Open Theme', 'CmdOrCtrl+Shift+O', () => { this.theme.open() })
     this.acels.set('∷', 'Reset Theme', 'CmdOrCtrl+Backspace', () => { this.theme.reset() })
-
     this.acels.set('File', 'New', 'CmdOrCtrl+N', () => { this.source.new(); this.surface.clear(); this.commander.clear() })
     this.acels.set('File', 'Save', 'CmdOrCtrl+S', () => { this.source.write('ronin', 'lisp', this.commander._input.value, 'text/plain') })
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.write('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+U', () => { this.source.open('lisp', this.whenOpen) })
-
-    this.acels.add('Edit', 'undo')
-    this.acels.add('Edit', 'redo')
-    this.acels.add('Edit', 'cut')
-    this.acels.add('Edit', 'copy')
-    this.acels.add('Edit', 'paste')
-    this.acels.add('Edit', 'selectAll')
-
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
     this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
-
     this.acels.set('Project', 'Run', 'CmdOrCtrl+R', () => { this.commander.run() })
     this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.lint() })
     this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
-
     this.acels.route(this)
   }
 
