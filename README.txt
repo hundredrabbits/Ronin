@@ -19,11 +19,11 @@ Controls
 File     New              ^N
 File     Save             ^S
 File     Export Image     ^E
-File     Open             ^O
+File     Open             ^U
 View     Toggle Guides    ^Shift+H
 View     Toggle Commander ^K
 View     Expand Commander ^Shift+K
-Project  Run              ^R
+Project  Run              ^Enter
 Project  Re-Indent        ^Shift+I
 Project  Clean            Escape
 

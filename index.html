@@ -56,7 +56,6 @@ function Acels (client) {
   }
   this.convert = (event) => {
     const accelerator = event.key === ' ' ? 'Space' : capitalize(event.key.replace('Arrow', ''))
-    console.log(event.key);
     if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
       return `CmdOrCtrl+Shift+${accelerator}`
     }
