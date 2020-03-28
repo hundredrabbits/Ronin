@@ -1,6 +1,10 @@
 ; stars
+
 (clear)
+
+
 ; times
+
 (defn times 
   (v f) 
   (
@@ -9,12 +13,18 @@
       (gt v 1) 
       (times 
         (sub v 1) f))))
+
+
 ; convert deg to radians
+
 (defn deg-rad 
   (deg) 
   (mul deg 
     (div PI 180)))
+
+
 ; position on a circle from angle
+
 (defn circle-pos 
   (cx cy r a) {:x 
   (add cx 
@@ -23,7 +33,10 @@
   (add cy 
     (mul r 
       (sin a)))})
+
+
 ; draw
+
 (defn draw-spoke 
   (cx cy r a) 
   (
@@ -33,6 +46,7 @@
           (circle-pos cx cy r a)) 
         (:y 
           (circle-pos cx cy r a))) "white" 2)))
+
 ;
 (defn draw-star 
   (cx cy r c) 
@@ -45,10 +59,12 @@
             (deg-rad 
               (mul i 
                 (div 360 c)))))))))
+
+
 ; main
+
 (times 100 
-  (λ 
-    () 
+  (λ () 
     (
       (draw-star 
         (random 100 frame:w) 

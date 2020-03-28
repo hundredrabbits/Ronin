@@ -34,8 +34,7 @@
         (sub v 0.3)))))
  
 ;
-(defn redraw 
-  () 
+(defn redraw () 
   (
     (clear) 
     (rec 300)))
