@@ -22,7 +22,7 @@ function Library (client) {
 
   this.export = (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
     const ext = type === 'image/png' ? name + '.png' : name + '.jpg'
-    client.source.write(name, ext, client.surface.el.toDataURL(type, 1.0), type)
+    client.source.write(name, ext, client.surface.el.toDataURL(type, quality), type)
   }
 
   // Shapes
@@ -416,7 +416,7 @@ function Library (client) {
   this.each = (arr, fn) => { // Run a function for each element in a list.
     for (let i = 0; i < arr.length; i++) {
       const arg = arr[i]
-      fn(arg,i)
+      fn(arg, i)
     }
   }
 
