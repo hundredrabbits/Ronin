@@ -95,7 +95,7 @@ function Surface (client) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
 
-  this.clearGL = function (rect = this.getFrame(), context = this.glContext) {
+  this.clearGl = function (rect = this.getFrame(), context = this.glContext) {
     gl.clearColor(1.0,1.0,1.0,1.0)
     glContext.clear(gl.COLOR_BUFFER_BIT)
   }

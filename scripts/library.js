@@ -551,15 +551,28 @@ function Library (client) {
   }
 
   const defaultVertShaderSource = `
-    attribute vec2 position;
-
-    varying vec2 texCoords;
-
-    void main () {
-      texCoords = (position + 1.0) / 2.0;
-      texCoords.y = 1.0 - texCoords.y;
-
-      gl_Position = vec4(position,0,1.0);
+    attribute vec2 a_position;
+    attribute vec2 a_texCoord;
+    
+    uniform vec2 u_resolution;
+    
+    varying vec2 v_texCoord;
+    
+    void main() {
+      // convert the rectangle from pixels to 0.0 to 1.0
+      vec2 zeroToOne = a_position / u_resolution;
+    
+      // convert from 0->1 to 0->2
+      vec2 zeroToTwo = zeroToOne * 2.0;
+    
+      // convert from 0->2 to -1->+1 (clipspace)
+      vec2 clipSpace = zeroToTwo - 1.0;
+    
+      gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+    
+      // pass the texCoord to the fragment shader
+      // The GPU will interpolate this value between points.
+      v_texCoord = a_texCoord;
     }
   `;
   this.vertexshader = (vertexShaderCodeString = defaultVertShaderSource) => { //prepare vertex shader code and return reference
@@ -573,12 +586,14 @@ function Library (client) {
   const defaultFragShaderSource = `
     precision highp float;
 
-    varying vec2 texCoords;
-
-    uniform sampler2D textureSampler;
-
-    void main () {
-      gl_FragColor = texture2D(textureSampler,texCoords);
+    // our texture
+    uniform sampler2D u_image;
+    
+    // the texCoords passed in from the vertex shader.
+    varying vec2 v_texCoord;
+    
+    void main() {
+       gl_FragColor = texture2D(u_image, v_texCoord);
     }
   `;
   this.fragmentshader = (fragmentShaderCodeString=defaultFragShaderSource) => { //prepare fragment shader code and return reference
@@ -589,68 +604,98 @@ function Library (client) {
   }
 
   this.runshader = (fragShader, vertShader, rect) => { //compile and link shaders and execute on canvas
-    let gl = client.surface.glContext;
+    let gl = client.surface.glContext
 
     const image = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    //debugger;
 
     if(!vertShader){
-      vertShader = this.vertexshader();
+      vertShader = this.vertexshader()
     }
 
-    debugger;
+    gl.compileShader(vertShader)
+    gl.compileShader(fragShader)
+    const program = gl.createProgram()
+    gl.attachShader(program, vertShader)
+    gl.attachShader(program, fragShader)
+    gl.linkProgram(program)
+    gl.useProgram(program)
 
-    gl.compileShader(vertShader);
-    gl.compileShader(fragShader);
-    const program = gl.createProgram();
-    gl.attachShader(program, vertShader);
-    gl.attachShader(program, fragShader);
-    gl.linkProgram(program);
-    gl.useProgram(program);
+    let x1 = rect.x
+    let x2 = rect.x + image.width
+    let y1 = rect.y
+    let y2 = rect.y + image.height
 
-    const vertices = new Float32Array([
-      -1,-1,
-      -1, 1,
-      1, 1,
+    const positionVertices = new Float32Array([
+      x1, y1,
+      x2, y1,
+      x1, y2,
+      x1, y2,
+      x2, y1,
+      x2, y2,
+    ])
 
-      -1, -1,
-      1, 1,
-      1, -1
-    ]);
+    const positionBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, positionVertices, gl.STATIC_DRAW)
 
-    // const vertices = new Float32Array([
-    //   0.0,  0.0,
-    //   1.0,  0.0,
-    //   0.0,  1.0,
-    //   0.0,  1.0,
-    //   1.0,  0.0,
-    //   1.0,  1.0,
-    // ]);
+    const positionLocation = gl.getAttribLocation(program, 'a_position')
 
-    const vertexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-    const positionLocation = gl.getAttribLocation(program, 'position');
-
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0,0);
-    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0,0)
+    gl.enableVertexAttribArray(positionLocation)
 
 
+    const texcoordBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, texcoordBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        0.0,  0.0,
+        1.0,  0.0,
+        0.0,  1.0,
+        0.0,  1.0,
+        1.0,  0.0,
+        1.0,  1.0,
+    ]), gl.STATIC_DRAW)
 
-    const texture = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    const texcoordLocation = gl.getAttribLocation(program, "a_texCoord")
+    gl.enableVertexAttribArray(texcoordLocation)
 
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    const texture = gl.createTexture()
+    gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+    gl.vertexAttribPointer(texcoordLocation, 2, gl.FLOAT, false, 0,0)
 
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
+      // Tell WebGL how to convert from clip space to pixels
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+      // lookup uniforms
+      var resolutionLocation = gl.getUniformLocation(program, "u_resolution")
+      // set the resolution
+      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height)
+  
 
-        //////////
+    gl.clearColor(0, 0, 0, 0)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
 
+  
+  
+
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
+
+    // let pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4);
+    // gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+    
+
+    // pixels = new Uint8ClampedArray(pixels);
+
+    // let processedImage = new ImageData(pixels, gl.canvas.width, gl.canvas.height);
+    // processedImage = createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height);
+    // //debugger;
+    // client.surface.draw(processedImage);
 
   }
 
