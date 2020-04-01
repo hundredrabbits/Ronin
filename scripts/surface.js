@@ -6,6 +6,8 @@
 function Surface (client) {
   this.el = document.createElement('canvas')
   this.el.id = 'surface'
+  this.glCanvasEl = document.createElement('canvas')
+  this.glCanvasEl.id = 'glsurface'
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
   this._guide.setAttribute('tabindex', '1') // focus is necessary to capture keyboard events
@@ -13,10 +15,12 @@ function Surface (client) {
 
   // Contexts
   this.context = this.el.getContext('2d')
+  this.glContext = this.glCanvasEl.getContext('webgl')
   this.guide = this._guide.getContext('2d')
 
   this.install = function (host) {
     host.appendChild(this.el)
+    host.appendChild(this.glCanvasEl)
     host.appendChild(this._guide)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
     this._guide.addEventListener('mousedown', client.onMouseDown, false)
@@ -89,6 +93,11 @@ function Surface (client) {
 
   this.clear = function (rect = this.getFrame(), context = this.context) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+
+  this.clearGL = function (rect = this.getFrame(), context = this.glContext) {
+    gl.clearColor(1.0,1.0,1.0,1.0)
+    glContext.clear(gl.COLOR_BUFFER_BIT)
   }
 
   this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
@@ -227,6 +236,10 @@ function Surface (client) {
     this._guide.height = size.h
     this._guide.style.width = (size.w / this.ratio) + 'px'
     this._guide.style.height = (size.h / this.ratio) + 'px'
+    this.glCanvasEl.width = size.w
+    this.glCanvasEl.height = size.h
+    this.glCanvasEl.style.width = (size.w / this.ratio) + 'px'
+    this.glCanvasEl.style.height = (size.h / this.ratio) + 'px'
   }
 
   this.copy = function (rect) {
@@ -286,6 +299,14 @@ function Surface (client) {
 
   this.toggleGuides = function () {
     this._guide.className = this._guide.className === 'hidden' ? '' : 'hidden'
+  }
+
+  this.toggleCanvas = function () {
+    this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
+  }
+
+  this.toggleGlCanvas = function () {
+    this.glCanvasEl.className = this.glCanvasEl.className === 'hidden' ? '' : 'hidden'
   }
 
   function isRect (shape) {

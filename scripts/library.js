@@ -550,6 +550,110 @@ function Library (client) {
     return a
   }
 
+  const defaultVertShaderSource = `
+    attribute vec2 position;
+
+    varying vec2 texCoords;
+
+    void main () {
+      texCoords = (position + 1.0) / 2.0;
+      texCoords.y = 1.0 - texCoords.y;
+
+      gl_Position = vec4(position,0,1.0);
+    }
+  `;
+  this.vertexshader = (vertexShaderCodeString = defaultVertShaderSource) => { //prepare vertex shader code and return reference
+    let gl = client.surface.glContext;
+    let vertShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertShader, vertexShaderCodeString);
+
+    return vertShader;
+  }
+
+  const defaultFragShaderSource = `
+    precision highp float;
+
+    varying vec2 texCoords;
+
+    uniform sampler2D textureSampler;
+
+    void main () {
+      gl_FragColor = texture2D(textureSampler,texCoords);
+    }
+  `;
+  this.fragmentshader = (fragmentShaderCodeString=defaultFragShaderSource) => { //prepare fragment shader code and return reference
+    let gl = client.surface.glContext;
+    let fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragShader, fragmentShaderCodeString);
+    return  fragShader;
+  }
+
+  this.runshader = (fragShader, vertShader, rect) => { //compile and link shaders and execute on canvas
+    let gl = client.surface.glContext;
+
+    const image = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+
+    if(!vertShader){
+      vertShader = this.vertexshader();
+    }
+
+    debugger;
+
+    gl.compileShader(vertShader);
+    gl.compileShader(fragShader);
+    const program = gl.createProgram();
+    gl.attachShader(program, vertShader);
+    gl.attachShader(program, fragShader);
+    gl.linkProgram(program);
+    gl.useProgram(program);
+
+    const vertices = new Float32Array([
+      -1,-1,
+      -1, 1,
+      1, 1,
+
+      -1, -1,
+      1, 1,
+      1, -1
+    ]);
+
+    // const vertices = new Float32Array([
+    //   0.0,  0.0,
+    //   1.0,  0.0,
+    //   0.0,  1.0,
+    //   0.0,  1.0,
+    //   1.0,  0.0,
+    //   1.0,  1.0,
+    // ]);
+
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+    const positionLocation = gl.getAttribLocation(program, 'position');
+
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0,0);
+    gl.enableVertexAttribArray(positionLocation);
+
+
+
+    const texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        //////////
+
+
+  }
+
   this.distance = (a, b) => { // Get distance between positions.
     return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))
   }

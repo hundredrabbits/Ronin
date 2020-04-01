@@ -500,6 +500,8 @@ function Client () {
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.write('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+U', () => { this.source.open('lisp', this.whenOpen) })
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
+    this.acels.set('View', 'Toggle Canvas', 'CmdOrCtrl+Shift+Q', () => { this.surface.toggleCanvas() })
+    this.acels.set('View', 'Toggle gl Canvas', 'CmdOrCtrl+Shift+E', () => { this.surface.toggleGlCanvas() })
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
     this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
     this.acels.set('Project', 'Run', 'CmdOrCtrl+Enter', () => { this.commander.run() })
@@ -1314,6 +1316,73 @@ function Library (client) {
     a.y += b.y
     return a
   }
+  const defaultVertShaderSource = `
+    attribute vec2 position;
+    varying vec2 texCoords;
+    void main () {
+      texCoords = (position + 1.0) / 2.0;
+      texCoords.y = 1.0 - texCoords.y;
+      gl_Position = vec4(position,0,1.0);
+    }
+  `;
+  this.vertexshader = (vertexShaderCodeString = defaultVertShaderSource) => { //prepare vertex shader code and return reference
+    let gl = client.surface.glContext;
+    let vertShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertShader, vertexShaderCodeString);
+    return vertShader;
+  }
+  const defaultFragShaderSource = `
+    precision highp float;
+    varying vec2 texCoords;
+    uniform sampler2D textureSampler;
+    void main () {
+      gl_FragColor = texture2D(textureSampler,texCoords);
+    }
+  `;
+  this.fragmentshader = (fragmentShaderCodeString=defaultFragShaderSource) => { //prepare fragment shader code and return reference
+    let gl = client.surface.glContext;
+    let fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragShader, fragmentShaderCodeString);
+    return  fragShader;
+  }
+  this.runshader = (fragShader, vertShader, rect) => { //compile and link shaders and execute on canvas
+    let gl = client.surface.glContext;
+    const image = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
+    if(!vertShader){
+      vertShader = this.vertexshader();
+    }
+    debugger;
+    gl.compileShader(vertShader);
+    gl.compileShader(fragShader);
+    const program = gl.createProgram();
+    gl.attachShader(program, vertShader);
+    gl.attachShader(program, fragShader);
+    gl.linkProgram(program);
+    gl.useProgram(program);
+    const vertices = new Float32Array([
+      -1,-1,
+      -1, 1,
+      1, 1,
+      -1, -1,
+      1, 1,
+      1, -1
+    ]);
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+    const positionLocation = gl.getAttribLocation(program, 'position');
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0,0);
+    gl.enableVertexAttribArray(positionLocation);
+    const texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
   this.distance = (a, b) => { // Get distance between positions.
     return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))
   }
@@ -1363,14 +1432,18 @@ function Library (client) {
 function Surface (client) {
   this.el = document.createElement('canvas')
   this.el.id = 'surface'
+  this.glCanvasEl = document.createElement('canvas')
+  this.glCanvasEl.id = 'glsurface'
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
   this._guide.setAttribute('tabindex', '1') // focus is necessary to capture keyboard events
   this.ratio = window.devicePixelRatio
   this.context = this.el.getContext('2d')
+  this.glContext = this.glCanvasEl.getContext('webgl')
   this.guide = this._guide.getContext('2d')
   this.install = function (host) {
     host.appendChild(this.el)
+    host.appendChild(this.glCanvasEl)
     host.appendChild(this._guide)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
     this._guide.addEventListener('mousedown', client.onMouseDown, false)
@@ -1432,6 +1505,10 @@ function Surface (client) {
   }
   this.clear = function (rect = this.getFrame(), context = this.context) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
+  }
+  this.clearGL = function (rect = this.getFrame(), context = this.glContext) {
+    gl.clearColor(1.0,1.0,1.0,1.0)
+    glContext.clear(gl.COLOR_BUFFER_BIT)
   }
   this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
@@ -1549,6 +1626,10 @@ function Surface (client) {
     this._guide.height = size.h
     this._guide.style.width = (size.w / this.ratio) + 'px'
     this._guide.style.height = (size.h / this.ratio) + 'px'
+    this.glCanvasEl.width = size.w
+    this.glCanvasEl.height = size.h
+    this.glCanvasEl.style.width = (size.w / this.ratio) + 'px'
+    this.glCanvasEl.style.height = (size.h / this.ratio) + 'px'
   }
   this.copy = function (rect) {
     const newCanvas = document.createElement('canvas')
@@ -1600,6 +1681,12 @@ function Surface (client) {
   }
   this.toggleGuides = function () {
     this._guide.className = this._guide.className === 'hidden' ? '' : 'hidden'
+  }
+  this.toggleCanvas = function () {
+    this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
+  }
+  this.toggleGlCanvas = function () {
+    this.glCanvasEl.className = this.glCanvasEl.className === 'hidden' ? '' : 'hidden'
   }
   function isRect (shape) {
     return shape && !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
@@ -1662,18 +1749,21 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin #wrapper #commander #status #run { display: block; width: 26px; height: 26px; position: absolute; top: 0px; border-radius: 15px; left:0px; cursor: pointer; border:2px solid #fff; transition: background-color 250ms, border-color 250ms}
 #ronin #wrapper #commander #status #run:hover { background: none }
 #ronin.expand #wrapper #commander { width:100%; }
-#ronin #surface, #ronin #guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms, opacity 250ms; opacity: 1; }
+#ronin #surface, #ronin #guide, #ronin, #glsurface { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms, opacity 250ms; opacity: 1; }
 #ronin.hidden #wrapper #commander { margin-left:-40vw; }
-#ronin.hidden #surface, #ronin.hidden #guide { left:0; }
+#ronin.hidden #surface, #ronin.hidden #glsurface, #ronin.hidden #guide { left:0; }
 #ronin #guide.hidden { opacity: 0 }
+#ronin #surface.hidden { opacity: 0 }
+#ronin #glsurface.hidden { opacity: 0 }
 #ronin.hidden #wrapper #commander { margin-left:-50vw; }
-#ronin #surface,#ronin #guide { left:50vw; }
+#ronin #surface,#ronin #guide, #ronin #glsurface { left:50vw; }
 #ronin #guide { background:none; }
 #ronin #surface { border-radius: 2px }
+#ronin #glsurface { border-radius: 2px }
 @media (min-width: 720px) {
   #ronin #wrapper #commander { width:350px; }
   #ronin.hidden #wrapper #commander { margin-left:-380px; }
-  #ronin #surface,#ronin #guide { left:380px; }
+  #ronin #surface,#ronin #guide, #ronin #glsurface { left:380px; }
 }
 #acels { position: fixed;width: 30px;background: red;top: 0;left: 0; width: 100vw; color:black; background:white; font-size:11px; line-height: 20px; transition: margin-top 0.25s; z-index: 9999; padding-left: 25px; }
 #acels.hidden { margin-top:-20px; }
