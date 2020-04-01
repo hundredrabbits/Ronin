@@ -1,4 +1,4 @@
-(import "IMG_0097.JPG")
+(import $path)
 
 ;this all has to be on one line so that 
 ;the parser will take it as one arg
