@@ -857,7 +857,9 @@ function Commander (client) {
 (clear)
 (resize 600 600)
 (stroke 
-  (svg 140 140 logo-path) "black" 7)`
+  (svg 140 140 logo-path) "black" 7)
+(runshader (fragmentshader) (vertexshader) (rect 0 0 600 600))
+  `
 }
 function lintLISP (str) {
   let val = str.replace(/\n/g, '').replace(/ \)/g, ')').replace(/ +(?= )/g, '').replace(/\( \(/g, '((').replace(/\) \)/g, '))').trim()
@@ -1407,13 +1409,14 @@ function Library (client) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
     gl.drawArrays(gl.TRIANGLES, 0, 6)
-    let pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4);
-    gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+    let pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4)
+    gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
     pixels = new Uint8ClampedArray(pixels);
-    let processedImage = new ImageData(pixels, gl.canvas.width, gl.canvas.height);
-    processedImage = createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height);
-    client.surface.clear();
-    client.surface.draw(processedImage);
+    let processedImage = new ImageData(pixels, gl.canvas.width, gl.canvas.height)
+    createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height).then((img)=>{
+      client.surface.clear()
+      client.surface.draw(img)
+    });
   }
   this.distance = (a, b) => { // Get distance between positions.
     return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))

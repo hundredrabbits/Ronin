@@ -240,7 +240,11 @@ function Commander (client) {
 (resize 600 600)
 
 (stroke 
-  (svg 140 140 logo-path) "black" 7)`
+  (svg 140 140 logo-path) "black" 7)
+
+(runshader (fragmentshader) (vertexshader) (rect 0 0 600 600))
+  
+  `
 }
 
 function lintLISP (str) {

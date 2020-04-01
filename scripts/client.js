@@ -48,8 +48,10 @@ function Client () {
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.write('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+U', () => { this.source.open('lisp', this.whenOpen) })
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
+    //TEMPORARY FOR DEBUGGING
     this.acels.set('View', 'Toggle Canvas', 'CmdOrCtrl+Shift+Q', () => { this.surface.toggleCanvas() })
     this.acels.set('View', 'Toggle gl Canvas', 'CmdOrCtrl+Shift+E', () => { this.surface.toggleGlCanvas() })
+    //ENDTEMPORARY
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
     this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
     this.acels.set('Project', 'Run', 'CmdOrCtrl+Enter', () => { this.commander.run() })

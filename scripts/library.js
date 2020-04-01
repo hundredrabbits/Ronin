@@ -591,10 +591,11 @@ function Library (client) {
     
     // the texCoords passed in from the vertex shader.
     varying vec2 v_texCoord;
-    
+
     void main() {
        gl_FragColor = texture2D(u_image, v_texCoord);
     }
+
   `;
   this.fragmentshader = (fragmentShaderCodeString=defaultFragShaderSource) => { //prepare fragment shader code and return reference
     let gl = client.surface.glContext;
@@ -687,10 +688,12 @@ function Library (client) {
     pixels = new Uint8ClampedArray(pixels);
 
     let processedImage = new ImageData(pixels, gl.canvas.width, gl.canvas.height)
-    processedImage = createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height)
+    createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height).then((img)=>{
+      client.surface.clear()
+      client.surface.draw(img)
+    });
 
-    client.surface.clear()
-    client.surface.draw(processedImage)
+  
 
   }
 
