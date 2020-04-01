@@ -1397,9 +1397,9 @@ function Library (client) {
     gl.bindTexture(gl.TEXTURE_2D, texture)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
     gl.vertexAttribPointer(texcoordLocation, 2, gl.FLOAT, false, 0,0)
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-      var resolutionLocation = gl.getUniformLocation(program, "u_resolution")
-      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height)
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+    var resolutionLocation = gl.getUniformLocation(program, "u_resolution")
+    gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height)
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
@@ -1407,6 +1407,13 @@ function Library (client) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
     gl.drawArrays(gl.TRIANGLES, 0, 6)
+    let pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4);
+    gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+    pixels = new Uint8ClampedArray(pixels);
+    let processedImage = new ImageData(pixels, gl.canvas.width, gl.canvas.height);
+    processedImage = createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height);
+    client.surface.clear();
+    client.surface.draw(processedImage);
   }
   this.distance = (a, b) => { // Get distance between positions.
     return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))

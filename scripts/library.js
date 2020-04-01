@@ -607,7 +607,6 @@ function Library (client) {
     let gl = client.surface.glContext
 
     const image = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
-    //debugger;
 
     if(!vertShader){
       vertShader = this.vertexshader()
@@ -665,13 +664,12 @@ function Library (client) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
     gl.vertexAttribPointer(texcoordLocation, 2, gl.FLOAT, false, 0,0)
 
-      // Tell WebGL how to convert from clip space to pixels
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-      // lookup uniforms
-      var resolutionLocation = gl.getUniformLocation(program, "u_resolution")
-      // set the resolution
-      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height)
-  
+    // Tell WebGL how to convert from clip space to pixels
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+    // lookup uniforms
+    var resolutionLocation = gl.getUniformLocation(program, "u_resolution")
+    // set the resolution
+    gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height)
 
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
@@ -681,21 +679,18 @@ function Library (client) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
 
-  
-  
-
     gl.drawArrays(gl.TRIANGLES, 0, 6)
 
-    // let pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4);
-    // gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+    let pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4)
+    gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
     
+    pixels = new Uint8ClampedArray(pixels);
 
-    // pixels = new Uint8ClampedArray(pixels);
+    let processedImage = new ImageData(pixels, gl.canvas.width, gl.canvas.height)
+    processedImage = createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height)
 
-    // let processedImage = new ImageData(pixels, gl.canvas.width, gl.canvas.height);
-    // processedImage = createImageBitmap(processedImage, 0, 0, gl.canvas.width, gl.canvas.height);
-    // //debugger;
-    // client.surface.draw(processedImage);
+    client.surface.clear()
+    client.surface.draw(processedImage)
 
   }
 
