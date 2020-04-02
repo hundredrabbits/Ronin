@@ -20,6 +20,7 @@ function Client () {
 
   this.commander = new Commander(this)
   this.surface = new Surface(this)
+  this.glSurface = new GlSurface(this);
   this.library = new Library(this)
   this.lain = new Lain(this.library)
 
@@ -31,6 +32,7 @@ function Client () {
 
     this.commander.install(this._wrapper)
     this.surface.install(this._wrapper)
+    this.glSurface.install(this._wrapper)
     this.el.appendChild(this._wrapper)
     host.appendChild(this.el)
 
@@ -48,10 +50,6 @@ function Client () {
     this.acels.set('File', 'Export Image', 'CmdOrCtrl+E', () => { this.source.write('ronin', 'png', this.surface.el.toDataURL('image/png', 1.0), 'image/png') })
     this.acels.set('File', 'Open', 'CmdOrCtrl+U', () => { this.source.open('lisp', this.whenOpen) })
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
-    //TEMPORARY FOR DEBUGGING
-    this.acels.set('View', 'Toggle Canvas', 'CmdOrCtrl+Shift+Q', () => { this.surface.toggleCanvas() })
-    this.acels.set('View', 'Toggle gl Canvas', 'CmdOrCtrl+Shift+E', () => { this.surface.toggleGlCanvas() })
-    //ENDTEMPORARY
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
     this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
     this.acels.set('Project', 'Run', 'CmdOrCtrl+Enter', () => { this.commander.run() })
@@ -68,6 +66,7 @@ function Client () {
     this.source.start()
     this.commander.start()
     this.surface.start()
+    this.glSurface.start()
     this.loop()
   }
 

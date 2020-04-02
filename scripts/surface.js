@@ -6,8 +6,6 @@
 function Surface (client) {
   this.el = document.createElement('canvas')
   this.el.id = 'surface'
-  this.glCanvasEl = document.createElement('canvas')
-  this.glCanvasEl.id = 'glsurface'
   this._guide = document.createElement('canvas')
   this._guide.id = 'guide'
   this._guide.setAttribute('tabindex', '1') // focus is necessary to capture keyboard events
@@ -15,12 +13,10 @@ function Surface (client) {
 
   // Contexts
   this.context = this.el.getContext('2d')
-  this.glContext = this.glCanvasEl.getContext('webgl')
   this.guide = this._guide.getContext('2d')
 
   this.install = function (host) {
     host.appendChild(this.el)
-    host.appendChild(this.glCanvasEl)
     host.appendChild(this._guide)
     window.addEventListener('resize', (e) => { this.onResize() }, false)
     this._guide.addEventListener('mousedown', client.onMouseDown, false)
@@ -46,7 +42,6 @@ function Surface (client) {
   }
 
   // Shape
-
   this.stroke = (shape, color = client.theme.get('f_high'), width = 2, context = this.context) => {
     context.beginPath()
     this.trace(shape, context)
@@ -69,7 +64,6 @@ function Surface (client) {
   }
 
   // Fill
-
   this.fill = (shape, color = client.theme.get('b_high'), context = this.context) => {
     context.beginPath()
     context.fillStyle = typeof color === 'object' && color.rgba ? color.rgba : color
@@ -90,14 +84,8 @@ function Surface (client) {
   }
 
   // Clear
-
   this.clear = function (rect = this.getFrame(), context = this.context) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
-  }
-
-  this.clearGl = function (rect = this.getFrame(), context = this.glContext) {
-    gl.clearColor(1.0,1.0,1.0,1.0)
-    glContext.clear(gl.COLOR_BUFFER_BIT)
   }
 
   this.clearGuide = function (rect = this.getFrame(), context = this.guide) {
@@ -105,7 +93,6 @@ function Surface (client) {
   }
 
   // Tracers
-
   this.trace = function (shape, context) {
     if (isRect(shape)) {
       this.traceRect(shape, context)
@@ -236,10 +223,6 @@ function Surface (client) {
     this._guide.height = size.h
     this._guide.style.width = (size.w / this.ratio) + 'px'
     this._guide.style.height = (size.h / this.ratio) + 'px'
-    this.glCanvasEl.width = size.w
-    this.glCanvasEl.height = size.h
-    this.glCanvasEl.style.width = (size.w / this.ratio) + 'px'
-    this.glCanvasEl.style.height = (size.h / this.ratio) + 'px'
   }
 
   this.copy = function (rect) {
@@ -304,11 +287,7 @@ function Surface (client) {
   this.toggleCanvas = function () {
     this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
   }
-
-  this.toggleGlCanvas = function () {
-    this.glCanvasEl.className = this.glCanvasEl.className === 'hidden' ? '' : 'hidden'
-  }
-
+  
   function isRect (shape) {
     return shape && !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
   }
