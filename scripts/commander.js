@@ -241,9 +241,6 @@ function Commander (client) {
 
 (stroke 
   (svg 140 140 logo-path) "black" 7)
-
-(runshader (fragmentshader) (vertexshader) (rect 0 0 600 600))
-  
   `
 }
 
