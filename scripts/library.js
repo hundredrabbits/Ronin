@@ -290,8 +290,8 @@ function Library (client) {
 
   this.runshader = client.glSurface.runshader
 
-  this.kaleid = (numberOfSides) => {
-    client.glSurface.applyKaleidShader(numberOfSides);
+  this.kaleid = (numberOfSides, rect = this['get-frame']()) => {
+    client.glSurface.applyKaleidShader(numberOfSides, rect);
   }
 
   // Color
