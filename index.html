@@ -982,7 +982,8 @@ function GlSurface (client) {
             }
         `
         const fragShader = this.fragmentshader(fragmentShaderCode, context)
-        const webGlProgram = this.createGlProgramAndLinkShaders(this.vertexshader(), fragShader, context)
+        const defaultVertexShader = this.vertexshader(DEFAULT_VERTEX_SHADER_CODE)
+        const webGlProgram = this.createGlProgramAndLinkShaders(defaultVertexShader, fragShader, context)
         const positionVertices = calculatePositionVertices(rect)
         this.bindPositionVerticesToGlProgram( positionVertices, webGlProgram, context)
         this.bindUniformFloatToProgram("u_numberOfSides", numberOfSides, webGlProgram,context)
@@ -1000,7 +1001,7 @@ function GlSurface (client) {
         let fragShader = context.createShader(context.FRAGMENT_SHADER)
         context.shaderSource(fragShader, fragmentShaderCodeString)
         this.compileShader(fragShader,context)
-        return  fragShader
+        return fragShader
     }
     this.compileShader = (shader,context = this.context) => {
         context.compileShader(shader)
@@ -1883,7 +1884,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 #ronin.hidden #surface, #ronin.hidden #glsurface, #ronin.hidden #guide { left:0; }
 #ronin #guide.hidden { opacity: 0 }
 #ronin #surface.hidden { opacity: 0 }
-#ronin #glsurface.hidden { opacity: 0 }
+#ronin #glsurface.hidden { display: none }
 #ronin.hidden #wrapper #commander { margin-left:-50vw; }
 #ronin #surface,#ronin #guide, #ronin #glsurface { left:50vw; }
 #ronin #guide { background:none; }

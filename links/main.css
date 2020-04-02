@@ -31,7 +31,7 @@ body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular
 
 #ronin #guide.hidden { opacity: 0 }
 #ronin #surface.hidden { opacity: 0 }
-#ronin #glsurface.hidden { opacity: 0 }
+#ronin #glsurface.hidden { display: none }
 
 #ronin.hidden #wrapper #commander { margin-left:-50vw; }
 #ronin #surface,#ronin #guide, #ronin #glsurface { left:50vw; }
