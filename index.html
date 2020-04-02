@@ -975,14 +975,7 @@ function GlSurface (client) {
         copyGlCanvasToMainCanvas(context)
     }
     function copyGlCanvasToMainCanvas(context) {
-        let pixels = new Uint8Array(context.drawingBufferWidth * context.drawingBufferHeight * 4)
-        context.readPixels(0, 0, context.drawingBufferWidth, context.drawingBufferHeight, context.RGBA, context.UNSIGNED_BYTE, pixels)
-        pixels = new Uint8ClampedArray(pixels)
-        let processedImage = new ImageData(pixels, context.canvas.width, context.canvas.height)
-        createImageBitmap(processedImage, 0, 0, context.canvas.width, context.canvas.height).then((img) => {
-            client.surface.clear()
-            client.surface.draw(img)
-        })
+        client.surface.draw(client.glSurface.el)
     }
     function drawShader(context) {
         client.glSurface.clear()

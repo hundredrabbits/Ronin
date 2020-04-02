@@ -103,6 +103,7 @@ function GlSurface (client) {
     }
 
     this.vertexshader = (vertexShaderCodeString = DEFAULT_VERTEX_SHADER_CODE, context = this.context) => { //prepare vertex shader code and return reference
+        
         let vertShader = context.createShader(context.VERTEX_SHADER)
         context.shaderSource(vertShader, vertexShaderCodeString)
 
@@ -130,18 +131,11 @@ function GlSurface (client) {
 
         drawShader(context)
 
-        copyGlCanvasToMainCanvas(context)
+        copyGlCanvasToMainCanvas()
     }
 
-    function copyGlCanvasToMainCanvas(context) {
-        let pixels = new Uint8Array(context.drawingBufferWidth * context.drawingBufferHeight * 4)
-        context.readPixels(0, 0, context.drawingBufferWidth, context.drawingBufferHeight, context.RGBA, context.UNSIGNED_BYTE, pixels)
-        pixels = new Uint8ClampedArray(pixels)
-        let processedImage = new ImageData(pixels, context.canvas.width, context.canvas.height)
-        createImageBitmap(processedImage, 0, 0, context.canvas.width, context.canvas.height).then((img) => {
-            client.surface.clear()
-            client.surface.draw(img)
-        })
+    function copyGlCanvasToMainCanvas() {
+        client.surface.draw(client.glSurface.el)
     }
 
     function drawShader(context) {
