@@ -106,6 +106,7 @@ function GlSurface (client) {
         
         let vertShader = context.createShader(context.VERTEX_SHADER)
         context.shaderSource(vertShader, vertexShaderCodeString)
+       this.compileShader(vertShader,context)
 
         return vertShader
     }
@@ -113,44 +114,119 @@ function GlSurface (client) {
     this.fragmentshader = (fragmentShaderCodeString = DEFAULT_FRAGMENT_SHADER_CODE, context = this.context) => { //prepare fragment shader code and return reference
         let fragShader = context.createShader(context.FRAGMENT_SHADER)
         context.shaderSource(fragShader, fragmentShaderCodeString)
+       this.compileShader(fragShader,context)
 
         return  fragShader
     }
 
-    this.runshader = (fragShader, vertShader=this.vertexshader(), rect=this.getFrame(), context = this.context) => { //compile and link shaders, run canvas through shaders, put the result back on main canvas
-        const currentImageFromCanvas = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
-        const webGlProgram = compileShaders(context, vertShader, fragShader)
+    this.runshader = (fragShader=this.fragmentshader(), vertShader=this.vertexshader(), rect=this.getFrame(), context = this.context) => { //compile and link shaders, run canvas through shaders, put the result back on main canvas
+        const webGlProgram = this.createGlProgramAndLinkShaders(vertShader, fragShader,context)
 
-        const positionVertices = calculatePositionVertices(rect, currentImageFromCanvas)
-        bindPositionVerticesToGlProgram(context, positionVertices, webGlProgram)
+        const positionVertices = calculatePositionVertices(rect,context)
+        this.bindPositionVerticesToGlProgram(positionVertices, webGlProgram,context)
+
+        this.loadMainCanvasIntoShaderProgram(webGlProgram,rect,context)
+
+        this.renderShaders(context)
+
+        this.copyGlCanvasToMainCanvas()
+    }
+
+
+    function calculatePositionVertices(rect, currentImageFromCanvas) {
+        let x1 = rect.x
+        let x2 = rect.x + rect.w
+        let y1 = rect.y
+        let y2 = rect.y + rect.h
+        const positionVertices = new Float32Array([
+            x1, y1,
+            x2, y1,
+            x1, y2,
+            x1, y2,
+            x2, y1,
+            x2, y2,
+        ])
+        return positionVertices
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    this.applyKaleidShader = (numberOfSides, rect=this.getFrame(), context = this.context)=>{
+        // fragment shader borrowed from https://github.com/ojack/hydra-synth
+        const fragmentShaderCode = `
+            precision highp float;
+            uniform sampler2D u_image;
+            uniform float u_numberOfSides;
+            varying vec2 v_texCoord;
+            vec2 kaleid(vec2 st, float nSides){
+                st-=0.5;
+                float r = length(st);
+                float a = atan(st.y, st.x);
+                float pi = 2.0*3.1416;
+                a = mod(a,pi/nSides);
+                a = abs(a-pi/nSides/2.0);
+                return r*vec2(cos(a), sin(a));
+            }
+            void main() {
+                vec2 coord = kaleid(v_texCoord, u_numberOfSides);
+                gl_FragColor = texture2D(u_image, coord);
+            }
+        `
+        const fragShader = this.fragmentshader(fragmentShaderCode, context)
+
+        const webGlProgram = this.createGlProgramAndLinkShaders(this.vertexshader(), fragShader, context)
+
+        const positionVertices = calculatePositionVertices(rect)
+        this.bindPositionVerticesToGlProgram( positionVertices, webGlProgram, context)
+
+        this.bindUniformFloatToProgram("u_numberOfSides", numberOfSides, webGlProgram,context)
+
+        this.loadMainCanvasIntoShaderProgram(webGlProgram,rect,context)
         
+        this.renderShaders(context)
+
+        this.copyGlCanvasToMainCanvas()
+    }
+
+    this.bindUniformFloatToProgram = (name, value, program, context=this.context) => {
+        const uniformLocation = context.getUniformLocation(program, name);
+        context.uniform1f(uniformLocation, value);  
+    }
+
+    this.copyGlCanvasToMainCanvas= ()=> {
+        client.surface.clear()
+        client.surface.draw(this.el)
+    }
+
+    this.loadMainCanvasIntoShaderProgram=( webGlProgram,rect=this.getFrame(), context=this.context) => {
+        const currentImageFromCanvas = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
         const texture = context.createTexture()
-        bindTextureToGlProgram(context, webGlProgram, texture)
-
-        loadImageIntoTexture(context, currentImageFromCanvas, webGlProgram)
-
-        drawShader(context)
-
-        copyGlCanvasToMainCanvas()
+        this.bindTextureToGlProgram(texture, webGlProgram, context)
+        this.loadImageIntoTexture(currentImageFromCanvas, webGlProgram, context)
     }
 
-    function copyGlCanvasToMainCanvas() {
-        client.surface.draw(client.glSurface.el)
+    this.compileShader = (shader,context = this.context) => {
+        context.compileShader(shader)
+        var compiled = context.getShaderParameter(shader, context.COMPILE_STATUS)
+        console.log('Shader compiled successfully: ' + compiled)
+        var compilationLog = context.getShaderInfoLog(shader)
+        console.log('Shader compiler log: ' + compilationLog)
     }
 
-    function drawShader(context) {
-        client.glSurface.clear()
+    this.renderShaders = (context=this.context) => {
+        this.clear(context)
         context.drawArrays(context.TRIANGLES, 0, 6)
     }
 
-    function loadImageIntoTexture(context, currentImageFromCanvas, webGlProgram) {
+    this.loadImageIntoTexture= (currentImageFromCanvas, webGlProgram,context = this.context) => {
         context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, currentImageFromCanvas)
         context.viewport(0, 0, context.canvas.width, context.canvas.height)
         var resolutionLocation = context.getUniformLocation(webGlProgram, "u_resolution")
         context.uniform2f(resolutionLocation, context.canvas.width, context.canvas.height)
     }
 
-    function bindTextureToGlProgram(context, webGlProgram, texture) {
+    this.bindTextureToGlProgram = (texture, webGlProgram, context = this.context) => {
         const texcoordLocation = context.getAttribLocation(webGlProgram, "a_texCoord")
         context.enableVertexAttribArray(texcoordLocation)
         context.activeTexture(context.TEXTURE0)
@@ -163,7 +239,7 @@ function GlSurface (client) {
         context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MAG_FILTER, context.LINEAR)
     }
 
-    function bindPositionVerticesToGlProgram(context, positionVertices, webGlProgram) {
+    this.bindPositionVerticesToGlProgram = (positionVertices, webGlProgram, context = this.context) => {
         const positionBuffer = context.createBuffer()
         context.bindBuffer(context.ARRAY_BUFFER, positionBuffer)
         context.bufferData(context.ARRAY_BUFFER, positionVertices, context.STATIC_DRAW)
@@ -173,35 +249,17 @@ function GlSurface (client) {
         const texcoordBuffer = context.createBuffer()
         context.bindBuffer(context.ARRAY_BUFFER, texcoordBuffer)
         context.bufferData(context.ARRAY_BUFFER, new Float32Array([
-            0.0, 1.0,
-            1.0, 1.0,
             0.0, 0.0,
-            0.0, 0.0,
-            1.0, 1.0,
             1.0, 0.0,
+            0.0, 1.0,
+            0.0, 1.0,
+            1.0, 0.0,
+            1.0, 1.0,
         ]), context.STATIC_DRAW)
    
     }
 
-    function calculatePositionVertices(rect, currentImageFromCanvas) {
-        let x1 = rect.x
-        let x2 = rect.x + currentImageFromCanvas.width
-        let y1 = rect.y
-        let y2 = rect.y + currentImageFromCanvas.height
-        const positionVertices = new Float32Array([
-            x1, y1,
-            x2, y1,
-            x1, y2,
-            x1, y2,
-            x2, y1,
-            x2, y2,
-        ])
-        return positionVertices
-    }
-
-    function compileShaders(context, vertShader, fragShader) {
-        context.compileShader(vertShader)
-        context.compileShader(fragShader)
+    this.createGlProgramAndLinkShaders = (vertShader, fragShader, context = this.context) => {
         const program = context.createProgram()
         context.attachShader(program, vertShader)
         context.attachShader(program, fragShader)

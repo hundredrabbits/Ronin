@@ -290,6 +290,10 @@ function Library (client) {
 
   this.runshader = client.glSurface.runshader
 
+  this.kaleid = (numberOfSides) => {
+    client.glSurface.applyKaleidShader(numberOfSides);
+  }
+
   // Color
 
   this.lum = (color) => { // Return the luminance of a color.
