@@ -131,25 +131,72 @@ function GlSurface (client) {
 
         const fragmentShader = this.fragmentshader(fragmentShaderCode, context);
         const program = this.createGlProgramAndLinkShaders(vertexShader,fragmentShader,context)
+     
+        bindVertexShaderInputs(shaderDef.vertex.inputs, program, context, args)
 
-        shaderDef.vertex.inputs.forEach((input)=>{
-            debugger;
+        bindFragmentShaderInputs(shaderDef.fragment.inputs, args, program, context)
+
+        this.renderShaders(context)
+        this.copyGlCanvasToMainCanvas()
+    }
+
+    this.vertexshader = (vertexShaderCodeString = DEFAULT_VERTEX_SHADER_CODE, context = this.context) => { //prepare vertex shader code and return reference
+        let vertShader = context.createShader(context.VERTEX_SHADER)
+        context.shaderSource(vertShader, vertexShaderCodeString)
+        this.compileShader(vertShader,context)
+
+        return vertShader
+    }
+
+    this.fragmentshader = (fragmentShaderCodeString = DEFAULT_FRAGMENT_SHADER_CODE, context = this.context) => { //prepare fragment shader code and return reference
+        let fragShader = context.createShader(context.FRAGMENT_SHADER)
+        context.shaderSource(fragShader, fragmentShaderCodeString)
+        this.compileShader(fragShader,context)
+
+        return fragShader
+    }
+
+    this.compileShader = (shader,context = this.context) => {
+        context.compileShader(shader)
+        var compiled = context.getShaderParameter(shader, context.COMPILE_STATUS)
+        console.log('Shader compiled successfully: ' + compiled)
+        var compilationLog = context.getShaderInfoLog(shader)
+        console.log('Shader compiler log: ' + compilationLog)
+    }
+
+    this.createGlProgramAndLinkShaders = (vertShader, fragShader, context = this.context) => {
+        const program = context.createProgram()
+        context.attachShader(program, vertShader)
+        context.attachShader(program, fragShader)
+        context.linkProgram(program)
+        context.useProgram(program)
+        return program
+    }
+
+    function bindFragmentShaderInputs(fragementShaderInputs, args, program, context) {
+        fragementShaderInputs.forEach((input) => {
+            debugger
             let value
-            if (input.source === "CANVAS"){
-            
-                this.loadMainCanvasIntoShaderProgram(program,this.getFrame(),context)
-            } else {
-                const match = input.source.match('(?:args\\[)([0-9])(?:\\])')
-                if(match.length>1){
-                    value = args[match[1]]
-                    value = value?value:input.default
-                    if(value==="FRAME"){
-                        value = this.getFrame()
-                    }
-                } else {
-                    console.log("Error: no value for " + input.name)
-                }
-            
+            value = getValueForInput(input, value, args)
+            switch (input.qualifier) {
+                case "uniform":
+                    this.bindUniformToProgram(input, value, program, context)
+                    break
+                default:
+                    console.log("Error: qualifier- " + variable.qualifier + " cannot be bound to an argument")
+            }
+        })
+    }
+
+    function bindVertexShaderInputs(vertexInputs, program, context, args) {
+        vertexInputs.forEach((input) => {
+            debugger
+            let value
+            if (input.source === "CANVAS") {
+                this.loadMainCanvasIntoShaderProgram(program, this.getFrame(), context)
+            }
+            else {
+                value = getValueForInput(input, value, args)
                 switch (input.qualifier) {
                     case "attribute":
                         this.bindAttributeToProgram(input, value, program, context)
@@ -159,36 +206,9 @@ function GlSurface (client) {
                         break
                     default:
                         console.log("Error: qualifier- " + variable.qualifier + " cannot be bound to an argument")
-                        
                 }
             }
         })
-
-        shaderDef.fragment.inputs.forEach((input)=>{
-            debugger;
-            let value
-            
-            const match = input.source.match('(?:args\\[)([0-9])(?:\\])')
-            if(match.length>1){
-                value = args[match[1]]
-                value = value?value:input.default
-            } else {
-                console.log("Error: no value for " + input.name)
-            }
-           
-            switch (input.qualifier) {
-                case "uniform":
-                    this.bindUniformToProgram(input, value, program, context)
-                    break
-                default:
-                    console.log("Error: qualifier- " + variable.qualifier + " cannot be bound to an argument")
-                    
-            }
-            
-        })
-
-        this.renderShaders(context)
-        this.copyGlCanvasToMainCanvas()
     }
 
     this.bindAttributeToProgram = (input,value,program,context=this.context) => {
@@ -240,15 +260,6 @@ function GlSurface (client) {
    
     }
 
-    // this.bindPositionVerticesToGlProgram = (positionVertices, webGlProgram, context = this.context) => {
-    //     const positionBuffer = context.createBuffer()
-    //     context.bindBuffer(context.ARRAY_BUFFER, positionBuffer)
-    //     context.bufferData(context.ARRAY_BUFFER, positionVertices, context.STATIC_DRAW)
-    //     const positionLocation = context.getAttribLocation(webGlProgram, 'a_position')
-    //     context.vertexAttribPointer(positionLocation, 2, context.FLOAT, false, 0, 0)
-    //     context.enableVertexAttribArray(positionLocation)
-   
-    // }
 
     this.bindUniformToProgram = (input,value,program,context=this.context)=>{
 
@@ -319,89 +330,6 @@ function GlSurface (client) {
         }
     }
 
-    this.runshader = (fragShader=this.fragmentshader(), vertShader=this.vertexshader(), rect=this.getFrame(), context = this.context) => { //compile and link shaders, run canvas through shaders, put the result back on main canvas
-        const webGlProgram = this.createGlProgramAndLinkShaders(vertShader, fragShader,context)
-
-        const positionVertices = calculatePositionVertices(rect,context)
-        this.bindPositionVerticesToGlProgram(positionVertices, webGlProgram,context)
-
-        this.loadMainCanvasIntoShaderProgram(webGlProgram,rect,context)
-
-        this.renderShaders(context)
-
-        this.copyGlCanvasToMainCanvas()
-    }
-
-    this.applyKaleidShader = (numberOfSides, rect=this.getFrame(), context = this.context)=>{
-        // fragment shader borrowed from https://github.com/ojack/hydra-synth
-        const fragmentShaderCode = `
-            precision highp float;
-            uniform sampler2D u_image;
-            uniform float u_numberOfSides;
-            varying vec2 v_texCoord;
-            vec2 kaleid(vec2 st, float nSides){
-                st-=0.5;
-                float r = length(st);
-                float a = atan(st.y, st.x);
-                float pi = 2.0*3.1416;
-                a = mod(a,pi/nSides);
-                a = abs(a-pi/nSides/2.0);
-                return r*vec2(cos(a), sin(a));
-            }
-            void main() {
-                vec2 coord = kaleid(v_texCoord, u_numberOfSides);
-                gl_FragColor = texture2D(u_image, coord);
-            }
-        `
-        const fragShader = this.fragmentshader(fragmentShaderCode, context)
-        const defaultVertexShader = this.vertexshader(DEFAULT_VERTEX_SHADER_CODE)
-        const webGlProgram = this.createGlProgramAndLinkShaders(defaultVertexShader, fragShader, context)
-
-        const positionVertices = calculatePositionVertices(rect)
-        this.bindPositionVerticesToGlProgram( positionVertices, webGlProgram, context)
-
-        this.bindUniformFloatToProgram("u_numberOfSides", numberOfSides, webGlProgram, context)
-
-        this.loadMainCanvasIntoShaderProgram(webGlProgram,rect,context)
-        
-        this.renderShaders(context)
-
-        this.copyGlCanvasToMainCanvas()
-    }
-
-    this.vertexshader = (vertexShaderCodeString = DEFAULT_VERTEX_SHADER_CODE, context = this.context) => { //prepare vertex shader code and return reference
-        let vertShader = context.createShader(context.VERTEX_SHADER)
-        context.shaderSource(vertShader, vertexShaderCodeString)
-        this.compileShader(vertShader,context)
-
-        return vertShader
-    }
-
-    this.fragmentshader = (fragmentShaderCodeString = DEFAULT_FRAGMENT_SHADER_CODE, context = this.context) => { //prepare fragment shader code and return reference
-        let fragShader = context.createShader(context.FRAGMENT_SHADER)
-        context.shaderSource(fragShader, fragmentShaderCodeString)
-        this.compileShader(fragShader,context)
-
-        return fragShader
-    }
-
-    this.compileShader = (shader,context = this.context) => {
-        context.compileShader(shader)
-        var compiled = context.getShaderParameter(shader, context.COMPILE_STATUS)
-        console.log('Shader compiled successfully: ' + compiled)
-        var compilationLog = context.getShaderInfoLog(shader)
-        console.log('Shader compiler log: ' + compilationLog)
-    }
-
-    this.createGlProgramAndLinkShaders = (vertShader, fragShader, context = this.context) => {
-        const program = context.createProgram()
-        context.attachShader(program, vertShader)
-        context.attachShader(program, fragShader)
-        context.linkProgram(program)
-        context.useProgram(program)
-        return program
-    }
-
     this.loadMainCanvasIntoShaderProgram=( webGlProgram,rect=this.getFrame(), context=this.context) => {
         const currentImageFromCanvas = client.surface.context.getImageData(rect.x, rect.y, rect.w, rect.h)
         const texture = context.createTexture()
@@ -414,11 +342,6 @@ function GlSurface (client) {
         context.viewport(0, 0, context.canvas.width, context.canvas.height)
         var resolutionLocation = context.getUniformLocation(webGlProgram, "u_resolution")
         context.uniform2f(resolutionLocation, context.canvas.width, context.canvas.height)
-    }
-
-    this.bindUniformFloatToProgram = (name, value, program, context=this.context) => {
-        const uniformLocation = context.getUniformLocation(program, name);
-        context.uniform1f(uniformLocation, value);  
     }
 
     this.bindTextureToGlProgram = (texture, webGlProgram, context = this.context) => {
@@ -444,16 +367,6 @@ function GlSurface (client) {
         context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MAG_FILTER, context.LINEAR)
     }
 
-    this.bindPositionVerticesToGlProgram = (positionVertices, webGlProgram, context = this.context) => {
-        const positionBuffer = context.createBuffer()
-        context.bindBuffer(context.ARRAY_BUFFER, positionBuffer)
-        context.bufferData(context.ARRAY_BUFFER, positionVertices, context.STATIC_DRAW)
-        const positionLocation = context.getAttribLocation(webGlProgram, 'a_position')
-        context.vertexAttribPointer(positionLocation, 2, context.FLOAT, false, 0, 0)
-        context.enableVertexAttribArray(positionLocation)
-   
-    }
-
     this.renderShaders = (context=this.context) => {
         this.clear(context)
         context.drawArrays(context.TRIANGLES, 0, 6)
@@ -463,19 +376,20 @@ function GlSurface (client) {
         client.surface.draw(this.el)
     }
 
-    function calculatePositionVertices(rect, currentImageFromCanvas) {
-        let x1 = rect.x
-        let x2 = rect.x + rect.w
-        let y1 = rect.y
-        let y2 = rect.y + rect.h
-        const positionVertices = new Float32Array([
-            x1, y1,
-            x2, y1,
-            x1, y2,
-            x1, y2,
-            x2, y1,
-            x2, y2,
-        ])
-        return positionVertices
+
+    function getValueForInput(input, value, args) {
+        const match = input.source.match('(?:args\\[)([0-9])(?:\\])')
+        if (match.length > 1) {
+            value = args[match[1]]
+            value = value ? value : input.default
+            if (value === "FRAME") {
+                value = this.getFrame()
+            }
+        }
+        else {
+            console.log("Error: no value for " + input.name)
+        }
+        return value
     }
+
 }

@@ -302,15 +302,6 @@ function Library (client) {
   }
 
   //Web gl
-  this.fragmentshader = client.glSurface.fragmentshader
-
-  this.vertexshader = client.glSurface.vertexshader
-
-  this.runshader = client.glSurface.runshader
-
-  this.kaleid = (numberOfSides, rect = this['get-frame']()) => {
-    client.glSurface.applyKaleidShader(numberOfSides, rect)
-  }
 
   this.glgs = (name, ...args) => {
     const shaderDef = client.source.cache[name]
