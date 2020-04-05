@@ -1,3 +1,5 @@
-(import $path)
+(open $path)
 
-(kaleid (random 2 11))
+(glgs "kaleid.shader.json" 2)
+
+(glgs "kaleid.shader.json" 2)
