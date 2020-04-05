@@ -1,0 +1,46 @@
+{
+    "args": ["numberOfSides", "rect"],
+    "vertex": {
+        "inputs": [
+            {"name": "a_position", "qualifier": "attribute", "type": "vec2", "source": "args[1]", "default": "FRAME"},
+            {"name": "a_texCoord", "qualifier": "attribute", "type": "vec2", "source": "CANVAS"}
+        ],
+        "shaderCode": [
+            "attribute vec2 a_position;"
+            ,"attribute vec2 a_texCoord;"
+            ,"uniform vec2 u_resolution;"
+            ,"varying vec2 v_texCoord;"
+            ,"void main() {"
+            ,"  vec2 zeroToOne = a_position / u_resolution;"
+            ,"  vec2 zeroToTwo = zeroToOne * 2.0;"
+            ,"  vec2 clipSpace = zeroToTwo - 1.0;"
+            ,"  gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);"
+            ,"  v_texCoord = a_texCoord;"
+            ,"}"
+        ]
+    },
+    "fragment": {
+        "inputs": [
+            {"name": "u_numberOfSides", "qualifier": "uniform", "type": "float", "source": "args[0]"}
+        ],
+        "shaderCode": [
+            "precision highp float;"
+            ,"uniform sampler2D u_image;"
+            ,"uniform float u_numberOfSides;"
+            ,"varying vec2 v_texCoord;"
+            ,"vec2 kaleid(vec2 st, float nSides){"
+            ,"    st-=0.5;"
+            ,"    float r = length(st);"
+            ,"    float a = atan(st.y, st.x);"
+            ,"    float pi = 2.0*3.1416;"
+            ,"    a = mod(a,pi/nSides);"
+            ,"    a = abs(a-pi/nSides/2.0);"
+            ,"    return r*vec2(cos(a), sin(a));"
+            ,"}"
+            ,"void main() {"
+            ,"    vec2 coord = kaleid(v_texCoord, u_numberOfSides);"
+            ,"    gl_FragColor = texture2D(u_image, coord);"
+            ,"}"
+        ]
+    }
+}

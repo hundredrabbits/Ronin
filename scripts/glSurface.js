@@ -95,11 +95,228 @@ function GlSurface (client) {
     }
 
     this.getFrame = () => {
-        return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2 }
+        return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2, 
+            getGlRepresentation: ()=> {
+              const x1 = 0
+              const x2 = 0 + this.el.width
+              const y1 = 0
+              const y2 = 0 + this.el.height
+              return new Float32Array([
+                x1, y1,
+                x2, y1,
+                x1, y2,
+                x1, y2,
+                x2, y1,
+                x2, y2, 
+            ])} }
     }
 
     this.toggleGlCanvas = function () {
         this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
+    }
+
+    this.compileAndApplyShader = (shaderDef,args,context=this.context) => {
+        debugger;
+        let vertexShaderCode = ""
+        shaderDef.vertex.shaderCode.forEach((line)=>{
+            vertexShaderCode += line
+        })
+
+        const vertexShader = this.vertexshader(vertexShaderCode, context)
+
+        let fragmentShaderCode = ""
+        shaderDef.fragment.shaderCode.forEach((line)=>{
+            fragmentShaderCode += line
+        })
+
+        const fragmentShader = this.fragmentshader(fragmentShaderCode, context);
+        const program = this.createGlProgramAndLinkShaders(vertexShader,fragmentShader,context)
+
+        shaderDef.vertex.inputs.forEach((input)=>{
+            debugger;
+            let value
+            if (input.source === "CANVAS"){
+            
+                this.loadMainCanvasIntoShaderProgram(program,this.getFrame(),context)
+            } else {
+                const match = input.source.match('(?:args\\[)([0-9])(?:\\])')
+                if(match.length>1){
+                    value = args[match[1]]
+                    value = value?value:input.default
+                    if(value==="FRAME"){
+                        value = this.getFrame()
+                    }
+                } else {
+                    console.log("Error: no value for " + input.name)
+                }
+            
+                switch (input.qualifier) {
+                    case "attribute":
+                        this.bindAttributeToProgram(input, value, program, context)
+                        break
+                    case "uniform":
+                        this.bindUniformToProgram(input, value, program, context)
+                        break
+                    default:
+                        console.log("Error: qualifier- " + variable.qualifier + " cannot be bound to an argument")
+                        
+                }
+            }
+        })
+
+        shaderDef.fragment.inputs.forEach((input)=>{
+            debugger;
+            let value
+            
+            const match = input.source.match('(?:args\\[)([0-9])(?:\\])')
+            if(match.length>1){
+                value = args[match[1]]
+                value = value?value:input.default
+            } else {
+                console.log("Error: no value for " + input.name)
+            }
+           
+            switch (input.qualifier) {
+                case "uniform":
+                    this.bindUniformToProgram(input, value, program, context)
+                    break
+                default:
+                    console.log("Error: qualifier- " + variable.qualifier + " cannot be bound to an argument")
+                    
+            }
+            
+        })
+
+        this.renderShaders(context)
+        this.copyGlCanvasToMainCanvas()
+    }
+
+    this.bindAttributeToProgram = (input,value,program,context=this.context) => {
+        
+        let size
+        switch(input.type){
+            case "float":
+                size = 1
+                break
+            case "vec2":
+                size = 2
+                break
+            case "vec3":
+                size = 3
+                break
+            case "vec4":
+                size = 4
+                break
+            case "mat2":
+                size = 4
+                break
+            case "mat3":
+                size = 9
+                break
+            case "mat4":
+                size = 16
+                break
+            default:
+                size = 0
+        }
+
+        const attribute = {
+            name: input.name,
+            type: input.type,
+            size: input.size?input.size:size,
+            normalized: input.normalized?input.normalized:false,
+            stride: input.stride?input.stride:0,
+            offset: input.offset?input.offset:0
+        }
+
+        debugger;
+
+        const attributeBuffer = context.createBuffer()
+        context.bindBuffer(context.ARRAY_BUFFER, attributeBuffer)
+        context.bufferData(context.ARRAY_BUFFER, value.getGlRepresentation(), context.STATIC_DRAW)
+        const attributeLocation = context.getAttribLocation(program, attribute.name)
+        context.vertexAttribPointer(attributeLocation, attribute.size, context.FLOAT, attribute.normalized, attribute.stride, attribute.offset)
+        context.enableVertexAttribArray(attributeLocation)
+   
+    }
+
+    // this.bindPositionVerticesToGlProgram = (positionVertices, webGlProgram, context = this.context) => {
+    //     const positionBuffer = context.createBuffer()
+    //     context.bindBuffer(context.ARRAY_BUFFER, positionBuffer)
+    //     context.bufferData(context.ARRAY_BUFFER, positionVertices, context.STATIC_DRAW)
+    //     const positionLocation = context.getAttribLocation(webGlProgram, 'a_position')
+    //     context.vertexAttribPointer(positionLocation, 2, context.FLOAT, false, 0, 0)
+    //     context.enableVertexAttribArray(positionLocation)
+   
+    // }
+
+    this.bindUniformToProgram = (input,value,program,context=this.context)=>{
+
+        const qualifiedType = "uniform" + " " + input.type
+        const uniformLocation = context.getUniformLocation(program, input.name)
+        
+        switch (input.type) {
+            case "float":
+                context.uniform1f(uniformLocation, value)
+                break
+            case "float[]":
+                context.uniform1fv(uniformLocation, value)
+                break
+            case "vec2":
+                context.uniform2f(uniformLocation, value)
+                break
+            case "vec2[]":
+                context.uniform2fv(uniformLocation, value)
+                break
+            case "vec3":
+                context.uniform3f(uniformLocation, value)
+                break
+            case "vec3[]":
+                context.uniform3fv(uniformLocation, value)
+                break
+            case "vec4":
+                context.uniform4fv(uniformLocation, value)
+                break
+            case "vec4[]":
+                context.uniform4fv(uniformLocation, value)
+                break
+            case "int":
+                context.uniform1i(uniformLocation, value)
+                break
+            case "int[]":
+                context.uniform1iv(uniformLocation, value)
+                break
+            case "ivec2":
+                context.uniform2f(uniformLocation, value)
+                break
+            case "ivec2[]":
+                context.uniform2iv(uniformLocation, value)
+                break
+            case "ivec3":
+                context.uniform3i(uniformLocation, value)
+                break
+            case "ivec3[]":
+                context.uniform3iv(uniformLocation, value)
+                break
+            case "ivec4":
+                context.uniform4iv(uniformLocation, value)
+                break
+            case "ivec4[]":
+                context.uniform4iv(uniformLocation, value)
+                break
+            case "mat2":
+                gl.uniformMatrix2fv(uniformLocation, false, value)
+                break
+            case "mat3":
+                gl.uniformMatrix3fv(uniformLocation, false, value)
+                break
+            case "mat4":
+                gl.uniformMatrix4fv(uniformLocation, false, value)
+                break
+            default:
+                console.log("Error: unrecognized variable type "+ qualifiedType)
+                return
+        }
     }
 
     this.runshader = (fragShader=this.fragmentshader(), vertShader=this.vertexshader(), rect=this.getFrame(), context = this.context) => { //compile and link shaders, run canvas through shaders, put the result back on main canvas
@@ -143,7 +360,7 @@ function GlSurface (client) {
         const positionVertices = calculatePositionVertices(rect)
         this.bindPositionVerticesToGlProgram( positionVertices, webGlProgram, context)
 
-        this.bindUniformFloatToProgram("u_numberOfSides", numberOfSides, webGlProgram,context)
+        this.bindUniformFloatToProgram("u_numberOfSides", numberOfSides, webGlProgram, context)
 
         this.loadMainCanvasIntoShaderProgram(webGlProgram,rect,context)
         
@@ -205,6 +422,16 @@ function GlSurface (client) {
     }
 
     this.bindTextureToGlProgram = (texture, webGlProgram, context = this.context) => {
+        const texcoordBuffer = context.createBuffer()
+        context.bindBuffer(context.ARRAY_BUFFER, texcoordBuffer)
+        context.bufferData(context.ARRAY_BUFFER, new Float32Array([
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            0.0, 1.0,
+            1.0, 0.0,
+            1.0, 1.0,
+        ]), context.STATIC_DRAW)
         const texcoordLocation = context.getAttribLocation(webGlProgram, "a_texCoord")
         context.enableVertexAttribArray(texcoordLocation)
         context.activeTexture(context.TEXTURE0)
@@ -224,16 +451,6 @@ function GlSurface (client) {
         const positionLocation = context.getAttribLocation(webGlProgram, 'a_position')
         context.vertexAttribPointer(positionLocation, 2, context.FLOAT, false, 0, 0)
         context.enableVertexAttribArray(positionLocation)
-        const texcoordBuffer = context.createBuffer()
-        context.bindBuffer(context.ARRAY_BUFFER, texcoordBuffer)
-        context.bufferData(context.ARRAY_BUFFER, new Float32Array([
-            0.0, 0.0,
-            1.0, 0.0,
-            0.0, 1.0,
-            0.0, 1.0,
-            1.0, 0.0,
-            1.0, 1.0,
-        ]), context.STATIC_DRAW)
    
     }
 

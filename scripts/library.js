@@ -39,7 +39,25 @@ function Library (client) {
   }
 
   this.rect = (x, y, w, h) => { // Returns a rect shape.
-    return { x, y, w, h, pos: { x, y }, size: { w, h } }
+    
+    return { 
+      x, y, w, h, 
+      pos: { x, y }, 
+      size: { w, h },
+      getGlRepresentation: ()=> {
+        const x1 = x
+        const x2 = x + w
+        const y1 = y
+        const y2 = y + h
+        return new Float32Array([
+          x1, y1,
+          x2, y1,
+          x1, y2,
+          x1, y2,
+          x2, y1,
+          x2, y2, 
+      ])}
+    }
   }
 
   this.circle = (cx, cy, r) => { // Returns a circle shape.
@@ -291,7 +309,14 @@ function Library (client) {
   this.runshader = client.glSurface.runshader
 
   this.kaleid = (numberOfSides, rect = this['get-frame']()) => {
-    client.glSurface.applyKaleidShader(numberOfSides, rect);
+    client.glSurface.applyKaleidShader(numberOfSides, rect)
+  }
+
+  this.glgs = (name, ...args) => {
+    const shaderDef = client.source.cache[name]
+    
+    if (!shaderDef) { client.log('No data for shader definition - ' + name); return }
+    client.glSurface.compileAndApplyShader(shaderDef,args)
   }
 
   // Color
