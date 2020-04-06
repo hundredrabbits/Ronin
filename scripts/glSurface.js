@@ -116,7 +116,6 @@ function GlSurface (client) {
     }
 
     this.compileAndApplyShader = (shaderDef,args,context=this.context) => {
-        debugger;
         let vertexShaderCode = ""
         shaderDef.vertex.shaderCode.forEach((line)=>{
             vertexShaderCode += line
@@ -175,7 +174,6 @@ function GlSurface (client) {
 
     function bindFragmentShaderInputs(fragementShaderInputs, args, program, context) {
         fragementShaderInputs.forEach((input) => {
-            debugger
             let value
             value = getValueForInput(input, value, args)
             switch (input.qualifier) {
@@ -190,7 +188,6 @@ function GlSurface (client) {
 
     function bindVertexShaderInputs(vertexInputs, program, context, args) {
         vertexInputs.forEach((input) => {
-            debugger
             let value
             if (input.source === "CANVAS") {
                 this.loadMainCanvasIntoShaderProgram(program, this.getFrame(), context)
@@ -249,7 +246,6 @@ function GlSurface (client) {
             offset: input.offset?input.offset:0
         }
 
-        debugger;
 
         const attributeBuffer = context.createBuffer()
         context.bindBuffer(context.ARRAY_BUFFER, attributeBuffer)
