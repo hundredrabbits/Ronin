@@ -299,7 +299,7 @@ function Library (client) {
     if (args.length<expectedNumberArguments) {
       rect = this['get-frame']()
     } else {
-      rect = args[args.length]
+      rect = args[args.length-1]
     }
     client.glSurface.compileAndApplyShader(shaderDef, args, rect)
   }
