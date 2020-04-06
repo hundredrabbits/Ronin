@@ -43,21 +43,9 @@ function Library (client) {
     return { 
       x, y, w, h, 
       pos: { x, y }, 
-      size: { w, h },
-      getGlRepresentation: ()=> {
-        const x1 = x
-        const x2 = x + w
-        const y1 = y
-        const y2 = y + h
-        return new Float32Array([
-          x1, y1,
-          x2, y1,
-          x1, y2,
-          x1, y2,
-          x2, y1,
-          x2, y2, 
-      ])}
+      size: { w, h }
     }
+    
   }
 
   this.circle = (cx, cy, r) => { // Returns a circle shape.
@@ -305,9 +293,15 @@ function Library (client) {
 
   this.glgs = (name, ...args) => {
     const shaderDef = client.source.cache[name]
-    
     if (!shaderDef) { client.log('No data for shader definition - ' + name); return }
-    client.glSurface.compileAndApplyShader(shaderDef,args)
+    const expectedNumberArguments = shaderDef.args.length
+    let rect
+    if (args.length<expectedNumberArguments) {
+      rect = this['get-frame']()
+    } else {
+      rect = args[args.length]
+    }
+    client.glSurface.compileAndApplyShader(shaderDef, args, rect)
   }
 
   // Color

@@ -95,27 +95,14 @@ function GlSurface (client) {
     }
 
     this.getFrame = () => {
-        return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2, 
-            getGlRepresentation: ()=> {
-              const x1 = 0
-              const x2 = 0 + this.el.width
-              const y1 = 0
-              const y2 = 0 + this.el.height
-              return new Float32Array([
-                x1, y1,
-                x2, y1,
-                x1, y2,
-                x1, y2,
-                x2, y1,
-                x2, y2, 
-            ])} }
+        return { x: 0, y: 0, w: this.el.width, h: this.el.height, c: this.el.width / 2, m: this.el.height / 2}
     }
 
     this.toggleGlCanvas = function () {
         this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
     }
 
-    this.compileAndApplyShader = (shaderDef,args,context=this.context) => {
+    this.compileAndApplyShader = (shaderDef, args, rect= this.getFrame(), context=this.context) => {
         let vertexShaderCode = ""
         shaderDef.vertex.shaderCode.forEach((line)=>{
             vertexShaderCode += line
@@ -131,9 +118,9 @@ function GlSurface (client) {
         const fragmentShader = this.fragmentshader(fragmentShaderCode, context);
         const program = this.createGlProgramAndLinkShaders(vertexShader,fragmentShader,context)
      
-        bindVertexShaderInputs(shaderDef.vertex.inputs, program, context, args)
+        this.bindVertexShaderInputs(shaderDef.vertex.inputs, program, args, rect, context)
 
-        bindFragmentShaderInputs(shaderDef.fragment.inputs, args, program, context)
+        this.bindFragmentShaderInputs(shaderDef.fragment.inputs, program, args, context)
 
         this.renderShaders(context)
         this.copyGlCanvasToMainCanvas()
@@ -172,10 +159,10 @@ function GlSurface (client) {
         return program
     }
 
-    function bindFragmentShaderInputs(fragementShaderInputs, args, program, context) {
+    this.bindFragmentShaderInputs = (fragementShaderInputs, program, args, context=this.context) => {
         fragementShaderInputs.forEach((input) => {
             let value
-            value = getValueForInput(input, value, args)
+            value = this.getValueForInput(input, value, args)
             switch (input.qualifier) {
                 case "uniform":
                     this.bindUniformToProgram(input, value, program, context)
@@ -186,14 +173,19 @@ function GlSurface (client) {
         })
     }
 
-    function bindVertexShaderInputs(vertexInputs, program, context, args) {
+    this.bindVertexShaderInputs=(vertexInputs, program, args, rect=this.getFrame(), context=this.context) => {
+        
         vertexInputs.forEach((input) => {
             let value
             if (input.source === "CANVAS") {
-                this.loadMainCanvasIntoShaderProgram(program, this.getFrame(), context)
+                this.loadMainCanvasIntoShaderProgram(program, rect, context)
+            }
+            else if (input.source === "RECT"){
+                value = rect
+                this.bindAttributeToProgram(input, value, program, context)
             }
             else {
-                value = getValueForInput(input, value, args)
+                value = this.getValueForInput(input, value, args)
                 switch (input.qualifier) {
                     case "attribute":
                         this.bindAttributeToProgram(input, value, program, context)
@@ -249,7 +241,7 @@ function GlSurface (client) {
 
         const attributeBuffer = context.createBuffer()
         context.bindBuffer(context.ARRAY_BUFFER, attributeBuffer)
-        context.bufferData(context.ARRAY_BUFFER, value.getGlRepresentation(), context.STATIC_DRAW)
+        context.bufferData(context.ARRAY_BUFFER, getGlRepresentation(value), context.STATIC_DRAW)
         const attributeLocation = context.getAttribLocation(program, attribute.name)
         context.vertexAttribPointer(attributeLocation, attribute.size, context.FLOAT, attribute.normalized, attribute.stride, attribute.offset)
         context.enableVertexAttribArray(attributeLocation)
@@ -373,9 +365,9 @@ function GlSurface (client) {
     }
 
 
-    function getValueForInput(input, value, args) {
+    this.getValueForInput = (input, value, args) => {
         const match = input.source.match('(?:args\\[)([0-9])(?:\\])')
-        if (match.length > 1) {
+        if (match && match.length > 1) {
             value = args[match[1]]
             value = value ? value : input.default
             if (value === "FRAME") {
@@ -386,6 +378,87 @@ function GlSurface (client) {
             console.log("Error: no value for " + input.name)
         }
         return value
+    }
+
+    function getGlRepresentation (data) {
+        
+        if (isRect(data)){
+            return glRectangle(data)
+        } 
+        else if (isCircle(data)) {
+            console.log("Error: "+data+" not implemented")
+        } 
+        else if (isArc(data)) {
+            console.log("Error: "+data+" not implemented")
+        }
+        else if (isEllipse(data)) {
+            console.log("Error: "+data+" not implemented")
+        }
+        else if (isPos(data)) {
+            console.log("Error: "+data+" not implemented")
+        }
+        else if (isSvg(data)) {
+            console.log("Error: "+data+" not implemented")
+        }
+        else if (isText(data)) {
+            console.log("Error: "+data+" not implemented")
+        }
+        else if (isLine(data)) {
+            console.log("Error: "+data+" not implemented")
+        }
+        else if (isPoly(data)) {
+            console.log("Error: "+data+" not implemented")
+        }
+        else {
+            console.log("Error: no gl representation for " + data)
+        }
+
+
+
+    }
+
+    function glRectangle(rect) {
+      
+        const x1 = rect.x
+        const x2 = rect.x + rect.w
+        const y1 = rect.y
+        const y2 = rect.y + rect.h
+        return new Float32Array([
+            x1, y1,
+            x2, y1,
+            x1, y2,
+            x1, y2,
+            x2, y1,
+            x2, y2, 
+        ])
+    }
+
+    function isRect (shape) {
+        return shape && !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
+    }
+    function isCircle (shape) {
+        return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r)
+    }
+    function isArc (shape) {
+        return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.r) && !isNaN(shape.sa) && !isNaN(shape.ea)
+    }
+    function isEllipse (shape) {
+        return shape && !isNaN(shape.cx) && !isNaN(shape.cy) && !isNaN(shape.rx) && !isNaN(shape.ry)
+    }
+    function isPos (shape) {
+        return shape && !isNaN(shape.x) && !isNaN(shape.y)
+    }
+    function isSvg (shape) {
+        return shape && shape.d
+    }
+    function isText (shape) {
+        return shape && !isNaN(shape.x) && !isNaN(shape.y) && shape.p && shape.t && shape.f && shape.a
+    }
+    function isLine (shape) {
+        return shape && shape.a && shape.b && !isNaN(shape.a.x) && !isNaN(shape.a.y) && !isNaN(shape.b.x) && !isNaN(shape.b.y)
+    }
+    function isPoly (shape) {
+        return shape && shape[0] && shape[1] && !isNaN(shape[0].x) && !isNaN(shape[0].y) && !isNaN(shape[1].x) && !isNaN(shape[1].y)
     }
 
 }

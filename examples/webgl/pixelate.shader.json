@@ -1,5 +1,5 @@
 {
-    "args": ["numberOfSides", "RECT"],
+    "args": ["pixelX","pixelY","RECT"],
     "vertex": {
         "inputs": [
             {"name": "a_position", "qualifier": "attribute", "type": "vec2", "source": "RECT", "default": "FRAME"},
@@ -21,24 +21,21 @@
     },
     "fragment": {
         "inputs": [
-            {"name": "u_numberOfSides", "qualifier": "uniform", "type": "float", "source": "args[0]"}
+            {"name": "u_pixelX", "qualifier": "uniform", "type": "float", "source": "args[0]"},
+            {"name": "u_pixelY", "qualifier": "uniform", "type": "float", "source": "args[1]"}
         ],
         "shaderCode": [
             "precision highp float;"
+            ,"uniform float u_pixelX;"
+            ,"uniform float u_pixelY;"
             ,"uniform sampler2D u_image;"
-            ,"uniform float u_numberOfSides;"
             ,"varying vec2 v_texCoord;"
-            ,"vec2 kaleid(vec2 st, float nSides){"
-            ,"    st-=0.5;"
-            ,"    float r = length(st);"
-            ,"    float a = atan(st.y, st.x);"
-            ,"    float pi = 2.0*3.1416;"
-            ,"    a = mod(a,pi/nSides);"
-            ,"    a = abs(a-pi/nSides/2.0);"
-            ,"    return r*vec2(cos(a), sin(a));"
+            ,"vec2 pixelate(vec2 st, float pixelX, float pixelY){"
+            ,"    vec2 xy = vec2(pixelX, pixelY);"
+            ,"    return (floor(st * xy) + 0.5)/xy;"
             ,"}"
             ,"void main() {"
-            ,"    vec2 coord = kaleid(v_texCoord, u_numberOfSides);"
+            ,"    vec2 coord = pixelate(v_texCoord, u_pixelX, u_pixelY);"
             ,"    gl_FragColor = texture2D(u_image, coord);"
             ,"}"
         ]
