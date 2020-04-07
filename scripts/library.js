@@ -20,9 +20,9 @@ function Library (client) {
     return shape || this.rect(0, 0, img.width, img.height)
   }
 
-  this.export = (name = 'ronin', type = 'image/png', quality = 1.0) => { // Exports a graphic file with format.
-    const ext = type === 'image/png' ? name + '.png' : name + '.jpg'
-    client.source.write(name, ext, client.surface.el.toDataURL(type, quality), type)
+  this.export = (format = 'jpg', quality = 0.9) => { // Exports a graphic file with format.
+    const type = `image/${format === 'jpeg' || format === 'jpg' ? 'jpeg' : 'png'}`
+    client.source.write('ronin', format, client.surface.el.toDataURL(type, quality), type)
   }
 
   // Shapes
