@@ -2,7 +2,7 @@ RONIN
 
 ---------------
 
-Ronin is a procedural graphics tool designed to automate simple graphical tasks, like resizing, cropping, coloring, and generating algorithmic images. It interprets a minimal dialect of LISP, look at the examplesto better understand how this all works.
+Ronin is a procedural graphics tool designed to automate simple graphical tasks, like resizing, cropping, coloring, and generating algorithmic images. It interprets a minimal dialect of LISP, look at the examples to better understand how this all works.
 
 The library updates is constantly revealing new applications to Ronin, you can see the list of available functions here. Most of our iconography and designs were created with both Ronin and Dotgrid.
 
