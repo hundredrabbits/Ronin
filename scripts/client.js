@@ -158,17 +158,7 @@ function Client () {
     this.mouseOrigin = null
   }
 
-  this.onDrag = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'copy'
-  }
-
-  this.onDrop = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const file = e.dataTransfer.files[0]
-
+  this.parseFile = (file) => {
     if (file.name.indexOf('.lisp') > -1) {
       this.source.read(file, this.whenOpen)
       this.log('Loaded ' + file.name)
@@ -182,6 +172,20 @@ function Client () {
       img.src = URL.createObjectURL(file)
     } else {
       console.warn('Unknown format', file)
+    }
+  }
+
+  this.onDrag = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+  }
+
+  this.onDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    for (const file of e.dataTransfer.files) {
+      this.parseFile(file)
     }
   }
 

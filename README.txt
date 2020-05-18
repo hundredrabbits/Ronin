@@ -62,6 +62,7 @@ Library
 - (open name ~scale) Imports a graphic file with format.
 - (import name ~shape) Imports a graphic file with format.
 - (export ~format ~quality) Exports a graphic file with format.
+- (files) Returns the list of loaded files.
 - (print string) Exports string to file.
 - (pos ~x ~y) Returns a position shape.
 - (line ax ay bx by) Returns a line shape.

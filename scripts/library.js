@@ -25,6 +25,10 @@ function Library (client) {
     client.source.write('ronin', format, client.surface.el.toDataURL(type, quality), type)
   }
 
+  this.files = () => {
+    return Object.keys(client.cache.data)
+  }
+
   // Shapes
 
   this.pos = (x = 0, y = 0) => { // Returns a position shape.
