@@ -502,7 +502,8 @@ function Client () {
     this.acels.set('View', 'Toggle Guides', 'CmdOrCtrl+Shift+H', () => { this.surface.toggleGuides() })
     this.acels.set('View', 'Toggle Commander', 'CmdOrCtrl+K', () => { this.commander.toggle() })
     this.acels.set('View', 'Expand Commander', 'CmdOrCtrl+Shift+K', () => { this.commander.toggle(true) })
-    this.acels.set('Project', 'Run', 'CmdOrCtrl+Enter', () => { this.commander.run() })
+    this.acels.set('Project', 'Eval', 'CmdOrCtrl+Enter', () => { this.commander.eval() })
+    this.acels.set('Project', 'Eval Selection', 'Alt+Enter', () => { this.commander.evalSelection() })
     this.acels.set('Project', 'Re-Indent', 'CmdOrCtrl+Shift+I', () => { this.commander.lint() })
     this.acels.set('Project', 'Clean', 'Escape', () => { this.commander.cleanup() })
     this.acels.route(this)
@@ -675,23 +676,23 @@ function Commander (client) {
   this._status = document.createElement('div'); this._status.id = 'status'
   this._log = document.createElement('div'); this._log.id = 'log'
   this._docs = document.createElement('div'); this._docs.id = 'help'
-  this._run = document.createElement('a'); this._run.id = 'run'
+  this._eval = document.createElement('a'); this._eval.id = 'eval'
   this.isVisible = true
   this.install = function (host) {
     this.el.appendChild(this._input)
     this._status.appendChild(this._log)
     this._status.appendChild(this._docs)
-    this._status.appendChild(this._run)
+    this._status.appendChild(this._eval)
     this.el.appendChild(this._status)
     host.appendChild(this.el)
-    this._run.setAttribute('title', 'Run(c-R)')
+    this._eval.setAttribute('title', 'Eval(c-R)')
     this._input.setAttribute('autocomplete', 'off')
     this._input.setAttribute('autocorrect', 'off')
     this._input.setAttribute('autocapitalize', 'off')
     this._input.setAttribute('spellcheck', 'false')
     this._input.addEventListener('input', this.onInput)
     this._input.addEventListener('click', this.onClick)
-    this._run.addEventListener('click', () => { this.run() })
+    this._eval.addEventListener('click', () => { this.eval() })
     this._input.onkeydown = (e) => {
       if (e.keyCode === 9 || e.which === 9) { e.preventDefault(); this.inject('  ') }
     }
@@ -700,20 +701,23 @@ function Commander (client) {
   this.start = function () {
     this.show()
     this._input.value = this.splash
-    setTimeout(() => { this.run() }, 1000)
+    setTimeout(() => { this.eval() }, 1000)
     this.setStatus('Ready.')
   }
-  this.run = (txt = this._input.value) => {
+  this.eval = (txt = this._input.value) => {
     if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
     client.bindings = {}
-    if (this._input.value.trim() === '') {
-    }
     client.lain.run(`(${txt})`)
+    this.feedback()
+  }
+  this.evalSelection = () => {
+    const value = this._input.value.substr(this._input.selectionStart, this._input.selectionEnd)
+    client.lain.run(`(${value})`)
     this.feedback()
   }
   this.load = function (txt) {
     this._input.value = txt
-    this.run(txt)
+    this.eval(txt)
   }
   this.clear = function () {
     this.load('')
@@ -721,7 +725,7 @@ function Commander (client) {
   this.cleanup = function () {
     this._input.value = this.clean(this._input.value)
     this.lint()
-    this.run()
+    this.eval()
   }
   this.update = function () {
   }
@@ -785,7 +789,7 @@ function Commander (client) {
       this.cache = this._input.value
     }
     if (run === true) {
-      this.run()
+      this.eval()
     }
   }
   this.template = function (shape, word) {
@@ -820,8 +824,8 @@ function Commander (client) {
     return this._input.value.split('\n').length
   }
   this.feedback = function () {
-    this._run.className = 'active'
-    setTimeout(() => { this._run.className = '' }, 150)
+    this._eval.className = 'active'
+    setTimeout(() => { this._eval.className = '' }, 150)
   }
   this.getCurrentWord = () => {
     const pos = this._input.value.substr(0, this._input.selectionStart).lastIndexOf('(')
@@ -1660,14 +1664,14 @@ function Surface (client) {
   font-display: swap;
 }
 body { margin:0px; padding:0px; overflow:hidden; font-family:"input_mono_regular",courier,monospace; background:000; -webkit-app-region: drag; -webkit-user-select: none; font-size:12px; transition: background 500ms}
-*:focus {outline: none; }
+*:focus { outline: none; }
 #ronin { height: calc(100vh - 60px); width:calc(100vw - 60px); -webkit-app-region: drag; padding: 30px;overflow: hidden; }
 #ronin #wrapper { overflow: hidden; position: relative; }
 #ronin #wrapper #commander { z-index: 9000;position: relative;width: calc(50vw - 30px);height: calc(100vh - 60px);-webkit-app-region: no-drag;padding-right: 30px;transition: margin-left 250ms;}
 #ronin #wrapper #commander textarea { background: none; width: 100%; height: calc(100vh - 105px); resize: none; font-size: 12px;line-height: 15px; padding-right: 15px}
 #ronin #wrapper #commander #status { position: absolute; bottom: 0px; line-height: 15px; height: 30px; overflow: hidden; width: calc(100% - 75px); padding-left:45px;}
-#ronin #wrapper #commander #status #run { display: block; width: 26px; height: 26px; position: absolute; top: 0px; border-radius: 15px; left:0px; cursor: pointer; border:2px solid #fff; transition: background-color 250ms, border-color 250ms}
-#ronin #wrapper #commander #status #run:hover { background: none }
+#ronin #wrapper #commander #status #eval { display: block; width: 26px; height: 26px; position: absolute; top: 0px; border-radius: 15px; left:0px; cursor: pointer; border:2px solid #fff; transition: background-color 250ms, border-color 250ms}
+#ronin #wrapper #commander #status #eval:hover { background: none }
 #ronin.expand #wrapper #commander { width:100%; }
 #ronin #surface, #ronin #guide { position: absolute; top:0px; -webkit-user-select: none;-webkit-app-region: no-drag; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='1' fill='%23555'></circle></svg>"); background-size: 10px 10px; background-position: -4px -4px; width:100%; height:100%;  transition: left 250ms, opacity 250ms; opacity: 1; }
 #ronin.hidden #wrapper #commander { margin-left:-40vw; }
@@ -1698,8 +1702,9 @@ body { background:var(--background);  }
 #ronin #wrapper #commander textarea { color:var(--f_high); }
 #ronin #wrapper #commander #status { color:var(--f_med); }
 #ronin #wrapper #commander #status #source { color:var(--f_low); }
-#ronin #wrapper #commander #status #run { background-color: var(--b_inv); border-color: var(--b_inv) }
-#ronin #wrapper #commander #status #run.active { background:var(--f_high); border-color:var(--f_high); transition: none }
+#ronin #wrapper #commander #status #eval { background-color: var(--b_inv); border-color: var(--b_inv) }
+#ronin #wrapper #commander #status #eval.active { background:var(--f_high); border-color:var(--f_high); transition: none }
+::selection { background-color:var(--b_inv); color:var(--f_inv); text-decoration:none } 
     </style>
   </body>
 </html>

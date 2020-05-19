@@ -7,7 +7,7 @@ function Commander (client) {
   this._status = document.createElement('div'); this._status.id = 'status'
   this._log = document.createElement('div'); this._log.id = 'log'
   this._docs = document.createElement('div'); this._docs.id = 'help'
-  this._run = document.createElement('a'); this._run.id = 'run'
+  this._eval = document.createElement('a'); this._eval.id = 'eval'
 
   this.isVisible = true
 
@@ -15,17 +15,17 @@ function Commander (client) {
     this.el.appendChild(this._input)
     this._status.appendChild(this._log)
     this._status.appendChild(this._docs)
-    this._status.appendChild(this._run)
+    this._status.appendChild(this._eval)
     this.el.appendChild(this._status)
     host.appendChild(this.el)
-    this._run.setAttribute('title', 'Run(c-R)')
+    this._eval.setAttribute('title', 'Eval(c-R)')
     this._input.setAttribute('autocomplete', 'off')
     this._input.setAttribute('autocorrect', 'off')
     this._input.setAttribute('autocapitalize', 'off')
     this._input.setAttribute('spellcheck', 'false')
     this._input.addEventListener('input', this.onInput)
     this._input.addEventListener('click', this.onClick)
-    this._run.addEventListener('click', () => { this.run() })
+    this._eval.addEventListener('click', () => { this.eval() })
 
     this._input.onkeydown = (e) => {
       if (e.keyCode === 9 || e.which === 9) { e.preventDefault(); this.inject('  ') }
@@ -36,23 +36,26 @@ function Commander (client) {
   this.start = function () {
     this.show()
     this._input.value = this.splash
-    setTimeout(() => { this.run() }, 1000)
+    setTimeout(() => { this.eval() }, 1000)
     this.setStatus('Ready.')
   }
 
-  this.run = (txt = this._input.value) => {
+  this.eval = (txt = this._input.value) => {
     if (this._input.value.indexOf('$') > -1) { txt = this.clean(txt) }
     client.bindings = {}
-    if (this._input.value.trim() === '') {
-
-    }
     client.lain.run(`(${txt})`)
+    this.feedback()
+  }
+
+  this.evalSelection = () => {
+    const value = this._input.value.substr(this._input.selectionStart, this._input.selectionEnd)
+    client.lain.run(`(${value})`)
     this.feedback()
   }
 
   this.load = function (txt) {
     this._input.value = txt
-    this.run(txt)
+    this.eval(txt)
   }
 
   this.clear = function () {
@@ -62,7 +65,7 @@ function Commander (client) {
   this.cleanup = function () {
     this._input.value = this.clean(this._input.value)
     this.lint()
-    this.run()
+    this.eval()
   }
 
   this.update = function () {
@@ -145,7 +148,7 @@ function Commander (client) {
       this.cache = this._input.value
     }
     if (run === true) {
-      this.run()
+      this.eval()
     }
   }
 
@@ -188,8 +191,8 @@ function Commander (client) {
   }
 
   this.feedback = function () {
-    this._run.className = 'active'
-    setTimeout(() => { this._run.className = '' }, 150)
+    this._eval.className = 'active'
+    setTimeout(() => { this._eval.className = '' }, 150)
   }
 
   // Docs
