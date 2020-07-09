@@ -2,13 +2,9 @@
 
 ;
 (def seg-count 50)
-
-
 ; 
-
 (def seg-width 
   (div frame:w seg-count))
- 
 ;
 (defn elevation 
   (i) 
@@ -19,7 +15,7 @@
           (time 0.001) 
           (div i 5))) 
       (div frame:h 5)) 300))
-
+;
 (defn draw-dash 
   (i) 
   (if 
