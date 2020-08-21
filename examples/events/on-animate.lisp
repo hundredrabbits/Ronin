@@ -1,6 +1,7 @@
 ; this demo shows how to use the animate event to animate lines into a sine wave.
+(def frame (get-frame))
 ;
-(def seg-count 50)
+(def seg-count 100)
 ; 
 (def seg-width 
   (div frame:w seg-count)) 
@@ -22,7 +23,7 @@
       (mul 
         (sub i 1) seg-width)) 
     (def y 
-      (elevation i)) 
+      (elevation i))
     (stroke 
       (line x 
         (elevation 
@@ -36,6 +37,7 @@
 (defn redraw 
   () 
   (
-    (clear) 
-    (times seg-count draw-dash)))
+    (clear)
+    (each (range 0 seg-count) draw-dash)))
+;
 (on "animate" redraw)
