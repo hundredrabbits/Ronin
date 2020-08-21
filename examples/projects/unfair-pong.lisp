@@ -1,23 +1,65 @@
-; objects
-(def box {:x 90 :y 0 :vy 0 :vx 5 :w 20 :h 20})
-(def floor {:x 225 :y 580 :vx 0 :vy 0 :w 130 :h 40 :hit false})
-(def boundaries {:max-x 560 :min-x 10 :max-y 800})
+(clear)
+
+; Game Objects
+(def ball:x 20)
+(def ball:y 0)
+(def ball:vy 0)
+(def ball:vx 4)
+(def ball:w 20)
+(def ball:h 20)
+
+(def platform:x 280)
+(def platform:y 580)
+(def platform:vx 0)
+(def platform:vy 0)
+(def platform:w 140)
+(def platform:h 40)
+(def platform:hit false)
+(def boundaries:max-x 560)
+(def boundaries:min-x 10)
+(def boundaries:max-y 800)
+
 (def walls 
   (rect boundaries:min-x 10 boundaries:max-x 640))
-; "physics"
+
+
+; Physics
 (def gravity .2)
 (def friction .99)
 (def elastic-coefficient 1.1)
 (def player-friction .90)
-(def player-velocity 1.2)
-; controls
-(def controls {:left false, :right false})
+(def player-velocity 1)
+
+
+; Controls
+(def right-arrow-1:key "ArrowRight")
+(def right-arrow-1:type "keydown")
+(def right-arrow-1:direction "right")
+(def right-arrow-1:activate true)
+(def right-arrow-2:key "ArrowRight")
+(def right-arrow-2:type "keyup")
+(def right-arrow-2:direction "right")
+(def right-arrow-2:activate false)
+
+(def left-arrow-1:key "ArrowLeft")
+(def left-arrow-1:type "keydown")
+(def left-arrow-1:direction "left")
+(def left-arrow-1:activate true)
+(def left-arrow-2:key "ArrowLeft")
+(def left-arrow-2:type "keyup")
+(def left-arrow-2:direction "left")
+(def left-arrow-2:activate false)
+
 (def commands 
-  ({:key "ArrowRight" :type "keydown" :direction "right" :activate true} {:key "ArrowRight" :type "keyup" :direction "right" :activate false} {:key "ArrowLeft" :type "keydown" :direction "left" :activate true} {:key "ArrowLeft" :type "keyup" :direction "left" :activate false}))
-;
-(def state {:score 0})
-;
+  (right-arrow-1 right-arrow-2 left-arrow-1 left-arrow-2))
+
+; Game State: 
+(def controls:left false)
+(def controls:right false)
+(def state:score 0)
+
 (defn rect-colliding 
+  "Detect if there is a collision between two rectangles."
   (r1 r2) 
   (and 
     (lt r1:x 
@@ -27,24 +69,26 @@
     (lt r1:y 
       (add r2:y r2:h)) 
     (gt 
-      (add r1:y r1:h) r2:y )))
-;
+      (add r1:y r1:h) r2:y)))
+
 (defn check-collisions 
-  (b floor) 
+  "Update ball and platform states on collision."
+  (b platform) 
   (
-    (set floor "hit" false) 
+    (set platform "hit" false) 
     (if 
-      (rect-colliding b floor) 
+      (rect-colliding b platform) 
       (
-        (set floor "hit" true) 
+        (set platform "hit" true) 
         (set b "y" 
-          (sub floor:y box:h)) 
+          (sub platform:y ball:h)) 
         (set b "vy" 
           (mul b:vy -1)) 
         (set b "vy" 
           (mul b:vy elastic-coefficient))))))
-;
+
 (defn move-ball 
+  "Update the state of the ball"
   (b) 
   (
     (set b "vy" 
@@ -55,15 +99,20 @@
       (add b:y b:vy)) 
     (set b "x" 
       (add b:x b:vx))))
-;
+
 (defn check-reset-ball 
+  "Reset the position of the ball and increment score."
   (b) 
   (
     (if 
-      (gt box:y boundaries:max-y) 
-      (reset))))
-;
+      (gt b:y boundaries:max-y) 
+      (
+        (set b "y" -100) 
+        (set state "score" 
+          (add state:score 1))))))
+
 (defn draw 
+  "Main drawing loop for world elements."
   () 
   (
     (clear) 
@@ -73,25 +122,20 @@
         (concat "" state:score) "left" "monospace") "white" 3) 
     ;draw-walls 
     (stroke walls "white") 
-    ;draw-floor 
+    ;draw-platform 
     (stroke 
-      (rect floor:x floor:y floor:w floor:h) "white") 
+      (rect platform:x platform:y platform:w platform:h) "white") 
     (if 
-      (eq floor:hit true) 
+      (eq platform:hit true) 
       (fill 
-        (rect floor:x floor:y floor:w floor:h) "white")) 
-    ;draw-box 
+        (rect platform:x platform:y platform:w platform:h) "white")) 
+    ;draw-ball 
     (fill 
-      (rect box:x box:y box:w box:h) "white")))
-;
-(defn reset 
-  () 
-  (
-    (set box "y" -100) 
-    (set state "score" 
-      (add state:score 1))))
-;
+      (rect ball:x ball:y ball:w ball:h) "white")))
+
+
 (defn on-hit-boundary 
+  "On boundary hit call provided functions."
   (thing on-hit-left on-hit-right) 
   (
     (if 
@@ -101,8 +145,10 @@
     (if 
       (lt thing:x boundaries:min-x) 
       (on-hit-left))))
-;
+
+
 (defn move-player 
+  "Update the position of the player controlled platform"
   (p) 
   (
     (if 
@@ -116,40 +162,49 @@
         (set p "vx" 
           (sub p:vx player-velocity)))) 
     (set p "x" 
-      (add floor:x floor:vx)) 
+      (add p:x p:vx)) 
     (set p "vx" 
       (mul p:vx player-friction))))
-;
+
+
 (defn invert-vx 
   (thing pos) 
   (
     (set thing "vx" 
       (mul thing:vx -1)) 
-    (set thing "x" pos))) 
-;
+    (set thing "x" pos)))
+ 
+
 (defn move 
+  "Update position and velocities for all elements."
   () 
   (
-    (move-player floor) 
-    (move-ball box) 
-    (check-collisions box floor) 
-    (check-reset-ball box) 
-    (on-hit-boundary box 
-      '(invert-vx box boundaries:min-x) 
-      '(invert-vx box 
-        (sub boundaries:max-x box:w))) 
-    (on-hit-boundary floor 
-      '(invert-vx floor boundaries:min-x) 
-      '(invert-vx floor 
-        (sub boundaries:max-x floor:w)))))
-;
+    (move-player platform) 
+    (move-ball ball) 
+    (check-collisions ball platform) 
+    (check-reset-ball ball) 
+    (on-hit-boundary ball 
+      (λ () 
+        (invert-vx ball boundaries:min-x)) 
+      (λ () 
+        (invert-vx ball 
+          (sub boundaries:max-x ball:w)))) 
+    (on-hit-boundary platform 
+      (λ () 
+        (invert-vx platform boundaries:min-x)) 
+      (λ () 
+        (invert-vx platform 
+          (sub boundaries:max-x platform:w))))))
+
+
 (defn update 
+  "Main update loop"
   () 
   (
     (move) 
     (draw)))
-;
-; 
+
+
 (defn handle-key 
   (e) 
   (
@@ -161,7 +216,8 @@
             (eq e:key p:key) 
             (eq e:type p:type)) 
           (set controls p:direction p:activate))))))
-;
+
+
 (on "animate" update)
 (on "key-down" handle-key)
-(on "key-up" handle-key)"key-up" handle-key)
+(on "key-up" handle-key)
