@@ -1243,11 +1243,14 @@ function Library (client) {
   this.len = (item) => { // Returns the length of a list.
     return item.length
   }
-  this.cons = (arr, item) => { // Retruns a new array with the item.
-    return array.concat([item])
+  this.cons = (arr, ...items) => { // Retruns a new array with the items appended.
+    return arr.concat(items)
   }
-  this.push = (arr, item) => { // Appends the item item into the existing list.
-    return array.push(item)
+  this.push = (arr, ...items) => { // Appends the items into the existing list.
+    for (let i = 0; i < items.length; i++) {
+      arr.push(items[i])
+    }
+    return arr
   }
   this.pop = (arr) => { // Pop the last item from the list and return the item.
     return arr.pop();
