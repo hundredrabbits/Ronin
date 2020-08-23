@@ -421,6 +421,12 @@ function Library (client) {
 
   // Arrays
 
+  this.while = (fn, action) => {
+    while (fn()) {
+      action()
+    }
+  }
+
   this.each = (arr, fn) => { // Run a function for each element in a list.
     for (let i = 0; i < arr.length; i++) {
       const arg = arr[i]
