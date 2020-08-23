@@ -415,6 +415,10 @@ function Library (client) {
     return args[args.length - 1]
   }
 
+  this.not = (a) => {
+    return !a
+  }
+
   // Arrays
 
   this.each = (arr, fn) => { // Run a function for each element in a list.
@@ -449,6 +453,18 @@ function Library (client) {
 
   this.len = (item) => { // Returns the length of a list.
     return item.length
+  }
+
+  this.cons = (arr, item) => { // Retruns a new array with the item.
+    return array.concat([item])
+  }
+
+  this.push = (arr, item) => { // Appends the item item into the existing list.
+    return array.push(item)
+  }
+
+  this.pop = (arr) => { // Pop the last item from the list and return the item.
+    return arr.pop();
   }
 
   this.first = (arr) => { // Returns the first item of a list.
@@ -496,6 +512,14 @@ function Library (client) {
     return keys.reduce((acc, key) => {
       return acc[key]
     }, h)
+  }
+
+  this.object = (...entries) => { // Creates an object with provided entries.
+    const result = {}
+    for (let i = 0; i < entries.length; i += 2) {
+      result[entries[i]] = entries[i + 1]
+    }
+    return result
   }
 
   this.keys = (item) => { // Returns a list of the object's keys
