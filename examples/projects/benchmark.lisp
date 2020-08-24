@@ -23,6 +23,8 @@
   (test "and - true" (and 1 2 true 4) 4)
   (test "and - false" (and 1 false 2) false)
   (test "or - true" (or false false 2 false) 2)
+  (test "not - true" (not true) false)
+  (test "not - false" (not false) true)
 
   (test "if - branch 1" (if (gt 3 2) ("branch 1") ("branch 2")) "branch 1")
   (test "if - branch 2" (if (lt 3 2) ("branch 1") ("branch 2")) "branch 2")
@@ -39,6 +41,22 @@
   (test "map" (map (1 2 3) (λ (a) (add 1 a))) (2 3 4))
   (test "filter" (filter (2 3 4 5 6) (λ (a) (eq 0 (mod a 2)))) (2 4 6))
   (test "reduce" (reduce (1 2 3) (λ (acc val) (add acc val)) 4) 10)
+
+  (def test-list ())
+  (test "push" (push test-list 1 2 3) (1 2 3))
+  (test "pop - return value" (pop test-list) 3)
+  (test "pop - modified list" test-list (1 2))
+
+  (def test-empty-list ())
+  (def test-list-2 (cons test-empty-list 4 5 6))
+  (test "cons - new list" test-list-2 (4 5 6))
+  (test "cons - unmodified list" test-empty-list ())
+
+  (def expected-object:x 1)
+  (def expected-object:y 2)
+  (def test-object (object "x" 1 "y" 2))
+  (test "object" test-object:x expected-object:x)
+  (test "object" test-object:y expected-object:y)
 
 ; Scope
 
