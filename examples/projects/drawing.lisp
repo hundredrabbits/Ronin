@@ -2,7 +2,8 @@
 ;
 (clear)
 ;
-(def prev-pos {:x 0 :y 0})
+(def prev-pos:x 0)
+(def prev-pos:y 0)
 ;
 (defn stroke-color 
   (e) 
