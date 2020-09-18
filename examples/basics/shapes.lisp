@@ -6,6 +6,8 @@
 ;
 (clear)
 
+(resize 800 800)
+
 (stroke 
   (rect 0 0 300 300) colors:0)
 
