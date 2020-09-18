@@ -434,18 +434,12 @@ function Library (client) {
     }
   }
 
-  this.map = (arr, fn) => { // Run a function on each element in a list.
-    return Promise.all(arr.map(fn)).then(result => { return result })
+  this.map = (arr, fn) => { // Returns a new list with fn applied to each value.
+    return arr.map(fn);
   }
 
-  this.filter = (arr, fn) => { // Remove from list, when function returns false.
-    const list = Array.from(arr)
-    return Promise.all(list.map((element, index) => fn(element, index, list)))
-      .then(result => {
-        return list.filter((_, index) => {
-          return result[index]
-        })
-      })
+  this.filter = (arr, fn) => { // Returns a new list, without values evaluated to false by fn.
+    return arr.filter(fn);
   }
 
   this.reduce = (arr, fn, acc) => {
