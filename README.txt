@@ -166,5 +166,5 @@ Extras
 
 Licenses
 
-Ronin's source code is licensed under MIT and the images, text and assets are licensed under [BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). View individual licenses for details.
+Ronin's source code is licensed under MIT and the images, text and assets are licensed under BY-NC-SA 4.0. View individual licenses for details.
 
