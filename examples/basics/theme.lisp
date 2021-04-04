@@ -2,7 +2,8 @@
 
 (def theme 
   (get-theme))
-
+(def frame 
+  (get-frame))
 
 ; ex: theme:f_high
 

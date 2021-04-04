@@ -2,6 +2,9 @@
 
 (clear)
 
+(def frame 
+  (get-frame))
+
 
 ; times
 
@@ -26,13 +29,13 @@
 ; position on a circle from angle
 
 (defn circle-pos 
-  (cx cy r a) {:x 
+  (cx cy r a) (object "x"  
   (add cx 
     (mul r 
-      (cos a))) :y 
+      (cos a))) "y"  
   (add cy 
     (mul r 
-      (sin a)))})
+      (sin a)))))
 
 
 ; draw
@@ -42,10 +45,10 @@
   (
     (stroke 
       (line cx cy 
-        (:x 
-          (circle-pos cx cy r a)) 
-        (:y 
-          (circle-pos cx cy r a))) "white" 2)))
+        (get 
+          (circle-pos cx cy r a) "x") 
+        (get 
+          (circle-pos cx cy r a) "y")) "white" 2)))
 
 ;
 (defn draw-star 

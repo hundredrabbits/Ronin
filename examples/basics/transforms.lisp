@@ -2,6 +2,9 @@
 
 (clear)
 
+(def theme 
+  (get-theme))
+
 (transform:move 150 150)
 
 (fill 

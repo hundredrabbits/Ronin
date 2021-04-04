@@ -1,5 +1,11 @@
 (clear)
 
+(def theme 
+  (get-theme))
+
+(def frame 
+  (get-frame))
+
 (defn branch 
   (v) 
   (if 

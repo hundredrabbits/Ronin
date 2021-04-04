@@ -6,7 +6,7 @@
   (if 
     (gt rec 0) 
     (
-      (import "../static/crystal.jpg" 
+      (import $path
         (rect 
           (random 200) 
           (random 200) 

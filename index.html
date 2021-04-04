@@ -148,14 +148,16 @@ function Lain (lib = {}) {
       const identifier = input[1].value
       if (context.scope[identifier]) { console.warn('Lain', `Redefining function: ${identifier}`) }
       const fnParams = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
-      const fnBody = input[2].type === TYPES.string && input[4] ? input[4] : input[3]
+      const fnBodyFirstIndex = input[2].type === TYPES.string && input[4] ? 4 : 3
+      const fnBody = input.slice(fnBodyFirstIndex)
       context.scope[identifier] = function () {
         const lambdaArguments = arguments
         const lambdaScope = fnParams.reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-        return interpret(fnBody, new Context(lambdaScope, context))
+        let result = interpret(fnBody, new Context(lambdaScope, context))
+        return getReturnValue(result)
       }
     },
     λ: function (input, context) {
@@ -165,12 +167,19 @@ function Lain (lib = {}) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-        return interpret(input[2], new Context(lambdaScope, context))
+        let result = interpret(input.slice(2), new Context(lambdaScope, context))
+        return getReturnValue(result)
       }
     },
     if: function (input, context) {
       return interpret(input[1], context) ? interpret(input[2], context) : input[3] ? interpret(input[3], context) : []
     }
+  }
+  const getReturnValue = function (interpretResult) {
+    if(!interpretResult || !(interpretResult instanceof Array) || !interpretResult.length){ 
+      return interpretResult 
+    }
+    return interpretResult[interpretResult.length - 1]
   }
   const interpretList = function (input, context) {
     if (input.length > 0 && input[0].value in special) {
@@ -1185,6 +1194,21 @@ function Library (client) {
     }
     return Math.random()
   }
+  this.logand = (a, b) => {
+    return a & b
+  }
+  this.logior = (a, b) => {
+    return a | b
+  }
+  this.logxor = (a, b) => {
+    return a ^ b
+  }
+  this.lognot = (a) => {
+    return ~ a
+  }
+  this.ash = (a, b) => {
+    return a << b
+  }
   this.gt = (a, b) => { // Returns true if a is greater than b, else false.
     return a > b
   }
@@ -1211,18 +1235,27 @@ function Library (client) {
     }
     return args[args.length - 1]
   }
-  this.not = (a) => {
+  this.not = (a) => { //Negation. Returns true if a is false. Returns false if a is true. 
     return !a
   }
-  this.while = (fn, action) => {
+  this.while = (fn, action) => { //While loop. Execute action for as long as fn is true.
     while (fn()) {
       action()
     }
+  }
+  this.apply = (fn, argslist) => {
+    let result = fn(...argslist);
+    return result;
   }
   this.each = (arr, fn) => { // Run a function for each element in a list.
     for (let i = 0; i < arr.length; i++) {
       const arg = arr[i]
       fn(arg, i)
+    }
+  }
+  this.eachof = (arr, fn) => {
+    for(let elem of arr){
+      fn(elem);
     }
   }
   this.map = (arr, fn) => { // Returns a new list with fn applied to each value.
@@ -1242,7 +1275,10 @@ function Library (client) {
   this.len = (item) => { // Returns the length of a list.
     return item.length
   }
-  this.cons = (arr, ...items) => { // Retruns a new array with the items appended.
+  this.list = (...items) => { // Returns a new array with the items
+    return items
+  }
+  this.cons = (arr, ...items) => { // Returns a new array with the items appended to arr.
     return arr.concat(items)
   }
   this.push = (arr, ...items) => { // Appends the items into the existing list.
@@ -1260,10 +1296,10 @@ function Library (client) {
   this.last = (arr) => { // Returns the last
     return arr[arr.length - 1]
   }
-  this.rest = ([_, ...arr]) => {
+  this.rest = ([_, ...arr]) => { // Returns all arguments except the first
     return arr
   }
-  this.range = (start, end, step = 1) => {
+  this.range = (start, end, step = 1) => { //Returns a list of numbers counting from start to end. Step defaults to 1.
     const arr = []
     if (step > 0) {
       for (let i = start; i <= end; i += step) {
@@ -1277,7 +1313,7 @@ function Library (client) {
     return arr
   }
   this.get = (item, key) => { // Gets an object's parameter with name.
-    return item && key ? item[key] : null
+    return item && (key !== null && key !== undefined) ? item[key] : null
   }
   this.set = (item, ...args) => { // Sets an object's parameter with name as value.
     for (let i = 0; i < args.length; i += 2) {
@@ -1304,6 +1340,9 @@ function Library (client) {
   }
   this.values = (item) => { // Returns a list of the object's values
     return Object.values(item)
+  }
+  this.entries = (item) => { // Returns a list of the object's properties, each in array of [key, value]
+    return Object.entries(item);
   }
   this.convolve = (kernel, rect = this['get-frame']()) => {
     const sigma = kernel.flat().reduce((a, x) => (a + x))
@@ -1357,9 +1396,9 @@ function Library (client) {
     client.log(args)
     return args
   }
-  this.debug = (arg) => { // Print arguments to console.
-    console.log(arg)
-    return arg
+  this.debug = (...args) => { // Print arguments to console.
+    console.log(...args)
+    return args
   }
   this.time = (rate = 1) => { // Returns timestamp in milliseconds.
     return (Date.now() * rate)
@@ -1367,10 +1406,13 @@ function Library (client) {
   this.js = () => { // Javascript interop.
     return window
   }
+  this['js-bind'] = (fn, thisArg, ...args) => {
+    return fn.bind(thisArg, ...args)
+  }
   this.on = (event, f) => { // Triggers on event.
     client.bind(event, f)
   }
-  this.test = (name, a, b) => {
+  this.test = (name, a, b) => { //nit test. Checks if a is equal to b, logs results to console.
     if (`${a}` !== `${b}`) {
       console.warn('failed ' + name, a, b)
     } else {
@@ -1387,7 +1429,7 @@ function Library (client) {
   this['get-theme'] = () => { // Get theme values.
     return client.theme.active
   }
-  this['get-frame'] = () => { // Get theme values.
+  this['get-frame'] = () => { // Get frame shape.
     return client.surface.getFrame()
   }
 }

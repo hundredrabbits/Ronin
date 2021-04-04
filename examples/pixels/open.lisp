@@ -1,4 +1,4 @@
 ; saturate image 
-(open "../static/crystal.jpg")
-(pixels 
-  (frame) saturation 12)
+(open $path)
+(pixels saturation 12
+  (get-frame))

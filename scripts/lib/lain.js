@@ -40,15 +40,21 @@ function Lain (lib = {}) {
     defn: function (input, context) {
       const identifier = input[1].value
       if (context.scope[identifier]) { console.warn('Lain', `Redefining function: ${identifier}`) }
+      
       const fnParams = input[2].type === TYPES.string && input[3] ? input[3] : input[2]
-      const fnBody = input[2].type === TYPES.string && input[4] ? input[4] : input[3]
+      const fnBodyFirstIndex = input[2].type === TYPES.string && input[4] ? 4 : 3
+      const fnBody = input.slice(fnBodyFirstIndex)
+
       context.scope[identifier] = function () {
         const lambdaArguments = arguments
         const lambdaScope = fnParams.reduce(function (acc, x, i) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-        return interpret(fnBody, new Context(lambdaScope, context))
+
+        let result = interpret(fnBody, new Context(lambdaScope, context))
+        //lisp returns the return value of the last executed function, not a list of all results of all functions.
+        return getReturnValue(result)
       }
     },
     λ: function (input, context) {
@@ -58,12 +64,24 @@ function Lain (lib = {}) {
           acc[x.value] = lambdaArguments[i]
           return acc
         }, {})
-        return interpret(input[2], new Context(lambdaScope, context))
+
+        let result = interpret(input.slice(2), new Context(lambdaScope, context))
+        //lisp returns the return value of the last executed function, not a list of all results of all functions.
+        return getReturnValue(result)
       }
     },
     if: function (input, context) {
       return interpret(input[1], context) ? interpret(input[2], context) : input[3] ? interpret(input[3], context) : []
     }
+  }
+
+  const getReturnValue = function (interpretResult) {
+    //lisp returns the return value of the last executed function, 
+    //not a list of all results of all functions.
+    if(!interpretResult || !(interpretResult instanceof Array) || !interpretResult.length){ 
+      return interpretResult 
+    }
+    return interpretResult[interpretResult.length - 1]
   }
 
   const interpretList = function (input, context) {

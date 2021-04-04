@@ -18,63 +18,10 @@
   (pick 
     (guide 
       (rect $xy unit unit))))
-(def color-2 
-  (pick 
-    (guide 
-      (rect $xy unit unit))))
-(def color-3 
-  (pick 
-    (guide 
-      (rect $xy unit unit))))
-(def color-4 
-  (pick 
-    (guide 
-      (rect $xy unit unit))))
-(def color-5 
-  (pick 
-    (guide 
-      (rect $xy unit unit))))
-(def color-6 
-  (pick 
-    (guide 
-      (rect $xy unit unit))))
-(def color-7 
-  (pick 
-    (guide 
-      (rect $xy unit unit))))
-(def color-8 
-  (pick 
-    (guide 
-      (rect $xy unit unit))))
+(echo color-1)
 
 ; display
 
 (fill 
   (circle 
     (mul 20 2) pos-row-1 18) color-1)
-(fill 
-  (circle 
-    (mul 20 4) pos-row-1 18) color-2)
-(fill 
-  (circle 
-    (mul 20 6) pos-row-1 18) color-3)
-(fill 
-  (circle 
-    (mul 20 8) pos-row-1 18) color-4) 
-(fill 
-  (circle 
-    (mul 20 3) pos-row-2 18) color-5)
-(fill 
-  (circle 
-    (mul 20 5) pos-row-2 18) color-6)
-(fill 
-  (circle 
-    (mul 20 7) pos-row-2 18) color-7)
-(fill 
-  (circle 
-    (mul 20 9) pos-row-2 18) color-8)
-;
-(def res 
-  (add color-1:hex ":" color-2:hex ":" color-3:hex ":" color-4:hex ":" color-5:hex ":" color-6:hex ":" color-7:hex ":" color-8:hex))
-(echo 
-  (add res ":" res))
