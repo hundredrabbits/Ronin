@@ -382,6 +382,28 @@ function Library (client) {
     return Math.random()
   }
 
+  // Binary
+
+  this.logand = (a, b) => {
+    return a & b
+  }
+
+  this.logior = (a, b) => {
+    return a | b
+  }
+
+  this.logxor = (a, b) => {
+    return a ^ b
+  }
+
+  this.lognot = (a) => {
+    return ~ a
+  }
+
+  this.ash = (a, b) => {
+    return a << b
+  }
+
   // Logic
 
   this.gt = (a, b) => { // Returns true if a is greater than b, else false.
@@ -415,22 +437,32 @@ function Library (client) {
     return args[args.length - 1]
   }
 
-  this.not = (a) => {
+  this.not = (a) => { //Negation. Returns true if a is false. Returns false if a is true. 
     return !a
   }
 
-  // Arrays
-
-  this.while = (fn, action) => {
+  this.while = (fn, action) => { //While loop. Execute action for as long as fn is true.
     while (fn()) {
       action()
     }
+  }
+
+  // Arrays
+  this.apply = (fn, argslist) => {
+    let result = fn(...argslist);
+    return result;
   }
 
   this.each = (arr, fn) => { // Run a function for each element in a list.
     for (let i = 0; i < arr.length; i++) {
       const arg = arr[i]
       fn(arg, i)
+    }
+  }
+
+  this.eachof = (arr, fn) => {
+    for(let elem of arr){
+      fn(elem);
     }
   }
 
@@ -455,7 +487,11 @@ function Library (client) {
     return item.length
   }
 
-  this.cons = (arr, ...items) => { // Retruns a new array with the items appended.
+  this.list = (...items) => { // Returns a new array with the items
+    return items
+  }
+
+  this.cons = (arr, ...items) => { // Returns a new array with the items appended to arr.
     return arr.concat(items)
   }
 
@@ -478,11 +514,11 @@ function Library (client) {
     return arr[arr.length - 1]
   }
 
-  this.rest = ([_, ...arr]) => {
+  this.rest = ([_, ...arr]) => { // Returns all arguments except the first
     return arr
   }
 
-  this.range = (start, end, step = 1) => {
+  this.range = (start, end, step = 1) => { //Returns a list of numbers counting from start to end. Step defaults to 1.
     const arr = []
     if (step > 0) {
       for (let i = start; i <= end; i += step) {
@@ -499,7 +535,7 @@ function Library (client) {
   // Objects
 
   this.get = (item, key) => { // Gets an object's parameter with name.
-    return item && key ? item[key] : null
+    return item && (key !== null && key !== undefined) ? item[key] : null
   }
 
   this.set = (item, ...args) => { // Sets an object's parameter with name as value.
@@ -531,6 +567,10 @@ function Library (client) {
 
   this.values = (item) => { // Returns a list of the object's values
     return Object.values(item)
+  }
+
+  this.entries = (item) => { // Returns a list of the object's properties, each in array of [key, value]
+    return Object.entries(item);
   }
 
   // Convolve
@@ -575,6 +615,8 @@ function Library (client) {
       [-1, -1, -1]]
   }
 
+  // Points
+
   this.offset = (a, b) => { // Offsets pos a with pos b, returns a.
     a.x += b.x
     a.y += b.y
@@ -584,6 +626,8 @@ function Library (client) {
   this.distance = (a, b) => { // Get distance between positions.
     return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)))
   }
+
+  // Utilities
 
   this.print = (value) => {
     client.source.write('ronin-print', 'txt', value, 'text/plain')
@@ -595,9 +639,9 @@ function Library (client) {
     return args
   }
 
-  this.debug = (arg) => { // Print arguments to console.
-    console.log(arg)
-    return arg
+  this.debug = (...args) => { // Print arguments to console.
+    console.log(...args)
+    return args
   }
 
   this.time = (rate = 1) => { // Returns timestamp in milliseconds.
@@ -608,11 +652,24 @@ function Library (client) {
     return window
   }
 
+  // Returns a new function that
+  // Useful when executing JS functions that need a strict `this` context.
+  //
+  // An example:
+  // `(get (get (js) "navigator") "requestMIDIAccess")` in Ronin
+  // should be equivalent to `window.navigator.requestMIDIAccess` in JS.
+  // Executing such retrieved JS method will crash though - as the method
+  // needs an internal `this` context - in exemplary case, window.navigator.
+  //
+  this['js-bind'] = (fn, thisArg, ...args) => {
+    return fn.bind(thisArg, ...args)
+  }
+
   this.on = (event, f) => { // Triggers on event.
     client.bind(event, f)
   }
 
-  this.test = (name, a, b) => {
+  this.test = (name, a, b) => { //nit test. Checks if a is equal to b, logs results to console.
     if (`${a}` !== `${b}`) {
       console.warn('failed ' + name, a, b)
     } else {
@@ -634,7 +691,7 @@ function Library (client) {
     return client.theme.active
   }
 
-  this['get-frame'] = () => { // Get theme values.
+  this['get-frame'] = () => { // Get frame shape.
     return client.surface.getFrame()
   }
 }

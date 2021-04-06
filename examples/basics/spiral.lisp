@@ -35,9 +35,9 @@
  
 ;
 (defn redraw () 
-  (
+  
     (clear) 
-    (rec 300)))
+    (rec 300))
 
 ;
 (on "animate" redraw)

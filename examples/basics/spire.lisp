@@ -3,6 +3,9 @@
 ;
 (clear)
 
+(def frame 
+  (get-frame))
+
 ;
 (def gradient-line 
   (line frame:c 0 frame:c frame:h))
