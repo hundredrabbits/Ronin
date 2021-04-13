@@ -1,0 +1,45 @@
+{
+    "args": ["amount", "offset", "RECT"],
+    "vertex": {
+        "inputs": [
+            {"name": "a_position", "qualifier": "attribute", "type": "vec2", "source": "RECT", "default": "FRAME"},
+            {"name": "a_texCoord", "qualifier": "attribute", "type": "vec2", "source": "CANVAS"}
+        ],
+        "shaderCode": [
+            "attribute vec2 a_position;"
+            ,"attribute vec2 a_texCoord;"
+            ,"uniform vec2 u_resolution;"
+            ,"varying vec2 v_texCoord;"
+            ,"void main() {"
+            ,"  vec2 zeroToOne = a_position / u_resolution;"
+            ,"  vec2 zeroToTwo = zeroToOne * 2.0;"
+            ,"  vec2 clipSpace = zeroToTwo - 1.0;"
+            ,"  gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);"
+            ,"  v_texCoord = a_texCoord;"
+            ,"}"
+        ]
+    },
+    "fragment": {
+        "inputs": [
+            {"name": "u_amount", "qualifier": "uniform", "type": "float", "source": "args[0]"},
+            {"name": "u_offset", "qualifier": "uniform", "type": "float", "source": "args[1]", "default": 1.0}
+        ],
+        "shaderCode": [
+            "precision highp float;"
+            ,"uniform sampler2D u_image;"
+            ,"uniform float u_amount;"
+            ,"uniform float u_offset;"
+            ,"varying vec2 v_texCoord;"
+            ,"vec2 modulateScale(vec2 st, vec4 c1, float multiple, float offset){"
+            ,"    vec2 xy = st - vec2(0.5);"
+            ,"    xy*=(1.0/vec2(offset + multiple*c1.r, offset + multiple*c1.g));"
+            ,"    xy+=vec2(0.5);"
+            ,"    return xy;"
+            ,"}"
+            ,"void main() {"
+            ,"    vec2 coord = modulateScale(v_texCoord, texture2D(u_image, v_texCoord), u_amount, u_offset);"
+            ,"    gl_FragColor = texture2D(u_image, coord);"
+            ,"}"
+        ]
+    }
+}

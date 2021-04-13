@@ -42,7 +42,6 @@ function Surface (client) {
   }
 
   // Shape
-
   this.stroke = (shape, color = client.theme.get('f_high'), width = 2, context = this.context) => {
     context.beginPath()
     this.trace(shape, context)
@@ -65,7 +64,6 @@ function Surface (client) {
   }
 
   // Fill
-
   this.fill = (shape, color = client.theme.get('b_high'), context = this.context) => {
     context.beginPath()
     context.fillStyle = typeof color === 'object' && color.rgba ? color.rgba : color
@@ -86,7 +84,6 @@ function Surface (client) {
   }
 
   // Clear
-
   this.clear = function (rect = this.getFrame(), context = this.context) {
     context.clearRect(rect.x, rect.y, rect.w, rect.h)
   }
@@ -96,7 +93,6 @@ function Surface (client) {
   }
 
   // Tracers
-
   this.trace = function (shape, context) {
     if (isRect(shape)) {
       this.traceRect(shape, context)
@@ -288,6 +284,10 @@ function Surface (client) {
     this._guide.className = this._guide.className === 'hidden' ? '' : 'hidden'
   }
 
+  this.toggleCanvas = function () {
+    this.el.className = this.el.className === 'hidden' ? '' : 'hidden'
+  }
+  
   function isRect (shape) {
     return shape && !isNaN(shape.x) && !isNaN(shape.y) && !isNaN(shape.w) && !isNaN(shape.h)
   }

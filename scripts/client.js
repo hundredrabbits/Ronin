@@ -19,6 +19,7 @@ function Client () {
   this.source = new Source(this)
 
   this.commander = new Commander(this)
+  this.glSurface = new GlSurface(this)
   this.surface = new Surface(this)
   this.library = new Library(this)
   this.lain = new Lain(this.library)
@@ -30,7 +31,9 @@ function Client () {
     this._wrapper.id = 'wrapper'
 
     this.commander.install(this._wrapper)
+    this.glSurface.install(this._wrapper)
     this.surface.install(this._wrapper)
+    
     this.el.appendChild(this._wrapper)
     host.appendChild(this.el)
 
@@ -65,6 +68,7 @@ function Client () {
     this.source.start()
     this.commander.start()
     this.surface.start()
+    this.glSurface.start()
     this.loop()
   }
 
@@ -171,7 +175,10 @@ function Client () {
         this.log('Loaded ' + file.name)
       }
       img.src = URL.createObjectURL(file)
-    } else {
+    } else if (file.name.indexOf('.shader.json') > -1){
+      this.source.read(file,this.source.storeShaderDefinition)
+    }
+    else {
       console.warn('Unknown format', file)
     }
   }

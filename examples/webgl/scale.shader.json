@@ -1,0 +1,49 @@
+{
+    "args": ["scaleX","scaleY","offsetX","offsetY","RECT"],
+    "vertex": {
+        "inputs": [
+            {"name": "a_position", "qualifier": "attribute", "type": "vec2", "source": "RECT", "default": "FRAME"},
+            {"name": "a_texCoord", "qualifier": "attribute", "type": "vec2", "source": "CANVAS"}
+        ],
+        "shaderCode": [
+            "attribute vec2 a_position;"
+            ,"attribute vec2 a_texCoord;"
+            ,"uniform vec2 u_resolution;"
+            ,"varying vec2 v_texCoord;"
+            ,"void main() {"
+            ,"  vec2 zeroToOne = a_position / u_resolution;"
+            ,"  vec2 zeroToTwo = zeroToOne * 2.0;"
+            ,"  vec2 clipSpace = zeroToTwo - 1.0;"
+            ,"  gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);"
+            ,"  v_texCoord = a_texCoord;"
+            ,"}"
+        ]
+    },
+    "fragment": {
+        "inputs": [
+            {"name": "u_scaleX", "qualifier": "uniform", "type": "float", "source": "args[0]"},
+            {"name": "u_scaleY", "qualifier": "uniform", "type": "float", "source": "args[1]"},
+            {"name": "u_offsetX", "qualifier": "uniform", "type": "float", "source": "args[2]", "default": 1.0},
+            {"name": "u_offsetY", "qualifier": "uniform", "type": "float", "source": "args[3]", "default": 1.0}
+        ],
+        "shaderCode": [
+            "precision highp float;"
+            ,"uniform sampler2D u_image;"
+            ,"uniform float u_scaleX;"
+            ,"uniform float u_scaleY;"
+            ,"uniform float u_offsetX;"
+            ,"uniform float u_offsetY;"
+            ,"varying vec2 v_texCoord;"
+            ,"vec2 scale(vec2 st, float amount, float xMult, float yMult, float offsetX, float offsetY){"
+            ,"    vec2 xy = st - vec2(offsetX, offsetY);"
+            ,"    xy*=(1.0/vec2(amount*xMult, amount*yMult));"
+            ,"    xy+=vec2(offsetX, offsetY);"
+            ,"    return xy;"
+            ,"}"
+            ,"void main() {"
+            ,"    vec2 coord = scale(v_texCoord, 1.0, u_scaleX, u_scaleY, u_offsetX, u_offsetY);"
+            ,"    gl_FragColor = texture2D(u_image, coord);"
+            ,"}"
+        ]
+    }
+}

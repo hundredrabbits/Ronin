@@ -30,7 +30,6 @@ function Library (client) {
   }
 
   // Shapes
-
   this.pos = (x = 0, y = 0) => { // Returns a position shape.
     return { x, y }
   }
@@ -44,7 +43,13 @@ function Library (client) {
   }
 
   this.rect = (x, y, w, h) => { // Returns a rect shape.
-    return { x, y, w, h, pos: { x, y }, size: { w, h } }
+    
+    return { 
+      x, y, w, h, 
+      pos: { x, y }, 
+      size: { w, h }
+    }
+    
   }
 
   this.circle = (cx, cy, r) => { // Returns a circle shape.
@@ -82,7 +87,6 @@ function Library (client) {
   }
 
   // Frame
-
   this.resize = (w = client.surface.bounds().w, h = client.surface.bounds().h, fit = true) => { // Resizes the canvas to target w and h, returns the rect.
     if (w === this['get-frame']().w && h === this['get-frame']().h) { return }
     const rect = { x: 0, y: 0, w, h }
@@ -91,6 +95,7 @@ function Library (client) {
     a.src = client.surface.el.toDataURL()
     client.surface.resizeImage(a, b)
     client.surface.resize(rect, fit)
+    client.glSurface.resize(rect,fit)
     return client.surface.draw(b, rect)
   }
 
@@ -101,6 +106,7 @@ function Library (client) {
     a.src = client.surface.el.toDataURL()
     client.surface.resizeImage(a, b)
     client.surface.resize(rect, true)
+    client.glSurface.resize(rect,fit)
     return client.surface.draw(b, rect)
   }
 
@@ -183,7 +189,6 @@ function Library (client) {
   }
 
   // Transforms
-
   this.transform = { // The transform toolkit, methods `push`, `pop`, `reset`, `move`, `scale`, `rotate`.
     push: () => {
       client.surface.context.save()
@@ -213,7 +218,6 @@ function Library (client) {
   }
 
   // Actions
-
   this.stroke = (shape, color, thickness = 2) => { // Strokes a shape.
     client.surface.stroke(shape, color, thickness)
     return shape
@@ -287,6 +291,21 @@ function Library (client) {
     const averaged = [128 - q.r + pixel[0], 128 - q.g + pixel[1], 128 - q.b + pixel[2], pixel[3]]
     const offset = this.lum(pixel) - this.lum(averaged)
     return this.additive(averaged, offset)
+  }
+
+  //Web gl
+
+  this.glgs = (name, ...args) => {
+    const shaderDef = client.source.cache[name]
+    if (!shaderDef) { client.log('No data for shader definition - ' + name); return }
+    const expectedNumberArguments = shaderDef.args.length
+    let rect
+    if (args.length<expectedNumberArguments) {
+      rect = this['get-frame']()
+    } else {
+      rect = args[args.length-1]
+    }
+    client.glSurface.compileAndApplyShader(shaderDef, args, rect)
   }
 
   // Color

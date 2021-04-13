@@ -49,6 +49,11 @@ function Source (client) {
     this.cache[file.name] = content
   }
 
+  this.storeShaderDefinition = (file,content) => {
+    const parsed = JSON.parse(content)
+    this.store(file,parsed)
+  }
+
   this.save = (name, content, type = 'text/plain', callback) => {
     this.saveAs(name, content, type, callback)
   }
